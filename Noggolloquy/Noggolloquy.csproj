@@ -40,7 +40,63 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IClearable.cs" />
+    <Compile Include="Interfaces\ICopyable.cs" />
+    <Compile Include="Interfaces\ICopyFrom.cs" />
+    <Compile Include="Interfaces\INoggolloquyObject.cs" />
+    <Compile Include="Interfaces\IProtocolRegistration.cs" />
+    <Compile Include="Interfaces\IXmlTranslator.cs" />
+    <Compile Include="NoggolloquyRegistration.cs" />
+    <Compile Include="NoggolloquyTypeRegister.cs" />
+    <Compile Include="MaskItem.cs" />
+    <Compile Include="Net.cs" />
+    <Compile Include="ObjectKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtocolDefinition.cs" />
+    <Compile Include="ProtocolKey.cs" />
+    <Compile Include="WildcardLink.cs" />
+    <Compile Include="XML\BooleanXmlTranslation.cs" />
+    <Compile Include="XML\Bounding2DXmlTranslation.cs" />
+    <Compile Include="XML\ByteXmlTranslation.cs" />
+    <Compile Include="XML\CharXmlTranslation.cs" />
+    <Compile Include="XML\Dimension2DXmlTranslation.cs" />
+    <Compile Include="XML\DoubleXmlTranslation.cs" />
+    <Compile Include="XML\EnumXmlTranslation.cs" />
+    <Compile Include="XML\Int16XmlTranslation.cs" />
+    <Compile Include="XML\Int32XmlTranslation.cs" />
+    <Compile Include="XML\Int64XmlTranslation.cs" />
+    <Compile Include="XML\Int8XmlTranslation.cs" />
+    <Compile Include="XML\IXmlTranslation.cs" />
+    <Compile Include="XML\NoggolloquyXmlRegistration.cs" />
+    <Compile Include="XML\P2IntXmlTranslation.cs" />
+    <Compile Include="XML\P3IntXmlTranslation.cs" />
+    <Compile Include="XML\PercentXmlTranslation.cs" />
+    <Compile Include="XML\RangeDoubleXmlTranslation.cs" />
+    <Compile Include="XML\RangeIntXmlTranslation.cs" />
+    <Compile Include="XML\SingleXmlTranslation.cs" />
+    <Compile Include="XML\StringXmlTranslation.cs" />
+    <Compile Include="XML\TypicalXmlTranslation.cs" />
+    <Compile Include="XML\UDoubleXmlTranslation.cs" />
+    <Compile Include="XML\UInt16XmlTranslation.cs" />
+    <Compile Include="XML\UInt32XmlTranslation.cs" />
+    <Compile Include="XML\UInt64XmlTranslation.cs" />
+    <Compile Include="XML\WildcardXmlTranslation.cs" />
+    <Compile Include="XML\XmlTranslationCaster.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NoggolloquySource.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSharpExt\CSharpExt\CSharpExt.csproj">
+      <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
+      <Name>CSharpExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CSharpExt\Noggog.Notifying\Noggog.Notifying.csproj">
+      <Project>{d14dc61e-60d0-4c9d-8ea9-627816bd910b}</Project>
+      <Name>Noggog.Notifying</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
