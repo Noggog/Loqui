@@ -89,11 +89,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSharpExt\CSharpExt\CSharpExt.csproj">
+    <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
       <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
       <Name>CSharpExt</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSharpExt\Noggog.Notifying\Noggog.Notifying.csproj">
+    <ProjectReference Include="..\..\CSharpExt\Noggog.Notifying\Noggog.Notifying.csproj">
       <Project>{d14dc61e-60d0-4c9d-8ea9-627816bd910b}</Project>
       <Name>Noggog.Notifying</Name>
     </ProjectReference>
