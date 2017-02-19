@@ -75,7 +75,8 @@ namespace Noggolloquy.Generation
             requiredNamespaces.Add("System.Linq");
             requiredNamespaces.Add("System.Text");
             requiredNamespaces.Add("Noggolloquy");
-            requiredNamespaces.Add("BlackInk.Extensions");
+            requiredNamespaces.Add("Noggog");
+            requiredNamespaces.Add("Noggog.Notifying");
         }
 
         public virtual void Load()

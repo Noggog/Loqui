@@ -7,6 +7,10 @@ namespace Noggolloquy
         public T Overall;
         public V Specific;
 
+        public MaskItem()
+        {
+        }
+
         public MaskItem(
             T overall,
             V specific)
