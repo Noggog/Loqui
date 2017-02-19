@@ -20,9 +20,15 @@ namespace Noggolloquy.Generation
         public string DefaultNamespace;
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<GenerationModule> GenerationModules = new List<GenerationModule>();
+        public DirectoryInfo CommonGenerationFolder;
         public Dictionary<StringCaseAgnostic, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<StringCaseAgnostic, List<ObjectGeneration>>();
         public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
         public static string Namespace { get { return "http://tempuri.org/NoggolloquySource.xsd"; } }
+
+        public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
+        {
+            this.CommonGenerationFolder = commonGenerationFolder;
+        }
 
         public void AddTypicalTypeAssociations()
         {

@@ -13,12 +13,12 @@ namespace Noggolloquy.Generation
         public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
         public bool Empty { get { return ObjectGenerationsByID.Count == 0; } }
         public NoggolloquyGenerator Gen { get; private set; }
-        public FileInfo DefFileLocation { get; private set;}
+        public DirectoryInfo DefFileLocation { get; private set;}
 
         public ProtocolGeneration(
             NoggolloquyGenerator gen, 
             ProtocolDefinition def,
-            FileInfo defFileLocation)
+            DirectoryInfo defFileLocation = null)
         {
             this.Definition = def;
             this.Gen = gen;
@@ -177,10 +177,16 @@ namespace Noggolloquy.Generation
                 }
             }
 
+            var dir = this.DefFileLocation?.FullName;
+            if (dir == null)
+            {
+                dir = this.Gen.CommonGenerationFolder.FullName;
+            }
+
             fg.Generate(
                 new FileInfo(
-                    this.DefFileLocation.FullName 
-                    + $"ProtocolDefinition_{this.Definition.Nickname}.cs"));
+                    dir
+                    + $"/ProtocolDefinition_{this.Definition.Nickname}.cs"));
         }
     }
 }
