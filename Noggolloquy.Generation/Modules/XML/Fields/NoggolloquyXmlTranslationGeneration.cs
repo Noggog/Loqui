@@ -89,7 +89,7 @@ namespace Noggolloquy.Generation
                 }
                 param.FG.AppendLine();
 
-                param.FG.AppendLine("CopyInFromXMLElement_Internal(elem, mask, name.Value, readIndices);");
+                param.FG.AppendLine("CopyInFromXMLElement_Internal(elem, mask, name.Value, readIndices, cmds);");
             }
             param.FG.AppendLine();
 
