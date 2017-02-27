@@ -311,5 +311,15 @@ namespace Noggolloquy.Generation
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
         }
+
+        public override IEnumerable<string> GetWriterInterfaces()
+        {
+            yield return "IXmlWriter";
+        }
+
+        public override IEnumerable<string> GetReaderInterfaces()
+        {
+            yield return "IXmlTranslator";
+        }
     }
 }
