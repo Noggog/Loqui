@@ -542,7 +542,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
 
                 // Generic version with default
-                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, out " + obj.GetMaskString("Exception") + " errorMask, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, out " + obj.GetMaskItemString("Exception") + " errorMask, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var retErrorMask = new {obj.GetMaskItemString("Exception")}()");
