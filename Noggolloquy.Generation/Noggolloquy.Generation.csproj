@@ -60,12 +60,8 @@
     <Compile Include="Fields\TypicalTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\BoolNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\BoolType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\Bounding2DNullType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\Bounding2DType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\CharNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\CharType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\Dimension2DNullType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\Dimension2DType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DoubleType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\FloatNullType.cs" />

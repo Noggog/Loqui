@@ -54,10 +54,6 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<P3IntNullType>("P3IntNull");
             AddTypeAssociation<P3DoubleType>("P3Double");
             AddTypeAssociation<P3DoubleNullType>("P3DoubleNull");
-            AddTypeAssociation<Dimension2DType>("Dimension2D");
-            AddTypeAssociation<Dimension2DNullType>("Dimension2DNull");
-            AddTypeAssociation<Bounding2DType>("Bounding2D");
-            AddTypeAssociation<Bounding2DNullType>("Bounding2DNull");
             AddTypeAssociation<BoolType>("Bool");
             AddTypeAssociation<BoolNullType>("BoolNull");
             AddTypeAssociation<CharType>("Char");

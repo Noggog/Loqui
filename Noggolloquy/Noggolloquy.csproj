@@ -57,10 +57,8 @@
     <Compile Include="ProtocolKey.cs" />
     <Compile Include="WildcardLink.cs" />
     <Compile Include="XML\BooleanXmlTranslation.cs" />
-    <Compile Include="XML\Bounding2DXmlTranslation.cs" />
     <Compile Include="XML\ByteXmlTranslation.cs" />
     <Compile Include="XML\CharXmlTranslation.cs" />
-    <Compile Include="XML\Dimension2DXmlTranslation.cs" />
     <Compile Include="XML\DoubleXmlTranslation.cs" />
     <Compile Include="XML\EnumXmlTranslation.cs" />
     <Compile Include="XML\Int16XmlTranslation.cs" />

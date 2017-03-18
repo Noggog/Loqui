@@ -102,12 +102,6 @@
       <xs:element name="P3IntNull" type="String" />
       <xs:element name="P3Double" type="String" />
       <xs:element name="P3DoubleNull" type="String" />
-      <xs:element name="P4Double" type="String" />
-      <xs:element name="P4DoubleNull" type="String" />
-      <xs:element name="Dimension2D" type="String" />
-      <xs:element name="Dimension2DNull" type="String" />
-      <xs:element name="Bounding2D" type="String" />
-      <xs:element name="Bounding2DNull" type="String" />
       <xs:element name="Bool" type="Bool" />
       <xs:element name="BoolNull" type="Bool" />
       <xs:element name="Char" type="Char" />

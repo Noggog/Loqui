@@ -69,10 +69,6 @@ namespace Noggolloquy.Generation
             FieldGenerators[typeof(P3IntNullType)] = new StructTypeXmlGeneration("P3Int?");
             FieldGenerators[typeof(P3DoubleType)] = new P3DoubleFieldXmlGeneration();
             FieldGenerators[typeof(P3DoubleNullType)] = new P3DoubleFieldXmlGeneration();
-            FieldGenerators[typeof(Dimension2DType)] = new StructTypeXmlGeneration("Dimension2D");
-            FieldGenerators[typeof(Dimension2DNullType)] = new StructTypeXmlGeneration("Dimension2D?");
-            FieldGenerators[typeof(Bounding2DType)] = new StructTypeXmlGeneration("Bounding2D");
-            FieldGenerators[typeof(Bounding2DNullType)] = new StructTypeXmlGeneration("Bounding2D?");
             FieldGenerators[typeof(NonExportedObjectType)] = new NonExportedObjectXmlGeneration();
             FieldGenerators[typeof(WildcardType)] = new StructTypeXmlGeneration("Wildcard")
             {
