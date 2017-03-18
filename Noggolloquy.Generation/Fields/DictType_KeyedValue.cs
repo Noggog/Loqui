@@ -89,7 +89,7 @@ namespace Noggolloquy.Generation
             LevType valueLevType = this.ValueTypeGen as LevType;
             var valStr = valueLevType == null ? "Exception" : $"Tuple<Exception, {valueLevType.RefGen.Obj.GetMaskString("Exception")}>";
             
-            fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({(key ? "null" : exception)});");
+            fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)

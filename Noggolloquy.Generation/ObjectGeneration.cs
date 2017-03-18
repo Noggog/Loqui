@@ -402,7 +402,7 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
                 // Specific HasSet version with default
-                fg.AppendLine("public static void CopyFieldsFrom(" + this.InterfaceStr + " item, " + this.Getter_InterfaceStr + " rhs, " + this.Getter_InterfaceStr + " def, " + this.GetMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds)");
+                fg.AppendLine("public static void CopyFieldsFrom(" + this.InterfaceStr + " item, " + this.Getter_InterfaceStr + " rhs, " + this.Getter_InterfaceStr + " def, " + this.GetErrorMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds)");
                 using (new BraceWrapper(fg))
                 {
                     GenerateCopyForFields(fg, "item", "rhs", defaultFallbackAccessor: "def", maskAccessor: "errorMask", cmdsAccessor: "cmds");
@@ -542,14 +542,10 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
 
                 // Generic version with default
-                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, out " + obj.GetMaskItemString("Exception") + " errorMask, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, out " + obj.GetErrorMaskItemString("Exception") + " errorMask, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var retErrorMask = new {obj.GetMaskItemString("Exception")}()");
-                    using (new BraceWrapper(fg) { AppendSemicolon = true })
-                    {
-                        fg.AppendLine($"Specific = new {obj.GetMaskString("Exception")}()");
-                    }
+                    fg.AppendLine($"var retErrorMask = new {obj.GetErrorMaskItemString("Exception")}();");
                     fg.AppendLine("errorMask = retErrorMask;");
                     fg.AppendLine(obj.ExtCommonName(obj.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
                 }
@@ -1000,20 +996,16 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public void SetTo(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, out " + this.GetMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public void SetTo(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, out " + this.GetErrorMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var retErrorMask = new {this.GetMaskItemString("Exception")}()");
-                    using (new BraceWrapper(fg) { AppendSemicolon = true })
-                    {
-                        fg.AppendLine($"Specific = new {this.GetMaskString("Exception")}()");
-                    }
+                    fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString("Exception")}();");
                     fg.AppendLine("errorMask = retErrorMask;");
                     fg.AppendLine("SetTo_Internal(rhs, def, retErrorMask, cmds);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("private void SetTo_Internal(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, " + this.GetMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds)");
+                fg.AppendLine("private void SetTo_Internal(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, " + this.GetErrorMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.Fields)
@@ -1270,9 +1262,9 @@ namespace Noggolloquy.Generation
             return str;
         }
 
-        public string GetMaskItemString(string t)
+        public string GetErrorMaskItemString(string t)
         {
-            return $"MaskItem<Exception, {this.GetMaskString("Exception")}>";
+            return $"{this.Name}_ErrorMask";
         }
 
         public virtual void Resolve()

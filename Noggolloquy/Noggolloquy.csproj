@@ -49,7 +49,6 @@
     <Compile Include="Interfaces\IXmlTranslator.cs" />
     <Compile Include="NoggolloquyRegistration.cs" />
     <Compile Include="NoggolloquyTypeRegister.cs" />
-    <Compile Include="MaskItem.cs" />
     <Compile Include="Net.cs" />
     <Compile Include="ObjectKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

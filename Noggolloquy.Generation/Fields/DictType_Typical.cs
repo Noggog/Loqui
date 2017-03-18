@@ -94,7 +94,7 @@ namespace Noggolloquy.Generation
             LevType valueLevType = this.ValueTypeGen as LevType;
             var item2 = $"KeyValuePair<{(keyLevType == null ? "Exception" : keyLevType.RefGen.Obj.GetMaskString("Exception"))}, {(valueLevType == null ? "Exception" : valueLevType.RefGen.Obj.GetMaskString("Exception"))}>";
             
-            fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Specific.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
+            fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)

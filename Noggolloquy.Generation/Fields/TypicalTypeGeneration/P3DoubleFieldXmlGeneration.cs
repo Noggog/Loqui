@@ -42,13 +42,13 @@ namespace Noggolloquy.Generation
             param.FG.AppendLine("if (" + param.Name + "Split.Length < 3)");
             using (new BraceWrapper(param.FG))
             {
-                param.FG.AppendLine("Log.Current.ReportWarning(\"Skipped field " + param.Name + " due to malformed data: \" + val.Value);");
+                param.FG.AppendLine("mask.Warnings.Add(\"Skipped field " + param.Name + " due to malformed data: \" + val.Value);");
                 param.FG.AppendLine("return;");
             }
             param.FG.AppendLine("if (!double.TryParse(" + param.Name + "Split[0], out pointDX) || !double.TryParse(" + param.Name + "Split[1], out pointDY) || !double.TryParse(" + param.Name + "Split[2], out pointDZ))");
             using (new BraceWrapper(param.FG))
             {
-                param.FG.AppendLine("Log.Current.ReportWarning(\"Skipped field " + param.Name + " due to malformed data: \" + val.Value);");
+                param.FG.AppendLine("mask.Warnings.Add(\"Skipped field " + param.Name + " due to malformed data: \" + val.Value);");
                 param.FG.AppendLine("return;");
             }
             param.FG.AppendLine(param.Accessor + " = new " + Element_Name + "(pointDX, pointDY, pointDZ);");

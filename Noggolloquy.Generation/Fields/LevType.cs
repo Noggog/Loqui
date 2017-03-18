@@ -318,7 +318,7 @@ namespace Noggolloquy.Generation
             switch (this.RefType)
             {
                 case LevRefType.Direct:
-                    return this.RefGen.Obj.GetMaskItemString(type);
+                    return this.RefGen.Obj.GetErrorMaskItemString(type);
                 case LevRefType.Generic:
                     return "object";
                 default:

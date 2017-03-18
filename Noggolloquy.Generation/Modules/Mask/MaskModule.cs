@@ -26,7 +26,7 @@ namespace Noggolloquy.Generation
 
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine("public class " + obj.Name + "_Mask<T> " + (obj.HasBaseObject ? " : " + obj.BaseClass.GetMaskString("T") : string.Empty));
+            fg.AppendLine($"public class {obj.Name}_Mask<T> {(obj.HasBaseObject ? " : " + obj.BaseClass.GetMaskString("T") : string.Empty)}");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in obj.Fields)
@@ -40,6 +40,36 @@ namespace Noggolloquy.Generation
                 }
             }
             fg.AppendLine();
+
+            fg.AppendLine($"public class {obj.Name}_ErrorMask {(obj.HasBaseObject ? $" : {obj.BaseClass.Name}_ErrorMask" : string.Empty)}");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("public Exception Overall;");
+                fg.AppendLine("private List<string> _warnings;");
+                fg.AppendLine("public List<string> Warnings");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("get");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (_warnings == null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine("_warnings = new List<string>();");
+                        }
+                        fg.AppendLine("return _warnings;");
+                    }
+                }
+                foreach (var field in obj.Fields)
+                {
+                    MaskModuleField fieldGen;
+                    if (!FieldMapping.TryGetValue(field.GetType(), out fieldGen))
+                    {
+                        fieldGen = TypicalField;
+                    }
+                    fg.AppendLine($"public Exception {field.Name};");
+                }
+            }
         }
 
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)

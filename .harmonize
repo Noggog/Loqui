@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>11693848a27de7309e95bef704b043c2f9992e26</Sha>
-      <Description>Some trimming of specialized BlackInk members</Description>
+      <Sha>9f5f2557e2a3e15d2fb89d8405a24c934868e329</Sha>
+      <Description>CSharpExt: Added warning exclusion for CS1998</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-18-2017 17:54:01</CommitDate>
+      <CommitDate>03-10-2017 18:38:33</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

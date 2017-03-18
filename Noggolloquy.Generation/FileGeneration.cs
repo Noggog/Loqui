@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("using Inputs;"))
+            if (str.Contains("mask.Specific.Version "))
             {
                 int wer = 23;
                 wer++;

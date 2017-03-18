@@ -84,7 +84,7 @@ namespace Noggolloquy.Generation
                 param.FG.AppendLine("if (!elem.TryGetAttribute(\"name\", out name))");
                 using (new BraceWrapper(param.FG))
                 {
-                    param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field that did not have name\");");
+                    param.FG.AppendLine("mask.Warnings.Add(\"Skipping field that did not have name\");");
                     param.FG.AppendLine("continue;");
                 }
                 param.FG.AppendLine();
@@ -119,7 +119,7 @@ namespace Noggolloquy.Generation
                 param.FG.AppendLine("if (!elem.TryGetAttribute(\"name\", out name))");
                 using (new BraceWrapper(param.FG))
                 {
-                    param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field that did not have name\");");
+                    param.FG.AppendLine("mask.Warnings.Add(\"Skipping field that did not have name\");");
                     param.FG.AppendLine("continue;");
                 }
                 param.FG.AppendLine();
@@ -210,7 +210,7 @@ namespace Noggolloquy.Generation
                     {
                         if (!f.Imports)
                         { 
-                            param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field " + f.Name + " that was not listed for import.\");");
+                            param.FG.AppendLine("mask.Warnings.Add(\"Skipping field " + f.Name + " that was not listed for import.\");");
                             param.FG.AppendLine("break;");
                             continue;
                         }
@@ -226,7 +226,7 @@ namespace Noggolloquy.Generation
                                 {
                                     f.SetMaskException(
                                         param.FG,
-                                        $"mask.Specific.{f.Name}",
+                                        $"mask.{f.Name}",
                                         $"new ArgumentException($\"Skipping field " + f.Name + " that did not match proper type. Type: {" + param.XmlNodeName + ".Name.LocalName}, expected: " + fieldGen.GetElementName(f) + ".\")");
                                 }
                                 param.FG.AppendLine("break;");
@@ -239,7 +239,7 @@ namespace Noggolloquy.Generation
                                     FG = param.FG,
                                     Obj = param.Obj,
                                     Field = f,
-                                    GenerateErrorMask = (err) => param.FG.AppendLine($"mask.Specific.{f.Name} = {err};"),
+                                    GenerateErrorMask = (err) => param.FG.AppendLine($"mask.{f.Name} = {err};"),
                                     Accessor = f.ProtectedName,
                                     MaskAccessor = $"mask",
                                     Name = f.Name,
@@ -268,7 +268,7 @@ namespace Noggolloquy.Generation
                 else
                 {
                     param.FG.AppendLine("//Deleted field");
-                    param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field that did not exist anymore with name: \" + name);");
+                    param.FG.AppendLine("mask.Warnings.Add(\"Skipping field that did not exist anymore with name: \" + name);");
                 }
                 param.FG.AppendLine("break;");
             }
@@ -293,7 +293,7 @@ namespace Noggolloquy.Generation
                     {
                         if (!f.Imports)
                         {
-                            param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field " + f.Name + " that was not listed for import.\");");
+                            param.FG.AppendLine("mask.Warnings.Add(\"Skipping field " + f.Name + " that was not listed for import.\");");
                             param.FG.AppendLine("break;");
                             continue;
                         }
@@ -304,7 +304,7 @@ namespace Noggolloquy.Generation
                             param.FG.AppendLine("if (!" + param.XmlNodeName + ".Name.LocalName.Equals(\"" + fieldGen.GetElementName(f) + "\"))");
                             using (new BraceWrapper(param.FG))
                             {
-                                param.FG.AppendLine("Log.Current.ReportWarning(\"Skipping field " + f.Name + " that did not match proper type. Type: \" + " + param.XmlNodeName + ".Name.LocalName + \", expected: " + fieldGen.GetElementName(f) + ".\");");
+                                param.FG.AppendLine("mask.Warnings.Add(\"Skipping field " + f.Name + " that did not match proper type. Type: \" + " + param.XmlNodeName + ".Name.LocalName + \", expected: " + fieldGen.GetElementName(f) + ".\");");
                                 param.FG.AppendLine("break;");
                             }
 

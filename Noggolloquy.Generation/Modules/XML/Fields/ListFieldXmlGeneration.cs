@@ -110,7 +110,7 @@ namespace Noggolloquy.Generation
                 param.FG.AppendLine(param.Accessor + ".Add(tmpItem);");
                 if (levType != null)
                 {
-                    param.FG.AppendLine($"{param.MaskAccessor}?.{param.Name}.Specific.Value.Add(tmpItem_Mask);");
+                    param.FG.AppendLine($"{param.MaskAccessor}?.{param.Name}.Value.Add(tmpItem_Mask);");
                 }
             }
         }
