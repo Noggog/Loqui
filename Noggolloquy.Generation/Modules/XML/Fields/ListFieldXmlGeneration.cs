@@ -16,10 +16,9 @@ namespace Noggolloquy.Generation
                 yield return val;
             }
 
-            XmlFieldTranslationGeneration fieldGen;
             if (param.XmlGen.FieldGenerators.TryGetValue(
                 listType.SubTypeGeneration.GetType(),
-                out fieldGen))
+                out XmlFieldTranslationGeneration fieldGen))
             {
                 var subParam = param.Copy();
                 subParam.Field = listType.SubTypeGeneration;
@@ -34,8 +33,7 @@ namespace Noggolloquy.Generation
         {
             ContainerType listType = param.Field as ContainerType;
 
-            XmlFieldTranslationGeneration subGen;
-            if (!param.XmlGen.TryGetFieldGen(listType.SubTypeGeneration.GetType(), out subGen))
+            if (!param.XmlGen.TryGetFieldGen(listType.SubTypeGeneration.GetType(), out XmlFieldTranslationGeneration subGen))
             {
                 throw new ArgumentException();
             }
@@ -69,8 +67,7 @@ namespace Noggolloquy.Generation
         {
             ContainerType listType = param.Field as ContainerType;
 
-            XmlFieldTranslationGeneration subGen;
-            if (!param.XmlGen.TryGetFieldGen(listType.SubTypeGeneration.GetType(), out subGen))
+            if (!param.XmlGen.TryGetFieldGen(listType.SubTypeGeneration.GetType(), out XmlFieldTranslationGeneration subGen))
             {
                 throw new ArgumentException();
             }
@@ -80,10 +77,6 @@ namespace Noggolloquy.Generation
             {
                 param.FG.AppendLine(listType.SubTypeGeneration.TypeName + " tmpItem;");
                 LevType levType = listType.SubTypeGeneration as LevType;
-                if (levType != null)
-                {
-                    param.FG.AppendLine($"var tmpItem_Mask = new MaskItem<Exception, {levType.RefGen.Obj.GetMaskString("Exception")}>();");
-                }
                 subGen.PrepSubRead(
                     new XmlReadGenerationParameters()
                     {
@@ -108,10 +101,6 @@ namespace Noggolloquy.Generation
                         XmlNodeName = "listElem"
                     });
                 param.FG.AppendLine(param.Accessor + ".Add(tmpItem);");
-                if (levType != null)
-                {
-                    param.FG.AppendLine($"{param.MaskAccessor}?.{param.Name}.Specific.Value.Add(tmpItem_Mask);");
-                }
             }
         }
 
