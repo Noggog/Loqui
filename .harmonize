@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>5216b33d2aa5240701a4e750dd3a27745d92b336</Sha>
-      <Description>Moved some extension methods to System namespace</Description>
+      <Sha>f82114ac31dc385a1aee8cffe1c187a17a5c7a31</Sha>
+      <Description>RandomSource NextInUnitCircle</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-19-2017 19:50:09</CommitDate>
+      <CommitDate>03-19-2017 22:19:38</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

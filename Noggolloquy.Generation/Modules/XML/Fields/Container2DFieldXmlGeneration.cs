@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Collections.Generic;
 
 namespace Noggolloquy.Generation
@@ -6,7 +7,7 @@ namespace Noggolloquy.Generation
     public class Container2DFieldXmlGeneration : XmlFieldTranslationGeneration
     {
         public string ElementName { get; private set; }
-        private static StructTypeXmlGeneration pointFieldGen = new StructTypeXmlGeneration("Point2D");
+        private static StructTypeXmlGeneration pointFieldGen = new StructTypeXmlGeneration(nameof(P2Int));
 
         public Container2DFieldXmlGeneration(string elementName)
         {
@@ -82,7 +83,7 @@ namespace Noggolloquy.Generation
             param.FG.AppendLine("foreach (var listElem in " + param.XmlNodeName + ".Elements())");
             using (new BraceWrapper(param.FG))
             {
-                param.FG.AppendLine("Point2D containerPt;");
+                param.FG.AppendLine($"{nameof(P2Int)} containerPt;");
                 pointFieldGen.GenerateRead(
                     new XmlReadGenerationParameters()
                     {
