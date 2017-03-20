@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class ByteXmlTranslation : TypicalXmlTranslation<byte>
     {
         public readonly static ByteXmlTranslation Instance = new ByteXmlTranslation();
 
-        public override TryGet<byte?> ParseNonNullString(string str)
+        protected override TryGet<byte?> ParseNonNullString(string str)
         {
-            byte parsed;
-            if (byte.TryParse(str, out parsed))
+            if (byte.TryParse(str, out byte parsed))
             {
                 return TryGet<byte?>.Success(parsed);
             }

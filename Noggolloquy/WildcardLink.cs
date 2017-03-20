@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggolloquy.Xml;
+using System;
 
 namespace Noggolloquy
 {

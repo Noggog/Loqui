@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class SingleXmlTranslation : TypicalXmlTranslation<float>
     {
         public readonly static SingleXmlTranslation Instance = new SingleXmlTranslation();
 
-        public override TryGet<float?> ParseNonNullString(string str)
+        protected override TryGet<float?> ParseNonNullString(string str)
         {
-            float parsed;
-            if (float.TryParse(str, out parsed))
+            if (float.TryParse(str, out float parsed))
             {
                 return TryGet<float?>.Success(parsed);
             }

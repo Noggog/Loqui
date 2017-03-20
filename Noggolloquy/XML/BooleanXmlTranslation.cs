@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class BooleanXmlTranslation : TypicalXmlTranslation<bool>
     {
         public readonly static BooleanXmlTranslation Instance = new BooleanXmlTranslation();
 
-        public override TryGet<bool?> ParseNonNullString(string str)
+        protected override TryGet<bool?> ParseNonNullString(string str)
         {
-            bool parsed;
-            if (Boolean.TryParse(str, out parsed))
+            if (Boolean.TryParse(str, out bool parsed))
             {
                 return TryGet<bool?>.Success(parsed);
             }

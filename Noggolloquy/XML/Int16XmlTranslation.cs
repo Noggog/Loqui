@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class Int16XmlTranslation : TypicalXmlTranslation<short>
     {
         public readonly static Int16XmlTranslation Instance = new Int16XmlTranslation();
 
-        public override TryGet<short?> ParseNonNullString(string str)
+        protected override TryGet<short?> ParseNonNullString(string str)
         {
-            short parsed;
-            if (short.TryParse(str, out parsed))
+            if (short.TryParse(str, out short parsed))
             {
                 return TryGet<short?>.Success(parsed);
             }

@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class Int8XmlTranslation : TypicalXmlTranslation<sbyte>
     {
         public readonly static Int8XmlTranslation Instance = new Int8XmlTranslation();
 
-        public override TryGet<sbyte?> ParseNonNullString(string str)
+        protected override TryGet<sbyte?> ParseNonNullString(string str)
         {
-            sbyte parsed;
-            if (sbyte.TryParse(str, out parsed))
+            if (sbyte.TryParse(str, out sbyte parsed))
             {
                 return TryGet<sbyte?>.Success(parsed);
             }

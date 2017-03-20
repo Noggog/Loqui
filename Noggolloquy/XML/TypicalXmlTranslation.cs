@@ -4,7 +4,7 @@ using System;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public abstract class TypicalXmlTranslation<T> : IXmlTranslation<Nullable<T>>
         where T : struct
@@ -19,17 +19,20 @@ namespace Noggolloquy
             IsNullable = !NullLessName.Equals(typeof(T).GetName());
         }
 
-        public virtual string GetItemStr(T? item)
+        protected virtual string GetItemStr(T? item)
         {
             return item.ToStringSafe();
         }
 
-        public abstract TryGet<T?> ParseNonNullString(string str);
+        protected abstract TryGet<T?> ParseNonNullString(string str);
 
         public TryGet<T> ParseNoNull(XElement root)
         {
-            XAttribute val;
-            if (!root.TryGetAttribute("value", out val)
+            if (!root.Name.LocalName.Equals(ElementName))
+            {
+                return TryGet<T>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+            }
+            if (!root.TryGetAttribute("value", out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
                 return TryGet<T>.Failure(reason: "No value set.");
@@ -40,8 +43,11 @@ namespace Noggolloquy
 
         public TryGet<T?> Parse(XElement root)
         {
-            XAttribute val;
-            if (!root.TryGetAttribute("value", out val)
+            if (!root.Name.LocalName.Equals(ElementName))
+            {
+                return TryGet<T?>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+            }
+            if (!root.TryGetAttribute("value", out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
                 return TryGet<T?>.Success(null);

@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class UInt32XmlTranslation : TypicalXmlTranslation<uint>
     {
         public readonly static UInt32XmlTranslation Instance = new UInt32XmlTranslation();
 
-        public override TryGet<uint?> ParseNonNullString(string str)
+        protected override TryGet<uint?> ParseNonNullString(string str)
         {
-            uint parsed;
-            if (uint.TryParse(str, out parsed))
+            if (uint.TryParse(str, out uint parsed))
             {
                 return TryGet<uint?>.Success(parsed);
             }

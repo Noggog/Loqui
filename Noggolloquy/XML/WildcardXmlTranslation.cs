@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class WildcardXmlTranslation : IXmlTranslation<Object>
     {

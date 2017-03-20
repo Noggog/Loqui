@@ -1,22 +1,21 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class RangeIntXmlTranslation : TypicalXmlTranslation<RangeInt>
     {
         public readonly static RangeIntXmlTranslation Instance = new RangeIntXmlTranslation();
 
-        public override string GetItemStr(RangeInt? item)
+        protected override string GetItemStr(RangeInt? item)
         {
             if (!item.HasValue) return null;
             return item.Value.Min + "-" + item.Value.Max;
         }
 
-        public override TryGet<RangeInt?> ParseNonNullString(string str)
+        protected override TryGet<RangeInt?> ParseNonNullString(string str)
         {
-            RangeInt parsed;
-            if (RangeInt.TryParse(str, out parsed))
+            if (RangeInt.TryParse(str, out RangeInt parsed))
             {
                 return TryGet<RangeInt?>.Success(parsed);
             }

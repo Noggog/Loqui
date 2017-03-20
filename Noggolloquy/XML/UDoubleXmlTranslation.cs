@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class UDoubleXmlTranslation : TypicalXmlTranslation<UDouble>
     {
         public readonly static UDoubleXmlTranslation Instance = new UDoubleXmlTranslation();
 
-        public override TryGet<UDouble?> ParseNonNullString(string str)
+        protected override TryGet<UDouble?> ParseNonNullString(string str)
         {
-            UDouble parsed;
-            if (UDouble.TryParse(str, out parsed))
+            if (UDouble.TryParse(str, out UDouble parsed))
             {
                 return TryGet<UDouble?>.Success(parsed);
             }

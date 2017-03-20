@@ -17,6 +17,7 @@ namespace Noggolloquy.Generation
             yield return "System.Xml.Linq";
             yield return "System.IO";
             yield return "Noggog.Xml";
+            yield return "Noggolloquy.Xml";
         }
 
         public override IEnumerable<string> Interfaces(ObjectGeneration obj)

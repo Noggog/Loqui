@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noggolloquy.XML
+namespace Noggolloquy.Xml
 {
     public class NoggolloquyXmlRegistration
     {

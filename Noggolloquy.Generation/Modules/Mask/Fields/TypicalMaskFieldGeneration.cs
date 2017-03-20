@@ -6,7 +6,7 @@ namespace Noggolloquy.Generation
     {
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
-            fg.AppendLine($"public {typeStr} {field.Name} {{ get; set; }}");
+            fg.AppendLine($"public {typeStr} {field.Name};");
         }
     }
 }

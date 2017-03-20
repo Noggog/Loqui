@@ -217,20 +217,6 @@ namespace Noggolloquy.Generation
                         param.FG.AppendLine("try");
                         using (new BraceWrapper(param.FG))
                         {
-                            param.FG.AppendLine("if (!" + param.XmlNodeName + ".Name.LocalName.Equals(\"" + fieldGen.GetElementName(f) + "\"))");
-                            using (new BraceWrapper(param.FG))
-                            {
-                                param.FG.AppendLine("if (mask != null)");
-                                using (new BraceWrapper(param.FG))
-                                {
-                                    f.SetMaskException(
-                                        param.FG,
-                                        $"mask.{f.Name}",
-                                        $"new ArgumentException($\"Skipping field " + f.Name + " that did not match proper type. Type: {" + param.XmlNodeName + ".Name.LocalName}, expected: " + fieldGen.GetElementName(f) + ".\")");
-                                }
-                                param.FG.AppendLine("break;");
-                            }
-
                             fieldGen.GenerateRead(
                                 new XmlReadGenerationParameters()
                                 {

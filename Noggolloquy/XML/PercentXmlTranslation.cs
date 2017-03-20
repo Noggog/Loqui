@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class PercentXmlTranslation : TypicalXmlTranslation<Percent>
     {
         public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
 
-        public override TryGet<Percent?> ParseNonNullString(string str)
+        protected override TryGet<Percent?> ParseNonNullString(string str)
         {
-            Percent parsed;
-            if (Percent.TryParse(str, out parsed))
+            if (Percent.TryParse(str, out Percent parsed))
             {
                 return TryGet<Percent?>.Success(parsed);
             }

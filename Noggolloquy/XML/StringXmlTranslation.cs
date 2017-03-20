@@ -4,7 +4,7 @@ using System;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class StringXmlTranslation : IXmlTranslation<string>
     {

@@ -1,16 +1,15 @@
 ﻿using Noggog;
 using System;
 
-namespace Noggolloquy
+namespace Noggolloquy.Xml
 {
     public class CharXmlTranslation : TypicalXmlTranslation<char>
     {
         public readonly static CharXmlTranslation Instance = new CharXmlTranslation();
 
-        public override TryGet<char?> ParseNonNullString(string str)
+        protected override TryGet<char?> ParseNonNullString(string str)
         {
-            char parsed;
-            if (char.TryParse(str, out parsed))
+            if (char.TryParse(str, out char parsed))
             {
                 return TryGet<char?>.Success(parsed);
             }

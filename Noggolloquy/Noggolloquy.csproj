@@ -81,6 +81,7 @@
     <Compile Include="XML\UInt64XmlTranslation.cs" />
     <Compile Include="XML\WildcardXmlTranslation.cs" />
     <Compile Include="XML\XmlTranslationCaster.cs" />
+    <Compile Include="XML\XmlTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NoggolloquySource.xsd">
