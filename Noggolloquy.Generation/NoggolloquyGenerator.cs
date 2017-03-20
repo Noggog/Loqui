@@ -24,6 +24,7 @@ namespace Noggolloquy.Generation
         public Dictionary<StringCaseAgnostic, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<StringCaseAgnostic, List<ObjectGeneration>>();
         public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
         public static string Namespace { get { return "http://tempuri.org/NoggolloquySource.xsd"; } }
+        public List<string> Namespaces = new List<string>();
 
         public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
         {

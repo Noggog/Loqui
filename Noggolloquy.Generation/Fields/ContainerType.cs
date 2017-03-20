@@ -74,12 +74,12 @@ namespace Noggolloquy.Generation
 
         public override void SetMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
-            fg.AppendLine($"{errorMaskAccessor} = {exception};");
+            fg.AppendLine($"{errorMaskAccessor}.Overall = {exception};");
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
-            fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({exception});");
+            fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({exception});");
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)

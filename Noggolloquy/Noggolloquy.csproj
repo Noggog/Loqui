@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\INoggolloquyObject.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />
     <Compile Include="Interfaces\IXmlTranslator.cs" />
+    <Compile Include="MaskItem.cs" />
     <Compile Include="NoggolloquyRegistration.cs" />
     <Compile Include="NoggolloquyTypeRegister.cs" />
     <Compile Include="Net.cs" />

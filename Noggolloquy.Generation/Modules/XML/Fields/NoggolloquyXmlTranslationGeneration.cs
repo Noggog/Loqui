@@ -69,7 +69,7 @@ namespace Noggolloquy.Generation
                             });
                     }
                 }
-                obj.GenerateExceptionCatcher(param.FG, f, "XML Write To", param.ErrorMaskAccessor, param.ErrorMaskAccessor + "." + f.Name);
+                obj.GenerateExceptionCatcher(param.FG, f, "XML Write To", param.ErrorMaskAccessor);
                 param.FG.AppendLine();
             }
         }
@@ -199,8 +199,7 @@ namespace Noggolloquy.Generation
                 for (int i = 0; i < obj.Fields.Count; i++)
                 {
                     TypeGeneration f = obj.Fields[i];
-                    XmlFieldTranslationGeneration fieldGen;
-                    if (!param.XmlGen.TryGetFieldGen(f.GetType(), out fieldGen))
+                    if (!param.XmlGen.TryGetFieldGen(f.GetType(), out XmlFieldTranslationGeneration fieldGen))
                     {
                         throw new NotImplementedException();
                     }
@@ -239,7 +238,7 @@ namespace Noggolloquy.Generation
                                     FG = param.FG,
                                     Obj = param.Obj,
                                     Field = f,
-                                    GenerateErrorMask = (err) => param.FG.AppendLine($"mask.{f.Name} = {err};"),
+                                    GenerateErrorMask = (err) => f.SetMaskException(param.FG, $"mask.{f.Name}", err),
                                     Accessor = f.ProtectedName,
                                     MaskAccessor = $"mask",
                                     Name = f.Name,
@@ -247,7 +246,7 @@ namespace Noggolloquy.Generation
                                 });
                             param.FG.AppendLine("readIndices.Add(" + i + ");");
                         }
-                        obj.GenerateExceptionCatcher(param.FG, f, "XML Copy In", param.MaskAccessor, param.MaskAccessor + "." + f.Name);
+                        obj.GenerateExceptionCatcher(param.FG, f, "XML Copy In", param.MaskAccessor);
                         param.FG.AppendLine("break;");
                     }
                 }
@@ -322,7 +321,7 @@ namespace Noggolloquy.Generation
                                     XmlNodeName = param.XmlNodeName
                                 });
                         }
-                        obj.GenerateExceptionCatcher(param.FG, f, "XML Copy In", param.MaskAccessor, param.MaskAccessor + "." + f.Name);
+                        obj.GenerateExceptionCatcher(param.FG, f, "XML Copy In", param.MaskAccessor);
                         param.FG.AppendLine("break;");
                     }
                 }

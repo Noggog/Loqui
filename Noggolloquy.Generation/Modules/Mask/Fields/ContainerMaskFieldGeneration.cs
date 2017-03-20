@@ -4,20 +4,20 @@ namespace Noggolloquy.Generation
 {
     public class ContainerMaskFieldGeneration : MaskModuleField
     {
-        public override void GenerateForField(FileGeneration fg, TypeGeneration field)
+        public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
         {
             ContainerType listType = field as ContainerType;
             LevType levType = listType.SubTypeGeneration as LevType;
             string listStr;
             if (levType == null)
             {
-                listStr = $"List<T>";
+                listStr = $"List<{valueStr}>";
             }
             else
             {
-                listStr = $"List<MaskItem<T, {levType.RefGen.Obj.GetMaskString("T")}>>";
+                listStr = $"List<{levType.RefGen.Obj.GetErrorMaskItemString()}>";
             }
-            fg.AppendLine($"public MaskItem<T, Lazy<{listStr}>> {field.Name} = new MaskItem<T, Lazy<{listStr}>>(default(T), new Lazy<{listStr}>(() => new {listStr}()));");
+            fg.AppendLine($"public MaskItem<{valueStr}, Lazy<{listStr}>> {field.Name} = new MaskItem<{valueStr}, Lazy<{listStr}>>(default({valueStr}), new Lazy<{listStr}>(() => new {listStr}()));");
         }
     }
 }

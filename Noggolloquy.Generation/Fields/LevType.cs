@@ -159,7 +159,7 @@ namespace Noggolloquy.Generation
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
                 gen.MustBeClass = true;
-                gen.Wheres.Add($"INoggolloquyCopyInSerializer");
+                gen.Wheres.Add($"INoggolloquyReaderSerializer");
                 if (SingletonMember)
                 {
                     throw new ArgumentException("Cannot be a generic and singleton.");
@@ -313,12 +313,12 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public string GenerateMaskItemString(string type)
+        public string GenerateErrorMaskItemString()
         {
             switch (this.RefType)
             {
                 case LevRefType.Direct:
-                    return this.RefGen.Obj.GetErrorMaskItemString(type);
+                    return this.RefGen.Obj.GetErrorMaskItemString();
                 case LevRefType.Generic:
                     return "object";
                 default:

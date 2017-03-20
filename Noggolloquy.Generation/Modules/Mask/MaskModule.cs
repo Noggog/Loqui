@@ -36,7 +36,7 @@ namespace Noggolloquy.Generation
                     {
                         fieldGen = TypicalField;
                     }
-                    fieldGen.GenerateForField(fg, field);
+                    fieldGen.GenerateForField(fg, field, "T");
                 }
             }
             fg.AppendLine();
@@ -67,7 +67,7 @@ namespace Noggolloquy.Generation
                     {
                         fieldGen = TypicalField;
                     }
-                    fg.AppendLine($"public Exception {field.Name};");
+                    fieldGen.GenerateForErrorMask(fg, field);
                 }
             }
         }

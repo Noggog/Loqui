@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("mask.Specific.Version "))
+            if (str.Contains("mask.Object.Overall = WorldObject_ErrorMask;"))
             {
                 int wer = 23;
                 wer++;

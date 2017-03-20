@@ -4,18 +4,18 @@ namespace Noggolloquy.Generation
 {
     public class DictMaskFieldGeneration : MaskModuleField
     {
-        public override void GenerateForField(FileGeneration fg, TypeGeneration field)
+        public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
             IDictType dictType = field as IDictType;
             LevType keyLevType = dictType.KeyTypeGen as LevType;
             LevType valueLevType = dictType.ValueTypeGen as LevType;
-            string valueStr = $"{(valueLevType == null ? "T" : $"MaskItem<T, {valueLevType.RefGen.Obj.GetMaskString("T")}>")}";
+            string valueStr = $"{(valueLevType == null ? typeStr : $"MaskItem<{typeStr}, {valueLevType.RefGen.Obj.GetMaskString(typeStr)}>")}";
 
             string itemStr;
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    itemStr = $"KeyValuePair<{(keyLevType == null ? "T" : $"MaskItem<T, {keyLevType.RefGen.Obj.GetMaskString("T")}")}, {valueStr}>";
+                    itemStr = $"KeyValuePair<{(keyLevType == null ? typeStr : $"MaskItem<{typeStr}, {keyLevType.RefGen.Obj.GetMaskString(typeStr)}")}, {valueStr}>";
                     break;
                 case DictMode.KeyedValue:
                     itemStr = valueStr;
@@ -23,7 +23,7 @@ namespace Noggolloquy.Generation
                 default:
                     throw new NotImplementedException();
             }
-            fg.AppendLine($"public MaskItem<T, Lazy<List<{itemStr}>>> {field.Name} = new MaskItem<T, Lazy<List<{itemStr}>>>(default(T), new Lazy<List<{itemStr}>>(() => new List<{itemStr}>()));");
+            fg.AppendLine($"public MaskItem<{typeStr}, Lazy<List<{itemStr}>>> {field.Name} = new MaskItem<{typeStr}, Lazy<List<{itemStr}>>>(default({typeStr}), new Lazy<List<{itemStr}>>(() => new List<{itemStr}>()));");
         }
     }
 }

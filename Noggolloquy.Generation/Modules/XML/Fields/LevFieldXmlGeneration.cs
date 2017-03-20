@@ -21,7 +21,7 @@ namespace Noggolloquy.Generation
         public override void GenerateRead(XmlReadGenerationParameters param)
         {
             LevType levType = param.Field as LevType;
-            param.FG.AppendLine($"{levType.GenerateMaskItemString("Exception")} {levType.RefGen?.Obj.Name}_ErrorMask = null;");
+            param.FG.AppendLine($"{levType.GenerateErrorMaskItemString()} {levType.RefGen?.Obj.Name}_ErrorMask = null;");
             if (levType.RefType == LevType.LevRefType.Generic)
             {
                 param.FG.AppendLine("throw new NotImplementedException();");
@@ -34,7 +34,7 @@ namespace Noggolloquy.Generation
                     using (new BraceWrapper(param.FG))
                     {
                         param.FG.AppendLine($"{param.Accessor}.CopyInFromXML({param.XmlNodeName}, out {levType.RefGen.Obj.Name}_ErrorMask);");
-                        param.FG.AppendLine($"{param.MaskAccessor}.{levType.Name} = new MaskItem<Exception, {levType.RefGen.Obj.GetMaskString("Exception")}>(null, {levType.RefGen.Obj.Name}_ErrorMask);");
+                        param.FG.AppendLine($"{param.MaskAccessor}.{levType.Name} = new MaskItem<Exception, {levType.RefGen.Obj.GetErrorMaskItemString()}>(null, {levType.RefGen.Obj.Name}_ErrorMask);");
                     }
                     param.FG.AppendLine("else");
                     using (new BraceWrapper(param.FG))

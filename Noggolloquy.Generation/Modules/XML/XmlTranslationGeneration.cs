@@ -115,16 +115,16 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"public static {obj.ObjectName} CreateFromXML(XElement root, out {obj.GetErrorMaskItemString("Exception")} errorMask)");
+                fg.AppendLine($"public static {obj.ObjectName} CreateFromXML(XElement root, out {obj.GetErrorMaskItemString()} errorMask)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var mask = new {obj.GetErrorMaskItemString("Exception")}();");
+                    fg.AppendLine($"var mask = new {obj.GetErrorMaskItemString()}();");
                     fg.AppendLine($"errorMask = mask;");
                     fg.AppendLine("return CreateFromXML_Internal(root, mask);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"private static {obj.ObjectName} CreateFromXML_Internal(XElement root, {obj.GetErrorMaskItemString("Exception")} mask)");
+                fg.AppendLine($"private static {obj.ObjectName} CreateFromXML_Internal(XElement root, {obj.GetErrorMaskItemString()} mask)");
                 using (new BraceWrapper(fg))
                 {
                     if (obj is ClassGeneration)
@@ -149,10 +149,10 @@ namespace Noggolloquy.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine("public virtual void CopyInFromXML(XElement root, out " + obj.GetErrorMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine("public virtual void CopyInFromXML(XElement root, out " + obj.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("var ret = new " + obj.GetErrorMaskItemString("Exception") + "();");
+                fg.AppendLine("var ret = new " + obj.GetErrorMaskItemString() + "();");
                 fg.AppendLine("errorMask = ret;");
                 fg.AppendLine("CopyInFromXML_Internal(root, ret, cmds: cmds);");
             }
@@ -160,10 +160,10 @@ namespace Noggolloquy.Generation
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
-                fg.AppendLine("public override void CopyInFromXML(XElement root, out " + baseClass.GetErrorMaskItemString("Exception") + " errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public override void CopyInFromXML(XElement root, out " + baseClass.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var ret = new {obj.GetErrorMaskItemString("Exception")}()");
+                    fg.AppendLine($"var ret = new {obj.GetErrorMaskItemString()}()");
                     using (new BraceWrapper(fg) { AppendSemicolon = true })
                     {
                         fg.AppendLine($"Specific = new {obj.GetMaskString("Exception")}()");
@@ -174,14 +174,14 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine("private void CopyInFromXML_Internal(XElement root, " + obj.GetErrorMaskItemString("Exception") + " mask, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine("private void CopyInFromXML_Internal(XElement root, " + obj.GetErrorMaskItemString() + " mask, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 LevTranslation.GenerateReadFunction(param, obj as ClassGeneration);
             }
             fg.AppendLine();
 
-            fg.AppendLine("protected void CopyInFromXMLElement_Internal(XElement root, " + obj.GetErrorMaskItemString("Exception") + " mask, string name, HashSet<ushort> readIndices, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine("protected void CopyInFromXMLElement_Internal(XElement root, " + obj.GetErrorMaskItemString() + " mask, string name, HashSet<ushort> readIndices, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 LevTranslation.GenerateRead(param);
@@ -220,10 +220,10 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                fg.AppendLine("public void WriteXML(XmlWriter writer, " + obj.GetErrorMaskItemString("Exception") + " errorMask, string name = null)");
+                fg.AppendLine("public void WriteXML(XmlWriter writer, " + obj.GetErrorMaskItemString() + " errorMask, string name = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("var ret = new " + obj.GetErrorMaskItemString("Exception") + "();");
+                    fg.AppendLine("var ret = new " + obj.GetErrorMaskItemString() + "();");
                     fg.AppendLine("errorMask = ret;");
                     fg.AppendLine("WriteXML_Internal(writer, ret, name);");
                 }
@@ -244,7 +244,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine("private void WriteXML_Internal(XmlWriter writer, " + obj.GetErrorMaskItemString("Exception") + " errorMask, string name)");
+            fg.AppendLine("private void WriteXML_Internal(XmlWriter writer, " + obj.GetErrorMaskItemString() + " errorMask, string name)");
             using (new BraceWrapper(fg))
             {
                 LevTranslation.GenerateWrite(
@@ -262,7 +262,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
 
             string privacy = (obj is StructGeneration) ? "private" : "protected";
-            fg.AppendLine($"{privacy} void WriteXMLFields_Internal(XmlWriter writer, " + obj.GetErrorMaskItemString("Exception") + " errorMask)");
+            fg.AppendLine($"{privacy} void WriteXMLFields_Internal(XmlWriter writer, " + obj.GetErrorMaskItemString() + " errorMask)");
             using (new BraceWrapper(fg))
             {
                 LevTranslation.GenerateFieldWrites(
