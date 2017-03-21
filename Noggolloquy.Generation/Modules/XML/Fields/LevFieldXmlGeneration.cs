@@ -21,7 +21,6 @@ namespace Noggolloquy.Generation
         public override void GenerateRead(XmlReadGenerationParameters param)
         {
             LevType levType = param.Field as LevType;
-            param.FG.AppendLine($"{levType.GenerateErrorMaskItemString()} {levType.RefGen?.Obj.Name}_ErrorMask = null;");
             if (levType.RefType == LevType.LevRefType.Generic)
             {
                 param.FG.AppendLine("throw new NotImplementedException();");
@@ -33,8 +32,8 @@ namespace Noggolloquy.Generation
                     param.FG.AppendLine($"if (mask != null)");
                     using (new BraceWrapper(param.FG))
                     {
-                        param.FG.AppendLine($"{param.Accessor}.CopyInFromXML({param.XmlNodeName}, out {levType.RefGen.Obj.Name}_ErrorMask);");
-                        param.FG.AppendLine($"{param.MaskAccessor}.{levType.Name} = new MaskItem<Exception, {levType.RefGen.Obj.GetErrorMaskItemString()}>(null, {levType.RefGen.Obj.Name}_ErrorMask);");
+                        param.FG.AppendLine($"{param.Accessor}.CopyInFromXML({param.XmlNodeName}, out {levType.GenerateErrorMaskItemString()} errorMask);");
+                        param.FG.AppendLine($"{param.MaskAccessor}.{levType.Name} = new MaskItem<Exception, {levType.RefGen.Obj.GetErrorMaskItemString()}>(null, errorMask);");
                     }
                     param.FG.AppendLine("else");
                     using (new BraceWrapper(param.FG))
@@ -48,8 +47,8 @@ namespace Noggolloquy.Generation
                     param.FG.AppendLine($"if (mask != null)");
                     using (new BraceWrapper(param.FG))
                     {
-                        param.FG.AppendLine($"{param.Name}Obj.CopyInFromXML({param.XmlNodeName}, out {levType.RefGen.Obj.Name}_ErrorMask);");
-                        param.GenerateErrorMask($"{levType.RefGen.Obj.Name}_ErrorMask");
+                        param.FG.AppendLine($"{param.Name}Obj.CopyInFromXML({param.XmlNodeName}, out {levType.GenerateErrorMaskItemString()} errorMask);");
+                        param.GenerateErrorMask($"errorMask");
                     }
                     param.FG.AppendLine("else");
                     using (new BraceWrapper(param.FG))
@@ -64,8 +63,8 @@ namespace Noggolloquy.Generation
                 param.FG.AppendLine($"if (mask != null)");
                 using (new BraceWrapper(param.FG))
                 {
-                    param.FG.AppendLine($"{param.Accessor} = {levType.RefGen.ObjectName}.CreateFromXML(root, out {levType.RefGen.Obj.Name}_ErrorMask);");
-                    param.GenerateErrorMask($"new MaskItem<Exception, {levType.RefGen.Obj.GetMaskString("Exception")}>(null, {levType.RefGen.Obj.Name}_ErrorMask)");
+                    param.FG.AppendLine($"{param.Accessor} = {levType.RefGen.ObjectName}.CreateFromXML(root, out {levType.GenerateErrorMaskItemString()} errorMask);");
+                    param.GenerateErrorMask($"new MaskItem<Exception, {levType.GenerateErrorMaskItemString()}>(null, errorMask)");
                 }
                 param.FG.AppendLine("else");
                 using (new BraceWrapper(param.FG))
