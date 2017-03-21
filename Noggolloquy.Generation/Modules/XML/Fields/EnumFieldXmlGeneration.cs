@@ -26,18 +26,7 @@ namespace Noggolloquy.Generation
         public override void GenerateRead(XmlReadGenerationParameters param)
         {
             EnumType enu = param.Field as EnumType;
-            param.FG.AppendLine($"TryGet<{enu.EnumName}> parse = EnumXmlTranslation<{enu.EnumName}>.Instance.ParseNoNull({param.XmlNodeName});");
-            param.FG.AppendLine("if (parse.Succeeded)");
-            using (new BraceWrapper(param.FG))
-            {
-                param.FG.AppendLine(param.Accessor + " = parse.Value;");
-            }
-            param.FG.AppendLine("else");
-            using (new BraceWrapper(param.FG))
-            {
-                param.GenerateErrorMask("new ArgumentException(parse.Reason)");
-                param.FG.AppendLine("break;");
-            }
+            param.FG.AppendLine($"{param.Accessor} = EnumXmlTranslation<{enu.EnumName}>.Instance.ParseNoNull({param.XmlNodeName}).EvaluateOrThrow();");
         }
     }
 }

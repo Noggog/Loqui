@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>f82114ac31dc385a1aee8cffe1c187a17a5c7a31</Sha>
-      <Description>RandomSource NextInUnitCircle</Description>
+      <Sha>d6154d1d5f4d0963b6e196aa2d9b63ef91ed3c8f</Sha>
+      <Description>TryGet.EvaluateOrThrow</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-19-2017 22:19:38</CommitDate>
+      <CommitDate>03-20-2017 20:41:43</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

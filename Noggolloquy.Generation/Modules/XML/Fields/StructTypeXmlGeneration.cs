@@ -44,18 +44,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateRead(XmlReadGenerationParameters param)
         { 
-            param.FG.AppendLine($"var parse{param.Name} = {OutsourceClassName}.Instance.Parse{(IsNullable ? string.Empty : "NoNull")}({param.XmlNodeName});");
-            param.FG.AppendLine($"if (parse{param.Name}.Succeeded)");
-            using (new BraceWrapper(param.FG))
-            {
-                param.FG.AppendLine($"{param.Accessor} = parse{param.Name}.Value;");
-            }
-            param.FG.AppendLine("else");
-            using (new BraceWrapper(param.FG))
-            {
-                param.GenerateErrorMask($"new ArgumentException(parse{param.Name}.Reason)");
-                param.FG.AppendLine("break;");
-            }
+            param.FG.AppendLine($"{param.Accessor} = {OutsourceClassName}.Instance.Parse{(IsNullable ? string.Empty : "NoNull")}({param.XmlNodeName}).EvaluateOrThrow();");
         }
     }
 }

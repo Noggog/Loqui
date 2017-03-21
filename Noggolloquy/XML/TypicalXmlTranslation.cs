@@ -13,7 +13,7 @@ namespace Noggolloquy.Xml
         public static readonly string ElementName = typeof(T).GetName().Replace('?', 'N');
         public static readonly string NullLessName = typeof(T).GetName().Replace("?", string.Empty);
         public static readonly bool IsNullable;
-        
+
         static TypicalXmlTranslation()
         {
             IsNullable = !NullLessName.Equals(typeof(T).GetName());

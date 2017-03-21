@@ -13,8 +13,11 @@ namespace Noggolloquy.Xml
 
         public TryGet<string> Parse(XElement root)
         {
-            XAttribute val;
-            if (root.TryGetAttribute("value", out val))
+            if (!root.Name.LocalName.Equals(ElementName))
+            {
+                return TryGet<string>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+            }
+            if (root.TryGetAttribute("value", out XAttribute val))
             {
                 return TryGet<string>.Success(val.Value);
             }
