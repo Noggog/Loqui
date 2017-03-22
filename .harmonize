@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>d6154d1d5f4d0963b6e196aa2d9b63ef91ed3c8f</Sha>
-      <Description>TryGet.EvaluateOrThrow</Description>
+      <Sha>ac68a9f4d0b2387eba089c9b4f7f24c53b64b710</Sha>
+      <Description>Dictionary TryCreate syntax and API tweak</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-20-2017 20:41:43</CommitDate>
+      <CommitDate>03-21-2017 20:00:03</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>
