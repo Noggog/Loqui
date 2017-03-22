@@ -68,26 +68,26 @@ namespace Noggolloquy
             return PrintPrettyInternal(obj, depthPrinter);
         }
 
-        private static string PrintLevName(INoggolloquyObjectGetter obj, ushort i)
+        private static string PrintNoggName(INoggolloquyObjectGetter obj, ushort i)
         {
             return obj.GetNthName(i) + "(" + obj.GetNthType(i).Name + ")" + " => ";
         }
 
-        private static string PrintPrettyInternal(this INoggolloquyObjectGetter lev, DepthPrinter depthPrinter)
+        private static string PrintPrettyInternal(this INoggolloquyObjectGetter nogg, DepthPrinter depthPrinter)
         {
             depthPrinter.AddLine("[");
             using (depthPrinter.IncrementDepth())
             {
-                for (ushort i = 0; i < lev.FieldCount; i++)
+                for (ushort i = 0; i < nogg.FieldCount; i++)
                 {
-                    var obj = lev.GetNthObject(i);
-                    if (lev.GetNthIsEnumerable(i))
+                    var obj = nogg.GetNthObject(i);
+                    if (nogg.GetNthIsEnumerable(i))
                     {
                         var listObj = obj as IEnumerable;
                         if (listObj != null)
                         {
                             bool hasItems = listObj.Any();
-                            depthPrinter.AddLine(lev.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));
+                            depthPrinter.AddLine(nogg.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));
                             if (hasItems)
                             {
                                 depthPrinter.AddLine("[");
@@ -95,13 +95,12 @@ namespace Noggolloquy
                                 {
                                     foreach (var listItem in listObj)
                                     {
-                                        if (lev.GetNthIsNoggolloquy(i))
+                                        if (nogg.GetNthIsNoggolloquy(i))
                                         {
-                                            INoggolloquyObjectGetter subLev = listItem as INoggolloquyObjectGetter;
-                                            if (subLev != null)
+                                            if (listItem is INoggolloquyObjectGetter subNogg)
                                             {
-                                                depthPrinter.AddLine(PrintLevName(lev, i));
-                                                PrintPrettyInternal(subLev, depthPrinter);
+                                                depthPrinter.AddLine(PrintNoggName(nogg, i));
+                                                PrintPrettyInternal(subNogg, depthPrinter);
                                             }
                                             continue;
                                         }
@@ -115,25 +114,24 @@ namespace Noggolloquy
                         continue;
                     }
 
-                    if (lev.GetNthIsNoggolloquy(i))
+                    if (nogg.GetNthIsNoggolloquy(i))
                     {
-                        INoggolloquyObjectGetter subLev = obj as INoggolloquyObjectGetter;
-                        if (subLev != null)
+                        if (obj is INoggolloquyObjectGetter subNogg)
                         {
-                            depthPrinter.AddLine(PrintLevName(lev, i));
-                            PrintPrettyInternal(subLev, depthPrinter);
+                            depthPrinter.AddLine(PrintNoggName(nogg, i));
+                            PrintPrettyInternal(subNogg, depthPrinter);
                         }
                         continue;
                     }
 
-                    depthPrinter.AddLine(lev.GetNthName(i) + ": " + obj.ToStringSafe());
+                    depthPrinter.AddLine(nogg.GetNthName(i) + ": " + obj.ToStringSafe());
                 }
             }
             depthPrinter.AddLine("]");
             return depthPrinter.ToString();
         }
 
-        private static void PrintItem(INoggolloquyObjectGetter lev, ushort i, object o, DepthPrinter dp)
+        private static void PrintItem(INoggolloquyObjectGetter nogg, ushort i, object o, DepthPrinter dp)
         {
         }
     }
