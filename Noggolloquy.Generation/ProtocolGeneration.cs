@@ -218,7 +218,7 @@ namespace Noggolloquy.Generation
                 interfaces.Add("ICopyable");
                 foreach (var module in this.Gen.GenerationModules)
                 {
-                    interfaces.Add(module.GetWriterInterfaces());
+                    interfaces.Add(module.GetWriterInterfaces(null));
                 }
                 fg.AppendLine($"public interface INoggolloquyWriterSerializer : {string.Join(", ", interfaces)}");
                 using (new BraceWrapper(fg))
@@ -231,7 +231,7 @@ namespace Noggolloquy.Generation
                 interfaces.Add("ICopyInAble");
                 foreach (var module in this.Gen.GenerationModules)
                 {
-                    interfaces.Add(module.GetReaderInterfaces());
+                    interfaces.Add(module.GetReaderInterfaces(null));
                 }
                 fg.AppendLine($"public interface INoggolloquyReaderSerializer : {string.Join(", ", interfaces)}");
                 using (new BraceWrapper(fg))
@@ -242,11 +242,41 @@ namespace Noggolloquy.Generation
 
                 interfaces.Add("INoggolloquyWriterSerializer");
                 interfaces.Add("INoggolloquyReaderSerializer");
+                fg.AppendLine($"public interface INoggolloquySerializer : {string.Join(", ", interfaces)}");
+                using (new BraceWrapper(fg))
+                {
+                }
+                fg.AppendLine();
+                interfaces.Clear();
+
+                interfaces.Add("INoggolloquyWriterSerializer");
                 foreach (var module in this.Gen.GenerationModules)
                 {
-                    interfaces.Add(module.GetReaderInterfaces());
+                    interfaces.Add(module.GetWriterInterfaces("<M>"));
                 }
-                fg.AppendLine($"public interface INoggolloquySerializer : {string.Join(", ", interfaces)}");
+                fg.AppendLine($"public interface INoggolloquyWriterSerializer<M> : {string.Join(", ", interfaces)}");
+                using (new BraceWrapper(fg))
+                {
+                }
+                fg.AppendLine();
+                interfaces.Clear();
+
+                interfaces.Add("INoggolloquyReaderSerializer");
+                foreach (var module in this.Gen.GenerationModules)
+                {
+                    interfaces.Add(module.GetReaderInterfaces("<M>"));
+                }
+                fg.AppendLine($"public interface INoggolloquyReaderSerializer<M> : {string.Join(", ", interfaces)}");
+                using (new BraceWrapper(fg))
+                {
+                }
+                fg.AppendLine();
+                interfaces.Clear();
+
+                interfaces.Add("INoggolloquyWriterSerializer<M>");
+                interfaces.Add("INoggolloquyReaderSerializer<M>");
+                interfaces.Add("INoggolloquySerializer");
+                fg.AppendLine($"public interface INoggolloquySerializer<M> : {string.Join(", ", interfaces)}");
                 using (new BraceWrapper(fg))
                 {
                 }

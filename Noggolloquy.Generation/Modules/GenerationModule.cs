@@ -16,7 +16,7 @@ namespace Noggolloquy.Generation
         public abstract void GenerateInClass(ObjectGeneration obj, FileGeneration fg);
         public abstract void Generate(ObjectGeneration obj, FileGeneration fg);
         public abstract void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg);
-        public abstract IEnumerable<string> GetWriterInterfaces();
-        public abstract IEnumerable<string> GetReaderInterfaces();
+        public abstract IEnumerable<string> GetWriterInterfaces(string maskGenericStr);
+        public abstract IEnumerable<string> GetReaderInterfaces(string maskGenericStr);
     }
 }

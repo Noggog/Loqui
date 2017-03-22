@@ -98,12 +98,12 @@ namespace Noggolloquy.Generation
             yield break;
         }
 
-        public override IEnumerable<string> GetWriterInterfaces()
+        public override IEnumerable<string> GetWriterInterfaces(string gernericMaskStr)
         {
             yield break;
         }
 
-        public override IEnumerable<string> GetReaderInterfaces()
+        public override IEnumerable<string> GetReaderInterfaces(string gernericMaskStr)
         {
             yield break;
         }

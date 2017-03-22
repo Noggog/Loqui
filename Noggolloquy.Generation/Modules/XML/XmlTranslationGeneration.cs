@@ -217,7 +217,7 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                fg.AppendLine("public void WriteXML(XmlWriter writer, " + obj.GetErrorMaskItemString() + " errorMask, string name = null)");
+                fg.AppendLine($"public void WriteXML(XmlWriter writer, out {obj.GetErrorMaskItemString()} errorMask, string name = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("var ret = new " + obj.GetErrorMaskItemString() + "();");
@@ -293,14 +293,14 @@ namespace Noggolloquy.Generation
         {
         }
 
-        public override IEnumerable<string> GetWriterInterfaces()
+        public override IEnumerable<string> GetWriterInterfaces(string genericMaskStr)
         {
-            yield return "IXmlWriter";
+            yield return $"IXmlWriter{genericMaskStr}";
         }
 
-        public override IEnumerable<string> GetReaderInterfaces()
+        public override IEnumerable<string> GetReaderInterfaces(string genericMaskStr)
         {
-            yield return "IXmlTranslator";
+            yield return $"IXmlTranslator{genericMaskStr}";
         }
     }
 }

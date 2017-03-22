@@ -11,13 +11,13 @@ namespace Noggolloquy.Generation
             string listStr;
             if (levType == null)
             {
-                listStr = $"List<{valueStr}>";
+                listStr = $"IEnumerable<{valueStr}>";
             }
             else
             {
-                listStr = $"List<{levType.RefGen.Obj.GetErrorMaskItemString()}>";
+                listStr = $"IEnumerable<{levType.RefGen.Obj.GetErrorMaskItemString()}>";
             }
-            fg.AppendLine($"public MaskItem<{valueStr}, Lazy<{listStr}>> {field.Name} = new MaskItem<{valueStr}, Lazy<{listStr}>>(default({valueStr}), new Lazy<{listStr}>(() => new {listStr}()));");
+            fg.AppendLine($"public MaskItem<{valueStr}, {listStr}> {field.Name};");
         }
     }
 }

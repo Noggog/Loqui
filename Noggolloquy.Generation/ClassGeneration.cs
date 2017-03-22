@@ -51,7 +51,14 @@ namespace Noggolloquy.Generation
             _abstract = Node.GetAttribute<bool>("abstract", false);
             _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", true);
 
-            this.Interfaces.Add("INoggolloquySerializer");
+            if (this.Abstract)
+            {
+                this.Interfaces.Add($"INoggolloquySerializer");
+            }
+            else
+            {
+                this.Interfaces.Add($"INoggolloquySerializer<{this.GetErrorMaskItemString()}>");
+            }
 
             base.Load();
         }

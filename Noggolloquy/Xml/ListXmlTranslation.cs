@@ -10,9 +10,8 @@ using System.Xml.Linq;
 using Noggog.Xml;
 using Noggolloquy;
 using Noggog.Notifying;
-using Noggolloquy.XML;
 
-namespace Noggolloquy.XML
+namespace Noggolloquy.Xml
 {
     public class ListXmlTranslation<T> : ContainerXmlGeneration<T>
     {

@@ -100,7 +100,7 @@ namespace Noggolloquy.Generation
 
         public override void Load()
         {
-            this.Interfaces.Add("INoggolloquySerializer");
+            this.Interfaces.Add($"INoggolloquyWriterSerializer<{this.GetErrorMaskItemString()}>");
 
             base.Load();
             foreach (var field in this.Fields)

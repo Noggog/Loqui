@@ -12,7 +12,7 @@ namespace Noggolloquy.Generation
 
         public void Append(string str)
         {
-            if (str.Contains("IXmlTranlsator"))
+            if (str.Contains("INoggolloquySerializer<LayoutModBase_ErrorMask>"))
             {
                 int wer = 23;
                 wer++;
@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("mask.Object.Overall = WorldObject_ErrorMask;"))
+            if (str.Contains("INoggolloquySerializer<LayoutModBase_ErrorMask>"))
             {
                 int wer = 23;
                 wer++;
