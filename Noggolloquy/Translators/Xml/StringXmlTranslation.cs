@@ -11,8 +11,9 @@ namespace Noggolloquy.Xml
         public string ElementName { get { return "String"; } }
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
-        public TryGet<string> Parse(XElement root)
+        public TryGet<string> Parse(XElement root, bool doMasks, out object maskObj)
         {
+            maskObj = null;
             if (!root.Name.LocalName.Equals(ElementName))
             {
                 return TryGet<string>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
@@ -24,15 +25,7 @@ namespace Noggolloquy.Xml
             return TryGet<string>.Success(null);
         }
 
-        public TryGet<string> ParseNoNull(XElement root)
-        {
-            var ret = Parse(root);
-            if (ret.Failed) return ret.BubbleFailure<string>();
-            if (string.IsNullOrEmpty(ret.Value)) TryGet<string>.Failure("No content in value attribute.");
-            return ret;
-        }
-
-        public void Write(XmlWriter writer, string name, string str)
+        public bool Write(XmlWriter writer, string name, string item, bool doMasks, out object maskObj)
         {
             using (new ElementWrapper(writer, "String"))
             {
@@ -41,11 +34,13 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString("name", name);
                 }
 
-                if (!string.IsNullOrEmpty(str))
+                if (!string.IsNullOrEmpty(item))
                 {
-                    writer.WriteAttributeString("value", str);
+                    writer.WriteAttributeString("value", item);
                 }
             }
+            maskObj = null;
+            return true;
         }
     }
 }

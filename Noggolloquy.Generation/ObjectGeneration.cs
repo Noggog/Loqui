@@ -251,9 +251,9 @@ namespace Noggolloquy.Generation
                     }
                     fg.AppendLine();
 
-                    GenerateNoggolloquyGetterInterface(this, fg);
+                    GenerateNoggolloquyGetterInterface(fg);
 
-                    GenerateNoggolloquySetterInterface(this, fg);
+                    GenerateNoggolloquySetterInterface(fg);
 
                     GenerateToStringCode(fg);
 
@@ -441,112 +441,129 @@ namespace Noggolloquy.Generation
 
         protected abstract void GenerateClassLine(FileGeneration fg);
 
-        public static void GenerateNoggolloquyGetterInterface(ObjectGeneration obj, FileGeneration fg)
+        public void GenerateNoggolloquyGetterInterface(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Noggolloquy Getter Interface"))
             {
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.NewOverride + "static string NoggolloquyName { get { return \"" + obj.Name + "\"; } }");
-                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyName { get { return \"" + obj.Name + "\"; } }");
+                fg.AppendLine("public" + this.NewOverride + "static string NoggolloquyName { get { return \"" + this.Name + "\"; } }");
+                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyName { get { return \"" + this.Name + "\"; } }");
 
-                fg.AppendLine("public" + obj.NewOverride + "static string NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(obj.Namespace) ? string.Empty : obj.Namespace + ".") + obj.Name + "\"; } }");
-                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(obj.Namespace) ? string.Empty : obj.Namespace + ".") + obj.Name + "\"; } }");
+                fg.AppendLine("public" + this.NewOverride + "static string NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".") + this.Name + "\"; } }");
+                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".") + this.Name + "\"; } }");
 
-                obj.GenerateProtocolProperty(fg);
+                this.GenerateProtocolProperty(fg);
 
-                fg.AppendLine("public" + obj.FunctionOverride + "int FieldCount { get { return " + obj.Fields.Count + (obj.HasBaseObject ? " + base.FieldCount" : string.Empty) + "; } }", extraLine: true);
+                fg.AppendLine("public" + this.FunctionOverride + "int FieldCount { get { return " + this.Fields.Count + (this.HasBaseObject ? " + base.FieldCount" : string.Empty) + "; } }", extraLine: true);
 
-                fg.AppendLine($"public{obj.FunctionOverride}string Noggolloquy_GUID {{ get {{ return \"{obj.GUID.ToString()}\"; }} }}", extraLine: true);
+                fg.AppendLine($"public{this.FunctionOverride}string Noggolloquy_GUID {{ get {{ return \"{this.GUID.ToString()}\"; }} }}", extraLine: true);
+                
+                GenerateGetNthObject(fg);
 
-                fg.AppendLine("public" + obj.FunctionOverride + "object GetNthObject(ushort index)");
+                GenerateGetNthObjectHasBeenSet(fg);
+
+                fg.AppendLine("public" + this.FunctionOverride + "Type GetNthType(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNthObject(index, this);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthType(index);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "Type GetNthType(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "string GetNthName(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNthType(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthName(index);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "string GetNthName(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "object GetNthObject(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNthName(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthObject(index, this);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "ushort? GetNameIndex(StringCaseAgnostic str)");
+                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthObjectHasBeenSet(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNameIndex(str);");
+                    if (this is ClassGeneration)
+                    {
+                        fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthObjectHasBeenSet(index, this);");
+                    }
+                    else
+                    {
+                        fg.AppendLine("return true;");
+                    }
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "bool IsNthDerivative(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "ushort? GetNameIndex(StringCaseAgnostic str)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".IsNthDerivative(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNameIndex(str);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "bool IsReadOnly(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "bool IsNthDerivative(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".IsReadOnly(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".IsNthDerivative(index);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "bool GetNthIsEnumerable(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "bool IsReadOnly(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNthIsEnumerable(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".IsReadOnly(index);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + obj.FunctionOverride + "bool GetNthIsNoggolloquy(ushort index)");
+                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsEnumerable(ushort index)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return " + obj.ExtCommonName(obj.GenericTypes) + ".GetNthIsNoggolloquy(index);");
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsEnumerable(index);");
+                }
+                fg.AppendLine();
+
+                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsNoggolloquy(ushort index)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsNoggolloquy(index);");
                 }
                 fg.AppendLine();
             }
             fg.AppendLine();
         }
 
-        protected virtual void GenerateNoggolloquySetterInterface(ObjectGeneration obj, FileGeneration fg)
+        protected virtual void GenerateNoggolloquySetterInterface(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Noggolloquy Interface"))
             {
-
-                fg.AppendLine("public" + obj.FunctionOverride + "void SetNthObjectHasBeenSet(ushort index, bool on)");
+                fg.AppendLine("public" + this.FunctionOverride + "void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(obj.ExtCommonName(obj.GenericTypes) + ".SetNthObjectHasBeenSet(index, on, this);");
+                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".SetNthObjectHasBeenSet(index, on, this);");
                 }
                 fg.AppendLine();
 
-                obj.GenerateSetNthObjectHasBeenSet(fg, true);
+                this.GenerateSetNthObjectHasBeenSet(fg, true);
 
                 // Generic version
-                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public void CopyFieldsFrom(" + this.Getter_InterfaceStr + " rhs, " + this.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(obj.ExtCommonName(obj.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, null, cmds);");
+                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, null, cmds);");
                 }
                 fg.AppendLine();
 
                 // Generic version with default
-                fg.AppendLine("public void CopyFieldsFrom(" + obj.Getter_InterfaceStr + " rhs, out " + obj.GetErrorMaskItemString() + " errorMask, " + obj.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine("public void CopyFieldsFrom(" + this.Getter_InterfaceStr + " rhs, out " + this.GetErrorMaskItemString() + " errorMask, " + this.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var retErrorMask = new {obj.GetErrorMaskItemString()}();");
+                    fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString()}();");
                     fg.AppendLine("errorMask = retErrorMask;");
-                    fg.AppendLine(obj.ExtCommonName(obj.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
+                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
                 }
                 fg.AppendLine();
             }
@@ -637,11 +654,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    fg.AppendLine("default:");
-                    using (new DepthWrapper(fg))
-                    {
-                        GenerateIndexOutOfRangeEx(fg, "index");
-                    }
+                    GenerateStandardIndexDefault(fg, "GetNthObjectHasBeenSet", "index", true, "obj");
                 }
             }
             fg.AppendLine();

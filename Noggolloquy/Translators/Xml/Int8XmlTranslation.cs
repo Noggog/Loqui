@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static Int8XmlTranslation Instance = new Int8XmlTranslation();
 
-        protected override TryGet<sbyte?> ParseNonNullString(string str)
+        protected override sbyte ParseNonNullString(string str)
         {
             if (sbyte.TryParse(str, out sbyte parsed))
             {
-                return TryGet<sbyte?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<sbyte?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

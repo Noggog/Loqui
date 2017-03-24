@@ -208,14 +208,12 @@ namespace Noggolloquy.Generation
             {
                 if (!obj.BaseClass?.Abstract ?? true)
                 {
-                    fg.AppendLine("public abstract void WriteXML(XmlWriter writer, string name);");
-                    fg.AppendLine();
-
-                    fg.AppendLine("public abstract void WriteXML(XmlWriter writer);");
+                    fg.AppendLine("public abstract void WriteXML(XmlWriter writer, string name = null);");
                     fg.AppendLine();
                 }
             }
-            else
+            else if (obj.IsTopClass
+                || (!obj.Abstract && (obj.BaseClass?.Abstract ?? true)))
             {
                 fg.AppendLine($"public void WriteXML(XmlWriter writer, out {obj.GetErrorMaskItemString()} errorMask, string name = null)");
                 using (new BraceWrapper(fg))
@@ -293,14 +291,14 @@ namespace Noggolloquy.Generation
         {
         }
 
-        public override IEnumerable<string> GetWriterInterfaces(string genericMaskStr)
+        public override IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
         {
-            yield return $"IXmlWriter{genericMaskStr}";
+            yield return $"IXmlWriter<{obj.GetErrorMaskItemString()}>";
         }
 
-        public override IEnumerable<string> GetReaderInterfaces(string genericMaskStr)
+        public override IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
         {
-            yield return $"IXmlTranslator{genericMaskStr}";
+            yield return $"IXmlTranslator<{obj.GetErrorMaskItemString()}>";
         }
     }
 }

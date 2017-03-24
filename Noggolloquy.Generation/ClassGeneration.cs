@@ -51,14 +51,7 @@ namespace Noggolloquy.Generation
             _abstract = Node.GetAttribute<bool>("abstract", false);
             _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", true);
 
-            if (this.Abstract)
-            {
-                this.Interfaces.Add($"INoggolloquySerializer");
-            }
-            else
-            {
-                this.Interfaces.Add($"INoggolloquySerializer<{this.GetErrorMaskItemString()}>");
-            }
+            this.Interfaces.Add($"INoggolloquySerializer");
 
             base.Load();
         }
@@ -106,6 +99,8 @@ namespace Noggolloquy.Generation
                     this.Interfaces
                         .Union(this.gen.GenerationModules
                             .SelectMany((tr) => tr.Interfaces(this)))
+                        .Union(this.gen.GenerationModules
+                            .SelectMany((tr) => tr.GetReaderInterfaces(this)))
                         .Union(this.GenerationInterfaces
                             .SelectMany((tr) => tr.Interfaces(this))));
                 list.Add($"IEquatable<{this.ObjectName}>");

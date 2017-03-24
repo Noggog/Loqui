@@ -8,13 +8,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();
 
-        protected override TryGet<E?> ParseNonNullString(string str)
+        protected override E ParseNonNullString(string str)
         {
             if (EnumExt.TryParse(str, out E enumType))
             {
-                return TryGet<E?>.Success(enumType);
+                return enumType;
             }
-            return TryGet<E?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
 
         protected override string GetItemStr(E? item)

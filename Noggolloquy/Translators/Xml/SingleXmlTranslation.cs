@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static SingleXmlTranslation Instance = new SingleXmlTranslation();
 
-        protected override TryGet<float?> ParseNonNullString(string str)
+        protected override float ParseNonNullString(string str)
         {
             if (float.TryParse(str, out float parsed))
             {
-                return TryGet<float?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<float?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

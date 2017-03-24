@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static BooleanXmlTranslation Instance = new BooleanXmlTranslation();
 
-        protected override TryGet<bool?> ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str)
         {
             if (Boolean.TryParse(str, out bool parsed))
             {
-                return TryGet<bool?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<bool?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

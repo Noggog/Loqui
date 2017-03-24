@@ -13,13 +13,13 @@ namespace Noggolloquy.Xml
             return $"{item.Value.X}, {item.Value.Y}";
         }
 
-        protected override TryGet<P2Int?> ParseNonNullString(string str)
+        protected override P2Int ParseNonNullString(string str)
         {
             if (P2Int.TryParse(str, out P2Int parsed))
             {
-                return TryGet<P2Int?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<P2Int?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

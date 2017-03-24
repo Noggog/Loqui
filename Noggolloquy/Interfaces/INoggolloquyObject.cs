@@ -21,6 +21,8 @@ namespace Noggolloquy
 
         object GetNthObject(ushort index);
 
+        bool GetNthObjectHasBeenSet(ushort index);
+
         Type GetNthType(ushort index);
 
         string GetNthName(ushort index);
@@ -29,11 +31,21 @@ namespace Noggolloquy
 
         bool GetNthIsEnumerable(ushort index);
 
+        bool GetNthIsSingleton(ushort index);
+
+        bool GetIsNthDerivative(ushort index);
+
         bool IsNthDerivative(ushort index);
 
         ushort? GetNameIndex(StringCaseAgnostic name);
 
         bool IsReadOnly(ushort index);
+    }
+
+    public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
+    {
+        void SetNthObjectHasBeenSet(ushort index, bool on);
+        void SetNthObject(ushort index, object o);
     }
 
     public interface INoggolloquyClass<L, G> : ICopyFrom<L, G>, IClearable

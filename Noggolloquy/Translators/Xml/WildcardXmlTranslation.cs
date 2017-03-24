@@ -29,20 +29,20 @@ namespace Noggolloquy.Xml
             return XmlTranslator.Validate(t);
         }
 
-        public TryGet<Object> Parse(XElement root)
+        public TryGet<Object> Parse(XElement root, bool doMasks, out object maskObj)
         {
             if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out INotifyingItemGetter<Type> t))
             {
-                return TryGet<Object>.Failure($"Could not match Element type {root.Name.LocalName} to an XML Translator.");
+                throw new ArgumentException($"Could not match Element type {root.Name.LocalName} to an XML Translator.");
             }
             var xml = GetTranslator(t.Value);
-            return xml.Parse(root);
+            return xml.Parse(root, doMasks, out maskObj);
         }
 
-        public void Write(XmlWriter writer, string name, Object item)
+        public bool Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
             var xml = GetTranslator(item.GetType());
-            xml.Write(writer, name, item);
+            return xml.Write(writer, name, item, doMasks, out maskObj);
         }
     }
 }

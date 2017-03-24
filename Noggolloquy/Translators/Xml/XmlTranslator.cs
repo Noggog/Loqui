@@ -1,9 +1,12 @@
 ﻿using Noggog.Notifying;
+using Noggog.Xml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Noggolloquy.Xml
 {
@@ -51,6 +54,22 @@ namespace Noggolloquy.Xml
         public static INotifyingItem<IXmlTranslation<Object>> GetTranslator(Type t)
         {
             return typeDict[t];
+        }
+
+        public static bool TryGetTranslator(Type t, out NotifyingItem<IXmlTranslation<object>> transl)
+        {
+            return typeDict.TryGetValue(t, out transl);
+        }
+
+        public static bool TryGetTranslator(Type t, out IXmlTranslation<object> transl)
+        {
+            if (!TryGetTranslator(t, out NotifyingItem<IXmlTranslation<object>> not))
+            {
+                transl = null;
+                return false;
+            }
+            transl = not.Value;
+            return transl != null;
         }
     }
 

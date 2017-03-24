@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("INoggolloquySerializer<LayoutModBase_ErrorMask>"))
+            if (str.Contains("public void WriteXML(XmlWriter writer, string name)"))
             {
                 int wer = 23;
                 wer++;

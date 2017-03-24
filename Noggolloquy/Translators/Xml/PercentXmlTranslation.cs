@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
 
-        protected override TryGet<Percent?> ParseNonNullString(string str)
+        protected override Percent ParseNonNullString(string str)
         {
             if (Percent.TryParse(str, out Percent parsed))
             {
-                return TryGet<Percent?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<Percent?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static UInt32XmlTranslation Instance = new UInt32XmlTranslation();
 
-        protected override TryGet<uint?> ParseNonNullString(string str)
+        protected override uint ParseNonNullString(string str)
         {
             if (uint.TryParse(str, out uint parsed))
             {
-                return TryGet<uint?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<uint?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

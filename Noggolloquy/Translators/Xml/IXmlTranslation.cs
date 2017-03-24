@@ -9,7 +9,7 @@ namespace Noggolloquy.Xml
     public interface IXmlTranslation<T>
     {
         string ElementName { get; }
-        void Write(XmlWriter writer, string name, T item);
-        TryGet<T> Parse(XElement root);
+        bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj);
+        TryGet<T> Parse(XElement root, bool doMasks, out object maskObj);
     }
 }

@@ -13,13 +13,13 @@ namespace Noggolloquy.Xml
             return item.Value.Min + "-" + item.Value.Max;
         }
 
-        protected override TryGet<RangeInt?> ParseNonNullString(string str)
+        protected override RangeInt ParseNonNullString(string str)
         {
             if (RangeInt.TryParse(str, out RangeInt parsed))
             {
-                return TryGet<RangeInt?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<RangeInt?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

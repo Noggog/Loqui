@@ -7,13 +7,13 @@ namespace Noggolloquy.Xml
     {
         public readonly static DoubleXmlTranslation Instance = new DoubleXmlTranslation();
 
-        protected override TryGet<double?> ParseNonNullString(string str)
+        protected override double ParseNonNullString(string str)
         {
             if (double.TryParse(str, out double parsed))
             {
-                return TryGet<double?>.Success(parsed);
+                return parsed;
             }
-            return TryGet<double?>.Failure($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {ElementName}");
         }
     }
 }

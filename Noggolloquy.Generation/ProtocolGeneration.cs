@@ -139,7 +139,6 @@ namespace Noggolloquy.Generation
             }
 
             GenerateDefFile();
-            GenerateCommonInterfaceFile();
         }
 
         private void GenerateDefFile()
@@ -193,99 +192,6 @@ namespace Noggolloquy.Generation
                 new FileInfo(
                     DefFileLocation.FullName
                     + $"/ProtocolDefinition_{this.Definition.Nickname}.cs"));
-        }
-
-        private void GenerateCommonInterfaceFile()
-        {
-            FileGeneration fg = new FileGeneration();
-            HashSet<string> namespaces = new HashSet<string>();
-            namespaces.Add("Noggolloquy");
-            foreach (var obj in this.ObjectGenerationsByID.Values)
-            {
-                namespaces.Add(obj.Namespace);
-            }
-            foreach (var nameS in namespaces)
-            {
-                fg.AppendLine($"using {nameS};");
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"namespace {this.Gen.DefaultNamespace}");
-            using (new BraceWrapper(fg))
-            {
-                HashSet<string> interfaces = new HashSet<string>();
-                interfaces.Add("INoggolloquyObjectGetter");
-                interfaces.Add("ICopyable");
-                foreach (var module in this.Gen.GenerationModules)
-                {
-                    interfaces.Add(module.GetWriterInterfaces(null));
-                }
-                fg.AppendLine($"public interface INoggolloquyWriterSerializer : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                fg.AppendLine();
-                interfaces.Clear();
-
-
-                interfaces.Add("ICopyInAble");
-                foreach (var module in this.Gen.GenerationModules)
-                {
-                    interfaces.Add(module.GetReaderInterfaces(null));
-                }
-                fg.AppendLine($"public interface INoggolloquyReaderSerializer : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                fg.AppendLine();
-                interfaces.Clear();
-
-                interfaces.Add("INoggolloquyWriterSerializer");
-                interfaces.Add("INoggolloquyReaderSerializer");
-                fg.AppendLine($"public interface INoggolloquySerializer : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                fg.AppendLine();
-                interfaces.Clear();
-
-                interfaces.Add("INoggolloquyWriterSerializer");
-                foreach (var module in this.Gen.GenerationModules)
-                {
-                    interfaces.Add(module.GetWriterInterfaces("<M>"));
-                }
-                fg.AppendLine($"public interface INoggolloquyWriterSerializer<M> : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                fg.AppendLine();
-                interfaces.Clear();
-
-                interfaces.Add("INoggolloquyReaderSerializer");
-                foreach (var module in this.Gen.GenerationModules)
-                {
-                    interfaces.Add(module.GetReaderInterfaces("<M>"));
-                }
-                fg.AppendLine($"public interface INoggolloquyReaderSerializer<M> : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                fg.AppendLine();
-                interfaces.Clear();
-
-                interfaces.Add("INoggolloquyWriterSerializer<M>");
-                interfaces.Add("INoggolloquyReaderSerializer<M>");
-                interfaces.Add("INoggolloquySerializer");
-                fg.AppendLine($"public interface INoggolloquySerializer<M> : {string.Join(", ", interfaces)}");
-                using (new BraceWrapper(fg))
-                {
-                }
-                interfaces.Clear();
-            }
-            fg.Generate(
-                new FileInfo(
-                    DefFileLocation.FullName
-                    + $"/INoggolloquySerializer.cs"));
         }
     }
 }

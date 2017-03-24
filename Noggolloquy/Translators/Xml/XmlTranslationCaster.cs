@@ -16,14 +16,15 @@ namespace Noggolloquy.Xml
             this.Source = src;
         }
 
-        void IXmlTranslation<object>.Write(XmlWriter writer, string name, object item)
+        bool IXmlTranslation<object>.Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
-            Source.Write(writer, name, (T)item);
+            return Source.Write(writer, name, (T)item, doMasks, out maskObj);
         }
 
-        TryGet<object> IXmlTranslation<object>.Parse(XElement root)
+        TryGet<object> IXmlTranslation<object>.Parse(XElement root, bool doMasks, out object maskObj)
         {
-            return Source.Parse(root).Bubble<object>((i) => i);
+            return Source.Parse(root, doMasks, out maskObj).Bubble<object>((i) => i);
         }
+        
     }
 }

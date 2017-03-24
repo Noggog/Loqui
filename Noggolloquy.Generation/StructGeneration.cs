@@ -85,6 +85,8 @@ namespace Noggolloquy.Generation
                     this.Interfaces
                         .Union(this.gen.GenerationModules
                             .SelectMany((tr) => tr.Interfaces(this)))
+                        .Union(this.gen.GenerationModules
+                            .SelectMany((tr) => tr.GetWriterInterfaces(this)))
                         .Union(this.GenerationInterfaces
                             .SelectMany((tr) => tr.Interfaces(this))));
                 list.Add($"IEquatable<{this.ObjectName}>");
@@ -110,7 +112,7 @@ namespace Noggolloquy.Generation
             }
         }
 
-        protected override void GenerateNoggolloquySetterInterface(ObjectGeneration obj, FileGeneration fg)
+        protected override void GenerateNoggolloquySetterInterface(FileGeneration fg)
         {
         }
 
