@@ -33,8 +33,6 @@ namespace Noggolloquy
 
         bool GetNthIsSingleton(ushort index);
 
-        bool GetIsNthDerivative(ushort index);
-
         bool IsNthDerivative(ushort index);
 
         ushort? GetNameIndex(StringCaseAgnostic name);

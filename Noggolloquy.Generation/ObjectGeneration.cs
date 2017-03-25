@@ -616,7 +616,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateGetNthObject(FileGeneration fg)
         {
-            fg.AppendLine("public static object GetNthObject(ushort index, " + this.Getter_InterfaceStr + " obj)");
+            fg.AppendLine($"public static object GetNthObject(ushort index, {this.Getter_InterfaceStr} obj)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -624,10 +624,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            item.Item2.GenerateGetNth(fg, "obj");
+                            item.Field.GenerateGetNth(fg, "obj");
                         }
                     }
 
@@ -639,7 +639,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
         {
-            fg.AppendLine("public static bool GetNthObjectHasBeenSet(ushort index, " + this.InterfaceStr + " obj)");
+            fg.AppendLine($"public static bool GetNthObjectHasBeenSet(ushort index, {this.InterfaceStr} obj)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -647,10 +647,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return obj.{item.Item2.HasBeenSetAccessor};");
+                            fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
                         }
                     }
 
@@ -662,7 +662,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
         {
-            fg.AppendLine("public " + (internalUse ? string.Empty : "static ") + "void SetNthObjectHasBeenSet" + (internalUse ? "_Internal" : string.Empty) + "(ushort index, bool on, " + (internalUse ? this.ObjectName : this.InterfaceStr) + " obj)");
+            fg.AppendLine($"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}(ushort index, bool on, {(internalUse ? this.ObjectName : this.InterfaceStr)} obj)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -670,16 +670,16 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Item2.Derivative)
+                            if (item.Field.Derivative)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
                                 return;
                             }
 
-                            if (!internalUse && item.Item2.Protected)
+                            if (!internalUse && item.Field.Protected)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
                             }
@@ -707,16 +707,16 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Item2 is LevType)
+                            if (item.Field is LevType)
                             {
                                 fg.AppendLine("return true;");
                             }
-                            else if (item.Item2 is ContainerType)
+                            else if (item.Field is ContainerType)
                             {
-                                ContainerType listField = item.Item2 as ContainerType;
+                                ContainerType listField = item.Field as ContainerType;
                                 if (listField.SubTypeGeneration is LevType)
                                 {
                                     fg.AppendLine("return true;");
@@ -749,10 +749,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return " + item.Item2.Derivative.ToString().ToLower() + ";");
+                            fg.AppendLine("return " + item.Field.Derivative.ToString().ToLower() + ";");
                         }
                     }
 
@@ -772,10 +772,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Item2 is ContainerType)
+                            if (item.Field is ContainerType)
                             {
                                 fg.AppendLine("return true;");
                             }
@@ -802,10 +802,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return typeof(" + item.Item2.TypeName + ");");
+                            fg.AppendLine($"return typeof({item.Field.TypeName});");
                         }
                     }
 
@@ -825,10 +825,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return \"" + item.Item2.Name + "\";");
+                            fg.AppendLine($"return \"{item.Field.Name}\";");
                         }
                     }
 
@@ -1200,10 +1200,10 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in this.IterateFields())
                     {
-                        fg.AppendLine("case " + item.Item1 + ":");
+                        fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return " + item.Item2.Protected.ToString().ToLower() + ";");
+                            fg.AppendLine($"return {item.Field.Protected.ToString().ToLower()};");
                         }
                     }
                     GenerateStandardIndexDefault(fg, "IsReadOnly", "index", true);
@@ -1320,12 +1320,12 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public IEnumerable<Tuple<int, TypeGeneration>> IterateFields()
+        public IEnumerable<(int Index, TypeGeneration Field)> IterateFields()
         {
             var startIndex = this.StartingIndex;
             for (int i = 0; i < this.Fields.Count; i++)
             {
-                yield return new Tuple<int, TypeGeneration>(i + startIndex, this.Fields[i]);
+                yield return (i + startIndex, this.Fields[i]);
             }
         }
 
