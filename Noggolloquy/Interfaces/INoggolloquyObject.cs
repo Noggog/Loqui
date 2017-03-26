@@ -97,8 +97,7 @@ namespace Noggolloquy
                     var obj = nogg.GetNthObject(i);
                     if (nogg.GetNthIsEnumerable(i))
                     {
-                        var listObj = obj as IEnumerable;
-                        if (listObj != null)
+                        if (obj is IEnumerable listObj)
                         {
                             bool hasItems = listObj.Any();
                             depthPrinter.AddLine(nogg.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));

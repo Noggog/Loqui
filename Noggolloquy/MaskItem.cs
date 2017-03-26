@@ -2,15 +2,11 @@
 
 namespace Noggolloquy
 {
-    public class MaskItem<T, V> : IEquatable<MaskItem<V, T>>
+    public struct MaskItem<T, V> : IEquatable<MaskItem<V, T>>
     {
-        public T Overall;
-        public V Specific;
-
-        public MaskItem()
-        {
-        }
-
+        public readonly T Overall;
+        public readonly V Specific;
+        
         public MaskItem(
             T overall,
             V specific)
