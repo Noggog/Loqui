@@ -81,8 +81,7 @@ namespace Noggolloquy.Generation
                         objGen.GUID = new Guid(guid);
                     }
 
-                    ushort id;
-                    if (obj.TryGetAttribute<ushort>("ID", out id))
+                    if (obj.TryGetAttribute<ushort>("ID", out ushort id))
                     {
                         objGen.ID = id;
                     }
@@ -174,13 +173,13 @@ namespace Noggolloquy.Generation
                             using (new DepthWrapper(fg))
                             {
                                 fg.AppendLine($"new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version}),");
-                                fg.AppendLine($"new NoggolloquyTypeRegister()");
-                                using (new BraceWrapper(fg) { AppendParenthesis = true, AppendSemicolon = true })
+                                fg.AppendLine($"new NoggolloquyTypeRegister(");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine($"Class = typeof({obj.Name}{obj.EmptyGenerics}),");
-                                    fg.AppendLine($"FullName = \"{obj.Name}\",");
-                                    fg.AppendLine($"GenericCount = {obj.Generics.Count},");
-                                    fg.AppendLine($"ObjectKey = new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version})");
+                                    fg.AppendLine($"classType: typeof({obj.Name}{obj.EmptyGenerics}),");
+                                    fg.AppendLine($"fullName: \"{obj.Name}\",");
+                                    fg.AppendLine($"genericCount: {obj.Generics.Count},");
+                                    fg.AppendLine($"objectKey: new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version})));");
                                 }
                             }
                         }

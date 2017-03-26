@@ -4,9 +4,21 @@ namespace Noggolloquy
 {
     public class NoggolloquyTypeRegister
     {
-        public ObjectKey ObjectKey;
-        public Type Class;
-        public string FullName;
-        public byte GenericCount;
+        public readonly ObjectKey ObjectKey;
+        public readonly Type Class;
+        public readonly string FullName;
+        public readonly byte GenericCount;
+
+        public NoggolloquyTypeRegister(
+            ObjectKey objectKey,
+            Type classType,
+            string fullName,
+            byte genericCount)
+        {
+            this.ObjectKey = objectKey;
+            this.Class = classType;
+            this.FullName = fullName;
+            this.GenericCount = genericCount;
+        }
     }
 }

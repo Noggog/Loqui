@@ -23,8 +23,7 @@ namespace Noggolloquy
         
         public static TryGet<Type> TryGetType(string name)
         {
-            Type t;
-            if (!cache.TryGetValue(name, out t))
+            if (!cache.TryGetValue(name, out Type t))
             {
                 try
                 {
