@@ -64,6 +64,7 @@ namespace Noggolloquy.Xml
                                     copyInFunc(elem, subNogg, cmds, doMasks, out subMaskObj);
                                     item.SetNthObject(i.Value, subNogg);
                                 }
+                                readIndices.Add(i.Value);
                             }
                             else
                             {
@@ -80,14 +81,13 @@ namespace Noggolloquy.Xml
                             if (objGet.Succeeded)
                             {
                                 item.SetNthObject(i.Value, objGet.Value);
+                                readIndices.Add(i.Value);
+                            }
+                            else
+                            {
+                                mask.SetNthMask(i.Value, subMaskObj);
                             }
                         }
-
-                        if (subMaskObj != null)
-                        {
-                            mask.SetNthMask(i.Value, subMaskObj);
-                        }
-                        readIndices.Add(i.Value);
                     }
                     catch (Exception ex)
                     {

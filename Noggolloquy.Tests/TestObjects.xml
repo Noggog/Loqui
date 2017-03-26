@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
+  <Protocol ProtocolID="1" Version="1" />
+  <Object name="Header" recordType="HEDR" GUID="88a14b36-530f-42a1-aa1f-b8ee1852e625">
+    <Fields>
+      <Float name="Version" />
+      <Int64 name="NumRecords" />
+      <UInt64 name="NextObjectID" />
+    </Fields>
+  </Object>
+</Noggolloquy>
