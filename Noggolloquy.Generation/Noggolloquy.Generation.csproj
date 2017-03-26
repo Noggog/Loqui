@@ -80,7 +80,6 @@
     <Compile Include="Fields\TypicalTypeGeneration\NonExportedObjectType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\P3DoubleFieldXmlGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3IntNullType.cs" />
@@ -116,17 +115,6 @@
     <Compile Include="Modules\Mask\Fields\MaskModuleField.cs" />
     <Compile Include="Modules\Mask\Fields\TypicalMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\MaskModule.cs" />
-    <Compile Include="Modules\Xml\Fields\Container2DFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\DictFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\EnumFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\NoggFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\NoggolloquyXmlTranslationGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\ListFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\NonExportedObjectXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\P2IntFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\StructTypeXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\TypedStructXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\XmlFieldTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\XmlReadGenerationParameters.cs" />
     <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\XmlWriteGenerationParameters.cs" />

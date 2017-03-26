@@ -6,9 +6,6 @@ namespace Noggolloquy.Generation
 {
     public class XmlTranslationGeneration : GenerationModule
     {
-        public NoggolloquyXmlTranslationGeneration NoggTranslation = new NoggolloquyXmlTranslationGeneration();
-        public Dictionary<Type, XmlFieldTranslationGeneration> FieldGenerators = new Dictionary<Type, XmlFieldTranslationGeneration>();
-
         public override string RegionString { get { return "XML Translation"; } }
 
         public override IEnumerable<string> RequiredUsingStatements()
@@ -23,68 +20,6 @@ namespace Noggolloquy.Generation
         public override IEnumerable<string> Interfaces(ObjectGeneration obj)
         {
             yield break;
-        }
-
-        public XmlTranslationGeneration()
-        {
-            FieldGenerators[typeof(NoggType)] = new NoggFieldXmlGeneration();
-            FieldGenerators[typeof(BoolNullType)] = new TypedStructXmlGeneration<bool?>();
-            FieldGenerators[typeof(BoolType)] = new TypedStructXmlGeneration<bool>();
-            FieldGenerators[typeof(CharNullType)] = new TypedStructXmlGeneration<char?>();
-            FieldGenerators[typeof(CharType)] = new TypedStructXmlGeneration<char>();
-            FieldGenerators[typeof(Int8NullType)] = new TypedStructXmlGeneration<sbyte?>();
-            FieldGenerators[typeof(Int8Type)] = new TypedStructXmlGeneration<sbyte>();
-            FieldGenerators[typeof(Int16NullType)] = new TypedStructXmlGeneration<short?>();
-            FieldGenerators[typeof(Int16Type)] = new TypedStructXmlGeneration<short>();
-            FieldGenerators[typeof(Int32NullType)] = new TypedStructXmlGeneration<int?>();
-            FieldGenerators[typeof(Int32Type)] = new TypedStructXmlGeneration<int>();
-            FieldGenerators[typeof(Int64NullType)] = new TypedStructXmlGeneration<long?>();
-            FieldGenerators[typeof(Int64Type)] = new TypedStructXmlGeneration<long>();
-            FieldGenerators[typeof(UInt8NullType)] = new TypedStructXmlGeneration<byte?>();
-            FieldGenerators[typeof(UInt8Type)] = new TypedStructXmlGeneration<byte>();
-            FieldGenerators[typeof(UInt16NullType)] = new TypedStructXmlGeneration<ushort?>();
-            FieldGenerators[typeof(UInt16Type)] = new TypedStructXmlGeneration<ushort>();
-            FieldGenerators[typeof(UInt32NullType)] = new TypedStructXmlGeneration<uint?>();
-            FieldGenerators[typeof(UInt32Type)] = new TypedStructXmlGeneration<uint>();
-            FieldGenerators[typeof(UInt64NullType)] = new TypedStructXmlGeneration<ulong?>();
-            FieldGenerators[typeof(UInt64Type)] = new TypedStructXmlGeneration<ulong>();
-            FieldGenerators[typeof(StringType)] = new TypedStructXmlGeneration<string>();
-            FieldGenerators[typeof(PercentType)] = new TypedStructXmlGeneration<Percent>();
-            FieldGenerators[typeof(FloatType)] = new TypedStructXmlGeneration<float>();
-            FieldGenerators[typeof(FloatNullType)] = new TypedStructXmlGeneration<float?>();
-            FieldGenerators[typeof(UDoubleType)] = new TypedStructXmlGeneration<UDouble>();
-            FieldGenerators[typeof(UDoubleNullType)] = new TypedStructXmlGeneration<UDouble?>();
-            FieldGenerators[typeof(DoubleType)] = new TypedStructXmlGeneration<Double>();
-            FieldGenerators[typeof(DoubleNullType)] = new TypedStructXmlGeneration<Double?>();
-            FieldGenerators[typeof(RangeIntType)] = new TypedStructXmlGeneration<RangeInt>();
-            FieldGenerators[typeof(RangeIntNullType)] = new TypedStructXmlGeneration<RangeInt?>();
-            FieldGenerators[typeof(RangeDoubleType)] = new TypedStructXmlGeneration<RangeDouble>();
-            FieldGenerators[typeof(RangeDoubleNullType)] = new TypedStructXmlGeneration<RangeDouble?>();
-            FieldGenerators[typeof(EnumType)] = new EnumFieldXmlGeneration();
-            FieldGenerators[typeof(ListType)] = new ListFieldXmlGeneration();
-            FieldGenerators[typeof(DictType)] = new DictFieldXmlGeneration();
-            FieldGenerators[typeof(Array2DType)] = new Container2DFieldXmlGeneration("Array2D");
-            FieldGenerators[typeof(P2IntType)] = new StructTypeXmlGeneration("P2Int");
-            FieldGenerators[typeof(P2IntNullType)] = new StructTypeXmlGeneration("P2Int?");
-            FieldGenerators[typeof(P3IntType)] = new StructTypeXmlGeneration("P3Int");
-            FieldGenerators[typeof(P3IntNullType)] = new StructTypeXmlGeneration("P3Int?");
-            FieldGenerators[typeof(P3DoubleType)] = new P3DoubleFieldXmlGeneration();
-            FieldGenerators[typeof(P3DoubleNullType)] = new P3DoubleFieldXmlGeneration();
-            FieldGenerators[typeof(NonExportedObjectType)] = new NonExportedObjectXmlGeneration();
-            FieldGenerators[typeof(WildcardType)] = new StructTypeXmlGeneration("Wildcard")
-            {
-                IsNullable = true
-            };
-        }
-
-        public void AddTypeAssociation<T>(XmlFieldTranslationGeneration fieldGen)
-        {
-            FieldGenerators[typeof(T)] = fieldGen;
-        }
-
-        public bool TryGetFieldGen(Type fieldType, out XmlFieldTranslationGeneration gen)
-        {
-            return FieldGenerators.TryGetValue(fieldType, out gen);
         }
 
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
