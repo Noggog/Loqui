@@ -86,7 +86,16 @@ namespace Noggolloquy.Xml
             var parse = this.Parse(root, doMasks, out maskObj);
             if (parse.Failed) return parse.BubbleFailure<T>();
             if (parse.Value.HasValue) return TryGet<T>.Succeed(parse.Value.Value);
-            throw new ArgumentException("Value was unexpectedly null.");
+            var ex = new ArgumentException("Value was unexpectedly null.");
+            if (doMasks)
+            {
+                maskObj = ex;
+                return TryGet<T>.Failure;
+            }
+            else
+            {
+                throw ex;
+            }
         }
     }
 }

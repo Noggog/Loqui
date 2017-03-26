@@ -11,6 +11,7 @@ namespace Noggolloquy.Tests.XML
 {
     public class BoolXmlTranslation_Test
     {
+        #region Utility
         public IXmlTranslation<bool> GetTranslation()
         {
             return new BooleanXmlTranslation();
@@ -18,15 +19,23 @@ namespace Noggolloquy.Tests.XML
 
         public XElement GetTypicalElement(bool value, string name = null)
         {
+            var elem = GetElementNoValue(name);
+            elem.SetAttributeValue(XName.Get("value"), value ? "True" : "False");
+            return elem;
+        }
+
+        public XElement GetElementNoValue(string name = null)
+        {
             var elem = new XElement(XName.Get("Boolean"));
             if (!string.IsNullOrWhiteSpace(name))
             {
                 elem.SetAttributeValue(XName.Get("name"), name);
             }
-            elem.SetAttributeValue(XName.Get("value"), value ? "True" : "False");
             return elem;
         }
+        #endregion
 
+        #region Parse - Typical
         [Fact]
         public void Parse_True()
         {
@@ -37,6 +46,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
             Assert.Equal(true, ret.Value);
         }
 
@@ -50,9 +60,12 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
             Assert.Equal(false, ret.Value);
         }
+        #endregion
 
+        #region Parse - Bad Element Name
         [Fact]
         public void Parse_BadElementName_Mask()
         {
@@ -79,5 +92,66 @@ namespace Noggolloquy.Tests.XML
                     doMasks: false,
                     maskObj: out object maskObj));
         }
+        #endregion
+
+        #region Parse - No Value
+        [Fact]
+        public void Parse_NoValue_NoMask()
+        {
+            var transl = GetTranslation();
+            var elem = GetElementNoValue();
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => transl.Parse(
+                    elem,
+                    doMasks: false,
+                    maskObj: out object maskObj));
+        }
+
+        [Fact]
+        public void Parse_NoValue_Mask()
+        {
+            var transl = GetTranslation();
+            var elem = GetElementNoValue();
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out object maskObj);
+            Assert.True(ret.Failed);
+            Assert.NotNull(maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj);
+        }
+        #endregion
+
+        #region Parse - Empty Value
+        [Fact]
+        public void Parse_EmptyValue_NoMask()
+        {
+            var transl = GetTranslation();
+            var elem = GetElementNoValue();
+            elem.SetAttributeValue(XName.Get("value"), string.Empty);
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => transl.Parse(
+                    elem,
+                    doMasks: false,
+                    maskObj: out object maskObj));
+        }
+
+        [Fact]
+        public void Parse_EmptyValue_Mask()
+        {
+            var transl = GetTranslation();
+            var elem = GetElementNoValue();
+            elem.SetAttributeValue(XName.Get("value"), string.Empty);
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out object maskObj);
+            Assert.True(ret.Failed);
+            Assert.NotNull(maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj);
+        }
+        #endregion
     }
 }
