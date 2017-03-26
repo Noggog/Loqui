@@ -9,5 +9,7 @@ namespace Noggolloquy.Generation
         {
             GenerateForField(fg, field, "Exception");
         }
+        public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
+        public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
     }
 }

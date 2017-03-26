@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public void WriteXML(XmlWriter writer, string name)"))
+            if (str.Contains("return obj.NextObjectID_Property.HasBeenSet;"))
             {
                 int wer = 23;
                 wer++;

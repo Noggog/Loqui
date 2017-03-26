@@ -202,6 +202,7 @@ namespace Noggolloquy.Xml
             {
                 return writeFunc != null;
             }
+            throw new NotImplementedException();
         }
 
         private bool TryGetCopyInFunction(Type t, out NoggXmlCopyInFunction copyInFunc)
@@ -210,6 +211,7 @@ namespace Noggolloquy.Xml
             {
                 return copyInFunc != null;
             }
+            throw new NotImplementedException();
         }
     }
 }

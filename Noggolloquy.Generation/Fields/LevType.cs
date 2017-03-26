@@ -145,8 +145,7 @@ namespace Noggolloquy.Generation
                 }
 
                 this.RefType = LevRefType.Direct;
-                ObjectGeneration refGen;
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(refName, out refGen))
+                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(refName, out ObjectGeneration refGen))
                 {
                     throw new ArgumentException("Lev type cannot be found: " + refName);
                 }

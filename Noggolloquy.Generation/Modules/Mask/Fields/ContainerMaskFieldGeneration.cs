@@ -19,5 +19,15 @@ namespace Noggolloquy.Generation
             }
             fg.AppendLine($"public MaskItem<{valueStr}, {listStr}> {field.Name};");
         }
+
+        public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

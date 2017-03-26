@@ -25,5 +25,15 @@ namespace Noggolloquy.Generation
             }
             fg.AppendLine($"public MaskItem<{typeStr}, Lazy<List<{itemStr}>>> {field.Name} = new MaskItem<{typeStr}, Lazy<List<{itemStr}>>>(default({typeStr}), new Lazy<List<{itemStr}>>(() => new List<{itemStr}>()));");
         }
+
+        public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

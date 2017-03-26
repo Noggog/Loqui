@@ -350,6 +350,8 @@ namespace Noggolloquy.Generation
 
                     GenerateGetNthName(fg);
 
+                    GenerateGetNthIsSingleton(fg);
+
                     GenerateCopyFieldsFrom(fg);
 
                     GenerateSetNthObjectHasBeenSet(fg, false);
@@ -363,6 +365,8 @@ namespace Noggolloquy.Generation
                     GenerateNthObjectIsNoggolloquy(fg);
 
                     GenerateGetNthObjectHasBeenSet(fg);
+
+                    GenerateSetNthObject(fg);
 
                     // Fields might add some content
                     foreach (var field in this.Fields)
@@ -532,6 +536,20 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsNoggolloquy(index);");
                 }
                 fg.AppendLine();
+
+                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsSingleton(ushort index)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsSingleton(index);");
+                }
+                fg.AppendLine();
+
+                fg.AppendLine("public" + this.FunctionOverride + "void SetNthObject(ushort index, object obj)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".SetNthObject(this, index, obj);");
+                }
+                fg.AppendLine();
             }
             fg.AppendLine();
         }
@@ -660,6 +678,30 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
+        protected virtual void GenerateSetNthObject(FileGeneration fg)
+        {
+            fg.AppendLine($"public static void SetNthObject({this.InterfaceStr} nog, ushort index, object obj)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("switch (index)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var item in IterateFields())
+                    {
+                        fg.AppendLine($"case {item.Index}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"nog.{item.Field.Name} = ({item.Field.TypeName})obj;");
+                            fg.AppendLine($"break;");
+                        }
+                    }
+
+                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", true, "obj");
+                }
+            }
+            fg.AppendLine();
+        }
+
         protected virtual void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
         {
             fg.AppendLine($"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}(ushort index, bool on, {(internalUse ? this.ObjectName : this.InterfaceStr)} obj)");
@@ -685,7 +727,7 @@ namespace Noggolloquy.Generation
                             }
                             else
                             {
-                                item.Item2.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
+                                item.Field.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
                                 fg.AppendLine("break;");
                             }
                         }
@@ -838,7 +880,37 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        private void GenerateStandardIndexDefault(FileGeneration fg, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
+        private void GenerateGetNthIsSingleton(FileGeneration fg)
+        {
+            fg.AppendLine("public static bool GetNthIsSingleton(ushort index)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("switch (index)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var item in IterateFields())
+                    {
+                        if (item.Field is LevType lev)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"return \"{lev.SingletonMember}\";");
+                            }
+                        }
+                    }
+
+                    fg.AppendLine("default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine("return false;");
+                    }
+                }
+            }
+            fg.AppendLine();
+        }
+
+        public void GenerateStandardIndexDefault(FileGeneration fg, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
         {
             fg.AppendLine("default:");
             using (new DepthWrapper(fg))
