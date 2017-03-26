@@ -38,6 +38,10 @@ namespace Noggolloquy
         ushort? GetNameIndex(StringCaseAgnostic name);
 
         bool IsReadOnly(ushort index);
+
+        Type GetMaskType();
+
+        Type GetErrorMaskType();
     }
 
     public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter

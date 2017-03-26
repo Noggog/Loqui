@@ -550,6 +550,20 @@ namespace Noggolloquy.Generation
                     fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".SetNthObject(this, index, obj);");
                 }
                 fg.AppendLine();
+
+                fg.AppendLine("public" + this.FunctionOverride + "Type GetMaskType()");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"return typeof({this.GetMaskString(string.Empty)});");
+                }
+                fg.AppendLine();
+
+                fg.AppendLine("public" + this.FunctionOverride + "Type GetErrorMaskType()");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"return typeof({this.GetErrorMaskItemString()});");
+                }
+                fg.AppendLine();
             }
             fg.AppendLine();
         }
