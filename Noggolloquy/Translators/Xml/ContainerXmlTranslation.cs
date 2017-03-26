@@ -23,9 +23,9 @@ namespace Noggolloquy.Xml
         
         public abstract string ElementName { get; }
         
-        public TryGet<IEnumerable<T>> Parse(XElement root, bool doMasks, out object maskObj)
+        public GetResponse<IEnumerable<T>> Parse(XElement root, bool doMasks, out object maskObj)
         {
-            return TryGet<IEnumerable<T>>.Success(Parse_Internal(root, doMasks, out maskObj));
+            return GetResponse<IEnumerable<T>>.Success(Parse_Internal(root, doMasks, out maskObj));
         }
 
         private IEnumerable<T> Parse_Internal(XElement root, bool doMasks, out object maskObj)
@@ -70,7 +70,7 @@ namespace Noggolloquy.Xml
             return ret;
         }
 
-        protected abstract TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj);
+        protected abstract GetResponse<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj);
         
         public bool Write(XmlWriter writer, string name, IEnumerable<T> item, bool doMasks, out object maskObj)
         {

@@ -27,19 +27,19 @@ namespace Noggolloquy.Xml
 
         protected abstract T ParseNonNullString(string str);
 
-        public TryGet<T?> Parse(XElement root, bool doMasks, out object maskObj)
+        public GetResponse<T?> Parse(XElement root, bool doMasks, out object maskObj)
         {
             maskObj = null;
             if (!root.Name.LocalName.Equals(ElementName))
             {
-                return TryGet<T?>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                return GetResponse<T?>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
             }
             if (!root.TryGetAttribute("value", out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
-                return TryGet<T?>.Success(null);
+                return GetResponse<T?>.Success(null);
             }
-            return TryGet<T?>.Success(ParseNonNullString(val.Value));
+            return GetResponse<T?>.Success(ParseNonNullString(val.Value));
         }
 
         public bool Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
@@ -72,11 +72,11 @@ namespace Noggolloquy.Xml
             return true;
         }
 
-        TryGet<T> IXmlTranslation<T>.Parse(XElement root, bool doMasks, out object maskObj)
+        GetResponse<T> IXmlTranslation<T>.Parse(XElement root, bool doMasks, out object maskObj)
         {
             var parse = this.Parse(root, doMasks, out maskObj);
             if (parse.Failed) return parse.BubbleFailure<T>();
-            if (parse.Value.HasValue) return TryGet<T>.Success(parse.Value.Value);
+            if (parse.Value.HasValue) return GetResponse<T>.Success(parse.Value.Value);
             throw new ArgumentException("Value was unexpectedly null.");
         }
     }

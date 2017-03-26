@@ -21,7 +21,7 @@ namespace Noggolloquy.Xml
             return Source.Write(writer, name, (T)item, doMasks, out maskObj);
         }
 
-        TryGet<object> IXmlTranslation<object>.Parse(XElement root, bool doMasks, out object maskObj)
+        GetResponse<object> IXmlTranslation<object>.Parse(XElement root, bool doMasks, out object maskObj)
         {
             return Source.Parse(root, doMasks, out maskObj).Bubble<object>((i) => i);
         }
