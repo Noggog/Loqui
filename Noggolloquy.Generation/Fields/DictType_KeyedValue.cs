@@ -6,7 +6,7 @@ namespace Noggolloquy.Generation
 {
     class DictType_KeyedValue : TypeGeneration, IDictType
     {
-        public LevType ValueTypeGen;
+        public NoggType ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen { get { return this.ValueTypeGen; } }
         public TypeGeneration KeyTypeGen;
         TypeGeneration IDictType.KeyTypeGen { get { return this.KeyTypeGen; } }
@@ -56,9 +56,9 @@ namespace Noggolloquy.Generation
                     keyedValNode.Elements().FirstOrDefault(),
                     false,
                     out valType)
-                    && valType is LevType)
+                    && valType is NoggType)
             {
-                this.ValueTypeGen = valType as LevType;
+                this.ValueTypeGen = valType as NoggType;
             }
             else
             {
@@ -86,8 +86,8 @@ namespace Noggolloquy.Generation
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception, bool key)
         {
-            LevType valueLevType = this.ValueTypeGen as LevType;
-            var valStr = valueLevType == null ? "Exception" : $"Tuple<Exception, {valueLevType.RefGen.Obj.GetMaskString("Exception")}>";
+            NoggType valueNoggType = this.ValueTypeGen as NoggType;
+            var valStr = valueNoggType == null ? "Exception" : $"Tuple<Exception, {valueNoggType.RefGen.Obj.GetMaskString("Exception")}>";
             
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }

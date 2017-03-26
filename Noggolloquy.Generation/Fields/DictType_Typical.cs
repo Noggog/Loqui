@@ -8,10 +8,10 @@ namespace Noggolloquy.Generation
     {
         public TypeGeneration ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen { get { return this.ValueTypeGen; } }
-        protected bool ValueIsLev;
+        protected bool ValueIsNogg;
         public TypeGeneration KeyTypeGen;
         TypeGeneration IDictType.KeyTypeGen { get { return this.KeyTypeGen; } }
-        protected bool KeyIsLev;
+        protected bool KeyIsNogg;
         public DictMode Mode { get { return DictMode.KeyValue; } }
 
         public override string Property { get { return $"{this.Name}"; } }
@@ -39,7 +39,7 @@ namespace Noggolloquy.Generation
 
         public string GetterTypeName
         {
-            get { return (this.ValueIsLev ? "I" + TypeName + "Getter" : TypeName); }
+            get { return (this.ValueIsNogg ? "I" + TypeName + "Getter" : TypeName); }
         }
 
         public override void Load(XElement node, bool requireName = true)
@@ -57,7 +57,7 @@ namespace Noggolloquy.Generation
                     false,
                     out KeyTypeGen))
             {
-                KeyIsLev = KeyTypeGen as LevType != null;
+                KeyIsNogg = KeyTypeGen as NoggType != null;
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Noggolloquy.Generation
                     false,
                     out ValueTypeGen))
             {
-                ValueIsLev = ValueTypeGen as LevType != null;
+                ValueIsNogg = ValueTypeGen as NoggType != null;
             }
             else
             {
@@ -90,9 +90,9 @@ namespace Noggolloquy.Generation
 
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
         {
-            LevType keyLevType = this.KeyTypeGen as LevType;
-            LevType valueLevType = this.ValueTypeGen as LevType;
-            var item2 = $"KeyValuePair<{(keyLevType == null ? "Exception" : keyLevType.RefGen.Obj.GetMaskString("Exception"))}, {(valueLevType == null ? "Exception" : valueLevType.RefGen.Obj.GetMaskString("Exception"))}>";
+            NoggType keyNoggType = this.KeyTypeGen as NoggType;
+            NoggType valueNoggType = this.ValueTypeGen as NoggType;
+            var item2 = $"KeyValuePair<{(keyNoggType == null ? "Exception" : keyNoggType.RefGen.Obj.GetMaskString("Exception"))}, {(valueNoggType == null ? "Exception" : valueNoggType.RefGen.Obj.GetMaskString("Exception"))}>";
             
             fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
         }
@@ -154,7 +154,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                if (defaultFallbackAccessor == null || (!this.KeyIsLev && !this.ValueIsLev))
+                if (defaultFallbackAccessor == null || (!this.KeyIsNogg && !this.ValueIsNogg))
                 {
                     GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
                 }
@@ -212,8 +212,8 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"i.Key{ (this.KeyIsLev ? ".Copy())" : string.Empty) },");
-                        fg.AppendLine($"i.Value{ (this.ValueIsLev ? ".Copy())" : string.Empty)})),");
+                        fg.AppendLine($"i.Key{ (this.KeyIsNogg ? ".Copy())" : string.Empty) },");
+                        fg.AppendLine($"i.Value{ (this.ValueIsNogg ? ".Copy())" : string.Empty)})),");
                     }
                 }
                 fg.AppendLine($"{ cmdAccessor});");

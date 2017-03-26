@@ -70,7 +70,7 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<UDoubleNullType>("UDoubleNull");
             AddTypeAssociation<DoubleType>("Double");
             AddTypeAssociation<DoubleNullType>("DoubleNull");
-            AddTypeAssociation<LevType>("Lev");
+            AddTypeAssociation<NoggType>("Nogg");
             AddTypeAssociation<ListType>("List");
             AddTypeAssociation<DictType>("Dict");
             AddTypeAssociation<Array2DType>("Array2D");
@@ -138,9 +138,9 @@ namespace Noggolloquy.Generation
                     })
                     .Where((t) =>
                     {
-                        var levNode = t.Item1.Element(XName.Get("Noggolloquy", NoggolloquyGenerator.Namespace));
-                        if (levNode == null) return false;
-                        var protoNode = levNode.Element(XName.Get("Protocol", NoggolloquyGenerator.Namespace));
+                        var noggNode = t.Item1.Element(XName.Get("Noggolloquy", NoggolloquyGenerator.Namespace));
+                        if (noggNode == null) return false;
+                        var protoNode = noggNode.Element(XName.Get("Protocol", NoggolloquyGenerator.Namespace));
 
                         ushort protoID, version;
                         if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out protoID)

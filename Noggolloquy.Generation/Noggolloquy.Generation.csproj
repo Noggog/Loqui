@@ -53,7 +53,7 @@
     <Compile Include="Fields\DictType_KeyedValue.cs" />
     <Compile Include="Fields\DictType_Typical.cs" />
     <Compile Include="Fields\EnumType.cs" />
-    <Compile Include="Fields\LevType.cs" />
+    <Compile Include="Fields\NoggType.cs" />
     <Compile Include="Fields\ListType.cs" />
     <Compile Include="Fields\TypeGeneration.cs" />
     <Compile Include="Fields\TypicalDoubleNumberTypeGeneration.cs" />
@@ -112,14 +112,14 @@
     <Compile Include="Modules\GenerationModule.cs" />
     <Compile Include="Modules\Mask\Fields\ContainerMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\Fields\DictMaskFieldGeneration.cs" />
-    <Compile Include="Modules\Mask\Fields\LevMaskFieldGeneration.cs" />
+    <Compile Include="Modules\Mask\Fields\NoggMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\Fields\MaskModuleField.cs" />
     <Compile Include="Modules\Mask\Fields\TypicalMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\MaskModule.cs" />
     <Compile Include="Modules\Xml\Fields\Container2DFieldXmlGeneration.cs" />
     <Compile Include="Modules\Xml\Fields\DictFieldXmlGeneration.cs" />
     <Compile Include="Modules\Xml\Fields\EnumFieldXmlGeneration.cs" />
-    <Compile Include="Modules\Xml\Fields\LevFieldXmlGeneration.cs" />
+    <Compile Include="Modules\Xml\Fields\NoggFieldXmlGeneration.cs" />
     <Compile Include="Modules\Xml\Fields\NoggolloquyXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\Fields\ListFieldXmlGeneration.cs" />
     <Compile Include="Modules\Xml\Fields\NonExportedObjectXmlGeneration.cs" />

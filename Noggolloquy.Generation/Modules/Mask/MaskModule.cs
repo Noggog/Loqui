@@ -18,7 +18,7 @@ namespace Noggolloquy.Generation
 
         public MaskModule()
         {
-            FieldMapping[typeof(LevType)] = new LevMaskFieldGeneration();
+            FieldMapping[typeof(NoggType)] = new NoggMaskFieldGeneration();
             FieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
             FieldMapping[typeof(Array2DType)] = new ContainerMaskFieldGeneration();
             FieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();

@@ -7,15 +7,15 @@ namespace Noggolloquy.Generation
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
         {
             ContainerType listType = field as ContainerType;
-            LevType levType = listType.SubTypeGeneration as LevType;
+            NoggType noggType = listType.SubTypeGeneration as NoggType;
             string listStr;
-            if (levType == null)
+            if (noggType == null)
             {
                 listStr = $"IEnumerable<{valueStr}>";
             }
             else
             {
-                listStr = $"IEnumerable<{levType.RefGen.Obj.GetErrorMaskItemString()}>";
+                listStr = $"IEnumerable<{noggType.RefGen.Obj.GetErrorMaskItemString()}>";
             }
             fg.AppendLine($"public MaskItem<{valueStr}, {listStr}> {field.Name};");
         }

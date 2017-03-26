@@ -117,13 +117,13 @@
       <xs:element name="UDoubleNull" type="Ranged" />
       <xs:element name="Double" type="Ranged" />
       <xs:element name="DoubleNull" type="Ranged" />
-      <xs:element name="Lev" type="Lev" />
+      <xs:element name="Ref" type="Ref" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
       <xs:element name="Array2D" type="List" />
       <xs:element name="Enum" type="Enum" />
       <xs:element name="String" type="String" />
-      <xs:element name="NonExportedObject" type="Ref" >
+      <xs:element name="NonExportedObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
             For if you want to generate a member of a type that is not supported by Noggolloquy, and do not care that it won't be exported.
@@ -141,7 +141,7 @@
       </xs:element>
 
       <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="Ref" >
+      <xs:element name="RecordLink" type="Object" >
         <xs:annotation>
           <xs:documentation>
             A reference to any other object type obtained and stored via RecordID.
@@ -202,13 +202,13 @@
       <xs:element name="UDoubleNull" type="NRanged" />
       <xs:element name="Double" type="NRanged" />
       <xs:element name="DoubleNull" type="NRanged" />
-      <xs:element name="Lev" type="NLev" />
+      <xs:element name="Ref" type="NRef" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
       <xs:element name="Array2D" type="NList" />
       <xs:element name="Enum" type="NEnum" />
       <xs:element name="String" type="NString" />
-      <xs:element name="NonExportedType" type="NRef" >
+      <xs:element name="NonExportedType" type="NObject" >
         <xs:annotation>
           <xs:documentation>
             For if you want to generate a member of a type that is not supported by Noggolloquy, and do not care that it won't be exported.
@@ -226,7 +226,7 @@
       </xs:element>
 
       <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="NRef" >
+      <xs:element name="RecordLink" type="NObject" >
         <xs:annotation>
           <xs:documentation>
             A reference to any other object type obtained and stored via RecordID.
@@ -287,7 +287,7 @@
       <xs:element name="UDoubleNull" type="NRanged" />
       <xs:element name="Double" type="NRanged" />
       <xs:element name="DoubleNull" type="NRanged" />
-      <xs:element name="Lev" type="LevScript" />
+      <xs:element name="Ref" type="RefScript" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
       <xs:element name="Array2D" type="NList" />
@@ -297,7 +297,7 @@
       <xs:element name="Action" type="NScript" />
 
       <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="NRef" >
+      <xs:element name="RecordLink" type="NObject" >
         <xs:annotation>
           <xs:documentation>
             A reference to any other object type obtained and stored via RecordID.
@@ -549,7 +549,7 @@
 
   <xs:complexType name="KeyedValue" >
     <xs:sequence>
-      <xs:element name="Lev" type="Lev" />
+      <xs:element name="Ref" type="Ref" />
     </xs:sequence>
     <xs:attribute name="keyAccessor" use="required" />
   </xs:complexType>
@@ -647,7 +647,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="LevDirect" >
+  <xs:complexType name="RefDirect" >
     <xs:choice>
       <xs:element type="xs:string"  name="Generic" minOccurs="0" maxOccurs="unbounded" >
         <xs:annotation>
@@ -657,7 +657,7 @@
         </xs:annotation>
       </xs:element>
     </xs:choice>
-    <xs:attribute name="levName">
+    <xs:attribute name="refName">
       <xs:annotation>
         <xs:documentation>
           Name of the Noggolloquy object to reference.
@@ -666,7 +666,7 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="Lev" >
+  <xs:complexType name="Ref" >
     <xs:annotation>
       <xs:documentation>
         Creates a single member reference to another Noggolloquy object type.
@@ -675,7 +675,7 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:choice>
-          <xs:element name="Direct" type="LevDirect">
+          <xs:element name="Direct" type="RefDirect">
             <xs:annotation>
               <xs:documentation>
                 Direct reference to another Noggolloquy type.
@@ -703,15 +703,15 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="NLev" >
+  <xs:complexType name="NRef" >
     <xs:complexContent>
-      <xs:extension base="Lev">
+      <xs:extension base="Ref">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="LevScript" >
+  <xs:complexType name="RefScript" >
     <xs:annotation>
       <xs:documentation>
         Creates a single member reference to another Noggolloquy object type.
@@ -720,7 +720,7 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:choice>
-          <xs:element name="Direct" type="LevDirect">
+          <xs:element name="Direct" type="RefDirect">
             <xs:annotation>
               <xs:documentation>
                 Direct reference to another Noggolloquy type.
@@ -740,7 +740,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Ref" >
+  <xs:complexType name="Object" >
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:choice>
@@ -751,7 +751,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="NRef" >
+  <xs:complexType name="NObject" >
     <xs:complexContent>
       <xs:extension base="Ref">
         <xs:attribute name="name" type="xs:string" use="required" />

@@ -2,18 +2,18 @@
 
 namespace Noggolloquy.Generation
 {
-    public class LevMaskFieldGeneration : MaskModuleField
+    public class NoggMaskFieldGeneration : MaskModuleField
     {
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
-            LevType lev = field as LevType;
-            fg.AppendLine($"public MaskItem<{typeStr}, {lev.GenerateMaskString(typeStr)}> {field.Name} {{ get; set; }}");
+            NoggType nogg = field as NoggType;
+            fg.AppendLine($"public MaskItem<{typeStr}, {nogg.GenerateMaskString(typeStr)}> {field.Name} {{ get; set; }}");
         }
 
         public override void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {
-            LevType lev = field as LevType;
-            fg.AppendLine($"public MaskItem<Exception, {lev.GenerateErrorMaskItemString()}> {field.Name};");
+            NoggType nogg = field as NoggType;
+            fg.AppendLine($"public MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}> {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)

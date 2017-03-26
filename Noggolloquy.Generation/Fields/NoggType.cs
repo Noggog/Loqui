@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Generation
 {
-    public class LevType : TypicalGeneration
+    public class NoggType : TypicalGeneration
     {
         public Ref RefGen { get; protected set; }
         public override string TypeName
@@ -14,9 +14,9 @@ namespace Noggolloquy.Generation
             {
                 switch (RefType)
                 {
-                    case LevRefType.Direct:
+                    case NoggRefType.Direct:
                         return RefGen.Name;
-                    case LevRefType.Generic:
+                    case NoggRefType.Generic:
                         return _generic;
                     default:
                         throw new NotImplementedException();
@@ -29,9 +29,9 @@ namespace Noggolloquy.Generation
             {
                 switch (RefType)
                 {
-                    case LevRefType.Direct:
+                    case NoggRefType.Direct:
                         return this.RefGen.Getter_InterfaceStr;
-                    case LevRefType.Generic:
+                    case NoggRefType.Generic:
                         return this._generic;
 
                     default:
@@ -42,10 +42,10 @@ namespace Noggolloquy.Generation
         public bool _allowNull = true;
         public bool AllowNull { get { return _allowNull && !SingletonMember; } }
         public bool SingletonMember;
-        public LevRefType RefType { get; private set; }
+        public NoggRefType RefType { get; private set; }
         private string _generic;
 
-        public enum LevRefType
+        public enum NoggRefType
         {
             Direct,
             Generic
@@ -61,7 +61,7 @@ namespace Noggolloquy.Generation
                 }
                 else if (SingletonMember)
                 { // Singleton
-                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemLevSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.Getter}>(new {this.RefGen.ObjectName}());");
+                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.Getter}>(new {this.RefGen.ObjectName}());");
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException("Cannot both be generic and have specific object specified.");
             }
 
-            var refName = refNode?.GetAttribute("levName");
+            var refName = refNode?.GetAttribute("noggName");
             var genericName = genericNode?.Value;
 
             if (!string.IsNullOrWhiteSpace(refName))
@@ -144,17 +144,17 @@ namespace Noggolloquy.Generation
                     };
                 }
 
-                this.RefType = LevRefType.Direct;
+                this.RefType = NoggRefType.Direct;
                 if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(refName, out ObjectGeneration refGen))
                 {
-                    throw new ArgumentException("Lev type cannot be found: " + refName);
+                    throw new ArgumentException("Nogg type cannot be found: " + refName);
                 }
                 r.Obj = refGen;
                 this.RefGen = r;
             }
             else if (!string.IsNullOrWhiteSpace(genericName))
             {
-                this.RefType = LevRefType.Generic;
+                this.RefType = NoggRefType.Generic;
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
                 gen.MustBeClass = true;
@@ -166,7 +166,7 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                throw new ArgumentException("Lev type needs a target.");
+                throw new ArgumentException("Nogg type needs a target.");
             }
         }
 
@@ -206,7 +206,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateCopyFrom(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultAccessorPrefix, string cmdAccessor)
         {
-            if (this.RefType == LevRefType.Generic
+            if (this.RefType == NoggRefType.Generic
                 || RefGen.Obj is ClassGeneration)
             {
                 fg.AppendLine($"if (rhs.{this.Name} == null)");
@@ -276,7 +276,7 @@ namespace Noggolloquy.Generation
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
-            if (RefType == LevRefType.Direct)
+            if (RefType == NoggRefType.Direct)
             {
                 yield return RefGen.Obj.Namespace;
             }
@@ -303,9 +303,9 @@ namespace Noggolloquy.Generation
         {
             switch (this.RefType)
             {
-                case LevRefType.Direct:
+                case NoggRefType.Direct:
                     return this.RefGen.Obj.GetMaskString(type);
-                case LevRefType.Generic:
+                case NoggRefType.Generic:
                     return "object";
                 default:
                     throw new NotImplementedException();
@@ -316,9 +316,9 @@ namespace Noggolloquy.Generation
         {
             switch (this.RefType)
             {
-                case LevRefType.Direct:
+                case NoggRefType.Direct:
                     return this.RefGen.Obj.GetErrorMaskItemString();
-                case LevRefType.Generic:
+                case NoggRefType.Generic:
                     return "object";
                 default:
                     throw new NotImplementedException();

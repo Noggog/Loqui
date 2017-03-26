@@ -7,15 +7,15 @@ namespace Noggolloquy.Generation
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
             IDictType dictType = field as IDictType;
-            LevType keyLevType = dictType.KeyTypeGen as LevType;
-            LevType valueLevType = dictType.ValueTypeGen as LevType;
-            string valueStr = $"{(valueLevType == null ? typeStr : $"MaskItem<{typeStr}, {valueLevType.RefGen.Obj.GetMaskString(typeStr)}>")}";
+            NoggType keyNoggType = dictType.KeyTypeGen as NoggType;
+            NoggType valueNoggType = dictType.ValueTypeGen as NoggType;
+            string valueStr = $"{(valueNoggType == null ? typeStr : $"MaskItem<{typeStr}, {valueNoggType.RefGen.Obj.GetMaskString(typeStr)}>")}";
 
             string itemStr;
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    itemStr = $"KeyValuePair<{(keyLevType == null ? typeStr : $"MaskItem<{typeStr}, {keyLevType.RefGen.Obj.GetMaskString(typeStr)}")}, {valueStr}>";
+                    itemStr = $"KeyValuePair<{(keyNoggType == null ? typeStr : $"MaskItem<{typeStr}, {keyNoggType.RefGen.Obj.GetMaskString(typeStr)}")}, {valueStr}>";
                     break;
                 case DictMode.KeyedValue:
                     itemStr = valueStr;

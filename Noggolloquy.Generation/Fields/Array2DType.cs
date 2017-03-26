@@ -38,7 +38,7 @@ namespace Noggolloquy.Generation
                 {
                     fg.AppendLine("return " + member + "[index];");
                 }
-                if (this.isLevSingle)
+                if (this.isNoggSingle)
                 {
                     fg.AppendLine(GetterTypeName + $" {this.ObjectGen.Getter_InterfaceStr}.GetNth{this.Name} (int index)");
                     using (new BraceWrapper(fg))
@@ -59,7 +59,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
-            fg.AppendLine(accessorPrefix + "." + this.Name + ".SetTo(" + rhsAccessorPrefix + "." + this.Name + (this.isLevSingle ? ".Select((s) => s.Copy())" : string.Empty) + ", " + cmdsAccessor + ");");
+            fg.AppendLine(accessorPrefix + "." + this.Name + ".SetTo(" + rhsAccessorPrefix + "." + this.Name + (this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty) + ", " + cmdsAccessor + ");");
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)

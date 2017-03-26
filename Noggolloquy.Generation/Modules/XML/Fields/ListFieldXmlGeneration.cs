@@ -38,7 +38,7 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException();
             }
 
-            if (listType.SubTypeGeneration is LevType levType)
+            if (listType.SubTypeGeneration is NoggType noggType)
             {
             }
             else
@@ -78,21 +78,21 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException();
             }
 
-            if (listType.SubTypeGeneration is LevType levType)
+            if (listType.SubTypeGeneration is NoggType noggType)
             {
-                param.FG.AppendLine($"var err = ListXmlTranslation<{levType.RefGen.Name}>.Instance.CopyIn<{levType.RefGen.Name}, {levType.GenerateErrorMaskItemString()}>(");
+                param.FG.AppendLine($"var err = ListXmlTranslation<{noggType.RefGen.Name}>.Instance.CopyIn<{noggType.RefGen.Name}, {noggType.GenerateErrorMaskItemString()}>(");
                 using (new DepthWrapper(param.FG))
                 {
                     param.FG.AppendLine("root: root,");
                     param.FG.AppendLine($"list: _{param.Name},");
                     param.FG.AppendLine("parseMask: mask != null,");
-                    param.FG.AppendLine($"newFunc: () => new {levType.RefGen.Name}(),");
+                    param.FG.AppendLine($"newFunc: () => new {noggType.RefGen.Name}(),");
                     param.FG.AppendLine("cmds: cmds);");
                 }
                 param.FG.AppendLine("if (err != null)");
                 using (new BraceWrapper(param.FG))
                 {
-                    param.FG.AppendLine($"mask.{param.Name} = new MaskItem<Exception, IEnumerable<{levType.GenerateErrorMaskItemString()}>>(null, err);");
+                    param.FG.AppendLine($"mask.{param.Name} = new MaskItem<Exception, IEnumerable<{noggType.GenerateErrorMaskItemString()}>>(null, err);");
                 }
             }
             else

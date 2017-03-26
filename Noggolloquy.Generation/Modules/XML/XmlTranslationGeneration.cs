@@ -6,7 +6,7 @@ namespace Noggolloquy.Generation
 {
     public class XmlTranslationGeneration : GenerationModule
     {
-        public NoggolloquyXmlTranslationGeneration LevTranslation = new NoggolloquyXmlTranslationGeneration();
+        public NoggolloquyXmlTranslationGeneration NoggTranslation = new NoggolloquyXmlTranslationGeneration();
         public Dictionary<Type, XmlFieldTranslationGeneration> FieldGenerators = new Dictionary<Type, XmlFieldTranslationGeneration>();
 
         public override string RegionString { get { return "XML Translation"; } }
@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public XmlTranslationGeneration()
         {
-            FieldGenerators[typeof(LevType)] = new LevFieldXmlGeneration();
+            FieldGenerators[typeof(NoggType)] = new NoggFieldXmlGeneration();
             FieldGenerators[typeof(BoolNullType)] = new TypedStructXmlGeneration<bool?>();
             FieldGenerators[typeof(BoolType)] = new TypedStructXmlGeneration<bool>();
             FieldGenerators[typeof(CharNullType)] = new TypedStructXmlGeneration<char?>();

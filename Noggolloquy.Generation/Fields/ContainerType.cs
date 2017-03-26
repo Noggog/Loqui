@@ -8,8 +8,8 @@ namespace Noggolloquy.Generation
     {
         protected bool singleType;
         public TypeGeneration SingleTypeGen;
-        protected bool isLevSingle;
-        protected LevType LevTypeSingleton { get { return SingleTypeGen as LevType; } }
+        protected bool isNoggSingle;
+        protected NoggType NoggTypeSingleton { get { return SingleTypeGen as NoggType; } }
 
         public override string Property { get { return $"{this.Name}"; } }
         public override string ProtectedName { get { return $"{this.ProtectedProperty}"; } }
@@ -40,7 +40,7 @@ namespace Noggolloquy.Generation
 
         public string GetterTypeName
         {
-            get { return (this.isLevSingle ? LevTypeSingleton.Getter : ItemTypeName); }
+            get { return (this.isNoggSingle ? NoggTypeSingleton.Getter : ItemTypeName); }
         }
 
         public override void Load(XElement node, bool requireName = true)
@@ -59,7 +59,7 @@ namespace Noggolloquy.Generation
                     out SingleTypeGen))
             {
                 singleType = true;
-                isLevSingle = SingleTypeGen as LevType != null;
+                isNoggSingle = SingleTypeGen as NoggType != null;
             }
             else
             {

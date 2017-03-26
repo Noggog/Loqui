@@ -752,14 +752,14 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field is LevType)
+                            if (item.Field is NoggType)
                             {
                                 fg.AppendLine("return true;");
                             }
                             else if (item.Field is ContainerType)
                             {
                                 ContainerType listField = item.Field as ContainerType;
-                                if (listField.SubTypeGeneration is LevType)
+                                if (listField.SubTypeGeneration is NoggType)
                                 {
                                     fg.AppendLine("return true;");
                                 }
@@ -890,12 +890,12 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        if (item.Field is LevType lev)
+                        if (item.Field is NoggType nogg)
                         {
                             fg.AppendLine($"case {item.Index}:");
                             using (new DepthWrapper(fg))
                             {
-                                fg.AppendLine($"return \"{lev.SingletonMember}\";");
+                                fg.AppendLine($"return \"{nogg.SingletonMember}\";");
                             }
                         }
                     }
