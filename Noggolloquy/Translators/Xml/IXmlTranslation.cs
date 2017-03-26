@@ -10,6 +10,6 @@ namespace Noggolloquy.Xml
     {
         string ElementName { get; }
         bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj);
-        GetResponse<T> Parse(XElement root, bool doMasks, out object maskObj);
+        TryGet<T> Parse(XElement root, bool doMasks, out object maskObj);
     }
 }

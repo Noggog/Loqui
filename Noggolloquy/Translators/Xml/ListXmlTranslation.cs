@@ -24,7 +24,7 @@ namespace Noggolloquy.Xml
             return translator.Value.Write(writer, null, item, doMasks, out maskObj);
         }
 
-        protected override GetResponse<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj)
+        protected override TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj)
         {
             return translator.Value.Parse(root, doMasks, out maskObj);
         }

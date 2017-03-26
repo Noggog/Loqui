@@ -54,17 +54,30 @@ namespace Noggolloquy.Tests.XML
         }
 
         [Fact]
-        public void Parse_BadElementName_NoMask()
+        public void Parse_BadElementName_Mask()
         {
             var transl = GetTranslation();
             var elem = XmlUtility.GetBadlyNamedElement();
             var ret = transl.Parse(
                 elem,
-                doMasks: false,
+                doMasks: true,
                 maskObj: out object maskObj);
             Assert.True(ret.Failed);
-            Assert.Equal(false, ret.Value);
-            Assert.False(string.IsNullOrWhiteSpace(ret.Reason));
+            Assert.NotNull(maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj);
+        }
+
+        [Fact]
+        public void Parse_BadElementName_NoMask()
+        {
+            var transl = GetTranslation();
+            var elem = XmlUtility.GetBadlyNamedElement();
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => transl.Parse(
+                    elem,
+                    doMasks: false,
+                    maskObj: out object maskObj));
         }
     }
 }

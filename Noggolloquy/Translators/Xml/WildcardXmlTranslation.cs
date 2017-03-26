@@ -29,7 +29,7 @@ namespace Noggolloquy.Xml
             return XmlTranslator.Validate(t);
         }
 
-        public GetResponse<Object> Parse(XElement root, bool doMasks, out object maskObj)
+        public TryGet<Object> Parse(XElement root, bool doMasks, out object maskObj)
         {
             if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out INotifyingItemGetter<Type> t))
             {

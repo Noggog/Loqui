@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>7c1c3e06b51301d4a7769a24c4a61aa629240cb9</Sha>
-      <Description>GetResponse.  TryGet refactored to not have reason</Description>
+      <Sha>66e9ef9ba95a0b0b1a37ccd56fec7294a2b8c641</Sha>
+      <Description>Refactored TryGet naming conventions slightly.  Added static Failure members</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-26-2017 17:09:39</CommitDate>
+      <CommitDate>03-26-2017 17:52:25</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

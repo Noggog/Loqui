@@ -11,18 +11,19 @@ namespace Noggolloquy.Xml
         public string ElementName { get { return "String"; } }
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
-        public GetResponse<string> Parse(XElement root, bool doMasks, out object maskObj)
+        public TryGet<string> Parse(XElement root, bool doMasks, out object maskObj)
         {
-            maskObj = null;
             if (!root.Name.LocalName.Equals(ElementName))
             {
-                return GetResponse<string>.Failure($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                maskObj = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                return TryGet<string>.Failure;
             }
+            maskObj = null;
             if (root.TryGetAttribute("value", out XAttribute val))
             {
-                return GetResponse<string>.Success(val.Value);
+                return TryGet<string>.Succeed(val.Value);
             }
-            return GetResponse<string>.Success(null);
+            return TryGet<string>.Succeed(null);
         }
 
         public bool Write(XmlWriter writer, string name, string item, bool doMasks, out object maskObj)

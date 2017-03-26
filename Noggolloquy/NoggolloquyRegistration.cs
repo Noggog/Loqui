@@ -33,7 +33,7 @@ namespace Noggolloquy
                 catch
                 {
                     cache[name] = null;
-                    return TryGet<Type>.Failure();
+                    return TryGet<Type>.Failure;
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Noggolloquy
         {
             TryGet<Type> tGet = TryGetType(name);
             if (tGet.Failed) return tGet.BubbleFailure<object>();
-            return TryGet<object>.Success(Activator.CreateInstance(tGet.Value, args));
+            return TryGet<object>.Succeed(Activator.CreateInstance(tGet.Value, args));
         }
 
         class TypeStringNode
