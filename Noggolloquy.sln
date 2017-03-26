@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noggolloquy.Generation", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpExt", "..\CSharpExt\CSharpExt\CSharpExt.csproj", "{C56B9607-41CF-4F59-9EEF-F79D57309EDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noggog.Notifying", "..\CSharpExt\Noggog.Notifying\Noggog.Notifying.csproj", "{D14DC61E-60D0-4C9D-8EA9-627816BD910B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noggolloquy.Tests", "Noggolloquy.Tests\Noggolloquy.Tests.csproj", "{F9214B22-1F51-411A-954F-710CD67E2A1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,16 +31,15 @@ Global
 		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D14DC61E-60D0-4C9D-8EA9-627816BD910B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D14DC61E-60D0-4C9D-8EA9-627816BD910B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D14DC61E-60D0-4C9D-8EA9-627816BD910B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D14DC61E-60D0-4C9D-8EA9-627816BD910B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9214B22-1F51-411A-954F-710CD67E2A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9214B22-1F51-411A-954F-710CD67E2A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9214B22-1F51-411A-954F-710CD67E2A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9214B22-1F51-411A-954F-710CD67E2A1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C56B9607-41CF-4F59-9EEF-F79D57309EDA} = {FD3B4153-A327-4A82-A311-1F8E4006C12F}
-		{D14DC61E-60D0-4C9D-8EA9-627816BD910B} = {FD3B4153-A327-4A82-A311-1F8E4006C12F}
 	EndGlobalSection
 EndGlobal
