@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\ByteXmlTranslation_Test.cs" />
+    <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolXmlTranslation_Test.cs" />
     <Compile Include="XML\TypicalXmlTranslation_Test.cs" />

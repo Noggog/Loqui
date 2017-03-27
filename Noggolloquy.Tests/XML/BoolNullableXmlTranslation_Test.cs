@@ -12,6 +12,8 @@ namespace Noggolloquy.Tests.XML
 {
     public class BoolNullableXmlTranslation_Test
     {
+        public const string EXPECTED_NAME = "BooleanN";
+
         #region Utility
         public IXmlTranslation<bool?> GetTranslation()
         {
@@ -27,7 +29,7 @@ namespace Noggolloquy.Tests.XML
 
         public XElement GetElementNoValue(string name = null)
         {
-            var elem = new XElement(XName.Get("BooleanN"));
+            var elem = new XElement(XName.Get(EXPECTED_NAME));
             if (!string.IsNullOrWhiteSpace(name))
             {
                 elem.SetAttributeValue(XName.Get(XmlConstants.NAME_ATTRIBUTE), name);
@@ -41,7 +43,7 @@ namespace Noggolloquy.Tests.XML
         public void ElementName()
         {
             var transl = GetTranslation();
-            Assert.Equal("BooleanN", transl.ElementName);
+            Assert.Equal(EXPECTED_NAME, transl.ElementName);
         }
         #endregion
 
