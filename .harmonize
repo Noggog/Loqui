@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>66e9ef9ba95a0b0b1a37ccd56fec7294a2b8c641</Sha>
-      <Description>Refactored TryGet naming conventions slightly.  Added static Failure members</Description>
+      <Sha>f5b186f203f30112b7f9aaf29a75a7b8e24e57ab</Sha>
+      <Description>GetResponse now contains an Exception member, with appropriate factories</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-26-2017 17:52:25</CommitDate>
+      <CommitDate>03-26-2017 19:19:30</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

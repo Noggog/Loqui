@@ -21,7 +21,7 @@ namespace Noggolloquy.Xml
 
         public IXmlTranslation<Object> GetTranslator(Type t)
         {
-            return XmlTranslator.GetTranslator(t).Value;
+            return XmlTranslator.GetTranslator(t).Value.Value;
         }
 
         public bool Validate(Type t)

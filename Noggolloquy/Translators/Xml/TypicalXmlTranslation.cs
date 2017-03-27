@@ -43,7 +43,7 @@ namespace Noggolloquy.Xml
                 }
             }
             maskObj = null;
-            if (!root.TryGetAttribute("value", out XAttribute val)
+            if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
                 return TryGet<T?>.Succeed(null);
@@ -58,10 +58,10 @@ namespace Noggolloquy.Xml
             {
                 if (name != null)
                 {
-                    writer.WriteAttributeString("name", name);
+                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
                 }
 
-                writer.WriteAttributeString("value", GetItemStr(item.Value));
+                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item.Value));
             }
             return true;
         }
@@ -73,10 +73,10 @@ namespace Noggolloquy.Xml
             {
                 if (name != null)
                 {
-                    writer.WriteAttributeString("name", name);
+                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
                 }
 
-                writer.WriteAttributeString("value", GetItemStr(item));
+                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item));
             }
             return true;
         }
