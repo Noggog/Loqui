@@ -19,7 +19,7 @@ namespace Noggolloquy.Xml
                 return TryGet<string>.Failure;
             }
             maskObj = null;
-            if (root.TryGetAttribute("value", out XAttribute val))
+            if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
             {
                 return TryGet<string>.Succeed(val.Value);
             }
@@ -37,7 +37,7 @@ namespace Noggolloquy.Xml
 
                 if (!string.IsNullOrEmpty(item))
                 {
-                    writer.WriteAttributeString("value", item);
+                    writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, item);
                 }
             }
             maskObj = null;

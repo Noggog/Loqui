@@ -10,42 +10,16 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class BoolNullableXmlTranslation_Test
+    public class BoolNullableXmlTranslation_Test : TypicalXmlTranslation_Test<bool?>
     {
-        public const string EXPECTED_NAME = "BooleanN";
+        public static readonly bool? TYPICAL_VALUE = true;
 
-        #region Utility
-        public IXmlTranslation<bool?> GetTranslation()
+        public override string ExpectedName => "BooleanN";
+
+        public override IXmlTranslation<bool?> GetTranslation()
         {
             return new BooleanXmlTranslation();
         }
-
-        public XElement GetTypicalElement(bool value, string name = null)
-        {
-            var elem = GetElementNoValue(name);
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), value ? "True" : "False");
-            return elem;
-        }
-
-        public XElement GetElementNoValue(string name = null)
-        {
-            var elem = new XElement(XName.Get(EXPECTED_NAME));
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                elem.SetAttributeValue(XName.Get(XmlConstants.NAME_ATTRIBUTE), name);
-            }
-            return elem;
-        }
-        #endregion
-
-        #region Element Name
-        [Fact]
-        public void ElementName()
-        {
-            var transl = GetTranslation();
-            Assert.Equal(EXPECTED_NAME, transl.ElementName);
-        }
-        #endregion
 
         #region Parse - Typical
         [Fact]
@@ -142,7 +116,7 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get("value"), string.Empty);
+            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
             var ret = transl.Parse(
                 elem,
                 doMasks: false,
@@ -157,7 +131,7 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get("value"), string.Empty);
+            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
@@ -186,7 +160,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal("True", valAttr.Value);
+            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
         }
 
         [Fact]
@@ -206,7 +180,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal("True", valAttr.Value);
+            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
         }
         #endregion
 

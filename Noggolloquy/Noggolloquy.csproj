@@ -74,7 +74,6 @@
     <Compile Include="Translators\Xml\IXmlTranslation.cs" />
     <Compile Include="Translators\Xml\NoggXmlTranslation.cs" />
     <Compile Include="Translators\Xml\ListXmlTranslation.cs" />
-    <Compile Include="Translators\Xml\NoggolloquyXmlRegistration.cs" />
     <Compile Include="Translators\Xml\P2IntXmlTranslation.cs" />
     <Compile Include="Translators\Xml\P3IntXmlTranslation.cs" />
     <Compile Include="Translators\Xml\PercentXmlTranslation.cs" />

@@ -1,4 +1,5 @@
-﻿using Noggolloquy.Xml;
+﻿using Noggog;
+using Noggolloquy.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,15 +11,22 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class ByteXmlTranslation_Test : TypicalXmlTranslation_Test<byte>
+    public class PercentXmlTranslation_Test : TypicalXmlTranslation_Test<Percent>
     {
-        public const byte TYPICAL_VALUE = 4;
+        public static readonly Percent TYPICAL_VALUE = new Percent(0.456);
+        public static readonly Percent ZERO_VALUE = new Percent(0);
+        public static readonly Percent ONE_VALUE = new Percent(1);
 
-        public override string ExpectedName => "Byte";
+        public override string ExpectedName => "Percent";
 
-        public override IXmlTranslation<byte> GetTranslation()
+        public override IXmlTranslation<Percent> GetTranslation()
         {
-            return new ByteXmlTranslation();
+            return new PercentXmlTranslation();
+        }
+
+        public override string StringConverter(Percent item)
+        {
+            return item.Value.ToString("n3");
         }
 
         #region Parse - Typical
@@ -211,7 +219,7 @@ namespace Noggolloquy.Tests.XML
             var writeResp = transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: 0,
+                item: ZERO_VALUE,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(writeResp);
@@ -220,7 +228,27 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal<byte?>(0, readResp.Value);
+            Assert.Equal(ZERO_VALUE, readResp.Value);
+        }
+
+        [Fact]
+        public void Reimport_Negative()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: ONE_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.Equal(ONE_VALUE, readResp.Value);
         }
         #endregion
     }

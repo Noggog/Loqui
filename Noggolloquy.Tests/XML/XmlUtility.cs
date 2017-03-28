@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggolloquy.Xml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,16 @@ namespace Noggolloquy.Tests.XML
     {
         public const string TYPICAL_NAME = "SomeField";
         public const string NAME_ATTR = "name";
+
+        public static XElement GetElementNoValue(string nodeName, string name = null)
+        {
+            var elem = new XElement(XName.Get(nodeName));
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                elem.SetAttributeValue(XName.Get(XmlConstants.NAME_ATTRIBUTE), name);
+            }
+            return elem;
+        }
 
         public static XElement GetBadlyNamedElement()
         {

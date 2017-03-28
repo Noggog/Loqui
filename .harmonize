@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>f5b186f203f30112b7f9aaf29a75a7b8e24e57ab</Sha>
-      <Description>GetResponse now contains an Exception member, with appropriate factories</Description>
+      <Sha>2cee0eda67a1b077a1b3460cc1bc829cb005d14d</Sha>
+      <Description>C#7 Syntax</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-26-2017 19:19:30</CommitDate>
+      <CommitDate>03-27-2017 23:25:18</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

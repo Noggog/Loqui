@@ -10,15 +10,15 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class ByteXmlTranslation_Test : TypicalXmlTranslation_Test<byte>
+    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double>
     {
         public const byte TYPICAL_VALUE = 4;
 
-        public override string ExpectedName => "Byte";
+        public override string ExpectedName => "Double";
 
-        public override IXmlTranslation<byte> GetTranslation()
+        public override IXmlTranslation<double> GetTranslation()
         {
-            return new ByteXmlTranslation();
+            return new DoubleXmlTranslation();
         }
 
         #region Parse - Typical
@@ -220,7 +220,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal<byte?>(0, readResp.Value);
+            Assert.Equal<double?>(0d, readResp.Value);
         }
         #endregion
     }
