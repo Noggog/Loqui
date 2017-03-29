@@ -1,25 +1,60 @@
 ﻿using Noggog;
 using System;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
     public class RangeIntXmlTranslation : TypicalXmlTranslation<RangeInt>
     {
         public readonly static RangeIntXmlTranslation Instance = new RangeIntXmlTranslation();
+        public const string MIN = "Min";
+        public const string MAX = "Max";
 
-        protected override string GetItemStr(RangeInt? item)
+        protected override bool WriteValue(XmlWriter writer, string name, RangeInt? item, bool doMasks, out object maskObj)
         {
-            if (!item.HasValue) return null;
-            return item.Value.Min + "-" + item.Value.Max;
+            maskObj = null;
+            if (!item.HasValue) return true;
+            writer.WriteAttributeString(MIN, item.Value.Min.ToString());
+            writer.WriteAttributeString(MAX, item.Value.Max.ToString());
+            return true;
+        }
+
+        protected override string GetItemStr(RangeInt item)
+        {
+            throw new NotImplementedException();
         }
 
         protected override RangeInt ParseNonNullString(string str)
         {
-            if (RangeInt.TryParse(str, out RangeInt parsed))
+            throw new NotImplementedException();
+        }
+
+        protected override TryGet<RangeInt?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        {
+            maskObj = null;
+            int? min, max;
+            if (root.TryGetAttribute(MIN, out XAttribute val)
+                && int.TryParse(val.Value, out int d))
             {
-                return parsed;
+                min = d;
             }
-            throw new ArgumentException($"Could not convert to {ElementName}");
+            else
+            {
+                min = null;
+            }
+            if (root.TryGetAttribute(MAX, out val)
+                && int.TryParse(val.Value, out d))
+            {
+                max = d;
+            }
+            else
+            {
+                max = null;
+            }
+            if (!min.HasValue && !max.HasValue) return TryGet<RangeInt?>.Succeed(null);
+            return TryGet<RangeInt?>.Succeed(
+                new RangeInt(min, max));
         }
     }
 }

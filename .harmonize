@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>2cee0eda67a1b077a1b3460cc1bc829cb005d14d</Sha>
-      <Description>C#7 Syntax</Description>
+      <Sha>fafebd7df3272bb6037800e35776fbbf61f598cb</Sha>
+      <Description>Nullable Range ctors</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-27-2017 23:25:18</CommitDate>
+      <CommitDate>03-29-2017 07:58:12</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

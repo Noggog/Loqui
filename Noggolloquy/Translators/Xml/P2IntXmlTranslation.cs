@@ -7,10 +7,9 @@ namespace Noggolloquy.Xml
     {
         public readonly static P2IntXmlTranslation Instance = new P2IntXmlTranslation();
 
-        protected override string GetItemStr(P2Int? item)
+        protected override string GetItemStr(P2Int item)
         {
-            if (!item.HasValue) return null;
-            return $"{item.Value.X}, {item.Value.Y}";
+            return $"{item.X}, {item.Y}";
         }
 
         protected override P2Int ParseNonNullString(string str)
@@ -19,7 +18,7 @@ namespace Noggolloquy.Xml
             {
                 return parsed;
             }
-            throw new ArgumentException($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {NullableName}");
         }
     }
 }

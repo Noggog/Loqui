@@ -255,7 +255,7 @@ namespace Noggolloquy.Tests.XML
         }
 
         [Fact]
-        public void Reimport_Negative()
+        public void Reimport_One()
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();

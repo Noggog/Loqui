@@ -14,7 +14,7 @@ namespace Noggolloquy.Tests.XML
         public abstract string ExpectedName { get; }
         public abstract IXmlTranslation<T> GetTranslation();
 
-        public XElement GetTypicalElement(T value, string name = null)
+        public virtual XElement GetTypicalElement(T value, string name = null)
         {
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), StringConverter(value));

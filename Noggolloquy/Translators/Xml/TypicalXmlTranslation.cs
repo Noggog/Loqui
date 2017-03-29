@@ -9,18 +9,14 @@ namespace Noggolloquy.Xml
     public abstract class TypicalXmlTranslation<T> : IXmlTranslation<T>, IXmlTranslation<Nullable<T>>
         where T : struct
     {
-        string IXmlTranslation<T?>.ElementName => ElementName;
-        string IXmlTranslation<T>.ElementName => NullLessName;
-        public static readonly string ElementName = typeof(T?).GetName().Replace('?', 'N');
-        public static readonly string NullLessName = typeof(T).GetName().Replace("?", string.Empty);
-        public static readonly bool IsNullable;
+        string IXmlTranslation<T?>.ElementName => NullableName;
+        string IXmlTranslation<T>.ElementName => ElementName;
+        public static readonly string RAW_NULLABLE_NAME = typeof(T?).GetName().Replace('?', 'N');
+        public static readonly string RAW_ELEMENT_NAME = typeof(T).GetName().Replace("?", string.Empty);
+        public virtual string NullableName => RAW_NULLABLE_NAME;
+        public virtual string ElementName => RAW_ELEMENT_NAME;
 
-        static TypicalXmlTranslation()
-        {
-            IsNullable = !NullLessName.Equals(typeof(T).GetName());
-        }
-
-        protected virtual string GetItemStr(T? item)
+        protected virtual string GetItemStr(T item)
         {
             return item.ToStringSafe();
         }
@@ -32,11 +28,22 @@ namespace Noggolloquy.Xml
             return Parse_Internal(root, nullable: true, doMasks: doMasks, maskObj: out maskObj);
         }
 
+        protected virtual TryGet<T?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        {
+            maskObj = null;
+            if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
+                || string.IsNullOrEmpty(val.Value))
+            {
+                return TryGet<T?>.Succeed(null);
+            }
+            return TryGet<T?>.Succeed(ParseNonNullString(val.Value));
+        }
+
         private TryGet<T?> Parse_Internal(XElement root, bool nullable, bool doMasks, out object maskObj)
         {
-            if (!root.Name.LocalName.Equals(nullable ? ElementName : NullLessName))
+            if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
             {
-                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
                 if (doMasks)
                 {
                     maskObj = ex;
@@ -47,18 +54,38 @@ namespace Noggolloquy.Xml
                     throw ex;
                 }
             }
+            return ParseValue(root, nullable, doMasks, out maskObj);
+        }
+
+        protected virtual bool WriteValue(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
+        {
             maskObj = null;
-            if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
-                || string.IsNullOrEmpty(val.Value))
+            if (item.HasValue)
             {
-                return TryGet<T?>.Succeed(null);
+                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item.Value));
             }
-            return TryGet<T?>.Succeed(ParseNonNullString(val.Value));
+            else
+            {
+                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, string.Empty);
+            }
+            return true;
         }
 
         public bool Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
         {
-            maskObj = null;
+            using (new ElementWrapper(writer, NullableName))
+            {
+                if (name != null)
+                {
+                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
+                }
+
+                return WriteValue(writer, name, item, doMasks, out maskObj);
+            }
+        }
+
+        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        {
             using (new ElementWrapper(writer, ElementName))
             {
                 if (name != null)
@@ -66,24 +93,8 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
                 }
 
-                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item));
+                return WriteValue(writer, name, item, doMasks, out maskObj);
             }
-            return true;
-        }
-
-        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
-        {
-            maskObj = null;
-            using (new ElementWrapper(writer, NullLessName))
-            {
-                if (name != null)
-                {
-                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                }
-
-                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item));
-            }
-            return true;
         }
 
         TryGet<T> IXmlTranslation<T>.Parse(XElement root, bool doMasks, out object maskObj)

@@ -60,14 +60,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\FloatXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeIntNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeDoubleNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\PercentNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\P3IntNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\P2IntNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeIntXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeDoubleXmlTranslation_Test.cs" />
     <Compile Include="XML\PercentXmlTranslation_Test.cs" />
     <Compile Include="XML\P3IntXmlTranslation_Test.cs" />
     <Compile Include="XML\P2IntXmlTranslation_Test.cs" />
     <Compile Include="XML\ListXmlTranslation_Tests.cs" />
-    <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\FloatNullableXmlTranslation.cs" />
     <Compile Include="XML\Int64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int32NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int16NullableXmlTranslation_Test.cs" />

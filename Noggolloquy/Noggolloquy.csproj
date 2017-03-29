@@ -79,7 +79,7 @@
     <Compile Include="Translators\Xml\PercentXmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeDoubleXmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeIntXmlTranslation.cs" />
-    <Compile Include="Translators\Xml\SingleXmlTranslation.cs" />
+    <Compile Include="Translators\Xml\FloatXmlTranslation.cs" />
     <Compile Include="Translators\Xml\StringXmlTranslation.cs" />
     <Compile Include="Translators\Xml\TypicalXmlTranslation.cs" />
     <Compile Include="Translators\Xml\UDoubleXmlTranslation.cs" />

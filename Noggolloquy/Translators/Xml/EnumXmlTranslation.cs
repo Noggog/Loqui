@@ -14,14 +14,12 @@ namespace Noggolloquy.Xml
             {
                 return enumType;
             }
-            throw new ArgumentException($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {NullableName}");
         }
 
-        protected override string GetItemStr(E? item)
+        protected override string GetItemStr(E item)
         {
-            if (!item.HasValue) return null;
-
-            return EnumExt.ToStringFast_Enum_Only(item.Value);
+            return EnumExt.ToStringFast_Enum_Only(item);
         }
     }
 }

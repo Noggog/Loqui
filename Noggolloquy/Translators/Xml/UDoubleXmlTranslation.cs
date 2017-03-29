@@ -13,7 +13,7 @@ namespace Noggolloquy.Xml
             {
                 return parsed;
             }
-            throw new ArgumentException($"Could not convert to {ElementName}");
+            throw new ArgumentException($"Could not convert to {NullableName}");
         }
     }
 }

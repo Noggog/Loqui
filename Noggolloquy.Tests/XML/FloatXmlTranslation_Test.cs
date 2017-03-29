@@ -1,5 +1,4 @@
-﻿using Noggog;
-using Noggolloquy.Xml;
+﻿using Noggolloquy.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,22 +10,18 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class PercentXmlTranslation_Test : TypicalXmlTranslation_Test<Percent>
+    public class FloatXmlTranslation_Test : TypicalXmlTranslation_Test<float>
     {
-        public static readonly Percent TYPICAL_VALUE = new Percent(0.456);
-        public static readonly Percent ZERO_VALUE = new Percent(0);
-        public static readonly Percent ONE_VALUE = new Percent(1);
+        public const float TYPICAL_VALUE = 4.7993f;
+        public const float NEGATIVE_VALUE = -4.7993f;
+        public const float MIN_VALUE = float.MinValue;
+        public const float MAX_VALUE = float.MaxValue;
 
-        public override string ExpectedName => "Percent";
+        public override string ExpectedName => "Float";
 
-        public override IXmlTranslation<Percent> GetTranslation()
+        public override IXmlTranslation<float> GetTranslation()
         {
-            return new PercentXmlTranslation();
-        }
-
-        public override string StringConverter(Percent item)
-        {
-            return item.Value.ToString("n3");
+            return new FloatXmlTranslation();
         }
 
         #region Parse - Typical
@@ -208,7 +203,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(TYPICAL_VALUE, readResp.Value);
+            Assert.True(TYPICAL_VALUE.EqualsWithin(readResp.Value));
         }
 
         [Fact]
@@ -219,7 +214,7 @@ namespace Noggolloquy.Tests.XML
             var writeResp = transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: ZERO_VALUE,
+                item: 0,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(writeResp);
@@ -228,18 +223,18 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(ZERO_VALUE, readResp.Value);
+            Assert.True(0f.EqualsWithin(readResp.Value));
         }
 
         [Fact]
-        public void Reimport_One()
+        public void Reimport_Negative()
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             var writeResp = transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: ONE_VALUE,
+                item: NEGATIVE_VALUE,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(writeResp);
@@ -248,7 +243,47 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(ONE_VALUE, readResp.Value);
+            Assert.True(NEGATIVE_VALUE.EqualsWithin(readResp.Value));
+        }
+
+        [Fact]
+        public void Reimport_Min()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: MIN_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.True(MIN_VALUE.EqualsWithin(readResp.Value));
+        }
+
+        [Fact]
+        public void Reimport_Max()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: MAX_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.Equal(MAX_VALUE, readResp.Value);
         }
         #endregion
     }
