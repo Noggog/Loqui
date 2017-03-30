@@ -21,12 +21,20 @@ namespace Noggolloquy.Xml
 
         public override bool WriteSingleItem(XmlWriter writer, T item, bool doMasks, out object maskObj)
         {
-            return translator.Value.Write(writer, null, item, doMasks, out maskObj);
+            if (translator.Value.Failed)
+            {
+                throw new ArgumentException($"No XML Translator available for {typeof(T)}. {translator.Value.Reason}");
+            }
+            return translator.Value.Value.Write(writer, null, item, doMasks, out maskObj);
         }
 
-        protected override TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj)
+        public override TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj)
         {
-            return translator.Value.Parse(root, doMasks, out maskObj);
+            if (translator.Value.Failed)
+            {
+                throw new ArgumentException($"No XML Translator available for {typeof(T)}. {translator.Value.Reason}");
+            }
+            return translator.Value.Value.Parse(root, doMasks, out maskObj);
         }
     }
 }

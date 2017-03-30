@@ -14,7 +14,7 @@ namespace Noggolloquy.Xml
 {
     public abstract class ContainerXmlTranslation<T> : IXmlTranslation<IEnumerable<T>>
     {
-        protected static INotifyingItemGetter<IXmlTranslation<T>> translator;
+        protected static INotifyingItemGetter<GetResponse<IXmlTranslation<T>>> translator;
 
         static ContainerXmlTranslation()
         {
@@ -70,7 +70,7 @@ namespace Noggolloquy.Xml
             return ret;
         }
 
-        protected abstract TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj);
+        public abstract TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj);
         
         public bool Write(XmlWriter writer, string name, IEnumerable<T> item, bool doMasks, out object maskObj)
         {

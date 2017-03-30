@@ -15,11 +15,19 @@ namespace Noggolloquy.Xml
     {
         static Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
         static Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>>();
+        static HashSet<Type> GenericTypes = new HashSet<Type>();
 
         static XmlTranslator()
         {
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<>)))
             {
+                if (kv.Value.IsAbstract) continue;
+                if (kv.Value.Equals(typeof(XmlTranslationCaster<>))) continue;
+                if (kv.Value.IsGenericTypeDefinition)
+                {
+                    GenericTypes.Add(kv.Value);
+                    continue;
+                }
                 Type transItemType = kv.Key.GetGenericArguments()[0];
                 try
                 {
@@ -93,8 +101,8 @@ namespace Noggolloquy.Xml
 
     public class XmlTranslator<T>
     {
-        private static NotifyingItem<IXmlTranslation<T>> _translator = new NotifyingItem<IXmlTranslation<T>>();
-        public static INotifyingItemGetter<IXmlTranslation<T>> Translator { get { return _translator; } }
+        private static NotifyingItem<GetResponse<IXmlTranslation<T>>> _translator = new NotifyingItem<GetResponse<IXmlTranslation<T>>>();
+        public static INotifyingItemGetter<GetResponse<IXmlTranslation<T>>> Translator { get { return _translator; } }
 
         static XmlTranslator()
         {
@@ -103,7 +111,13 @@ namespace Noggolloquy.Xml
                 _translator,
                 (change) =>
                 {
-                    _translator.Value = change.New as IXmlTranslation<T>;
+                    if (change.New.Failed)
+                    {
+                        _translator.Value = change.New.BubbleFailure<IXmlTranslation<T>>();
+                        return;
+                    }
+                    var caster = change.New.Value as XmlTranslationCaster<T>;
+                    _translator.Value = GetResponse<IXmlTranslation<T>>.Succeed(caster.Source);
                 });
         }
 

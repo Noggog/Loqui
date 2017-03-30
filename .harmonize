@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>78c2355bfac5ef9e0e542504dbb2e36a296aac71</Sha>
-      <Description>UDouble constructor now throws exception if &lt; 0.  Safe Factory.  EqualsWithin</Description>
+      <Sha>a76316a6807e2ecfdcb130180071862103c2eb47</Sha>
+      <Description>GetResponse private variable typo</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-29-2017 20:08:33</CommitDate>
+      <CommitDate>03-29-2017 22:51:40</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

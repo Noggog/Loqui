@@ -98,7 +98,6 @@
     <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolXmlTranslation_Test.cs" />
-    <Compile Include="XML\ContainerXmlTranslation_Test.cs" />
     <Compile Include="XML\StringXmlTranslation_Test.cs" />
     <Compile Include="XML\TypicalXmlTranslation_Test.cs" />
     <Compile Include="XML\WildcardXmlTranslation_Test.cs" />
