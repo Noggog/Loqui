@@ -15,8 +15,16 @@ namespace Noggolloquy.Xml
         {
             if (!root.Name.LocalName.Equals(ElementName))
             {
-                maskObj = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                return TryGet<string>.Failure;
+                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                if (doMasks)
+                {
+                    maskObj = ex;
+                    return TryGet<string>.Failure;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
             maskObj = null;
             if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
@@ -35,7 +43,7 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString("name", name);
                 }
 
-                if (!string.IsNullOrEmpty(item))
+                if (item != null)
                 {
                     writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, item);
                 }

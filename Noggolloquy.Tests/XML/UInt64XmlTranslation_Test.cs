@@ -10,18 +10,17 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double>
+    public class UInt64XmlTranslation_Test : TypicalXmlTranslation_Test<UInt64>
     {
-        public const double TYPICAL_VALUE = 4;
-        public const double NEGATIVE_VALUE = -4;
-        public const double MIN_VALUE = double.MinValue;
-        public const double MAX_VALUE = double.MaxValue;
+        public const UInt64 TYPICAL_VALUE = 4;
+        public const UInt64 MIN_VALUE = UInt64.MinValue;
+        public const UInt64 MAX_VALUE = UInt64.MaxValue;
 
-        public override string ExpectedName => "Double";
+        public override string ExpectedName => "UInt64";
 
-        public override IXmlTranslation<double> GetTranslation()
+        public override IXmlTranslation<UInt64> GetTranslation()
         {
-            return new DoubleXmlTranslation();
+            return new UInt64XmlTranslation();
         }
 
         #region Parse - Typical
@@ -203,7 +202,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.True(TYPICAL_VALUE.EqualsWithin(readResp.Value));
+            Assert.Equal(TYPICAL_VALUE, readResp.Value);
         }
 
         [Fact]
@@ -225,27 +224,7 @@ namespace Noggolloquy.Tests.XML
             Assert.True(readResp.Succeeded);
             Assert.Equal<double?>(0d, readResp.Value);
         }
-
-        [Fact]
-        public void Reimport_Negative()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: NEGATIVE_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(NEGATIVE_VALUE.EqualsWithin(readResp.Value));
-        }
-
+        
         [Fact]
         public void Reimport_Min()
         {
@@ -263,7 +242,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.True(MIN_VALUE.EqualsWithin(readResp.Value));
+            Assert.Equal(MIN_VALUE, readResp.Value);
         }
 
         [Fact]
@@ -283,7 +262,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.True(MAX_VALUE.EqualsWithin(readResp.Value));
+            Assert.Equal(MAX_VALUE, readResp.Value);
         }
         #endregion
     }

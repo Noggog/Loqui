@@ -1,27 +1,24 @@
-﻿using Noggolloquy.Xml;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using Noggolloquy.Xml;
 using Xunit;
+using System.Xml.Linq;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double>
+    public class StringXmlTranslation_Test : TypicalXmlTranslation_Test<string>
     {
-        public const double TYPICAL_VALUE = 4;
-        public const double NEGATIVE_VALUE = -4;
-        public const double MIN_VALUE = double.MinValue;
-        public const double MAX_VALUE = double.MaxValue;
+        public const string TYPICAL_VALUE = "Noggog";
+        public const string EMPTY_VALUE = "";
 
-        public override string ExpectedName => "Double";
+        public override string ExpectedName => "String";
 
-        public override IXmlTranslation<double> GetTranslation()
+        public override IXmlTranslation<string> GetTranslation()
         {
-            return new DoubleXmlTranslation();
+            return new StringXmlTranslation();
         }
 
         #region Parse - Typical
@@ -80,66 +77,6 @@ namespace Noggolloquy.Tests.XML
                     elem,
                     doMasks: false,
                     maskObj: out object maskObj));
-        }
-        #endregion
-
-        #region Parse - No Value
-        [Fact]
-        public void Parse_NoValue_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
-        }
-
-        [Fact]
-        public void Parse_NoValue_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-        #endregion
-
-        #region Parse - Empty Value
-        [Fact]
-        public void Parse_EmptyValue_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
-        }
-
-        [Fact]
-        public void Parse_EmptyValue_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
         }
         #endregion
 
@@ -203,18 +140,18 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.True(TYPICAL_VALUE.EqualsWithin(readResp.Value));
+            Assert.Equal(TYPICAL_VALUE, readResp.Value);
         }
 
         [Fact]
-        public void Reimport_Zero()
+        public void Reimport_EmptyString()
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             var writeResp = transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: 0,
+                item: EMPTY_VALUE,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(writeResp);
@@ -223,67 +160,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal<double?>(0d, readResp.Value);
-        }
-
-        [Fact]
-        public void Reimport_Negative()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: NEGATIVE_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(NEGATIVE_VALUE.EqualsWithin(readResp.Value));
-        }
-
-        [Fact]
-        public void Reimport_Min()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: MIN_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(MIN_VALUE.EqualsWithin(readResp.Value));
-        }
-
-        [Fact]
-        public void Reimport_Max()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: MAX_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(MAX_VALUE.EqualsWithin(readResp.Value));
+            Assert.Equal(EMPTY_VALUE, readResp.Value);
         }
         #endregion
     }

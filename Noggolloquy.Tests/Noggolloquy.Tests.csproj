@@ -60,6 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt32NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt16NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt64XmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt32XmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt16XmlTranslation_Test.cs" />
+    <Compile Include="XML\UDoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UDoubleXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\FloatXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeIntNullableXmlTranslation_Test.cs" />
@@ -90,8 +98,10 @@
     <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\BoolXmlTranslation_Test.cs" />
-    <Compile Include="XML\ContainerXmlTranslation_Tests.cs" />
+    <Compile Include="XML\ContainerXmlTranslation_Test.cs" />
+    <Compile Include="XML\StringXmlTranslation_Test.cs" />
     <Compile Include="XML\TypicalXmlTranslation_Test.cs" />
+    <Compile Include="XML\WildcardXmlTranslation_Test.cs" />
     <Compile Include="XML\XmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>

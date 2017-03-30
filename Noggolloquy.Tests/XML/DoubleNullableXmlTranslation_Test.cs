@@ -12,7 +12,10 @@ namespace Noggolloquy.Tests.XML
 {
     public class DoubleNullableXmlTranslation_Test : TypicalXmlTranslation_Test<double?>
     {
-        public const byte TYPICAL_VALUE = 4;
+        public const double TYPICAL_VALUE = 4;
+        public const double NEGATIVE_VALUE = -4;
+        public const double MIN_VALUE = double.MinValue;
+        public const double MAX_VALUE = double.MaxValue;
 
         public override string ExpectedName => "DoubleN";
 
@@ -243,6 +246,66 @@ namespace Noggolloquy.Tests.XML
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
             Assert.Equal(null, readResp.Value);
+        }
+
+        [Fact]
+        public void Reimport_Negative()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: NEGATIVE_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.Equal(NEGATIVE_VALUE, readResp.Value);
+        }
+
+        [Fact]
+        public void Reimport_Min()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: MIN_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.Equal(MIN_VALUE, readResp.Value);
+        }
+
+        [Fact]
+        public void Reimport_Max()
+        {
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var writeResp = transl.Write(
+                writer: writer.Writer,
+                name: XmlUtility.TYPICAL_NAME,
+                item: MAX_VALUE,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(writeResp);
+            var readResp = transl.Parse(
+                writer.Resolve(),
+                doMasks: false,
+                maskObj: out object readMaskObj);
+            Assert.True(readResp.Succeeded);
+            Assert.Equal(MAX_VALUE, readResp.Value);
         }
         #endregion
     }

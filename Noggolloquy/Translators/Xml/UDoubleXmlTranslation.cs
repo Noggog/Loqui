@@ -7,6 +7,11 @@ namespace Noggolloquy.Xml
     {
         public readonly static UDoubleXmlTranslation Instance = new UDoubleXmlTranslation();
 
+        protected override string GetItemStr(UDouble item)
+        {
+            return item.Value.ToString("R");
+        }
+
         protected override UDouble ParseNonNullString(string str)
         {
             if (UDouble.TryParse(str, out UDouble parsed))

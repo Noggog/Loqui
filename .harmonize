@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>fafebd7df3272bb6037800e35776fbbf61f598cb</Sha>
-      <Description>Nullable Range ctors</Description>
+      <Sha>78c2355bfac5ef9e0e542504dbb2e36a296aac71</Sha>
+      <Description>UDouble constructor now throws exception if &lt; 0.  Safe Factory.  EqualsWithin</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>03-29-2017 07:58:12</CommitDate>
+      <CommitDate>03-29-2017 20:08:33</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

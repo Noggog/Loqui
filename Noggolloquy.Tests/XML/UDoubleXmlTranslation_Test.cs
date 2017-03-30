@@ -1,4 +1,5 @@
-﻿using Noggolloquy.Xml;
+﻿using Noggog;
+using Noggolloquy.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,18 +11,16 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double>
+    public class UDoubleXmlTranslation_Test : TypicalXmlTranslation_Test<UDouble>
     {
-        public const double TYPICAL_VALUE = 4;
-        public const double NEGATIVE_VALUE = -4;
-        public const double MIN_VALUE = double.MinValue;
-        public const double MAX_VALUE = double.MaxValue;
+        public static readonly UDouble TYPICAL_VALUE = 4;
+        public static readonly UDouble MAX_VALUE = double.MaxValue;
 
-        public override string ExpectedName => "Double";
+        public override string ExpectedName => "UDouble";
 
-        public override IXmlTranslation<double> GetTranslation()
+        public override IXmlTranslation<UDouble> GetTranslation()
         {
-            return new DoubleXmlTranslation();
+            return new UDoubleXmlTranslation();
         }
 
         #region Parse - Typical
@@ -224,46 +223,6 @@ namespace Noggolloquy.Tests.XML
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
             Assert.Equal<double?>(0d, readResp.Value);
-        }
-
-        [Fact]
-        public void Reimport_Negative()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: NEGATIVE_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(NEGATIVE_VALUE.EqualsWithin(readResp.Value));
-        }
-
-        [Fact]
-        public void Reimport_Min()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: MIN_VALUE,
-                doMasks: false,
-                maskObj: out object maskObj);
-            Assert.True(writeResp);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.True(MIN_VALUE.EqualsWithin(readResp.Value));
         }
 
         [Fact]
