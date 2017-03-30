@@ -12,7 +12,7 @@ namespace Noggolloquy.Tests.XML
 {
     public class FloatXmlTranslation_Test : TypicalXmlTranslation_Test<float>
     {
-        public const float TYPICAL_VALUE = 4.7993f;
+        public const float TYPICAL_VALUE = 4.79930019f;
         public const float NEGATIVE_VALUE = -4.7993f;
         public const float MIN_VALUE = float.MinValue;
         public const float MAX_VALUE = float.MaxValue;
@@ -161,7 +161,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
+            Assert.True(TYPICAL_VALUE.EqualsWithin(float.Parse(valAttr.Value)));
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
+            Assert.True(TYPICAL_VALUE.EqualsWithin(float.Parse(valAttr.Value)));
         }
         #endregion
 

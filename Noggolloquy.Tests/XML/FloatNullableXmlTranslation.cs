@@ -163,7 +163,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
+            Assert.True(TYPICAL_VALUE.EqualsWithin(float.Parse(valAttr.Value)));
         }
 
         [Fact]
@@ -183,7 +183,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
             Assert.NotNull(valAttr);
-            Assert.Equal(StringConverter(TYPICAL_VALUE), valAttr.Value);
+            Assert.True(TYPICAL_VALUE.EqualsWithin(float.Parse(valAttr.Value)));
         }
         #endregion
 

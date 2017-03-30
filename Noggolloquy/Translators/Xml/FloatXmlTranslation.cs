@@ -11,7 +11,7 @@ namespace Noggolloquy.Xml
 
         protected override string GetItemStr(float item)
         {
-            return item.ToString("N");
+            return item.ToString("G9");
             /*
               		
             a	-3.40282347E+38	float
