@@ -25,6 +25,19 @@ namespace Noggolloquy.Xml
         
         public TryGet<IEnumerable<T>> Parse(XElement root, bool doMasks, out object maskObj)
         {
+            if (!root.Name.LocalName.Equals(ElementName))
+            {
+                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {(ElementName)}.");
+                if (doMasks)
+                {
+                    maskObj = ex;
+                    return TryGet<IEnumerable<T>>.Failure;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
             return TryGet<IEnumerable<T>>.Succeed(Parse_Internal(root, doMasks, out maskObj));
         }
 
@@ -77,7 +90,10 @@ namespace Noggolloquy.Xml
             List<MaskItem<Exception, object>> maskList = null;
             using (new ElementWrapper(writer, ElementName))
             {
-                writer.WriteAttributeString("name", name);
+                if (name != null)
+                {
+                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
+                }
                 foreach (var listObj in item)
                 {
                     try
@@ -109,7 +125,7 @@ namespace Noggolloquy.Xml
                 }
             }
             maskObj = maskList;
-            return maskObj != null;
+            return maskObj == null;
         }
 
         public abstract bool WriteSingleItem(XmlWriter writer, T item, bool doMasks, out object maskObj);

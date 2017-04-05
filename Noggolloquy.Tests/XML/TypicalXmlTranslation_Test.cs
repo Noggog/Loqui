@@ -30,14 +30,32 @@ namespace Noggolloquy.Tests.XML
         {
             return item.ToString();
         }
-
-        #region Element Name
+        
         [Fact]
         public void ElementName()
         {
             var transl = GetTranslation();
             Assert.Equal(ExpectedName, transl.ElementName);
         }
-        #endregion
+
+        [Fact]
+        public void Write_NodeName()
+        {
+            var name = "AName";
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var ret = transl.Write(
+                writer: writer.Writer,
+                name: name,
+                item: default(T),
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(ret);
+            Assert.Null(maskObj);
+            XElement elem = writer.Resolve();
+            var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));
+            Assert.NotNull(nameAttr);
+            Assert.Equal(name, nameAttr.Value);
+        }
     }
 }
