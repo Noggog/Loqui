@@ -21,6 +21,11 @@ namespace Noggolloquy.Tests.XML
             return new CharXmlTranslation();
         }
 
+        public override char GetDefault()
+        {
+            return 'a';
+        }
+
         #region Parse - Typical
         [Fact]
         public void Parse_NoMask()

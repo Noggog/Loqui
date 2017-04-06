@@ -30,6 +30,11 @@ namespace Noggolloquy.Tests.XML
         {
             return item.ToString();
         }
+
+        public virtual T GetDefault()
+        {
+            return default(T);
+        }
         
         [Fact]
         public void ElementName()
@@ -47,7 +52,7 @@ namespace Noggolloquy.Tests.XML
             var ret = transl.Write(
                 writer: writer.Writer,
                 name: name,
-                item: default(T),
+                item: GetDefault(),
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(ret);
