@@ -9,13 +9,13 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class EnumXmlTranslation_Tests : TypicalXmlTranslation_Test<TestEnum>
+    public class EnumNullableXmlTranslation_Tests : TypicalXmlTranslation_Test<TestEnum?>
     {
         public const TestEnum TYPICAL_VALUE = TestEnum.ValueTwo;
 
-        public override string ExpectedName => nameof(TestEnum);
+        public override string ExpectedName => nameof(TestEnum) + "N";
 
-        public override IXmlTranslation<TestEnum> GetTranslation()
+        public override IXmlTranslation<TestEnum?> GetTranslation()
         {
             return new EnumXmlTranslation<TestEnum>();
         }
@@ -85,12 +85,13 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
 
         [Fact]
@@ -102,9 +103,9 @@ namespace Noggolloquy.Tests.XML
                 elem,
                 doMasks: true,
                 maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
         #endregion
 
@@ -115,12 +116,13 @@ namespace Noggolloquy.Tests.XML
             var transl = GetTranslation();
             var elem = GetElementNoValue();
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
 
         [Fact]
@@ -133,9 +135,9 @@ namespace Noggolloquy.Tests.XML
                 elem,
                 doMasks: true,
                 maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
         #endregion
 

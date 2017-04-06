@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEnum.cs" />
+    <Compile Include="XML\EnumNullableXmlTranslation_Tests.cs" />
     <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\UInt32NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\UInt16NullableXmlTranslation_Test.cs" />
