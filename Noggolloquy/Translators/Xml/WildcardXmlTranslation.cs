@@ -11,13 +11,7 @@ namespace Noggolloquy.Xml
     {
         public readonly static WildcardXmlTranslation Instance = new WildcardXmlTranslation();
 
-        public string ElementName
-        {
-            get
-            {
-                return null;
-            }
-        }
+        public string ElementName => null;
 
         public IXmlTranslation<Object> GetTranslator(Type t)
         {
@@ -33,7 +27,16 @@ namespace Noggolloquy.Xml
         {
             if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out INotifyingItemGetter<Type> t))
             {
-                throw new ArgumentException($"Could not match Element type {root.Name.LocalName} to an XML Translator.");
+                var ex = new ArgumentException($"Could not match Element type {root.Name.LocalName} to an XML Translator.");
+                if (doMasks)
+                {
+                    maskObj = ex;
+                    return TryGet<Object>.Failure;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
             var xml = GetTranslator(t.Value);
             return xml.Parse(root, doMasks, out maskObj);
