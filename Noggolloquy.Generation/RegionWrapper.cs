@@ -9,7 +9,7 @@ namespace Noggolloquy.Generation
         public RegionWrapper(FileGeneration fg, string str)
         {
             this.fg = fg;
-            fg.AppendLine("#region " + str);
+            fg.AppendLine($"#region {str}");
         }
 
         public void Dispose()

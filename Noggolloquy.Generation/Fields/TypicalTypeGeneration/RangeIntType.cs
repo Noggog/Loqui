@@ -8,10 +8,7 @@ namespace Noggolloquy.Generation
     {
         string defaultFrom, defaultTo;
 
-        public override Type Type
-        {
-            get { return typeof(RangeInt); }
-        }
+        public override Type Type => typeof(RangeInt);
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -29,9 +26,6 @@ namespace Noggolloquy.Generation
             defaultTo = split[1];
         }
 
-        protected override string GenerateDefaultValue()
-        {
-            return "new RangeInt(" + this.defaultFrom + ", " + this.defaultTo + ")";
-        }
+        protected override string GenerateDefaultValue() => $"new RangeInt({this.defaultFrom}, {this.defaultTo})";
     }
 }

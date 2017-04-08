@@ -24,7 +24,7 @@ namespace Noggolloquy.Generation
             double min, max;
             if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
             {
-                throw new ArgumentException("Value was not convertable to range: " + this.Range);
+                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultFrom))
@@ -34,7 +34,7 @@ namespace Noggolloquy.Generation
             }
             else if (!double.TryParse(defaultFrom, out min))
             {
-                throw new ArgumentException("Value was not convertable to double: " + split[0]);
+                throw new ArgumentException($"Value was not convertable to double: {split[0]}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultTo))
@@ -44,12 +44,12 @@ namespace Noggolloquy.Generation
             }
             else if (!double.TryParse(defaultTo, out max))
             {
-                throw new ArgumentException("Value was not convertable to double: " + split[1]);
+                throw new ArgumentException($"Value was not convertable to double: {split[1]}");
             }
 
             if (min > max)
             {
-                throw new ArgumentException("Min " + min + " was greater than max " + max);
+                throw new ArgumentException($"Min {min} was greater than max {max}");
             }
         }
 
@@ -59,7 +59,7 @@ namespace Noggolloquy.Generation
 
             if (this.HasRange)
             {
-                fg.AppendLine("public static RangeDouble " + RangeMemberName + " = new RangeDouble(" + defaultFrom + ", " + defaultTo + ");");
+                fg.AppendLine($"public static RangeDouble {RangeMemberName} = new RangeDouble({defaultFrom}, {defaultTo});");
             }
         }
     }

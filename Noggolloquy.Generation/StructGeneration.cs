@@ -7,11 +7,11 @@ namespace Noggolloquy.Generation
 {
     public class StructGeneration : ObjectGeneration
     {
-        public override bool Abstract { get { return false; } }
+        public override bool Abstract => false;
 
-        public override bool NotifyingDefault { get { return false; } }
+        public override bool NotifyingDefault => false;
 
-        public override string ProtectedKeyword { get { return "private"; } }
+        public override string ProtectedKeyword => "private";
 
         public StructGeneration(NoggolloquyGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
             : base(gen, protoGen, sourceFile)
@@ -77,10 +77,12 @@ namespace Noggolloquy.Generation
             // Generate class header and interfaces
             using (new LineWrapper(fg))
             {
-                fg.Append("public partial struct " + Name + this.GenericTypes + " : ");
+                fg.Append($"public partial struct {Name}{this.GenericTypes} : ");
 
-                List<string> list = new List<string>();
-                list.Add(this.Getter_InterfaceStr);
+                List<string> list = new List<string>
+                {
+                    this.Getter_InterfaceStr
+                };
                 list.AddRange(
                     this.Interfaces
                         .Union(this.gen.GenerationModules
@@ -96,8 +98,8 @@ namespace Noggolloquy.Generation
 
         protected override void GenerateEqualsCode(FileGeneration fg)
         {
-            fg.AppendLine($"if (!(obj is {this.ObjectName})) return false;");
-            fg.AppendLine($"return Equals(({this.ObjectName})obj);");
+            fg.AppendLine($"if (!(obj is {this.ObjectName} rhs)) return false;");
+            fg.AppendLine($"return Equals(rhs);");
         }
 
         public override void Load()
@@ -195,7 +197,7 @@ namespace Noggolloquy.Generation
 
         protected override void GenerateStaticCopy_ToNoggolloquy(FileGeneration fg)
         {
-            fg.AppendLine("return " + this.ObjectName + ".Copy(item);");
+            fg.AppendLine($"return {this.ObjectName}.Copy(item);");
         }
     }
 }

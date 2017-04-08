@@ -9,7 +9,7 @@ namespace Noggolloquy.Generation
         public bool RangeThrowException;
         public bool HasRange;
 
-        public string RangeMemberName { get { return this.Name + "_Range"; } }
+        public string RangeMemberName => $"{this.Name}_Range";
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -22,7 +22,7 @@ namespace Noggolloquy.Generation
         {
             if (HasRange)
             {
-                fg.AppendLine("protected INotifyingItem<" + TypeName + "> _" + this.Name + " = new NotifyingItemConvertWrapper<" + TypeName + ">(");
+                fg.AppendLine($"protected INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine("(change) =>");

@@ -13,7 +13,7 @@ namespace Noggolloquy.Generation
             doThings = !string.IsNullOrWhiteSpace(str);
             if (doThings)
             {
-                fg.AppendLine("namespace " + str);
+                fg.AppendLine($"namespace {str}");
                 fg.AppendLine("{");
                 fg.Depth++;
             }

@@ -6,7 +6,7 @@ namespace Noggolloquy.Generation
 {
     public class XmlTranslationGeneration : GenerationModule
     {
-        public override string RegionString { get { return "XML Translation"; } }
+        public override string RegionString => "XML Translation";
 
         public override IEnumerable<string> RequiredUsingStatements()
         {
@@ -112,7 +112,7 @@ namespace Noggolloquy.Generation
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
-                fg.AppendLine("public override void CopyInFromXML(XElement root, out " + baseClass.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public override void CopyInFromXML(XElement root, out {baseClass.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {obj.GetErrorMaskItemString()}();");

@@ -9,7 +9,7 @@ namespace Noggolloquy.Xml
     {
         public IXmlTranslation<T> Source { get; private set; }
 
-        public string ElementName { get { return Source.ElementName; } }
+        public string ElementName => Source.ElementName;
 
         public XmlTranslationCaster(IXmlTranslation<T> src)
         {
@@ -25,6 +25,5 @@ namespace Noggolloquy.Xml
         {
             return Source.Parse(root, doMasks, out maskObj).Bubble<object>((i) => i);
         }
-        
     }
 }

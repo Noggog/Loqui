@@ -7,13 +7,7 @@ namespace Noggolloquy.Generation
     {
         public string DefaultValue;
         public bool HasDefault;
-        public override string ProtectedProperty
-        {
-            get
-            {
-                return "_" + this.Name;
-            }
-        }
+        public override string ProtectedProperty => "_" + this.Name;
         public override string ProtectedName
         {
             get
@@ -40,46 +34,46 @@ namespace Noggolloquy.Generation
             if (this.Notifying)
             {
                 this.GenerateNotifyingCtor(fg);
-                fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} {{ get {{ return _{this.Name}; }} }}");
+                fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                 fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ _{this.Name}.Value = value; }} }}");
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                    fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
-                fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
             }
             else
             {
                 if (!this.TrueReadOnly)
                 {
                     fg.AppendLine($"private readonly HasBeenSetItem<{this.TypeName}> _{this.Name} = new HasBeenSetItem<{this.TypeName}>();");
-                    fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} {{ get {{ return _{this.Name}; }} }}");
+                    fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}.Item; }} {(Protected ? "protected " : string.Empty)}set {{ this._{this.Name}.Set(value); }} }}");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} {{ get {{ return this.{this.Name}; }} }}");
-                    fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
                 else
                 {
                     fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} {{ get {{ return this.{this.Name}; }} }}");
-                    fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} {{ get {{ return HasBeenSetGetter.NotBeenSet_Instance; }} }}");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                 }
             }
         }
 
         protected virtual void GenerateNotifyingCtor(FileGeneration fg)
         {
-            fg.AppendLine("protected readonly INotifyingItem<" + TypeName + "> _" + this.Name + " = new NotifyingItem<" + TypeName + ">(");
+            fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItem<{TypeName}>(");
             using (new DepthWrapper(fg))
             {
                 if (HasDefault)
                 {
-                    fg.AppendLine("defaultVal: " + GenerateDefaultValue() + ",");
+                    fg.AppendLine($"defaultVal: {GenerateDefaultValue()},");
                     fg.AppendLine("markAsSet: false");
                 }
                 else
                 {
-                    fg.AppendLine("default(" + this.TypeName + "),");
+                    fg.AppendLine($"default({this.TypeName}),");
                     fg.AppendLine("markAsSet: false");
                 }
             }
@@ -128,14 +122,14 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine(rhsAccessorPrefix + "." + this.Name + ",");
-                    fg.AppendLine(cmdsAccessor + ");");
+                    fg.AppendLine($"{rhsAccessorPrefix}.{this.Name},");
+                    fg.AppendLine($"{cmdsAccessor});");
                 }
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (" + defaultFallbackAccessor + " == null)");
+                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{accessorPrefix}.{this.Property}.Unset({cmdsAccessor}.ToUnsetParams());");
@@ -146,8 +140,8 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(defaultFallbackAccessor + "." + this.Name + ",");
-                        fg.AppendLine(cmdsAccessor + ");");
+                        fg.AppendLine($"{defaultFallbackAccessor}.{this.Name},");
+                        fg.AppendLine($"{cmdsAccessor});");
                     }
                 }
             }
@@ -183,7 +177,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
-            fg.AppendLine("return " + identifier + "." + this.Name + ";");
+            fg.AppendLine($"return {identifier}.{this.Name};");
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)

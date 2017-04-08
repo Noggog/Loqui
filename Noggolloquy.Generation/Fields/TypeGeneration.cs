@@ -23,20 +23,20 @@ namespace Noggolloquy.Generation
         public bool KeyField { get; protected set; }
         public abstract string TypeName { get; }
         public virtual string Name { get; set; }
-        public virtual string Property { get { return $"{this.Name}_Property"; } }
-        public virtual string ProtectedProperty { get { return $"_{this.Name}"; } }
+        public virtual string Property => $"{this.Name}_Property";
+        public virtual string ProtectedProperty => $"_{this.Name}";
         public abstract string ProtectedName { get; }
-        public string HasBeenSetAccessor { get { return this.Property + ".HasBeenSet"; } }
+        public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
         protected bool _derivative;
-        public virtual bool Derivative { get { return this._derivative; } }
+        public virtual bool Derivative => this._derivative;
         private bool _imports;
-        public virtual bool Imports { get { return _imports && !Derivative; } }
+        public virtual bool Imports => _imports && !Derivative;
         private bool _protected;
-        public virtual bool Protected { get { return _protected; } }
+        public virtual bool Protected => _protected;
         public bool ReadOnly;
         private bool _copy;
-        public virtual bool Copy { get { return _copy; } }
-        public bool TrueReadOnly { get { return this.ObjectGen is StructGeneration; } }
+        public virtual bool Copy => _copy;
+        public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers;
         public bool Notifying;
 
@@ -79,7 +79,7 @@ namespace Noggolloquy.Generation
         public abstract void GenerateGetNth(FileGeneration fg, string identifier);
 
         public abstract void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor);
-        
+
         public abstract void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception);
 
         public virtual void GenerateForInterfaceExt(FileGeneration fg)

@@ -8,9 +8,6 @@ namespace Noggolloquy.Generation
 {
     public class P3IntNullType : P3IntType
     {
-        public override string TypeName
-        {
-            get { return base.TypeName + "?"; }
-        }
+        public override string TypeName => $"{base.TypeName}?";
     }
 }

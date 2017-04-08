@@ -23,7 +23,7 @@ namespace Noggolloquy.Generation
         public DirectoryInfo CommonGenerationFolder;
         public Dictionary<StringCaseAgnostic, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<StringCaseAgnostic, List<ObjectGeneration>>();
         public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
-        public static string Namespace { get { return "http://tempuri.org/NoggolloquySource.xsd"; } }
+        public static string Namespace => "http://tempuri.org/NoggolloquySource.xsd";
         public List<string> Namespaces = new List<string>();
 
         public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
@@ -85,7 +85,7 @@ namespace Noggolloquy.Generation
         {
             if (!overrideExisting && typeDict.ContainsKey(key))
             {
-                throw new ArgumentException("Cannot add two type associations on the same key: " + key);
+                throw new ArgumentException($"Cannot add two type associations on the same key: {key}");
             }
 
             typeDict[key] = typeof(T);
@@ -142,9 +142,8 @@ namespace Noggolloquy.Generation
                         if (noggNode == null) return false;
                         var protoNode = noggNode.Element(XName.Get("Protocol", NoggolloquyGenerator.Namespace));
 
-                        ushort protoID, version;
-                        if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out protoID)
-                            || !protoNode.TryGetAttribute<ushort>("Version", out version))
+                        if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out ushort protoID)
+                            || !protoNode.TryGetAttribute<ushort>("Version", out ushort version))
                         {
                             throw new ArgumentException();
                         }
@@ -219,8 +218,7 @@ namespace Noggolloquy.Generation
 
         public bool TryGetTypeGeneration(StringCaseAgnostic name, out TypeGeneration gen)
         {
-            Type t;
-            if (!typeDict.TryGetValue(name, out t))
+            if (!typeDict.TryGetValue(name, out Type t))
             {
                 gen = null;
                 return false;
@@ -258,17 +256,17 @@ namespace Noggolloquy.Generation
             foreach (var compile in projNode.Elements(XName.Get("ItemGroup", CSPROJ_NAMESPACE))
                 .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", CSPROJ_NAMESPACE))))
             {
-                XAttribute includeAttr;
-                if (!compile.TryGetAttribute("Include", out includeAttr)) continue;
+                if (!compile.TryGetAttribute("Include", out XAttribute includeAttr)) continue;
                 FileInfo file = new FileInfo(projFile.Directory.FullName + "/" + includeAttr.Value);
-                ObjectGeneration objGen;
-                if (!TryGetMatchingObjectGeneration(file, out objGen)) continue;
+                if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
                 if (file.Name.EqualsIgnoreCase(objGen.SourceXMLFile.Name)) continue;
                 var depName = XName.Get("DependentUpon", CSPROJ_NAMESPACE);
                 if (compile.Element(depName) != null) continue;
 
-                var depElem = new XElement(depName);
-                depElem.Value = objGen.SourceXMLFile.Name;
+                var depElem = new XElement(depName)
+                {
+                    Value = objGen.SourceXMLFile.Name
+                };
                 compile.Add(depElem);
                 modified = true;
             }
@@ -286,8 +284,7 @@ namespace Noggolloquy.Generation
 
         public bool TryGetMatchingObjectGeneration(FileInfo csFile, out ObjectGeneration objGen)
         {
-            List<ObjectGeneration> objs;
-            if (this.ObjectGenerationsByDir.TryGetValue(csFile.Directory.FullName, out objs))
+            if (this.ObjectGenerationsByDir.TryGetValue(csFile.Directory.FullName, out List<ObjectGeneration> objs))
             {
                 foreach (var obj in objs)
                 {

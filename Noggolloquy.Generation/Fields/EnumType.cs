@@ -9,14 +9,11 @@ namespace Noggolloquy.Generation
         public string EnumName;
         public string NameSpace;
 
-        public override string TypeName
-        {
-            get { return EnumName; }
-        }
+        public override string TypeName => EnumName; 
 
         protected override void GenerateNotifyingCtor(FileGeneration fg)
         {
-            fg.AppendLine("protected readonly INotifyingItem<" + TypeName + "> _" + this.Name + " = new NotifyingItem<" + TypeName + ">(");
+            fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItem<{TypeName}>(");
             using (new DepthWrapper(fg))
             {
                 if (!string.IsNullOrWhiteSpace(this.DefaultValue))
@@ -25,9 +22,9 @@ namespace Noggolloquy.Generation
                     {
                         if (!string.IsNullOrWhiteSpace(NameSpace))
                         {
-                            fg.Append(NameSpace + ".");
+                            fg.Append($"{NameSpace}.");
                         }
-                        fg.Append(EnumName + "." + this.DefaultValue);
+                        fg.Append($"{EnumName}.{this.DefaultValue}");
                     }
                 }
             }

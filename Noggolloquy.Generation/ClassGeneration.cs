@@ -8,12 +8,12 @@ namespace Noggolloquy.Generation
     public class ClassGeneration : ObjectGeneration
     {
         private bool _abstract;
-        public override bool Abstract { get { return _abstract; } }
+        public override bool Abstract => _abstract;
         private bool _notifyingDefault;
-        public override bool NotifyingDefault { get { return _notifyingDefault; } }
+        public override bool NotifyingDefault => _notifyingDefault;
         public string BaseClassStr { get; set; }
         public List<ClassGeneration> DerivativeClasses = new List<ClassGeneration>();
-        public bool HasDerivativeClasses { get { return DerivativeClasses.Count > 0; } }
+        public bool HasDerivativeClasses => DerivativeClasses.Count > 0; 
         public override string FunctionOverride
         {
             get
@@ -32,13 +32,7 @@ namespace Noggolloquy.Generation
                 }
             }
         }
-        public override string NewOverride
-        {
-            get
-            {
-                return HasBaseObject ? " new " : " ";
-            }
-        }
+        public override string NewOverride => HasBaseObject ? " new " : " ";
 
         public ClassGeneration(NoggolloquyGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
             : base(gen, protoGen, sourceFile)
@@ -58,13 +52,12 @@ namespace Noggolloquy.Generation
 
         public override void Resolve()
         {
-            ObjectGeneration baseObj;
             if (!string.IsNullOrWhiteSpace(this.BaseClassStr))
             {
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.BaseClassStr, out baseObj)
+                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.BaseClassStr, out ObjectGeneration baseObj)
                     || !(baseObj is ClassGeneration))
                 {
-                    throw new ArgumentException("Could not resolve base class object: " + this.BaseClassStr);
+                    throw new ArgumentException($"Could not resolve base class object: {this.BaseClassStr}");
                 }
                 else
                 {
@@ -80,7 +73,7 @@ namespace Noggolloquy.Generation
             // Generate class header and interfaces
             using (new LineWrapper(fg))
             {
-                fg.Append("public " + (this.Abstract ? "abstract " : string.Empty) + "partial class " + Name + this.GenericTypes + " : ");
+                fg.Append($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {Name}{this.GenericTypes} : ");
 
                 List<string> list = new List<string>();
                 if (HasBaseObject)
@@ -110,7 +103,7 @@ namespace Noggolloquy.Generation
 
         protected override void GenerateEqualsCode(FileGeneration fg)
         {
-            fg.AppendLine(this.ObjectName + " rhs = obj as " + this.ObjectName + ";");
+            fg.AppendLine($"{this.ObjectName} rhs = obj as {this.ObjectName};");
             fg.AppendLine("if (rhs == null) return false;");
             fg.AppendLine("return Equals(obj);");
         }
@@ -118,7 +111,7 @@ namespace Noggolloquy.Generation
         protected override void GenerateCtor(FileGeneration fg)
         {
             // Make ctors
-            fg.AppendLine((this.GeneratePublicBasicCtor ? "public" : "protected") + " " + this.Name + "()");
+            fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("CustomCtor();");

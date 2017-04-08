@@ -5,9 +5,6 @@ namespace Noggolloquy.Generation
 {
     public class RangeDoubleNullType : RangeDoubleType
     {
-        public override Type Type
-        {
-            get { return typeof(RangeDouble?); }
-        }
+        public override Type Type => typeof(RangeDouble?);
     }
 }

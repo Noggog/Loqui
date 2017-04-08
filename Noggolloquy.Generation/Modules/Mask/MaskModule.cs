@@ -8,13 +8,7 @@ namespace Noggolloquy.Generation
         public Dictionary<Type, MaskModuleField> FieldMapping = new Dictionary<Type, MaskModuleField>();
         public TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
 
-        public override string RegionString
-        {
-            get
-            {
-                return "Mask";
-            }
-        }
+        public override string RegionString => "Mask";
 
         public MaskModule()
         {
@@ -26,7 +20,7 @@ namespace Noggolloquy.Generation
 
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public class {obj.Name}_Mask<T> {(obj.HasBaseObject ? " : " + obj.BaseClass.GetMaskString("T") : string.Empty)}");
+            fg.AppendLine($"public class {obj.Name}_Mask<T> {(obj.HasBaseObject ? $" : {obj.BaseClass.GetMaskString("T")}" : string.Empty)}");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in obj.Fields)

@@ -11,7 +11,7 @@ namespace Noggolloquy.Generation
         public ProtocolDefinition Definition;
         public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
         public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
-        public bool Empty { get { return ObjectGenerationsByID.Count == 0; } }
+        public bool Empty => ObjectGenerationsByID.Count == 0;
         public NoggolloquyGenerator Gen { get; private set; }
         public DirectoryInfo DefFileLocationOverride { get; private set; }
         public DirectoryInfo DefFileLocation
@@ -88,7 +88,7 @@ namespace Noggolloquy.Generation
 
                     if (this.ObjectGenerationsByID.ContainsKey(objGen.GUID))
                     {
-                        throw new ArgumentException("Two objects in the same protocol cannot have the same ID: " + objGen.GUID);
+                        throw new ArgumentException($"Two objects in the same protocol cannot have the same ID: {objGen.GUID}");
                     }
                     this.ObjectGenerationsByID.Add(objGen.GUID, objGen);
 
@@ -101,7 +101,7 @@ namespace Noggolloquy.Generation
                     string name = nameNode.Value;
                     if (this.ObjectGenerationsByName.ContainsKey(name))
                     {
-                        throw new ArgumentException("Two objects in the same protocol cannot have the same name: " + name);
+                        throw new ArgumentException($"Two objects in the same protocol cannot have the same name: {name}");
                     }
                     objGen.Name = name;
 
@@ -142,8 +142,10 @@ namespace Noggolloquy.Generation
 
         private void GenerateDefFile()
         {
-            HashSet<string> namespaces = new HashSet<string>();
-            namespaces.Add("Noggolloquy");
+            HashSet<string> namespaces = new HashSet<string>
+            {
+                "Noggolloquy"
+            };
             foreach (var obj in this.ObjectGenerationsByID.Values)
             {
                 namespaces.Add(obj.Namespace);

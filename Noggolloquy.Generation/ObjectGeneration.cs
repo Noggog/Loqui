@@ -19,40 +19,34 @@ namespace Noggolloquy.Generation
         public bool GenerateToString { get; protected set; }
         public bool GeneratePublicBasicCtor { get; protected set; }
         public abstract bool NotifyingDefault { get; }
-        public int StartingIndex { get { return this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0; } }
+        public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
-        public bool HasBaseObject { get { return BaseClass != null; } }
-        public bool IsTopClass { get { return BaseClass == null; } }
+        public bool HasBaseObject => BaseClass != null;
+        public bool IsTopClass => BaseClass == null;
         public HashSet<string> Interfaces = new HashSet<string>();
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
-        public string EmptyGenerics { get { return (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty); } }
+        public string EmptyGenerics => (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
         public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
-        public virtual string FunctionOverride { get { return " "; } }
-        public virtual string NewOverride { get { return " "; } }
-        public virtual string ProtectedKeyword { get { return "protected"; } }
+        public virtual string FunctionOverride => " ";
+        public virtual string NewOverride => " ";
+        public virtual string ProtectedKeyword => "protected";
         public ushort? ID;
         public Guid GUID;
         public ushort Version = 1;
         public XElement Node;
 
         // String properties
-        public string ObjectName { get { return this.Name + GenericTypes; } }
-        public string ExtName { get { return Name + "Ext"; } }
-        public string InterfaceStr { get { return InterfaceStr_Generic(this.GenericTypes); } }
-        public string Getter_InterfaceStr_NoGenerics { get { return "I" + Name + "Getter"; } }
-        public string Getter_InterfaceStr { get { return this.Getter_InterfaceStr_NoGenerics + GenericTypes; } }
-        public string GenericTypes { get { return GenerateGenericClause(Generics.Select((g) => g.Key)); } }
+        public string ObjectName => this.Name + GenericTypes;
+        public string ExtName => Name + "Ext";
+        public string InterfaceStr => InterfaceStr_Generic(this.GenericTypes);
+        public string Getter_InterfaceStr_NoGenerics => $"I{Name}Getter";
+        public string Getter_InterfaceStr => this.Getter_InterfaceStr_NoGenerics + GenericTypes;
+        public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
         public string BaseGenericTypes { get; private set; }
 
-        public string ExtCommonName(string genericTypes)
-        {
-            return Name + "Common" + genericTypes;
-        }
+        public string ExtCommonName(string genericTypes) => $"{Name}Common{genericTypes}";
 
-        public string InterfaceStr_Generic(string genericTypes)
-        {
-            return "I" + this.Name + genericTypes;
-        }
+        public string InterfaceStr_Generic(string genericTypes) => $"I{this.Name}{genericTypes}";
 
         public DirectoryInfo TargetDir { get; private set; }
         public FileInfo SourceXMLFile { get; private set; }
@@ -117,7 +111,7 @@ namespace Noggolloquy.Generation
 
             if (this.BaseGenerics.Count > 0)
             {
-                this.BaseGenericTypes = "<" + string.Join(", ", BaseGenerics.Select((g) => g.Value)) + ">";
+                this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
             }
 
             foreach (XElement interfNode in Node.Elements(XName.Get("Interface", NoggolloquyGenerator.Namespace)))
@@ -203,7 +197,7 @@ namespace Noggolloquy.Generation
         protected string GenerateGenericClause(IEnumerable<string> keys)
         {
             if (!keys.Any()) return string.Empty;
-            return "<" + string.Join(", ", keys) + ">";
+            return $"<{string.Join(", ", keys)}>";
         }
 
         public void GenerateWhereClauses(FileGeneration fg, IEnumerable<KeyValuePair<string, GenericDefinition>> defs)
@@ -337,7 +331,7 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Extensions"))
             {
-                fg.AppendLine("public static class " + this.ExtCommonName(this.GenericTypes));
+                fg.AppendLine($"public static class {this.ExtCommonName(this.GenericTypes)}");
                 GenerateWhereClauses(fg, this.Generics);
 
                 using (new BraceWrapper(fg))
@@ -375,13 +369,13 @@ namespace Noggolloquy.Generation
                     }
                 }
 
-                fg.AppendLine("public static class " + this.ExtName);
+                fg.AppendLine($"public static class {this.ExtName}");
 
                 using (new BraceWrapper(fg))
                 {
                     if (!this.Abstract)
                     {
-                        fg.AppendLine("public static " + this.ObjectName + $" Copy_ToNoggolloquy{GenericTypes}(this " + this.Getter_InterfaceStr + " item)");
+                        fg.AppendLine($"public static {this.ObjectName} Copy_ToNoggolloquy{GenericTypes}(this {this.Getter_InterfaceStr} item)");
                         GenerateWhereClauses(fg, this.Generics);
                         using (new BraceWrapper(fg))
                         {
@@ -397,7 +391,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateStaticCopy_ToNoggolloquy(FileGeneration fg)
         {
-            fg.AppendLine("return " + this.ObjectName + ".Copy(item, def: null);");
+            fg.AppendLine($"return {this.ObjectName}.Copy(item, def: null);");
         }
 
         protected virtual void GenerateCopyFieldsFrom(FileGeneration fg)
@@ -405,7 +399,7 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
                 // Specific HasSet version with default
-                fg.AppendLine("public static void CopyFieldsFrom(" + this.InterfaceStr + " item, " + this.Getter_InterfaceStr + " rhs, " + this.Getter_InterfaceStr + " def, " + this.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds)");
+                fg.AppendLine($"public static void CopyFieldsFrom({this.InterfaceStr} item, {this.Getter_InterfaceStr} rhs, {this.Getter_InterfaceStr} def, {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds)");
                 using (new BraceWrapper(fg))
                 {
                     GenerateCopyForFields(fg, "item", "rhs", defaultFallbackAccessor: "def", maskAccessor: "errorMask", cmdsAccessor: "cmds");
@@ -419,7 +413,7 @@ namespace Noggolloquy.Generation
         {
             if (this.HasBaseObject)
             {
-                fg.AppendLine(this.BaseClass.ExtCommonName(this.BaseGenericTypes) + ".CopyFieldsFrom(" + accessorPrefix + ", " + rhsAccessorPrefix + ", " + defaultFallbackAccessor + ", " + maskAccessor + ", " + cmdsAccessor + ");");
+                fg.AppendLine($"{this.BaseClass.ExtCommonName(this.BaseGenericTypes)}.CopyFieldsFrom({accessorPrefix}, {rhsAccessorPrefix}, {defaultFallbackAccessor}, {maskAccessor}, {cmdsAccessor});");
             }
 
             foreach (var field in this.Fields)
@@ -451,118 +445,70 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.NewOverride + "static string NoggolloquyName { get { return \"" + this.Name + "\"; } }");
-                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyName { get { return \"" + this.Name + "\"; } }");
+                fg.AppendLine($"public{this.NewOverride}static string NoggolloquyName => \"{this.Name}\";");
+                fg.AppendLine($"string INoggolloquyObjectGetter.NoggolloquyName => \"{this.Name}\";");
 
-                fg.AppendLine("public" + this.NewOverride + "static string NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".") + this.Name + "\"; } }");
-                fg.AppendLine("string INoggolloquyObjectGetter.NoggolloquyFullName { get { return \"" + (string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".") + this.Name + "\"; } }");
+                fg.AppendLine($"public{this.NewOverride}static string NoggolloquyFullName => \"{(string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".")}{this.Name}\";");
+                fg.AppendLine($"string INoggolloquyObjectGetter.NoggolloquyFullName => \"{(string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".")}{this.Name}\";");
 
                 this.GenerateProtocolProperty(fg);
 
-                fg.AppendLine("public" + this.FunctionOverride + "int FieldCount { get { return " + this.Fields.Count + (this.HasBaseObject ? " + base.FieldCount" : string.Empty) + "; } }", extraLine: true);
+                fg.AppendLine($"public{this.FunctionOverride}int FieldCount => {this.Fields.Count}{(this.HasBaseObject ? " + base.FieldCount" : string.Empty)};", extraLine: true);
 
-                fg.AppendLine($"public{this.FunctionOverride}string Noggolloquy_GUID {{ get {{ return \"{this.GUID.ToString()}\"; }} }}", extraLine: true);
-                
+                fg.AppendLine($"public{this.FunctionOverride}string Noggolloquy_GUID => \"{this.GUID.ToString()}\";", extraLine: true);
+
                 GenerateGetNthObject(fg);
 
                 GenerateGetNthObjectHasBeenSet(fg);
 
-                fg.AppendLine("public" + this.FunctionOverride + "Type GetNthType(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthType(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}Type GetNthType(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthType(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "string GetNthName(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthName(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}string GetNthName(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthName(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "object GetNthObject(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthObject(index, this);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthObject(index, this);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthObjectHasBeenSet(ushort index)");
-                using (new BraceWrapper(fg))
+                using (new LineWrapper(fg))
                 {
+                    fg.Append($"public{this.FunctionOverride}bool GetNthObjectHasBeenSet(ushort index) => ");
                     if (this is ClassGeneration)
                     {
-                        fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthObjectHasBeenSet(index, this);");
+                        fg.Append($"{this.ExtCommonName(this.GenericTypes)}.GetNthObjectHasBeenSet(index, this);");
                     }
                     else
                     {
-                        fg.AppendLine("return true;");
+                        fg.Append("true;");
                     }
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "ushort? GetNameIndex(StringCaseAgnostic str)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNameIndex(str);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}ushort? GetNameIndex(StringCaseAgnostic str) => {this.ExtCommonName(this.GenericTypes)}.GetNameIndex(str);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool IsNthDerivative(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".IsNthDerivative(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}bool IsNthDerivative(ushort index) => {this.ExtCommonName(this.GenericTypes)}.IsNthDerivative(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool IsReadOnly(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".IsReadOnly(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}bool IsReadOnly(ushort index) => {this.ExtCommonName(this.GenericTypes)}.IsReadOnly(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsEnumerable(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsEnumerable(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsEnumerable(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsEnumerable(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsNoggolloquy(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsNoggolloquy(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsNoggolloquy(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsNoggolloquy(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "bool GetNthIsSingleton(ushort index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return " + this.ExtCommonName(this.GenericTypes) + ".GetNthIsSingleton(index);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsSingleton(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsSingleton(index);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "void SetNthObject(ushort index, object obj)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".SetNthObject(this, index, obj);");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj);");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "Type GetMaskType()");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return typeof({this.GetMaskString(string.Empty)});");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}Type GetMaskType() => typeof({this.GetMaskString(string.Empty)});");
                 fg.AppendLine();
 
-                fg.AppendLine("public" + this.FunctionOverride + "Type GetErrorMaskType()");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return typeof({this.GetErrorMaskItemString()});");
-                }
+                fg.AppendLine($"public{this.FunctionOverride}Type GetErrorMaskType() => typeof({this.GetErrorMaskItemString()});");
                 fg.AppendLine();
             }
             fg.AppendLine();
@@ -572,30 +518,30 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Noggolloquy Interface"))
             {
-                fg.AppendLine("public" + this.FunctionOverride + "void SetNthObjectHasBeenSet(ushort index, bool on)");
+                fg.AppendLine($"public{this.FunctionOverride}void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".SetNthObjectHasBeenSet(index, on, this);");
+                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.SetNthObjectHasBeenSet(index, on, this);");
                 }
                 fg.AppendLine();
 
                 this.GenerateSetNthObjectHasBeenSet(fg, true);
 
                 // Generic version
-                fg.AppendLine("public void CopyFieldsFrom(" + this.Getter_InterfaceStr + " rhs, " + this.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public void CopyFieldsFrom({this.Getter_InterfaceStr} rhs, {this.Getter_InterfaceStr} def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, null, cmds);");
+                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom(this, rhs, def, null, cmds);");
                 }
                 fg.AppendLine();
 
                 // Generic version with default
-                fg.AppendLine("public void CopyFieldsFrom(" + this.Getter_InterfaceStr + " rhs, out " + this.GetErrorMaskItemString() + " errorMask, " + this.Getter_InterfaceStr + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public void CopyFieldsFrom({this.Getter_InterfaceStr} rhs, out {this.GetErrorMaskItemString()} errorMask, {this.Getter_InterfaceStr} def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString()}();");
                     fg.AppendLine("errorMask = retErrorMask;");
-                    fg.AppendLine(this.ExtCommonName(this.GenericTypes) + ".CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
+                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
                 }
                 fg.AppendLine();
             }
@@ -604,46 +550,22 @@ namespace Noggolloquy.Generation
 
         private void GenerateProtocolProperty(FileGeneration fg)
         {
-            fg.AppendLine("public static ProtocolKey Noggolloquy_ProtocolKey_Static");
-            using (new BraceWrapper(fg))
+            fg.AppendLine($"public static ProtocolKey Noggolloquy_ProtocolKey_Static => new ProtocolKey({ProtoGen.Definition.Key.ProtocolID});");
+
+            fg.AppendLine($"public{FunctionOverride}ProtocolKey Noggolloquy_ProtocolKey => Noggolloquy_ProtocolKey_Static;");
+
+            fg.AppendLine("public static ProtocolDefinition Noggolloquy_ProtocolDefinition_Static => new ProtocolDefinition(");
+            using (new DepthWrapper(fg))
             {
-                fg.AppendLine("get ");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return new ProtocolKey({ProtoGen.Definition.Key.ProtocolID});");
-                }
+                fg.AppendLine($"key: Noggolloquy_ProtocolKey_Static,");
+                fg.AppendLine($"nickname: \"{this.ProtoGen.Definition.Nickname}\");");
             }
 
-            fg.AppendLine("public" + FunctionOverride + "ProtocolKey Noggolloquy_ProtocolKey { get { return Noggolloquy_ProtocolKey_Static; } }");
+            fg.AppendLine($"public{FunctionOverride}ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;");
 
-            fg.AppendLine("public static ProtocolDefinition Noggolloquy_ProtocolDefinition_Static");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("get ");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("return new ProtocolDefinition(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"key: Noggolloquy_ProtocolKey_Static,");
-                        fg.AppendLine($"nickname: \"{this.ProtoGen.Definition.Nickname}\");");
-                    }
-                }
-            }
+            fg.AppendLine($"public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
 
-            fg.AppendLine("public" + FunctionOverride + "ProtocolDefinition Noggolloquy_ProtocolDefinition { get { return Noggolloquy_ProtocolDefinition_Static; } }");
-
-            fg.AppendLine("public static ObjectKey Noggolloquy_ObjectKey_Static");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("get ");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
-                }
-            }
-
-            fg.AppendLine("public" + FunctionOverride + "ObjectKey Noggolloquy_ObjectKey { get { return Noggolloquy_ObjectKey_Static; } }");
+            fg.AppendLine($"public{FunctionOverride}ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;");
         }
 
         private void GenerateGetNthObject(FileGeneration fg)
@@ -946,7 +868,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateIndexOutOfRangeEx(FileGeneration fg, string indexAccessor)
         {
-            fg.AppendLine("throw new ArgumentException(\"Index is out of range: \" + " + indexAccessor + ");");
+            fg.AppendLine($"throw new ArgumentException($\"Index is out of range: {{{indexAccessor}}}\");");
         }
 
         private void GenerateGetNameIndex(FileGeneration fg)
@@ -959,17 +881,17 @@ namespace Noggolloquy.Generation
                 {
                     for (int i = 0; i < this.Fields.Count; i++)
                     {
-                        fg.AppendLine("case \"" + this.Fields[i].Name.ToUpper() + "\":");
+                        fg.AppendLine($"case \"{this.Fields[i].Name.ToUpper()}\":");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return " + i + ";");
+                            fg.AppendLine($"return {i};");
                         }
                     }
 
                     fg.AppendLine("default:");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("throw new ArgumentException(\"Queried unknown field: \" + str);");
+                        fg.AppendLine("throw new ArgumentException($\"Queried unknown field: {{str}}\");");
                     }
                 }
             }
@@ -983,7 +905,7 @@ namespace Noggolloquy.Generation
                 .Union(this.GenerationInterfaces.SelectMany((i) => i.RequiredUsingStatements())));
             foreach (var nameSpace in requiredNamespaces.Union(gen.Namespaces))
             {
-                fg.AppendLine("using " + nameSpace + ";");
+                fg.AppendLine($"using {nameSpace};");
             }
             fg.AppendLine();
         }
@@ -1021,7 +943,7 @@ namespace Noggolloquy.Generation
                         {
                             if (!hasKeyField || field.KeyField)
                             {
-                                fg.AppendLine("if (!object.Equals(this." + field.Name + ", rhs." + field.Name + ")) return false;");
+                                fg.AppendLine($"if (!object.Equals(this.{field.Name}, rhs.{field.Name})) return false;");
                             }
                         }
                         fg.AppendLine("return true;");
@@ -1045,7 +967,7 @@ namespace Noggolloquy.Generation
                                         {
                                             fg.Append(".CombineHashCode(");
                                         }
-                                        fg.Append("HashHelper.GetHashCode(" + field.Name + ")");
+                                        fg.Append($"HashHelper.GetHashCode({field.Name})");
 
                                         if (first)
                                         {
@@ -1087,14 +1009,14 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Set To"))
             {
-                fg.AppendLine("public void SetTo(" + this.ObjectName + " rhs, I" + this.ObjectName + " def = null, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public void SetTo({this.ObjectName} rhs, I{this.ObjectName} def = null, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("SetTo_Internal(rhs, def, null, cmds);");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public void SetTo(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, out " + this.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public void SetTo({this.ObjectName} rhs, I{this.ObjectName} def, out {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString()}();");
@@ -1103,7 +1025,7 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("private void SetTo_Internal(" + this.ObjectName + " rhs, I" + this.ObjectName + " def, " + this.GetErrorMaskItemString() + " errorMask, NotifyingFireParameters? cmds)");
+                fg.AppendLine($"private void SetTo_Internal({this.ObjectName} rhs, I{this.ObjectName} def, {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.Fields)
@@ -1242,10 +1164,10 @@ namespace Noggolloquy.Generation
 
             if (this.Abstract) return;
 
-            fg.AppendLine("public static " + this.ObjectName + $" Copy({this.Getter_InterfaceStr} item, {this.Getter_InterfaceStr} def = null)");
+            fg.AppendLine($"public static {this.ObjectName} Copy({this.Getter_InterfaceStr} item, {this.Getter_InterfaceStr} def = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("var ret = new " + this.ObjectName + "();");
+                fg.AppendLine($"var ret = new {this.ObjectName}();");
                 fg.AppendLine("ret.CopyFieldsFrom(item, def);");
                 fg.AppendLine("return ret;");
             }
@@ -1260,7 +1182,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine("public" + FunctionOverride + "void Clear(NotifyingUnsetParameters? cmds = null)");
+            fg.AppendLine($"public{FunctionOverride}void Clear(NotifyingUnsetParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 if (HasBaseObject)
@@ -1303,10 +1225,10 @@ namespace Noggolloquy.Generation
             fg.AppendLine("catch (Exception ex)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (" + errorMaskAccessor + " != null)");
+                fg.AppendLine($"if ({errorMaskAccessor} != null)");
                 using (new BraceWrapper(fg))
                 {
-                    field.SetMaskException(fg, errorMaskAccessor + "." + field.Name, "ex");
+                    field.SetMaskException(fg, $"{errorMaskAccessor}.{field.Name}", "ex");
                 }
             }
         }
@@ -1356,7 +1278,7 @@ namespace Noggolloquy.Generation
         {
             var str = this.Name;
             str += "_Mask";
-            str += "<" + t + ">";
+            str += $"<{t}>";
             return str;
         }
 

@@ -7,14 +7,14 @@ namespace Noggolloquy.Generation
     class DictType_KeyedValue : TypeGeneration, IDictType
     {
         public NoggType ValueTypeGen;
-        TypeGeneration IDictType.ValueTypeGen { get { return this.ValueTypeGen; } }
+        TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;
         public TypeGeneration KeyTypeGen;
-        TypeGeneration IDictType.KeyTypeGen { get { return this.KeyTypeGen; } }
+        TypeGeneration IDictType.KeyTypeGen => this.KeyTypeGen;
         public string KeyAccessorString { get; private set; }
-        public DictMode Mode { get { return DictMode.KeyedValue; } }
+        public DictMode Mode => DictMode.KeyedValue;
 
-        public override string Property { get { return $"{this.Name}"; } }
-        public override string ProtectedName { get { return $"{this.ProtectedProperty}"; } }
+        public override string Property => $"{this.Name}";
+        public override string ProtectedName => $"{this.ProtectedProperty}"; 
 
         public override bool Imports
         {
@@ -26,20 +26,11 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override string TypeName
-        {
-            get
-            {
-                return $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
-            }
-        }
+        public override string TypeName => $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
-        public string TypeTuple { get { return $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}"; } }
+        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
 
-        public string GetterTypeName
-        {
-            get { return this.ValueTypeGen.Getter; }
-        }
+        public string GetterTypeName => this.ValueTypeGen.Getter;
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -51,12 +42,11 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException("Dict had no keyed value element.");
             }
 
-            TypeGeneration valType;
             if (ObjectGen.LoadField(
-                    keyedValNode.Elements().FirstOrDefault(),
-                    false,
-                    out valType)
-                    && valType is NoggType)
+                keyedValNode.Elements().FirstOrDefault(),
+                false,
+                out TypeGeneration valType)
+                && valType is NoggType)
             {
                 this.ValueTypeGen = valType as NoggType;
             }
@@ -94,14 +84,14 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            fg.AppendLine(identifier + "." + this.GetPropertyString(internalUse) + ".Unset();");
+            fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.Unset();");
         }
 
         public override string GetPropertyString(bool internalUse)
         {
             if (internalUse)
             {
-                return "_" + this.Name;
+                return $"_{this.Name}";
             }
             else
             {
@@ -112,13 +102,13 @@ namespace Noggolloquy.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"private readonly INotifyingKeyedCollection<{TypeTuple}> _{this.Name} = new NotifyingKeyedCollection<{TypeTuple}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public INotifyingKeyedCollection<{TypeTuple}> {this.Name} {{ get {{ return _{this.Name}; }} }}");
+            fg.AppendLine($"public INotifyingKeyedCollection<{TypeTuple}> {this.Name} => _{this.Name};");
 
-            var member = "_" + this.Name;
+            var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                fg.AppendLine("INotifyingKeyedCollection" + (this.Protected ? "Getter" : string.Empty) + "<" + this.TypeTuple + "> " + this.ObjectGen.InterfaceStr + "." + this.Name + " { get { return " + member + "; } }");
-                fg.AppendLine("INotifyingKeyedCollectionGetter<" + this.TypeTuple + "> " + this.ObjectGen.Getter_InterfaceStr + "." + this.Name + " { get { return " + member + "; } }");
+                fg.AppendLine($"INotifyingKeyedCollection{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
 
@@ -142,10 +132,10 @@ namespace Noggolloquy.Generation
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (" + defaultFallbackAccessor + " == null)");
+                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(accessorPrefix + "." + this.Name + ".Unset(" + cmdsAccessor + ".ToUnsetParams());");
+                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
@@ -172,12 +162,12 @@ namespace Noggolloquy.Generation
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
-            fg.AppendLine("return " + identifier + "." + this.Name + ";");
+            fg.AppendLine($"return {identifier}.{this.Name};");
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine(accessorPrefix + "." + this.Name + ".Unset(" + cmdAccessor + ".ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
         public override string GenerateACopy(string rhsAccessor)

@@ -4,9 +4,6 @@ namespace Noggolloquy.Generation
 {
     public class UInt32NullType : TypicalWholeNumberTypeGeneration
     {
-        public override Type Type
-        {
-            get { return typeof(UInt32?); }
-        }
+        public override Type Type => typeof(UInt32?);
     }
 }

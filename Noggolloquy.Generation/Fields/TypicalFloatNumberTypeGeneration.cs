@@ -24,7 +24,7 @@ namespace Noggolloquy.Generation
             float minFloat, maxFloat;
             if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
             {
-                throw new ArgumentException("Value was not convertable to range: " + this.Range);
+                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultFrom))
@@ -34,7 +34,7 @@ namespace Noggolloquy.Generation
             }
             else if (!float.TryParse(defaultFrom, out minFloat))
             {
-                throw new ArgumentException("Value was not convertable to float: " + split[0]);
+                throw new ArgumentException($"Value was not convertable to float: {split[0]}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultTo))
@@ -44,12 +44,12 @@ namespace Noggolloquy.Generation
             }
             else if (!float.TryParse(defaultTo, out maxFloat))
             {
-                throw new ArgumentException("Value was not convertable to float: " + split[1]);
+                throw new ArgumentException($"Value was not convertable to float: {split[1]}");
             }
 
             if (minFloat > maxFloat)
             {
-                throw new ArgumentException("Min " + minFloat + " was greater than max " + maxFloat);
+                throw new ArgumentException($"Min {minFloat} was greater than max {maxFloat}");
             }
 
             if (!defaultFrom.EndsWith("f"))
@@ -69,7 +69,7 @@ namespace Noggolloquy.Generation
 
             if (this.HasRange)
             {
-                fg.AppendLine("public static RangeFloat " + RangeMemberName + " = new RangeFloat(" + defaultFrom + ", " + defaultTo + ");");
+                fg.AppendLine($"public static RangeFloat {RangeMemberName} = new RangeFloat({defaultFrom}, {defaultTo});");
             }
         }
     }

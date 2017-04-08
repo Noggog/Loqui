@@ -4,14 +4,8 @@ namespace Noggolloquy.Generation
 {
     public class StringType : TypicalTypeGeneration
     {
-        public override Type Type
-        {
-            get { return typeof(string); }
-        }
+        public override Type Type => typeof(string);
 
-        protected override string GenerateDefaultValue()
-        {
-            return $"\"{this.DefaultValue}\"";
-        }
+        protected override string GenerateDefaultValue() => $"\"{this.DefaultValue}\"";
     }
 }

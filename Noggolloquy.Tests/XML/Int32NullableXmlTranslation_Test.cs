@@ -19,10 +19,7 @@ namespace Noggolloquy.Tests.XML
 
         public override string ExpectedName => "Int32N";
 
-        public override IXmlTranslation<Int32?> GetTranslation()
-        {
-            return new Int32XmlTranslation();
-        }
+        public override IXmlTranslation<Int32?> GetTranslation() => new Int32XmlTranslation();
 
         #region Parse - Typical
         [Fact]

@@ -25,7 +25,7 @@ namespace Noggolloquy.Generation
             int min, max;
             if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
             {
-                throw new ArgumentException("Value was not convertable to range: " + this.Range);
+                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultFrom))
@@ -35,7 +35,7 @@ namespace Noggolloquy.Generation
             }
             else if (!int.TryParse(defaultFrom, out min))
             {
-                throw new ArgumentException("Value was not convertable to int: " + split[0]);
+                throw new ArgumentException($"Value was not convertable to int: {split[0]}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultTo))
@@ -45,12 +45,12 @@ namespace Noggolloquy.Generation
             }
             else if (!int.TryParse(defaultTo, out max))
             {
-                throw new ArgumentException("Value was not convertable to int: " + split[1]);
+                throw new ArgumentException($"Value was not convertable to int: {split[1]}");
             }
 
             if (min > max)
             {
-                throw new ArgumentException("Min " + min + " was greater than max " + max);
+                throw new ArgumentException($"Min {min} was greater than max {max}");
             }
         }
 
@@ -61,7 +61,7 @@ namespace Noggolloquy.Generation
             if (this.HasRange)
             {
                 string[] split = this.Range.Split('-');
-                fg.AppendLine("public static RangeInt " + RangeMemberName + " = new RangeInt(" + split[0] + ", " + split[1] + ");");
+                fg.AppendLine($"public static RangeInt {RangeMemberName} = new RangeInt({split[0]}, {split[1]});");
             }
         }
     }

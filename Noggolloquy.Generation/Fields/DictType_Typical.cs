@@ -7,15 +7,15 @@ namespace Noggolloquy.Generation
     class DictType_Typical : TypeGeneration, IDictType
     {
         public TypeGeneration ValueTypeGen;
-        TypeGeneration IDictType.ValueTypeGen { get { return this.ValueTypeGen; } }
+        TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;
         protected bool ValueIsNogg;
         public TypeGeneration KeyTypeGen;
-        TypeGeneration IDictType.KeyTypeGen { get { return this.KeyTypeGen; } }
+        TypeGeneration IDictType.KeyTypeGen => this.KeyTypeGen;
         protected bool KeyIsNogg;
-        public DictMode Mode { get { return DictMode.KeyValue; } }
+        public DictMode Mode => DictMode.KeyValue;
 
-        public override string Property { get { return $"{this.Name}"; } }
-        public override string ProtectedName { get { return $"{this.ProtectedProperty}"; } }
+        public override string Property => $"{this.Name}";
+        public override string ProtectedName => $"{this.ProtectedProperty}";
 
         public override bool Imports
         {
@@ -27,20 +27,11 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override string TypeName
-        {
-            get
-            {
-                return $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
-            }
-        }
+        public override string TypeName => $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
-        public string TypeTuple { get { return $"{ KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}"; } }
+        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
 
-        public string GetterTypeName
-        {
-            get { return (this.ValueIsNogg ? "I" + TypeName + "Getter" : TypeName); }
-        }
+        public string GetterTypeName => (this.ValueIsNogg ? $"I{TypeName}Getter" : TypeName);
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -93,20 +84,20 @@ namespace Noggolloquy.Generation
             NoggType keyNoggType = this.KeyTypeGen as NoggType;
             NoggType valueNoggType = this.ValueTypeGen as NoggType;
             var item2 = $"KeyValuePair<{(keyNoggType == null ? "Exception" : keyNoggType.RefGen.Obj.GetMaskString("Exception"))}, {(valueNoggType == null ? "Exception" : valueNoggType.RefGen.Obj.GetMaskString("Exception"))}>";
-            
+
             fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            fg.AppendLine(identifier + "." + this.GetPropertyString(internalUse) + ".Unset();");
+            fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.Unset();");
         }
 
         public override string GetPropertyString(bool internalUse)
         {
             if (internalUse)
             {
-                return "_" + this.Name;
+                return $"_{this.Name}";
             }
             else
             {
@@ -116,8 +107,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            WildcardType wild = this.ValueTypeGen as WildcardType;
-            if (wild != null)
+            if (this.ValueTypeGen is WildcardType wild)
             {
                 fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple}> _{this.Name} = new NotifyingDictionary<{TypeTuple}>(");
                 using (new DepthWrapper(fg))
@@ -134,8 +124,8 @@ namespace Noggolloquy.Generation
             var member = "_" + this.Name;
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                fg.AppendLine("INotifyingDictionary" + (this.Protected ? "Getter" : string.Empty) + "<" + this.TypeTuple + "> " + this.ObjectGen.InterfaceStr + "." + this.Name + " { get { return " + member + "; } }");
-                fg.AppendLine("INotifyingDictionaryGetter<" + this.TypeTuple + "> " + this.ObjectGen.Getter_InterfaceStr + "." + this.Name + " { get { return " + member + "; } }");
+                fg.AppendLine($"INotifyingDictionary{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
 
@@ -162,13 +152,13 @@ namespace Noggolloquy.Generation
                 {
                     fg.AppendLine("int i = 0;");
                     fg.AppendLine($"List<{this.TypeTuple}> defList = {defaultFallbackAccessor}?.{this.Name}.ToList();");
-                    fg.AppendLine(accessorPrefix + "." + this.Name + ".SetTo(");
+                    fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(rhsAccessorPrefix + "." + this.Name + ".Select((s) =>");
+                        fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select((s) =>");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine("var ret = new " + this.TypeName + "();");
+                            fg.AppendLine($"var ret = new {this.TypeName}();");
                             fg.AppendLine("if (defList != null && defList.InRange(i))");
                             using (new BraceWrapper(fg))
                             {
@@ -182,16 +172,16 @@ namespace Noggolloquy.Generation
                             fg.AppendLine("return ret;");
                         }
                     }
-                    fg.AppendLine("), " + cmdsAccessor + ");");
+                    fg.AppendLine($"), {cmdsAccessor});");
                 }
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (" + defaultFallbackAccessor + " == null)");
+                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine(accessorPrefix + "." + this.Name + ".Unset(" + cmdsAccessor + ".ToUnsetParams());");
+                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
@@ -206,17 +196,17 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"{ rhsAccessorPrefix}.{ this.Name}.Select(");
+                fg.AppendLine($"{ rhsAccessorPrefix}.{this.Name}.Select(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"i.Key{ (this.KeyIsNogg ? ".Copy())" : string.Empty) },");
-                        fg.AppendLine($"i.Value{ (this.ValueIsNogg ? ".Copy())" : string.Empty)})),");
+                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".Copy())" : string.Empty) },");
+                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".Copy())" : string.Empty)})),");
                     }
                 }
-                fg.AppendLine($"{ cmdAccessor});");
+                fg.AppendLine($"{cmdAccessor});");
             }
         }
 
@@ -227,12 +217,12 @@ namespace Noggolloquy.Generation
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
-            fg.AppendLine("return " + identifier + "." + this.Name + ";");
+            fg.AppendLine($"return {identifier}.{this.Name};");
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine(accessorPrefix + "." + this.Name + ".Unset(" + cmdAccessor + ".ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
         public override string GenerateACopy(string rhsAccessor)

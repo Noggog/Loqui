@@ -22,16 +22,16 @@ namespace Noggolloquy.Generation
     {
         private TypeGeneration subGenerator;
         private IDictType subDictGenerator;
-        public DictMode Mode { get { return subDictGenerator.Mode; } }
+        public DictMode Mode => subDictGenerator.Mode;
 
-        public TypeGeneration KeyTypeGen { get { return subDictGenerator.KeyTypeGen; } }
-        public TypeGeneration ValueTypeGen { get { return subDictGenerator.ValueTypeGen; } }
-        public string TypeTuple { get { return subDictGenerator.TypeTuple; } }
+        public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
+        public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
+        public string TypeTuple => subDictGenerator.TypeTuple;
 
-        public override string Property { get { return subGenerator.Property; } }
-        public override string ProtectedName { get { return subGenerator.ProtectedName; } }
-        public override bool Imports { get { return subGenerator.Imports; } }
-        public override string TypeName { get { return subGenerator.TypeName; } }
+        public override string Property => subGenerator.Property;
+        public override string ProtectedName => subGenerator.ProtectedName;
+        public override bool Imports => subGenerator.Imports;
+        public override string TypeName => subGenerator.TypeName;
 
         public override string GetPropertyString(bool internalUse)
         {
@@ -50,16 +50,20 @@ namespace Noggolloquy.Generation
             var keyedValueNode = node.Element(XName.Get("KeyedValue", NoggolloquyGenerator.Namespace));
             if (keyedValueNode != null)
             {
-                var dictType = new DictType_KeyedValue();
-                dictType.ObjectGen = this.ObjectGen;
+                var dictType = new DictType_KeyedValue()
+                {
+                    ObjectGen = this.ObjectGen
+                };
                 subGenerator = dictType;
                 subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
             }
             else
             {
-                var dictType = new DictType_Typical();
-                dictType.ObjectGen = this.ObjectGen;
+                var dictType = new DictType_Typical()
+                {
+                    ObjectGen = this.ObjectGen
+                };
                 subGenerator = dictType;
                 subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;

@@ -9,14 +9,8 @@ namespace Noggolloquy.Generation
 {
     public class P2IntType : TypicalTypeGeneration
     {
-        public override Type Type
-        {
-            get { return typeof(P2Int); }
-        }
+        public override Type Type => typeof(P2Int);
 
-        protected override string GenerateDefaultValue()
-        {
-            return "new " + TypeName + "(" + DefaultValue + ")";
-        }
+        protected override string GenerateDefaultValue() => $"new {TypeName}({DefaultValue})";
     }
 }

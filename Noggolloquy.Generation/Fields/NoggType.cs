@@ -40,7 +40,7 @@ namespace Noggolloquy.Generation
             }
         }
         public bool _allowNull = true;
-        public bool AllowNull { get { return _allowNull && !SingletonMember; } }
+        public bool AllowNull => _allowNull && !SingletonMember;
         public bool SingletonMember;
         public NoggRefType RefType { get; private set; }
         private string _generic;
@@ -65,35 +65,31 @@ namespace Noggolloquy.Generation
                 }
                 else
                 {
-                    fg.AppendLine("private readonly INotifyingItem<" + TypeName + "> " + this.ProtectedProperty + " = new NotifyingItem<" + TypeName + ">(");
+                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("defaultVal: new " + TypeName + "(),");
+                        fg.AppendLine($"defaultVal: new {TypeName}(),");
                         fg.AppendLine("incomingConverter: (oldV, i) =>");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine("if (i == null)");
                             using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine("i = new " + TypeName + "();");
+                                fg.AppendLine($"i = new {TypeName}();");
                             }
-                            fg.AppendLine("return new Tuple<" + TypeName + ", bool>(i, true);");
+                            fg.AppendLine($"return new Tuple<{TypeName}, bool>(i, true);");
                         }
                     }
                     fg.AppendLine(");");
                 }
-                fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get {{ return _{this.Name}; }} }}");
-                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name}");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("get { return " + this.Name + "; }");
-                }
-                fg.AppendLine("public " + TypeName + " " + this.Name + " { get { return _" + this.Name + ".Value; } " + (this.Protected ? string.Empty : "set { _" + this.Name + ".Value = value; } ") + "}");
+                fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => _{this.Name};");
+                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.Name;");
+                fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                    fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
-                fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
             }
             else
             {
@@ -101,13 +97,13 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public {this.Getter} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
                 if (this.ReadOnly)
                 {
-                    fg.AppendLine($"public IHasBeenSetGetter {this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                    fg.AppendLine($"public IHasBeenSetGetter {this.Property} => this.{this.Property};");
                 }
                 else
                 {
-                    fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} {{ get {{ return {this.ProtectedProperty}; }} }}");
+                    fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                 }
-                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} {{ get {{ return this.{this.ProtectedName}; }} }}");
+                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
             }
         }
 
@@ -177,7 +173,7 @@ namespace Noggolloquy.Generation
 
         private string StructTypeName()
         {
-            return TypeName + (this.AllowNull ? "?" : string.Empty);
+            return $"{TypeName}{(this.AllowNull ? "?" : string.Empty)}";
         }
 
         public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
@@ -190,7 +186,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (" + defaultFallbackAccessor + " == null)");
+                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
                     GenerateClear(fg, accessorPrefix, cmdAccessor);
@@ -227,16 +223,16 @@ namespace Noggolloquy.Generation
                     {
                         using (new LineWrapper(fg))
                         {
-                            fg.Append(accessorPrefix + "." + this.Name + ".CopyFieldsFrom(" + rhsAccessorPrefix + "." + this.Name);
+                            fg.Append($"{accessorPrefix}.{this.Name}.CopyFieldsFrom({rhsAccessorPrefix}.{this.Name}");
                             if (defaultAccessorPrefix != null)
                             {
-                                fg.Append(", def: " + defaultAccessorPrefix + "?." + this.Name);
+                                fg.Append($", def: {defaultAccessorPrefix}?.{this.Name}");
                             }
                             else
                             {
                                 fg.Append(", null");
                             }
-                            fg.Append(", cmds: " + cmdAccessor);
+                            fg.Append($", cmds: {cmdAccessor}");
                             fg.Append(");");
                         }
                     }
@@ -286,7 +282,6 @@ namespace Noggolloquy.Generation
         {
             if (this.SingletonMember)
             {
-                fg.AppendLine(accessorPrefix + "." + this.Name + ".Clear(" + cmdAccessor + ".ToUnsetParams());");
             }
             else
             {

@@ -9,10 +9,10 @@ namespace Noggolloquy.Generation
         protected bool singleType;
         public TypeGeneration SingleTypeGen;
         protected bool isNoggSingle;
-        protected NoggType NoggTypeSingleton { get { return SingleTypeGen as NoggType; } }
+        protected NoggType NoggTypeSingleton => SingleTypeGen as NoggType;
 
-        public override string Property { get { return $"{this.Name}"; } }
-        public override string ProtectedName { get { return $"{this.ProtectedProperty}"; } }
+        public override string Property => $"{this.Name}";
+        public override string ProtectedName => $"{this.ProtectedProperty}";
 
         public override bool Imports
         {
@@ -36,12 +36,9 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public TypeGeneration SubTypeGeneration { get { return SingleTypeGen; } }
+        public TypeGeneration SubTypeGeneration => SingleTypeGen;
 
-        public string GetterTypeName
-        {
-            get { return (this.isNoggSingle ? NoggTypeSingleton.Getter : ItemTypeName); }
-        }
+        public string GetterTypeName => (this.isNoggSingle ? NoggTypeSingleton.Getter : ItemTypeName);
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -84,14 +81,14 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            fg.AppendLine(identifier + "." + this.GetPropertyString(internalUse) + ".Unset();");
+            fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.Unset();");
         }
 
         public override string GetPropertyString(bool internalUse)
         {
             if (internalUse)
             {
-                return "_" + this.Name;
+                return $"_{this.Name}";
             }
             else
             {

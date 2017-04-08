@@ -9,14 +9,8 @@ namespace Noggolloquy.Generation
 {
     public class P3DoubleType : TypicalTypeGeneration
     {
-        public override Type Type
-        {
-            get { return typeof(P3Double); }
-        }
+        public override Type Type => typeof(P3Double);
 
-        protected override string GenerateDefaultValue()
-        {
-            return "new " + TypeName + "(" + DefaultValue + ")";
-        }
+        protected override string GenerateDefaultValue() => $"new {TypeName}({DefaultValue})";
     }
 }

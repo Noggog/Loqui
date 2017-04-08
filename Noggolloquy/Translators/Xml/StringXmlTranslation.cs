@@ -8,7 +8,7 @@ namespace Noggolloquy.Xml
 {
     public class StringXmlTranslation : IXmlTranslation<string>
     {
-        public string ElementName { get { return "String"; } }
+        public string ElementName => "String";
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
         public TryGet<string> Parse(XElement root, bool doMasks, out object maskObj)

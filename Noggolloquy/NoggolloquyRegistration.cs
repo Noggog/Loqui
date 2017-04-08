@@ -65,24 +65,24 @@ namespace Noggolloquy
 
             if (str[openIndex] != '<')
             { // Opened with something weird
-                throw new ArgumentException(str + " was malformed.");
+                throw new ArgumentException($"{str} was malformed.");
             }
 
             int closeIndex = str.LastIndexOf('>', openIndex);
             if (closeIndex == -1)
             { // No closing index
-                throw new ArgumentException(str + " was malformed.");
+                throw new ArgumentException($"{str} was malformed.");
             }
 
             if (closeIndex != str.Length - 1)
             { // Closing index had things afterwards
-                throw new ArgumentException(str + " was malformed.");
+                throw new ArgumentException($"{str} was malformed.");
             }
 
             string content = str.Substring(openIndex + 1, closeIndex - openIndex - 1);
             if (content.Length == 0)
             { // No generic content
-                throw new ArgumentException(str + " was malformed.");
+                throw new ArgumentException($"{str} was malformed.");
             }
 
             string[] commaSplit = content.Split(',');
