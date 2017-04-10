@@ -104,6 +104,7 @@
       <xs:element name="RangeDouble" type="Ranged" />
       <xs:element name="RangeDoubleNull" type="Ranged" />
       <xs:element name="Percent" type="String" />
+      <xs:element name="PercentNull" type="String" />
       <xs:element name="Float" type="Ranged" />
       <xs:element name="FloatNull" type="Ranged" />
       <xs:element name="UDouble" type="Ranged" />
@@ -117,11 +118,10 @@
       <xs:element name="Array2D" type="List" />
       <xs:element name="Enum" type="Enum" />
       <xs:element name="String" type="String" />
-      <xs:element name="NonExportedObject" type="Object" >
+      <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
-            For if you want to generate a member of a type that is not supported by Noggolloquy, and do not care that it won't be exported.
-            It will have all other features such as Notification.
+            For if you want to generate a member of a type that is not supported by Noggolloquy.  Not all features are ensured to work as intended.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -175,6 +175,7 @@
       <xs:element name="RangeDouble" type="NRanged" />
       <xs:element name="RangeDoubleNull" type="NRanged" />
       <xs:element name="Percent" type="NString" />
+      <xs:element name="PercentNull" type="NString" />
       <xs:element name="Float" type="NRanged" />
       <xs:element name="FloatNull" type="NRanged" />
       <xs:element name="UDouble" type="NRanged" />
@@ -187,11 +188,10 @@
       <xs:element name="Array2D" type="NList" />
       <xs:element name="Enum" type="NEnum" />
       <xs:element name="String" type="NString" />
-      <xs:element name="NonExportedType" type="NObject" >
+      <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
-            For if you want to generate a member of a type that is not supported by Noggolloquy, and do not care that it won't be exported.
-            It will have all other features such as Notification.
+            For if you want to generate a member of a type that is not supported by Noggolloquy.  Not all features are ensured to work as intended.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -622,8 +622,8 @@
       <xs:extension base="Field">
         <xs:choice>
           <xs:element name="TargetType" type="xs:string" />
-          <xs:element name="Generic" type="xs:string" />
         </xs:choice>
+        <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

@@ -52,7 +52,7 @@
     <Compile Include="Fields\DictType.cs" />
     <Compile Include="Fields\DictType_KeyedValue.cs" />
     <Compile Include="Fields\DictType_Typical.cs" />
-    <Compile Include="Fields\EnumType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\EnumType.cs" />
     <Compile Include="Fields\NoggType.cs" />
     <Compile Include="Fields\ListType.cs" />
     <Compile Include="Fields\TypeGeneration.cs" />
@@ -77,13 +77,14 @@
     <Compile Include="Fields\TypicalTypeGeneration\Int64Type.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\Int8NullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\Int8Type.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\NonExportedObjectType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\UnsafeObjectType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3IntNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3IntType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\PercentNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\PercentType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\RangeDoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\RangeDoubleType.cs" />

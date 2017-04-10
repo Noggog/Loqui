@@ -64,6 +64,7 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<RangeDoubleType>("RangeDouble");
             AddTypeAssociation<RangeDoubleNullType>("RangeDoubleNull");
             AddTypeAssociation<PercentType>("Percent");
+            AddTypeAssociation<PercentNullType>("PercentNull");
             AddTypeAssociation<FloatType>("Float");
             AddTypeAssociation<FloatNullType>("FloatNull");
             AddTypeAssociation<UDoubleType>("UDouble");
@@ -76,7 +77,7 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<Array2DType>("Array2D");
             AddTypeAssociation<EnumType>("Enum");
             AddTypeAssociation<StringType>("String");
-            AddTypeAssociation<NonExportedObjectType>("NonExportedObject");
+            AddTypeAssociation<UnsafeType>("UnsafeObject");
             AddTypeAssociation<WildcardType>("Wildcard");
         }
 

@@ -13,7 +13,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine("(change) => TryGet<Object>.Success(WildcardLink.Validate(change.New)),");
+                    fg.AppendLine("(change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),");
                     if (HasDefault)
                     {
                         fg.AppendLine($"defaultVal: {GenerateDefaultValue()},");
@@ -28,7 +28,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine(");");
                 fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                 fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ _{this.Name}.Value = value; }} }}");
-                fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} {{ get {{ return this.{this.Property}; }} }}");
+                fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                 fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
             }
             else

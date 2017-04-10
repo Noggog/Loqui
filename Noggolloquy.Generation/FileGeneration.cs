@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("return obj.NextObjectID_Property.HasBeenSet;"))
+            if (str.Contains("NoggXmlTranslation<TestGenericObject, TestGenericObject_ErrorMask>.Instance.Write("))
             {
                 int wer = 23;
                 wer++;

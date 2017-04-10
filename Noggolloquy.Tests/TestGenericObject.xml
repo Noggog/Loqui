@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
+  <Protocol ProtocolID="1" />
+  <Object name="TestGenericObject" GUID="c0c6b45b-906e-4a34-8e26-13ac0f04e3f8">
+    <Generic name="T" />
+    <Fields>
+    </Fields>
+  </Object>
+</Noggolloquy>

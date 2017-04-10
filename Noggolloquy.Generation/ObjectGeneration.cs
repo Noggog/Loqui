@@ -1143,8 +1143,7 @@ namespace Noggolloquy.Generation
                     {
                         fg.AppendLine("base.CopyFieldsFrom_Generic(rhs, def, cmds);");
                     }
-                    fg.AppendLine($"{this.ObjectName} rhsCast = rhs as {this.ObjectName};");
-                    fg.AppendLine("if (rhsCast != null)");
+                    fg.AppendLine($"if (rhs is {this.ObjectName} rhsCast)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"this.CopyFieldsFrom(rhsCast, def as {this.ObjectName}, cmds);");
