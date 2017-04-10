@@ -14,13 +14,6 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Version" type="xs:unsignedShort" use="required" >
-      <xs:annotation>
-        <xs:documentation>
-          The version this message is in the protocol.  Increment to define a new version old ones can upgrade to. (Not yet implemented)
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
   </xs:complexType>
 
   <xs:element name="Noggolloquy" type="NoggolloquyType" />
@@ -266,6 +259,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="version" type="xs:unsignedShort">
+      <xs:annotation>
+        <xs:documentation>
+          The version this message is.  Increment to define a new version old ones can upgrade to.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="ObjectType">
@@ -377,6 +377,13 @@
       <xs:annotation>
         <xs:documentation>
           Whether to generate base record systems.  Defaults to true
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="version" type="xs:unsignedShort">
+      <xs:annotation>
+        <xs:documentation>
+          The version this message is.  Increment to define a new version old ones can upgrade to.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

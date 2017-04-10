@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>1996219c2b018c994f936ef7be5904d0e4a3bf16</Sha>
+      <Sha>c91e89f2200c35c7b4966ef0934eae54a56881ea</Sha>
       <Description>C#7 Syntax, general cleaning and refactoring</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-09-2017 22:16:00</CommitDate>
+      <CommitDate>04-09-2017 22:43:18</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

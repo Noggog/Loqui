@@ -142,8 +142,7 @@ namespace Noggolloquy.Generation
                         if (noggNode == null) return false;
                         var protoNode = noggNode.Element(XName.Get("Protocol", NoggolloquyGenerator.Namespace));
 
-                        if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out ushort protoID)
-                            || !protoNode.TryGetAttribute<ushort>("Version", out ushort version))
+                        if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out ushort protoID))
                         {
                             throw new ArgumentException();
                         }

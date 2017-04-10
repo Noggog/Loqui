@@ -32,7 +32,7 @@ namespace Noggolloquy.Generation
         public virtual string ProtectedKeyword => "protected";
         public ushort? ID;
         public Guid GUID;
-        public ushort Version = 1;
+        public ushort Version;
         public XElement Node;
 
         // String properties
@@ -79,6 +79,7 @@ namespace Noggolloquy.Generation
             GenerateEquals = Node.GetAttribute<bool>("generateEquals", true);
             GenerateToString = Node.GetAttribute<bool>("generateToString", true);
             GeneratePublicBasicCtor = Node.GetAttribute<bool>("publicCtor", true);
+            Version = Node.GetAttribute<ushort>("version", 0);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)

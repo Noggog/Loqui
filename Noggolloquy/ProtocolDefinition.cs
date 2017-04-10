@@ -18,8 +18,8 @@ namespace Noggolloquy
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ProtocolDefinition)) return false;
-            return Equals((ProtocolDefinition)obj);
+            if (!(obj is ProtocolDefinition rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(ProtocolDefinition other)

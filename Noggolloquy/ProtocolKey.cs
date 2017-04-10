@@ -13,8 +13,8 @@ namespace Noggolloquy
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ProtocolKey)) return false;
-            return Equals((ProtocolKey)obj);
+            if (!(obj is ProtocolKey rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(ProtocolKey other)
