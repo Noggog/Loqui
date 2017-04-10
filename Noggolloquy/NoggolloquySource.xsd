@@ -117,6 +117,7 @@
       <xs:element name="UDoubleNull" type="Ranged" />
       <xs:element name="Double" type="Ranged" />
       <xs:element name="DoubleNull" type="Ranged" />
+      <xs:element name="Random" type="Field" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
@@ -131,7 +132,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Script" type="Script" />
       <xs:element name="Wildcard" type="Field" >
         <xs:annotation>
           <xs:documentation>
@@ -139,21 +139,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-
-      <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="Object" >
-        <xs:annotation>
-          <xs:documentation>
-            A reference to any other object type obtained and stored via RecordID.
-            This means the referenced class is not exported in-line, but rather by a simple ID#.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Random" type="Field" />
-      <xs:element name="ProbabilityPool" type="List" />
-      <xs:element name="RecordID" type="Field" />
-      <xs:element name="PrefabLink" type="Field" />
-      <xs:element name="Texture2DLink" type="Field" />
     </xs:choice>
   </xs:group>
 
@@ -191,6 +176,7 @@
       <xs:element name="BoolNull" type="NBool" />
       <xs:element name="Char" type="NChar" />
       <xs:element name="CharNull" type="NChar" />
+      <xs:element name="Random" type="NField" />
       <xs:element name="RangeInt" type="NRanged" />
       <xs:element name="RangeIntNull" type="NRanged" />
       <xs:element name="RangeDouble" type="NRanged" />
@@ -216,7 +202,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Script" type="NScript" />
       <xs:element name="Wildcard" type="NField" >
         <xs:annotation>
           <xs:documentation>
@@ -224,92 +209,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-
-      <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="NObject" >
-        <xs:annotation>
-          <xs:documentation>
-            A reference to any other object type obtained and stored via RecordID.
-            This means the referenced class is not exported in-line, but rather by a simple ID#.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Random" type="NField" />
-      <xs:element name="ProbabilityPool" type="NList" />
-      <xs:element name="RecordID" type="NField" />
-      <xs:element name="PrefabLink" type="NField" />
-      <xs:element name="Texture2DLink" type="NField" />
-    </xs:choice>
-  </xs:group>
-
-  <xs:group name="ScriptFieldOptions">
-    <xs:choice>
-      <xs:element name="UInt8" type="NRanged" />
-      <xs:element name="UInt16" type="NRanged" />
-      <xs:element name="UInt32" type="NRanged" />
-      <xs:element name="UInt64" type="NRanged" />
-      <xs:element name="Int8" type="NRanged" />
-      <xs:element name="Int16" type="NRanged" />
-      <xs:element name="Int32" type="NRanged" />
-      <xs:element name="Int64" type="NRanged" />
-      <xs:element name="UInt8Null" type="NRanged" />
-      <xs:element name="UInt16Null" type="NRanged" />
-      <xs:element name="UInt32Null" type="NRanged" />
-      <xs:element name="UInt64Null" type="NRanged" />
-      <xs:element name="Int8Null" type="NRanged" />
-      <xs:element name="Int16Null" type="NRanged" />
-      <xs:element name="Int32Null" type="NRanged" />
-      <xs:element name="Int64Null" type="NRanged" />
-      <xs:element name="P2Int" type="NString" />
-      <xs:element name="P2IntNull" type="NString" />
-      <xs:element name="P3Int" type="NString" />
-      <xs:element name="P3IntNull" type="NString" />
-      <xs:element name="P3Double" type="NString" />
-      <xs:element name="P3DoubleNull" type="NString" />
-      <xs:element name="P4Double" type="NString" />
-      <xs:element name="P4DoubleNull" type="NString" />
-      <xs:element name="Dimension2D" type="NString" />
-      <xs:element name="Dimension2DNull" type="NString" />
-      <xs:element name="Bounding2D" type="NString" />
-      <xs:element name="Bounding2DNull" type="NString" />
-      <xs:element name="Bool" type="NBool" />
-      <xs:element name="BoolNull" type="NBool" />
-      <xs:element name="Char" type="NChar" />
-      <xs:element name="CharNull" type="NChar" />
-      <xs:element name="RangeInt" type="NRanged" />
-      <xs:element name="RangeIntNull" type="NRanged" />
-      <xs:element name="RangeDouble" type="NRanged" />
-      <xs:element name="RangeDoubleNull" type="NRanged" />
-      <xs:element name="Percent" type="NString" />
-      <xs:element name="Float" type="NRanged" />
-      <xs:element name="FloatNull" type="NRanged" />
-      <xs:element name="UDouble" type="NRanged" />
-      <xs:element name="UDoubleNull" type="NRanged" />
-      <xs:element name="Double" type="NRanged" />
-      <xs:element name="DoubleNull" type="NRanged" />
-      <xs:element name="Ref" type="RefScript" />
-      <xs:element name="List" type="NList" />
-      <xs:element name="Dict" type="NDict" />
-      <xs:element name="Array2D" type="NList" />
-      <xs:element name="Enum" type="NEnum" />
-      <xs:element name="String" type="NString" />
-      <xs:element name="Func" type="NScript" />
-      <xs:element name="Action" type="NScript" />
-
-      <!-- Underdark specific -->
-      <xs:element name="RecordLink" type="NObject" >
-        <xs:annotation>
-          <xs:documentation>
-            A reference to any other object type obtained and stored via RecordID.
-            This means the referenced class is not exported in-line, but rather by a simple ID#.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Random" type="NField" />
-      <xs:element name="ProbabilityPool" type="NList" />
-      <xs:element name="RecordID" type="NField" />
-      <xs:element name="PrefabLink" type="NField" />
-      <xs:element name="Texture2DLink" type="NField" />
     </xs:choice>
   </xs:group>
 
@@ -711,35 +610,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RefScript" >
-    <xs:annotation>
-      <xs:documentation>
-        Creates a single member reference to another Noggolloquy object type.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="Field">
-        <xs:choice>
-          <xs:element name="Direct" type="RefDirect">
-            <xs:annotation>
-              <xs:documentation>
-                Direct reference to another Noggolloquy type.
-              </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="Generic" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>
-                Name of generic to reference.  The generic will enforce that it's a Noggolloquy object.
-              </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-        </xs:choice>
-        <xs:attribute name="name" type="xs:string" use="required" />
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="Object" >
     <xs:complexContent>
       <xs:extension base="Field">
@@ -850,37 +720,6 @@
   <xs:complexType name="NDict" >
     <xs:complexContent>
       <xs:extension base="Dict">
-        <xs:attribute name="name" type="xs:string" use="required" />
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="ScriptReturn" >
-    <xs:sequence>
-      <xs:group ref="ScriptFieldOptions" minOccurs="1" maxOccurs="1" />
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Script" >
-    <xs:complexContent>
-      <xs:extension base="Field">
-        <xs:choice>
-          <xs:group ref="ScriptFieldOptions" minOccurs="0" maxOccurs="4" />
-          <xs:element name="Return" type="ScriptReturn" minOccurs="0" maxOccurs="1" >
-            <xs:annotation>
-              <xs:documentation>
-                Set a return value for the script.
-              </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-        </xs:choice>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="NScript" >
-    <xs:complexContent>
-      <xs:extension base="Script">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
