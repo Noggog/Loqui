@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace Noggolloquy.Generation
 {
@@ -169,7 +170,8 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("public void Register()");
                     using (new BraceWrapper(fg))
                     {
-                        foreach (var obj in this.ObjectGenerationsByID.Values)
+                        foreach (var obj in this.ObjectGenerationsByID.Values
+                            .OrderBy((o) => o.ID))
                         {
                             fg.AppendLine("NoggolloquyRegistration.Register(");
                             using (new DepthWrapper(fg))

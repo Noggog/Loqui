@@ -1313,6 +1313,12 @@ namespace Noggolloquy.Generation
                         obj.Add(guidAttr);
                         modified = true;
                     }
+                    if (obj.GetAttribute("ID") == null)
+                    {
+                        var guidAttr = new XAttribute("ID", this.ID.ToString());
+                        obj.Add(guidAttr);
+                        modified = true;
+                    }
                     break;
                 }
             }
