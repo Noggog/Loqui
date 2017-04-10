@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
   <Protocol ProtocolID="1" />
-  <Object name="TestObject" GUID="8b849143-0fd6-4a70-b8ce-2e1e0be2e32f">
+  <Object name="TestObject" GUID="8b849143-0fd6-4a70-b8ce-2e1e0be2e32f" ID="2">
     <Fields>
       <BoolNull name="BoolN" />
       <Bool name="Bool" />
@@ -45,14 +45,12 @@
       <UInt8 name="UInt8" />
       <Enum name="Enum" enumName="TestEnum" />
       <Wildcard name="WildCard" />
+      <Ref name="Ref">
+        <Direct refName="ObjectToRef" />
+      </Ref>
       <!--<List name="List">
         <Bool />
-      </List>
-      <Ref name="Ref">
-        <Direct>
-          
-        </Direct>
-      </Ref>-->
+      </List>-->
     </Fields>
   </Object>
 </Noggolloquy>

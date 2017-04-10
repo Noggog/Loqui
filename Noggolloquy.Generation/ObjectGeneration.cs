@@ -832,7 +832,7 @@ namespace Noggolloquy.Generation
                             fg.AppendLine($"case {item.Index}:");
                             using (new DepthWrapper(fg))
                             {
-                                fg.AppendLine($"return \"{nogg.SingletonMember}\";");
+                                fg.AppendLine($"return {(nogg.SingletonMember ? "true" : "false")};");
                             }
                         }
                     }

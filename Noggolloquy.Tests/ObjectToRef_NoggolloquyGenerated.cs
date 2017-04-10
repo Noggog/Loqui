@@ -20,120 +20,121 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestGenericObject<T, R> : ITestGenericObject<T, R>, INoggolloquySerializer, IEquatable<TestGenericObject<T, R>>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public partial class ObjectToRef : IObjectToRef, INoggolloquySerializer, IEquatable<ObjectToRef>
     {
-        public TestGenericObject()
+        public ObjectToRef()
         {
             CustomCtor();
         }
         partial void CustomCtor();
-        #region Ref
-        private readonly INotifyingItem<R> _Ref = new NotifyingItem<R>();
-        public INotifyingItem<R> Ref_Property => this._Ref;
-        R ITestGenericObjectGetter<T, R>.Ref => this.Ref;
-        public R Ref { get { return _Ref.Value; } set { _Ref.Value = value; } }
-        INotifyingItem<R> ITestGenericObject<T, R>.Ref_Property => this.Ref_Property;
-        INotifyingItemGetter<R> ITestGenericObjectGetter<T, R>.Ref_Property => this.Ref_Property;
+        #region SomeField
+        protected readonly INotifyingItem<Boolean> _SomeField = new NotifyingItem<Boolean>(
+            default(Boolean),
+            markAsSet: false
+        );
+        public INotifyingItem<Boolean> SomeField_Property => _SomeField;
+        public Boolean SomeField { get { return _SomeField.Value; } set { _SomeField.Value = value; } }
+        INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
+        INotifyingItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
         #endregion
 
 
         #region Noggolloquy Getter Interface
 
-        public static string NoggolloquyName => "TestGenericObject";
-        string INoggolloquyObjectGetter.NoggolloquyName => "TestGenericObject";
-        public static string NoggolloquyFullName => "Noggolloquy.Tests.TestGenericObject";
-        string INoggolloquyObjectGetter.NoggolloquyFullName => "Noggolloquy.Tests.TestGenericObject";
+        public static string NoggolloquyName => "ObjectToRef";
+        string INoggolloquyObjectGetter.NoggolloquyName => "ObjectToRef";
+        public static string NoggolloquyFullName => "Noggolloquy.Tests.ObjectToRef";
+        string INoggolloquyObjectGetter.NoggolloquyFullName => "Noggolloquy.Tests.ObjectToRef";
         public static ProtocolKey Noggolloquy_ProtocolKey_Static => new ProtocolKey(1);
         public ProtocolKey Noggolloquy_ProtocolKey => Noggolloquy_ProtocolKey_Static;
         public static ProtocolDefinition Noggolloquy_ProtocolDefinition_Static => new ProtocolDefinition(
             key: Noggolloquy_ProtocolKey_Static,
             nickname: "NoggolloquyTests");
         public ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;
-        public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 1, version: 0);
+        public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 3, version: 0);
         public ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;
         public int FieldCount => 1;
 
-        public string Noggolloquy_GUID => "c0c6b45b-906e-4a34-8e26-13ac0f04e3f8";
+        public string Noggolloquy_GUID => "39bed53a-0f81-4fdc-8ce4-84563c3125cf";
 
-        public static object GetNthObject(ushort index, ITestGenericObjectGetter<T, R> obj)
+        public static object GetNthObject(ushort index, IObjectToRefGetter obj)
         {
             switch (index)
             {
                 case 0:
-                    return obj.Ref;
+                    return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestGenericObject<T, R> obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, IObjectToRef obj)
         {
             switch (index)
             {
                 case 0:
-                    return obj.Ref_Property.HasBeenSet;
+                    return obj.SomeField_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public Type GetNthType(ushort index) => TestGenericObjectCommon<T, R>.GetNthType(index);
+        public Type GetNthType(ushort index) => ObjectToRefCommon.GetNthType(index);
 
-        public string GetNthName(ushort index) => TestGenericObjectCommon<T, R>.GetNthName(index);
+        public string GetNthName(ushort index) => ObjectToRefCommon.GetNthName(index);
 
-        public object GetNthObject(ushort index) => TestGenericObjectCommon<T, R>.GetNthObject(index, this);
+        public object GetNthObject(ushort index) => ObjectToRefCommon.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
+        public bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
 
-        public ushort? GetNameIndex(StringCaseAgnostic str) => TestGenericObjectCommon<T, R>.GetNameIndex(str);
+        public ushort? GetNameIndex(StringCaseAgnostic str) => ObjectToRefCommon.GetNameIndex(str);
 
-        public bool IsNthDerivative(ushort index) => TestGenericObjectCommon<T, R>.IsNthDerivative(index);
+        public bool IsNthDerivative(ushort index) => ObjectToRefCommon.IsNthDerivative(index);
 
-        public bool IsReadOnly(ushort index) => TestGenericObjectCommon<T, R>.IsReadOnly(index);
+        public bool IsReadOnly(ushort index) => ObjectToRefCommon.IsReadOnly(index);
 
-        public bool GetNthIsEnumerable(ushort index) => TestGenericObjectCommon<T, R>.GetNthIsEnumerable(index);
+        public bool GetNthIsEnumerable(ushort index) => ObjectToRefCommon.GetNthIsEnumerable(index);
 
-        public bool GetNthIsNoggolloquy(ushort index) => TestGenericObjectCommon<T, R>.GetNthIsNoggolloquy(index);
+        public bool GetNthIsNoggolloquy(ushort index) => ObjectToRefCommon.GetNthIsNoggolloquy(index);
 
-        public bool GetNthIsSingleton(ushort index) => TestGenericObjectCommon<T, R>.GetNthIsSingleton(index);
+        public bool GetNthIsSingleton(ushort index) => ObjectToRefCommon.GetNthIsSingleton(index);
 
-        public void SetNthObject(ushort index, object obj) => TestGenericObjectCommon<T, R>.SetNthObject(this, index, obj);
+        public void SetNthObject(ushort index, object obj) => ObjectToRefCommon.SetNthObject(this, index, obj);
 
-        public Type GetMaskType() => typeof(TestGenericObject_Mask<>);
+        public Type GetMaskType() => typeof(ObjectToRef_Mask<>);
 
-        public Type GetErrorMaskType() => typeof(TestGenericObject_ErrorMask);
+        public Type GetErrorMaskType() => typeof(ObjectToRef_ErrorMask);
 
         #endregion
 
         #region Noggolloquy Interface
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestGenericObjectCommon<T, R>.SetNthObjectHasBeenSet(index, on, this);
+            ObjectToRefCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void SetNthObjectHasBeenSet_Internal(ushort index, bool on, TestGenericObject<T, R> obj)
+        public void SetNthObjectHasBeenSet_Internal(ushort index, bool on, ObjectToRef obj)
         {
             switch (index)
             {
                 case 0:
-                    obj._Ref.SetHasBeenSet(on);
+                    obj._SomeField.SetHasBeenSet(on);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public void CopyFieldsFrom(ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(IObjectToRefGetter rhs, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(this, rhs, def, null, cmds);
+            ObjectToRefCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
         }
 
-        public void CopyFieldsFrom(ITestGenericObjectGetter<T, R> rhs, out TestGenericObject_ErrorMask errorMask, ITestGenericObjectGetter<T, R> def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(IObjectToRefGetter rhs, out ObjectToRef_ErrorMask errorMask, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestGenericObject_ErrorMask();
+            var retErrorMask = new ObjectToRef_ErrorMask();
             errorMask = retErrorMask;
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            ObjectToRefCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
         }
 
         #endregion
@@ -148,59 +149,59 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            TestGenericObject<T, R> rhs = obj as TestGenericObject<T, R>;
+            ObjectToRef rhs = obj as ObjectToRef;
             if (rhs == null) return false;
             return Equals(obj);
         }
 
-        public bool Equals(TestGenericObject<T, R> rhs)
+        public bool Equals(ObjectToRef rhs)
         {
-            if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.SomeField, rhs.SomeField)) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
             return 
-            HashHelper.GetHashCode(Ref)
+            HashHelper.GetHashCode(SomeField)
             ;
         }
 
         #endregion
 
         #region Set To
-        public void SetTo(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def = null, NotifyingFireParameters? cmds = null)
+        public void SetTo(ObjectToRef rhs, IObjectToRef def = null, NotifyingFireParameters? cmds = null)
         {
             SetTo_Internal(rhs, def, null, cmds);
         }
 
-        public void SetTo(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public void SetTo(ObjectToRef rhs, IObjectToRef def, out ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestGenericObject_ErrorMask();
+            var retErrorMask = new ObjectToRef_ErrorMask();
             errorMask = retErrorMask;
             SetTo_Internal(rhs, def, retErrorMask, cmds);
         }
 
-        private void SetTo_Internal(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def, TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        private void SetTo_Internal(ObjectToRef rhs, IObjectToRef def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
             try
             {
-                if (rhs.Ref_Property.HasBeenSet)
+                if (rhs.SomeField_Property.HasBeenSet)
                 {
-                    this.Ref_Property.Set(
-                        rhs.Ref,
+                    this.SomeField_Property.Set(
+                        rhs.SomeField,
                         cmds);
                 }
                 else
                 {
                     if (def == null)
                     {
-                        this.Ref_Property.Unset(cmds.ToUnsetParams());
+                        this.SomeField_Property.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Ref_Property.Set(
-                            def.Ref,
+                        this.SomeField_Property.Set(
+                            def.SomeField,
                             cmds);
                     }
                 }
@@ -210,28 +211,28 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.Ref = new MaskItem<Exception, object>(ex, null);
+                    errorMask.SomeField = ex;
                 }
             }
         }
         #endregion
         #region XML Translation
-        public static TestGenericObject<T, R> CreateFromXML(XElement root)
+        public static ObjectToRef CreateFromXML(XElement root)
         {
-            var ret = new TestGenericObject<T, R>();
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+            var ret = new ObjectToRef();
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 doMasks: false,
-                mask: out TestGenericObject_ErrorMask errorMask,
+                mask: out ObjectToRef_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestGenericObject<T, R> CreateFromXML(XElement root, out TestGenericObject_ErrorMask errorMask)
+        public static ObjectToRef CreateFromXML(XElement root, out ObjectToRef_ErrorMask errorMask)
         {
-            var ret = new TestGenericObject<T, R>();
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+            var ret = new ObjectToRef();
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 doMasks: true,
@@ -242,17 +243,17 @@ namespace Noggolloquy.Tests
 
         public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 doMasks: false,
-                mask: out TestGenericObject_ErrorMask errorMask,
+                mask: out ObjectToRef_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, out ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 doMasks: true,
@@ -270,9 +271,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void WriteXML(XmlWriter writer, out TestGenericObject_ErrorMask errorMask, string name = null)
+        public void WriteXML(XmlWriter writer, out ObjectToRef_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
@@ -282,22 +283,22 @@ namespace Noggolloquy.Tests
 
         public void WriteXML(XmlWriter writer, string name)
         {
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestGenericObject_ErrorMask errorMask);
+                mask: out ObjectToRef_ErrorMask errorMask);
         }
 
         public void WriteXML(XmlWriter writer)
         {
-            NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: null,
                 item: this,
                 doMasks: false,
-                mask: out TestGenericObject_ErrorMask errorMask);
+                mask: out ObjectToRef_ErrorMask errorMask);
         }
 
         #endregion
@@ -310,7 +311,7 @@ namespace Noggolloquy.Tests
 
         protected object Copy_ToObject(object def = null)
         {
-            var ret = new TestGenericObject<T, R>();
+            var ret = new ObjectToRef();
             ret.CopyFieldsFrom_Generic(this, def: def, cmds: null);
             return ret;
         }
@@ -322,20 +323,20 @@ namespace Noggolloquy.Tests
 
         protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
-            if (rhs is TestGenericObject<T, R> rhsCast)
+            if (rhs is ObjectToRef rhsCast)
             {
-                this.CopyFieldsFrom(rhsCast, def as TestGenericObject<T, R>, cmds);
+                this.CopyFieldsFrom(rhsCast, def as ObjectToRef, cmds);
             }
         }
 
-        public TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> def = null)
+        public ObjectToRef Copy(IObjectToRefGetter def = null)
         {
-            return (TestGenericObject<T, R>)this.Copy_ToObject(def: def);
+            return (ObjectToRef)this.Copy_ToObject(def: def);
         }
 
-        public static TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> item, ITestGenericObjectGetter<T, R> def = null)
+        public static ObjectToRef Copy(IObjectToRefGetter item, IObjectToRefGetter def = null)
         {
-            var ret = new TestGenericObject<T, R>();
+            var ret = new ObjectToRef();
             ret.CopyFieldsFrom(item, def);
             return ret;
         }
@@ -345,27 +346,25 @@ namespace Noggolloquy.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             ClearPartial(cmds);
-            this.Ref_Property.Unset(cmds.ToUnsetParams());
+            this.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
 
     }
     #endregion
 
     #region Interface
-    public interface ITestGenericObject<T, R> : ITestGenericObjectGetter<T, R>, INoggolloquyClass<ITestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>, INoggolloquyClass<TestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public interface IObjectToRef : IObjectToRefGetter, INoggolloquyClass<IObjectToRef, IObjectToRefGetter>, INoggolloquyClass<ObjectToRef, IObjectToRefGetter>
     {
-        new R Ref { get; set; }
-        new INotifyingItem<R> Ref_Property { get; }
+        new Boolean SomeField { get; set; }
+        new INotifyingItem<Boolean> SomeField_Property { get; }
 
     }
 
-    public interface ITestGenericObjectGetter<T, R> : INoggolloquyObjectGetter
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public interface IObjectToRefGetter : INoggolloquyObjectGetter
     {
-        #region Ref
-        R Ref { get; }
-        INotifyingItemGetter<R> Ref_Property { get; }
+        #region SomeField
+        Boolean SomeField { get; }
+        INotifyingItemGetter<Boolean> SomeField_Property { get; }
 
         #endregion
 
@@ -379,15 +378,14 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Extensions
-    public static class TestGenericObjectCommon<T, R>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public static class ObjectToRefCommon
     {
         public static Type GetNthType(ushort index)
         {
             switch (index)
             {
                 case 0:
-                    return typeof(R);
+                    return typeof(Boolean);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -404,12 +402,12 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestGenericObjectGetter<T, R> obj)
+        public static object GetNthObject(ushort index, IObjectToRefGetter obj)
         {
             switch (index)
             {
                 case 0:
-                    return obj.Ref;
+                    return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -420,7 +418,7 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return "Ref";
+                    return "SomeField";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -430,59 +428,33 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 0:
-                    return false;
                 default:
                     return false;
             }
         }
 
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestGenericObject<T, R> item, ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def, TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(IObjectToRef item, IObjectToRefGetter rhs, IObjectToRefGetter def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
             try
             {
-                if (rhs.Ref_Property.HasBeenSet)
+                if (rhs.SomeField_Property.HasBeenSet)
                 {
-                    if (rhs.Ref == null)
-                    {
-                        item.Ref = null;
-                    }
-                    else
-                    {
-                        if (item.Ref == null)
-                        {
-                            item.Ref = (R)rhs.Ref.Copy();
-                        }
-                        else
-                        {
-                            item.Ref.CopyFieldsFrom(rhs.Ref, def: def?.Ref, cmds: cmds);
-                        }
-                    }
+                    item.SomeField_Property.Set(
+                        rhs.SomeField,
+                        cmds);
                 }
                 else
                 {
                     if (def == null)
                     {
-                        item.Ref_Property.Unset(cmds.ToUnsetParams());
+                        item.SomeField_Property.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        if (rhs.Ref == null)
-                        {
-                            item.Ref = null;
-                        }
-                        else
-                        {
-                            if (item.Ref == null)
-                            {
-                                item.Ref = (R)def.Ref.Copy();
-                            }
-                            else
-                            {
-                                item.Ref.CopyFieldsFrom(def.Ref, null, cmds: cmds);
-                            }
-                        }
+                        item.SomeField_Property.Set(
+                            def.SomeField,
+                            cmds);
                     }
                 }
 
@@ -491,19 +463,19 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.Ref = new MaskItem<Exception, object>(ex, null);
+                    errorMask.SomeField = ex;
                 }
             }
         }
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject<T, R> obj)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, IObjectToRef obj)
         {
             switch (index)
             {
                 case 0:
-                    obj.Ref_Property.SetHasBeenSet(on);
+                    obj.SomeField_Property.SetHasBeenSet(on);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -514,7 +486,7 @@ namespace Noggolloquy.Tests
         {
             switch (str.Upper)
             {
-                case "REF":
+                case "SOMEFIELD":
                     return 0;
                 default:
                     throw new ArgumentException($"Queried unknown field: {{str}}");
@@ -548,29 +520,29 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return true;
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestGenericObject<T, R> obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, IObjectToRef obj)
         {
             switch (index)
             {
                 case 0:
-                    return obj.Ref_Property.HasBeenSet;
+                    return obj.SomeField_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static void SetNthObject(ITestGenericObject<T, R> nog, ushort index, object obj)
+        public static void SetNthObject(IObjectToRef nog, ushort index, object obj)
         {
             switch (index)
             {
                 case 0:
-                    nog.Ref = (R)obj;
+                    nog.SomeField = (Boolean)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -578,12 +550,11 @@ namespace Noggolloquy.Tests
         }
 
     }
-    public static class TestGenericObjectExt
+    public static class ObjectToRefExt
     {
-        public static TestGenericObject<T, R> Copy_ToNoggolloquy<T, R>(this ITestGenericObjectGetter<T, R> item)
-            where R : ObjectToRef, INoggolloquyReaderSerializer
+        public static ObjectToRef Copy_ToNoggolloquy(this IObjectToRefGetter item)
         {
-            return TestGenericObject<T, R>.Copy(item, def: null);
+            return ObjectToRef.Copy(item, def: null);
         }
 
     }
@@ -594,12 +565,12 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Mask
-    public class TestGenericObject_Mask<T> 
+    public class ObjectToRef_Mask<T> 
     {
-        public MaskItem<T, object> Ref { get; set; }
+        public T SomeField;
     }
 
-    public class TestGenericObject_ErrorMask : IErrorMask
+    public class ObjectToRef_ErrorMask : IErrorMask
     {
         public Exception Overall { get; set; }
         private List<string> _warnings;
@@ -614,14 +585,14 @@ namespace Noggolloquy.Tests
                 return _warnings;
             }
         }
-        public MaskItem<Exception, object> Ref;
+        public Exception SomeField;
 
         public void SetNthException(ushort index, Exception ex)
         {
             switch (index)
             {
                 case 0:
-                    this.Ref = new MaskItem<Exception, object>(ex, null);
+                    this.SomeField = ex;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -633,7 +604,7 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    this.Ref = (MaskItem<Exception, object>)obj;
+                    this.SomeField = (Exception)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

@@ -71,7 +71,7 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<UDoubleNullType>("UDoubleNull");
             AddTypeAssociation<DoubleType>("Double");
             AddTypeAssociation<DoubleNullType>("DoubleNull");
-            AddTypeAssociation<NoggType>("Nogg");
+            AddTypeAssociation<NoggType>("Ref");
             AddTypeAssociation<ListType>("List");
             AddTypeAssociation<DictType>("Dict");
             AddTypeAssociation<Array2DType>("Array2D");

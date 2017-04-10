@@ -18,12 +18,14 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
-            throw new NotImplementedException();
+            NoggType nogg = field as NoggType;
+            fg.AppendLine($"this.{field.Name} = new MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}>(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
-            throw new NotImplementedException();
+            NoggType nogg = field as NoggType;
+            fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}>)obj;");
         }
     }
 }

@@ -563,7 +563,7 @@
         </xs:annotation>
       </xs:element>
     </xs:choice>
-    <xs:attribute name="refName">
+    <xs:attribute name="refName" use="required">
       <xs:annotation>
         <xs:documentation>
           Name of the Noggolloquy object to reference.

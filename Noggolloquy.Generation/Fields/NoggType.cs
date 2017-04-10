@@ -82,8 +82,8 @@ namespace Noggolloquy.Generation
                     }
                     fg.AppendLine(");");
                 }
-                fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => _{this.Name};");
-                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.Name;");
+                fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                 fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
                 if (!this.ReadOnly)
                 {
@@ -124,7 +124,7 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException("Cannot both be generic and have specific object specified.");
             }
 
-            var refName = refNode?.GetAttribute("noggName");
+            var refName = refNode?.GetAttribute("refName");
             var genericName = genericNode?.Value;
 
             if (!string.IsNullOrWhiteSpace(refName))
@@ -153,7 +153,6 @@ namespace Noggolloquy.Generation
                 this.RefType = NoggRefType.Generic;
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
-                gen.MustBeClass = true;
                 gen.Wheres.Add($"INoggolloquyReaderSerializer");
                 if (SingletonMember)
                 {
@@ -162,13 +161,13 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                throw new ArgumentException("Nogg type needs a target.");
+                throw new ArgumentException("Ref type needs a target.");
             }
         }
 
         public override void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception)
         {
-            fg.AppendLine($"{errorMaskMemberAccessor}.Overall = {exception};");
+            fg.AppendLine($"{errorMaskMemberAccessor} = new MaskItem<Exception, {this.GenerateErrorMaskItemString()}>({exception}, null);");
         }
 
         private string StructTypeName()

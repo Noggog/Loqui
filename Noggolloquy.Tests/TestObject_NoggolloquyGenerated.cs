@@ -11,6 +11,7 @@ using System.Text;
 using Noggolloquy;
 using Noggog;
 using Noggog.Notifying;
+using Noggolloquy.Tests;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -466,6 +467,15 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Object> ITestObjectGetter.WildCard_Property => this.WildCard_Property;
         #endregion
 
+        #region Ref
+        private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
+        public INotifyingItem<ObjectToRef> Ref_Property => this._Ref;
+        IObjectToRefGetter ITestObjectGetter.Ref => this.Ref;
+        public ObjectToRef Ref { get { return _Ref.Value; } set { _Ref.Value = value; } }
+        INotifyingItem<ObjectToRef> ITestObject.Ref_Property => this.Ref_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObjectGetter.Ref_Property => this.Ref_Property;
+        #endregion
+
 
         #region Noggolloquy Getter Interface
 
@@ -481,7 +491,7 @@ namespace Noggolloquy.Tests
         public ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;
         public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 2, version: 0);
         public ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;
-        public int FieldCount => 40;
+        public int FieldCount => 41;
 
         public string Noggolloquy_GUID => "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
 
@@ -569,6 +579,8 @@ namespace Noggolloquy.Tests
                     return obj.Enum;
                 case 39:
                     return obj.WildCard;
+                case 40:
+                    return obj.Ref;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -658,6 +670,8 @@ namespace Noggolloquy.Tests
                     return obj.Enum_Property.HasBeenSet;
                 case 39:
                     return obj.WildCard_Property.HasBeenSet;
+                case 40:
+                    return obj.Ref_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -821,6 +835,9 @@ namespace Noggolloquy.Tests
                 case 39:
                     obj._WildCard.SetHasBeenSet(on);
                     break;
+                case 40:
+                    obj._Ref.SetHasBeenSet(on);
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -897,6 +914,7 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.UInt8, rhs.UInt8)) return false;
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
+            if (!object.Equals(this.Ref, rhs.Ref)) return false;
             return true;
         }
 
@@ -943,6 +961,7 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(UInt8))
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
+            .CombineHashCode(HashHelper.GetHashCode(Ref))
             ;
         }
 
@@ -2163,6 +2182,36 @@ namespace Noggolloquy.Tests
                     errorMask.WildCard = ex;
                 }
             }
+            try
+            {
+                if (rhs.Ref_Property.HasBeenSet)
+                {
+                    this.Ref_Property.Set(
+                        rhs.Ref,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Ref_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Ref_Property.Set(
+                            def.Ref,
+                            cmds);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                }
+            }
         }
         #endregion
         #region XML Translation
@@ -2335,6 +2384,7 @@ namespace Noggolloquy.Tests
             this.UInt8_Property.Unset(cmds.ToUnsetParams());
             this.Enum_Property.Unset(cmds.ToUnsetParams());
             this.WildCard_Property.Unset(cmds.ToUnsetParams());
+            this.Ref_Property.Unset(cmds.ToUnsetParams());
         }
 
     }
@@ -2462,6 +2512,9 @@ namespace Noggolloquy.Tests
 
         new Object WildCard { get; set; }
         new INotifyingItem<Object> WildCard_Property { get; }
+
+        new ObjectToRef Ref { get; set; }
+        new INotifyingItem<ObjectToRef> Ref_Property { get; }
 
     }
 
@@ -2707,6 +2760,12 @@ namespace Noggolloquy.Tests
 
         #endregion
 
+        #region Ref
+        IObjectToRefGetter Ref { get; }
+        INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
+
+        #endregion
+
 
         #region XML Translation
         #endregion
@@ -2803,6 +2862,8 @@ namespace Noggolloquy.Tests
                     return typeof(TestEnum);
                 case 39:
                     return typeof(Object);
+                case 40:
+                    return typeof(ObjectToRef);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -2891,6 +2952,8 @@ namespace Noggolloquy.Tests
                 case 38:
                     return false;
                 case 39:
+                    return false;
+                case 40:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2981,6 +3044,8 @@ namespace Noggolloquy.Tests
                     return obj.Enum;
                 case 39:
                     return obj.WildCard;
+                case 40:
+                    return obj.Ref;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -3070,6 +3135,8 @@ namespace Noggolloquy.Tests
                     return "Enum";
                 case 39:
                     return "WildCard";
+                case 40:
+                    return "Ref";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -3079,6 +3146,8 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
+                case 40:
+                    return false;
                 default:
                     return false;
             }
@@ -4287,6 +4356,60 @@ namespace Noggolloquy.Tests
                     errorMask.WildCard = ex;
                 }
             }
+            try
+            {
+                if (rhs.Ref_Property.HasBeenSet)
+                {
+                    if (rhs.Ref == null)
+                    {
+                        item.Ref = null;
+                    }
+                    else
+                    {
+                        if (item.Ref == null)
+                        {
+                            item.Ref = (ObjectToRef)rhs.Ref.Copy();
+                        }
+                        else
+                        {
+                            item.Ref.CopyFieldsFrom(rhs.Ref, def: def?.Ref, cmds: cmds);
+                        }
+                    }
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Ref_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        if (rhs.Ref == null)
+                        {
+                            item.Ref = null;
+                        }
+                        else
+                        {
+                            if (item.Ref == null)
+                            {
+                                item.Ref = (ObjectToRef)def.Ref.Copy();
+                            }
+                            else
+                            {
+                                item.Ref.CopyFieldsFrom(def.Ref, null, cmds: cmds);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                }
+            }
         }
 
         #endregion
@@ -4415,6 +4538,9 @@ namespace Noggolloquy.Tests
                 case 39:
                     obj.WildCard_Property.SetHasBeenSet(on);
                     break;
+                case 40:
+                    obj.Ref_Property.SetHasBeenSet(on);
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -4504,6 +4630,8 @@ namespace Noggolloquy.Tests
                     return 38;
                 case "WILDCARD":
                     return 39;
+                case "REF":
+                    return 40;
                 default:
                     throw new ArgumentException($"Queried unknown field: {{str}}");
             }
@@ -4592,6 +4720,8 @@ namespace Noggolloquy.Tests
                 case 38:
                     return false;
                 case 39:
+                    return false;
+                case 40:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -4682,6 +4812,8 @@ namespace Noggolloquy.Tests
                     return false;
                 case 39:
                     return false;
+                case 40:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -4771,6 +4903,8 @@ namespace Noggolloquy.Tests
                     return false;
                 case 39:
                     return false;
+                case 40:
+                    return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -4860,6 +4994,8 @@ namespace Noggolloquy.Tests
                     return obj.Enum_Property.HasBeenSet;
                 case 39:
                     return obj.WildCard_Property.HasBeenSet;
+                case 40:
+                    return obj.Ref_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -4989,6 +5125,9 @@ namespace Noggolloquy.Tests
                 case 39:
                     nog.WildCard = (Object)obj;
                     break;
+                case 40:
+                    nog.Ref = (ObjectToRef)obj;
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -5052,6 +5191,7 @@ namespace Noggolloquy.Tests
         public T UInt8;
         public T Enum;
         public T WildCard;
+        public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
     }
 
     public class TestObject_ErrorMask : IErrorMask
@@ -5109,6 +5249,7 @@ namespace Noggolloquy.Tests
         public Exception UInt8;
         public Exception Enum;
         public Exception WildCard;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
 
         public void SetNthException(ushort index, Exception ex)
         {
@@ -5233,6 +5374,9 @@ namespace Noggolloquy.Tests
                     break;
                 case 39:
                     this.WildCard = ex;
+                    break;
+                case 40:
+                    this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5362,6 +5506,9 @@ namespace Noggolloquy.Tests
                     break;
                 case 39:
                     this.WildCard = (Exception)obj;
+                    break;
+                case 40:
+                    this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

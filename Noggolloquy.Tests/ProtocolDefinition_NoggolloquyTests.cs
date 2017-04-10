@@ -12,9 +12,9 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(
                 new ObjectKey(ProtocolKey, 1, 0),
                 new NoggolloquyTypeRegister(
-                    classType: typeof(TestGenericObject<>),
+                    classType: typeof(TestGenericObject<,>),
                     fullName: "TestGenericObject",
-                    genericCount: 1,
+                    genericCount: 2,
                     objectKey: new ObjectKey(ProtocolKey, 1, 0)));
             NoggolloquyRegistration.Register(
                 new ObjectKey(ProtocolKey, 2, 0),
@@ -23,6 +23,13 @@ namespace Noggolloquy
                     fullName: "TestObject",
                     genericCount: 0,
                     objectKey: new ObjectKey(ProtocolKey, 2, 0)));
+            NoggolloquyRegistration.Register(
+                new ObjectKey(ProtocolKey, 3, 0),
+                new NoggolloquyTypeRegister(
+                    classType: typeof(ObjectToRef),
+                    fullName: "ObjectToRef",
+                    genericCount: 0,
+                    objectKey: new ObjectKey(ProtocolKey, 3, 0)));
         }
     }
 }
