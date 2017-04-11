@@ -98,7 +98,7 @@ namespace Noggolloquy.Tests
 
         public bool GetNthIsSingleton(ushort index) => TestGenericObjectCommon<T, R>.GetNthIsSingleton(index);
 
-        public void SetNthObject(ushort index, object obj) => TestGenericObjectCommon<T, R>.SetNthObject(this, index, obj);
+        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(this, index, obj, cmds);
 
         public Type GetMaskType() => typeof(TestGenericObject_Mask<>);
 
@@ -565,12 +565,14 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void SetNthObject(ITestGenericObject<T, R> nog, ushort index, object obj)
+        public static void SetNthObject(ITestGenericObject<T, R> nog, ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    nog.Ref = (R)obj;
+                    nog.Ref_Property.Set(
+                        (R)obj,
+                        cmds);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

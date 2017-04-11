@@ -160,6 +160,11 @@ namespace Noggolloquy.Generation
             GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
         }
 
+        public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
+        {
+            GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+        }
+
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
             fg.AppendLine($"return {identifier}.{this.Name};");

@@ -4,9 +4,8 @@ namespace Noggolloquy.Generation
 {
     public class ContainerMaskFieldGeneration : MaskModuleField
     {
-        public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
+        public static string GetListString(ContainerType listType, string valueStr)
         {
-            ContainerType listType = field as ContainerType;
             NoggType noggType = listType.SubTypeGeneration as NoggType;
             string listStr;
             if (noggType == null)
@@ -17,17 +16,27 @@ namespace Noggolloquy.Generation
             {
                 listStr = $"IEnumerable<{noggType.RefGen.Obj.GetErrorMaskItemString()}>";
             }
-            fg.AppendLine($"public MaskItem<{valueStr}, {listStr}> {field.Name};");
+            return listStr;
+        }
+
+        public static string GetMaskString(ContainerType listType, string valueStr)
+        {
+            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}>";
+        }
+
+        public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
+        {
+            fg.AppendLine($"public {GetMaskString(field as ContainerType, valueStr)} {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
-            throw new NotImplementedException();
+            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, "Exception")}(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
-            throw new NotImplementedException();
+            fg.AppendLine($"this.{field.Name} = ({GetMaskString(field as ContainerType, "Exception")})obj;");
         }
     }
 }

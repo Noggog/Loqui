@@ -62,7 +62,7 @@ namespace Noggolloquy.Xml
                                 {
                                     object subNogg = Activator.CreateInstance(type);
                                     copyInFunc(elem, subNogg, cmds, doMasks, out subMaskObj);
-                                    item.SetNthObject(i.Value, subNogg);
+                                    item.SetNthObject(i.Value, subNogg, cmds);
                                 }
                                 readIndices.Add(i.Value);
                             }
@@ -80,7 +80,7 @@ namespace Noggolloquy.Xml
                             var objGet = translator.Parse(elem, doMasks, out subMaskObj);
                             if (objGet.Succeeded)
                             {
-                                item.SetNthObject(i.Value, objGet.Value);
+                                item.SetNthObject(i.Value, objGet.Value, cmds);
                                 readIndices.Add(i.Value);
                             }
                             else

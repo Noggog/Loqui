@@ -503,7 +503,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsSingleton(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsSingleton(index);");
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj);");
+                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj, cmds);");
                 fg.AppendLine();
 
                 fg.AppendLine($"public{this.FunctionOverride}Type GetMaskType() => typeof({this.GetMaskString(string.Empty)});");
@@ -617,7 +617,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static void SetNthObject({this.InterfaceStr} nog, ushort index, object obj)");
+            fg.AppendLine($"public static void SetNthObject({this.InterfaceStr} nog, ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -628,7 +628,11 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"nog.{item.Field.Name} = ({item.Field.TypeName})obj;");
+                            item.Field.GenerateInterfaceSet(
+                                fg,
+                                accessorPrefix: $"nog",
+                                rhsAccessorPrefix: $"({item.Field.TypeName})obj",
+                                cmdsAccessor: "cmds");
                             fg.AppendLine($"break;");
                         }
                     }

@@ -1,4 +1,5 @@
 ﻿using Noggog;
+using Noggog.Notifying;
 using Noggog.Printing;
 using System;
 using System.Collections;
@@ -47,7 +48,7 @@ namespace Noggolloquy
     public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
-        void SetNthObject(ushort index, object o);
+        void SetNthObject(ushort index, object o, NotifyingFireParameters? cmds);
     }
 
     public interface INoggolloquyClass<L, G> : ICopyFrom<L, G>, IClearable

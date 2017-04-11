@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("errorMask.Ref.Overall = ex;"))
+            if (str.Contains("nog.List.SetTo((INotifyingList<Boolean>)obj.List, cmds);"))
             {
                 int wer = 23;
                 wer++;

@@ -48,9 +48,14 @@
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />
       </Ref>
-      <!--<List name="List">
+      <List name="List">
         <Bool />
-      </List>-->
+      </List>
+      <List name="RefList">
+        <Ref>
+          <Direct refName="ObjectToRef" />
+        </Ref> 
+      </List>
     </Fields>
   </Object>
 </Noggolloquy>

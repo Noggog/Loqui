@@ -116,8 +116,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
-            fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
-            using (new BraceWrapper(fg))
+            if (defaultFallbackAccessor == null)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
                 using (new DepthWrapper(fg))
@@ -126,26 +125,39 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"{cmdsAccessor});");
                 }
             }
-            fg.AppendLine("else");
-            using (new BraceWrapper(fg))
+            else
             {
-                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{accessorPrefix}.{this.Property}.Unset({cmdsAccessor}.ToUnsetParams());");
-                }
-                fg.AppendLine("else");
+                fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"{defaultFallbackAccessor}.{this.Name},");
+                        fg.AppendLine($"{rhsAccessorPrefix}.{this.Name},");
                         fg.AppendLine($"{cmdsAccessor});");
                     }
                 }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{accessorPrefix}.{this.Property}.Unset({cmdsAccessor}.ToUnsetParams());");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"{defaultFallbackAccessor}.{this.Name},");
+                            fg.AppendLine($"{cmdsAccessor});");
+                        }
+                    }
+                }
+                fg.AppendLine();
             }
-            fg.AppendLine();
         }
 
         public override void SetMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
@@ -161,6 +173,16 @@ namespace Noggolloquy.Generation
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
             GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+        }
+
+        public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
+        {
+            fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLine($"{rhsAccessorPrefix},");
+                fg.AppendLine($"{cmdsAccessor});");
+            }
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)

@@ -74,6 +74,8 @@ namespace Noggolloquy.Generation
 
         public abstract void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor);
 
+        public abstract void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor);
+
         public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse);
 
         public abstract void GenerateGetNth(FileGeneration fg, string identifier);
