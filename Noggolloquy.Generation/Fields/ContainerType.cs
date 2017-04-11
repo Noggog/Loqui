@@ -68,12 +68,7 @@ namespace Noggolloquy.Generation
                 throw new NotImplementedException();
             }
         }
-
-        public override void SetMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
-        {
-            fg.AppendLine($"{errorMaskAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "Exception")}({exception}, null);");
-        }
-
+        
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({exception});");

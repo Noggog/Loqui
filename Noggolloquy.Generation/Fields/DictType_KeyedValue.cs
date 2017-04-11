@@ -26,7 +26,7 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override string TypeName => $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
+        public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
         public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
 
@@ -67,11 +67,6 @@ namespace Noggolloquy.Generation
             {
                 throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
             }
-        }
-
-        public override void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception)
-        {
-            fg.AppendLine($"{errorMaskMemberAccessor}.Overall = {exception};");
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception, bool key)
@@ -162,7 +157,12 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}).Select((i) => i.Copy()),");
+                fg.AppendLine($"{cmdsAccessor});");
+            }
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)

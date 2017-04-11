@@ -56,6 +56,33 @@
           <Direct refName="ObjectToRef" />
         </Ref> 
       </List>
+      <Dict name="Dict">
+        <Key>
+          <Bool />
+        </Key>
+        <Value>
+          <String />
+        </Value>
+      </Dict>
+      <Dict name="RefDict">
+        <Key>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref> 
+        </Key>
+        <Value>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </Value>
+      </Dict>
+      <Dict name="DictKeyedValue">
+        <KeyedValue keyAccessor="KeyField">
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </KeyedValue>
+      </Dict>
     </Fields>
   </Object>
 </Noggolloquy>

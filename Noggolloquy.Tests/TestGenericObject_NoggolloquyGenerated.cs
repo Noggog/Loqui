@@ -210,7 +210,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.Ref = new MaskItem<Exception, object>(ex, null);
+                    errorMask.SetNthException(0, ex);
                 }
             }
         }
@@ -491,7 +491,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.Ref = new MaskItem<Exception, object>(ex, null);
+                    errorMask.SetNthException(0, ex);
                 }
             }
         }
@@ -571,7 +571,7 @@ namespace Noggolloquy.Tests
             {
                 case 0:
                     nog.Ref_Property.Set(
-                        (R)obj,
+                        ((R)obj),
                         cmds);
                     break;
                 default:

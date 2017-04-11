@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("nog.List.SetTo((INotifyingList<Boolean>)obj.List, cmds);"))
+            if (str.Contains("ret.CopyFieldsFrom(s, defList[i++]);"))
             {
                 int wer = 23;
                 wer++;

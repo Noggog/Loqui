@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override string TypeName => $"KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
+        public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
         public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
 
@@ -73,12 +73,7 @@ namespace Noggolloquy.Generation
                 throw new NotImplementedException();
             }
         }
-
-        public override void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception)
-        {
-            fg.AppendLine($"{errorMaskMemberAccessor}.Overall = {exception};");
-        }
-
+        
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
         {
             NoggType keyNoggType = this.KeyTypeGen as NoggType;
@@ -151,25 +146,50 @@ namespace Noggolloquy.Generation
                 else
                 {
                     fg.AppendLine("int i = 0;");
-                    fg.AppendLine($"List<{this.TypeTuple}> defList = {defaultFallbackAccessor}?.{this.Name}.ToList();");
+                    fg.AppendLine($"List<KeyValuePair<{this.TypeTuple}>> defList = {defaultFallbackAccessor}?.{this.Name}.ToList();");
                     fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select((s) =>");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"var ret = new {this.TypeName}();");
-                            fg.AppendLine("if (defList != null && defList.InRange(i))");
-                            using (new BraceWrapper(fg))
+                            if (KeyTypeGen is NoggType)
                             {
-                                fg.AppendLine("ret.CopyFieldsFrom(s, defList[i++]);");
+                                fg.AppendLine($"var key = new {this.KeyTypeGen.TypeName}();");
+                                fg.AppendLine("if (defList != null && defList.InRange(i))");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("key.CopyFieldsFrom(s.Key, defList[i++].Key);");
+                                }
+                                fg.AppendLine("else");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("key.CopyFieldsFrom(s.Key);");
+                                }
                             }
-                            fg.AppendLine("else");
-                            using (new BraceWrapper(fg))
+                            else
                             {
-                                fg.AppendLine("ret.CopyFieldsFrom(s);");
+                                fg.AppendLine("var key = s.Key;");
                             }
-                            fg.AppendLine("return ret;");
+                            if (ValueTypeGen is NoggType)
+                            {
+                                fg.AppendLine($"var value = new {this.KeyTypeGen.TypeName}();");
+                                fg.AppendLine("if (defList != null && defList.InRange(i))");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("value.CopyFieldsFrom(s.Value, defList[i++].Value);");
+                                }
+                                fg.AppendLine("else");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("value.CopyFieldsFrom(s.Value);");
+                                }
+                            }
+                            else
+                            {
+                                fg.AppendLine("var value = s.Value;");
+                            }
+                            fg.AppendLine($"return new KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>(key, value);");
                         }
                     }
                     fg.AppendLine($"), {cmdsAccessor});");
@@ -196,14 +216,14 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"{ rhsAccessorPrefix}.{this.Name}.Select(");
+                fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".Copy())" : string.Empty) },");
-                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".Copy())" : string.Empty)})),");
+                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".Copy()" : string.Empty) },");
+                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".Copy()" : string.Empty)})),");
                     }
                 }
                 fg.AppendLine($"{cmdAccessor});");
@@ -217,7 +237,21 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLine($"{rhsAccessorPrefix}.Select(");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".Copy()" : string.Empty) },");
+                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".Copy()" : string.Empty)})),");
+                    }
+                }
+                fg.AppendLine($"{cmdsAccessor});");
+            }
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)

@@ -159,12 +159,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
         }
-
-        public override void SetMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
-        {
-            fg.AppendLine($"{errorMaskAccessor} = {exception};");
-        }
-
+        
         public override string GenerateACopy(string rhsAccessor)
         {
             return rhsAccessor;

@@ -4,7 +4,7 @@ namespace Noggolloquy.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName => $"INotifyingList<{this.ItemTypeName}>";
+        public override string TypeName => $"NotifyingList<{this.ItemTypeName}>";
 
         public override void GenerateForClass(FileGeneration fg)
         {

@@ -27,6 +27,17 @@ namespace Noggolloquy.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #region KeyField
+        protected readonly INotifyingItem<Int32> _KeyField = new NotifyingItem<Int32>(
+            default(Int32),
+            markAsSet: false
+        );
+        public INotifyingItem<Int32> KeyField_Property => _KeyField;
+        public Int32 KeyField { get { return _KeyField.Value; } set { _KeyField.Value = value; } }
+        INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
+        INotifyingItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
+        #endregion
+
         #region SomeField
         protected readonly INotifyingItem<Boolean> _SomeField = new NotifyingItem<Boolean>(
             default(Boolean),
@@ -53,7 +64,7 @@ namespace Noggolloquy.Tests
         public ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;
         public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 3, version: 0);
         public ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;
-        public int FieldCount => 1;
+        public int FieldCount => 2;
 
         public string Noggolloquy_GUID => "39bed53a-0f81-4fdc-8ce4-84563c3125cf";
 
@@ -62,6 +73,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return obj.KeyField;
+                case 1:
                     return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -73,6 +86,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return obj.KeyField_Property.HasBeenSet;
+                case 1:
                     return obj.SomeField_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -118,6 +133,9 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    obj._KeyField.SetHasBeenSet(on);
+                    break;
+                case 1:
                     obj._SomeField.SetHasBeenSet(on);
                     break;
                 default:
@@ -156,6 +174,7 @@ namespace Noggolloquy.Tests
 
         public bool Equals(ObjectToRef rhs)
         {
+            if (!object.Equals(this.KeyField, rhs.KeyField)) return false;
             if (!object.Equals(this.SomeField, rhs.SomeField)) return false;
             return true;
         }
@@ -163,7 +182,8 @@ namespace Noggolloquy.Tests
         public override int GetHashCode()
         {
             return 
-            HashHelper.GetHashCode(SomeField)
+            HashHelper.GetHashCode(KeyField)
+            .CombineHashCode(HashHelper.GetHashCode(SomeField))
             ;
         }
 
@@ -184,6 +204,36 @@ namespace Noggolloquy.Tests
 
         private void SetTo_Internal(ObjectToRef rhs, IObjectToRef def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
+            try
+            {
+                if (rhs.KeyField_Property.HasBeenSet)
+                {
+                    this.KeyField_Property.Set(
+                        rhs.KeyField,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.KeyField_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.KeyField_Property.Set(
+                            def.KeyField,
+                            cmds);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(0, ex);
+                }
+            }
             try
             {
                 if (rhs.SomeField_Property.HasBeenSet)
@@ -211,7 +261,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SomeField = ex;
+                    errorMask.SetNthException(1, ex);
                 }
             }
         }
@@ -346,6 +396,7 @@ namespace Noggolloquy.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             ClearPartial(cmds);
+            this.KeyField_Property.Unset(cmds.ToUnsetParams());
             this.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
 
@@ -355,6 +406,9 @@ namespace Noggolloquy.Tests
     #region Interface
     public interface IObjectToRef : IObjectToRefGetter, INoggolloquyClass<IObjectToRef, IObjectToRefGetter>, INoggolloquyClass<ObjectToRef, IObjectToRefGetter>
     {
+        new Int32 KeyField { get; set; }
+        new INotifyingItem<Int32> KeyField_Property { get; }
+
         new Boolean SomeField { get; set; }
         new INotifyingItem<Boolean> SomeField_Property { get; }
 
@@ -362,6 +416,12 @@ namespace Noggolloquy.Tests
 
     public interface IObjectToRefGetter : INoggolloquyObjectGetter
     {
+        #region KeyField
+        Int32 KeyField { get; }
+        INotifyingItemGetter<Int32> KeyField_Property { get; }
+
+        #endregion
+
         #region SomeField
         Boolean SomeField { get; }
         INotifyingItemGetter<Boolean> SomeField_Property { get; }
@@ -385,6 +445,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return typeof(Int32);
+                case 1:
                     return typeof(Boolean);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -397,6 +459,8 @@ namespace Noggolloquy.Tests
             {
                 case 0:
                     return false;
+                case 1:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -407,6 +471,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return obj.KeyField;
+                case 1:
                     return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -418,6 +484,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return "KeyField";
+                case 1:
                     return "SomeField";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -436,6 +504,36 @@ namespace Noggolloquy.Tests
         #region Copy Fields From
         public static void CopyFieldsFrom(IObjectToRef item, IObjectToRefGetter rhs, IObjectToRefGetter def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
+            try
+            {
+                if (rhs.KeyField_Property.HasBeenSet)
+                {
+                    item.KeyField_Property.Set(
+                        rhs.KeyField,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.KeyField_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.KeyField_Property.Set(
+                            def.KeyField,
+                            cmds);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(0, ex);
+                }
+            }
             try
             {
                 if (rhs.SomeField_Property.HasBeenSet)
@@ -463,7 +561,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SomeField = ex;
+                    errorMask.SetNthException(1, ex);
                 }
             }
         }
@@ -475,6 +573,9 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    obj.KeyField_Property.SetHasBeenSet(on);
+                    break;
+                case 1:
                     obj.SomeField_Property.SetHasBeenSet(on);
                     break;
                 default:
@@ -486,8 +587,10 @@ namespace Noggolloquy.Tests
         {
             switch (str.Upper)
             {
-                case "SOMEFIELD":
+                case "KEYFIELD":
                     return 0;
+                case "SOMEFIELD":
+                    return 1;
                 default:
                     throw new ArgumentException($"Queried unknown field: {{str}}");
             }
@@ -498,6 +601,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return false;
+                case 1:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -510,6 +615,8 @@ namespace Noggolloquy.Tests
             {
                 case 0:
                     return false;
+                case 1:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -521,6 +628,8 @@ namespace Noggolloquy.Tests
             {
                 case 0:
                     return false;
+                case 1:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -531,6 +640,8 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    return obj.KeyField_Property.HasBeenSet;
+                case 1:
                     return obj.SomeField_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -542,8 +653,13 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    nog.KeyField_Property.Set(
+                        ((Int32)obj),
+                        cmds);
+                    break;
+                case 1:
                     nog.SomeField_Property.Set(
-                        (Boolean)obj,
+                        ((Boolean)obj),
                         cmds);
                     break;
                 default:
@@ -569,6 +685,7 @@ namespace Noggolloquy.Tests
     #region Mask
     public class ObjectToRef_Mask<T> 
     {
+        public T KeyField;
         public T SomeField;
     }
 
@@ -587,6 +704,7 @@ namespace Noggolloquy.Tests
                 return _warnings;
             }
         }
+        public Exception KeyField;
         public Exception SomeField;
 
         public void SetNthException(ushort index, Exception ex)
@@ -594,6 +712,9 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    this.KeyField = ex;
+                    break;
+                case 1:
                     this.SomeField = ex;
                     break;
                 default:
@@ -606,6 +727,9 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
+                    this.KeyField = (Exception)obj;
+                    break;
+                case 1:
                     this.SomeField = (Exception)obj;
                     break;
                 default:

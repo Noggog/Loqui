@@ -70,11 +70,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception)
-        {
-            subGenerator.SetMaskException(fg, errorMaskMemberAccessor, exception);
-        }
-
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
             subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);

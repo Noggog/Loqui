@@ -82,8 +82,6 @@ namespace Noggolloquy.Generation
 
         public abstract void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor);
 
-        public abstract void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception);
-
         public virtual void GenerateForInterfaceExt(FileGeneration fg)
         {
 

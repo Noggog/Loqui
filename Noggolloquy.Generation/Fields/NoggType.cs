@@ -165,11 +165,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override void SetMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception)
-        {
-            fg.AppendLine($"{errorMaskMemberAccessor} = new MaskItem<Exception, {this.GenerateErrorMaskItemString()}>({exception}, null);");
-        }
-
         private string StructTypeName()
         {
             return $"{TypeName}{(this.AllowNull ? "?" : string.Empty)}";
