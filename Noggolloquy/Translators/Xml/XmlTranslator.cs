@@ -31,10 +31,9 @@ namespace Noggolloquy.Xml
                 Type transItemType = kv.Key.GetGenericArguments()[0];
                 try
                 {
-                    object xmlTransl = Activator.CreateInstance(kv.Value);
-                    var xmlConverterGenType = typeof(XmlTranslationCaster<>).MakeGenericType(transItemType);
-                    IXmlTranslation<Object> transl = Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object>;
-                    SetTranslator(transl, transItemType);
+                    SetTranslator(
+                        GetCaster(kv.Value, transItemType), 
+                        transItemType);
                 }
                 catch (Exception ex)
                 {
@@ -46,6 +45,13 @@ namespace Noggolloquy.Xml
                         }).Value = GetResponse<IXmlTranslation<object>>.Fail(ex);
                 }
             }
+        }
+
+        private static IXmlTranslation<object> GetCaster(Type xmlType, Type targetType)
+        {
+            object xmlTransl = Activator.CreateInstance(xmlType);
+            var xmlConverterGenType = typeof(XmlTranslationCaster<>).MakeGenericType(targetType);
+            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object>;
         }
 
         public static bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
@@ -77,9 +83,36 @@ namespace Noggolloquy.Xml
             elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Value = t;
         }
 
-        public static INotifyingItem<GetResponse<IXmlTranslation<Object>>> GetTranslator(Type t)
+        public static INotifyingItemGetter<GetResponse<IXmlTranslation<Object>>> GetTranslator(Type t)
         {
-            return typeDict[t];
+            TryGetTranslator(t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not);
+            return not;
+        }
+
+        public static bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)
+        {
+            if (typeDict.TryGetValue(t, out var item))
+            {
+                not = item;
+                return true;
+            }
+            if (NoggolloquyRegistration.IsNoggType(t))
+            {
+                var noggTypes = new Type[]
+                {
+                    t,
+                    NoggolloquyRegistration.GetMaskType(t)
+                };
+                var xmlConverterGenType = typeof(NoggXmlTranslation<,>).MakeGenericType(noggTypes);
+                var xmlCaster = GetCaster(xmlConverterGenType, t);
+                item = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
+                    GetResponse<IXmlTranslation<object>>.Succeed(xmlCaster));
+                typeDict[t] = item;
+                not = item;
+                return true;
+            }
+            not = null;
+            return false;
         }
 
         public static bool TryGetTranslator(Type t, out IXmlTranslation<object> transl)

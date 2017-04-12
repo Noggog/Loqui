@@ -10,6 +10,7 @@ namespace Noggolloquy
         static Dictionary<ObjectKey, NoggolloquyTypeRegister> Registers = new Dictionary<ObjectKey, NoggolloquyTypeRegister>();
         static Dictionary<string, NoggolloquyTypeRegister> NameRegisters = new Dictionary<string, NoggolloquyTypeRegister>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
+        static Dictionary<Type, Type> errorMasks = new Dictionary<Type, Type>();
 
         static NoggolloquyRegistration()
         {
@@ -117,6 +118,17 @@ namespace Noggolloquy
         {
             Registers.Add(obj, reg);
             NameRegisters.Add(reg.FullName, reg);
+            errorMasks.Add(reg.Class, reg.ErrorMask);
+        }
+
+        public static bool IsNoggType(Type t)
+        {
+            return errorMasks.ContainsKey(t);
+        }
+
+        public static Type GetMaskType(Type t)
+        {
+            return errorMasks[t];
         }
     }
 }

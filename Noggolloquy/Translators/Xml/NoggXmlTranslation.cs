@@ -14,7 +14,7 @@ namespace Noggolloquy.Xml
     public delegate void NoggXmlCopyInFunction(XElement root, object item, NotifyingFireParameters? cmds, bool doMasks, out object mask);
     public delegate void NoggXmlWriteFunction(XmlWriter writer, string name, object item, bool doMasks, out object mask);
 
-    public class NoggXmlTranslation<T, M>
+    public class NoggXmlTranslation<T, M> : IXmlTranslation<T>
         where T : INoggolloquyObjectGetter
         where M : IErrorMask, new()
     {
@@ -124,7 +124,7 @@ namespace Noggolloquy.Xml
             }
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
+        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
             using (new ElementWrapper(writer, item.NoggolloquyName))
             {
@@ -132,7 +132,7 @@ namespace Noggolloquy.Xml
                 {
                     writer.WriteAttributeString("name", name);
                 }
-                mask = doMasks ? new M() : default(M);
+                mask = default(M);
 
                 try
                 {
@@ -166,6 +166,10 @@ namespace Noggolloquy.Xml
 
                             if (subMaskObj != null)
                             {
+                                if (mask == null)
+                                {
+                                    mask = new M();
+                                }
                                 mask.SetNthMask(i, subMaskObj);
                             }
                         }
@@ -173,6 +177,10 @@ namespace Noggolloquy.Xml
                         {
                             if (doMasks)
                             {
+                                if (mask == null)
+                                {
+                                    mask = new M();
+                                }
                                 mask.SetNthException(i, ex);
                             }
                             else
@@ -186,6 +194,10 @@ namespace Noggolloquy.Xml
                 {
                     if (doMasks)
                     {
+                        if (mask == null)
+                        {
+                            mask = new M();
+                        }
                         mask.Overall = ex;
                     }
                     else
@@ -194,6 +206,7 @@ namespace Noggolloquy.Xml
                     }
                 }
             }
+            return mask == null;
         }
 
         private bool TryGetWriteFunction(Type t, out NoggXmlWriteFunction writeFunc)
@@ -211,6 +224,22 @@ namespace Noggolloquy.Xml
             {
                 return copyInFunc != null;
             }
+            throw new NotImplementedException();
+        }
+
+        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        {
+            if (this.Write(writer, name, item, doMasks, out M mask))
+            {
+                maskObj = mask;
+                return true;
+            }
+            maskObj = null;
+            return false;
+        }
+
+        public TryGet<T> Parse(XElement root, bool doMasks, out object maskObj)
+        {
             throw new NotImplementedException();
         }
     }

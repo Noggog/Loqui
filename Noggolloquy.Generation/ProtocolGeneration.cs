@@ -181,6 +181,7 @@ namespace Noggolloquy.Generation
                                 using (new DepthWrapper(fg))
                                 {
                                     fg.AppendLine($"classType: typeof({obj.Name}{obj.EmptyGenerics}),");
+                                    fg.AppendLine($"errorMask: typeof({obj.GetErrorMaskItemString()}),");
                                     fg.AppendLine($"fullName: \"{obj.Name}\",");
                                     fg.AppendLine($"genericCount: {obj.Generics.Count},");
                                     fg.AppendLine($"objectKey: new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version})));");
