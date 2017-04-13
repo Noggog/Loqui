@@ -2499,6 +2499,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
+                skipReadonly: false,
                 doMasks: false,
                 mask: out TestObject_ErrorMask errorMask,
                 cmds: null);
@@ -2511,6 +2512,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
+                skipReadonly: false,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: null);
@@ -2522,6 +2524,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
+                skipReadonly: true,
                 doMasks: false,
                 mask: out TestObject_ErrorMask errorMask,
                 cmds: cmds);
@@ -2532,6 +2535,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
+                skipReadonly: true,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: cmds);

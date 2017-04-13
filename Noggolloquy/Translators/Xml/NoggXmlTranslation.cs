@@ -19,11 +19,18 @@ namespace Noggolloquy.Xml
         where M : IErrorMask, new()
     {
         public readonly static NoggXmlTranslation<T, M> Instance = new NoggXmlTranslation<T, M>();
-        public string ElementName => throw new NotImplementedException();
+        private static readonly string _elementName = NoggolloquyRegistration.GetRegister(typeof(T)).FullName;
+        public string ElementName => _elementName;
         private static Dictionary<Type, NoggXmlCopyInFunction> _readerDict = new Dictionary<Type, NoggXmlCopyInFunction>();
         private static Dictionary<Type, NoggXmlWriteFunction> _writerDict = new Dictionary<Type, NoggXmlWriteFunction>();
 
-        public void CopyIn<C>(XElement root, C item, bool doMasks, out M mask, NotifyingFireParameters? cmds)
+        public void CopyIn<C>(
+            XElement root,
+            C item,
+            bool skipReadonly,
+            bool doMasks, 
+            out M mask, 
+            NotifyingFireParameters? cmds)
             where C : T, INoggolloquyObjectSetter
         {
             mask = doMasks ? new M() : default(M);
@@ -45,6 +52,9 @@ namespace Noggolloquy.Xml
                         mask.Warnings.Add("Skipping field that did not exist anymore with name: " + name);
                         continue;
                     }
+
+                    var readOnly = item.IsReadOnly(i.Value);
+                    if (readOnly && skipReadonly) continue;
 
                     try
                     {
