@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="IErrorMask.cs" />
     <Compile Include="INoggolloquySerializer.cs" />
     <Compile Include="Interfaces\IClearable.cs" />

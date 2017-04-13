@@ -1,7 +1,9 @@
 ﻿using Noggog;
+using Noggolloquy.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Noggolloquy
 {
@@ -9,8 +11,10 @@ namespace Noggolloquy
     {
         static Dictionary<ObjectKey, NoggolloquyTypeRegister> Registers = new Dictionary<ObjectKey, NoggolloquyTypeRegister>();
         static Dictionary<string, NoggolloquyTypeRegister> NameRegisters = new Dictionary<string, NoggolloquyTypeRegister>();
+        static Dictionary<Type, NoggolloquyTypeRegister> TypeRegister = new Dictionary<Type, NoggolloquyTypeRegister>();
+        static Dictionary<Type, Delegate> CreateFuncRegister = new Dictionary<Type, Delegate>();
+        static Dictionary<Type, Delegate> CopyInFuncRegister = new Dictionary<Type, Delegate>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
-        static Dictionary<Type, Type> errorMasks = new Dictionary<Type, Type>();
 
         static NoggolloquyRegistration()
         {
@@ -118,17 +122,74 @@ namespace Noggolloquy
         {
             Registers.Add(obj, reg);
             NameRegisters.Add(reg.FullName, reg);
-            errorMasks.Add(reg.Class, reg.ErrorMask);
+            TypeRegister.Add(reg.Class, reg);
         }
 
         public static bool IsNoggType(Type t)
         {
-            return errorMasks.ContainsKey(t);
+            return TypeRegister.ContainsKey(t);
+        }
+        
+        public static NoggolloquyTypeRegister GetRegister(Type t)
+        {
+            return TypeRegister[t];
         }
 
-        public static Type GetMaskType(Type t)
+        public static Func<IEnumerable<KeyValuePair<ushort, object>>, T> GetCreateFunc<T>()
         {
-            return errorMasks[t];
+            var t = typeof(T);
+            if (CreateFuncRegister.TryGetValue(t, out var createFunc))
+            {
+                return createFunc as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
+            }
+            var register = GetRegister(t);
+            var methodInfo = t.GetMethod(
+                Constants.CREATE_FUNC_NAME,
+                Constants.CREATE_FUNC_PARAM_ARRAY);
+            var param = Expression.Parameter(Constants.CREATE_FUNC_PARAM, "fields");
+            var tArgs = new List<Type>();
+            foreach (var p in methodInfo.GetParameters())
+            {
+                tArgs.Add(p.ParameterType);
+            }
+            tArgs.Add(methodInfo.ReturnType);
+            var del = Expression.Lambda(
+                delegateType: Expression.GetDelegateType(tArgs.ToArray()),
+                body: Expression.Call(methodInfo, param),
+                parameters: param).Compile();
+            CreateFuncRegister[t] = del;
+            return del as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
+        }
+
+        public static Action<IEnumerable<KeyValuePair<ushort, object>>, T> GetCopyInFunc<T>()
+        {
+            var t = typeof(T);
+            if (CopyInFuncRegister.TryGetValue(t, out var createFunc))
+            {
+                return createFunc as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
+            }
+            var register = GetRegister(t);
+            var methodInfo = t.GetMethod(
+                Constants.COPYIN_FUNC_NAME,
+                new Type[]
+                {
+                    Constants.CREATE_FUNC_PARAM,
+                    t,
+                });
+            var fields = Expression.Parameter(Constants.CREATE_FUNC_PARAM, "fields");
+            var obj = Expression.Parameter(t, "obj");
+            var tArgs = new List<Type>();
+            foreach (var p in methodInfo.GetParameters())
+            {
+                tArgs.Add(p.ParameterType);
+            }
+            tArgs.Add(methodInfo.ReturnType);
+            var del = Expression.Lambda(
+                delegateType: Expression.GetDelegateType(tArgs.ToArray()),
+                body: Expression.Call(methodInfo, fields, obj),
+                parameters: new ParameterExpression[] { fields, obj }).Compile();
+            CreateFuncRegister[t] = del;
+            return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
     }
 }
