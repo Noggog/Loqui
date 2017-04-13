@@ -3195,95 +3195,50 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
-                    return false;
                 case 2:
-                    return false;
                 case 3:
-                    return false;
                 case 4:
-                    return false;
                 case 5:
-                    return false;
                 case 6:
-                    return false;
                 case 7:
-                    return false;
                 case 8:
-                    return false;
                 case 9:
-                    return false;
                 case 10:
-                    return false;
                 case 11:
-                    return false;
                 case 12:
-                    return false;
                 case 13:
-                    return false;
                 case 14:
-                    return false;
                 case 15:
-                    return false;
                 case 16:
-                    return false;
                 case 17:
-                    return false;
                 case 18:
-                    return false;
                 case 19:
-                    return false;
                 case 20:
-                    return false;
                 case 21:
-                    return false;
                 case 22:
-                    return false;
                 case 23:
-                    return false;
                 case 24:
-                    return false;
                 case 25:
-                    return false;
                 case 26:
-                    return false;
                 case 27:
-                    return false;
                 case 28:
-                    return false;
                 case 29:
-                    return false;
                 case 30:
-                    return false;
                 case 31:
-                    return false;
                 case 32:
-                    return false;
                 case 33:
-                    return false;
                 case 34:
-                    return false;
                 case 35:
-                    return false;
                 case 36:
-                    return false;
                 case 37:
-                    return false;
                 case 38:
-                    return false;
                 case 39:
-                    return false;
                 case 40:
-                    return false;
                 case 41:
-                    return false;
                 case 42:
-                    return false;
                 case 43:
-                    return false;
                 case 44:
-                    return false;
                 case 45:
                     return false;
                 default:
@@ -5194,95 +5149,50 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
-                    return false;
                 case 2:
-                    return false;
                 case 3:
-                    return false;
                 case 4:
-                    return false;
                 case 5:
-                    return false;
                 case 6:
-                    return false;
                 case 7:
-                    return false;
                 case 8:
-                    return false;
                 case 9:
-                    return false;
                 case 10:
-                    return false;
                 case 11:
-                    return false;
                 case 12:
-                    return false;
                 case 13:
-                    return false;
                 case 14:
-                    return false;
                 case 15:
-                    return false;
                 case 16:
-                    return false;
                 case 17:
-                    return false;
                 case 18:
-                    return false;
                 case 19:
-                    return false;
                 case 20:
-                    return false;
                 case 21:
-                    return false;
                 case 22:
-                    return false;
                 case 23:
-                    return false;
                 case 24:
-                    return false;
                 case 25:
-                    return false;
                 case 26:
-                    return false;
                 case 27:
-                    return false;
                 case 28:
-                    return false;
                 case 29:
-                    return false;
                 case 30:
-                    return false;
                 case 31:
-                    return false;
                 case 32:
-                    return false;
                 case 33:
-                    return false;
                 case 34:
-                    return false;
                 case 35:
-                    return false;
                 case 36:
-                    return false;
                 case 37:
-                    return false;
                 case 38:
-                    return false;
                 case 39:
-                    return false;
                 case 40:
-                    return false;
                 case 41:
-                    return false;
                 case 42:
-                    return false;
                 case 43:
-                    return false;
                 case 44:
-                    return false;
                 case 45:
                     return false;
                 default:
@@ -5294,96 +5204,52 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 0:
-                    return false;
-                case 1:
-                    return false;
-                case 2:
-                    return false;
-                case 3:
-                    return false;
-                case 4:
-                    return false;
-                case 5:
-                    return false;
-                case 6:
-                    return false;
-                case 7:
-                    return false;
-                case 8:
-                    return false;
-                case 9:
-                    return false;
-                case 10:
-                    return false;
-                case 11:
-                    return false;
-                case 12:
-                    return false;
-                case 13:
-                    return false;
-                case 14:
-                    return false;
-                case 15:
-                    return false;
-                case 16:
-                    return false;
-                case 17:
-                    return false;
-                case 18:
-                    return false;
-                case 19:
-                    return false;
-                case 20:
-                    return false;
-                case 21:
-                    return false;
-                case 22:
-                    return false;
-                case 23:
-                    return false;
-                case 24:
-                    return false;
-                case 25:
-                    return false;
-                case 26:
-                    return false;
-                case 27:
-                    return false;
-                case 28:
-                    return false;
-                case 29:
-                    return false;
-                case 30:
-                    return false;
-                case 31:
-                    return false;
-                case 32:
-                    return false;
-                case 33:
-                    return false;
-                case 34:
-                    return false;
-                case 35:
-                    return false;
-                case 36:
-                    return false;
-                case 37:
-                    return false;
-                case 38:
-                    return false;
-                case 39:
-                    return false;
-                case 40:
-                    return false;
                 case 41:
-                    return true;
                 case 42:
                     return true;
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
                 case 43:
-                    return false;
                 case 44:
-                    return false;
                 case 45:
                     return false;
                 default:
@@ -5395,96 +5261,52 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 0:
-                    return false;
-                case 1:
-                    return false;
-                case 2:
-                    return false;
-                case 3:
-                    return false;
-                case 4:
-                    return false;
-                case 5:
-                    return false;
-                case 6:
-                    return false;
-                case 7:
-                    return false;
-                case 8:
-                    return false;
-                case 9:
-                    return false;
-                case 10:
-                    return false;
-                case 11:
-                    return false;
-                case 12:
-                    return false;
-                case 13:
-                    return false;
-                case 14:
-                    return false;
-                case 15:
-                    return false;
-                case 16:
-                    return false;
-                case 17:
-                    return false;
-                case 18:
-                    return false;
-                case 19:
-                    return false;
-                case 20:
-                    return false;
-                case 21:
-                    return false;
-                case 22:
-                    return false;
-                case 23:
-                    return false;
-                case 24:
-                    return false;
-                case 25:
-                    return false;
-                case 26:
-                    return false;
-                case 27:
-                    return false;
-                case 28:
-                    return false;
-                case 29:
-                    return false;
-                case 30:
-                    return false;
-                case 31:
-                    return false;
-                case 32:
-                    return false;
-                case 33:
-                    return false;
-                case 34:
-                    return false;
-                case 35:
-                    return false;
-                case 36:
-                    return false;
-                case 37:
-                    return false;
-                case 38:
-                    return false;
-                case 39:
-                    return false;
                 case 40:
-                    return true;
-                case 41:
-                    return false;
                 case 42:
                     return true;
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 41:
                 case 43:
-                    return false;
                 case 44:
-                    return false;
                 case 45:
                     return false;
                 default:

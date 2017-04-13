@@ -688,31 +688,52 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    Func<TypeGeneration, bool> tester = (t) =>
                     {
-                        fg.AppendLine($"case {item.Index}:");
-                        using (new DepthWrapper(fg))
+                        if (t is NoggType)
                         {
-                            if (item.Field is NoggType)
+                            return true;
+                        }
+                        else if (t is ContainerType)
+                        {
+                            ContainerType listField = t as ContainerType;
+                            if (listField.SubTypeGeneration is NoggType)
                             {
-                                fg.AppendLine("return true;");
-                            }
-                            else if (item.Field is ContainerType)
-                            {
-                                ContainerType listField = item.Field as ContainerType;
-                                if (listField.SubTypeGeneration is NoggType)
-                                {
-                                    fg.AppendLine("return true;");
-                                }
-                                else
-                                {
-                                    fg.AppendLine("return false;");
-                                }
+                                return true;
                             }
                             else
                             {
-                                fg.AppendLine("return false;");
+                                return false;
                             }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    };
+
+                    var trues = IterateFields().Where((i) => tester(i.Field));
+                    var falses = IterateFields().Where((i) => !tester(i.Field));
+                    if (trues.Any())
+                    {
+                        foreach (var item in trues)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return true;");
+                        }
+                    }
+                    if (falses.Any())
+                    {
+                        foreach (var item in falses)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return false;");
                         }
                     }
 
@@ -730,12 +751,28 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    var trues = IterateFields().Where((i) => i.Field.Derivative);
+                    var falses = IterateFields().Where((i) => !i.Field.Derivative);
+                    if (trues.Any())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        foreach (var item in trues)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("return " + item.Field.Derivative.ToString().ToLower() + ";");
+                            fg.AppendLine("return true;");
+                        }
+                    }
+                    if (falses.Any())
+                    {
+                        foreach (var item in falses)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return false;");
                         }
                     }
 
@@ -753,19 +790,28 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    var trues = IterateFields().Where((i) => i.Field is ContainerType);
+                    var falses = IterateFields().Where((i) => !(i.Field is ContainerType));
+                    if (trues.Any())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        foreach (var item in trues)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field is ContainerType)
-                            {
-                                fg.AppendLine("return true;");
-                            }
-                            else
-                            {
-                                fg.AppendLine("return false;");
-                            }
+                            fg.AppendLine("return true;");
+                        }
+                    }
+                    if (falses.Any())
+                    {
+                        foreach (var item in falses)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return false;");
                         }
                     }
 
@@ -1210,14 +1256,31 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in this.IterateFields())
+                    var trues = IterateFields().Where((i) => i.Field.Derivative);
+                    var falses = IterateFields().Where((i) => !i.Field.Derivative);
+                    if (trues.Any())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        foreach (var item in trues)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return {item.Field.Protected.ToString().ToLower()};");
+                            fg.AppendLine("return true;");
                         }
                     }
+                    if (falses.Any())
+                    {
+                        foreach (var item in falses)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return false;");
+                        }
+                    }
+
                     GenerateStandardIndexDefault(fg, "IsReadOnly", "index", true);
                 }
             }

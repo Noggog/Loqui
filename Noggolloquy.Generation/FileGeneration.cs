@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("ret.CopyFieldsFrom(s, defList[i++]);"))
+            if (str.Contains("ClearPartial(cmds);"))
             {
                 int wer = 23;
                 wer++;

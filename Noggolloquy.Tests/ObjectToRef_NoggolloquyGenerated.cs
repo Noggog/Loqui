@@ -458,7 +458,6 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
                     return false;
                 default:
@@ -601,7 +600,6 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
                     return false;
                 default:
@@ -614,7 +612,6 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
                     return false;
                 default:
@@ -627,7 +624,6 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    return false;
                 case 1:
                     return false;
                 default:
