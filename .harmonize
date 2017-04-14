@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>1de32248984e825a8420a0213e7deaf1a191258d</Sha>
-      <Description>TypeExt GetInheritingFromInterface catching ReflectionTypeLoadException</Description>
+      <Sha>3882473f2a064012d0d30fab3552a7346a5c2616</Sha>
+      <Description>IHasBeenSet.SetHasBeenSet removed.   INotifyingKeyedCollection refactored to hopefully reduce definition conflict</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-11-2017 22:52:05</CommitDate>
+      <CommitDate>04-13-2017 21:21:14</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

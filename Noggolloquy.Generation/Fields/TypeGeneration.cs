@@ -78,6 +78,8 @@ namespace Noggolloquy.Generation
 
         public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse);
 
+        public abstract void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor);
+
         public abstract void GenerateGetNth(FileGeneration fg, string identifier);
 
         public abstract void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor);

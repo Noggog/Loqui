@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Noggog.Notifying;
+using Noggolloquy.Internal;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -267,6 +269,8 @@ namespace Noggolloquy.Generation
                     GenerateCopy(fg);
 
                     GenerateClear(fg);
+
+                    GenerateGenericCreate(fg);
                 }
             }
 
@@ -350,6 +354,8 @@ namespace Noggolloquy.Generation
                     GenerateCopyFieldsFrom(fg);
 
                     GenerateSetNthObjectHasBeenSet(fg, false);
+
+                    GenerateUnsetNthObject(fg);
 
                     GenerateGetNameIndex(fg);
 
@@ -506,6 +512,9 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj, cmds);");
                 fg.AppendLine();
 
+                fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(this, index, cmds);");
+                fg.AppendLine();
+
                 fg.AppendLine($"public{this.FunctionOverride}Type GetMaskType() => typeof({this.GetMaskString(string.Empty)});");
                 fg.AppendLine();
 
@@ -525,8 +534,6 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.SetNthObjectHasBeenSet(index, on, this);");
                 }
                 fg.AppendLine();
-
-                this.GenerateSetNthObjectHasBeenSet(fg, true);
 
                 // Generic version
                 fg.AppendLine($"public void CopyFieldsFrom({this.Getter_InterfaceStr} rhs, {this.Getter_InterfaceStr} def = null, NotifyingFireParameters? cmds = null)");
@@ -645,7 +652,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
         {
-            fg.AppendLine($"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}(ushort index, bool on, {(internalUse ? this.ObjectName : this.InterfaceStr)} obj)");
+            fg.AppendLine($"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}(ushort index, bool on, {(internalUse ? this.ObjectName : this.InterfaceStr)} obj, {nameof(NotifyingFireParameters)}? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -669,6 +676,43 @@ namespace Noggolloquy.Generation
                             else
                             {
                                 item.Field.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
+                                fg.AppendLine("break;");
+                            }
+                        }
+                    }
+
+                    GenerateStandardIndexDefault(fg, "SetNthObjectHasBeenSet", "index", false, "on", "obj");
+                }
+            }
+            fg.AppendLine();
+        }
+
+        protected virtual void GenerateUnsetNthObject(FileGeneration fg)
+        {
+            fg.AppendLine($"public static void UnsetNthObject({this.InterfaceStr} obj, ushort index, {nameof(NotifyingUnsetParameters)}? cmds = null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("switch (index)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var item in IterateFields())
+                    {
+                        fg.AppendLine($"case {item.Index}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            if (item.Field.Derivative)
+                            {
+                                fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
+                                return;
+                            }
+
+                            if (item.Field.Protected)
+                            {
+                                fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
+                            }
+                            else
+                            {
+                                item.Field.GenerateUnsetNth(fg, "obj", "cmds");
                                 fg.AppendLine("break;");
                             }
                         }
@@ -1244,6 +1288,28 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("ClearPartial(cmds);");
                 }
                 GenerateClear(fg, "this", "cmds");
+            }
+            fg.AppendLine();
+        }
+
+        protected virtual void GenerateGenericCreate(FileGeneration fg)
+        {
+            if (!this.Abstract)
+            {
+                fg.AppendLine($"public static {this.ObjectName} {Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"var ret = new {this.ObjectName}();");
+                    fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);");
+                    fg.AppendLine("return ret;");
+                }
+                fg.AppendLine();
+            }
+
+            fg.AppendLine($"public static void {Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);");
             }
             fg.AppendLine();
         }

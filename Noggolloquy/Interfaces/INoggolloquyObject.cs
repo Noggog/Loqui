@@ -3,6 +3,7 @@ using Noggog.Notifying;
 using Noggog.Printing;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Noggolloquy
 {
@@ -48,6 +49,7 @@ namespace Noggolloquy
     public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
+        void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds);
         void SetNthObject(ushort index, object o, NotifyingFireParameters? cmds);
     }
 
@@ -56,8 +58,8 @@ namespace Noggolloquy
         where G : class
     {
     }
-    
-    public static class INoggolloquyObjectGetterExt
+
+    public static class INoggolloquyObjectExt
     {
         public static bool HasFieldWithName(this INoggolloquyObjectGetter obj, StringCaseAgnostic name)
         {
@@ -147,6 +149,90 @@ namespace Noggolloquy
 
         private static void PrintItem(INoggolloquyObjectGetter nogg, ushort i, object o, DepthPrinter dp)
         {
+        }
+
+        public static void CopyFieldsIn(
+            this INoggolloquyObjectSetter obj,
+            IEnumerable<KeyValuePair<ushort, object>> fields,
+            INoggolloquyObjectGetter def,
+            bool skipReadonly,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (fields == null || !fields.Any()) return;
+            HashSet<ushort> readFields = new HashSet<ushort>();
+            foreach (var field in fields)
+            {
+                readFields.Add(field.Key);
+                if (skipReadonly && obj.IsReadOnly(field.Key)) continue;
+                obj.SetNthObject(field.Key, field.Value, cmds);
+            }
+
+            for (ushort i = 0; i < obj.FieldCount; i++)
+            {
+                if (obj.IsNthDerivative(i)) continue;
+                if (readFields.Contains(i)) continue;
+                if (def != null && def.GetNthObjectHasBeenSet(i))
+                {
+                    obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                }
+                else
+                {
+                    obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                }
+            }
+        }
+
+        public static void CopyFieldsIn(
+            this INoggolloquyObjectSetter obj,
+            IEnumerable<KeyValuePair<ushort, object>> fields,
+            INoggolloquyObjectGetter def,
+            Func<IErrorMask> errorMaskGetter,
+            bool skipReadonly,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (!fields.Any()) return;
+            try
+            {
+                HashSet<ushort> readFields = new HashSet<ushort>();
+                foreach (var field in fields)
+                {
+                    readFields.Add(field.Key);
+                    if (skipReadonly && obj.IsReadOnly(field.Key)) continue;
+                    try
+                    {
+                        obj.SetNthObject(field.Key, field.Value, cmds);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMaskGetter().SetNthException(field.Key, ex);
+                    }
+                }
+
+                for (ushort i = 0; i < obj.FieldCount; i++)
+                {
+                    if (obj.IsNthDerivative(i)) continue;
+                    if (readFields.Contains(i)) continue;
+                    try
+                    {
+                        if (def != null && def.GetNthObjectHasBeenSet(i))
+                        {
+                            obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                        }
+                        else
+                        {
+                            obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMaskGetter().SetNthException(i, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMaskGetter().Overall = ex;
+            }
         }
     }
 }

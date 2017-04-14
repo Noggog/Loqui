@@ -116,6 +116,8 @@ namespace Noggolloquy.Tests
 
         public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => ObjectToRefCommon.SetNthObject(this, index, obj, cmds);
 
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(this, index, cmds);
+
         public Type GetMaskType() => typeof(ObjectToRef_Mask<>);
 
         public Type GetErrorMaskType() => typeof(ObjectToRef_ErrorMask);
@@ -126,21 +128,6 @@ namespace Noggolloquy.Tests
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             ObjectToRefCommon.SetNthObjectHasBeenSet(index, on, this);
-        }
-
-        public void SetNthObjectHasBeenSet_Internal(ushort index, bool on, ObjectToRef obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    obj._KeyField.SetHasBeenSet(on);
-                    break;
-                case 1:
-                    obj._SomeField.SetHasBeenSet(on);
-                    break;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
         }
 
         public void CopyFieldsFrom(IObjectToRefGetter rhs, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
@@ -404,6 +391,18 @@ namespace Noggolloquy.Tests
             this.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
 
+        public static ObjectToRef Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        {
+            var ret = new ObjectToRef();
+            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
+            return ret;
+        }
+
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, ObjectToRef obj)
+        {
+            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
+        }
+
     }
     #endregion
 
@@ -571,15 +570,30 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, IObjectToRef obj)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, IObjectToRef obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    obj.KeyField_Property.SetHasBeenSet(on);
+                    obj.KeyField_Property.HasBeenSet = on;
                     break;
                 case 1:
-                    obj.SomeField_Property.SetHasBeenSet(on);
+                    obj.SomeField_Property.HasBeenSet = on;
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static void UnsetNthObject(IObjectToRef obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    obj.KeyField_Property.Unset(cmds);
+                    break;
+                case 1:
+                    obj.SomeField_Property.Unset(cmds);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

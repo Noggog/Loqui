@@ -776,6 +776,8 @@ namespace Noggolloquy.Tests
 
         public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObjectCommon.SetNthObject(this, index, obj, cmds);
 
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(this, index, cmds);
+
         public Type GetMaskType() => typeof(TestObject_Mask<>);
 
         public Type GetErrorMaskType() => typeof(TestObject_ErrorMask);
@@ -786,153 +788,6 @@ namespace Noggolloquy.Tests
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestObjectCommon.SetNthObjectHasBeenSet(index, on, this);
-        }
-
-        public void SetNthObjectHasBeenSet_Internal(ushort index, bool on, TestObject obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    obj._BoolN.SetHasBeenSet(on);
-                    break;
-                case 1:
-                    obj._Bool.SetHasBeenSet(on);
-                    break;
-                case 2:
-                    obj._CharN.SetHasBeenSet(on);
-                    break;
-                case 3:
-                    obj._Char.SetHasBeenSet(on);
-                    break;
-                case 4:
-                    obj._DoubleN.SetHasBeenSet(on);
-                    break;
-                case 5:
-                    obj._Double.SetHasBeenSet(on);
-                    break;
-                case 6:
-                    obj._FloatN.SetHasBeenSet(on);
-                    break;
-                case 7:
-                    obj._Float.SetHasBeenSet(on);
-                    break;
-                case 8:
-                    obj._Int16N.SetHasBeenSet(on);
-                    break;
-                case 9:
-                    obj._Int16.SetHasBeenSet(on);
-                    break;
-                case 10:
-                    obj._Int32N.SetHasBeenSet(on);
-                    break;
-                case 11:
-                    obj._Int32.SetHasBeenSet(on);
-                    break;
-                case 12:
-                    obj._Int64N.SetHasBeenSet(on);
-                    break;
-                case 13:
-                    obj._Int64.SetHasBeenSet(on);
-                    break;
-                case 14:
-                    obj._Int8N.SetHasBeenSet(on);
-                    break;
-                case 15:
-                    obj._Int8.SetHasBeenSet(on);
-                    break;
-                case 16:
-                    obj._Unsafe.SetHasBeenSet(on);
-                    break;
-                case 17:
-                    obj._P2IntN.SetHasBeenSet(on);
-                    break;
-                case 18:
-                    obj._P2Int.SetHasBeenSet(on);
-                    break;
-                case 19:
-                    obj._P3DoubleN.SetHasBeenSet(on);
-                    break;
-                case 20:
-                    obj._P3Double.SetHasBeenSet(on);
-                    break;
-                case 21:
-                    obj._P3IntN.SetHasBeenSet(on);
-                    break;
-                case 22:
-                    obj._P3Int.SetHasBeenSet(on);
-                    break;
-                case 23:
-                    obj._PercentN.SetHasBeenSet(on);
-                    break;
-                case 24:
-                    obj._Percent.SetHasBeenSet(on);
-                    break;
-                case 25:
-                    obj._RangeIntN.SetHasBeenSet(on);
-                    break;
-                case 26:
-                    obj._RangeInt.SetHasBeenSet(on);
-                    break;
-                case 27:
-                    obj._String.SetHasBeenSet(on);
-                    break;
-                case 28:
-                    obj._UDoubleN.SetHasBeenSet(on);
-                    break;
-                case 29:
-                    obj._UDouble.SetHasBeenSet(on);
-                    break;
-                case 30:
-                    obj._UInt16N.SetHasBeenSet(on);
-                    break;
-                case 31:
-                    obj._UInt16.SetHasBeenSet(on);
-                    break;
-                case 32:
-                    obj._UInt32N.SetHasBeenSet(on);
-                    break;
-                case 33:
-                    obj._UInt32.SetHasBeenSet(on);
-                    break;
-                case 34:
-                    obj._UInt64N.SetHasBeenSet(on);
-                    break;
-                case 35:
-                    obj._UInt64.SetHasBeenSet(on);
-                    break;
-                case 36:
-                    obj._UInt8N.SetHasBeenSet(on);
-                    break;
-                case 37:
-                    obj._UInt8.SetHasBeenSet(on);
-                    break;
-                case 38:
-                    obj._Enum.SetHasBeenSet(on);
-                    break;
-                case 39:
-                    obj._WildCard.SetHasBeenSet(on);
-                    break;
-                case 40:
-                    obj._Ref.SetHasBeenSet(on);
-                    break;
-                case 41:
-                    obj._List.Unset();
-                    break;
-                case 42:
-                    obj._RefList.Unset();
-                    break;
-                case 43:
-                    obj._Dict.Unset();
-                    break;
-                case 44:
-                    obj._RefDict.Unset();
-                    break;
-                case 45:
-                    obj._DictKeyedValue.Unset();
-                    break;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
         }
 
         public void CopyFieldsFrom(ITestObjectGetter rhs, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
@@ -2672,6 +2527,18 @@ namespace Noggolloquy.Tests
             this.Dict.Unset(cmds.ToUnsetParams());
             this.RefDict.Unset(cmds.ToUnsetParams());
             this.DictKeyedValue.Unset(cmds.ToUnsetParams());
+        }
+
+        public static TestObject Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        {
+            var ret = new TestObject();
+            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
+            return ret;
+        }
+
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject obj)
+        {
+            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
         }
 
     }
@@ -4900,147 +4767,294 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject obj)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    obj.BoolN_Property.SetHasBeenSet(on);
+                    obj.BoolN_Property.HasBeenSet = on;
                     break;
                 case 1:
-                    obj.Bool_Property.SetHasBeenSet(on);
+                    obj.Bool_Property.HasBeenSet = on;
                     break;
                 case 2:
-                    obj.CharN_Property.SetHasBeenSet(on);
+                    obj.CharN_Property.HasBeenSet = on;
                     break;
                 case 3:
-                    obj.Char_Property.SetHasBeenSet(on);
+                    obj.Char_Property.HasBeenSet = on;
                     break;
                 case 4:
-                    obj.DoubleN_Property.SetHasBeenSet(on);
+                    obj.DoubleN_Property.HasBeenSet = on;
                     break;
                 case 5:
-                    obj.Double_Property.SetHasBeenSet(on);
+                    obj.Double_Property.HasBeenSet = on;
                     break;
                 case 6:
-                    obj.FloatN_Property.SetHasBeenSet(on);
+                    obj.FloatN_Property.HasBeenSet = on;
                     break;
                 case 7:
-                    obj.Float_Property.SetHasBeenSet(on);
+                    obj.Float_Property.HasBeenSet = on;
                     break;
                 case 8:
-                    obj.Int16N_Property.SetHasBeenSet(on);
+                    obj.Int16N_Property.HasBeenSet = on;
                     break;
                 case 9:
-                    obj.Int16_Property.SetHasBeenSet(on);
+                    obj.Int16_Property.HasBeenSet = on;
                     break;
                 case 10:
-                    obj.Int32N_Property.SetHasBeenSet(on);
+                    obj.Int32N_Property.HasBeenSet = on;
                     break;
                 case 11:
-                    obj.Int32_Property.SetHasBeenSet(on);
+                    obj.Int32_Property.HasBeenSet = on;
                     break;
                 case 12:
-                    obj.Int64N_Property.SetHasBeenSet(on);
+                    obj.Int64N_Property.HasBeenSet = on;
                     break;
                 case 13:
-                    obj.Int64_Property.SetHasBeenSet(on);
+                    obj.Int64_Property.HasBeenSet = on;
                     break;
                 case 14:
-                    obj.Int8N_Property.SetHasBeenSet(on);
+                    obj.Int8N_Property.HasBeenSet = on;
                     break;
                 case 15:
-                    obj.Int8_Property.SetHasBeenSet(on);
+                    obj.Int8_Property.HasBeenSet = on;
                     break;
                 case 16:
-                    obj.Unsafe_Property.SetHasBeenSet(on);
+                    obj.Unsafe_Property.HasBeenSet = on;
                     break;
                 case 17:
-                    obj.P2IntN_Property.SetHasBeenSet(on);
+                    obj.P2IntN_Property.HasBeenSet = on;
                     break;
                 case 18:
-                    obj.P2Int_Property.SetHasBeenSet(on);
+                    obj.P2Int_Property.HasBeenSet = on;
                     break;
                 case 19:
-                    obj.P3DoubleN_Property.SetHasBeenSet(on);
+                    obj.P3DoubleN_Property.HasBeenSet = on;
                     break;
                 case 20:
-                    obj.P3Double_Property.SetHasBeenSet(on);
+                    obj.P3Double_Property.HasBeenSet = on;
                     break;
                 case 21:
-                    obj.P3IntN_Property.SetHasBeenSet(on);
+                    obj.P3IntN_Property.HasBeenSet = on;
                     break;
                 case 22:
-                    obj.P3Int_Property.SetHasBeenSet(on);
+                    obj.P3Int_Property.HasBeenSet = on;
                     break;
                 case 23:
-                    obj.PercentN_Property.SetHasBeenSet(on);
+                    obj.PercentN_Property.HasBeenSet = on;
                     break;
                 case 24:
-                    obj.Percent_Property.SetHasBeenSet(on);
+                    obj.Percent_Property.HasBeenSet = on;
                     break;
                 case 25:
-                    obj.RangeIntN_Property.SetHasBeenSet(on);
+                    obj.RangeIntN_Property.HasBeenSet = on;
                     break;
                 case 26:
-                    obj.RangeInt_Property.SetHasBeenSet(on);
+                    obj.RangeInt_Property.HasBeenSet = on;
                     break;
                 case 27:
-                    obj.String_Property.SetHasBeenSet(on);
+                    obj.String_Property.HasBeenSet = on;
                     break;
                 case 28:
-                    obj.UDoubleN_Property.SetHasBeenSet(on);
+                    obj.UDoubleN_Property.HasBeenSet = on;
                     break;
                 case 29:
-                    obj.UDouble_Property.SetHasBeenSet(on);
+                    obj.UDouble_Property.HasBeenSet = on;
                     break;
                 case 30:
-                    obj.UInt16N_Property.SetHasBeenSet(on);
+                    obj.UInt16N_Property.HasBeenSet = on;
                     break;
                 case 31:
-                    obj.UInt16_Property.SetHasBeenSet(on);
+                    obj.UInt16_Property.HasBeenSet = on;
                     break;
                 case 32:
-                    obj.UInt32N_Property.SetHasBeenSet(on);
+                    obj.UInt32N_Property.HasBeenSet = on;
                     break;
                 case 33:
-                    obj.UInt32_Property.SetHasBeenSet(on);
+                    obj.UInt32_Property.HasBeenSet = on;
                     break;
                 case 34:
-                    obj.UInt64N_Property.SetHasBeenSet(on);
+                    obj.UInt64N_Property.HasBeenSet = on;
                     break;
                 case 35:
-                    obj.UInt64_Property.SetHasBeenSet(on);
+                    obj.UInt64_Property.HasBeenSet = on;
                     break;
                 case 36:
-                    obj.UInt8N_Property.SetHasBeenSet(on);
+                    obj.UInt8N_Property.HasBeenSet = on;
                     break;
                 case 37:
-                    obj.UInt8_Property.SetHasBeenSet(on);
+                    obj.UInt8_Property.HasBeenSet = on;
                     break;
                 case 38:
-                    obj.Enum_Property.SetHasBeenSet(on);
+                    obj.Enum_Property.HasBeenSet = on;
                     break;
                 case 39:
-                    obj.WildCard_Property.SetHasBeenSet(on);
+                    obj.WildCard_Property.HasBeenSet = on;
                     break;
                 case 40:
-                    obj.Ref_Property.SetHasBeenSet(on);
+                    obj.Ref_Property.HasBeenSet = on;
                     break;
                 case 41:
-                    obj.List.Unset();
+                    obj.List.HasBeenSet = on;
                     break;
                 case 42:
-                    obj.RefList.Unset();
+                    obj.RefList.HasBeenSet = on;
                     break;
                 case 43:
-                    obj.Dict.Unset();
+                    obj.Dict.HasBeenSet = on;
                     break;
                 case 44:
-                    obj.RefDict.Unset();
+                    obj.RefDict.HasBeenSet = on;
                     break;
                 case 45:
-                    obj.DictKeyedValue.Unset();
+                    obj.DictKeyedValue.HasBeenSet = on;
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static void UnsetNthObject(ITestObject obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    obj.BoolN_Property.Unset(cmds);
+                    break;
+                case 1:
+                    obj.Bool_Property.Unset(cmds);
+                    break;
+                case 2:
+                    obj.CharN_Property.Unset(cmds);
+                    break;
+                case 3:
+                    obj.Char_Property.Unset(cmds);
+                    break;
+                case 4:
+                    obj.DoubleN_Property.Unset(cmds);
+                    break;
+                case 5:
+                    obj.Double_Property.Unset(cmds);
+                    break;
+                case 6:
+                    obj.FloatN_Property.Unset(cmds);
+                    break;
+                case 7:
+                    obj.Float_Property.Unset(cmds);
+                    break;
+                case 8:
+                    obj.Int16N_Property.Unset(cmds);
+                    break;
+                case 9:
+                    obj.Int16_Property.Unset(cmds);
+                    break;
+                case 10:
+                    obj.Int32N_Property.Unset(cmds);
+                    break;
+                case 11:
+                    obj.Int32_Property.Unset(cmds);
+                    break;
+                case 12:
+                    obj.Int64N_Property.Unset(cmds);
+                    break;
+                case 13:
+                    obj.Int64_Property.Unset(cmds);
+                    break;
+                case 14:
+                    obj.Int8N_Property.Unset(cmds);
+                    break;
+                case 15:
+                    obj.Int8_Property.Unset(cmds);
+                    break;
+                case 16:
+                    obj.Unsafe_Property.Unset(cmds);
+                    break;
+                case 17:
+                    obj.P2IntN_Property.Unset(cmds);
+                    break;
+                case 18:
+                    obj.P2Int_Property.Unset(cmds);
+                    break;
+                case 19:
+                    obj.P3DoubleN_Property.Unset(cmds);
+                    break;
+                case 20:
+                    obj.P3Double_Property.Unset(cmds);
+                    break;
+                case 21:
+                    obj.P3IntN_Property.Unset(cmds);
+                    break;
+                case 22:
+                    obj.P3Int_Property.Unset(cmds);
+                    break;
+                case 23:
+                    obj.PercentN_Property.Unset(cmds);
+                    break;
+                case 24:
+                    obj.Percent_Property.Unset(cmds);
+                    break;
+                case 25:
+                    obj.RangeIntN_Property.Unset(cmds);
+                    break;
+                case 26:
+                    obj.RangeInt_Property.Unset(cmds);
+                    break;
+                case 27:
+                    obj.String_Property.Unset(cmds);
+                    break;
+                case 28:
+                    obj.UDoubleN_Property.Unset(cmds);
+                    break;
+                case 29:
+                    obj.UDouble_Property.Unset(cmds);
+                    break;
+                case 30:
+                    obj.UInt16N_Property.Unset(cmds);
+                    break;
+                case 31:
+                    obj.UInt16_Property.Unset(cmds);
+                    break;
+                case 32:
+                    obj.UInt32N_Property.Unset(cmds);
+                    break;
+                case 33:
+                    obj.UInt32_Property.Unset(cmds);
+                    break;
+                case 34:
+                    obj.UInt64N_Property.Unset(cmds);
+                    break;
+                case 35:
+                    obj.UInt64_Property.Unset(cmds);
+                    break;
+                case 36:
+                    obj.UInt8N_Property.Unset(cmds);
+                    break;
+                case 37:
+                    obj.UInt8_Property.Unset(cmds);
+                    break;
+                case 38:
+                    obj.Enum_Property.Unset(cmds);
+                    break;
+                case 39:
+                    obj.WildCard_Property.Unset(cmds);
+                    break;
+                case 40:
+                    obj.Ref_Property.Unset(cmds);
+                    break;
+                case 41:
+                    obj.List.Unset(cmds);
+                    break;
+                case 42:
+                    obj.RefList.Unset(cmds);
+                    break;
+                case 43:
+                    obj.Dict.Unset(cmds);
+                    break;
+                case 44:
+                    obj.RefDict.Unset(cmds);
+                    break;
+                case 45:
+                    obj.DictKeyedValue.Unset(cmds);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

@@ -75,6 +75,10 @@ namespace Noggolloquy.Xml
                     }
                     else
                     {
+                        if (maskList == null)
+                        {
+                            maskList = new List<MaskItem<Exception, object>>();
+                        }
                         maskList.Add(new MaskItem<Exception, object>(ex, null));
                     }
                 }

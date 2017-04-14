@@ -201,7 +201,15 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.SetHasBeenSet({onIdentifier});");
+                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
+            }
+        }
+
+        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        {
+            if (!this.Protected)
+            {
+                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
             }
         }
     }

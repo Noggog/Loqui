@@ -92,6 +92,7 @@
     <Compile Include="XML\Int64XmlTranslation_Test.cs" />
     <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8XmlTranslation_Test.cs" />
+    <Compile Include="XML\RefListXmlTranslation_Tests.cs" />
     <Compile Include="XML\ListXmlTranslation_Tests.cs" />
     <Compile Include="XML\P2IntNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\P2IntXmlTranslation_Test.cs" />

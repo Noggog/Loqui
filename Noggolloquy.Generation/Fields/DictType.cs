@@ -75,6 +75,11 @@ namespace Noggolloquy.Generation
             subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);
         }
 
+        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        {
+            subGenerator.GenerateUnsetNth(fg, identifier, cmdsAccessor);
+        }
+
         public override void GenerateForClass(FileGeneration fg)
         {
             subGenerator.GenerateForClass(fg);

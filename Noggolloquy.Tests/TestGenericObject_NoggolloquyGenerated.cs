@@ -100,6 +100,8 @@ namespace Noggolloquy.Tests
 
         public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(this, index, obj, cmds);
 
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(this, index, cmds);
+
         public Type GetMaskType() => typeof(TestGenericObject_Mask<>);
 
         public Type GetErrorMaskType() => typeof(TestGenericObject_ErrorMask);
@@ -110,18 +112,6 @@ namespace Noggolloquy.Tests
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestGenericObjectCommon<T, R>.SetNthObjectHasBeenSet(index, on, this);
-        }
-
-        public void SetNthObjectHasBeenSet_Internal(ushort index, bool on, TestGenericObject<T, R> obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    obj._Ref.SetHasBeenSet(on);
-                    break;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
         }
 
         public void CopyFieldsFrom(ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def = null, NotifyingFireParameters? cmds = null)
@@ -352,6 +342,18 @@ namespace Noggolloquy.Tests
             this.Ref_Property.Unset(cmds.ToUnsetParams());
         }
 
+        public static TestGenericObject<T, R> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        {
+            var ret = new TestGenericObject<T, R>();
+            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
+            return ret;
+        }
+
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericObject<T, R> obj)
+        {
+            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
+        }
+
     }
     #endregion
 
@@ -502,12 +504,24 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject<T, R> obj)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject<T, R> obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    obj.Ref_Property.SetHasBeenSet(on);
+                    obj.Ref_Property.HasBeenSet = on;
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static void UnsetNthObject(ITestGenericObject<T, R> obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    obj.Ref_Property.Unset(cmds);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");

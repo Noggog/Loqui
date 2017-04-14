@@ -79,7 +79,18 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.Unset();");
+            if (!this.Protected)
+            {
+                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
+            }
+        }
+
+        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        {
+            if (!this.Protected)
+            {
+                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+            }
         }
 
         public override string GetPropertyString(bool internalUse)

@@ -23,17 +23,17 @@ namespace Noggolloquy.Xml
         public string ElementName => _elementName;
         private static Dictionary<Type, NoggXmlCopyInFunction> _readerDict = new Dictionary<Type, NoggXmlCopyInFunction>();
         private static Dictionary<Type, NoggXmlWriteFunction> _writerDict = new Dictionary<Type, NoggXmlWriteFunction>();
-
+        
         public void CopyIn<C>(
             XElement root,
             C item,
             bool skipReadonly,
-            bool doMasks, 
-            out M mask, 
+            bool doMasks,
+            out M mask,
             NotifyingFireParameters? cmds)
             where C : T, INoggolloquyObjectSetter
         {
-            mask = doMasks ? new M() : default(M);
+            mask = default(M);
             HashSet<ushort> readIndices = new HashSet<ushort>();
 
             try
@@ -42,14 +42,28 @@ namespace Noggolloquy.Xml
                 {
                     if (!elem.TryGetAttribute("name", out XAttribute name))
                     {
-                        mask.Warnings.Add("Skipping field that did not have name");
+                        if (doMasks)
+                        {
+                            if (mask == null)
+                            {
+                                mask = new M();
+                            }
+                            mask.Warnings.Add("Skipping field that did not have name");
+                        }
                         continue;
                     }
 
                     var i = item.GetNameIndex(name.Value);
                     if (!i.HasValue)
                     {
-                        mask.Warnings.Add("Skipping field that did not exist anymore with name: " + name);
+                        if (doMasks)
+                        {
+                            if (mask == null)
+                            {
+                                mask = new M();
+                            }
+                            mask.Warnings.Add("Skipping field that did not exist anymore with name: " + name);
+                        }
                         continue;
                     }
 
@@ -59,50 +73,33 @@ namespace Noggolloquy.Xml
                     try
                     {
                         var type = item.GetNthType(i.Value);
-                        object subMaskObj;
-                        if (item.GetNthIsNoggolloquy(i.Value))
+                        if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
                         {
-                            if (TryGetCopyInFunction(type, out NoggXmlCopyInFunction copyInFunc))
-                            {
-                                if (item.GetNthIsSingleton(i.Value))
-                                {
-                                    copyInFunc(elem, item.GetNthObject(i.Value), cmds, doMasks, out subMaskObj);
-                                }
-                                else
-                                {
-                                    object subNogg = Activator.CreateInstance(type);
-                                    copyInFunc(elem, subNogg, cmds, doMasks, out subMaskObj);
-                                    item.SetNthObject(i.Value, subNogg, cmds);
-                                }
-                                readIndices.Add(i.Value);
-                            }
-                            else
-                            {
-                                throw new ArgumentException($"No XML Translator found for {type}");
-                            }
+                            throw new ArgumentException($"No XML Translator found for {type}");
                         }
-                        else
+                        var objGet = translator.Parse(elem, doMasks, out var subMaskObj);
+                        if (objGet.Succeeded)
                         {
-                            if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
+                            item.SetNthObject(i.Value, objGet.Value, cmds);
+                            readIndices.Add(i.Value);
+                        }
+                        if (doMasks && subMaskObj != null)
+                        {
+                            if (mask == null)
                             {
-                                throw new ArgumentException($"No XML Translator found for {type}");
+                                mask = new M();
                             }
-                            var objGet = translator.Parse(elem, doMasks, out subMaskObj);
-                            if (objGet.Succeeded)
-                            {
-                                item.SetNthObject(i.Value, objGet.Value, cmds);
-                                readIndices.Add(i.Value);
-                            }
-                            else
-                            {
-                                mask.SetNthMask(i.Value, subMaskObj);
-                            }
+                            mask.SetNthMask(i.Value, subMaskObj);
                         }
                     }
                     catch (Exception ex)
                     {
                         if (doMasks)
                         {
+                            if (mask == null)
+                            {
+                                mask = new M();
+                            }
                             mask.SetNthException(i.Value, ex);
                         }
                         else
@@ -111,11 +108,24 @@ namespace Noggolloquy.Xml
                         }
                     }
                 }
+
+                for (ushort i = 0; i < item.FieldCount; i++)
+                {
+                    if (item.IsNthDerivative(i)) continue;
+                    if (!readIndices.Contains(i))
+                    {
+                        item.UnsetNthObject(i, cmds.ToUnsetParams());
+                    }
+                }
             }
             catch (Exception ex)
             {
                 if (doMasks)
                 {
+                    if (mask == null)
+                    {
+                        mask = new M();
+                    }
                     mask.Overall = ex;
                 }
                 else
@@ -123,15 +133,15 @@ namespace Noggolloquy.Xml
                     throw;
                 }
             }
+        }
 
-            for (ushort i = 0; i < item.FieldCount; i++)
-            {
-                if (item.IsNthDerivative(i)) continue;
-                if (!readIndices.Contains(i))
-                {
-                    item.SetNthObjectHasBeenSet(i, false);
-                }
-            }
+        public TryGet<T> Parse(XElement root, bool doMasks, out object maskObj)
+        {
+            throw new NotImplementedException();
+            //foreach (var elem in root)
+            //{
+
+            //}
         }
 
         public bool Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
@@ -246,11 +256,6 @@ namespace Noggolloquy.Xml
             }
             maskObj = null;
             return false;
-        }
-
-        public TryGet<T> Parse(XElement root, bool doMasks, out object maskObj)
-        {
-            throw new NotImplementedException();
         }
     }
 }
