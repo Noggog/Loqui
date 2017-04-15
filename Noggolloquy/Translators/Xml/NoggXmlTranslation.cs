@@ -72,7 +72,7 @@ namespace Noggolloquy.Xml
 
                     try
                     {
-                        var type = item.GetNthType(i.Value);
+                        var type = item.Registration.GetNthType(i.Value);
                         if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
                         {
                             throw new ArgumentException($"No XML Translator found for {type}");
@@ -162,7 +162,7 @@ namespace Noggolloquy.Xml
                         {
                             if (!item.GetNthObjectHasBeenSet(i)) continue;
 
-                            var type = item.GetNthType(i);
+                            var type = item.Registration.GetNthType(i);
                             object subMaskObj;
                             if (item.Registration.GetNthIsNoggolloquy(i))
                             {

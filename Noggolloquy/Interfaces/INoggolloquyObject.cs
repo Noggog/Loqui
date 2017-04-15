@@ -14,8 +14,6 @@ namespace Noggolloquy
         object GetNthObject(ushort index);
 
         bool GetNthObjectHasBeenSet(ushort index);
-
-        Type GetNthType(ushort index);
     }
 
     public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
@@ -59,7 +57,7 @@ namespace Noggolloquy
 
         private static string PrintNoggName(INoggolloquyObjectGetter obj, ushort i)
         {
-            return obj.Registration.GetNthName(i) + "(" + obj.GetNthType(i).Name + ")" + " => ";
+            return $"{obj.Registration.GetNthName(i)}({obj.Registration.GetNthType(i).Name}) => ";
         }
 
         private static string PrintPrettyInternal(this INoggolloquyObjectGetter nogg, DepthPrinter depthPrinter)

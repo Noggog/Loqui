@@ -27,6 +27,8 @@ namespace Noggolloquy
 
         bool IsNthDerivative(ushort index);
 
+        Type GetNthType(ushort index);
+
         ushort? GetNameIndex(StringCaseAgnostic name);
 
         bool IsReadOnly(ushort index);

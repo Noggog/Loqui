@@ -51,8 +51,6 @@ namespace Noggolloquy.Tests
 
         public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(this, index, cmds);
 
-        public Type GetNthType(ushort index) => TestGenericObjectCommon<T, R>.GetNthType(index);
-
         #endregion
 
         #region Noggolloquy Interface
@@ -336,28 +334,28 @@ namespace Noggolloquy.Tests
     {
         public static readonly TestGenericObject_Registration Instance = new TestGenericObject_Registration();
 
-        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
+        public ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
-        public static readonly ObjectKey ObjectKey = new ObjectKey(
+        public readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
             msgID: 1,
             version: 0);
 
-        public static readonly string GUID = "c0c6b45b-906e-4a34-8e26-13ac0f04e3f8";
+        public readonly string GUID = "c0c6b45b-906e-4a34-8e26-13ac0f04e3f8";
 
-        public const ushort FieldCount = 1;
+        public readonly ushort FieldCount = 1;
 
-        public static readonly Type MaskType = typeof(TestGenericObject_Mask<>);
+        public readonly Type MaskType = typeof(TestGenericObject_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestGenericObject_ErrorMask);
+        public readonly Type ErrorMaskType = typeof(TestGenericObject_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestGenericObject<,>);
+        public readonly Type ClassType = typeof(TestGenericObject<,>);
 
-        public const string FullName = "Noggolloquy.Tests.TestGenericObject";
+        public readonly string FullName = "Noggolloquy.Tests.TestGenericObject";
 
-        public const string Name = "TestGenericObject";
+        public readonly string Name = "TestGenericObject";
 
-        public static ushort? GetNameIndex(StringCaseAgnostic str)
+        public ushort? GetNameIndex(StringCaseAgnostic str)
         {
             switch (str.Upper)
             {
@@ -368,7 +366,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsEnumerable(ushort index)
+        public bool GetNthIsEnumerable(ushort index)
         {
             switch (index)
             {
@@ -379,7 +377,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsNoggolloquy(ushort index)
+        public bool GetNthIsNoggolloquy(ushort index)
         {
             switch (index)
             {
@@ -390,7 +388,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsSingleton(ushort index)
+        public bool GetNthIsSingleton(ushort index)
         {
             switch (index)
             {
@@ -401,7 +399,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static string GetNthName(ushort index)
+        public string GetNthName(ushort index)
         {
             switch (index)
             {
@@ -412,7 +410,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool IsNthDerivative(ushort index)
+        public bool IsNthDerivative(ushort index)
         {
             switch (index)
             {
@@ -423,7 +421,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool IsReadOnly(ushort index)
+        public bool IsReadOnly(ushort index)
         {
             switch (index)
             {
@@ -433,25 +431,46 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+
+        public virtual Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
 
         #region Interface
-        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
-        ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;
-        string INoggolloquyRegistration.GUID => GUID;
-        int INoggolloquyRegistration.FieldCount => FieldCount;
-        Type INoggolloquyRegistration.MaskType => MaskType;
-        Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;
-        Type INoggolloquyRegistration.ClassType => ClassType;
-        string INoggolloquyRegistration.FullName => FullName;
-        string INoggolloquyRegistration.Name => Name;
-        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);
-        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);
-        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);
-        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
-        string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
-        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
-        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => this.ProtocolDefinition;
+        ObjectKey INoggolloquyRegistration.ObjectKey => this.ObjectKey;
+        string INoggolloquyRegistration.GUID => this.GUID;
+        int INoggolloquyRegistration.FieldCount => this.FieldCount;
+        Type INoggolloquyRegistration.MaskType => this.MaskType;
+        Type INoggolloquyRegistration.ErrorMaskType => this.ErrorMaskType;
+        Type INoggolloquyRegistration.ClassType => this.ClassType;
+        string INoggolloquyRegistration.FullName => this.FullName;
+        string INoggolloquyRegistration.Name => this.Name;
+        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => this.GetNameIndex(name);
+        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => this.GetNthIsEnumerable(index);
+        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => this.GetNthIsNoggolloquy(index);
+        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => this.GetNthIsSingleton(index);
+        string INoggolloquyRegistration.GetNthName(ushort index) => this.GetNthName(index);
+        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => this.IsNthDerivative(index);
+        bool INoggolloquyRegistration.IsReadOnly(ushort index) => this.IsReadOnly(index);
+        Type INoggolloquyRegistration.GetNthType(ushort index) => this.GetNthType(index);
         #endregion
+    }
+
+    public class TestGenericObject_Registration<T, R> : TestGenericObject_Registration
+        where R : ObjectToRef, INoggolloquyReaderSerializer
+    {
+        public static readonly TestGenericObject_Registration<T, R> GenericInstance = new TestGenericObject_Registration<T, R>();
+
+        public override Type GetNthType(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return typeof(R);
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
     }
     #endregion
     #region Extensions
@@ -574,17 +593,6 @@ namespace Noggolloquy.Tests
                         ((R)obj),
                         cmds);
                     break;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static Type GetNthType(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return typeof(R);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

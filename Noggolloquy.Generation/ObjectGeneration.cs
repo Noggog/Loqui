@@ -346,10 +346,10 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public static readonly {this.RegistrationName} Instance = new {this.RegistrationName}();");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.Definition;");
+                    fg.AppendLine($"public ProtocolDefinition ProtocolDefinition => ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.Definition;");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly ObjectKey ObjectKey = new ObjectKey(");
+                    fg.AppendLine($"public readonly ObjectKey ObjectKey = new ObjectKey(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"protocolKey: ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.ProtocolKey,");
@@ -358,25 +358,25 @@ namespace Noggolloquy.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly string GUID = \"{this.GUID}\";");
+                    fg.AppendLine($"public readonly string GUID = \"{this.GUID}\";");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const ushort FieldCount = {this.Fields.Count};");
+                    fg.AppendLine($"public readonly ushort FieldCount = {this.Fields.Count};");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type MaskType = typeof({this.GetMaskString("")});");
+                    fg.AppendLine($"public readonly Type MaskType = typeof({this.GetMaskString("")});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type ErrorMaskType = typeof({this.GetErrorMaskItemString()});");
+                    fg.AppendLine($"public readonly Type ErrorMaskType = typeof({this.GetErrorMaskItemString()});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
+                    fg.AppendLine($"public readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const string FullName = \"{this.Namespace}.{this.Name}\";");
+                    fg.AppendLine($"public readonly string FullName = \"{this.Namespace}.{this.Name}\";");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const string Name = \"{this.Name}\";");
+                    fg.AppendLine($"public readonly string Name = \"{this.Name}\";");
                     fg.AppendLine();
 
                     GenerateGetNameIndex(fg);
@@ -393,25 +393,50 @@ namespace Noggolloquy.Generation
 
                     GenerateIsReadOnly(fg);
 
+                    if (this.Generics.Count == 0)
+                    {
+                        GenerateGetNthType(fg, false);
+                    }
+                    else
+                    {
+                        fg.AppendLine("public virtual Type GetNthType(ushort index) => throw new ArgumentException(\"Cannot get nth type for a generic object here.  Use generic registration instead.\");");
+                        fg.AppendLine();
+                    }
+
                     using (new RegionWrapper(fg, "Interface"))
                     {
-                        fg.AppendLine($"ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;");
-                        fg.AppendLine($"ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;");
-                        fg.AppendLine($"string INoggolloquyRegistration.GUID => GUID;");
-                        fg.AppendLine($"int INoggolloquyRegistration.FieldCount => FieldCount;");
-                        fg.AppendLine($"Type INoggolloquyRegistration.MaskType => MaskType;");
-                        fg.AppendLine($"Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;");
-                        fg.AppendLine($"Type INoggolloquyRegistration.ClassType => ClassType;");
-                        fg.AppendLine($"string INoggolloquyRegistration.FullName => FullName;");
-                        fg.AppendLine($"string INoggolloquyRegistration.Name => Name;");
-                        fg.AppendLine($"ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);");
-                        fg.AppendLine($"string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);");
+                        fg.AppendLine($"ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => this.ProtocolDefinition;");
+                        fg.AppendLine($"ObjectKey INoggolloquyRegistration.ObjectKey => this.ObjectKey;");
+                        fg.AppendLine($"string INoggolloquyRegistration.GUID => this.GUID;");
+                        fg.AppendLine($"int INoggolloquyRegistration.FieldCount => this.FieldCount;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.MaskType => this.MaskType;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.ErrorMaskType => this.ErrorMaskType;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.ClassType => this.ClassType;");
+                        fg.AppendLine($"string INoggolloquyRegistration.FullName => this.FullName;");
+                        fg.AppendLine($"string INoggolloquyRegistration.Name => this.Name;");
+                        fg.AppendLine($"ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => this.GetNameIndex(name);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => this.GetNthIsEnumerable(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => this.GetNthIsNoggolloquy(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => this.GetNthIsSingleton(index);");
+                        fg.AppendLine($"string INoggolloquyRegistration.GetNthName(ushort index) => this.GetNthName(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.IsNthDerivative(ushort index) => this.IsNthDerivative(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.IsReadOnly(ushort index) => this.IsReadOnly(index);");
+                        fg.AppendLine($"Type INoggolloquyRegistration.GetNthType(ushort index) => this.GetNthType(index);");
 
+                    }
+                }
+
+                if (this.Generics.Count > 0)
+                {
+                    fg.AppendLine();
+                    fg.AppendLine($"public class {this.RegistrationName}{this.GenericTypes} : {this.RegistrationName}");
+                    GenerateWhereClauses(fg, this.Generics);
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"public static readonly {this.RegistrationName}{this.GenericTypes} GenericInstance = new {this.RegistrationName}{this.GenericTypes}();");
+                        fg.AppendLine();
+
+                        GenerateGetNthType(fg, true);
                     }
                 }
             }
@@ -437,8 +462,6 @@ namespace Noggolloquy.Generation
                     GenerateGetNthObject(fg);
 
                     GenerateSetNthObject(fg);
-
-                    GenerateGetNthType(fg);
 
                     // Fields might add some content
                     foreach (var field in this.Fields)
@@ -551,9 +574,6 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
 
                 fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(this, index, cmds);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}Type GetNthType(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthType(index);");
                 fg.AppendLine();
             }
             fg.AppendLine();
@@ -761,7 +781,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateNthObjectIsNoggolloquy(FileGeneration fg)
         {
-            fg.AppendLine("public static bool GetNthIsNoggolloquy(ushort index)");
+            fg.AppendLine("public bool GetNthIsNoggolloquy(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -824,7 +844,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateNthObjectIsDerivative(FileGeneration fg)
         {
-            fg.AppendLine("public static bool IsNthDerivative(ushort index)");
+            fg.AppendLine("public bool IsNthDerivative(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -863,7 +883,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateNthObjectIsEnumerable(FileGeneration fg)
         {
-            fg.AppendLine("public static bool GetNthIsEnumerable(ushort index)");
+            fg.AppendLine("public bool GetNthIsEnumerable(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -900,9 +920,9 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        private void GenerateGetNthType(FileGeneration fg)
+        private void GenerateGetNthType(FileGeneration fg, bool overrideStr)
         {
-            fg.AppendLine("public static Type GetNthType(ushort index)");
+            fg.AppendLine($"public {(overrideStr ? "override " : string.Empty)}Type GetNthType(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -925,7 +945,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateGetNthName(FileGeneration fg)
         {
-            fg.AppendLine("public static string GetNthName(ushort index)");
+            fg.AppendLine("public string GetNthName(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -948,7 +968,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateGetNthIsSingleton(FileGeneration fg)
         {
-            fg.AppendLine("public static bool GetNthIsSingleton(ushort index)");
+            fg.AppendLine("public bool GetNthIsSingleton(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -999,7 +1019,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateGetNameIndex(FileGeneration fg)
         {
-            fg.AppendLine("public static ushort? GetNameIndex(StringCaseAgnostic str)");
+            fg.AppendLine("public ushort? GetNameIndex(StringCaseAgnostic str)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (str.Upper)");
@@ -1347,7 +1367,7 @@ namespace Noggolloquy.Generation
 
         private void GenerateIsReadOnly(FileGeneration fg)
         {
-            fg.AppendLine("public static bool IsReadOnly(ushort index)");
+            fg.AppendLine("public bool IsReadOnly(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");

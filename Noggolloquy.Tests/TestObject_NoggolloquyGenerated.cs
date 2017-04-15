@@ -547,8 +547,6 @@ namespace Noggolloquy.Tests
 
         public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(this, index, cmds);
 
-        public Type GetNthType(ushort index) => TestObjectCommon.GetNthType(index);
-
         #endregion
 
         #region Noggolloquy Interface
@@ -2729,28 +2727,28 @@ namespace Noggolloquy.Tests
     {
         public static readonly TestObject_Registration Instance = new TestObject_Registration();
 
-        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
+        public ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
-        public static readonly ObjectKey ObjectKey = new ObjectKey(
+        public readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
             msgID: 2,
             version: 0);
 
-        public static readonly string GUID = "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
+        public readonly string GUID = "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
 
-        public const ushort FieldCount = 46;
+        public readonly ushort FieldCount = 46;
 
-        public static readonly Type MaskType = typeof(TestObject_Mask<>);
+        public readonly Type MaskType = typeof(TestObject_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_ErrorMask);
+        public readonly Type ErrorMaskType = typeof(TestObject_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject);
+        public readonly Type ClassType = typeof(TestObject);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject";
+        public readonly string FullName = "Noggolloquy.Tests.TestObject";
 
-        public const string Name = "TestObject";
+        public readonly string Name = "TestObject";
 
-        public static ushort? GetNameIndex(StringCaseAgnostic str)
+        public ushort? GetNameIndex(StringCaseAgnostic str)
         {
             switch (str.Upper)
             {
@@ -2851,7 +2849,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsEnumerable(ushort index)
+        public bool GetNthIsEnumerable(ushort index)
         {
             switch (index)
             {
@@ -2908,7 +2906,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsNoggolloquy(ushort index)
+        public bool GetNthIsNoggolloquy(ushort index)
         {
             switch (index)
             {
@@ -2965,7 +2963,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsSingleton(ushort index)
+        public bool GetNthIsSingleton(ushort index)
         {
             switch (index)
             {
@@ -2976,7 +2974,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static string GetNthName(ushort index)
+        public string GetNthName(ushort index)
         {
             switch (index)
             {
@@ -3077,7 +3075,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool IsNthDerivative(ushort index)
+        public bool IsNthDerivative(ushort index)
         {
             switch (index)
             {
@@ -3133,7 +3131,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool IsReadOnly(ushort index)
+        public bool IsReadOnly(ushort index)
         {
             switch (index)
             {
@@ -3184,28 +3182,130 @@ namespace Noggolloquy.Tests
                 case 44:
                 case 45:
                     return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public Type GetNthType(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return typeof(Boolean?);
+                case 1:
+                    return typeof(Boolean);
+                case 2:
+                    return typeof(Char?);
+                case 3:
+                    return typeof(Char);
+                case 4:
+                    return typeof(Double?);
+                case 5:
+                    return typeof(Double);
+                case 6:
+                    return typeof(Single?);
+                case 7:
+                    return typeof(Single);
+                case 8:
+                    return typeof(Int16?);
+                case 9:
+                    return typeof(Int16);
+                case 10:
+                    return typeof(Int32?);
+                case 11:
+                    return typeof(Int32);
+                case 12:
+                    return typeof(Int64?);
+                case 13:
+                    return typeof(Int64);
+                case 14:
+                    return typeof(SByte?);
+                case 15:
+                    return typeof(SByte);
+                case 16:
+                    return typeof(bool);
+                case 17:
+                    return typeof(P2Int?);
+                case 18:
+                    return typeof(P2Int);
+                case 19:
+                    return typeof(P3Double?);
+                case 20:
+                    return typeof(P3Double);
+                case 21:
+                    return typeof(P3Int?);
+                case 22:
+                    return typeof(P3Int);
+                case 23:
+                    return typeof(Percent?);
+                case 24:
+                    return typeof(Percent);
+                case 25:
+                    return typeof(RangeInt?);
+                case 26:
+                    return typeof(RangeInt);
+                case 27:
+                    return typeof(String);
+                case 28:
+                    return typeof(UDouble?);
+                case 29:
+                    return typeof(UDouble);
+                case 30:
+                    return typeof(UInt16?);
+                case 31:
+                    return typeof(UInt16);
+                case 32:
+                    return typeof(UInt32?);
+                case 33:
+                    return typeof(UInt32);
+                case 34:
+                    return typeof(UInt64?);
+                case 35:
+                    return typeof(UInt64);
+                case 36:
+                    return typeof(Byte?);
+                case 37:
+                    return typeof(Byte);
+                case 38:
+                    return typeof(TestEnum);
+                case 39:
+                    return typeof(Object);
+                case 40:
+                    return typeof(ObjectToRef);
+                case 41:
+                    return typeof(NotifyingList<Boolean>);
+                case 42:
+                    return typeof(NotifyingList<ObjectToRef>);
+                case 43:
+                    return typeof(NotifyingDictionary<Boolean, String>);
+                case 44:
+                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case 45:
+                    return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
         #region Interface
-        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
-        ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;
-        string INoggolloquyRegistration.GUID => GUID;
-        int INoggolloquyRegistration.FieldCount => FieldCount;
-        Type INoggolloquyRegistration.MaskType => MaskType;
-        Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;
-        Type INoggolloquyRegistration.ClassType => ClassType;
-        string INoggolloquyRegistration.FullName => FullName;
-        string INoggolloquyRegistration.Name => Name;
-        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);
-        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);
-        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);
-        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
-        string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
-        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
-        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => this.ProtocolDefinition;
+        ObjectKey INoggolloquyRegistration.ObjectKey => this.ObjectKey;
+        string INoggolloquyRegistration.GUID => this.GUID;
+        int INoggolloquyRegistration.FieldCount => this.FieldCount;
+        Type INoggolloquyRegistration.MaskType => this.MaskType;
+        Type INoggolloquyRegistration.ErrorMaskType => this.ErrorMaskType;
+        Type INoggolloquyRegistration.ClassType => this.ClassType;
+        string INoggolloquyRegistration.FullName => this.FullName;
+        string INoggolloquyRegistration.Name => this.Name;
+        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => this.GetNameIndex(name);
+        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => this.GetNthIsEnumerable(index);
+        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => this.GetNthIsNoggolloquy(index);
+        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => this.GetNthIsSingleton(index);
+        string INoggolloquyRegistration.GetNthName(ushort index) => this.GetNthName(index);
+        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => this.IsNthDerivative(index);
+        bool INoggolloquyRegistration.IsReadOnly(ushort index) => this.IsReadOnly(index);
+        Type INoggolloquyRegistration.GetNthType(ushort index) => this.GetNthType(index);
         #endregion
     }
     #endregion
@@ -5381,107 +5481,6 @@ namespace Noggolloquy.Tests
                         ((IEnumerable<ObjectToRef>)((NotifyingDictionary<Int32, ObjectToRef>)obj)).Select((i) => i.Copy()),
                         cmds);
                     break;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static Type GetNthType(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return typeof(Boolean?);
-                case 1:
-                    return typeof(Boolean);
-                case 2:
-                    return typeof(Char?);
-                case 3:
-                    return typeof(Char);
-                case 4:
-                    return typeof(Double?);
-                case 5:
-                    return typeof(Double);
-                case 6:
-                    return typeof(Single?);
-                case 7:
-                    return typeof(Single);
-                case 8:
-                    return typeof(Int16?);
-                case 9:
-                    return typeof(Int16);
-                case 10:
-                    return typeof(Int32?);
-                case 11:
-                    return typeof(Int32);
-                case 12:
-                    return typeof(Int64?);
-                case 13:
-                    return typeof(Int64);
-                case 14:
-                    return typeof(SByte?);
-                case 15:
-                    return typeof(SByte);
-                case 16:
-                    return typeof(bool);
-                case 17:
-                    return typeof(P2Int?);
-                case 18:
-                    return typeof(P2Int);
-                case 19:
-                    return typeof(P3Double?);
-                case 20:
-                    return typeof(P3Double);
-                case 21:
-                    return typeof(P3Int?);
-                case 22:
-                    return typeof(P3Int);
-                case 23:
-                    return typeof(Percent?);
-                case 24:
-                    return typeof(Percent);
-                case 25:
-                    return typeof(RangeInt?);
-                case 26:
-                    return typeof(RangeInt);
-                case 27:
-                    return typeof(String);
-                case 28:
-                    return typeof(UDouble?);
-                case 29:
-                    return typeof(UDouble);
-                case 30:
-                    return typeof(UInt16?);
-                case 31:
-                    return typeof(UInt16);
-                case 32:
-                    return typeof(UInt32?);
-                case 33:
-                    return typeof(UInt32);
-                case 34:
-                    return typeof(UInt64?);
-                case 35:
-                    return typeof(UInt64);
-                case 36:
-                    return typeof(Byte?);
-                case 37:
-                    return typeof(Byte);
-                case 38:
-                    return typeof(TestEnum);
-                case 39:
-                    return typeof(Object);
-                case 40:
-                    return typeof(ObjectToRef);
-                case 41:
-                    return typeof(NotifyingList<Boolean>);
-                case 42:
-                    return typeof(NotifyingList<ObjectToRef>);
-                case 43:
-                    return typeof(NotifyingDictionary<Boolean, String>);
-                case 44:
-                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case 45:
-                    return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
