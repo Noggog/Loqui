@@ -41,6 +41,7 @@ namespace Noggolloquy.Generation
         public string ObjectName => this.Name + GenericTypes;
         public string ExtName => Name + "Ext";
         public string InterfaceStr => InterfaceStr_Generic(this.GenericTypes);
+        public string RegistrationName => $"{this.Name}_Registration";
         public string Getter_InterfaceStr_NoGenerics => $"I{Name}Getter";
         public string Getter_InterfaceStr => this.Getter_InterfaceStr_NoGenerics + GenericTypes;
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
@@ -184,6 +185,7 @@ namespace Noggolloquy.Generation
                 }
 
                 GenerateInterfaces(fg);
+                GenerateRegistration(fg);
                 GenerateInterfaceExtensions(fg);
                 GenerateTranslations(fg);
                 GenerateNoggolloquyInterfaces(fg);
@@ -235,6 +237,8 @@ namespace Noggolloquy.Generation
 
                 using (new BraceWrapper(fg))
                 {
+                    GenerateRegrationRouting(fg);
+
                     GenerateCtor(fg);
                     // Generate fields
                     foreach (var field in Fields)
@@ -332,6 +336,87 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
+        protected void GenerateRegistration(FileGeneration fg)
+        {
+            using (new RegionWrapper(fg, "Registration"))
+            {
+                fg.AppendLine($"public class {this.RegistrationName} : INoggolloquyRegistration");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"public static readonly {this.RegistrationName} Instance = new {this.RegistrationName}();");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.Definition;");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly ObjectKey ObjectKey = new ObjectKey(");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"protocolKey: ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.ProtocolKey,");
+                        fg.AppendLine($"msgID: {this.ID},");
+                        fg.AppendLine($"version: {this.Version});");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly string GUID = \"{this.GUID}\";");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public const ushort FieldCount = {this.Fields.Count};");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly Type MaskType = typeof({this.GetMaskString("")});");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly Type ErrorMaskType = typeof({this.GetErrorMaskItemString()});");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public const string FullName = \"{this.Namespace}.{this.Name}\";");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public const string Name = \"{this.Name}\";");
+                    fg.AppendLine();
+
+                    GenerateGetNameIndex(fg);
+
+                    GenerateNthObjectIsEnumerable(fg);
+
+                    GenerateNthObjectIsNoggolloquy(fg);
+
+                    GenerateGetNthIsSingleton(fg);
+
+                    GenerateGetNthName(fg);
+
+                    GenerateNthObjectIsDerivative(fg);
+
+                    GenerateIsReadOnly(fg);
+
+                    using (new RegionWrapper(fg, "Interface"))
+                    {
+                        fg.AppendLine($"ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;");
+                        fg.AppendLine($"ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;");
+                        fg.AppendLine($"string INoggolloquyRegistration.GUID => GUID;");
+                        fg.AppendLine($"int INoggolloquyRegistration.FieldCount => FieldCount;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.MaskType => MaskType;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.ClassType => ClassType;");
+                        fg.AppendLine($"string INoggolloquyRegistration.FullName => FullName;");
+                        fg.AppendLine($"string INoggolloquyRegistration.Name => Name;");
+                        fg.AppendLine($"ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);");
+                        fg.AppendLine($"string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);");
+
+                    }
+                }
+            }
+        }
+
         private void GenerateInterfaceExtensions(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Extensions"))
@@ -341,33 +426,19 @@ namespace Noggolloquy.Generation
 
                 using (new BraceWrapper(fg))
                 {
-                    GenerateGetNthType(fg);
-
-                    GenerateNthObjectIsDerivative(fg);
-
-                    GenerateGetNthObject(fg);
-
-                    GenerateGetNthName(fg);
-
-                    GenerateGetNthIsSingleton(fg);
-
                     GenerateCopyFieldsFrom(fg);
 
                     GenerateSetNthObjectHasBeenSet(fg, false);
 
                     GenerateUnsetNthObject(fg);
 
-                    GenerateGetNameIndex(fg);
-
-                    GenerateIsReadOnly(fg);
-
-                    GenerateNthObjectIsEnumerable(fg);
-
-                    GenerateNthObjectIsNoggolloquy(fg);
-
                     GenerateGetNthObjectHasBeenSet(fg);
 
+                    GenerateGetNthObject(fg);
+
                     GenerateSetNthObject(fg);
+
+                    GenerateGetNthType(fg);
 
                     // Fields might add some content
                     foreach (var field in this.Fields)
@@ -438,6 +509,13 @@ namespace Noggolloquy.Generation
         }
 
         #region Generation Snippets
+        protected void GenerateRegrationRouting(FileGeneration fg)
+        {
+            fg.AppendLine($"INoggolloquyRegistration INoggolloquyObjectGetter.Registration => {this.RegistrationName}.Instance;");
+            fg.AppendLine($"public static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
+            fg.AppendLine();
+        }
+
         protected abstract void GenerateCtor(FileGeneration fg);
 
         protected virtual void GenerateClassWrappers(FileGeneration fg)
@@ -450,28 +528,6 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Noggolloquy Getter Interface"))
             {
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.NewOverride}static string NoggolloquyName => \"{this.Name}\";");
-                fg.AppendLine($"string INoggolloquyObjectGetter.NoggolloquyName => \"{this.Name}\";");
-
-                fg.AppendLine($"public{this.NewOverride}static string NoggolloquyFullName => \"{(string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".")}{this.Name}\";");
-                fg.AppendLine($"string INoggolloquyObjectGetter.NoggolloquyFullName => \"{(string.IsNullOrWhiteSpace(this.Namespace) ? string.Empty : this.Namespace + ".")}{this.Name}\";");
-
-                this.GenerateProtocolProperty(fg);
-
-                fg.AppendLine($"public{this.FunctionOverride}int FieldCount => {this.Fields.Count}{(this.HasBaseObject ? " + base.FieldCount" : string.Empty)};", extraLine: true);
-
-                fg.AppendLine($"public{this.FunctionOverride}string Noggolloquy_GUID => \"{this.GUID.ToString()}\";", extraLine: true);
-
-                GenerateGetNthObject(fg);
-
-                GenerateGetNthObjectHasBeenSet(fg);
-
-                fg.AppendLine($"public{this.FunctionOverride}Type GetNthType(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthType(index);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}string GetNthName(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthName(index);");
                 fg.AppendLine();
 
                 fg.AppendLine($"public{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthObject(index, this);");
@@ -491,34 +547,13 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}ushort? GetNameIndex(StringCaseAgnostic str) => {this.ExtCommonName(this.GenericTypes)}.GetNameIndex(str);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}bool IsNthDerivative(ushort index) => {this.ExtCommonName(this.GenericTypes)}.IsNthDerivative(index);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}bool IsReadOnly(ushort index) => {this.ExtCommonName(this.GenericTypes)}.IsReadOnly(index);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsEnumerable(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsEnumerable(index);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsNoggolloquy(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsNoggolloquy(index);");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}bool GetNthIsSingleton(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthIsSingleton(index);");
-                fg.AppendLine();
-
                 fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj, cmds);");
                 fg.AppendLine();
 
                 fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(this, index, cmds);");
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}Type GetMaskType() => typeof({this.GetMaskString(string.Empty)});");
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}Type GetErrorMaskType() => typeof({this.GetErrorMaskItemString()});");
+                fg.AppendLine($"public{this.FunctionOverride}Type GetNthType(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthType(index);");
                 fg.AppendLine();
             }
             fg.AppendLine();
@@ -931,11 +966,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    fg.AppendLine("default:");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine("return false;");
-                    }
+                    GenerateStandardIndexDefault(fg, "GetNthIsSingleton", "index", true);
                 }
             }
             fg.AppendLine();
@@ -948,7 +979,7 @@ namespace Noggolloquy.Generation
             {
                 if (this.HasBaseObject)
                 {
-                    fg.AppendLine((ret ? "return " : string.Empty) + BaseClass.ExtCommonName(this.BaseGenericTypes) + "." + functionName + "(" + string.Join(", ", indexAccessor.And(otherParameters)) + ");");
+                    fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.ExtCommonName(this.BaseGenericTypes)}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
                     if (!ret)
                     {
                         fg.AppendLine("break;");
@@ -986,7 +1017,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("default:");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("throw new ArgumentException($\"Queried unknown field: {{str}}\");");
+                        fg.AppendLine("throw new ArgumentException($\"Queried unknown field: {str}\");");
                     }
                 }
             }

@@ -9,41 +9,13 @@ namespace Noggolloquy
 {
     public interface INoggolloquyObjectGetter : ICopyable
     {
-        string NoggolloquyFullName { get; }
-
-        string NoggolloquyName { get; }
-
-        ProtocolDefinition Noggolloquy_ProtocolDefinition { get; }
-
-        ObjectKey Noggolloquy_ObjectKey { get; }
-
-        string Noggolloquy_GUID { get; }
-
-        int FieldCount { get; }
+        INoggolloquyRegistration Registration { get; }
 
         object GetNthObject(ushort index);
 
         bool GetNthObjectHasBeenSet(ushort index);
 
         Type GetNthType(ushort index);
-
-        string GetNthName(ushort index);
-
-        bool GetNthIsNoggolloquy(ushort index);
-
-        bool GetNthIsEnumerable(ushort index);
-
-        bool GetNthIsSingleton(ushort index);
-
-        bool IsNthDerivative(ushort index);
-
-        ushort? GetNameIndex(StringCaseAgnostic name);
-
-        bool IsReadOnly(ushort index);
-
-        Type GetMaskType();
-
-        Type GetErrorMaskType();
     }
 
     public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
@@ -63,12 +35,12 @@ namespace Noggolloquy
     {
         public static bool HasFieldWithName(this INoggolloquyObjectGetter obj, StringCaseAgnostic name)
         {
-            return -1 != obj.GetNameIndex(name);
+            return -1 != obj.Registration.GetNameIndex(name);
         }
 
         public static IEnumerable EnumerateFields(this INoggolloquyObjectGetter obj)
         {
-            for (ushort i = 0; i < obj.FieldCount; i++)
+            for (ushort i = 0; i < obj.Registration.FieldCount; i++)
             {
                 yield return obj.GetNthObject(i);
             }
@@ -81,13 +53,13 @@ namespace Noggolloquy
 
         public static string PrintPretty(this INoggolloquyObjectGetter obj, DepthPrinter depthPrinter)
         {
-            depthPrinter.AddLine(obj.NoggolloquyName + "=>");
+            depthPrinter.AddLine(obj.Registration.Name + "=>");
             return PrintPrettyInternal(obj, depthPrinter);
         }
 
         private static string PrintNoggName(INoggolloquyObjectGetter obj, ushort i)
         {
-            return obj.GetNthName(i) + "(" + obj.GetNthType(i).Name + ")" + " => ";
+            return obj.Registration.GetNthName(i) + "(" + obj.GetNthType(i).Name + ")" + " => ";
         }
 
         private static string PrintPrettyInternal(this INoggolloquyObjectGetter nogg, DepthPrinter depthPrinter)
@@ -95,15 +67,15 @@ namespace Noggolloquy
             depthPrinter.AddLine("[");
             using (depthPrinter.IncrementDepth())
             {
-                for (ushort i = 0; i < nogg.FieldCount; i++)
+                for (ushort i = 0; i < nogg.Registration.FieldCount; i++)
                 {
                     var obj = nogg.GetNthObject(i);
-                    if (nogg.GetNthIsEnumerable(i))
+                    if (nogg.Registration.GetNthIsEnumerable(i))
                     {
                         if (obj is IEnumerable listObj)
                         {
                             bool hasItems = listObj.Any();
-                            depthPrinter.AddLine(nogg.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));
+                            depthPrinter.AddLine(nogg.Registration.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));
                             if (hasItems)
                             {
                                 depthPrinter.AddLine("[");
@@ -111,7 +83,7 @@ namespace Noggolloquy
                                 {
                                     foreach (var listItem in listObj)
                                     {
-                                        if (nogg.GetNthIsNoggolloquy(i))
+                                        if (nogg.Registration.GetNthIsNoggolloquy(i))
                                         {
                                             if (listItem is INoggolloquyObjectGetter subNogg)
                                             {
@@ -130,7 +102,7 @@ namespace Noggolloquy
                         continue;
                     }
 
-                    if (nogg.GetNthIsNoggolloquy(i))
+                    if (nogg.Registration.GetNthIsNoggolloquy(i))
                     {
                         if (obj is INoggolloquyObjectGetter subNogg)
                         {
@@ -140,7 +112,7 @@ namespace Noggolloquy
                         continue;
                     }
 
-                    depthPrinter.AddLine(nogg.GetNthName(i) + ": " + obj.ToStringSafe());
+                    depthPrinter.AddLine(nogg.Registration.GetNthName(i) + ": " + obj.ToStringSafe());
                 }
             }
             depthPrinter.AddLine("]");
@@ -163,13 +135,13 @@ namespace Noggolloquy
             foreach (var field in fields)
             {
                 readFields.Add(field.Key);
-                if (skipReadonly && obj.IsReadOnly(field.Key)) continue;
+                if (skipReadonly && obj.Registration.IsReadOnly(field.Key)) continue;
                 obj.SetNthObject(field.Key, field.Value, cmds);
             }
 
-            for (ushort i = 0; i < obj.FieldCount; i++)
+            for (ushort i = 0; i < obj.Registration.FieldCount; i++)
             {
-                if (obj.IsNthDerivative(i)) continue;
+                if (obj.Registration.IsNthDerivative(i)) continue;
                 if (readFields.Contains(i)) continue;
                 if (def != null && def.GetNthObjectHasBeenSet(i))
                 {
@@ -197,7 +169,7 @@ namespace Noggolloquy
                 foreach (var field in fields)
                 {
                     readFields.Add(field.Key);
-                    if (skipReadonly && obj.IsReadOnly(field.Key)) continue;
+                    if (skipReadonly && obj.Registration.IsReadOnly(field.Key)) continue;
                     try
                     {
                         obj.SetNthObject(field.Key, field.Value, cmds);
@@ -208,9 +180,9 @@ namespace Noggolloquy
                     }
                 }
 
-                for (ushort i = 0; i < obj.FieldCount; i++)
+                for (ushort i = 0; i < obj.Registration.FieldCount; i++)
                 {
-                    if (obj.IsNthDerivative(i)) continue;
+                    if (obj.Registration.IsNthDerivative(i)) continue;
                     if (readFields.Contains(i)) continue;
                     try
                     {

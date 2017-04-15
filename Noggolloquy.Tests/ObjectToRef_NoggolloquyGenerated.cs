@@ -22,6 +22,9 @@ namespace Noggolloquy.Tests
     #region Class
     public partial class ObjectToRef : IObjectToRef, INoggolloquySerializer, IEquatable<ObjectToRef>
     {
+        INoggolloquyRegistration INoggolloquyObjectGetter.Registration => ObjectToRef_Registration.Instance;
+        public static ObjectToRef_Registration Registration => ObjectToRef_Registration.Instance;
+
         public ObjectToRef()
         {
             CustomCtor();
@@ -52,75 +55,15 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public static string NoggolloquyName => "ObjectToRef";
-        string INoggolloquyObjectGetter.NoggolloquyName => "ObjectToRef";
-        public static string NoggolloquyFullName => "Noggolloquy.Tests.ObjectToRef";
-        string INoggolloquyObjectGetter.NoggolloquyFullName => "Noggolloquy.Tests.ObjectToRef";
-        public static ProtocolKey Noggolloquy_ProtocolKey_Static => new ProtocolKey(1);
-        public ProtocolKey Noggolloquy_ProtocolKey => Noggolloquy_ProtocolKey_Static;
-        public static ProtocolDefinition Noggolloquy_ProtocolDefinition_Static => new ProtocolDefinition(
-            key: Noggolloquy_ProtocolKey_Static,
-            nickname: "NoggolloquyTests");
-        public ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;
-        public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 3, version: 0);
-        public ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;
-        public int FieldCount => 2;
-
-        public string Noggolloquy_GUID => "39bed53a-0f81-4fdc-8ce4-84563c3125cf";
-
-        public static object GetNthObject(ushort index, IObjectToRefGetter obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    return obj.KeyField;
-                case 1:
-                    return obj.SomeField;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthObjectHasBeenSet(ushort index, IObjectToRef obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    return obj.KeyField_Property.HasBeenSet;
-                case 1:
-                    return obj.SomeField_Property.HasBeenSet;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public Type GetNthType(ushort index) => ObjectToRefCommon.GetNthType(index);
-
-        public string GetNthName(ushort index) => ObjectToRefCommon.GetNthName(index);
-
         public object GetNthObject(ushort index) => ObjectToRefCommon.GetNthObject(index, this);
 
         public bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
-
-        public ushort? GetNameIndex(StringCaseAgnostic str) => ObjectToRefCommon.GetNameIndex(str);
-
-        public bool IsNthDerivative(ushort index) => ObjectToRefCommon.IsNthDerivative(index);
-
-        public bool IsReadOnly(ushort index) => ObjectToRefCommon.IsReadOnly(index);
-
-        public bool GetNthIsEnumerable(ushort index) => ObjectToRefCommon.GetNthIsEnumerable(index);
-
-        public bool GetNthIsNoggolloquy(ushort index) => ObjectToRefCommon.GetNthIsNoggolloquy(index);
-
-        public bool GetNthIsSingleton(ushort index) => ObjectToRefCommon.GetNthIsSingleton(index);
 
         public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => ObjectToRefCommon.SetNthObject(this, index, obj, cmds);
 
         public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(this, index, cmds);
 
-        public Type GetMaskType() => typeof(ObjectToRef_Mask<>);
-
-        public Type GetErrorMaskType() => typeof(ObjectToRef_ErrorMask);
+        public Type GetNthType(ushort index) => ObjectToRefCommon.GetNthType(index);
 
         #endregion
 
@@ -440,23 +383,46 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Extensions
-    public static class ObjectToRefCommon
+    #region Registration
+    public class ObjectToRef_Registration : INoggolloquyRegistration
     {
-        public static Type GetNthType(ushort index)
+        public static readonly ObjectToRef_Registration Instance = new ObjectToRef_Registration();
+
+        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
+
+        public static readonly ObjectKey ObjectKey = new ObjectKey(
+            protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
+            msgID: 3,
+            version: 0);
+
+        public static readonly string GUID = "39bed53a-0f81-4fdc-8ce4-84563c3125cf";
+
+        public const ushort FieldCount = 2;
+
+        public static readonly Type MaskType = typeof(ObjectToRef_Mask<>);
+
+        public static readonly Type ErrorMaskType = typeof(ObjectToRef_ErrorMask);
+
+        public static readonly Type ClassType = typeof(ObjectToRef);
+
+        public const string FullName = "Noggolloquy.Tests.ObjectToRef";
+
+        public const string Name = "ObjectToRef";
+
+        public static ushort? GetNameIndex(StringCaseAgnostic str)
         {
-            switch (index)
+            switch (str.Upper)
             {
-                case 0:
-                    return typeof(Int32);
-                case 1:
-                    return typeof(Boolean);
+                case "KEYFIELD":
+                    return 0;
+                case "SOMEFIELD":
+                    return 1;
                 default:
-                    throw new ArgumentException($"Index is out of range: {index}");
+                    throw new ArgumentException($"Queried unknown field: {str}");
             }
         }
 
-        public static bool IsNthDerivative(ushort index)
+        public static bool GetNthIsEnumerable(ushort index)
         {
             switch (index)
             {
@@ -468,14 +434,22 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, IObjectToRefGetter obj)
+        public static bool GetNthIsNoggolloquy(ushort index)
         {
             switch (index)
             {
                 case 0:
-                    return obj.KeyField;
                 case 1:
-                    return obj.SomeField;
+                    return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static bool GetNthIsSingleton(ushort index)
+        {
+            switch (index)
+            {
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -494,15 +468,53 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsSingleton(ushort index)
+        public static bool IsNthDerivative(ushort index)
         {
             switch (index)
             {
-                default:
+                case 0:
+                case 1:
                     return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
+        public static bool IsReadOnly(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                case 1:
+                    return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        #region Interface
+        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
+        ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;
+        string INoggolloquyRegistration.GUID => GUID;
+        int INoggolloquyRegistration.FieldCount => FieldCount;
+        Type INoggolloquyRegistration.MaskType => MaskType;
+        Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;
+        Type INoggolloquyRegistration.ClassType => ClassType;
+        string INoggolloquyRegistration.FullName => FullName;
+        string INoggolloquyRegistration.Name => Name;
+        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);
+        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);
+        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);
+        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
+        string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
+        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
+        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        #endregion
+    }
+    #endregion
+    #region Extensions
+    public static class ObjectToRefCommon
+    {
         #region Copy Fields From
         public static void CopyFieldsFrom(IObjectToRef item, IObjectToRefGetter rhs, IObjectToRefGetter def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
@@ -600,55 +612,6 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static ushort? GetNameIndex(StringCaseAgnostic str)
-        {
-            switch (str.Upper)
-            {
-                case "KEYFIELD":
-                    return 0;
-                case "SOMEFIELD":
-                    return 1;
-                default:
-                    throw new ArgumentException($"Queried unknown field: {{str}}");
-            }
-        }
-
-        public static bool IsReadOnly(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                case 1:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthIsEnumerable(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                case 1:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthIsNoggolloquy(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                case 1:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
         public static bool GetNthObjectHasBeenSet(ushort index, IObjectToRef obj)
         {
             switch (index)
@@ -657,6 +620,19 @@ namespace Noggolloquy.Tests
                     return obj.KeyField_Property.HasBeenSet;
                 case 1:
                     return obj.SomeField_Property.HasBeenSet;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static object GetNthObject(ushort index, IObjectToRefGetter obj)
+        {
+            switch (index)
+            {
+                case 0:
+                    return obj.KeyField;
+                case 1:
+                    return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -676,6 +652,19 @@ namespace Noggolloquy.Tests
                         ((Boolean)obj),
                         cmds);
                     break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static Type GetNthType(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return typeof(Int32);
+                case 1:
+                    return typeof(Boolean);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

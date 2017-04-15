@@ -53,7 +53,7 @@ namespace Noggolloquy.Xml
                         continue;
                     }
 
-                    var i = item.GetNameIndex(name.Value);
+                    var i = item.Registration.GetNameIndex(name.Value);
                     if (!i.HasValue)
                     {
                         if (doMasks)
@@ -67,7 +67,7 @@ namespace Noggolloquy.Xml
                         continue;
                     }
 
-                    var readOnly = item.IsReadOnly(i.Value);
+                    var readOnly = item.Registration.IsReadOnly(i.Value);
                     if (readOnly && skipReadonly) continue;
 
                     try
@@ -109,9 +109,9 @@ namespace Noggolloquy.Xml
                     }
                 }
 
-                for (ushort i = 0; i < item.FieldCount; i++)
+                for (ushort i = 0; i < item.Registration.FieldCount; i++)
                 {
-                    if (item.IsNthDerivative(i)) continue;
+                    if (item.Registration.IsNthDerivative(i)) continue;
                     if (!readIndices.Contains(i))
                     {
                         item.UnsetNthObject(i, cmds.ToUnsetParams());
@@ -146,7 +146,7 @@ namespace Noggolloquy.Xml
 
         public bool Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
-            using (new ElementWrapper(writer, item.NoggolloquyName))
+            using (new ElementWrapper(writer, item.Registration.Name))
             {
                 if (!string.IsNullOrEmpty(name))
                 {
@@ -156,7 +156,7 @@ namespace Noggolloquy.Xml
 
                 try
                 {
-                    for (ushort i = 0; i < item.FieldCount; i++)
+                    for (ushort i = 0; i < item.Registration.FieldCount; i++)
                     {
                         try
                         {
@@ -164,11 +164,11 @@ namespace Noggolloquy.Xml
 
                             var type = item.GetNthType(i);
                             object subMaskObj;
-                            if (item.GetNthIsNoggolloquy(i))
+                            if (item.Registration.GetNthIsNoggolloquy(i))
                             {
                                 if (TryGetWriteFunction(type, out NoggXmlWriteFunction writeFunc))
                                 {
-                                    writeFunc(writer, item.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
+                                    writeFunc(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
                                 }
                                 else
                                 {
@@ -181,7 +181,7 @@ namespace Noggolloquy.Xml
                                 {
                                     throw new ArgumentException($"No XML Translator found for {type}");
                                 }
-                                translator.Write(writer, item.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
+                                translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
                             }
 
                             if (subMaskObj != null)

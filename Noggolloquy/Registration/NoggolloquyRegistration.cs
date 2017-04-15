@@ -9,9 +9,9 @@ namespace Noggolloquy
 {
     public static class NoggolloquyRegistration
     {
-        static Dictionary<ObjectKey, NoggolloquyTypeRegister> Registers = new Dictionary<ObjectKey, NoggolloquyTypeRegister>();
-        static Dictionary<string, NoggolloquyTypeRegister> NameRegisters = new Dictionary<string, NoggolloquyTypeRegister>();
-        static Dictionary<Type, NoggolloquyTypeRegister> TypeRegister = new Dictionary<Type, NoggolloquyTypeRegister>();
+        static Dictionary<ObjectKey, INoggolloquyRegistration> Registers = new Dictionary<ObjectKey, INoggolloquyRegistration>();
+        static Dictionary<string, INoggolloquyRegistration> NameRegisters = new Dictionary<string, INoggolloquyRegistration>();
+        static Dictionary<Type, INoggolloquyRegistration> TypeRegister = new Dictionary<Type, INoggolloquyRegistration>();
         static Dictionary<Type, Delegate> CreateFuncRegister = new Dictionary<Type, Delegate>();
         static Dictionary<Type, Delegate> CopyInFuncRegister = new Dictionary<Type, Delegate>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
@@ -118,11 +118,11 @@ namespace Noggolloquy
             return mainType.MakeGenericType(subTypes);
         }
 
-        public static void Register(ObjectKey obj, NoggolloquyTypeRegister reg)
+        public static void Register(INoggolloquyRegistration reg)
         {
-            Registers.Add(obj, reg);
+            Registers.Add(reg.ObjectKey, reg);
             NameRegisters.Add(reg.FullName, reg);
-            TypeRegister.Add(reg.Class, reg);
+            TypeRegister.Add(reg.ClassType, reg);
         }
 
         public static bool IsNoggType(Type t)
@@ -130,7 +130,7 @@ namespace Noggolloquy
             return TypeRegister.ContainsKey(t);
         }
         
-        public static NoggolloquyTypeRegister GetRegister(Type t)
+        public static INoggolloquyRegistration GetRegister(Type t)
         {
             return TypeRegister[t];
         }

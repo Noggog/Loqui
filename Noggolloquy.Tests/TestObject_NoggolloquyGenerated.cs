@@ -23,6 +23,9 @@ namespace Noggolloquy.Tests
     #region Class
     public partial class TestObject : ITestObject, INoggolloquySerializer, IEquatable<TestObject>
     {
+        INoggolloquyRegistration INoggolloquyObjectGetter.Registration => TestObject_Registration.Instance;
+        public static TestObject_Registration Registration => TestObject_Registration.Instance;
+
         public TestObject()
         {
             CustomCtor();
@@ -536,251 +539,15 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public static string NoggolloquyName => "TestObject";
-        string INoggolloquyObjectGetter.NoggolloquyName => "TestObject";
-        public static string NoggolloquyFullName => "Noggolloquy.Tests.TestObject";
-        string INoggolloquyObjectGetter.NoggolloquyFullName => "Noggolloquy.Tests.TestObject";
-        public static ProtocolKey Noggolloquy_ProtocolKey_Static => new ProtocolKey(1);
-        public ProtocolKey Noggolloquy_ProtocolKey => Noggolloquy_ProtocolKey_Static;
-        public static ProtocolDefinition Noggolloquy_ProtocolDefinition_Static => new ProtocolDefinition(
-            key: Noggolloquy_ProtocolKey_Static,
-            nickname: "NoggolloquyTests");
-        public ProtocolDefinition Noggolloquy_ProtocolDefinition => Noggolloquy_ProtocolDefinition_Static;
-        public static ObjectKey Noggolloquy_ObjectKey_Static => new ObjectKey(protocolKey: Noggolloquy_ProtocolKey_Static, msgID: 2, version: 0);
-        public ObjectKey Noggolloquy_ObjectKey => Noggolloquy_ObjectKey_Static;
-        public int FieldCount => 46;
-
-        public string Noggolloquy_GUID => "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
-
-        public static object GetNthObject(ushort index, ITestObjectGetter obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    return obj.BoolN;
-                case 1:
-                    return obj.Bool;
-                case 2:
-                    return obj.CharN;
-                case 3:
-                    return obj.Char;
-                case 4:
-                    return obj.DoubleN;
-                case 5:
-                    return obj.Double;
-                case 6:
-                    return obj.FloatN;
-                case 7:
-                    return obj.Float;
-                case 8:
-                    return obj.Int16N;
-                case 9:
-                    return obj.Int16;
-                case 10:
-                    return obj.Int32N;
-                case 11:
-                    return obj.Int32;
-                case 12:
-                    return obj.Int64N;
-                case 13:
-                    return obj.Int64;
-                case 14:
-                    return obj.Int8N;
-                case 15:
-                    return obj.Int8;
-                case 16:
-                    return obj.Unsafe;
-                case 17:
-                    return obj.P2IntN;
-                case 18:
-                    return obj.P2Int;
-                case 19:
-                    return obj.P3DoubleN;
-                case 20:
-                    return obj.P3Double;
-                case 21:
-                    return obj.P3IntN;
-                case 22:
-                    return obj.P3Int;
-                case 23:
-                    return obj.PercentN;
-                case 24:
-                    return obj.Percent;
-                case 25:
-                    return obj.RangeIntN;
-                case 26:
-                    return obj.RangeInt;
-                case 27:
-                    return obj.String;
-                case 28:
-                    return obj.UDoubleN;
-                case 29:
-                    return obj.UDouble;
-                case 30:
-                    return obj.UInt16N;
-                case 31:
-                    return obj.UInt16;
-                case 32:
-                    return obj.UInt32N;
-                case 33:
-                    return obj.UInt32;
-                case 34:
-                    return obj.UInt64N;
-                case 35:
-                    return obj.UInt64;
-                case 36:
-                    return obj.UInt8N;
-                case 37:
-                    return obj.UInt8;
-                case 38:
-                    return obj.Enum;
-                case 39:
-                    return obj.WildCard;
-                case 40:
-                    return obj.Ref;
-                case 41:
-                    return obj.List;
-                case 42:
-                    return obj.RefList;
-                case 43:
-                    return obj.Dict;
-                case 44:
-                    return obj.RefDict;
-                case 45:
-                    return obj.DictKeyedValue;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject obj)
-        {
-            switch (index)
-            {
-                case 0:
-                    return obj.BoolN_Property.HasBeenSet;
-                case 1:
-                    return obj.Bool_Property.HasBeenSet;
-                case 2:
-                    return obj.CharN_Property.HasBeenSet;
-                case 3:
-                    return obj.Char_Property.HasBeenSet;
-                case 4:
-                    return obj.DoubleN_Property.HasBeenSet;
-                case 5:
-                    return obj.Double_Property.HasBeenSet;
-                case 6:
-                    return obj.FloatN_Property.HasBeenSet;
-                case 7:
-                    return obj.Float_Property.HasBeenSet;
-                case 8:
-                    return obj.Int16N_Property.HasBeenSet;
-                case 9:
-                    return obj.Int16_Property.HasBeenSet;
-                case 10:
-                    return obj.Int32N_Property.HasBeenSet;
-                case 11:
-                    return obj.Int32_Property.HasBeenSet;
-                case 12:
-                    return obj.Int64N_Property.HasBeenSet;
-                case 13:
-                    return obj.Int64_Property.HasBeenSet;
-                case 14:
-                    return obj.Int8N_Property.HasBeenSet;
-                case 15:
-                    return obj.Int8_Property.HasBeenSet;
-                case 16:
-                    return obj.Unsafe_Property.HasBeenSet;
-                case 17:
-                    return obj.P2IntN_Property.HasBeenSet;
-                case 18:
-                    return obj.P2Int_Property.HasBeenSet;
-                case 19:
-                    return obj.P3DoubleN_Property.HasBeenSet;
-                case 20:
-                    return obj.P3Double_Property.HasBeenSet;
-                case 21:
-                    return obj.P3IntN_Property.HasBeenSet;
-                case 22:
-                    return obj.P3Int_Property.HasBeenSet;
-                case 23:
-                    return obj.PercentN_Property.HasBeenSet;
-                case 24:
-                    return obj.Percent_Property.HasBeenSet;
-                case 25:
-                    return obj.RangeIntN_Property.HasBeenSet;
-                case 26:
-                    return obj.RangeInt_Property.HasBeenSet;
-                case 27:
-                    return obj.String_Property.HasBeenSet;
-                case 28:
-                    return obj.UDoubleN_Property.HasBeenSet;
-                case 29:
-                    return obj.UDouble_Property.HasBeenSet;
-                case 30:
-                    return obj.UInt16N_Property.HasBeenSet;
-                case 31:
-                    return obj.UInt16_Property.HasBeenSet;
-                case 32:
-                    return obj.UInt32N_Property.HasBeenSet;
-                case 33:
-                    return obj.UInt32_Property.HasBeenSet;
-                case 34:
-                    return obj.UInt64N_Property.HasBeenSet;
-                case 35:
-                    return obj.UInt64_Property.HasBeenSet;
-                case 36:
-                    return obj.UInt8N_Property.HasBeenSet;
-                case 37:
-                    return obj.UInt8_Property.HasBeenSet;
-                case 38:
-                    return obj.Enum_Property.HasBeenSet;
-                case 39:
-                    return obj.WildCard_Property.HasBeenSet;
-                case 40:
-                    return obj.Ref_Property.HasBeenSet;
-                case 41:
-                    return obj.List.HasBeenSet;
-                case 42:
-                    return obj.RefList.HasBeenSet;
-                case 43:
-                    return obj.Dict.HasBeenSet;
-                case 44:
-                    return obj.RefDict.HasBeenSet;
-                case 45:
-                    return obj.DictKeyedValue.HasBeenSet;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public Type GetNthType(ushort index) => TestObjectCommon.GetNthType(index);
-
-        public string GetNthName(ushort index) => TestObjectCommon.GetNthName(index);
-
         public object GetNthObject(ushort index) => TestObjectCommon.GetNthObject(index, this);
 
         public bool GetNthObjectHasBeenSet(ushort index) => TestObjectCommon.GetNthObjectHasBeenSet(index, this);
-
-        public ushort? GetNameIndex(StringCaseAgnostic str) => TestObjectCommon.GetNameIndex(str);
-
-        public bool IsNthDerivative(ushort index) => TestObjectCommon.IsNthDerivative(index);
-
-        public bool IsReadOnly(ushort index) => TestObjectCommon.IsReadOnly(index);
-
-        public bool GetNthIsEnumerable(ushort index) => TestObjectCommon.GetNthIsEnumerable(index);
-
-        public bool GetNthIsNoggolloquy(ushort index) => TestObjectCommon.GetNthIsNoggolloquy(index);
-
-        public bool GetNthIsSingleton(ushort index) => TestObjectCommon.GetNthIsSingleton(index);
 
         public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObjectCommon.SetNthObject(this, index, obj, cmds);
 
         public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(this, index, cmds);
 
-        public Type GetMaskType() => typeof(TestObject_Mask<>);
-
-        public Type GetErrorMaskType() => typeof(TestObject_ErrorMask);
+        public Type GetNthType(ushort index) => TestObjectCommon.GetNthType(index);
 
         #endregion
 
@@ -2957,114 +2724,140 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Extensions
-    public static class TestObjectCommon
+    #region Registration
+    public class TestObject_Registration : INoggolloquyRegistration
     {
-        public static Type GetNthType(ushort index)
+        public static readonly TestObject_Registration Instance = new TestObject_Registration();
+
+        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
+
+        public static readonly ObjectKey ObjectKey = new ObjectKey(
+            protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
+            msgID: 2,
+            version: 0);
+
+        public static readonly string GUID = "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
+
+        public const ushort FieldCount = 46;
+
+        public static readonly Type MaskType = typeof(TestObject_Mask<>);
+
+        public static readonly Type ErrorMaskType = typeof(TestObject_ErrorMask);
+
+        public static readonly Type ClassType = typeof(TestObject);
+
+        public const string FullName = "Noggolloquy.Tests.TestObject";
+
+        public const string Name = "TestObject";
+
+        public static ushort? GetNameIndex(StringCaseAgnostic str)
         {
-            switch (index)
+            switch (str.Upper)
             {
-                case 0:
-                    return typeof(Boolean?);
-                case 1:
-                    return typeof(Boolean);
-                case 2:
-                    return typeof(Char?);
-                case 3:
-                    return typeof(Char);
-                case 4:
-                    return typeof(Double?);
-                case 5:
-                    return typeof(Double);
-                case 6:
-                    return typeof(Single?);
-                case 7:
-                    return typeof(Single);
-                case 8:
-                    return typeof(Int16?);
-                case 9:
-                    return typeof(Int16);
-                case 10:
-                    return typeof(Int32?);
-                case 11:
-                    return typeof(Int32);
-                case 12:
-                    return typeof(Int64?);
-                case 13:
-                    return typeof(Int64);
-                case 14:
-                    return typeof(SByte?);
-                case 15:
-                    return typeof(SByte);
-                case 16:
-                    return typeof(bool);
-                case 17:
-                    return typeof(P2Int?);
-                case 18:
-                    return typeof(P2Int);
-                case 19:
-                    return typeof(P3Double?);
-                case 20:
-                    return typeof(P3Double);
-                case 21:
-                    return typeof(P3Int?);
-                case 22:
-                    return typeof(P3Int);
-                case 23:
-                    return typeof(Percent?);
-                case 24:
-                    return typeof(Percent);
-                case 25:
-                    return typeof(RangeInt?);
-                case 26:
-                    return typeof(RangeInt);
-                case 27:
-                    return typeof(String);
-                case 28:
-                    return typeof(UDouble?);
-                case 29:
-                    return typeof(UDouble);
-                case 30:
-                    return typeof(UInt16?);
-                case 31:
-                    return typeof(UInt16);
-                case 32:
-                    return typeof(UInt32?);
-                case 33:
-                    return typeof(UInt32);
-                case 34:
-                    return typeof(UInt64?);
-                case 35:
-                    return typeof(UInt64);
-                case 36:
-                    return typeof(Byte?);
-                case 37:
-                    return typeof(Byte);
-                case 38:
-                    return typeof(TestEnum);
-                case 39:
-                    return typeof(Object);
-                case 40:
-                    return typeof(ObjectToRef);
-                case 41:
-                    return typeof(NotifyingList<Boolean>);
-                case 42:
-                    return typeof(NotifyingList<ObjectToRef>);
-                case 43:
-                    return typeof(NotifyingDictionary<Boolean, String>);
-                case 44:
-                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case 45:
-                    return typeof(NotifyingDictionary<Int32, ObjectToRef>);
+                case "BOOLN":
+                    return 0;
+                case "BOOL":
+                    return 1;
+                case "CHARN":
+                    return 2;
+                case "CHAR":
+                    return 3;
+                case "DOUBLEN":
+                    return 4;
+                case "DOUBLE":
+                    return 5;
+                case "FLOATN":
+                    return 6;
+                case "FLOAT":
+                    return 7;
+                case "INT16N":
+                    return 8;
+                case "INT16":
+                    return 9;
+                case "INT32N":
+                    return 10;
+                case "INT32":
+                    return 11;
+                case "INT64N":
+                    return 12;
+                case "INT64":
+                    return 13;
+                case "INT8N":
+                    return 14;
+                case "INT8":
+                    return 15;
+                case "UNSAFE":
+                    return 16;
+                case "P2INTN":
+                    return 17;
+                case "P2INT":
+                    return 18;
+                case "P3DOUBLEN":
+                    return 19;
+                case "P3DOUBLE":
+                    return 20;
+                case "P3INTN":
+                    return 21;
+                case "P3INT":
+                    return 22;
+                case "PERCENTN":
+                    return 23;
+                case "PERCENT":
+                    return 24;
+                case "RANGEINTN":
+                    return 25;
+                case "RANGEINT":
+                    return 26;
+                case "STRING":
+                    return 27;
+                case "UDOUBLEN":
+                    return 28;
+                case "UDOUBLE":
+                    return 29;
+                case "UINT16N":
+                    return 30;
+                case "UINT16":
+                    return 31;
+                case "UINT32N":
+                    return 32;
+                case "UINT32":
+                    return 33;
+                case "UINT64N":
+                    return 34;
+                case "UINT64":
+                    return 35;
+                case "UINT8N":
+                    return 36;
+                case "UINT8":
+                    return 37;
+                case "ENUM":
+                    return 38;
+                case "WILDCARD":
+                    return 39;
+                case "REF":
+                    return 40;
+                case "LIST":
+                    return 41;
+                case "REFLIST":
+                    return 42;
+                case "DICT":
+                    return 43;
+                case "REFDICT":
+                    return 44;
+                case "DICTKEYEDVALUE":
+                    return 45;
                 default:
-                    throw new ArgumentException($"Index is out of range: {index}");
+                    throw new ArgumentException($"Queried unknown field: {str}");
             }
         }
 
-        public static bool IsNthDerivative(ushort index)
+        public static bool GetNthIsEnumerable(ushort index)
         {
             switch (index)
             {
+                case 41:
+                case 42:
+                    return true;
                 case 0:
                 case 1:
                 case 2:
@@ -3106,8 +2899,6 @@ namespace Noggolloquy.Tests
                 case 38:
                 case 39:
                 case 40:
-                case 41:
-                case 42:
                 case 43:
                 case 44:
                 case 45:
@@ -3117,102 +2908,69 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObjectGetter obj)
+        public static bool GetNthIsNoggolloquy(ushort index)
         {
             switch (index)
             {
-                case 0:
-                    return obj.BoolN;
-                case 1:
-                    return obj.Bool;
-                case 2:
-                    return obj.CharN;
-                case 3:
-                    return obj.Char;
-                case 4:
-                    return obj.DoubleN;
-                case 5:
-                    return obj.Double;
-                case 6:
-                    return obj.FloatN;
-                case 7:
-                    return obj.Float;
-                case 8:
-                    return obj.Int16N;
-                case 9:
-                    return obj.Int16;
-                case 10:
-                    return obj.Int32N;
-                case 11:
-                    return obj.Int32;
-                case 12:
-                    return obj.Int64N;
-                case 13:
-                    return obj.Int64;
-                case 14:
-                    return obj.Int8N;
-                case 15:
-                    return obj.Int8;
-                case 16:
-                    return obj.Unsafe;
-                case 17:
-                    return obj.P2IntN;
-                case 18:
-                    return obj.P2Int;
-                case 19:
-                    return obj.P3DoubleN;
-                case 20:
-                    return obj.P3Double;
-                case 21:
-                    return obj.P3IntN;
-                case 22:
-                    return obj.P3Int;
-                case 23:
-                    return obj.PercentN;
-                case 24:
-                    return obj.Percent;
-                case 25:
-                    return obj.RangeIntN;
-                case 26:
-                    return obj.RangeInt;
-                case 27:
-                    return obj.String;
-                case 28:
-                    return obj.UDoubleN;
-                case 29:
-                    return obj.UDouble;
-                case 30:
-                    return obj.UInt16N;
-                case 31:
-                    return obj.UInt16;
-                case 32:
-                    return obj.UInt32N;
-                case 33:
-                    return obj.UInt32;
-                case 34:
-                    return obj.UInt64N;
-                case 35:
-                    return obj.UInt64;
-                case 36:
-                    return obj.UInt8N;
-                case 37:
-                    return obj.UInt8;
-                case 38:
-                    return obj.Enum;
-                case 39:
-                    return obj.WildCard;
                 case 40:
-                    return obj.Ref;
-                case 41:
-                    return obj.List;
                 case 42:
-                    return obj.RefList;
+                    return true;
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 41:
                 case 43:
-                    return obj.Dict;
                 case 44:
-                    return obj.RefDict;
                 case 45:
-                    return obj.DictKeyedValue;
+                    return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static bool GetNthIsSingleton(ushort index)
+        {
+            switch (index)
+            {
+                case 40:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -3319,17 +3077,141 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthIsSingleton(ushort index)
+        public static bool IsNthDerivative(ushort index)
         {
             switch (index)
             {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
                 case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
                     return false;
                 default:
-                    return false;
+                    throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
+        public static bool IsReadOnly(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                    return false;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        #region Interface
+        ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
+        ObjectKey INoggolloquyRegistration.ObjectKey => ObjectKey;
+        string INoggolloquyRegistration.GUID => GUID;
+        int INoggolloquyRegistration.FieldCount => FieldCount;
+        Type INoggolloquyRegistration.MaskType => MaskType;
+        Type INoggolloquyRegistration.ErrorMaskType => ErrorMaskType;
+        Type INoggolloquyRegistration.ClassType => ClassType;
+        string INoggolloquyRegistration.FullName => FullName;
+        string INoggolloquyRegistration.Name => Name;
+        ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);
+        bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);
+        bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => GetNthIsNoggolloquy(index);
+        bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
+        string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
+        bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
+        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        #endregion
+    }
+    #endregion
+    #region Extensions
+    public static class TestObjectCommon
+    {
         #region Copy Fields From
         public static void CopyFieldsFrom(ITestObject item, ITestObjectGetter rhs, ITestObjectGetter def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
@@ -5061,277 +4943,6 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static ushort? GetNameIndex(StringCaseAgnostic str)
-        {
-            switch (str.Upper)
-            {
-                case "BOOLN":
-                    return 0;
-                case "BOOL":
-                    return 1;
-                case "CHARN":
-                    return 2;
-                case "CHAR":
-                    return 3;
-                case "DOUBLEN":
-                    return 4;
-                case "DOUBLE":
-                    return 5;
-                case "FLOATN":
-                    return 6;
-                case "FLOAT":
-                    return 7;
-                case "INT16N":
-                    return 8;
-                case "INT16":
-                    return 9;
-                case "INT32N":
-                    return 10;
-                case "INT32":
-                    return 11;
-                case "INT64N":
-                    return 12;
-                case "INT64":
-                    return 13;
-                case "INT8N":
-                    return 14;
-                case "INT8":
-                    return 15;
-                case "UNSAFE":
-                    return 16;
-                case "P2INTN":
-                    return 17;
-                case "P2INT":
-                    return 18;
-                case "P3DOUBLEN":
-                    return 19;
-                case "P3DOUBLE":
-                    return 20;
-                case "P3INTN":
-                    return 21;
-                case "P3INT":
-                    return 22;
-                case "PERCENTN":
-                    return 23;
-                case "PERCENT":
-                    return 24;
-                case "RANGEINTN":
-                    return 25;
-                case "RANGEINT":
-                    return 26;
-                case "STRING":
-                    return 27;
-                case "UDOUBLEN":
-                    return 28;
-                case "UDOUBLE":
-                    return 29;
-                case "UINT16N":
-                    return 30;
-                case "UINT16":
-                    return 31;
-                case "UINT32N":
-                    return 32;
-                case "UINT32":
-                    return 33;
-                case "UINT64N":
-                    return 34;
-                case "UINT64":
-                    return 35;
-                case "UINT8N":
-                    return 36;
-                case "UINT8":
-                    return 37;
-                case "ENUM":
-                    return 38;
-                case "WILDCARD":
-                    return 39;
-                case "REF":
-                    return 40;
-                case "LIST":
-                    return 41;
-                case "REFLIST":
-                    return 42;
-                case "DICT":
-                    return 43;
-                case "REFDICT":
-                    return 44;
-                case "DICTKEYEDVALUE":
-                    return 45;
-                default:
-                    throw new ArgumentException($"Queried unknown field: {{str}}");
-            }
-        }
-
-        public static bool IsReadOnly(ushort index)
-        {
-            switch (index)
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthIsEnumerable(ushort index)
-        {
-            switch (index)
-            {
-                case 41:
-                case 42:
-                    return true;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 43:
-                case 44:
-                case 45:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static bool GetNthIsNoggolloquy(ushort index)
-        {
-            switch (index)
-            {
-                case 40:
-                case 42:
-                    return true;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 41:
-                case 43:
-                case 44:
-                case 45:
-                    return false;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
         public static bool GetNthObjectHasBeenSet(ushort index, ITestObject obj)
         {
             switch (index)
@@ -5428,6 +5039,107 @@ namespace Noggolloquy.Tests
                     return obj.RefDict.HasBeenSet;
                 case 45:
                     return obj.DictKeyedValue.HasBeenSet;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static object GetNthObject(ushort index, ITestObjectGetter obj)
+        {
+            switch (index)
+            {
+                case 0:
+                    return obj.BoolN;
+                case 1:
+                    return obj.Bool;
+                case 2:
+                    return obj.CharN;
+                case 3:
+                    return obj.Char;
+                case 4:
+                    return obj.DoubleN;
+                case 5:
+                    return obj.Double;
+                case 6:
+                    return obj.FloatN;
+                case 7:
+                    return obj.Float;
+                case 8:
+                    return obj.Int16N;
+                case 9:
+                    return obj.Int16;
+                case 10:
+                    return obj.Int32N;
+                case 11:
+                    return obj.Int32;
+                case 12:
+                    return obj.Int64N;
+                case 13:
+                    return obj.Int64;
+                case 14:
+                    return obj.Int8N;
+                case 15:
+                    return obj.Int8;
+                case 16:
+                    return obj.Unsafe;
+                case 17:
+                    return obj.P2IntN;
+                case 18:
+                    return obj.P2Int;
+                case 19:
+                    return obj.P3DoubleN;
+                case 20:
+                    return obj.P3Double;
+                case 21:
+                    return obj.P3IntN;
+                case 22:
+                    return obj.P3Int;
+                case 23:
+                    return obj.PercentN;
+                case 24:
+                    return obj.Percent;
+                case 25:
+                    return obj.RangeIntN;
+                case 26:
+                    return obj.RangeInt;
+                case 27:
+                    return obj.String;
+                case 28:
+                    return obj.UDoubleN;
+                case 29:
+                    return obj.UDouble;
+                case 30:
+                    return obj.UInt16N;
+                case 31:
+                    return obj.UInt16;
+                case 32:
+                    return obj.UInt32N;
+                case 33:
+                    return obj.UInt32;
+                case 34:
+                    return obj.UInt64N;
+                case 35:
+                    return obj.UInt64;
+                case 36:
+                    return obj.UInt8N;
+                case 37:
+                    return obj.UInt8;
+                case 38:
+                    return obj.Enum;
+                case 39:
+                    return obj.WildCard;
+                case 40:
+                    return obj.Ref;
+                case 41:
+                    return obj.List;
+                case 42:
+                    return obj.RefList;
+                case 43:
+                    return obj.Dict;
+                case 44:
+                    return obj.RefDict;
+                case 45:
+                    return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -5669,6 +5381,107 @@ namespace Noggolloquy.Tests
                         ((IEnumerable<ObjectToRef>)((NotifyingDictionary<Int32, ObjectToRef>)obj)).Select((i) => i.Copy()),
                         cmds);
                     break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+        public static Type GetNthType(ushort index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return typeof(Boolean?);
+                case 1:
+                    return typeof(Boolean);
+                case 2:
+                    return typeof(Char?);
+                case 3:
+                    return typeof(Char);
+                case 4:
+                    return typeof(Double?);
+                case 5:
+                    return typeof(Double);
+                case 6:
+                    return typeof(Single?);
+                case 7:
+                    return typeof(Single);
+                case 8:
+                    return typeof(Int16?);
+                case 9:
+                    return typeof(Int16);
+                case 10:
+                    return typeof(Int32?);
+                case 11:
+                    return typeof(Int32);
+                case 12:
+                    return typeof(Int64?);
+                case 13:
+                    return typeof(Int64);
+                case 14:
+                    return typeof(SByte?);
+                case 15:
+                    return typeof(SByte);
+                case 16:
+                    return typeof(bool);
+                case 17:
+                    return typeof(P2Int?);
+                case 18:
+                    return typeof(P2Int);
+                case 19:
+                    return typeof(P3Double?);
+                case 20:
+                    return typeof(P3Double);
+                case 21:
+                    return typeof(P3Int?);
+                case 22:
+                    return typeof(P3Int);
+                case 23:
+                    return typeof(Percent?);
+                case 24:
+                    return typeof(Percent);
+                case 25:
+                    return typeof(RangeInt?);
+                case 26:
+                    return typeof(RangeInt);
+                case 27:
+                    return typeof(String);
+                case 28:
+                    return typeof(UDouble?);
+                case 29:
+                    return typeof(UDouble);
+                case 30:
+                    return typeof(UInt16?);
+                case 31:
+                    return typeof(UInt16);
+                case 32:
+                    return typeof(UInt32?);
+                case 33:
+                    return typeof(UInt32);
+                case 34:
+                    return typeof(UInt64?);
+                case 35:
+                    return typeof(UInt64);
+                case 36:
+                    return typeof(Byte?);
+                case 37:
+                    return typeof(Byte);
+                case 38:
+                    return typeof(TestEnum);
+                case 39:
+                    return typeof(Object);
+                case 40:
+                    return typeof(ObjectToRef);
+                case 41:
+                    return typeof(NotifyingList<Boolean>);
+                case 42:
+                    return typeof(NotifyingList<ObjectToRef>);
+                case 43:
+                    return typeof(NotifyingDictionary<Boolean, String>);
+                case 44:
+                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case 45:
+                    return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

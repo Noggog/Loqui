@@ -101,7 +101,7 @@ namespace Noggolloquy.Xml
                 var noggTypes = new Type[]
                 {
                     t,
-                    NoggolloquyRegistration.GetRegister(t).ErrorMask
+                    NoggolloquyRegistration.GetRegister(t).ErrorMaskType
                 };
                 var xmlConverterGenType = typeof(NoggXmlTranslation<,>).MakeGenericType(noggTypes);
                 var xmlCaster = GetCaster(xmlConverterGenType, t);

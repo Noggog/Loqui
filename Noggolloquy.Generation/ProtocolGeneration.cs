@@ -165,7 +165,13 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public class ProtocolDefinition_{this.Definition.Nickname} : IProtocolRegistration");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"public readonly ProtocolKey ProtocolKey = new ProtocolKey({this.Definition.Key.ProtocolID});");
+                    fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey({this.Definition.Key.ProtocolID});");
+                    fg.AppendLine($"public readonly static ProtocolDefinition Definition = new ProtocolDefinition(");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"key: ProtocolKey,");
+                        fg.AppendLine($"nickname: \"{this.Definition.Nickname}\");");
+                    }
                     fg.AppendLine();
                     fg.AppendLine("public void Register()");
                     using (new BraceWrapper(fg))
@@ -173,20 +179,7 @@ namespace Noggolloquy.Generation
                         foreach (var obj in this.ObjectGenerationsByID.Values
                             .OrderBy((o) => o.ID))
                         {
-                            fg.AppendLine("NoggolloquyRegistration.Register(");
-                            using (new DepthWrapper(fg))
-                            {
-                                fg.AppendLine($"new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version}),");
-                                fg.AppendLine($"new NoggolloquyTypeRegister(");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine($"classType: typeof({obj.Name}{obj.EmptyGenerics}),");
-                                    fg.AppendLine($"errorMask: typeof({obj.GetErrorMaskItemString()}),");
-                                    fg.AppendLine($"fullName: \"{obj.Name}\",");
-                                    fg.AppendLine($"genericCount: {obj.Generics.Count},");
-                                    fg.AppendLine($"objectKey: new ObjectKey(ProtocolKey, {obj.ID}, {obj.Version})));");
-                                }
-                            }
+                            fg.AppendLine($"NoggolloquyRegistration.Register({obj.RegistrationName}.Instance);");
                         }
                     }
                 }

@@ -51,10 +51,10 @@
     <Compile Include="Interfaces\ICopyable.cs" />
     <Compile Include="Interfaces\ICopyFrom.cs" />
     <Compile Include="Interfaces\INoggolloquyObject.cs" />
+    <Compile Include="Interfaces\INoggolloquyRegistration.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />
     <Compile Include="MaskItem.cs" />
-    <Compile Include="NoggolloquyRegistration.cs" />
-    <Compile Include="NoggolloquyTypeRegister.cs" />
+    <Compile Include="Registration\NoggolloquyRegistration.cs" />
     <Compile Include="Net.cs" />
     <Compile Include="ObjectKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
