@@ -9,6 +9,72 @@ namespace Noggolloquy.Tests
 {
     public class NoggolloquyRegistration_Tests
     {
+        public static ObjectKey TestObjectKey = new ObjectKey(
+            protocolKey: new ProtocolKey(1),
+            msgID: 2,
+            version: 0);
+
+        public static ObjectKey GenericTestObjectKey = new ObjectKey(
+            protocolKey: new ProtocolKey(1),
+            msgID: 1,
+            version: 0);
+
+        [Fact]
+        public void GetRegistration_ByType()
+        {
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestObject));
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_Key()
+        {
+            var registration = NoggolloquyRegistration.GetRegister(TestObjectKey);
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_FullName()
+        {
+            var registration = NoggolloquyRegistration.GetRegisterByFullName("Noggolloquy.Tests.TestObject");
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_Generic_ByType()
+        {
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<,>));
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_Generic_Key()
+        {
+            var registration = NoggolloquyRegistration.GetRegister(GenericTestObjectKey);
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_Generic_FullName()
+        {
+            var registration = NoggolloquyRegistration.GetRegisterByFullName("Noggolloquy.Tests.TestGenericObject");
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_GenericTyped_ByType()
+        {
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<bool, ObjectToRef>));
+            Assert.NotNull(registration);
+        }
+
+        [Fact]
+        public void GetRegistration_GenericTyped_FullName()
+        {
+            var registration = NoggolloquyRegistration.GetRegisterByFullName("TestGenericObject<bool, ObjectToRef>");
+            Assert.NotNull(registration);
+        }
+
         [Fact]
         public void GetCreateFunc()
         {

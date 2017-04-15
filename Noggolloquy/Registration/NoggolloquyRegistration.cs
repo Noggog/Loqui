@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Noggolloquy
 {
@@ -12,6 +13,7 @@ namespace Noggolloquy
         static Dictionary<ObjectKey, INoggolloquyRegistration> Registers = new Dictionary<ObjectKey, INoggolloquyRegistration>();
         static Dictionary<string, INoggolloquyRegistration> NameRegisters = new Dictionary<string, INoggolloquyRegistration>();
         static Dictionary<Type, INoggolloquyRegistration> TypeRegister = new Dictionary<Type, INoggolloquyRegistration>();
+        static Dictionary<Type, Type> GenericRegisters = new Dictionary<Type, Type>();
         static Dictionary<Type, Delegate> CreateFuncRegister = new Dictionary<Type, Delegate>();
         static Dictionary<Type, Delegate> CopyInFuncRegister = new Dictionary<Type, Delegate>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
@@ -25,7 +27,7 @@ namespace Noggolloquy
                 regis.Register();
             }
         }
-        
+
         public static TryGet<Type> TryGetType(string name)
         {
             if (!cache.TryGetValue(name, out Type t))
@@ -123,16 +125,68 @@ namespace Noggolloquy
             Registers.Add(reg.ObjectKey, reg);
             NameRegisters.Add(reg.FullName, reg);
             TypeRegister.Add(reg.ClassType, reg);
+            if (reg.GenericRegistrationType != null
+                && !reg.GenericRegistrationType.Equals(reg.GetType()))
+            {
+                GenericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+            }
         }
 
         public static bool IsNoggType(Type t)
         {
             return TypeRegister.ContainsKey(t);
         }
-        
+
         public static INoggolloquyRegistration GetRegister(Type t)
         {
-            return TypeRegister[t];
+            if (TryGetRegister(t, out var regis)) return regis;
+            throw new ArgumentException("Type was not a Noggolloquy type: " + t);
+        }
+
+        public static bool TryGetRegister(Type t, out INoggolloquyRegistration regis)
+        {
+            if (TypeRegister.TryGetValue(t, out regis))
+            {
+                return regis != null;
+            }
+            if (!t.IsGenericType) return false;
+            Type genType = t.GetGenericTypeDefinition();
+            if (!GenericRegisters.TryGetValue(genType, out var genRegisterType) || genRegisterType == null) return false;
+            var customGenRegisterType = genRegisterType.MakeGenericType(t.GetGenericArguments());
+            var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public);
+            regis = instanceProp.GetValue(null) as INoggolloquyRegistration;
+            TypeRegister[t] = regis;
+            return regis != null;
+        }
+
+        public static INoggolloquyRegistration GetRegister(ObjectKey key)
+        {
+            if (TryGetRegister(key, out var regis)) return regis;
+            throw new ArgumentException("Object Key was not a defined Noggolloquy type: " + key);
+        }
+
+        public static bool TryGetRegister(ObjectKey key, out INoggolloquyRegistration regis)
+        {
+            return Registers.TryGetValue(key, out regis);
+        }
+
+        public static INoggolloquyRegistration GetRegisterByFullName(string str)
+        {
+            if (TryGetRegisterByFullName(str, out var regis)) return regis;
+            throw new ArgumentException("Full Name did not match a defined Noggolloquy type: " + str);
+        }
+
+        public static bool TryGetRegisterByFullName(string str, out INoggolloquyRegistration regis)
+        {
+            if (NameRegisters.TryGetValue(str, out regis))
+            {
+                return regis != null;
+            }
+            if (str == null) return false;
+            int genIndex = str.IndexOf("<");
+            if (genIndex == -1) return false;
+            if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
+            throw new NotImplementedException();
         }
 
         public static Func<IEnumerable<KeyValuePair<ushort, object>>, T> GetCreateFunc<T>()

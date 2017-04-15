@@ -42,5 +42,9 @@ namespace Noggolloquy
         string FullName { get; }
 
         string Name { get; }
+
+        byte GenericCount { get; }
+
+        Type GenericRegistrationType { get; }
     }
 }

@@ -41,7 +41,7 @@ namespace Noggolloquy
 
         public override string ToString()
         {
-            return $"ObjectKey (p{this.ProtocolKey}, m{this.MessageID}, v{this.Version})";
+            return $"ObjectKey (p{this.ProtocolKey.ProtocolID}, m{this.MessageID}, v{this.Version})";
         }
     }
 }

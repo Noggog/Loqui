@@ -379,6 +379,12 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public readonly string Name = \"{this.Name}\";");
                     fg.AppendLine();
 
+                    fg.AppendLine($"public readonly byte GenericCount = {this.Generics.Count};");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public readonly Type GenericRegistrationType = {(this.Generics.Count > 0 ? $"typeof({this.RegistrationName}{this.EmptyGenerics})" : "null")};");
+                    fg.AppendLine();
+
                     GenerateGetNameIndex(fg);
 
                     GenerateNthObjectIsEnumerable(fg);
@@ -414,6 +420,8 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"Type INoggolloquyRegistration.ClassType => this.ClassType;");
                         fg.AppendLine($"string INoggolloquyRegistration.FullName => this.FullName;");
                         fg.AppendLine($"string INoggolloquyRegistration.Name => this.Name;");
+                        fg.AppendLine($"byte INoggolloquyRegistration.GenericCount => this.GenericCount;");
+                        fg.AppendLine($"Type INoggolloquyRegistration.GenericRegistrationType => this.GenericRegistrationType;");
                         fg.AppendLine($"ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => this.GetNameIndex(name);");
                         fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => this.GetNthIsEnumerable(index);");
                         fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => this.GetNthIsNoggolloquy(index);");

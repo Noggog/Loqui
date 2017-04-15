@@ -2748,6 +2748,10 @@ namespace Noggolloquy.Tests
 
         public readonly string Name = "TestObject";
 
+        public readonly byte GenericCount = 0;
+
+        public readonly Type GenericRegistrationType = null;
+
         public ushort? GetNameIndex(StringCaseAgnostic str)
         {
             switch (str.Upper)
@@ -3298,6 +3302,8 @@ namespace Noggolloquy.Tests
         Type INoggolloquyRegistration.ClassType => this.ClassType;
         string INoggolloquyRegistration.FullName => this.FullName;
         string INoggolloquyRegistration.Name => this.Name;
+        byte INoggolloquyRegistration.GenericCount => this.GenericCount;
+        Type INoggolloquyRegistration.GenericRegistrationType => this.GenericRegistrationType;
         ushort? INoggolloquyRegistration.GetNameIndex(StringCaseAgnostic name) => this.GetNameIndex(name);
         bool INoggolloquyRegistration.GetNthIsEnumerable(ushort index) => this.GetNthIsEnumerable(index);
         bool INoggolloquyRegistration.GetNthIsNoggolloquy(ushort index) => this.GetNthIsNoggolloquy(index);
