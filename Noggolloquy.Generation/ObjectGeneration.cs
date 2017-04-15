@@ -542,7 +542,7 @@ namespace Noggolloquy.Generation
         #region Generation Snippets
         protected void GenerateRegrationRouting(FileGeneration fg)
         {
-            fg.AppendLine($"INoggolloquyRegistration INoggolloquyObjectGetter.Registration => {this.RegistrationName}.Instance;");
+            fg.AppendLine($"INoggolloquyRegistration INoggolloquyObject.Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine($"public static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine();
         }

@@ -7,10 +7,13 @@ using System.Collections.Generic;
 
 namespace Noggolloquy
 {
-    public interface INoggolloquyObjectGetter : ICopyable
+    public interface INoggolloquyObject
     {
         INoggolloquyRegistration Registration { get; }
+    }
 
+    public interface INoggolloquyObjectGetter : INoggolloquyObject, ICopyable
+    {
         object GetNthObject(ushort index);
 
         bool GetNthObjectHasBeenSet(ushort index);

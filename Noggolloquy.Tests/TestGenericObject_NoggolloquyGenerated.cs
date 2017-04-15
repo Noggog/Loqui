@@ -23,7 +23,7 @@ namespace Noggolloquy.Tests
     public partial class TestGenericObject<T, R> : ITestGenericObject<T, R>, INoggolloquySerializer, IEquatable<TestGenericObject<T, R>>
         where R : ObjectToRef, INoggolloquyReaderSerializer
     {
-        INoggolloquyRegistration INoggolloquyObjectGetter.Registration => TestGenericObject_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestGenericObject_Registration.Instance;
         public static TestGenericObject_Registration Registration => TestGenericObject_Registration.Instance;
 
         public TestGenericObject()

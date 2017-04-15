@@ -22,7 +22,7 @@ namespace Noggolloquy.Tests
     #region Class
     public partial class ObjectToRef : IObjectToRef, INoggolloquySerializer, IEquatable<ObjectToRef>
     {
-        INoggolloquyRegistration INoggolloquyObjectGetter.Registration => ObjectToRef_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => ObjectToRef_Registration.Instance;
         public static ObjectToRef_Registration Registration => ObjectToRef_Registration.Instance;
 
         public ObjectToRef()

@@ -23,7 +23,7 @@ namespace Noggolloquy.Tests
     #region Class
     public partial class TestObject : ITestObject, INoggolloquySerializer, IEquatable<TestObject>
     {
-        INoggolloquyRegistration INoggolloquyObjectGetter.Registration => TestObject_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Registration.Instance;
         public static TestObject_Registration Registration => TestObject_Registration.Instance;
 
         public TestObject()
