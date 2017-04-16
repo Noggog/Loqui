@@ -71,7 +71,7 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetRegistration_GenericTyped_FullName()
         {
-            var registration = NoggolloquyRegistration.GetRegisterByFullName("TestGenericObject<bool, ObjectToRef>");
+            var registration = NoggolloquyRegistration.GetRegisterByFullName("Noggolloquy.Tests.TestGenericObject<System.Boolean, Noggolloquy.Tests.ObjectToRef>");
             Assert.NotNull(registration);
         }
 

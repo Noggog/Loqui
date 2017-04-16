@@ -35,6 +35,13 @@ namespace Noggolloquy.Tests.XML
             return elem;
         }
 
+        public override XElement GetBadElement(string name = null)
+        {
+            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            elem.SetAttributeValue(XName.Get(MIN), "Gibberish");
+            return elem;
+        }
+
         #region Parse - Typical
         [Fact]
         public void Parse_NoMask()

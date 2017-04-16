@@ -34,19 +34,31 @@ namespace Noggolloquy.Xml
         {
             maskObj = null;
             int? min, max;
-            if (root.TryGetAttribute(MIN, out XAttribute val)
-                && int.TryParse(val.Value, out int d))
+            if (root.TryGetAttribute(MIN, out XAttribute val))
             {
-                min = d;
+                if (int.TryParse(val.Value, out var i))
+                {
+                    min = i;
+                }
+                else
+                {
+                    throw new ArgumentException("Min value was malformed: " + val.Value);
+                }
             }
             else
             {
                 min = null;
             }
-            if (root.TryGetAttribute(MAX, out val)
-                && int.TryParse(val.Value, out d))
+            if (root.TryGetAttribute(MAX, out val))
             {
-                max = d;
+                if (int.TryParse(val.Value, out var i))
+                {
+                    max = i;
+                }
+                else
+                {
+                    throw new ArgumentException("Min value was malformed: " + val.Value);
+                }
             }
             else
             {

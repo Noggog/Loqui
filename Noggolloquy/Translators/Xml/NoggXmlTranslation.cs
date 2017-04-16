@@ -23,19 +23,15 @@ namespace Noggolloquy.Xml
         public string ElementName => _elementName;
         private static Dictionary<Type, NoggXmlCopyInFunction> _readerDict = new Dictionary<Type, NoggXmlCopyInFunction>();
         private static Dictionary<Type, NoggXmlWriteFunction> _writerDict = new Dictionary<Type, NoggXmlWriteFunction>();
-        
-        public void CopyIn<C>(
+
+        private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
+            INoggolloquyRegistration registration,
             XElement root,
-            C item,
             bool skipReadonly,
             bool doMasks,
-            out M mask,
-            NotifyingFireParameters? cmds)
-            where C : T, INoggolloquyObjectSetter
+            Func<IErrorMask> mask)
         {
-            mask = default(M);
-            HashSet<ushort> readIndices = new HashSet<ushort>();
-
+            List<KeyValuePair<ushort, object>> ret = new List<KeyValuePair<ushort, object>>();
             try
             {
                 foreach (var elem in root.Elements())
@@ -44,63 +40,46 @@ namespace Noggolloquy.Xml
                     {
                         if (doMasks)
                         {
-                            if (mask == null)
-                            {
-                                mask = new M();
-                            }
-                            mask.Warnings.Add("Skipping field that did not have name");
+                            mask().Warnings.Add("Skipping field that did not have name");
                         }
                         continue;
                     }
 
-                    var i = item.Registration.GetNameIndex(name.Value);
+                    var i = registration.GetNameIndex(name.Value);
                     if (!i.HasValue)
                     {
                         if (doMasks)
                         {
-                            if (mask == null)
-                            {
-                                mask = new M();
-                            }
-                            mask.Warnings.Add("Skipping field that did not exist anymore with name: " + name);
+                            mask().Warnings.Add("Skipping field that did not exist anymore with name: " + name);
                         }
                         continue;
                     }
 
-                    var readOnly = item.Registration.IsReadOnly(i.Value);
+                    var readOnly = registration.IsReadOnly(i.Value);
                     if (readOnly && skipReadonly) continue;
 
                     try
                     {
-                        var type = item.Registration.GetNthType(i.Value);
+                        var type = registration.GetNthType(i.Value);
                         if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
                         {
                             throw new ArgumentException($"No XML Translator found for {type}");
                         }
                         var objGet = translator.Parse(elem, doMasks, out var subMaskObj);
-                        if (objGet.Succeeded)
-                        {
-                            item.SetNthObject(i.Value, objGet.Value, cmds);
-                            readIndices.Add(i.Value);
-                        }
                         if (doMasks && subMaskObj != null)
                         {
-                            if (mask == null)
-                            {
-                                mask = new M();
-                            }
-                            mask.SetNthMask(i.Value, subMaskObj);
+                            mask().SetNthMask(i.Value, subMaskObj);
+                        }
+                        if (objGet.Succeeded)
+                        {
+                            ret.Add(new KeyValuePair<ushort, object>(i.Value, objGet.Value));
                         }
                     }
                     catch (Exception ex)
                     {
                         if (doMasks)
                         {
-                            if (mask == null)
-                            {
-                                mask = new M();
-                            }
-                            mask.SetNthException(i.Value, ex);
+                            mask().SetNthException(i.Value, ex);
                         }
                         else
                         {
@@ -108,40 +87,88 @@ namespace Noggolloquy.Xml
                         }
                     }
                 }
-
-                for (ushort i = 0; i < item.Registration.FieldCount; i++)
-                {
-                    if (item.Registration.IsNthDerivative(i)) continue;
-                    if (!readIndices.Contains(i))
-                    {
-                        item.UnsetNthObject(i, cmds.ToUnsetParams());
-                    }
-                }
             }
             catch (Exception ex)
             {
                 if (doMasks)
                 {
-                    if (mask == null)
-                    {
-                        mask = new M();
-                    }
-                    mask.Overall = ex;
+                    mask().Overall = ex;
                 }
                 else
                 {
                     throw;
                 }
             }
+            return ret;
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out object maskObj)
+        public void CopyIn<C>(
+            XElement root,
+            C item,
+            bool skipReadonly,
+            bool doMasks,
+            out M mask,
+            NotifyingFireParameters? cmds)
+            where C : T, INoggolloquyObject
         {
-            throw new NotImplementedException();
-            //foreach (var elem in root)
-            //{
+            var maskObj = default(M);
+            Func<IErrorMask> maskGet;
+            if (doMasks)
+            {
+                maskGet = () =>
+                {
+                    if (maskObj == null)
+                    {
+                        maskObj = new M();
+                    }
+                    return maskObj;
+                };
+            }
+            else
+            {
+                maskGet = null;
+            }
+            var fields = EnumerateObjects(
+                item.Registration,
+                root,
+                skipReadonly,
+                doMasks,
+                maskGet);
+            var copyIn = NoggolloquyRegistration.GetCopyInFunc<C>();
+            copyIn(fields, item);
+            mask = maskObj;
+        }
 
-            //}
+        public TryGet<T> Parse(XElement root, bool doMasks, out object mask)
+        {
+            var regis = NoggolloquyRegistration.GetRegister(typeof(T));
+            var maskObj = default(M);
+            Func<IErrorMask> maskGet;
+            if (doMasks)
+            {
+                maskGet = () =>
+                {
+                    if (maskObj == null)
+                    {
+                        maskObj = new M();
+                    }
+                    return maskObj;
+                };
+            }
+            else
+            {
+                maskGet = null;
+            }
+            var fields = EnumerateObjects(
+                regis,
+                root,
+                skipReadonly: false,
+                doMasks: doMasks,
+                mask: maskGet);
+            var create = NoggolloquyRegistration.GetCreateFunc<T>();
+            var ret = create(fields);
+            mask = maskObj;
+            return TryGet<T>.Succeed(ret);
         }
 
         public bool Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)

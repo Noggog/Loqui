@@ -51,6 +51,36 @@ namespace Noggolloquy.Tests.XML
         }
         #endregion
 
+        #region Parse - Bad Element
+        public override void Parse_BadElement_Mask()
+        {
+            // N/A
+            var transl = GetTranslation();
+            var elem = GetBadElement();
+            var ret = transl.Parse(
+                elem,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal("Gibberish", ret.Value);
+        }
+
+        public override void Parse_BadElement_NoMask()
+        {
+            // N/A
+            var transl = GetTranslation();
+            var elem = GetBadElement();
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal("Gibberish", ret.Value);
+        }
+        #endregion
+
         #region Parse - Bad Element Name
         [Fact]
         public void Parse_BadElementName_Mask()

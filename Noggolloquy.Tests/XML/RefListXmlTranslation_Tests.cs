@@ -40,8 +40,16 @@ namespace Noggolloquy.Tests.XML
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             foreach (var item in GetTypicalContents())
             {
-                var itemElem = new XElement("Boolean");
-                itemElem.SetAttributeValue("value", item);
+                var itemElem = new XElement("ObjectToRef");
+                itemElem.SetAttributeValue("name", "RefList");
+                var keyField = new XElement("Int32");
+                keyField.SetAttributeValue("name", "KeyField");
+                keyField.SetAttributeValue("value", item.KeyField);
+                itemElem.Add(keyField);
+                var boolElem = new XElement("Boolean");
+                boolElem.SetAttributeValue("name", "SomeField");
+                boolElem.SetAttributeValue("value", item.SomeField);
+                itemElem.Add(boolElem);
                 elem.Add(itemElem);
             }
             return elem;
@@ -214,7 +222,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
-            Assert.Equal(GetTypicalContents().Count(), elem.Descendants().Count());
+            Assert.Equal(GetTypicalContents().Count(), elem.Descendants().Where((d) => object.ReferenceEquals(d.Parent, elem)).Count());
         }
 
         [Fact]
@@ -232,7 +240,7 @@ namespace Noggolloquy.Tests.XML
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
-            Assert.Equal(GetTypicalContents().Count(), elem.Descendants().Count());
+            Assert.Equal(GetTypicalContents().Count(), elem.Descendants().Where((d) => object.ReferenceEquals(d.Parent, elem)).Count());
         }
         #endregion
 

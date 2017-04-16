@@ -152,11 +152,16 @@ namespace Noggolloquy
             if (!t.IsGenericType) return false;
             Type genType = t.GetGenericTypeDefinition();
             if (!GenericRegisters.TryGetValue(genType, out var genRegisterType) || genRegisterType == null) return false;
-            var customGenRegisterType = genRegisterType.MakeGenericType(t.GetGenericArguments());
-            var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public);
-            regis = instanceProp.GetValue(null) as INoggolloquyRegistration;
+            regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments());
             TypeRegister[t] = regis;
             return regis != null;
+        }
+
+        private static INoggolloquyRegistration GetGenericRegistration(Type genRegisterType, Type[] subTypes)
+        {
+            var customGenRegisterType = genRegisterType.MakeGenericType(subTypes);
+            var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public);
+            return instanceProp.GetValue(null) as INoggolloquyRegistration;
         }
 
         public static INoggolloquyRegistration GetRegister(ObjectKey key)
@@ -184,9 +189,25 @@ namespace Noggolloquy
             }
             if (str == null) return false;
             int genIndex = str.IndexOf("<");
-            if (genIndex == -1) return false;
+            int genEndIndex = str.LastIndexOf(">");
+            if (genIndex == -1 || genEndIndex == -1) return false;
             if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
-            throw new NotImplementedException();
+            var genRegisterType = baseReg.GenericRegistrationType;
+            str = str.Substring(genIndex + 1, genEndIndex - genIndex - 1);
+            var subTypeStrings = str.Split(',');
+            var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
+            if (subTypes.Any((t) => t == null))
+            {
+                NameRegisters[str] = null;
+                return false;
+            }
+            regis = GetGenericRegistration(genRegisterType, subTypes);
+            if (regis != null)
+            {
+                TypeRegister[regis.ClassType] = regis;
+            }
+            NameRegisters[str] = regis;
+            return regis != null;
         }
 
         public static Func<IEnumerable<KeyValuePair<ushort, object>>, T> GetCreateFunc<T>()
@@ -242,7 +263,7 @@ namespace Noggolloquy
                 delegateType: Expression.GetDelegateType(tArgs.ToArray()),
                 body: Expression.Call(methodInfo, fields, obj),
                 parameters: new ParameterExpression[] { fields, obj }).Compile();
-            CreateFuncRegister[t] = del;
+            CopyInFuncRegister[t] = del;
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
     }

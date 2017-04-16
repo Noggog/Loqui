@@ -43,7 +43,7 @@ namespace Noggolloquy.Xml
         {
             if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
             {
-                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
+                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
                 if (doMasks)
                 {
                     maskObj = ex;

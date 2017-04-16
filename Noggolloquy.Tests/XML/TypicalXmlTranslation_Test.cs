@@ -21,6 +21,13 @@ namespace Noggolloquy.Tests.XML
             return elem;
         }
 
+        public virtual XElement GetBadElement(string name = null)
+        {
+            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), "Gibberish");
+            return elem;
+        }
+
         public XElement GetElementNoValue()
         {
             return XmlUtility.GetElementNoValue(this.ExpectedName);
@@ -35,7 +42,33 @@ namespace Noggolloquy.Tests.XML
         {
             return default(T);
         }
-        
+
+        [Fact]
+        public virtual void Parse_BadElement_Mask()
+        {
+            var transl = GetTranslation();
+            var elem = this.GetBadElement();
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => transl.Parse(
+                    elem,
+                    doMasks: true,
+                    maskObj: out object maskObj));
+        }
+
+        [Fact]
+        public virtual void Parse_BadElement_NoMask()
+        {
+            var transl = GetTranslation();
+            var elem = this.GetBadElement();
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => transl.Parse(
+                    elem,
+                    doMasks: false,
+                    maskObj: out object maskObj));
+        }
+
         [Fact]
         public void ElementName()
         {
