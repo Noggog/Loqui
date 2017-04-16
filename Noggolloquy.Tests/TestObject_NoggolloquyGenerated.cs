@@ -21,7 +21,7 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject : ITestObject, INoggolloquySerializer, IEquatable<TestObject>
+    public partial class TestObject : ITestObject, INoggolloquyObjectSetter, IEquatable<TestObject>
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Registration.Instance;
         public static TestObject_Registration Registration => TestObject_Registration.Instance;
@@ -2204,18 +2204,6 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        object ICopyable.Copy()
-        {
-            return this.Copy_ToObject(def: null);
-        }
-
-        protected object Copy_ToObject(object def = null)
-        {
-            var ret = new TestObject();
-            ret.CopyFieldsFrom_Generic(this, def: def, cmds: null);
-            return ret;
-        }
-
         void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
         {
             this.CopyFieldsFrom_Generic(rhs, def, cmds);
@@ -2231,7 +2219,7 @@ namespace Noggolloquy.Tests
 
         public TestObject Copy(ITestObjectGetter def = null)
         {
-            return (TestObject)this.Copy_ToObject(def: def);
+            return Copy(this, def: def);
         }
 
         public static TestObject Copy(ITestObjectGetter item, ITestObjectGetter def = null)
@@ -2443,7 +2431,7 @@ namespace Noggolloquy.Tests
         new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
-    public interface ITestObjectGetter : INoggolloquyObjectGetter
+    public interface ITestObjectGetter : INoggolloquyObject
     {
         #region BoolN
         Boolean? BoolN { get; }
@@ -4533,7 +4521,7 @@ namespace Noggolloquy.Tests
                     {
                         if (item.Ref == null)
                         {
-                            item.Ref = (ObjectToRef)rhs.Ref.Copy();
+                            item.Ref = (ObjectToRef)INoggolloquyObjectExt.Copy(rhs.Ref);
                         }
                         else
                         {
@@ -4557,7 +4545,7 @@ namespace Noggolloquy.Tests
                         {
                             if (item.Ref == null)
                             {
-                                item.Ref = (ObjectToRef)def.Ref.Copy();
+                                item.Ref = (ObjectToRef)INoggolloquyObjectExt.Copy(def.Ref);
                             }
                             else
                             {

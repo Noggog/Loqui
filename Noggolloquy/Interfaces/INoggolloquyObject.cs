@@ -12,21 +12,20 @@ namespace Noggolloquy
         INoggolloquyRegistration Registration { get; }
     }
 
-    public interface INoggolloquyObjectGetter : INoggolloquyObject, ICopyable
+    public interface INoggolloquyObjectGetter : INoggolloquyObject
     {
         object GetNthObject(ushort index);
-
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
-    public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter
+    public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter, IClearable, ICopyInAble
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds);
         void SetNthObject(ushort index, object o, NotifyingFireParameters? cmds);
     }
 
-    public interface INoggolloquyClass<L, G> : ICopyFrom<L, G>, IClearable
+    public interface INoggolloquyClass<L, G>
         where L : class, G
         where G : class
     {
@@ -206,6 +205,11 @@ namespace Noggolloquy
             {
                 errorMaskGetter().Overall = ex;
             }
+        }
+
+        public static object Copy(this INoggolloquyObject obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

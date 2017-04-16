@@ -153,7 +153,6 @@ namespace Noggolloquy.Generation
                 this.RefType = NoggRefType.Generic;
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
-                gen.Wheres.Add($"INoggolloquyReaderSerializer");
                 if (SingletonMember)
                 {
                     throw new ArgumentException("Cannot be a generic and singleton.");
@@ -210,7 +209,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"if ({accessorPrefix}.{this.Name} == null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{accessorPrefix}.{this.Name} = ({this.TypeName}){rhsAccessorPrefix}.{this.Name}.Copy();");
+                        fg.AppendLine($"{accessorPrefix}.{this.Name} = ({this.TypeName})INoggolloquyObjectExt.Copy({rhsAccessorPrefix}.{this.Name});");
                     }
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))

@@ -21,8 +21,6 @@ namespace Noggolloquy.Xml
         public readonly static NoggXmlTranslation<T, M> Instance = new NoggXmlTranslation<T, M>();
         private static readonly string _elementName = NoggolloquyRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
-        private static Dictionary<Type, NoggXmlCopyInFunction> _readerDict = new Dictionary<Type, NoggXmlCopyInFunction>();
-        private static Dictionary<Type, NoggXmlWriteFunction> _writerDict = new Dictionary<Type, NoggXmlWriteFunction>();
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             INoggolloquyRegistration registration,
@@ -191,25 +189,11 @@ namespace Noggolloquy.Xml
 
                             var type = item.Registration.GetNthType(i);
                             object subMaskObj;
-                            if (item.Registration.GetNthIsNoggolloquy(i))
+                            if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
                             {
-                                if (TryGetWriteFunction(type, out NoggXmlWriteFunction writeFunc))
-                                {
-                                    writeFunc(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
-                                }
-                                else
-                                {
-                                    throw new ArgumentException($"No XML Translator found for {type}");
-                                }
+                                throw new ArgumentException($"No XML Translator found for {type}");
                             }
-                            else
-                            {
-                                if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
-                                {
-                                    throw new ArgumentException($"No XML Translator found for {type}");
-                                }
-                                translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
-                            }
+                            translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
 
                             if (subMaskObj != null)
                             {
@@ -255,25 +239,7 @@ namespace Noggolloquy.Xml
             }
             return mask == null;
         }
-
-        private bool TryGetWriteFunction(Type t, out NoggXmlWriteFunction writeFunc)
-        {
-            if (_writerDict.TryGetValue(t, out writeFunc))
-            {
-                return writeFunc != null;
-            }
-            throw new NotImplementedException();
-        }
-
-        private bool TryGetCopyInFunction(Type t, out NoggXmlCopyInFunction copyInFunc)
-        {
-            if (_readerDict.TryGetValue(t, out copyInFunc))
-            {
-                return copyInFunc != null;
-            }
-            throw new NotImplementedException();
-        }
-
+        
         public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
         {
             if (this.Write(writer, name, item, doMasks, out M mask))

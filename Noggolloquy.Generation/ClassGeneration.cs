@@ -44,8 +44,8 @@ namespace Noggolloquy.Generation
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
             _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", true);
-
-            this.Interfaces.Add($"INoggolloquySerializer");
+            
+            this.Interfaces.Add($"INoggolloquyObjectSetter");
 
             base.Load();
         }

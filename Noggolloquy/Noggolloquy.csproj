@@ -46,10 +46,8 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="IErrorMask.cs" />
-    <Compile Include="INoggolloquySerializer.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
-    <Compile Include="Interfaces\ICopyable.cs" />
-    <Compile Include="Interfaces\ICopyFrom.cs" />
+    <Compile Include="Interfaces\ICopyInAble.cs" />
     <Compile Include="Interfaces\INoggolloquyObject.cs" />
     <Compile Include="Interfaces\INoggolloquyRegistration.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />

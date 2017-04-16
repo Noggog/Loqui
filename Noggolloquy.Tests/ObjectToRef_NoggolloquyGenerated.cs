@@ -20,7 +20,7 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class ObjectToRef : IObjectToRef, INoggolloquySerializer, IEquatable<ObjectToRef>
+    public partial class ObjectToRef : IObjectToRef, INoggolloquyObjectSetter, IEquatable<ObjectToRef>
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => ObjectToRef_Registration.Instance;
         public static ObjectToRef_Registration Registration => ObjectToRef_Registration.Instance;
@@ -286,18 +286,6 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        object ICopyable.Copy()
-        {
-            return this.Copy_ToObject(def: null);
-        }
-
-        protected object Copy_ToObject(object def = null)
-        {
-            var ret = new ObjectToRef();
-            ret.CopyFieldsFrom_Generic(this, def: def, cmds: null);
-            return ret;
-        }
-
         void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
         {
             this.CopyFieldsFrom_Generic(rhs, def, cmds);
@@ -313,7 +301,7 @@ namespace Noggolloquy.Tests
 
         public ObjectToRef Copy(IObjectToRefGetter def = null)
         {
-            return (ObjectToRef)this.Copy_ToObject(def: def);
+            return Copy(this, def: def);
         }
 
         public static ObjectToRef Copy(IObjectToRefGetter item, IObjectToRefGetter def = null)
@@ -358,7 +346,7 @@ namespace Noggolloquy.Tests
 
     }
 
-    public interface IObjectToRefGetter : INoggolloquyObjectGetter
+    public interface IObjectToRefGetter : INoggolloquyObject
     {
         #region KeyField
         Int32 KeyField { get; }

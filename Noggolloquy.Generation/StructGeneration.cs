@@ -184,17 +184,6 @@ namespace Noggolloquy.Generation
         {
         }
 
-        protected override void GenerateCopy_ToObject(FileGeneration fg)
-        {
-            fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride}object Copy_ToObject(object def = null)");
-            using (new BraceWrapper(fg))
-            {
-
-                fg.AppendLine($"return new {this.ObjectName}(this);");
-            }
-            fg.AppendLine();
-        }
-
         protected override void GenerateStaticCopy_ToNoggolloquy(FileGeneration fg)
         {
             fg.AppendLine($"return {this.ObjectName}.Copy(item);");

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NoggolloquyRegistration_Tests.cs" />
+    <Compile Include="ObjectToRef_CustomMade.cs" />
     <Compile Include="ObjectToRef_NoggolloquyGenerated.cs">
       <DependentUpon>ObjectToRef.xml</DependentUpon>
     </Compile>

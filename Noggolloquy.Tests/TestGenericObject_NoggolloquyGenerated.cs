@@ -20,8 +20,8 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestGenericObject<T, R> : ITestGenericObject<T, R>, INoggolloquySerializer, IEquatable<TestGenericObject<T, R>>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public partial class TestGenericObject<T, R> : ITestGenericObject<T, R>, INoggolloquyObjectSetter, IEquatable<TestGenericObject<T, R>>
+        where R : ObjectToRef
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestGenericObject_Registration.Instance;
         public static TestGenericObject_Registration Registration => TestGenericObject_Registration.Instance;
@@ -242,18 +242,6 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        object ICopyable.Copy()
-        {
-            return this.Copy_ToObject(def: null);
-        }
-
-        protected object Copy_ToObject(object def = null)
-        {
-            var ret = new TestGenericObject<T, R>();
-            ret.CopyFieldsFrom_Generic(this, def: def, cmds: null);
-            return ret;
-        }
-
         void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
         {
             this.CopyFieldsFrom_Generic(rhs, def, cmds);
@@ -269,7 +257,7 @@ namespace Noggolloquy.Tests
 
         public TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> def = null)
         {
-            return (TestGenericObject<T, R>)this.Copy_ToObject(def: def);
+            return Copy(this, def: def);
         }
 
         public static TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> item, ITestGenericObjectGetter<T, R> def = null)
@@ -304,15 +292,15 @@ namespace Noggolloquy.Tests
 
     #region Interface
     public interface ITestGenericObject<T, R> : ITestGenericObjectGetter<T, R>, INoggolloquyClass<ITestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>, INoggolloquyClass<TestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+        where R : ObjectToRef
     {
         new R Ref { get; set; }
         new INotifyingItem<R> Ref_Property { get; }
 
     }
 
-    public interface ITestGenericObjectGetter<T, R> : INoggolloquyObjectGetter
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+    public interface ITestGenericObjectGetter<T, R> : INoggolloquyObject
+        where R : ObjectToRef
     {
         #region Ref
         R Ref { get; }
@@ -462,7 +450,7 @@ namespace Noggolloquy.Tests
     }
 
     public class TestGenericObject_Registration<T, R> : TestGenericObject_Registration
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+        where R : ObjectToRef
     {
         public static readonly TestGenericObject_Registration<T, R> GenericInstance = new TestGenericObject_Registration<T, R>();
 
@@ -481,7 +469,7 @@ namespace Noggolloquy.Tests
     #endregion
     #region Extensions
     public static class TestGenericObjectCommon<T, R>
-        where R : ObjectToRef, INoggolloquyReaderSerializer
+        where R : ObjectToRef
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(ITestGenericObject<T, R> item, ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def, TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
@@ -498,7 +486,7 @@ namespace Noggolloquy.Tests
                     {
                         if (item.Ref == null)
                         {
-                            item.Ref = (R)rhs.Ref.Copy();
+                            item.Ref = (R)INoggolloquyObjectExt.Copy(rhs.Ref);
                         }
                         else
                         {
@@ -522,7 +510,7 @@ namespace Noggolloquy.Tests
                         {
                             if (item.Ref == null)
                             {
-                                item.Ref = (R)def.Ref.Copy();
+                                item.Ref = (R)INoggolloquyObjectExt.Copy(def.Ref);
                             }
                             else
                             {
@@ -608,7 +596,7 @@ namespace Noggolloquy.Tests
     public static class TestGenericObjectExt
     {
         public static TestGenericObject<T, R> Copy_ToNoggolloquy<T, R>(this ITestGenericObjectGetter<T, R> item)
-            where R : ObjectToRef, INoggolloquyReaderSerializer
+            where R : ObjectToRef
         {
             return TestGenericObject<T, R>.Copy(item, def: null);
         }

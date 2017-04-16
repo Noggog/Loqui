@@ -266,8 +266,6 @@ namespace Noggolloquy.Generation
 
                     GenerateInterfacesInClass(fg);
 
-                    GenerateCopyableInterface(fg);
-
                     GenerateCopyInAbleInterface(fg);
 
                     GenerateCopy(fg);
@@ -310,7 +308,7 @@ namespace Noggolloquy.Generation
         protected virtual void GenerateGetterInterface(FileGeneration fg)
         {
             // Getter
-            fg.AppendLine($"public interface {this.Getter_InterfaceStr} : INoggolloquyObjectGetter{(this.HasBaseObject ? ", " + this.BaseClass.InterfaceStr_Generic(this.BaseGenericTypes) : string.Empty)}");
+            fg.AppendLine($"public interface {this.Getter_InterfaceStr} : {nameof(INoggolloquyObject)}");
             GenerateWhereClauses(fg, this.Generics);
 
             using (new BraceWrapper(fg))
@@ -1235,29 +1233,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public void GenerateCopyableInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"object ICopyable.Copy()");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("return this.Copy_ToObject(def: null);");
-            }
-            fg.AppendLine();
-
-            if (this.Abstract)
-            {
-                if (this.IsTopClass)
-                {
-                    fg.AppendLine($"{this.ProtectedKeyword} abstract object Copy_ToObject(object def = null);");
-                    fg.AppendLine();
-                }
-            }
-            else
-            {
-                GenerateCopy_ToObject(fg);
-            }
-        }
-
         protected virtual void GenerateCopy_ToObject(FileGeneration fg)
         {
             fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride}object Copy_ToObject(object def = null)");
@@ -1311,7 +1286,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"public {this.ObjectName} Copy({this.Getter_InterfaceStr} def = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"return ({this.ObjectName})this.Copy_ToObject(def: def);");
+                fg.AppendLine($"return Copy(this, def: def);");
             }
             fg.AppendLine();
 
