@@ -37,7 +37,8 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "private " : string.Empty)}set; }}");
+                    break;
                 case NotifyingOption.HasBeenSet:
                     if (!this.TrueReadOnly)
                     {
@@ -100,7 +101,7 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"new IHasBeenSet{(this.Protected ? "Getter" : $"<{TypeName}>")} {this.Property} {{ get; }}");
                     break;
@@ -119,7 +120,7 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
                     break;
@@ -134,6 +135,11 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
+            if (this.Notifying == NotifyingOption.None)
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.Name};");
+                return;
+            }
             if (defaultFallbackAccessor == null)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
@@ -177,7 +183,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
         }
-        
+
         public override string GenerateACopy(string rhsAccessor)
         {
             return rhsAccessor;
@@ -190,20 +196,29 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
-            using (new DepthWrapper(fg))
+            if (this.Notifying == NotifyingOption.None)
             {
-                fg.AppendLine($"{rhsAccessorPrefix},");
-                fg.AppendLine($"{cmdsAccessor});");
+                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix};");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.Property}.Set(");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"{rhsAccessorPrefix},");
+                    fg.AppendLine($"{cmdsAccessor});");
+                }
             }
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
+            if (this.ReadOnly) return;
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    fg.AppendLine($"{accessorPrefix}.{this.Name} = default({this.TypeName});");
+                    break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"{accessorPrefix}.{this.Name} = default({this.TypeName});");
                     break;
@@ -222,7 +237,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            if (!this.Protected)
+            if (!this.Protected && this.Notifying != NotifyingOption.None)
             {
                 fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
             }
@@ -232,7 +247,14 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+                if (this.Notifying == NotifyingOption.None)
+                {
+                    fg.AppendLine($"{identifier}.{this.Name} = default({this.TypeName});");
+                }
+                else
+                {
+                    fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+                }
             }
         }
     }

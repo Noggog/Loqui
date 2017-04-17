@@ -11,12 +11,12 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
-                case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} {this.TypeName} _{this.Name};");
                     fg.AppendLine($"public {(this.ReadOnly ? "readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name} = WildcardLink.Validate(value); }} ")}}}");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     break;
+                case NotifyingOption.HasBeenSet:
+                    throw new NotImplementedException();
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
                     using (new DepthWrapper(fg))

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
+  <Protocol ProtocolID="1" />
+  <Object name="TestObject" notifyingDefault="None" GUID="b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7" ID="7">
+    <Fields>
+      <BoolNull name="BoolN" />
+      <Bool name="Bool" />
+      <CharNull name="CharN" />
+      <Char name="Char" />
+      <DoubleNull name="DoubleN" />
+      <Double name="Double" />
+      <FloatNull name="FloatN" />
+      <Float name="Float" />
+      <Int16Null name="Int16N" />
+      <Int16 name="Int16" />
+      <Int32Null name="Int32N" />
+      <Int32 name="Int32" />
+      <Int64Null name="Int64N" />
+      <Int64 name="Int64" />
+      <Int8Null name="Int8N" />
+      <Int8 name="Int8" />
+      <UnsafeObject name="Unsafe">
+        <TargetType>bool</TargetType>
+      </UnsafeObject>
+      <P2IntNull name="P2IntN" />
+      <P2Int name="P2Int" />
+      <P3DoubleNull name="P3DoubleN" />
+      <P3Double name="P3Double" />
+      <P3IntNull name="P3IntN" />
+      <P3Int name="P3Int" />
+      <PercentNull name="PercentN" />
+      <Percent name="Percent" />
+      <RangeIntNull name="RangeIntN" />
+      <RangeInt name="RangeInt" />
+      <String name="String" />
+      <UDoubleNull name="UDoubleN" />
+      <UDouble name="UDouble" />
+      <UInt16Null name="UInt16N" />
+      <UInt16 name="UInt16" />
+      <UInt32Null name="UInt32N" />
+      <UInt32 name="UInt32" />
+      <UInt64Null name="UInt64N" />
+      <UInt64 name="UInt64" />
+      <UInt8Null name="UInt8N" />
+      <UInt8 name="UInt8" />
+      <Enum name="Enum" enumName="TestEnum" />
+      <Wildcard name="WildCard" />
+      <Ref name="Ref">
+        <Direct refName="ObjectToRef" />
+      </Ref>
+      <List name="List">
+        <Bool />
+      </List>
+      <List name="RefList">
+        <Ref>
+          <Direct refName="ObjectToRef" />
+        </Ref>
+      </List>
+      <Dict name="Dict">
+        <Key>
+          <Bool />
+        </Key>
+        <Value>
+          <String />
+        </Value>
+      </Dict>
+      <Dict name="RefDict">
+        <Key>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </Key>
+        <Value>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </Value>
+      </Dict>
+      <Dict name="DictKeyedValue">
+        <KeyedValue keyAccessor="KeyField">
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </KeyedValue>
+      </Dict>
+    </Fields>
+  </Object>
+</Noggolloquy>

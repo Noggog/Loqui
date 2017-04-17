@@ -56,7 +56,8 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.ReadOnly ? "private " : string.Empty)}set; }}");
+                    break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} HasBeenSetItem<{this.TypeName}> {this.ProtectedProperty} = new HasBeenSetItem<{this.TypeName}>();");
                     fg.AppendLine($"public {this.Getter} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
@@ -176,6 +177,11 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
         {
+            if (this.Notifying == NotifyingOption.None)
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.Name};");
+                return;
+            }
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
@@ -260,7 +266,7 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    throw new NotImplementedException();
+                    break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
                     break;

@@ -678,7 +678,14 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
+                            if (item.Field.Notifying == NotifyingOption.None)
+                            {
+                                fg.AppendLine($"return true;");
+                            }
+                            else
+                            {
+                                fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
+                            }
                         }
                     }
 
