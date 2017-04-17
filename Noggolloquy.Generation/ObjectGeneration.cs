@@ -110,17 +110,6 @@ namespace Noggolloquy.Generation
                 this.Generics[genName] = gen;
             }
 
-            foreach (XElement baseGeneric in Node.Elements(XName.Get("BaseGeneric", NoggolloquyGenerator.Namespace)))
-            {
-                var genName = baseGeneric.GetAttribute("name");
-                this.BaseGenerics[genName] = baseGeneric.Value;
-            }
-
-            if (this.BaseGenerics.Count > 0)
-            {
-                this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
-            }
-
             foreach (XElement interfNode in Node.Elements(XName.Get("Interface", NoggolloquyGenerator.Namespace)))
             {
                 Interfaces.Add(interfNode.Value);
@@ -1507,6 +1496,44 @@ namespace Noggolloquy.Generation
 
         public virtual void Resolve()
         {
+            if (this.HasBaseObject)
+            {
+                foreach (var baseGen in this.BaseClass.Generics)
+                {
+                    this.Generics.Add(baseGen.Key, baseGen.Value.Copy());
+                }
+            }
+
+            foreach (XElement baseGeneric in Node.Elements(XName.Get("BaseGeneric", NoggolloquyGenerator.Namespace)))
+            {
+                var genName = baseGeneric.GetAttribute("name");
+                var whereElem = baseGeneric.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace));
+                var definedElem = baseGeneric.Element(XName.Get("Defined", NoggolloquyGenerator.Namespace));
+                if (whereElem.Any()
+                    && definedElem != null)
+                {
+                    throw new ArgumentException("Cannot define both Where and Defined nodes.");
+                }
+                if (whereElem.Any())
+                {
+                    this.BaseGenerics[genName] = genName;
+                    this.Generics[genName].Wheres.Add(whereElem.Select((w) => w.Value));
+                }
+                else if (definedElem != null)
+                {
+                    this.BaseGenerics[genName] = definedElem.Value;
+                    this.Generics.Remove(genName);
+                }
+                else
+                {
+                    throw new ArgumentException("Need to define Where or Defined node.");
+                }
+            }
+
+            if (this.BaseGenerics.Count > 0)
+            {
+                this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
+            }
         }
 
         public void RegenerateAndStampSourceXML()

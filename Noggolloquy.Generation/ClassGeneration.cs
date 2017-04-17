@@ -66,6 +66,7 @@ namespace Noggolloquy.Generation
                     baseClass.DerivativeClasses.Add(this);
                 }
             }
+            base.Resolve();
         }
 
         protected override void GenerateClassLine(FileGeneration fg)
@@ -81,9 +82,7 @@ namespace Noggolloquy.Generation
                     var baseStr = this.BaseClass.Name;
                     if (this.BaseClass.Generics.Count > 0)
                     {
-                        baseStr += "<";
-                        baseStr += string.Join(", ", this.BaseClass.Generics.Select((gen) => this.BaseGenerics[gen.Key]));
-                        baseStr += ">";
+                        baseStr += this.BaseGenericTypes;
                     }
                     list.Add(baseStr);
                 }

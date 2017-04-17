@@ -17,6 +17,7 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(ObjectToRef_Registration.Instance);
             NoggolloquyRegistration.Register(TestObject_SubClass_Registration.Instance);
             NoggolloquyRegistration.Register(TestGenericObject_SubClass_Defined_Registration.Instance);
+            NoggolloquyRegistration.Register(TestGenericObject_SubClass_Registration.Instance);
         }
     }
 }

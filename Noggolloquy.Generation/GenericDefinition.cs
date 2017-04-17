@@ -7,5 +7,15 @@ namespace Noggolloquy.Generation
     {
         public bool MustBeClass;
         public HashSet<string> Wheres = new HashSet<string>();
+
+        public GenericDefinition Copy()
+        {
+            var ret = new GenericDefinition()
+            {
+                MustBeClass = this.MustBeClass
+            };
+            ret.Wheres.Add(this.Wheres);
+            return ret;
+        }
     }
 }
