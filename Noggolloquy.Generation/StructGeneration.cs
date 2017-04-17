@@ -9,7 +9,7 @@ namespace Noggolloquy.Generation
     {
         public override bool Abstract => false;
 
-        public override bool NotifyingDefault => false;
+        public override NotifyingOption NotifyingDefault => NotifyingOption.None;
 
         public override string ProtectedKeyword => "private";
 
@@ -109,7 +109,7 @@ namespace Noggolloquy.Generation
             base.Load();
             foreach (var field in this.Fields)
             {
-                field.Notifying = false;
+                field.Notifying = NotifyingOption.None;
                 field.ReadOnly = true;
             }
         }

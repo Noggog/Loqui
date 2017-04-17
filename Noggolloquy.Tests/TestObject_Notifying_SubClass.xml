@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
   <Protocol ProtocolID="1" />
-  <Object name="TestObject_Notifying_SubClass" notifyingDefault="true" baseClass="TestObject_Notifying" GUID="3c0cceee-3747-449d-ae3e-617f5c366ef7" ID="4">
+  <Object name="TestObject_Notifying_SubClass" notifyingDefault="Notifying" baseClass="TestObject_Notifying" GUID="3c0cceee-3747-449d-ae3e-617f5c366ef7" ID="4">
     <Fields>
       <Bool name="NewField" />
     </Fields>

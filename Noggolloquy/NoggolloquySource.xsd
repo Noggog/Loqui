@@ -70,6 +70,14 @@
       </xs:choice>
     </xs:choice>
   </xs:complexType>
+  
+  <xs:simpleType name="NotifyingOption" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="HasBeenSet" />
+      <xs:enumeration value="Notifying" />
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:group name="FieldOptions">
     <xs:choice>
@@ -329,7 +337,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="notifyingDefault" type="xs:boolean" >
+    <xs:attribute name="notifyingDefault" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
           Sets the default value of the "Notifying" property on all of this objects contained fields.  Mostly for convenience.
@@ -520,7 +528,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="notifying" type="xs:boolean" >
+    <xs:attribute name="notifying" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
           Whether the field should be Notifying and can be subscribed to.  By default this is true.

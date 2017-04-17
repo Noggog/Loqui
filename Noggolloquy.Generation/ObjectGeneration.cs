@@ -20,7 +20,7 @@ namespace Noggolloquy.Generation
         public bool GenerateEquals { get; protected set; }
         public bool GenerateToString { get; protected set; }
         public bool GeneratePublicBasicCtor { get; protected set; }
-        public abstract bool NotifyingDefault { get; }
+        public abstract NotifyingOption NotifyingDefault { get; }
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;

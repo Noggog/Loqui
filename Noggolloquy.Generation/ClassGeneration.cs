@@ -9,8 +9,8 @@ namespace Noggolloquy.Generation
     {
         private bool _abstract;
         public override bool Abstract => _abstract;
-        private bool _notifyingDefault;
-        public override bool NotifyingDefault => _notifyingDefault;
+        private NotifyingOption _notifyingDefault;
+        public override NotifyingOption NotifyingDefault => _notifyingDefault;
         public string BaseClassStr { get; set; }
         public List<ClassGeneration> DerivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => DerivativeClasses.Count > 0; 
@@ -43,7 +43,7 @@ namespace Noggolloquy.Generation
         {
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
-            _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", false);
+            _notifyingDefault = Node.GetAttribute<NotifyingOption>("notifyingDefault", NotifyingOption.None);
             
             this.Interfaces.Add($"INoggolloquyObjectSetter");
 

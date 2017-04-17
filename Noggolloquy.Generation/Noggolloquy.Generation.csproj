@@ -120,6 +120,7 @@
     <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\XmlWriteGenerationParameters.cs" />
     <Compile Include="NamespaceWrapper.cs" />
+    <Compile Include="NotifyingOption.cs" />
     <Compile Include="ObjectGeneration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolGeneration.cs" />

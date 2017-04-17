@@ -14,7 +14,7 @@ namespace Noggolloquy.Generation
             {
                 if (value is StructGeneration)
                 {
-                    this.Notifying = false;
+                    this.Notifying = NotifyingOption.None;
                 }
                 this._ObjectGen = value;
             }
@@ -38,7 +38,7 @@ namespace Noggolloquy.Generation
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers;
-        public bool Notifying;
+        public NotifyingOption Notifying;
 
         public virtual void Load(XElement node, bool requireName = true)
         {
@@ -50,7 +50,7 @@ namespace Noggolloquy.Generation
             this._imports = node.GetAttribute<bool>("export", true);
             this._copy = node.GetAttribute<bool>("copy", !this.ReadOnly);
             this.GenerateClassMembers = node.GetAttribute<bool>("generateClassMembers", true);
-            this.Notifying = node.GetAttribute<bool>("notifying", this.ObjectGen.NotifyingDefault);
+            this.Notifying = node.GetAttribute<NotifyingOption>("notifying", this.ObjectGen.NotifyingDefault);
             if (requireName && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");

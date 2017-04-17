@@ -53,57 +53,62 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.Notifying)
+            switch (this.Notifying)
             {
-                if (AllowNull)
-                {
-                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
-                }
-                else if (SingletonMember)
-                { // Singleton
-                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.Getter}>(new {this.RefGen.ObjectName}());");
-                }
-                else
-                {
-                    fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(");
-                    using (new DepthWrapper(fg))
+                case NotifyingOption.None:
+                    throw new NotImplementedException();
+                case NotifyingOption.HasBeenSet:
+                    fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} HasBeenSetItem<{this.TypeName}> {this.ProtectedProperty} = new HasBeenSetItem<{this.TypeName}>();");
+                    fg.AppendLine($"public {this.Getter} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
+                    if (this.ReadOnly)
                     {
-                        fg.AppendLine($"defaultVal: new {TypeName}(),");
-                        fg.AppendLine("incomingConverter: (oldV, i) =>");
-                        using (new BraceWrapper(fg))
+                        fg.AppendLine($"public IHasBeenSetGetter {this.Property} => this.{this.Property};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
+                    }
+                    fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    break;
+                case NotifyingOption.Notifying:
+                    if (AllowNull)
+                    {
+                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
+                    }
+                    else if (SingletonMember)
+                    { // Singleton
+                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.Getter}>(new {this.RefGen.ObjectName}());");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(");
+                        using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("if (i == null)");
+                            fg.AppendLine($"defaultVal: new {TypeName}(),");
+                            fg.AppendLine("incomingConverter: (oldV, i) =>");
                             using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine($"i = new {TypeName}();");
+                                fg.AppendLine("if (i == null)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"i = new {TypeName}();");
+                                }
+                                fg.AppendLine($"return new Tuple<{TypeName}, bool>(i, true);");
                             }
-                            fg.AppendLine($"return new Tuple<{TypeName}, bool>(i, true);");
                         }
+                        fg.AppendLine(");");
                     }
-                    fg.AppendLine(");");
-                }
-                fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
-                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
-                if (!this.ReadOnly)
-                {
-                    fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                }
-                fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-            }
-            else
-            {
-                fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} HasBeenSetItem<{this.TypeName}> {this.ProtectedProperty} = new HasBeenSetItem<{this.TypeName}>();");
-                fg.AppendLine($"public {this.Getter} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
-                if (this.ReadOnly)
-                {
-                    fg.AppendLine($"public IHasBeenSetGetter {this.Property} => this.{this.Property};");
-                }
-                else
-                {
-                    fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
-                }
-                fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
+                    if (!this.ReadOnly)
+                    {
+                        fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -252,13 +257,18 @@ namespace Noggolloquy.Generation
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"{this.Getter} {this.Name} {{ get; }}");
-            if (this.Notifying)
+            switch (this.Notifying)
             {
-                fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
-            }
-            else
-            {
-                fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
+                case NotifyingOption.None:
+                    throw new NotImplementedException();
+                case NotifyingOption.HasBeenSet:
+                    fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
+                    break;
+                case NotifyingOption.Notifying:
+                    fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
             fg.AppendLine();
         }
