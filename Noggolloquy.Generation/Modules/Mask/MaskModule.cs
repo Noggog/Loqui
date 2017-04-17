@@ -37,20 +37,23 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"public class {obj.Name}_ErrorMask : {(obj.HasBaseObject ? $"{obj.BaseClass.Name}_ErrorMask" : "IErrorMask")}");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("public Exception Overall { get; set; }");
-                fg.AppendLine("private List<string> _warnings;");
-                fg.AppendLine("public List<string> Warnings");
-                using (new BraceWrapper(fg))
+                if (!obj.HasBaseObject)
                 {
-                    fg.AppendLine("get");
+                    fg.AppendLine("public Exception Overall { get; set; }");
+                    fg.AppendLine("private List<string> _warnings;");
+                    fg.AppendLine("public List<string> Warnings");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("if (_warnings == null)");
+                        fg.AppendLine("get");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine("_warnings = new List<string>();");
+                            fg.AppendLine("if (_warnings == null)");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine("_warnings = new List<string>();");
+                            }
+                            fg.AppendLine("return _warnings;");
                         }
-                        fg.AppendLine("return _warnings;");
                     }
                 }
                 foreach (var field in obj.Fields)
@@ -63,7 +66,7 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public void SetNthException(ushort index, Exception ex)");
+                fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(ushort index, Exception ex)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("switch (index)");
@@ -83,12 +86,12 @@ namespace Noggolloquy.Generation
                             }
                         }
 
-                        obj.GenerateStandardIndexDefault(fg, "SetNthException", "index", false);
+                        GenerateStandardDefault(fg, obj, "SetNthException", "index", false, "ex");
                     }
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public void SetNthMask(ushort index, object obj)");
+                fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(ushort index, object obj)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("switch (index)");
@@ -108,7 +111,7 @@ namespace Noggolloquy.Generation
                             }
                         }
 
-                        obj.GenerateStandardIndexDefault(fg, "SetNthMask", "index", false);
+                        GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
                     }
                 }
             }
@@ -148,6 +151,26 @@ namespace Noggolloquy.Generation
         public override IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
         {
             yield break;
+        }
+
+        public void GenerateStandardDefault(FileGeneration fg, ObjectGeneration obj, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
+        {
+            fg.AppendLine("default:");
+            using (new DepthWrapper(fg))
+            {
+                if (obj.HasBaseObject)
+                {
+                    fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    if (!ret)
+                    {
+                        fg.AppendLine("break;");
+                    }
+                }
+                else
+                {
+                    obj.GenerateIndexOutOfRangeEx(fg, indexAccessor);
+                }
+            }
         }
     }
 }

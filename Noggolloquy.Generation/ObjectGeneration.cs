@@ -51,6 +51,8 @@ namespace Noggolloquy.Generation
 
         public string InterfaceStr_Generic(string genericTypes) => $"I{this.Name}{genericTypes}";
 
+        public string Getter_InterfaceStr_Generic(string genericTypes) => $"{Getter_InterfaceStr_NoGenerics}{genericTypes}";
+
         public DirectoryInfo TargetDir { get; private set; }
         public FileInfo SourceXMLFile { get; private set; }
         protected NoggolloquyGenerator gen;
@@ -307,8 +309,8 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateGetterInterface(FileGeneration fg)
         {
-            // Getter
-            fg.AppendLine($"public interface {this.Getter_InterfaceStr} : {nameof(INoggolloquyObject)}");
+            // Getter 
+            fg.AppendLine($"public interface {this.Getter_InterfaceStr} : {(this.HasBaseObject ? this.BaseClass.Getter_InterfaceStr_Generic(this.BaseGenericTypes) : nameof(INoggolloquyObject))}");
             GenerateWhereClauses(fg, this.Generics);
 
             using (new BraceWrapper(fg))
@@ -576,10 +578,10 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(this, index, obj, cmds);");
+                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(index, this, obj, cmds);");
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(this, index, cmds);");
+                fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(index, this, cmds);");
                 fg.AppendLine();
             }
             fg.AppendLine();
@@ -685,7 +687,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static void SetNthObject({this.InterfaceStr} nog, ushort index, object obj, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"public static void SetNthObject(ushort index, {this.InterfaceStr} nog, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -705,7 +707,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", true, "obj");
+                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", false, "nog", "obj");
                 }
             }
             fg.AppendLine();
@@ -750,7 +752,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateUnsetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static void UnsetNthObject({this.InterfaceStr} obj, ushort index, {nameof(NotifyingUnsetParameters)}? cmds = null)");
+            fg.AppendLine($"public static void UnsetNthObject(ushort index, {this.InterfaceStr} obj, {nameof(NotifyingUnsetParameters)}? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -779,7 +781,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "SetNthObjectHasBeenSet", "index", false, "on", "obj");
+                    GenerateStandardIndexDefault(fg, "UnsetNthObject", "index", false, "obj");
                 }
             }
             fg.AppendLine();
@@ -842,7 +844,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthIsNoggolloquy", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "GetNthIsNoggolloquy", "index", true);
                 }
             }
             fg.AppendLine();
@@ -881,7 +883,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "IsNthDerivative", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "IsNthDerivative", "index", true);
                 }
             }
             fg.AppendLine();
@@ -920,7 +922,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthIsEnumerable", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "GetNthIsEnumerable", "index", true);
                 }
             }
             fg.AppendLine();
@@ -943,7 +945,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthType", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "GetNthType", "index", true);
                 }
             }
             fg.AppendLine();
@@ -966,7 +968,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthName", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "GetNthName", "index", true);
                 }
             }
             fg.AppendLine();
@@ -992,13 +994,38 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthIsSingleton", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "GetNthIsSingleton", "index", true);
                 }
             }
             fg.AppendLine();
         }
 
-        public void GenerateStandardIndexDefault(FileGeneration fg, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
+        public void GenerateStandardRegistrationDefault(FileGeneration fg, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
+        {
+            fg.AppendLine("default:");
+            using (new DepthWrapper(fg))
+            {
+                if (this.HasBaseObject)
+                {
+                    fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.RegistrationName}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    if (!ret)
+                    {
+                        fg.AppendLine("break;");
+                    }
+                }
+                else
+                {
+                    GenerateIndexOutOfRangeEx(fg, indexAccessor);
+                }
+            }
+        }
+
+        public void GenerateStandardIndexDefault(
+            FileGeneration fg, 
+            string functionName,
+            string indexAccessor,
+            bool ret,
+            params string[] otherParameters)
         {
             fg.AppendLine("default:");
             using (new DepthWrapper(fg))
@@ -1018,7 +1045,7 @@ namespace Noggolloquy.Generation
             }
         }
 
-        private void GenerateIndexOutOfRangeEx(FileGeneration fg, string indexAccessor)
+        public void GenerateIndexOutOfRangeEx(FileGeneration fg, string indexAccessor)
         {
             fg.AppendLine($"throw new ArgumentException($\"Index is out of range: {{{indexAccessor}}}\");");
         }
@@ -1381,7 +1408,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "IsReadOnly", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "IsReadOnly", "index", true);
                 }
             }
             fg.AppendLine();

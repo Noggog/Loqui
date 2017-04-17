@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("ClearPartial(cmds);"))
+            if (str.Contains("CopyInFromXML_Internal(root, ret, cmds: cmds);"))
             {
                 int wer = 23;
                 wer++;

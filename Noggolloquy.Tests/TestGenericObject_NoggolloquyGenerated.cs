@@ -47,9 +47,9 @@ namespace Noggolloquy.Tests
 
         public bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(this, index, obj, cmds);
+        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(index, this, obj, cmds);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(this, index, cmds);
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(index, this, cmds);
 
         #endregion
 
@@ -544,7 +544,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ITestGenericObject<T, R> obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestGenericObject<T, R> obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -578,7 +578,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void SetNthObject(ITestGenericObject<T, R> nog, ushort index, object obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObject(ushort index, ITestGenericObject<T, R> nog, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {

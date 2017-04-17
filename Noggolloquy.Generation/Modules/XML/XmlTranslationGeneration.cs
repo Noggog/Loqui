@@ -119,9 +119,8 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public override void CopyInFromXML(XElement root, out {baseClass.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var ret = new {obj.GetErrorMaskItemString()}();");
-                    fg.AppendLine("errorMask = ret;");
-                    fg.AppendLine("CopyInFromXML_Internal(root, ret, cmds: cmds);");
+                    fg.AppendLine($"CopyInFromXML(root, out {obj.GetErrorMaskItemString()} errMask, cmds: cmds);");
+                    fg.AppendLine("errorMask = errMask;");
                 }
                 fg.AppendLine();
             }

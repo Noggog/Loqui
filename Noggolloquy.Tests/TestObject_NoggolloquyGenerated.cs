@@ -539,18 +539,18 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => TestObjectCommon.GetNthObject(index, this);
+        public virtual object GetNthObject(ushort index) => TestObjectCommon.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestObjectCommon.GetNthObjectHasBeenSet(index, this);
+        public virtual bool GetNthObjectHasBeenSet(ushort index) => TestObjectCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObjectCommon.SetNthObject(this, index, obj, cmds);
+        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObjectCommon.SetNthObject(index, this, obj, cmds);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(this, index, cmds);
+        public virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public void SetNthObjectHasBeenSet(ushort index, bool on)
+        public virtual void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestObjectCommon.SetNthObjectHasBeenSet(index, on, this);
         }
@@ -2139,7 +2139,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -2181,7 +2181,7 @@ namespace Noggolloquy.Tests
                 mask: out errorMask);
         }
 
-        public void WriteXML(XmlWriter writer, string name)
+        public virtual void WriteXML(XmlWriter writer, string name)
         {
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -2191,7 +2191,7 @@ namespace Noggolloquy.Tests
                 mask: out TestObject_ErrorMask errorMask);
         }
 
-        public void WriteXML(XmlWriter writer)
+        public virtual void WriteXML(XmlWriter writer)
         {
             NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -2209,7 +2209,7 @@ namespace Noggolloquy.Tests
             this.CopyFieldsFrom_Generic(rhs, def, cmds);
         }
 
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
+        protected virtual void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
             if (rhs is TestObject rhsCast)
             {
@@ -2231,7 +2231,7 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        public virtual void Clear(NotifyingUnsetParameters? cmds = null)
         {
             ClearPartial(cmds);
             this.BoolN_Property.Unset(cmds.ToUnsetParams());
@@ -4890,7 +4890,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ITestObject obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestObject obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -5239,7 +5239,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void SetNthObject(ITestObject nog, ushort index, object obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObject(ushort index, ITestObject nog, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -5608,7 +5608,7 @@ namespace Noggolloquy.Tests
         public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>> RefDict;
         public MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>> DictKeyedValue;
 
-        public void SetNthException(ushort index, Exception ex)
+        public virtual void SetNthException(ushort index, Exception ex)
         {
             switch (index)
             {
@@ -5755,7 +5755,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public virtual void SetNthMask(ushort index, object obj)
         {
             switch (index)
             {

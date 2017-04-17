@@ -59,9 +59,9 @@ namespace Noggolloquy.Tests
 
         public bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => ObjectToRefCommon.SetNthObject(this, index, obj, cmds);
+        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => ObjectToRefCommon.SetNthObject(index, this, obj, cmds);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(this, index, cmds);
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
@@ -603,7 +603,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(IObjectToRef obj, ushort index, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, IObjectToRef obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -644,7 +644,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void SetNthObject(IObjectToRef nog, ushort index, object obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObject(ushort index, IObjectToRef nog, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
