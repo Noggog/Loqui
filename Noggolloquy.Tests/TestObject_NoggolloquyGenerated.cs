@@ -218,7 +218,7 @@ namespace Noggolloquy.Tests
         {
             return _RefList[index];
         }
-        IObjectToRefGetter ITestObjectGetter.GetNthRefList(int index)
+        ObjectToRef ITestObjectGetter.GetNthRefList(int index)
         {
             return _RefList[index];
         }
@@ -1577,7 +1577,7 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Ref
-        IObjectToRefGetter Ref { get; }
+        ObjectToRef Ref { get; }
 
         #endregion
 
@@ -1587,7 +1587,7 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region RefList
-        IObjectToRefGetter GetNthRefList(int index);
+        ObjectToRef GetNthRefList(int index);
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
 

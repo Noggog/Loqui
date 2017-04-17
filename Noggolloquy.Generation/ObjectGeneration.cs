@@ -21,6 +21,7 @@ namespace Noggolloquy.Generation
         public bool GenerateToString { get; protected set; }
         public bool GeneratePublicBasicCtor { get; protected set; }
         public abstract NotifyingOption NotifyingDefault { get; }
+        public NoggInterfaceType InterfaceTypeDefault;
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
@@ -86,6 +87,7 @@ namespace Noggolloquy.Generation
             GenerateToString = Node.GetAttribute<bool>("generateToString", true);
             GeneratePublicBasicCtor = Node.GetAttribute<bool>("publicCtor", true);
             Version = Node.GetAttribute<ushort>("version", 0);
+            this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", NoggInterfaceType.Direct);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)

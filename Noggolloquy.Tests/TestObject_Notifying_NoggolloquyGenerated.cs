@@ -473,10 +473,28 @@ namespace Noggolloquy.Tests
         #region Ref
         private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
         public INotifyingItem<ObjectToRef> Ref_Property => this._Ref;
-        IObjectToRefGetter ITestObject_NotifyingGetter.Ref => this.Ref;
+        ObjectToRef ITestObject_NotifyingGetter.Ref => this.Ref;
         public ObjectToRef Ref { get { return _Ref.Value; } set { _Ref.Value = value; } }
         INotifyingItem<ObjectToRef> ITestObject_Notifying.Ref_Property => this.Ref_Property;
         INotifyingItemGetter<ObjectToRef> ITestObject_NotifyingGetter.Ref_Property => this.Ref_Property;
+        #endregion
+
+        #region RefGetter
+        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
+        public INotifyingItem<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
+        IObjectToRefGetter ITestObject_NotifyingGetter.RefGetter => this.RefGetter;
+        public IObjectToRefGetter RefGetter { get { return _RefGetter.Value; } set { _RefGetter.Value = value; } }
+        INotifyingItem<IObjectToRefGetter> ITestObject_Notifying.RefGetter_Property => this.RefGetter_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_NotifyingGetter.RefGetter_Property => this.RefGetter_Property;
+        #endregion
+
+        #region RefSetter
+        private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
+        public INotifyingItem<IObjectToRef> RefSetter_Property => this._RefSetter;
+        IObjectToRef ITestObject_NotifyingGetter.RefSetter => this.RefSetter;
+        public IObjectToRef RefSetter { get { return _RefSetter.Value; } set { _RefSetter.Value = value; } }
+        INotifyingItem<IObjectToRef> ITestObject_Notifying.RefSetter_Property => this.RefSetter_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_NotifyingGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
 
         #region List
@@ -500,7 +518,7 @@ namespace Noggolloquy.Tests
         {
             return _RefList[index];
         }
-        IObjectToRefGetter ITestObject_NotifyingGetter.GetNthRefList(int index)
+        ObjectToRef ITestObject_NotifyingGetter.GetNthRefList(int index)
         {
             return _RefList[index];
         }
@@ -626,6 +644,8 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
+            if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
             if (!object.Equals(this.List, rhs.List)) return false;
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
             if (!object.Equals(this.Dict, rhs.Dict)) return false;
@@ -636,6 +656,8 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
+            
+            
             
             
             
@@ -724,6 +746,8 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
             .CombineHashCode(HashHelper.GetHashCode(Ref))
+            .CombineHashCode(HashHelper.GetHashCode(RefGetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefSetter))
             .CombineHashCode(HashHelper.GetHashCode(List))
             .CombineHashCode(HashHelper.GetHashCode(RefList))
             .CombineHashCode(HashHelper.GetHashCode(Dict))
@@ -1981,6 +2005,66 @@ namespace Noggolloquy.Tests
             }
             try
             {
+                if (rhs.RefGetter_Property.HasBeenSet)
+                {
+                    this.RefGetter_Property.Set(
+                        rhs.RefGetter,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RefGetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RefGetter_Property.Set(
+                            def.RefGetter,
+                            cmds);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(41, ex);
+                }
+            }
+            try
+            {
+                if (rhs.RefSetter_Property.HasBeenSet)
+                {
+                    this.RefSetter_Property.Set(
+                        rhs.RefSetter,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RefSetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RefSetter_Property.Set(
+                            def.RefSetter,
+                            cmds);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(42, ex);
+                }
+            }
+            try
+            {
                 if (rhs.List.HasBeenSet)
                 {
                     this.List.SetTo(rhs.List, cmds);
@@ -2001,7 +2085,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(41, ex);
+                    errorMask.SetNthException(43, ex);
                 }
             }
             try
@@ -2033,7 +2117,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(42, ex);
+                    errorMask.SetNthException(44, ex);
                 }
             }
             try
@@ -2068,7 +2152,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(43, ex);
+                    errorMask.SetNthException(45, ex);
                 }
             }
             try
@@ -2123,7 +2207,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(44, ex);
+                    errorMask.SetNthException(46, ex);
                 }
             }
             try
@@ -2152,7 +2236,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(45, ex);
+                    errorMask.SetNthException(47, ex);
                 }
             }
         }
@@ -2320,6 +2404,8 @@ namespace Noggolloquy.Tests
             this.Enum_Property.Unset(cmds.ToUnsetParams());
             this.WildCard_Property.Unset(cmds.ToUnsetParams());
             this.Ref_Property.Unset(cmds.ToUnsetParams());
+            this.RefGetter_Property.Unset(cmds.ToUnsetParams());
+            this.RefSetter_Property.Unset(cmds.ToUnsetParams());
             this.List.Unset(cmds.ToUnsetParams());
             this.RefList.Unset(cmds.ToUnsetParams());
             this.Dict.Unset(cmds.ToUnsetParams());
@@ -2467,6 +2553,12 @@ namespace Noggolloquy.Tests
 
         new ObjectToRef Ref { get; set; }
         new INotifyingItem<ObjectToRef> Ref_Property { get; }
+
+        new IObjectToRefGetter RefGetter { get; set; }
+        new INotifyingItem<IObjectToRefGetter> RefGetter_Property { get; }
+
+        new IObjectToRef RefSetter { get; set; }
+        new INotifyingItem<IObjectToRef> RefSetter_Property { get; }
 
         new INotifyingList<Boolean> List { get; }
         new ObjectToRef GetNthRefList(int index);
@@ -2719,8 +2811,20 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Ref
-        IObjectToRefGetter Ref { get; }
+        ObjectToRef Ref { get; }
         INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
+
+        #endregion
+
+        #region RefGetter
+        IObjectToRefGetter RefGetter { get; }
+        INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
+
+        #endregion
+
+        #region RefSetter
+        IObjectToRef RefSetter { get; }
+        INotifyingItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
 
@@ -2730,7 +2834,7 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region RefList
-        IObjectToRefGetter GetNthRefList(int index);
+        ObjectToRef GetNthRefList(int index);
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
 
@@ -2769,7 +2873,7 @@ namespace Noggolloquy.Tests
 
         public const string GUID = "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
 
-        public const ushort FieldCount = 46;
+        public const ushort FieldCount = 48;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_Mask<>);
 
@@ -2871,16 +2975,20 @@ namespace Noggolloquy.Tests
                     return 39;
                 case "REF":
                     return 40;
-                case "LIST":
+                case "REFGETTER":
                     return 41;
-                case "REFLIST":
+                case "REFSETTER":
                     return 42;
-                case "DICT":
+                case "LIST":
                     return 43;
-                case "REFDICT":
+                case "REFLIST":
                     return 44;
-                case "DICTKEYEDVALUE":
+                case "DICT":
                     return 45;
+                case "REFDICT":
+                    return 46;
+                case "DICTKEYEDVALUE":
+                    return 47;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -2890,8 +2998,8 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 41:
-                case 42:
+                case 43:
+                case 44:
                     return true;
                 case 0:
                 case 1:
@@ -2934,9 +3042,11 @@ namespace Noggolloquy.Tests
                 case 38:
                 case 39:
                 case 40:
-                case 43:
-                case 44:
+                case 41:
+                case 42:
                 case 45:
+                case 46:
+                case 47:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2948,7 +3058,9 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 40:
+                case 41:
                 case 42:
+                case 44:
                     return true;
                 case 0:
                 case 1:
@@ -2990,10 +3102,10 @@ namespace Noggolloquy.Tests
                 case 37:
                 case 38:
                 case 39:
-                case 41:
                 case 43:
-                case 44:
                 case 45:
+                case 46:
+                case 47:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3005,6 +3117,10 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 40:
+                    return false;
+                case 41:
+                    return false;
+                case 42:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3098,14 +3214,18 @@ namespace Noggolloquy.Tests
                 case 40:
                     return "Ref";
                 case 41:
-                    return "List";
+                    return "RefGetter";
                 case 42:
-                    return "RefList";
+                    return "RefSetter";
                 case 43:
-                    return "Dict";
+                    return "List";
                 case 44:
-                    return "RefDict";
+                    return "RefList";
                 case 45:
+                    return "Dict";
+                case 46:
+                    return "RefDict";
+                case 47:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3162,6 +3282,8 @@ namespace Noggolloquy.Tests
                 case 43:
                 case 44:
                 case 45:
+                case 46:
+                case 47:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3218,6 +3340,8 @@ namespace Noggolloquy.Tests
                 case 43:
                 case 44:
                 case 45:
+                case 46:
+                case 47:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3311,14 +3435,18 @@ namespace Noggolloquy.Tests
                 case 40:
                     return typeof(ObjectToRef);
                 case 41:
-                    return typeof(NotifyingList<Boolean>);
+                    return typeof(IObjectToRefGetter);
                 case 42:
-                    return typeof(NotifyingList<ObjectToRef>);
+                    return typeof(IObjectToRef);
                 case 43:
-                    return typeof(NotifyingDictionary<Boolean, String>);
+                    return typeof(NotifyingList<Boolean>);
                 case 44:
-                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                    return typeof(NotifyingList<ObjectToRef>);
                 case 45:
+                    return typeof(NotifyingDictionary<Boolean, String>);
+                case 46:
+                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case 47:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -4610,6 +4738,114 @@ namespace Noggolloquy.Tests
             }
             try
             {
+                if (rhs.RefGetter_Property.HasBeenSet)
+                {
+                    if (rhs.RefGetter == null)
+                    {
+                        item.RefGetter = null;
+                    }
+                    else
+                    {
+                        if (item.RefGetter == null)
+                        {
+                            item.RefGetter = (IObjectToRefGetter)INoggolloquyObjectExt.Copy(rhs.RefGetter);
+                        }
+                        else
+                        {
+                            item.RefGetter.CopyFieldsFrom(rhs.RefGetter, def: def?.RefGetter, cmds: cmds);
+                        }
+                    }
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RefGetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        if (rhs.RefGetter == null)
+                        {
+                            item.RefGetter = null;
+                        }
+                        else
+                        {
+                            if (item.RefGetter == null)
+                            {
+                                item.RefGetter = (IObjectToRefGetter)INoggolloquyObjectExt.Copy(def.RefGetter);
+                            }
+                            else
+                            {
+                                item.RefGetter.CopyFieldsFrom(def.RefGetter, null, cmds: cmds);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(41, ex);
+                }
+            }
+            try
+            {
+                if (rhs.RefSetter_Property.HasBeenSet)
+                {
+                    if (rhs.RefSetter == null)
+                    {
+                        item.RefSetter = null;
+                    }
+                    else
+                    {
+                        if (item.RefSetter == null)
+                        {
+                            item.RefSetter = (IObjectToRef)INoggolloquyObjectExt.Copy(rhs.RefSetter);
+                        }
+                        else
+                        {
+                            item.RefSetter.CopyFieldsFrom(rhs.RefSetter, def: def?.RefSetter, cmds: cmds);
+                        }
+                    }
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RefSetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        if (rhs.RefSetter == null)
+                        {
+                            item.RefSetter = null;
+                        }
+                        else
+                        {
+                            if (item.RefSetter == null)
+                            {
+                                item.RefSetter = (IObjectToRef)INoggolloquyObjectExt.Copy(def.RefSetter);
+                            }
+                            else
+                            {
+                                item.RefSetter.CopyFieldsFrom(def.RefSetter, null, cmds: cmds);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (errorMask != null)
+                {
+                    errorMask.SetNthException(42, ex);
+                }
+            }
+            try
+            {
                 if (rhs.List.HasBeenSet)
                 {
                     item.List.SetTo(rhs.List, cmds);
@@ -4630,7 +4866,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(41, ex);
+                    errorMask.SetNthException(43, ex);
                 }
             }
             try
@@ -4662,7 +4898,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(42, ex);
+                    errorMask.SetNthException(44, ex);
                 }
             }
             try
@@ -4697,7 +4933,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(43, ex);
+                    errorMask.SetNthException(45, ex);
                 }
             }
             try
@@ -4752,7 +4988,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(44, ex);
+                    errorMask.SetNthException(46, ex);
                 }
             }
             try
@@ -4781,7 +5017,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(45, ex);
+                    errorMask.SetNthException(47, ex);
                 }
             }
         }
@@ -4916,18 +5152,24 @@ namespace Noggolloquy.Tests
                     obj.Ref_Property.HasBeenSet = on;
                     break;
                 case 41:
-                    obj.List.HasBeenSet = on;
+                    obj.RefGetter_Property.HasBeenSet = on;
                     break;
                 case 42:
-                    obj.RefList.HasBeenSet = on;
+                    obj.RefSetter_Property.HasBeenSet = on;
                     break;
                 case 43:
-                    obj.Dict.HasBeenSet = on;
+                    obj.List.HasBeenSet = on;
                     break;
                 case 44:
-                    obj.RefDict.HasBeenSet = on;
+                    obj.RefList.HasBeenSet = on;
                     break;
                 case 45:
+                    obj.Dict.HasBeenSet = on;
+                    break;
+                case 46:
+                    obj.RefDict.HasBeenSet = on;
+                    break;
+                case 47:
                     obj.DictKeyedValue.HasBeenSet = on;
                     break;
                 default:
@@ -5063,18 +5305,24 @@ namespace Noggolloquy.Tests
                     obj.Ref_Property.Unset(cmds);
                     break;
                 case 41:
-                    obj.List.Unset(cmds);
+                    obj.RefGetter_Property.Unset(cmds);
                     break;
                 case 42:
-                    obj.RefList.Unset(cmds);
+                    obj.RefSetter_Property.Unset(cmds);
                     break;
                 case 43:
-                    obj.Dict.Unset(cmds);
+                    obj.List.Unset(cmds);
                     break;
                 case 44:
-                    obj.RefDict.Unset(cmds);
+                    obj.RefList.Unset(cmds);
                     break;
                 case 45:
+                    obj.Dict.Unset(cmds);
+                    break;
+                case 46:
+                    obj.RefDict.Unset(cmds);
+                    break;
+                case 47:
                     obj.DictKeyedValue.Unset(cmds);
                     break;
                 default:
@@ -5169,14 +5417,18 @@ namespace Noggolloquy.Tests
                 case 40:
                     return obj.Ref_Property.HasBeenSet;
                 case 41:
-                    return obj.List.HasBeenSet;
+                    return obj.RefGetter_Property.HasBeenSet;
                 case 42:
-                    return obj.RefList.HasBeenSet;
+                    return obj.RefSetter_Property.HasBeenSet;
                 case 43:
-                    return obj.Dict.HasBeenSet;
+                    return obj.List.HasBeenSet;
                 case 44:
-                    return obj.RefDict.HasBeenSet;
+                    return obj.RefList.HasBeenSet;
                 case 45:
+                    return obj.Dict.HasBeenSet;
+                case 46:
+                    return obj.RefDict.HasBeenSet;
+                case 47:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5270,14 +5522,18 @@ namespace Noggolloquy.Tests
                 case 40:
                     return obj.Ref;
                 case 41:
-                    return obj.List;
+                    return obj.RefGetter;
                 case 42:
-                    return obj.RefList;
+                    return obj.RefSetter;
                 case 43:
-                    return obj.Dict;
+                    return obj.List;
                 case 44:
-                    return obj.RefDict;
+                    return obj.RefList;
                 case 45:
+                    return obj.Dict;
+                case 46:
+                    return obj.RefDict;
+                case 47:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5494,12 +5750,22 @@ namespace Noggolloquy.Tests
                         cmds);
                     break;
                 case 41:
-                    nog.List.SetTo((((NotifyingList<Boolean>)obj)), cmds);
+                    nog.RefGetter_Property.Set(
+                        ((IObjectToRefGetter)obj),
+                        cmds);
                     break;
                 case 42:
-                    nog.RefList.SetTo((((NotifyingList<ObjectToRef>)obj)).Select((s) => s.Copy()), cmds);
+                    nog.RefSetter_Property.Set(
+                        ((IObjectToRef)obj),
+                        cmds);
                     break;
                 case 43:
+                    nog.List.SetTo((((NotifyingList<Boolean>)obj)), cmds);
+                    break;
+                case 44:
+                    nog.RefList.SetTo((((NotifyingList<ObjectToRef>)obj)).Select((s) => s.Copy()), cmds);
+                    break;
+                case 45:
                     nog.Dict.SetTo(
                         ((NotifyingDictionary<Boolean, String>)obj).Select(
                             (i) => new KeyValuePair<Boolean, String>(
@@ -5507,7 +5773,7 @@ namespace Noggolloquy.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case 44:
+                case 46:
                     nog.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -5515,7 +5781,7 @@ namespace Noggolloquy.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case 45:
+                case 47:
                     nog.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)((NotifyingDictionary<Int32, ObjectToRef>)obj)).Select((i) => i.Copy()),
                         cmds);
@@ -5584,6 +5850,8 @@ namespace Noggolloquy.Tests
         public T Enum;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefGetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefSetter { get; set; }
         public MaskItem<T, IEnumerable<T>> List;
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<T, IEnumerable<KeyValuePair<T, T>>> Dict;
@@ -5647,6 +5915,8 @@ namespace Noggolloquy.Tests
         public Exception Enum;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter;
         public MaskItem<Exception, IEnumerable<Exception>> List;
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> Dict;
@@ -5781,18 +6051,24 @@ namespace Noggolloquy.Tests
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 41:
-                    this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
+                    this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 42:
-                    this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
+                    this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 43:
-                    this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
+                    this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
                 case 44:
-                    this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
                     break;
                 case 45:
+                    this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
+                    break;
+                case 46:
+                    this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    break;
+                case 47:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
                     break;
                 default:
@@ -5928,18 +6204,24 @@ namespace Noggolloquy.Tests
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 41:
-                    this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
+                    this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 42:
-                    this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
+                    this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 43:
-                    this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
+                    this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
                 case 44:
-                    this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
                     break;
                 case 45:
+                    this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
+                    break;
+                case 46:
+                    this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    break;
+                case 47:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
                 default:

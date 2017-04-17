@@ -147,7 +147,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(46, ex);
+                    errorMask.SetNthException(48, ex);
                 }
             }
         }
@@ -327,7 +327,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsEnumerable(index);
@@ -338,7 +338,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsNoggolloquy(index);
@@ -358,7 +358,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return "NewField";
                 default:
                     return TestObject_Notifying_Registration.GetNthName(index);
@@ -369,7 +369,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsNthDerivative(index);
@@ -380,7 +380,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsReadOnly(index);
@@ -391,7 +391,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return typeof(Boolean);
                 default:
                     return TestObject_Notifying_Registration.GetNthType(index);
@@ -455,7 +455,7 @@ namespace Noggolloquy.Tests
             {
                 if (errorMask != null)
                 {
-                    errorMask.SetNthException(46, ex);
+                    errorMask.SetNthException(48, ex);
                 }
             }
         }
@@ -466,7 +466,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     obj.NewField_Property.HasBeenSet = on;
                     break;
                 default:
@@ -479,7 +479,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     obj.NewField_Property.Unset(cmds);
                     break;
                 default:
@@ -492,7 +492,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return obj.NewField_Property.HasBeenSet;
                 default:
                     return TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, obj);
@@ -503,7 +503,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     return obj.NewField;
                 default:
                     return TestObject_NotifyingCommon.GetNthObject(index, obj);
@@ -514,7 +514,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     nog.NewField_Property.Set(
                         ((Boolean)obj),
                         cmds);
@@ -554,7 +554,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     this.NewField = ex;
                     break;
                 default:
@@ -567,7 +567,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 46:
+                case 48:
                     this.NewField = (Exception)obj;
                     break;
                 default:

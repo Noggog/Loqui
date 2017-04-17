@@ -125,6 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolGeneration.cs" />
     <Compile Include="Ref.cs" />
+    <Compile Include="NoggInterfaceType.cs" />
     <Compile Include="RegionWrapper.cs" />
     <Compile Include="StructGeneration.cs" />
   </ItemGroup>

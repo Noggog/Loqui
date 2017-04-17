@@ -38,7 +38,7 @@ namespace Noggolloquy.Generation
 
         public TypeGeneration SubTypeGeneration => SingleTypeGen;
 
-        public string GetterTypeName => (this.isNoggSingle ? NoggTypeSingleton.Getter : ItemTypeName);
+        public string GetterTypeName => (this.isNoggSingle ? NoggTypeSingleton.TypeName : ItemTypeName);
 
         public override void Load(XElement node, bool requireName = true)
         {

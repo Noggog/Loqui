@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("nog.BoolN_Property.Set("))
+            if (str.Contains("new INotifyingItem<ObjectToRef> RefGetter_Property { get; }"))
             {
                 int wer = 23;
                 wer++;

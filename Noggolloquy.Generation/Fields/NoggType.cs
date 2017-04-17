@@ -15,25 +15,19 @@ namespace Noggolloquy.Generation
                 switch (RefType)
                 {
                     case NoggRefType.Direct:
-                        return RefGen.Name;
+                        switch (this.InterfaceType)
+                        {
+                            case NoggInterfaceType.Direct:
+                                return this.RefGen.Name;
+                            case NoggInterfaceType.IGetter:
+                                return this.RefGen.Getter_InterfaceStr;
+                            case NoggInterfaceType.ISetter:
+                                return this.RefGen.InterfaceStr;
+                            default:
+                                throw new NotImplementedException();
+                        }
                     case NoggRefType.Generic:
                         return _generic;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-        }
-        public string Getter
-        {
-            get
-            {
-                switch (RefType)
-                {
-                    case NoggRefType.Direct:
-                        return this.RefGen.Getter_InterfaceStr;
-                    case NoggRefType.Generic:
-                        return this._generic;
-
                     default:
                         throw new NotImplementedException();
                 }
@@ -43,6 +37,7 @@ namespace Noggolloquy.Generation
         public bool AllowNull => _allowNull && !SingletonMember;
         public bool SingletonMember;
         public NoggRefType RefType { get; private set; }
+        public NoggInterfaceType InterfaceType = NoggInterfaceType.Direct;
         private string _generic;
 
         public enum NoggRefType
@@ -60,7 +55,7 @@ namespace Noggolloquy.Generation
                     break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} HasBeenSetItem<{this.TypeName}> {this.ProtectedProperty} = new HasBeenSetItem<{this.TypeName}>();");
-                    fg.AppendLine($"public {this.Getter} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
+                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
                     if (this.ReadOnly)
                     {
                         fg.AppendLine($"public IHasBeenSetGetter {this.Property} => this.{this.Property};");
@@ -69,7 +64,7 @@ namespace Noggolloquy.Generation
                     {
                         fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                     }
-                    fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
                     break;
                 case NotifyingOption.Notifying:
                     if (AllowNull)
@@ -78,7 +73,7 @@ namespace Noggolloquy.Generation
                     }
                     else if (SingletonMember)
                     { // Singleton
-                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.Getter}>(new {this.RefGen.ObjectName}());");
+                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.TypeName}>(new {this.RefGen.ObjectName}());");
                     }
                     else
                     {
@@ -100,7 +95,7 @@ namespace Noggolloquy.Generation
                         fg.AppendLine(");");
                     }
                     fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
-                    fg.AppendLine($"{this.Getter} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
                     if (!this.ReadOnly)
                     {
@@ -136,6 +131,7 @@ namespace Noggolloquy.Generation
             if (!string.IsNullOrWhiteSpace(refName))
             {
                 Ref r = new Ref();
+                this.InterfaceType = refNode.GetAttribute<NoggInterfaceType>("interfaceType", NoggInterfaceType.Direct);
 
                 var genElems = refNode.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)).ToList();
                 if (genElems.Count > 0)
@@ -262,7 +258,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
-            fg.AppendLine($"{this.Getter} {this.Name} {{ get; }}");
+            fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
             switch (this.Notifying)
             {
                 case NotifyingOption.None:

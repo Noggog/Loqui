@@ -70,12 +70,20 @@
       </xs:choice>
     </xs:choice>
   </xs:complexType>
-  
+
   <xs:simpleType name="NotifyingOption" final="restriction" >
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
       <xs:enumeration value="HasBeenSet" />
       <xs:enumeration value="Notifying" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NoggInterfaceType" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Direct" />
+      <xs:enumeration value="IGetter" />
+      <xs:enumeration value="ISetter" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -340,7 +348,14 @@
     <xs:attribute name="notifyingDefault" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
-          Sets the default value of the "Notifying" property on all of this objects contained fields.  Mostly for convenience.
+          Sets the default value of the "Notifying" property on all of this objects contained fields.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interfaceTypeDefault" type="NoggInterfaceType" >
+      <xs:annotation>
+        <xs:documentation>
+          Sets the default value of the Interface Type property on all of this objects contained fields.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -600,6 +615,13 @@
       <xs:annotation>
         <xs:documentation>
           Name of the Noggolloquy object to reference.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interfaceType" type="NoggInterfaceType">
+      <xs:annotation>
+        <xs:documentation>
+          What type of reference interface to use.  Direct reference to Noggolloquy object type, or one of the interfaces.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

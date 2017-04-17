@@ -48,6 +48,12 @@
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />
       </Ref>
+      <Ref name="RefGetter">
+        <Direct refName="ObjectToRef" interfaceType="IGetter" />
+      </Ref>
+      <Ref name="RefSetter">
+        <Direct refName="ObjectToRef" interfaceType="ISetter" />
+      </Ref>
       <List name="List">
         <Bool />
       </List>

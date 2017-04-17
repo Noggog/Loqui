@@ -30,7 +30,7 @@ namespace Noggolloquy.Generation
 
         public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
 
-        public string GetterTypeName => this.ValueTypeGen.Getter;
+        public string GetterTypeName => this.ValueTypeGen.TypeName;
 
         public override void Load(XElement node, bool requireName = true)
         {
