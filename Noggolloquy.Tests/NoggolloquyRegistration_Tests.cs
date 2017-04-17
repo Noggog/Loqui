@@ -22,7 +22,7 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetRegistration_ByType()
         {
-            var registration = NoggolloquyRegistration.GetRegister(typeof(TestObject));
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestObject_Notifying));
             Assert.NotNull(registration);
         }
 
@@ -78,9 +78,9 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetCreateFunc()
         {
-            var func = NoggolloquyRegistration.GetCreateFunc<TestObject>();
+            var func = NoggolloquyRegistration.GetCreateFunc<TestObject_Notifying>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestObject>), func);
+            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>), func);
         }
 
         [Fact]
@@ -94,9 +94,9 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetCopyInFunc()
         {
-            var func = NoggolloquyRegistration.GetCopyInFunc<TestObject>();
+            var func = NoggolloquyRegistration.GetCopyInFunc<TestObject_Notifying>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestObject>), func);
+            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>), func);
         }
 
         [Fact]

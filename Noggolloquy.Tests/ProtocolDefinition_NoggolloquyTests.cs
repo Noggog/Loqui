@@ -13,9 +13,9 @@ namespace Noggolloquy
         public void Register()
         {
             NoggolloquyRegistration.Register(TestGenericObject_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_Notifying_Registration.Instance);
             NoggolloquyRegistration.Register(ObjectToRef_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_SubClass_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_Notifying_SubClass_Registration.Instance);
             NoggolloquyRegistration.Register(TestGenericObject_SubClass_Defined_Registration.Instance);
             NoggolloquyRegistration.Register(TestGenericObject_SubClass_Registration.Instance);
         }

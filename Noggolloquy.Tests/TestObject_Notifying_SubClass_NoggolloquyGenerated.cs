@@ -20,12 +20,12 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject_SubClass : TestObject, ITestObject_SubClass, INoggolloquyObjectSetter, IEquatable<TestObject_SubClass>
+    public partial class TestObject_Notifying_SubClass : TestObject_Notifying, ITestObject_Notifying_SubClass, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_SubClass>
     {
-        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_SubClass_Registration.Instance;
-        public new static TestObject_SubClass_Registration Registration => TestObject_SubClass_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_SubClass_Registration.Instance;
+        public new static TestObject_Notifying_SubClass_Registration Registration => TestObject_Notifying_SubClass_Registration.Instance;
 
-        public TestObject_SubClass()
+        public TestObject_Notifying_SubClass()
         {
             CustomCtor();
         }
@@ -37,39 +37,39 @@ namespace Noggolloquy.Tests
         );
         public INotifyingItem<Boolean> NewField_Property => _NewField;
         public Boolean NewField { get { return _NewField.Value; } set { _NewField.Value = value; } }
-        INotifyingItem<Boolean> ITestObject_SubClass.NewField_Property => this.NewField_Property;
-        INotifyingItemGetter<Boolean> ITestObject_SubClassGetter.NewField_Property => this.NewField_Property;
+        INotifyingItem<Boolean> ITestObject_Notifying_SubClass.NewField_Property => this.NewField_Property;
+        INotifyingItemGetter<Boolean> ITestObject_Notifying_SubClassGetter.NewField_Property => this.NewField_Property;
         #endregion
 
 
         #region Noggolloquy Getter Interface
 
-        public override object GetNthObject(ushort index) => TestObject_SubClassCommon.GetNthObject(index, this);
+        public override object GetNthObject(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObject(index, this);
 
-        public override bool GetNthObjectHasBeenSet(ushort index) => TestObject_SubClassCommon.GetNthObjectHasBeenSet(index, this);
+        public override bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObjectHasBeenSet(index, this);
 
-        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObject_SubClassCommon.SetNthObject(index, this, obj, cmds);
+        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObject_Notifying_SubClassCommon.SetNthObject(index, this, obj, cmds);
 
-        public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_SubClassCommon.UnsetNthObject(index, this, cmds);
+        public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         public override void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObject_SubClassCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_SubClassCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestObject_SubClassGetter rhs, ITestObject_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_SubClassGetter rhs, ITestObject_Notifying_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            TestObject_SubClassCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
         }
 
-        public void CopyFieldsFrom(ITestObject_SubClassGetter rhs, out TestObject_SubClass_ErrorMask errorMask, ITestObject_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_SubClassGetter rhs, out TestObject_Notifying_SubClass_ErrorMask errorMask, ITestObject_Notifying_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_SubClass_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
             errorMask = retErrorMask;
-            TestObject_SubClassCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
         }
 
         #endregion
@@ -84,11 +84,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_SubClass rhs)) return false;
+            if (!(obj is TestObject_Notifying_SubClass rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_SubClass rhs)
+        public bool Equals(TestObject_Notifying_SubClass rhs)
         {
             if (!object.Equals(this.NewField, rhs.NewField)) return false;
             return base.Equals(rhs);
@@ -106,19 +106,19 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Set To
-        public void SetTo(TestObject_SubClass rhs, ITestObject_SubClass def = null, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def = null, NotifyingFireParameters? cmds = null)
         {
             SetTo_Internal(rhs, def, null, cmds);
         }
 
-        public void SetTo(TestObject_SubClass rhs, ITestObject_SubClass def, out TestObject_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def, out TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_SubClass_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
             errorMask = retErrorMask;
             SetTo_Internal(rhs, def, retErrorMask, cmds);
         }
 
-        private void SetTo_Internal(TestObject_SubClass rhs, ITestObject_SubClass def, TestObject_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        private void SetTo_Internal(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def, TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
             try
             {
@@ -153,23 +153,23 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public new static TestObject_SubClass CreateFromXML(XElement root)
+        public new static TestObject_Notifying_SubClass CreateFromXML(XElement root)
         {
-            var ret = new TestObject_SubClass();
-            NoggXmlTranslation<TestObject_SubClass, TestObject_SubClass_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_SubClass();
+            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
                 doMasks: false,
-                mask: out TestObject_SubClass_ErrorMask errorMask,
+                mask: out TestObject_Notifying_SubClass_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestObject_SubClass CreateFromXML(XElement root, out TestObject_SubClass_ErrorMask errorMask)
+        public static TestObject_Notifying_SubClass CreateFromXML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask)
         {
-            var ret = new TestObject_SubClass();
-            NoggXmlTranslation<TestObject_SubClass, TestObject_SubClass_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_SubClass();
+            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
@@ -181,18 +181,18 @@ namespace Noggolloquy.Tests
 
         public override void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_SubClass, TestObject_SubClass_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
                 doMasks: false,
-                mask: out TestObject_SubClass_ErrorMask errorMask,
+                mask: out TestObject_Notifying_SubClass_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_SubClass, TestObject_SubClass_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
@@ -201,9 +201,9 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public override void CopyInFromXML(XElement root, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public override void CopyInFromXML(XElement root, out TestObject_Notifying_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            CopyInFromXML(root, out TestObject_SubClass_ErrorMask errMask, cmds: cmds);
+            CopyInFromXML(root, out TestObject_Notifying_SubClass_ErrorMask errMask, cmds: cmds);
             errorMask = errMask;
         }
 
@@ -218,20 +218,20 @@ namespace Noggolloquy.Tests
         protected override void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
             base.CopyFieldsFrom_Generic(rhs, def, cmds);
-            if (rhs is TestObject_SubClass rhsCast)
+            if (rhs is TestObject_Notifying_SubClass rhsCast)
             {
-                this.CopyFieldsFrom(rhsCast, def as TestObject_SubClass, cmds);
+                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_SubClass, cmds);
             }
         }
 
-        public TestObject_SubClass Copy(ITestObject_SubClassGetter def = null)
+        public TestObject_Notifying_SubClass Copy(ITestObject_Notifying_SubClassGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject_SubClass Copy(ITestObject_SubClassGetter item, ITestObject_SubClassGetter def = null)
+        public static TestObject_Notifying_SubClass Copy(ITestObject_Notifying_SubClassGetter item, ITestObject_Notifying_SubClassGetter def = null)
         {
-            var ret = new TestObject_SubClass();
+            var ret = new TestObject_Notifying_SubClass();
             ret.CopyFieldsFrom(item, def);
             return ret;
         }
@@ -242,14 +242,14 @@ namespace Noggolloquy.Tests
             this.NewField_Property.Unset(cmds.ToUnsetParams());
         }
 
-        public new static TestObject_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public new static TestObject_Notifying_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject_SubClass();
+            var ret = new TestObject_Notifying_SubClass();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_SubClass obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_SubClass obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
         }
@@ -258,14 +258,14 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject_SubClass : ITestObject_SubClassGetter, ITestObject, INoggolloquyClass<ITestObject_SubClass, ITestObject_SubClassGetter>, INoggolloquyClass<TestObject_SubClass, ITestObject_SubClassGetter>
+    public interface ITestObject_Notifying_SubClass : ITestObject_Notifying_SubClassGetter, ITestObject_Notifying, INoggolloquyClass<ITestObject_Notifying_SubClass, ITestObject_Notifying_SubClassGetter>, INoggolloquyClass<TestObject_Notifying_SubClass, ITestObject_Notifying_SubClassGetter>
     {
         new Boolean NewField { get; set; }
         new INotifyingItem<Boolean> NewField_Property { get; }
 
     }
 
-    public interface ITestObject_SubClassGetter : ITestObjectGetter
+    public interface ITestObject_Notifying_SubClassGetter : ITestObject_NotifyingGetter
     {
         #region NewField
         Boolean NewField { get; }
@@ -283,9 +283,9 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Registration
-    public class TestObject_SubClass_Registration : INoggolloquyRegistration
+    public class TestObject_Notifying_SubClass_Registration : INoggolloquyRegistration
     {
-        public static readonly TestObject_SubClass_Registration Instance = new TestObject_SubClass_Registration();
+        public static readonly TestObject_Notifying_SubClass_Registration Instance = new TestObject_Notifying_SubClass_Registration();
 
         public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
@@ -298,15 +298,15 @@ namespace Noggolloquy.Tests
 
         public const ushort FieldCount = 1;
 
-        public static readonly Type MaskType = typeof(TestObject_SubClass_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_SubClass_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_SubClass_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_SubClass_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject_SubClass);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_SubClass);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject_SubClass";
+        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_SubClass";
 
-        public const string Name = "TestObject_SubClass";
+        public const string Name = "TestObject_Notifying_SubClass";
 
         public const byte GenericCount = 0;
 
@@ -330,7 +330,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return false;
                 default:
-                    return TestObject_Registration.GetNthIsEnumerable(index);
+                    return TestObject_Notifying_Registration.GetNthIsEnumerable(index);
             }
         }
 
@@ -341,7 +341,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return false;
                 default:
-                    return TestObject_Registration.GetNthIsNoggolloquy(index);
+                    return TestObject_Notifying_Registration.GetNthIsNoggolloquy(index);
             }
         }
 
@@ -350,7 +350,7 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 default:
-                    return TestObject_Registration.GetNthIsSingleton(index);
+                    return TestObject_Notifying_Registration.GetNthIsSingleton(index);
             }
         }
 
@@ -361,7 +361,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return "NewField";
                 default:
-                    return TestObject_Registration.GetNthName(index);
+                    return TestObject_Notifying_Registration.GetNthName(index);
             }
         }
 
@@ -372,7 +372,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return false;
                 default:
-                    return TestObject_Registration.IsNthDerivative(index);
+                    return TestObject_Notifying_Registration.IsNthDerivative(index);
             }
         }
 
@@ -383,7 +383,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return false;
                 default:
-                    return TestObject_Registration.IsReadOnly(index);
+                    return TestObject_Notifying_Registration.IsReadOnly(index);
             }
         }
 
@@ -394,7 +394,7 @@ namespace Noggolloquy.Tests
                 case 46:
                     return typeof(Boolean);
                 default:
-                    return TestObject_Registration.GetNthType(index);
+                    return TestObject_Notifying_Registration.GetNthType(index);
             }
         }
 
@@ -422,12 +422,12 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestObject_SubClassCommon
+    public static class TestObject_Notifying_SubClassCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject_SubClass item, ITestObject_SubClassGetter rhs, ITestObject_SubClassGetter def, TestObject_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(ITestObject_Notifying_SubClass item, ITestObject_Notifying_SubClassGetter rhs, ITestObject_Notifying_SubClassGetter def, TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
-            TestObjectCommon.CopyFieldsFrom(item, rhs, def, errorMask, cmds);
+            TestObject_NotifyingCommon.CopyFieldsFrom(item, rhs, def, errorMask, cmds);
             try
             {
                 if (rhs.NewField_Property.HasBeenSet)
@@ -462,7 +462,7 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_SubClass obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_Notifying_SubClass obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -470,12 +470,12 @@ namespace Noggolloquy.Tests
                     obj.NewField_Property.HasBeenSet = on;
                     break;
                 default:
-                    TestObjectCommon.SetNthObjectHasBeenSet(index, on, obj);
+                    TestObject_NotifyingCommon.SetNthObjectHasBeenSet(index, on, obj);
                     break;
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject_SubClass obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestObject_Notifying_SubClass obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -483,34 +483,34 @@ namespace Noggolloquy.Tests
                     obj.NewField_Property.Unset(cmds);
                     break;
                 default:
-                    TestObjectCommon.UnsetNthObject(index, obj);
+                    TestObject_NotifyingCommon.UnsetNthObject(index, obj);
                     break;
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_SubClass obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_Notifying_SubClass obj)
         {
             switch (index)
             {
                 case 46:
                     return obj.NewField_Property.HasBeenSet;
                 default:
-                    return TestObjectCommon.GetNthObjectHasBeenSet(index, obj);
+                    return TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, obj);
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObject_SubClassGetter obj)
+        public static object GetNthObject(ushort index, ITestObject_Notifying_SubClassGetter obj)
         {
             switch (index)
             {
                 case 46:
                     return obj.NewField;
                 default:
-                    return TestObjectCommon.GetNthObject(index, obj);
+                    return TestObject_NotifyingCommon.GetNthObject(index, obj);
             }
         }
 
-        public static void SetNthObject(ushort index, ITestObject_SubClass nog, object obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObject(ushort index, ITestObject_Notifying_SubClass nog, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -520,17 +520,17 @@ namespace Noggolloquy.Tests
                         cmds);
                     break;
                 default:
-                    TestObjectCommon.SetNthObject(index, nog, obj);
+                    TestObject_NotifyingCommon.SetNthObject(index, nog, obj);
                     break;
             }
         }
 
     }
-    public static class TestObject_SubClassExt
+    public static class TestObject_Notifying_SubClassExt
     {
-        public static TestObject_SubClass Copy_ToNoggolloquy(this ITestObject_SubClassGetter item)
+        public static TestObject_Notifying_SubClass Copy_ToNoggolloquy(this ITestObject_Notifying_SubClassGetter item)
         {
-            return TestObject_SubClass.Copy(item, def: null);
+            return TestObject_Notifying_SubClass.Copy(item, def: null);
         }
 
     }
@@ -541,12 +541,12 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Mask
-    public class TestObject_SubClass_Mask<T>  : TestObject_Mask<T>
+    public class TestObject_Notifying_SubClass_Mask<T>  : TestObject_Notifying_Mask<T>
     {
         public T NewField;
     }
 
-    public class TestObject_SubClass_ErrorMask : TestObject_ErrorMask
+    public class TestObject_Notifying_SubClass_ErrorMask : TestObject_Notifying_ErrorMask
     {
         public Exception NewField;
 
