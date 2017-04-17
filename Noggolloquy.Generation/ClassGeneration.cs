@@ -103,9 +103,8 @@ namespace Noggolloquy.Generation
 
         protected override void GenerateEqualsCode(FileGeneration fg)
         {
-            fg.AppendLine($"{this.ObjectName} rhs = obj as {this.ObjectName};");
-            fg.AppendLine("if (rhs == null) return false;");
-            fg.AppendLine("return Equals(obj);");
+            fg.AppendLine($"if (!(obj is {this.ObjectName} rhs)) return false;");
+            fg.AppendLine("return Equals(rhs);");
         }
 
         protected override void GenerateCtor(FileGeneration fg)

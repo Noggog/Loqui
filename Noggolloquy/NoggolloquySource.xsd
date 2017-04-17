@@ -286,7 +286,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BaseGeneric" type="Generic" minOccurs="0" maxOccurs="unbounded" >
+      <xs:element name="BaseGeneric" type="DefinedBaseGeneric" minOccurs="0" maxOccurs="unbounded" >
         <xs:annotation>
           <xs:documentation>
             Define a generic symbol from the base class.  To be used when base class has generics.
@@ -420,6 +420,31 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string" use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          Generic symbol to use.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="DefinedBaseGeneric">
+    <xs:annotation>
+      <xs:documentation>
+        A definition of a generic symbol.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="1">
+      <xs:element name="Where" type="xs:string" minOccurs="1" maxOccurs="unbounded" >
+        <xs:annotation>
+          <xs:documentation>
+            Any extra "where" definitions that the generic needs to follow
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Defined" type="xs:string" minOccurs="1" maxOccurs="1" />
     </xs:choice>
     <xs:attribute name="name" type="xs:string" use="required" >
       <xs:annotation>

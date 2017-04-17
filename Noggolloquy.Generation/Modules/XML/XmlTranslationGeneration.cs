@@ -44,7 +44,7 @@ namespace Noggolloquy.Generation
 
             if (!obj.Abstract)
             {
-                fg.AppendLine($"public static {obj.ObjectName} CreateFromXML(XElement root)");
+                fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} CreateFromXML(XElement root)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {obj.ObjectName}();");

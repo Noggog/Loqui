@@ -579,9 +579,8 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            TestObject rhs = obj as TestObject;
-            if (rhs == null) return false;
-            return Equals(obj);
+            if (!(obj is TestObject rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestObject rhs)
@@ -637,6 +636,52 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             return 
             HashHelper.GetHashCode(BoolN)
             .CombineHashCode(HashHelper.GetHashCode(Bool))

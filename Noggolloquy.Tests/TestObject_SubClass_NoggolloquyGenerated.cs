@@ -23,7 +23,7 @@ namespace Noggolloquy.Tests
     public partial class TestObject_SubClass : TestObject, ITestObject_SubClass, INoggolloquyObjectSetter, IEquatable<TestObject_SubClass>
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_SubClass_Registration.Instance;
-        public static TestObject_SubClass_Registration Registration => TestObject_SubClass_Registration.Instance;
+        public new static TestObject_SubClass_Registration Registration => TestObject_SubClass_Registration.Instance;
 
         public TestObject_SubClass()
         {
@@ -84,21 +84,22 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            TestObject_SubClass rhs = obj as TestObject_SubClass;
-            if (rhs == null) return false;
-            return Equals(obj);
+            if (!(obj is TestObject_SubClass rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestObject_SubClass rhs)
         {
             if (!object.Equals(this.NewField, rhs.NewField)) return false;
-            return true;
+            return base.Equals(rhs);
         }
 
         public override int GetHashCode()
         {
+            
             return 
             HashHelper.GetHashCode(NewField)
+            .CombineHashCode(base.GetHashCode())
             ;
         }
 
@@ -152,7 +153,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public static TestObject_SubClass CreateFromXML(XElement root)
+        public new static TestObject_SubClass CreateFromXML(XElement root)
         {
             var ret = new TestObject_SubClass();
             NoggXmlTranslation<TestObject_SubClass, TestObject_SubClass_ErrorMask>.Instance.CopyIn(
@@ -241,7 +242,7 @@ namespace Noggolloquy.Tests
             this.NewField_Property.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public new static TestObject_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_SubClass();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);

@@ -46,6 +46,7 @@ namespace Noggolloquy.Generation
         public string Getter_InterfaceStr => this.Getter_InterfaceStr_NoGenerics + GenericTypes;
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
         public string BaseGenericTypes { get; private set; }
+        public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
 
         public string ExtCommonName(string genericTypes) => $"{Name}Common{genericTypes}";
 
@@ -199,6 +200,19 @@ namespace Noggolloquy.Generation
             {
                 throw new ArgumentException();
             }
+        }
+
+        public bool HasKeyField()
+        {
+            foreach (var field in this.Fields)
+            {
+                if (field.KeyField) return true;
+            }
+            if (this.HasBaseObject)
+            {
+                return this.BaseClass.HasKeyField();
+            }
+            return false;
         }
 
         protected string GenerateGenericClause(IEnumerable<string> keys)
@@ -401,11 +415,11 @@ namespace Noggolloquy.Generation
 
                     if (this.Generics.Count == 0)
                     {
-                        GenerateGetNthType(fg);
+                        GenerateGetNthType(fg, false);
                     }
                     else
                     {
-                        fg.AppendLine("public Type GetNthType(ushort index) => throw new ArgumentException(\"Cannot get nth type for a generic object here.  Use generic registration instead.\");");
+                        fg.AppendLine("public static Type GetNthType(ushort index) => throw new ArgumentException(\"Cannot get nth type for a generic object here.  Use generic registration instead.\");");
                         fg.AppendLine();
                     }
 
@@ -444,7 +458,7 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"public static readonly {this.RegistrationName}{this.GenericTypes} GenericInstance = new {this.RegistrationName}{this.GenericTypes}();");
                         fg.AppendLine();
 
-                        GenerateGetNthType(fg);
+                        GenerateGetNthType(fg, true);
                     }
                 }
             }
@@ -543,7 +557,7 @@ namespace Noggolloquy.Generation
         protected void GenerateRegrationRouting(FileGeneration fg)
         {
             fg.AppendLine($"INoggolloquyRegistration INoggolloquyObject.Registration => {this.RegistrationName}.Instance;");
-            fg.AppendLine($"public static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
+            fg.AppendLine($"public{NewOverride}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine();
         }
 
@@ -928,9 +942,9 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        private void GenerateGetNthType(FileGeneration fg)
+        private void GenerateGetNthType(FileGeneration fg, bool generic)
         {
-            fg.AppendLine($"public static Type GetNthType(ushort index)");
+            fg.AppendLine($"public{(generic ? " new " : " ")}static Type GetNthType(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -1098,16 +1112,6 @@ namespace Noggolloquy.Generation
             {
                 using (new RegionWrapper(fg, "Equals and Hash"))
                 {
-                    bool hasKeyField = false;
-                    foreach (var field in this.Fields)
-                    {
-                        if (field.KeyField)
-                        {
-                            hasKeyField = true;
-                            break;
-                        }
-                    }
-
                     fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
@@ -1120,42 +1124,62 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var field in Fields)
                         {
-                            if (!hasKeyField || field.KeyField)
+                            if (!HasKeyField() || field.KeyField)
                             {
                                 fg.AppendLine($"if (!object.Equals(this.{field.Name}, rhs.{field.Name})) return false;");
                             }
                         }
-                        fg.AppendLine("return true;");
+                        if (this.HasBaseObject)
+                        {
+                            fg.AppendLine($"return base.Equals(rhs);");
+                        }
+                        else
+                        {
+                            fg.AppendLine("return true;");
+                        }
                     }
                     fg.AppendLine();
 
-                    if (Fields.Count != 0)
+                    if (Fields.Count != 0 || this.HasBaseObject)
                     {
                         fg.AppendLine("public override int GetHashCode()");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine("return ");
-                            bool first = true;
+                            List<string> hashItems = new List<string>();
                             foreach (var field in Fields)
                             {
-                                if (!hasKeyField || field.KeyField)
+                                if (!HasKeyField() || field.KeyField)
                                 {
                                     using (new LineWrapper(fg))
                                     {
-                                        if (!first)
-                                        {
-                                            fg.Append(".CombineHashCode(");
-                                        }
-                                        fg.Append($"HashHelper.GetHashCode({field.Name})");
+                                        hashItems.Add($"HashHelper.GetHashCode({field.Name})");
+                                    }
+                                }
+                            }
+                            if (this.HasBaseObject)
+                            {
+                                hashItems.Add($"base.GetHashCode()");
+                            }
 
-                                        if (first)
-                                        {
-                                            first = false;
-                                        }
-                                        else
-                                        {
-                                            fg.Append(")");
-                                        }
+                            fg.AppendLine("return ");
+                            bool first = true;
+                            foreach (var item in hashItems)
+                            {
+                                using (new LineWrapper(fg))
+                                {
+                                    if (!first)
+                                    {
+                                        fg.Append(".CombineHashCode(");
+                                    }
+                                    fg.Append(item);
+
+                                    if (first)
+                                    {
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        fg.Append(")");
                                     }
                                 }
                             }
@@ -1357,7 +1381,7 @@ namespace Noggolloquy.Generation
         {
             if (!this.Abstract)
             {
-                fg.AppendLine($"public static {this.ObjectName} {Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
+                fg.AppendLine($"public{this.NewOverride}static {this.ObjectName} {Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {this.ObjectName}();");

@@ -95,9 +95,8 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            ObjectToRef rhs = obj as ObjectToRef;
-            if (rhs == null) return false;
-            return Equals(obj);
+            if (!(obj is ObjectToRef rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(ObjectToRef rhs)
@@ -109,6 +108,8 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
+            
+            
             return 
             HashHelper.GetHashCode(KeyField)
             .CombineHashCode(HashHelper.GetHashCode(SomeField))

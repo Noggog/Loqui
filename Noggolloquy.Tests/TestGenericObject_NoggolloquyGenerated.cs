@@ -43,18 +43,18 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => TestGenericObjectCommon<T, R>.GetNthObject(index, this);
+        public virtual object GetNthObject(ushort index) => TestGenericObjectCommon<T, R>.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
+        public virtual bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(index, this, obj, cmds);
+        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(index, this, obj, cmds);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(index, this, cmds);
+        public virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public void SetNthObjectHasBeenSet(ushort index, bool on)
+        public virtual void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestGenericObjectCommon<T, R>.SetNthObjectHasBeenSet(index, on, this);
         }
@@ -83,9 +83,8 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            TestGenericObject<T, R> rhs = obj as TestGenericObject<T, R>;
-            if (rhs == null) return false;
-            return Equals(obj);
+            if (!(obj is TestGenericObject<T, R> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestGenericObject<T, R> rhs)
@@ -96,6 +95,7 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
+            
             return 
             HashHelper.GetHashCode(Ref)
             ;
@@ -177,7 +177,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -219,7 +219,7 @@ namespace Noggolloquy.Tests
                 mask: out errorMask);
         }
 
-        public void WriteXML(XmlWriter writer, string name)
+        public virtual void WriteXML(XmlWriter writer, string name)
         {
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -229,7 +229,7 @@ namespace Noggolloquy.Tests
                 mask: out TestGenericObject_ErrorMask errorMask);
         }
 
-        public void WriteXML(XmlWriter writer)
+        public virtual void WriteXML(XmlWriter writer)
         {
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -247,7 +247,7 @@ namespace Noggolloquy.Tests
             this.CopyFieldsFrom_Generic(rhs, def, cmds);
         }
 
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
+        protected virtual void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
             if (rhs is TestGenericObject<T, R> rhsCast)
             {
@@ -269,7 +269,7 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        public virtual void Clear(NotifyingUnsetParameters? cmds = null)
         {
             ClearPartial(cmds);
             this.Ref_Property.Unset(cmds.ToUnsetParams());
@@ -424,7 +424,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
+        public static Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
 
         #region Interface
         ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
@@ -454,7 +454,7 @@ namespace Noggolloquy.Tests
     {
         public static readonly TestGenericObject_Registration<T, R> GenericInstance = new TestGenericObject_Registration<T, R>();
 
-        public static Type GetNthType(ushort index)
+        public new static Type GetNthType(ushort index)
         {
             switch (index)
             {
@@ -631,7 +631,7 @@ namespace Noggolloquy.Tests
         }
         public MaskItem<Exception, object> Ref;
 
-        public void SetNthException(ushort index, Exception ex)
+        public virtual void SetNthException(ushort index, Exception ex)
         {
             switch (index)
             {
@@ -643,7 +643,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public virtual void SetNthMask(ushort index, object obj)
         {
             switch (index)
             {
