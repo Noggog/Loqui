@@ -43,7 +43,7 @@ namespace Noggolloquy.Generation
         {
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
-            _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", true);
+            _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", false);
             
             this.Interfaces.Add($"INoggolloquyObjectSetter");
 

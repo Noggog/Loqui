@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
   <Protocol ProtocolID="1" />
-  <Object name="TestGenericObject_SubClass" baseClass="TestGenericObject" GUID="dfe7e700-e6c2-4772-9965-80cd875e7a21" ID="6">
+  <Object name="TestGenericObject_SubClass" notifyingDefault="true" baseClass="TestGenericObject" GUID="dfe7e700-e6c2-4772-9965-80cd875e7a21" ID="6">
     <BaseGeneric name="T">
       <Where>INoggolloquyObject</Where>
     </BaseGeneric>

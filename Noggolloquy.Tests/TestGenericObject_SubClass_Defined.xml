@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
   <Protocol ProtocolID="1" />
-  <Object name="TestGenericObject_SubClass_Defined" baseClass="TestGenericObject" GUID="c919b3b2-83e7-400a-8516-50048e9ab51f" ID="5">
+  <Object name="TestGenericObject_SubClass_Defined" notifyingDefault="true" baseClass="TestGenericObject" GUID="c919b3b2-83e7-400a-8516-50048e9ab51f" ID="5">
     <BaseGeneric name="T">
       <Defined>long</Defined>
     </BaseGeneric>
