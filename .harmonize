@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>3882473f2a064012d0d30fab3552a7346a5c2616</Sha>
-      <Description>IHasBeenSet.SetHasBeenSet removed.   INotifyingKeyedCollection refactored to hopefully reduce definition conflict</Description>
+      <Sha>a74dde1aba66dd38c71445b7586f341d2a7505a0</Sha>
+      <Description>Added rerouting harmonize hook to repo</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-13-2017 21:21:14</CommitDate>
+      <CommitDate>04-18-2017 17:43:00</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>
