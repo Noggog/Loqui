@@ -4686,21 +4686,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    if (rhs.Ref == null)
-                    {
-                        item.Ref = null;
-                    }
-                    else
-                    {
-                        if (item.Ref == null)
-                        {
-                            item.Ref = (ObjectToRef)INoggolloquyObjectExt.Copy(rhs.Ref);
-                        }
-                        else
-                        {
-                            item.Ref.CopyFieldsFrom(rhs.Ref, def: def?.Ref, cmds: cmds);
-                        }
-                    }
+                    item.Ref_Property.Set(rhs.Ref, cmds: cmds);
                 }
                 else
                 {
@@ -4710,21 +4696,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        if (rhs.Ref == null)
-                        {
-                            item.Ref = null;
-                        }
-                        else
-                        {
-                            if (item.Ref == null)
-                            {
-                                item.Ref = (ObjectToRef)INoggolloquyObjectExt.Copy(def.Ref);
-                            }
-                            else
-                            {
-                                item.Ref.CopyFieldsFrom(def.Ref, null, cmds: cmds);
-                            }
-                        }
+                        item.Ref_Property.Set(def.Ref, cmds: cmds);
                     }
                 }
 
@@ -4740,21 +4712,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefGetter_Property.HasBeenSet)
                 {
-                    if (rhs.RefGetter == null)
-                    {
-                        item.RefGetter = null;
-                    }
-                    else
-                    {
-                        if (item.RefGetter == null)
-                        {
-                            item.RefGetter = (IObjectToRefGetter)INoggolloquyObjectExt.Copy(rhs.RefGetter);
-                        }
-                        else
-                        {
-                            item.RefGetter.CopyFieldsFrom(rhs.RefGetter, def: def?.RefGetter, cmds: cmds);
-                        }
-                    }
+                    item.RefGetter_Property.Set(rhs.RefGetter, cmds: cmds);
                 }
                 else
                 {
@@ -4764,21 +4722,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        if (rhs.RefGetter == null)
-                        {
-                            item.RefGetter = null;
-                        }
-                        else
-                        {
-                            if (item.RefGetter == null)
-                            {
-                                item.RefGetter = (IObjectToRefGetter)INoggolloquyObjectExt.Copy(def.RefGetter);
-                            }
-                            else
-                            {
-                                item.RefGetter.CopyFieldsFrom(def.RefGetter, null, cmds: cmds);
-                            }
-                        }
+                        item.RefGetter_Property.Set(def.RefGetter, cmds: cmds);
                     }
                 }
 
@@ -4794,21 +4738,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefSetter_Property.HasBeenSet)
                 {
-                    if (rhs.RefSetter == null)
-                    {
-                        item.RefSetter = null;
-                    }
-                    else
-                    {
-                        if (item.RefSetter == null)
-                        {
-                            item.RefSetter = (IObjectToRef)INoggolloquyObjectExt.Copy(rhs.RefSetter);
-                        }
-                        else
-                        {
-                            item.RefSetter.CopyFieldsFrom(rhs.RefSetter, def: def?.RefSetter, cmds: cmds);
-                        }
-                    }
+                    item.RefSetter_Property.Set(rhs.RefSetter, cmds: cmds);
                 }
                 else
                 {
@@ -4818,21 +4748,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        if (rhs.RefSetter == null)
-                        {
-                            item.RefSetter = null;
-                        }
-                        else
-                        {
-                            if (item.RefSetter == null)
-                            {
-                                item.RefSetter = (IObjectToRef)INoggolloquyObjectExt.Copy(def.RefSetter);
-                            }
-                            else
-                            {
-                                item.RefSetter.CopyFieldsFrom(def.RefSetter, null, cmds: cmds);
-                            }
-                        }
+                        item.RefSetter_Property.Set(def.RefSetter, cmds: cmds);
                     }
                 }
 

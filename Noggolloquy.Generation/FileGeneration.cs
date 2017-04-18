@@ -12,7 +12,7 @@ namespace Noggolloquy.Generation
 
         public void Append(string str)
         {
-            if (str.Contains("INoggolloquySerializer<LayoutModBase_ErrorMask>"))
+            if (str.Contains("item.RefSetter.CopyFieldsFrom"))
             {
                 int wer = 23;
                 wer++;
@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("new INotifyingItem<ObjectToRef> RefGetter_Property { get; }"))
+            if (str.Contains("item.RefSetter.CopyFieldsFrom"))
             {
                 int wer = 23;
                 wer++;

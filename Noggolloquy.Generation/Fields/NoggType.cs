@@ -205,38 +205,7 @@ namespace Noggolloquy.Generation
             if (this.RefType == NoggRefType.Generic
                 || RefGen.Obj is ClassGeneration)
             {
-                fg.AppendLine($"if (rhs.{this.Name} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name} = null;");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"if ({accessorPrefix}.{this.Name} == null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"{accessorPrefix}.{this.Name} = ({this.TypeName})INoggolloquyObjectExt.Copy({rhsAccessorPrefix}.{this.Name});");
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        using (new LineWrapper(fg))
-                        {
-                            fg.Append($"{accessorPrefix}.{this.Name}.CopyFieldsFrom({rhsAccessorPrefix}.{this.Name}");
-                            if (defaultAccessorPrefix != null)
-                            {
-                                fg.Append($", def: {defaultAccessorPrefix}?.{this.Name}");
-                            }
-                            else
-                            {
-                                fg.Append(", null");
-                            }
-                            fg.Append($", cmds: {cmdAccessor}");
-                            fg.Append(");");
-                        }
-                    }
-                }
+                fg.AppendLine($"{accessorPrefix}.{this.Property}.Set({rhsAccessorPrefix}.{this.Name}, cmds: {cmdAccessor});");
             }
             else if (RefGen.Obj is StructGeneration)
             {

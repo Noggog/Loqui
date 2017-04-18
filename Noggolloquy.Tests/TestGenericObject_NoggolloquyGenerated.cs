@@ -478,21 +478,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    if (rhs.Ref == null)
-                    {
-                        item.Ref = null;
-                    }
-                    else
-                    {
-                        if (item.Ref == null)
-                        {
-                            item.Ref = (R)INoggolloquyObjectExt.Copy(rhs.Ref);
-                        }
-                        else
-                        {
-                            item.Ref.CopyFieldsFrom(rhs.Ref, def: def?.Ref, cmds: cmds);
-                        }
-                    }
+                    item.Ref_Property.Set(rhs.Ref, cmds: cmds);
                 }
                 else
                 {
@@ -502,21 +488,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        if (rhs.Ref == null)
-                        {
-                            item.Ref = null;
-                        }
-                        else
-                        {
-                            if (item.Ref == null)
-                            {
-                                item.Ref = (R)INoggolloquyObjectExt.Copy(def.Ref);
-                            }
-                            else
-                            {
-                                item.Ref.CopyFieldsFrom(def.Ref, null, cmds: cmds);
-                            }
-                        }
+                        item.Ref_Property.Set(def.Ref, cmds: cmds);
                     }
                 }
 
