@@ -11,12 +11,24 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} {this.TypeName} _{this.Name};");
-                    fg.AppendLine($"public {(this.ReadOnly ? "readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name} = WildcardLink.Validate(value); }} ")}}}");
+                    fg.AppendLine($"private{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} _{this.Name};");
+                    fg.AppendLine($"public{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name} = WildcardLink.Validate(value); }} ")}}}");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     break;
                 case NotifyingOption.HasBeenSet:
-                    throw new NotImplementedException();
+                    if (this.ReadOnly)
+                    {
+                        fg.AppendLine("Gibberish");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg, notifying: false);
+                        fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter<T>" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"public{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name}.Value = WildcardLink.Validate(value); }} ")}}}");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetPropertyString(true)};");
+                    }
+                    break;
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
                     using (new DepthWrapper(fg))

@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>a74dde1aba66dd38c71445b7586f341d2a7505a0</Sha>
-      <Description>Added rerouting harmonize hook to repo</Description>
+      <Sha>cc6024f0144dd067a2b824ed40faf99696e61434</Sha>
+      <Description>IHasBeenSet API improvements</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-18-2017 17:43:00</CommitDate>
+      <CommitDate>04-19-2017 19:59:30</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

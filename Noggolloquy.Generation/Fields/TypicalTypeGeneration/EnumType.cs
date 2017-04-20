@@ -11,9 +11,9 @@ namespace Noggolloquy.Generation
 
         public override string TypeName => EnumName; 
 
-        protected override void GenerateNotifyingCtor(FileGeneration fg)
+        protected override void GenerateNotifyingCtor(FileGeneration fg, bool notifying)
         {
-            fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItem<{TypeName}>(");
+            fg.AppendLine($"protected readonly {(notifying ? "INotifyingItem" : "IHasBeenSetItem")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSetItem")}<{TypeName}>(");
             using (new DepthWrapper(fg))
             {
                 if (!string.IsNullOrWhiteSpace(this.DefaultValue))

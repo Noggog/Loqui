@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("item.RefSetter.CopyFieldsFrom"))
+            if (str.Contains("IHasBeenSetItemGetter<T> RefSetter_Property { get; }"))
             {
                 int wer = 23;
                 wer++;

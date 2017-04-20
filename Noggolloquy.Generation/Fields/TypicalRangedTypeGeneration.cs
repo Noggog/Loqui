@@ -18,11 +18,11 @@ namespace Noggolloquy.Generation
             RangeThrowException = node.GetAttribute<bool>("rangeThrowException", false);
         }
 
-        protected override void GenerateNotifyingCtor(FileGeneration fg)
+        protected override void GenerateNotifyingCtor(FileGeneration fg, bool notifying)
         {
             if (HasRange)
             {
-                fg.AppendLine($"protected INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
+                fg.AppendLine($"protected {(notifying ? "INotifyingItem" : "IHasBeenSet")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSet")}ConvertWrapper<{TypeName}>(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine("(change) =>");

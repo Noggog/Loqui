@@ -76,6 +76,9 @@
       <Compile Include="TestGenericObject_SubClass_NoggolloquyGenerated.cs">
          <DependentUpon>TestGenericObject_SubClass.xml</DependentUpon>
       </Compile>
+      <Compile Include="TestObject_HasBeenSet_NoggolloquyGenerated.cs">
+         <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
+      </Compile>
       <Compile Include="TestObject_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject.xml</DependentUpon>
       </Compile>
@@ -149,6 +152,9 @@
          <SubType>Designer</SubType>
       </Content>
       <Content Include="TestGenericObject.xml">
+         <SubType>Designer</SubType>
+      </Content>
+      <Content Include="TestObject_HasBeenSet.xml">
          <SubType>Designer</SubType>
       </Content>
       <Content Include="TestObject.xml">

@@ -33,8 +33,7 @@ namespace Noggolloquy.Tests
         #region NewField
         protected readonly INotifyingItem<Boolean> _NewField = new NotifyingItem<Boolean>(
             default(Boolean),
-            markAsSet: false
-        );
+            markAsSet: false);
         public INotifyingItem<Boolean> NewField_Property => _NewField;
         public Boolean NewField { get { return _NewField.Value; } set { _NewField.Value = value; } }
         INotifyingItem<Boolean> ITestObject_Notifying_SubClass.NewField_Property => this.NewField_Property;

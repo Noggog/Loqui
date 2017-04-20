@@ -21,188 +21,437 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject : ITestObject, INoggolloquyObjectSetter, IEquatable<TestObject>
+    public partial class TestObject_HasBeenSet : ITestObject_HasBeenSet, INoggolloquyObjectSetter, IEquatable<TestObject_HasBeenSet>
     {
-        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Registration.Instance;
-        public static TestObject_Registration Registration => TestObject_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_HasBeenSet_Registration.Instance;
+        public static TestObject_HasBeenSet_Registration Registration => TestObject_HasBeenSet_Registration.Instance;
 
-        public TestObject()
+        public TestObject_HasBeenSet()
         {
             CustomCtor();
         }
         partial void CustomCtor();
         #region BoolN
-        public Boolean? BoolN { get; set; }
+        protected readonly IHasBeenSetItem<Boolean?> _BoolN = new HasBeenSetItem<Boolean?>(
+            default(Boolean?),
+            markAsSet: false);
+        public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
+        public Boolean? BoolN { get { return this._BoolN.Value; } set { this._BoolN.Set(value); } }
+        Boolean? ITestObject_HasBeenSetGetter.BoolN => this.BoolN;
+        IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
 
         #region Bool
-        public Boolean Bool { get; set; }
+        protected readonly IHasBeenSetItem<Boolean> _Bool = new HasBeenSetItem<Boolean>(
+            default(Boolean),
+            markAsSet: false);
+        public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
+        public Boolean Bool { get { return this._Bool.Value; } set { this._Bool.Set(value); } }
+        Boolean ITestObject_HasBeenSetGetter.Bool => this.Bool;
+        IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
 
         #region CharN
-        public Char? CharN { get; set; }
+        protected readonly IHasBeenSetItem<Char?> _CharN = new HasBeenSetItem<Char?>(
+            default(Char?),
+            markAsSet: false);
+        public IHasBeenSetItem<Char?> CharN_Property => _CharN;
+        public Char? CharN { get { return this._CharN.Value; } set { this._CharN.Set(value); } }
+        Char? ITestObject_HasBeenSetGetter.CharN => this.CharN;
+        IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
 
         #region Char
-        public Char Char { get; set; }
+        protected readonly IHasBeenSetItem<Char> _Char = new HasBeenSetItem<Char>(
+            default(Char),
+            markAsSet: false);
+        public IHasBeenSetItem<Char> Char_Property => _Char;
+        public Char Char { get { return this._Char.Value; } set { this._Char.Set(value); } }
+        Char ITestObject_HasBeenSetGetter.Char => this.Char;
+        IHasBeenSetItemGetter<Char> ITestObject_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
 
         #region DoubleN
-        public Double? DoubleN { get; set; }
+        protected readonly INotifyingItem<Double?> _DoubleN = new NotifyingItem<Double?>(
+            default(Double?),
+            markAsSet: false);
+        public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
+        public Double? DoubleN { get { return this._DoubleN.Value; } set { this._DoubleN.Set(value); } }
+        Double? ITestObject_HasBeenSetGetter.DoubleN => this.DoubleN;
+        IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
 
         #region Double
-        public Double Double { get; set; }
+        protected readonly INotifyingItem<Double> _Double = new NotifyingItem<Double>(
+            default(Double),
+            markAsSet: false);
+        public IHasBeenSetItem<Double> Double_Property => _Double;
+        public Double Double { get { return this._Double.Value; } set { this._Double.Set(value); } }
+        Double ITestObject_HasBeenSetGetter.Double => this.Double;
+        IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
 
         #region FloatN
-        public Single? FloatN { get; set; }
+        protected readonly INotifyingItem<Single?> _FloatN = new NotifyingItem<Single?>(
+            default(Single?),
+            markAsSet: false);
+        public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
+        public Single? FloatN { get { return this._FloatN.Value; } set { this._FloatN.Set(value); } }
+        Single? ITestObject_HasBeenSetGetter.FloatN => this.FloatN;
+        IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
 
         #region Float
-        public Single Float { get; set; }
+        protected readonly INotifyingItem<Single> _Float = new NotifyingItem<Single>(
+            default(Single),
+            markAsSet: false);
+        public IHasBeenSetItem<Single> Float_Property => _Float;
+        public Single Float { get { return this._Float.Value; } set { this._Float.Set(value); } }
+        Single ITestObject_HasBeenSetGetter.Float => this.Float;
+        IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
 
         #region Int16N
-        public Int16? Int16N { get; set; }
+        protected readonly INotifyingItem<Int16?> _Int16N = new NotifyingItem<Int16?>(
+            default(Int16?),
+            markAsSet: false);
+        public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
+        public Int16? Int16N { get { return this._Int16N.Value; } set { this._Int16N.Set(value); } }
+        Int16? ITestObject_HasBeenSetGetter.Int16N => this.Int16N;
+        IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
 
         #region Int16
-        public Int16 Int16 { get; set; }
+        protected readonly INotifyingItem<Int16> _Int16 = new NotifyingItem<Int16>(
+            default(Int16),
+            markAsSet: false);
+        public IHasBeenSetItem<Int16> Int16_Property => _Int16;
+        public Int16 Int16 { get { return this._Int16.Value; } set { this._Int16.Set(value); } }
+        Int16 ITestObject_HasBeenSetGetter.Int16 => this.Int16;
+        IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
 
         #region Int32N
-        public Int32? Int32N { get; set; }
+        protected readonly INotifyingItem<Int32?> _Int32N = new NotifyingItem<Int32?>(
+            default(Int32?),
+            markAsSet: false);
+        public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
+        public Int32? Int32N { get { return this._Int32N.Value; } set { this._Int32N.Set(value); } }
+        Int32? ITestObject_HasBeenSetGetter.Int32N => this.Int32N;
+        IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
 
         #region Int32
-        public Int32 Int32 { get; set; }
+        protected readonly INotifyingItem<Int32> _Int32 = new NotifyingItem<Int32>(
+            default(Int32),
+            markAsSet: false);
+        public IHasBeenSetItem<Int32> Int32_Property => _Int32;
+        public Int32 Int32 { get { return this._Int32.Value; } set { this._Int32.Set(value); } }
+        Int32 ITestObject_HasBeenSetGetter.Int32 => this.Int32;
+        IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
 
         #region Int64N
-        public Int64? Int64N { get; set; }
+        protected readonly INotifyingItem<Int64?> _Int64N = new NotifyingItem<Int64?>(
+            default(Int64?),
+            markAsSet: false);
+        public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
+        public Int64? Int64N { get { return this._Int64N.Value; } set { this._Int64N.Set(value); } }
+        Int64? ITestObject_HasBeenSetGetter.Int64N => this.Int64N;
+        IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
 
         #region Int64
-        public Int64 Int64 { get; set; }
+        protected readonly INotifyingItem<Int64> _Int64 = new NotifyingItem<Int64>(
+            default(Int64),
+            markAsSet: false);
+        public IHasBeenSetItem<Int64> Int64_Property => _Int64;
+        public Int64 Int64 { get { return this._Int64.Value; } set { this._Int64.Set(value); } }
+        Int64 ITestObject_HasBeenSetGetter.Int64 => this.Int64;
+        IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
 
         #region Int8N
-        public SByte? Int8N { get; set; }
+        protected readonly INotifyingItem<SByte?> _Int8N = new NotifyingItem<SByte?>(
+            default(SByte?),
+            markAsSet: false);
+        public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
+        public SByte? Int8N { get { return this._Int8N.Value; } set { this._Int8N.Set(value); } }
+        SByte? ITestObject_HasBeenSetGetter.Int8N => this.Int8N;
+        IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
 
         #region Int8
-        public SByte Int8 { get; set; }
+        protected readonly INotifyingItem<SByte> _Int8 = new NotifyingItem<SByte>(
+            default(SByte),
+            markAsSet: false);
+        public IHasBeenSetItem<SByte> Int8_Property => _Int8;
+        public SByte Int8 { get { return this._Int8.Value; } set { this._Int8.Set(value); } }
+        SByte ITestObject_HasBeenSetGetter.Int8 => this.Int8;
+        IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
 
         #region Unsafe
-        public bool Unsafe { get; set; }
+        protected readonly IHasBeenSetItem<bool> _Unsafe = new HasBeenSetItem<bool>(
+            default(bool),
+            markAsSet: false);
+        public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
+        public bool Unsafe { get { return this._Unsafe.Value; } set { this._Unsafe.Set(value); } }
+        bool ITestObject_HasBeenSetGetter.Unsafe => this.Unsafe;
+        IHasBeenSetItemGetter<bool> ITestObject_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
 
         #region P2IntN
-        public P2Int? P2IntN { get; set; }
+        protected readonly IHasBeenSetItem<P2Int?> _P2IntN = new HasBeenSetItem<P2Int?>(
+            default(P2Int?),
+            markAsSet: false);
+        public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
+        public P2Int? P2IntN { get { return this._P2IntN.Value; } set { this._P2IntN.Set(value); } }
+        P2Int? ITestObject_HasBeenSetGetter.P2IntN => this.P2IntN;
+        IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
 
         #region P2Int
-        public P2Int P2Int { get; set; }
+        protected readonly IHasBeenSetItem<P2Int> _P2Int = new HasBeenSetItem<P2Int>(
+            default(P2Int),
+            markAsSet: false);
+        public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
+        public P2Int P2Int { get { return this._P2Int.Value; } set { this._P2Int.Set(value); } }
+        P2Int ITestObject_HasBeenSetGetter.P2Int => this.P2Int;
+        IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
 
         #region P3DoubleN
-        public P3Double? P3DoubleN { get; set; }
+        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = new HasBeenSetItem<P3Double?>(
+            default(P3Double?),
+            markAsSet: false);
+        public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        public P3Double? P3DoubleN { get { return this._P3DoubleN.Value; } set { this._P3DoubleN.Set(value); } }
+        P3Double? ITestObject_HasBeenSetGetter.P3DoubleN => this.P3DoubleN;
+        IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
 
         #region P3Double
-        public P3Double P3Double { get; set; }
+        protected readonly IHasBeenSetItem<P3Double> _P3Double = new HasBeenSetItem<P3Double>(
+            default(P3Double),
+            markAsSet: false);
+        public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
+        public P3Double P3Double { get { return this._P3Double.Value; } set { this._P3Double.Set(value); } }
+        P3Double ITestObject_HasBeenSetGetter.P3Double => this.P3Double;
+        IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
 
         #region P3IntN
-        public P3Int? P3IntN { get; set; }
+        protected readonly IHasBeenSetItem<P3Int?> _P3IntN = new HasBeenSetItem<P3Int?>(
+            default(P3Int?),
+            markAsSet: false);
+        public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
+        public P3Int? P3IntN { get { return this._P3IntN.Value; } set { this._P3IntN.Set(value); } }
+        P3Int? ITestObject_HasBeenSetGetter.P3IntN => this.P3IntN;
+        IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
 
         #region P3Int
-        public P3Int P3Int { get; set; }
+        protected readonly IHasBeenSetItem<P3Int> _P3Int = new HasBeenSetItem<P3Int>(
+            default(P3Int),
+            markAsSet: false);
+        public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
+        public P3Int P3Int { get { return this._P3Int.Value; } set { this._P3Int.Set(value); } }
+        P3Int ITestObject_HasBeenSetGetter.P3Int => this.P3Int;
+        IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
 
         #region PercentN
-        public Percent? PercentN { get; set; }
+        protected readonly INotifyingItem<Percent?> _PercentN = new NotifyingItem<Percent?>(
+            default(Percent?),
+            markAsSet: false);
+        public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
+        public Percent? PercentN { get { return this._PercentN.Value; } set { this._PercentN.Set(value); } }
+        Percent? ITestObject_HasBeenSetGetter.PercentN => this.PercentN;
+        IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
 
         #region Percent
-        public Percent Percent { get; set; }
+        protected readonly INotifyingItem<Percent> _Percent = new NotifyingItem<Percent>(
+            default(Percent),
+            markAsSet: false);
+        public IHasBeenSetItem<Percent> Percent_Property => _Percent;
+        public Percent Percent { get { return this._Percent.Value; } set { this._Percent.Set(value); } }
+        Percent ITestObject_HasBeenSetGetter.Percent => this.Percent;
+        IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
 
         #region RangeIntN
-        public RangeInt? RangeIntN { get; set; }
+        protected readonly INotifyingItem<RangeInt?> _RangeIntN = new NotifyingItem<RangeInt?>(
+            default(RangeInt?),
+            markAsSet: false);
+        public IHasBeenSetItem<RangeInt?> RangeIntN_Property => _RangeIntN;
+        public RangeInt? RangeIntN { get { return this._RangeIntN.Value; } set { this._RangeIntN.Set(value); } }
+        RangeInt? ITestObject_HasBeenSetGetter.RangeIntN => this.RangeIntN;
+        IHasBeenSetItemGetter<RangeInt?> ITestObject_HasBeenSetGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
 
         #region RangeInt
-        public RangeInt RangeInt { get; set; }
+        protected readonly INotifyingItem<RangeInt> _RangeInt = new NotifyingItem<RangeInt>(
+            default(RangeInt),
+            markAsSet: false);
+        public IHasBeenSetItem<RangeInt> RangeInt_Property => _RangeInt;
+        public RangeInt RangeInt { get { return this._RangeInt.Value; } set { this._RangeInt.Set(value); } }
+        RangeInt ITestObject_HasBeenSetGetter.RangeInt => this.RangeInt;
+        IHasBeenSetItemGetter<RangeInt> ITestObject_HasBeenSetGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
 
         #region String
-        public String String { get; set; }
+        protected readonly IHasBeenSetItem<String> _String = new HasBeenSetItem<String>(
+            default(String),
+            markAsSet: false);
+        public IHasBeenSetItem<String> String_Property => _String;
+        public String String { get { return this._String.Value; } set { this._String.Set(value); } }
+        String ITestObject_HasBeenSetGetter.String => this.String;
+        IHasBeenSetItemGetter<String> ITestObject_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
 
         #region UDoubleN
-        public UDouble? UDoubleN { get; set; }
+        protected readonly INotifyingItem<UDouble?> _UDoubleN = new NotifyingItem<UDouble?>(
+            default(UDouble?),
+            markAsSet: false);
+        public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
+        public UDouble? UDoubleN { get { return this._UDoubleN.Value; } set { this._UDoubleN.Set(value); } }
+        UDouble? ITestObject_HasBeenSetGetter.UDoubleN => this.UDoubleN;
+        IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
 
         #region UDouble
-        public UDouble UDouble { get; set; }
+        protected readonly INotifyingItem<UDouble> _UDouble = new NotifyingItem<UDouble>(
+            default(UDouble),
+            markAsSet: false);
+        public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
+        public UDouble UDouble { get { return this._UDouble.Value; } set { this._UDouble.Set(value); } }
+        UDouble ITestObject_HasBeenSetGetter.UDouble => this.UDouble;
+        IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
 
         #region UInt16N
-        public UInt16? UInt16N { get; set; }
+        protected readonly INotifyingItem<UInt16?> _UInt16N = new NotifyingItem<UInt16?>(
+            default(UInt16?),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
+        public UInt16? UInt16N { get { return this._UInt16N.Value; } set { this._UInt16N.Set(value); } }
+        UInt16? ITestObject_HasBeenSetGetter.UInt16N => this.UInt16N;
+        IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
 
         #region UInt16
-        public UInt16 UInt16 { get; set; }
+        protected readonly INotifyingItem<UInt16> _UInt16 = new NotifyingItem<UInt16>(
+            default(UInt16),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
+        public UInt16 UInt16 { get { return this._UInt16.Value; } set { this._UInt16.Set(value); } }
+        UInt16 ITestObject_HasBeenSetGetter.UInt16 => this.UInt16;
+        IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
 
         #region UInt32N
-        public UInt32? UInt32N { get; set; }
+        protected readonly INotifyingItem<UInt32?> _UInt32N = new NotifyingItem<UInt32?>(
+            default(UInt32?),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
+        public UInt32? UInt32N { get { return this._UInt32N.Value; } set { this._UInt32N.Set(value); } }
+        UInt32? ITestObject_HasBeenSetGetter.UInt32N => this.UInt32N;
+        IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
 
         #region UInt32
-        public UInt32 UInt32 { get; set; }
+        protected readonly INotifyingItem<UInt32> _UInt32 = new NotifyingItem<UInt32>(
+            default(UInt32),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
+        public UInt32 UInt32 { get { return this._UInt32.Value; } set { this._UInt32.Set(value); } }
+        UInt32 ITestObject_HasBeenSetGetter.UInt32 => this.UInt32;
+        IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
 
         #region UInt64N
-        public UInt64? UInt64N { get; set; }
+        protected readonly INotifyingItem<UInt64?> _UInt64N = new NotifyingItem<UInt64?>(
+            default(UInt64?),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
+        public UInt64? UInt64N { get { return this._UInt64N.Value; } set { this._UInt64N.Set(value); } }
+        UInt64? ITestObject_HasBeenSetGetter.UInt64N => this.UInt64N;
+        IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
 
         #region UInt64
-        public UInt64 UInt64 { get; set; }
+        protected readonly INotifyingItem<UInt64> _UInt64 = new NotifyingItem<UInt64>(
+            default(UInt64),
+            markAsSet: false);
+        public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
+        public UInt64 UInt64 { get { return this._UInt64.Value; } set { this._UInt64.Set(value); } }
+        UInt64 ITestObject_HasBeenSetGetter.UInt64 => this.UInt64;
+        IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
 
         #region UInt8N
-        public Byte? UInt8N { get; set; }
+        protected readonly INotifyingItem<Byte?> _UInt8N = new NotifyingItem<Byte?>(
+            default(Byte?),
+            markAsSet: false);
+        public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
+        public Byte? UInt8N { get { return this._UInt8N.Value; } set { this._UInt8N.Set(value); } }
+        Byte? ITestObject_HasBeenSetGetter.UInt8N => this.UInt8N;
+        IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
 
         #region UInt8
-        public Byte UInt8 { get; set; }
+        protected readonly INotifyingItem<Byte> _UInt8 = new NotifyingItem<Byte>(
+            default(Byte),
+            markAsSet: false);
+        public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
+        public Byte UInt8 { get { return this._UInt8.Value; } set { this._UInt8.Set(value); } }
+        Byte ITestObject_HasBeenSetGetter.UInt8 => this.UInt8;
+        IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
 
         #region Enum
-        public TestEnum Enum { get; set; }
+        protected readonly IHasBeenSetItem<TestEnum> _Enum = new HasBeenSetItem<TestEnum>(
+        );
+        public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
+        public TestEnum Enum { get { return this._Enum.Value; } set { this._Enum.Set(value); } }
+        TestEnum ITestObject_HasBeenSetGetter.Enum => this.Enum;
+        IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
 
         #region WildCard
-        private Object _WildCard;
-        public Object WildCard { get { return this._WildCard; } set { this._WildCard = WildcardLink.Validate(value); } }
-        Object ITestObjectGetter.WildCard => this.WildCard;
+        protected readonly IHasBeenSetItem<Object> _WildCard = new HasBeenSetItem<Object>(
+            default(Object),
+            markAsSet: false);
+        public IHasBeenSetItem<Object> WildCard_Property => _WildCard;
+        public Object WildCard { get { return this._WildCard; } set { this._WildCard.Value = WildcardLink.Validate(value); } }
+        Object ITestObject_HasBeenSetGetter.WildCard => this.WildCard;
+        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this._WildCard;
         #endregion
 
         #region Ref
-        public ObjectToRef Ref { get; set; }
+        private  HasBeenSetItem<ObjectToRef> _Ref = new HasBeenSetItem<ObjectToRef>();
+        public ObjectToRef Ref { get { return this._Ref.Item; } set { _Ref.Item = value; } }
+        public IHasBeenSetItem<ObjectToRef> Ref_Property => _Ref;
+        ObjectToRef ITestObject_HasBeenSetGetter.Ref => this._Ref.Item;
+        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Property => this._Ref;
         #endregion
 
         #region RefGetter
-        public IObjectToRefGetter RefGetter { get; set; }
+        private  HasBeenSetItem<IObjectToRefGetter> _RefGetter = new HasBeenSetItem<IObjectToRefGetter>();
+        public IObjectToRefGetter RefGetter { get { return this._RefGetter.Item; } set { _RefGetter.Item = value; } }
+        public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Property => _RefGetter;
+        IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter => this._RefGetter.Item;
+        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Property => this._RefGetter;
         #endregion
 
         #region RefSetter
-        public IObjectToRef RefSetter { get; set; }
+        private  HasBeenSetItem<IObjectToRef> _RefSetter = new HasBeenSetItem<IObjectToRef>();
+        public IObjectToRef RefSetter { get { return this._RefSetter.Item; } set { _RefSetter.Item = value; } }
+        public IHasBeenSetItem<IObjectToRef> RefSetter_Property => _RefSetter;
+        IObjectToRef ITestObject_HasBeenSetGetter.RefSetter => this._RefSetter.Item;
+        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Property => this._RefSetter;
         #endregion
 
         #region List
@@ -213,8 +462,8 @@ namespace Noggolloquy.Tests
         {
             return _List[index];
         }
-        INotifyingList<Boolean> ITestObject.List => _List;
-        INotifyingListGetter<Boolean> ITestObjectGetter.List => _List;
+        INotifyingList<Boolean> ITestObject_HasBeenSet.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_HasBeenSetGetter.List => _List;
         #endregion
         #endregion
 
@@ -226,12 +475,12 @@ namespace Noggolloquy.Tests
         {
             return _RefList[index];
         }
-        ObjectToRef ITestObjectGetter.GetNthRefList(int index)
+        ObjectToRef ITestObject_HasBeenSetGetter.GetNthRefList(int index)
         {
             return _RefList[index];
         }
-        INotifyingList<ObjectToRef> ITestObject.RefList => _RefList;
-        INotifyingListGetter<ObjectToRef> ITestObjectGetter.RefList => _RefList;
+        INotifyingList<ObjectToRef> ITestObject_HasBeenSet.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSetGetter.RefList => _RefList;
         #endregion
         #endregion
 
@@ -239,8 +488,8 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionary<Boolean, String> ITestObject.Dict => _Dict;
-        INotifyingDictionaryGetter<Boolean, String> ITestObjectGetter.Dict => _Dict;
+        INotifyingDictionary<Boolean, String> ITestObject_HasBeenSet.Dict => _Dict;
+        INotifyingDictionaryGetter<Boolean, String> ITestObject_HasBeenSetGetter.Dict => _Dict;
         #endregion
         #endregion
 
@@ -248,8 +497,8 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject.RefDict => _RefDict;
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObjectGetter.RefDict => _RefDict;
+        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_HasBeenSet.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_HasBeenSetGetter.RefDict => _RefDict;
         #endregion
         #endregion
 
@@ -257,40 +506,40 @@ namespace Noggolloquy.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject.DictKeyedValue => _DictKeyedValue;
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObjectGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject_HasBeenSet.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_HasBeenSetGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
         #endregion
 
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => TestObjectCommon.GetNthObject(index, this);
+        public object GetNthObject(ushort index) => TestObject_HasBeenSetCommon.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestObjectCommon.GetNthObjectHasBeenSet(index, this);
+        public bool GetNthObjectHasBeenSet(ushort index) => TestObject_HasBeenSetCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObjectCommon.SetNthObject(index, this, obj, cmds);
+        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObject_HasBeenSetCommon.SetNthObject(index, this, obj, cmds);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(index, this, cmds);
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_HasBeenSetCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObjectCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_HasBeenSetCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_HasBeenSetGetter rhs, ITestObject_HasBeenSetGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_HasBeenSetCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
         }
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, out TestObject_ErrorMask errorMask, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_HasBeenSetGetter rhs, out TestObject_HasBeenSet_ErrorMask errorMask, ITestObject_HasBeenSetGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_ErrorMask();
+            var retErrorMask = new TestObject_HasBeenSet_ErrorMask();
             errorMask = retErrorMask;
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_HasBeenSetCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
         }
 
         #endregion
@@ -305,11 +554,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject rhs)) return false;
+            if (!(obj is TestObject_HasBeenSet rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject rhs)
+        public bool Equals(TestObject_HasBeenSet rhs)
         {
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
@@ -467,23 +716,42 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Set To
-        public void SetTo(TestObject rhs, ITestObject def = null, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_HasBeenSet rhs, ITestObject_HasBeenSet def = null, NotifyingFireParameters? cmds = null)
         {
             SetTo_Internal(rhs, def, null, cmds);
         }
 
-        public void SetTo(TestObject rhs, ITestObject def, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_HasBeenSet rhs, ITestObject_HasBeenSet def, out TestObject_HasBeenSet_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_ErrorMask();
+            var retErrorMask = new TestObject_HasBeenSet_ErrorMask();
             errorMask = retErrorMask;
             SetTo_Internal(rhs, def, retErrorMask, cmds);
         }
 
-        private void SetTo_Internal(TestObject rhs, ITestObject def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        private void SetTo_Internal(TestObject_HasBeenSet rhs, ITestObject_HasBeenSet def, TestObject_HasBeenSet_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
             try
             {
-                this.BoolN = rhs.BoolN;
+                if (rhs.BoolN_Property.HasBeenSet)
+                {
+                    this.BoolN_Property.Set(
+                        rhs.BoolN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.BoolN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.BoolN_Property.Set(
+                            def.BoolN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -494,7 +762,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Bool = rhs.Bool;
+                if (rhs.Bool_Property.HasBeenSet)
+                {
+                    this.Bool_Property.Set(
+                        rhs.Bool,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Bool_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Bool_Property.Set(
+                            def.Bool,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -505,7 +792,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.CharN = rhs.CharN;
+                if (rhs.CharN_Property.HasBeenSet)
+                {
+                    this.CharN_Property.Set(
+                        rhs.CharN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.CharN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.CharN_Property.Set(
+                            def.CharN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -516,7 +822,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Char = rhs.Char;
+                if (rhs.Char_Property.HasBeenSet)
+                {
+                    this.Char_Property.Set(
+                        rhs.Char,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Char_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Char_Property.Set(
+                            def.Char,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -527,7 +852,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.DoubleN = rhs.DoubleN;
+                if (rhs.DoubleN_Property.HasBeenSet)
+                {
+                    this.DoubleN_Property.Set(
+                        rhs.DoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.DoubleN_Property.Set(
+                            def.DoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -538,7 +882,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Double = rhs.Double;
+                if (rhs.Double_Property.HasBeenSet)
+                {
+                    this.Double_Property.Set(
+                        rhs.Double,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Double_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Double_Property.Set(
+                            def.Double,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -549,7 +912,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.FloatN = rhs.FloatN;
+                if (rhs.FloatN_Property.HasBeenSet)
+                {
+                    this.FloatN_Property.Set(
+                        rhs.FloatN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.FloatN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.FloatN_Property.Set(
+                            def.FloatN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -560,7 +942,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Float = rhs.Float;
+                if (rhs.Float_Property.HasBeenSet)
+                {
+                    this.Float_Property.Set(
+                        rhs.Float,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Float_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Float_Property.Set(
+                            def.Float,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -571,7 +972,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int16N = rhs.Int16N;
+                if (rhs.Int16N_Property.HasBeenSet)
+                {
+                    this.Int16N_Property.Set(
+                        rhs.Int16N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int16N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int16N_Property.Set(
+                            def.Int16N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -582,7 +1002,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int16 = rhs.Int16;
+                if (rhs.Int16_Property.HasBeenSet)
+                {
+                    this.Int16_Property.Set(
+                        rhs.Int16,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int16_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int16_Property.Set(
+                            def.Int16,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -593,7 +1032,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int32N = rhs.Int32N;
+                if (rhs.Int32N_Property.HasBeenSet)
+                {
+                    this.Int32N_Property.Set(
+                        rhs.Int32N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int32N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int32N_Property.Set(
+                            def.Int32N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -604,7 +1062,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int32 = rhs.Int32;
+                if (rhs.Int32_Property.HasBeenSet)
+                {
+                    this.Int32_Property.Set(
+                        rhs.Int32,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int32_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int32_Property.Set(
+                            def.Int32,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -615,7 +1092,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int64N = rhs.Int64N;
+                if (rhs.Int64N_Property.HasBeenSet)
+                {
+                    this.Int64N_Property.Set(
+                        rhs.Int64N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int64N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int64N_Property.Set(
+                            def.Int64N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -626,7 +1122,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int64 = rhs.Int64;
+                if (rhs.Int64_Property.HasBeenSet)
+                {
+                    this.Int64_Property.Set(
+                        rhs.Int64,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int64_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int64_Property.Set(
+                            def.Int64,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -637,7 +1152,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int8N = rhs.Int8N;
+                if (rhs.Int8N_Property.HasBeenSet)
+                {
+                    this.Int8N_Property.Set(
+                        rhs.Int8N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int8N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int8N_Property.Set(
+                            def.Int8N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -648,7 +1182,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Int8 = rhs.Int8;
+                if (rhs.Int8_Property.HasBeenSet)
+                {
+                    this.Int8_Property.Set(
+                        rhs.Int8,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Int8_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Int8_Property.Set(
+                            def.Int8,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -659,7 +1212,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Unsafe = rhs.Unsafe;
+                if (rhs.Unsafe_Property.HasBeenSet)
+                {
+                    this.Unsafe_Property.Set(
+                        rhs.Unsafe,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Unsafe_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Unsafe_Property.Set(
+                            def.Unsafe,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -670,7 +1242,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P2IntN = rhs.P2IntN;
+                if (rhs.P2IntN_Property.HasBeenSet)
+                {
+                    this.P2IntN_Property.Set(
+                        rhs.P2IntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P2IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P2IntN_Property.Set(
+                            def.P2IntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -681,7 +1272,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P2Int = rhs.P2Int;
+                if (rhs.P2Int_Property.HasBeenSet)
+                {
+                    this.P2Int_Property.Set(
+                        rhs.P2Int,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P2Int_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P2Int_Property.Set(
+                            def.P2Int,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -692,7 +1302,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P3DoubleN = rhs.P3DoubleN;
+                if (rhs.P3DoubleN_Property.HasBeenSet)
+                {
+                    this.P3DoubleN_Property.Set(
+                        rhs.P3DoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P3DoubleN_Property.Set(
+                            def.P3DoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -703,7 +1332,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P3Double = rhs.P3Double;
+                if (rhs.P3Double_Property.HasBeenSet)
+                {
+                    this.P3Double_Property.Set(
+                        rhs.P3Double,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P3Double_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P3Double_Property.Set(
+                            def.P3Double,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -714,7 +1362,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P3IntN = rhs.P3IntN;
+                if (rhs.P3IntN_Property.HasBeenSet)
+                {
+                    this.P3IntN_Property.Set(
+                        rhs.P3IntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P3IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P3IntN_Property.Set(
+                            def.P3IntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -725,7 +1392,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.P3Int = rhs.P3Int;
+                if (rhs.P3Int_Property.HasBeenSet)
+                {
+                    this.P3Int_Property.Set(
+                        rhs.P3Int,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.P3Int_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.P3Int_Property.Set(
+                            def.P3Int,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -736,7 +1422,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.PercentN = rhs.PercentN;
+                if (rhs.PercentN_Property.HasBeenSet)
+                {
+                    this.PercentN_Property.Set(
+                        rhs.PercentN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.PercentN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.PercentN_Property.Set(
+                            def.PercentN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -747,7 +1452,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Percent = rhs.Percent;
+                if (rhs.Percent_Property.HasBeenSet)
+                {
+                    this.Percent_Property.Set(
+                        rhs.Percent,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Percent_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Percent_Property.Set(
+                            def.Percent,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -758,7 +1482,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.RangeIntN = rhs.RangeIntN;
+                if (rhs.RangeIntN_Property.HasBeenSet)
+                {
+                    this.RangeIntN_Property.Set(
+                        rhs.RangeIntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RangeIntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RangeIntN_Property.Set(
+                            def.RangeIntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -769,7 +1512,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.RangeInt = rhs.RangeInt;
+                if (rhs.RangeInt_Property.HasBeenSet)
+                {
+                    this.RangeInt_Property.Set(
+                        rhs.RangeInt,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RangeInt_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RangeInt_Property.Set(
+                            def.RangeInt,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -780,7 +1542,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.String = rhs.String;
+                if (rhs.String_Property.HasBeenSet)
+                {
+                    this.String_Property.Set(
+                        rhs.String,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.String_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.String_Property.Set(
+                            def.String,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -791,7 +1572,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UDoubleN = rhs.UDoubleN;
+                if (rhs.UDoubleN_Property.HasBeenSet)
+                {
+                    this.UDoubleN_Property.Set(
+                        rhs.UDoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UDoubleN_Property.Set(
+                            def.UDoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -802,7 +1602,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UDouble = rhs.UDouble;
+                if (rhs.UDouble_Property.HasBeenSet)
+                {
+                    this.UDouble_Property.Set(
+                        rhs.UDouble,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UDouble_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UDouble_Property.Set(
+                            def.UDouble,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -813,7 +1632,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt16N = rhs.UInt16N;
+                if (rhs.UInt16N_Property.HasBeenSet)
+                {
+                    this.UInt16N_Property.Set(
+                        rhs.UInt16N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt16N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt16N_Property.Set(
+                            def.UInt16N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -824,7 +1662,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt16 = rhs.UInt16;
+                if (rhs.UInt16_Property.HasBeenSet)
+                {
+                    this.UInt16_Property.Set(
+                        rhs.UInt16,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt16_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt16_Property.Set(
+                            def.UInt16,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -835,7 +1692,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt32N = rhs.UInt32N;
+                if (rhs.UInt32N_Property.HasBeenSet)
+                {
+                    this.UInt32N_Property.Set(
+                        rhs.UInt32N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt32N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt32N_Property.Set(
+                            def.UInt32N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -846,7 +1722,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt32 = rhs.UInt32;
+                if (rhs.UInt32_Property.HasBeenSet)
+                {
+                    this.UInt32_Property.Set(
+                        rhs.UInt32,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt32_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt32_Property.Set(
+                            def.UInt32,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -857,7 +1752,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt64N = rhs.UInt64N;
+                if (rhs.UInt64N_Property.HasBeenSet)
+                {
+                    this.UInt64N_Property.Set(
+                        rhs.UInt64N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt64N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt64N_Property.Set(
+                            def.UInt64N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -868,7 +1782,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt64 = rhs.UInt64;
+                if (rhs.UInt64_Property.HasBeenSet)
+                {
+                    this.UInt64_Property.Set(
+                        rhs.UInt64,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt64_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt64_Property.Set(
+                            def.UInt64,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -879,7 +1812,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt8N = rhs.UInt8N;
+                if (rhs.UInt8N_Property.HasBeenSet)
+                {
+                    this.UInt8N_Property.Set(
+                        rhs.UInt8N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt8N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt8N_Property.Set(
+                            def.UInt8N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -890,7 +1842,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.UInt8 = rhs.UInt8;
+                if (rhs.UInt8_Property.HasBeenSet)
+                {
+                    this.UInt8_Property.Set(
+                        rhs.UInt8,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.UInt8_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.UInt8_Property.Set(
+                            def.UInt8,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -901,7 +1872,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Enum = rhs.Enum;
+                if (rhs.Enum_Property.HasBeenSet)
+                {
+                    this.Enum_Property.Set(
+                        rhs.Enum,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Enum_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Enum_Property.Set(
+                            def.Enum,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -912,7 +1902,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.WildCard = rhs.WildCard;
+                if (rhs.WildCard_Property.HasBeenSet)
+                {
+                    this.WildCard_Property.Set(
+                        rhs.WildCard,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.WildCard_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.WildCard_Property.Set(
+                            def.WildCard,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -923,7 +1932,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.Ref = rhs.Ref;
+                if (rhs.Ref_Property.HasBeenSet)
+                {
+                    this.Ref_Property.Set(
+                        rhs.Ref,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.Ref_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.Ref_Property.Set(
+                            def.Ref,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -934,7 +1962,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.RefGetter = rhs.RefGetter;
+                if (rhs.RefGetter_Property.HasBeenSet)
+                {
+                    this.RefGetter_Property.Set(
+                        rhs.RefGetter,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RefGetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RefGetter_Property.Set(
+                            def.RefGetter,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -945,7 +1992,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                this.RefSetter = rhs.RefSetter;
+                if (rhs.RefSetter_Property.HasBeenSet)
+                {
+                    this.RefSetter_Property.Set(
+                        rhs.RefSetter,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        this.RefSetter_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        this.RefSetter_Property.Set(
+                            def.RefSetter,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -1133,23 +2199,23 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public static TestObject CreateFromXML(XElement root)
+        public static TestObject_HasBeenSet CreateFromXML(XElement root)
         {
-            var ret = new TestObject();
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_HasBeenSet();
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask,
+                mask: out TestObject_HasBeenSet_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestObject CreateFromXML(XElement root, out TestObject_ErrorMask errorMask)
+        public static TestObject_HasBeenSet CreateFromXML(XElement root, out TestObject_HasBeenSet_ErrorMask errorMask)
         {
-            var ret = new TestObject();
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_HasBeenSet();
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
@@ -1161,18 +2227,18 @@ namespace Noggolloquy.Tests
 
         public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask,
+                mask: out TestObject_HasBeenSet_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, out TestObject_HasBeenSet_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
@@ -1191,9 +2257,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void WriteXML(XmlWriter writer, out TestObject_ErrorMask errorMask, string name = null)
+        public void WriteXML(XmlWriter writer, out TestObject_HasBeenSet_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
@@ -1203,22 +2269,22 @@ namespace Noggolloquy.Tests
 
         public void WriteXML(XmlWriter writer, string name)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask);
+                mask: out TestObject_HasBeenSet_ErrorMask errorMask);
         }
 
         public void WriteXML(XmlWriter writer)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: null,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask);
+                mask: out TestObject_HasBeenSet_ErrorMask errorMask);
         }
 
         #endregion
@@ -1231,20 +2297,20 @@ namespace Noggolloquy.Tests
 
         protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
-            if (rhs is TestObject rhsCast)
+            if (rhs is TestObject_HasBeenSet rhsCast)
             {
-                this.CopyFieldsFrom(rhsCast, def as TestObject, cmds);
+                this.CopyFieldsFrom(rhsCast, def as TestObject_HasBeenSet, cmds);
             }
         }
 
-        public TestObject Copy(ITestObjectGetter def = null)
+        public TestObject_HasBeenSet Copy(ITestObject_HasBeenSetGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject Copy(ITestObjectGetter item, ITestObjectGetter def = null)
+        public static TestObject_HasBeenSet Copy(ITestObject_HasBeenSetGetter item, ITestObject_HasBeenSetGetter def = null)
         {
-            var ret = new TestObject();
+            var ret = new TestObject_HasBeenSet();
             ret.CopyFieldsFrom(item, def);
             return ret;
         }
@@ -1304,14 +2370,14 @@ namespace Noggolloquy.Tests
             this.DictKeyedValue.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_HasBeenSet Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject();
+            var ret = new TestObject_HasBeenSet();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_HasBeenSet obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
         }
@@ -1320,93 +2386,136 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject : ITestObjectGetter, INoggolloquyClass<ITestObject, ITestObjectGetter>, INoggolloquyClass<TestObject, ITestObjectGetter>
+    public interface ITestObject_HasBeenSet : ITestObject_HasBeenSetGetter, INoggolloquyClass<ITestObject_HasBeenSet, ITestObject_HasBeenSetGetter>, INoggolloquyClass<TestObject_HasBeenSet, ITestObject_HasBeenSetGetter>
     {
         new Boolean? BoolN { get; set; }
+        new IHasBeenSetItem<Boolean?> BoolN_Property { get; }
 
         new Boolean Bool { get; set; }
+        new IHasBeenSetItem<Boolean> Bool_Property { get; }
 
         new Char? CharN { get; set; }
+        new IHasBeenSetItem<Char?> CharN_Property { get; }
 
         new Char Char { get; set; }
+        new IHasBeenSetItem<Char> Char_Property { get; }
 
         new Double? DoubleN { get; set; }
+        new IHasBeenSetItem<Double?> DoubleN_Property { get; }
 
         new Double Double { get; set; }
+        new IHasBeenSetItem<Double> Double_Property { get; }
 
         new Single? FloatN { get; set; }
+        new IHasBeenSetItem<Single?> FloatN_Property { get; }
 
         new Single Float { get; set; }
+        new IHasBeenSetItem<Single> Float_Property { get; }
 
         new Int16? Int16N { get; set; }
+        new IHasBeenSetItem<Int16?> Int16N_Property { get; }
 
         new Int16 Int16 { get; set; }
+        new IHasBeenSetItem<Int16> Int16_Property { get; }
 
         new Int32? Int32N { get; set; }
+        new IHasBeenSetItem<Int32?> Int32N_Property { get; }
 
         new Int32 Int32 { get; set; }
+        new IHasBeenSetItem<Int32> Int32_Property { get; }
 
         new Int64? Int64N { get; set; }
+        new IHasBeenSetItem<Int64?> Int64N_Property { get; }
 
         new Int64 Int64 { get; set; }
+        new IHasBeenSetItem<Int64> Int64_Property { get; }
 
         new SByte? Int8N { get; set; }
+        new IHasBeenSetItem<SByte?> Int8N_Property { get; }
 
         new SByte Int8 { get; set; }
+        new IHasBeenSetItem<SByte> Int8_Property { get; }
 
         new bool Unsafe { get; set; }
+        new IHasBeenSetItem<bool> Unsafe_Property { get; }
 
         new P2Int? P2IntN { get; set; }
+        new IHasBeenSetItem<P2Int?> P2IntN_Property { get; }
 
         new P2Int P2Int { get; set; }
+        new IHasBeenSetItem<P2Int> P2Int_Property { get; }
 
         new P3Double? P3DoubleN { get; set; }
+        new IHasBeenSetItem<P3Double?> P3DoubleN_Property { get; }
 
         new P3Double P3Double { get; set; }
+        new IHasBeenSetItem<P3Double> P3Double_Property { get; }
 
         new P3Int? P3IntN { get; set; }
+        new IHasBeenSetItem<P3Int?> P3IntN_Property { get; }
 
         new P3Int P3Int { get; set; }
+        new IHasBeenSetItem<P3Int> P3Int_Property { get; }
 
         new Percent? PercentN { get; set; }
+        new IHasBeenSetItem<Percent?> PercentN_Property { get; }
 
         new Percent Percent { get; set; }
+        new IHasBeenSetItem<Percent> Percent_Property { get; }
 
         new RangeInt? RangeIntN { get; set; }
+        new IHasBeenSetItem<RangeInt?> RangeIntN_Property { get; }
 
         new RangeInt RangeInt { get; set; }
+        new IHasBeenSetItem<RangeInt> RangeInt_Property { get; }
 
         new String String { get; set; }
+        new IHasBeenSetItem<String> String_Property { get; }
 
         new UDouble? UDoubleN { get; set; }
+        new IHasBeenSetItem<UDouble?> UDoubleN_Property { get; }
 
         new UDouble UDouble { get; set; }
+        new IHasBeenSetItem<UDouble> UDouble_Property { get; }
 
         new UInt16? UInt16N { get; set; }
+        new IHasBeenSetItem<UInt16?> UInt16N_Property { get; }
 
         new UInt16 UInt16 { get; set; }
+        new IHasBeenSetItem<UInt16> UInt16_Property { get; }
 
         new UInt32? UInt32N { get; set; }
+        new IHasBeenSetItem<UInt32?> UInt32N_Property { get; }
 
         new UInt32 UInt32 { get; set; }
+        new IHasBeenSetItem<UInt32> UInt32_Property { get; }
 
         new UInt64? UInt64N { get; set; }
+        new IHasBeenSetItem<UInt64?> UInt64N_Property { get; }
 
         new UInt64 UInt64 { get; set; }
+        new IHasBeenSetItem<UInt64> UInt64_Property { get; }
 
         new Byte? UInt8N { get; set; }
+        new IHasBeenSetItem<Byte?> UInt8N_Property { get; }
 
         new Byte UInt8 { get; set; }
+        new IHasBeenSetItem<Byte> UInt8_Property { get; }
 
         new TestEnum Enum { get; set; }
+        new IHasBeenSetItem<TestEnum> Enum_Property { get; }
 
         new Object WildCard { get; set; }
+        new IHasBeenSetItem<Object> WildCard_Property { get; }
 
         new ObjectToRef Ref { get; set; }
+        new IHasBeenSetItem<ObjectToRef> Ref_Property { get; }
 
         new IObjectToRefGetter RefGetter { get; set; }
+        new IHasBeenSetItem<IObjectToRefGetter> RefGetter_Property { get; }
 
         new IObjectToRef RefSetter { get; set; }
+        new IHasBeenSetItem<IObjectToRef> RefSetter_Property { get; }
 
         new INotifyingList<Boolean> List { get; }
         new ObjectToRef GetNthRefList(int index);
@@ -1416,220 +2525,263 @@ namespace Noggolloquy.Tests
         new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
-    public interface ITestObjectGetter : INoggolloquyObject
+    public interface ITestObject_HasBeenSetGetter : INoggolloquyObject
     {
         #region BoolN
         Boolean? BoolN { get; }
+        IHasBeenSetItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
 
         #region Bool
         Boolean Bool { get; }
+        IHasBeenSetItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
 
         #region CharN
         Char? CharN { get; }
+        IHasBeenSetItemGetter<Char?> CharN_Property { get; }
 
         #endregion
 
         #region Char
         Char Char { get; }
+        IHasBeenSetItemGetter<Char> Char_Property { get; }
 
         #endregion
 
         #region DoubleN
         Double? DoubleN { get; }
+        IHasBeenSetItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
 
         #region Double
         Double Double { get; }
+        IHasBeenSetItemGetter<Double> Double_Property { get; }
 
         #endregion
 
         #region FloatN
         Single? FloatN { get; }
+        IHasBeenSetItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
 
         #region Float
         Single Float { get; }
+        IHasBeenSetItemGetter<Single> Float_Property { get; }
 
         #endregion
 
         #region Int16N
         Int16? Int16N { get; }
+        IHasBeenSetItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
 
         #region Int16
         Int16 Int16 { get; }
+        IHasBeenSetItemGetter<Int16> Int16_Property { get; }
 
         #endregion
 
         #region Int32N
         Int32? Int32N { get; }
+        IHasBeenSetItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
 
         #region Int32
         Int32 Int32 { get; }
+        IHasBeenSetItemGetter<Int32> Int32_Property { get; }
 
         #endregion
 
         #region Int64N
         Int64? Int64N { get; }
+        IHasBeenSetItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
 
         #region Int64
         Int64 Int64 { get; }
+        IHasBeenSetItemGetter<Int64> Int64_Property { get; }
 
         #endregion
 
         #region Int8N
         SByte? Int8N { get; }
+        IHasBeenSetItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
 
         #region Int8
         SByte Int8 { get; }
+        IHasBeenSetItemGetter<SByte> Int8_Property { get; }
 
         #endregion
 
         #region Unsafe
         bool Unsafe { get; }
+        IHasBeenSetItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
 
         #region P2IntN
         P2Int? P2IntN { get; }
+        IHasBeenSetItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
 
         #region P2Int
         P2Int P2Int { get; }
+        IHasBeenSetItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
 
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
+        IHasBeenSetItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
 
         #region P3Double
         P3Double P3Double { get; }
+        IHasBeenSetItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
 
         #region P3IntN
         P3Int? P3IntN { get; }
+        IHasBeenSetItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
 
         #region P3Int
         P3Int P3Int { get; }
+        IHasBeenSetItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
 
         #region PercentN
         Percent? PercentN { get; }
+        IHasBeenSetItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
 
         #region Percent
         Percent Percent { get; }
+        IHasBeenSetItemGetter<Percent> Percent_Property { get; }
 
         #endregion
 
         #region RangeIntN
         RangeInt? RangeIntN { get; }
+        IHasBeenSetItemGetter<RangeInt?> RangeIntN_Property { get; }
 
         #endregion
 
         #region RangeInt
         RangeInt RangeInt { get; }
+        IHasBeenSetItemGetter<RangeInt> RangeInt_Property { get; }
 
         #endregion
 
         #region String
         String String { get; }
+        IHasBeenSetItemGetter<String> String_Property { get; }
 
         #endregion
 
         #region UDoubleN
         UDouble? UDoubleN { get; }
+        IHasBeenSetItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
 
         #region UDouble
         UDouble UDouble { get; }
+        IHasBeenSetItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
 
         #region UInt16N
         UInt16? UInt16N { get; }
+        IHasBeenSetItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
 
         #region UInt16
         UInt16 UInt16 { get; }
+        IHasBeenSetItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
 
         #region UInt32N
         UInt32? UInt32N { get; }
+        IHasBeenSetItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
 
         #region UInt32
         UInt32 UInt32 { get; }
+        IHasBeenSetItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
 
         #region UInt64N
         UInt64? UInt64N { get; }
+        IHasBeenSetItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
 
         #region UInt64
         UInt64 UInt64 { get; }
+        IHasBeenSetItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
 
         #region UInt8N
         Byte? UInt8N { get; }
+        IHasBeenSetItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
 
         #region UInt8
         Byte UInt8 { get; }
+        IHasBeenSetItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
 
         #region Enum
         TestEnum Enum { get; }
+        IHasBeenSetItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
 
         #region WildCard
         Object WildCard { get; }
+        IHasBeenSetItemGetter<Object> WildCard_Property { get; }
 
         #endregion
 
         #region Ref
         ObjectToRef Ref { get; }
+        IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
 
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
+        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
 
         #region RefSetter
         IObjectToRef RefSetter { get; }
+        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
 
@@ -1665,30 +2817,30 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Registration
-    public class TestObject_Registration : INoggolloquyRegistration
+    public class TestObject_HasBeenSet_Registration : INoggolloquyRegistration
     {
-        public static readonly TestObject_Registration Instance = new TestObject_Registration();
+        public static readonly TestObject_HasBeenSet_Registration Instance = new TestObject_HasBeenSet_Registration();
 
         public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
-            msgID: 7,
+            msgID: 8,
             version: 0);
 
-        public const string GUID = "b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7";
+        public const string GUID = "8dd2de32-392f-409f-b0bb-410a8d687c92";
 
         public const ushort FieldCount = 48;
 
-        public static readonly Type MaskType = typeof(TestObject_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_HasBeenSet_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject);
+        public static readonly Type ClassType = typeof(TestObject_HasBeenSet);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject";
+        public const string FullName = "Noggolloquy.Tests.TestObject_HasBeenSet";
 
-        public const string Name = "TestObject";
+        public const string Name = "TestObject_HasBeenSet";
 
         public const byte GenericCount = 0;
 
@@ -2282,14 +3434,33 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestObjectCommon
+    public static class TestObject_HasBeenSetCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject item, ITestObjectGetter rhs, ITestObjectGetter def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(ITestObject_HasBeenSet item, ITestObject_HasBeenSetGetter rhs, ITestObject_HasBeenSetGetter def, TestObject_HasBeenSet_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
             try
             {
-                item.BoolN = rhs.BoolN;
+                if (rhs.BoolN_Property.HasBeenSet)
+                {
+                    item.BoolN_Property.Set(
+                        rhs.BoolN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.BoolN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.BoolN_Property.Set(
+                            def.BoolN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2300,7 +3471,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Bool = rhs.Bool;
+                if (rhs.Bool_Property.HasBeenSet)
+                {
+                    item.Bool_Property.Set(
+                        rhs.Bool,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Bool_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Bool_Property.Set(
+                            def.Bool,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2311,7 +3501,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.CharN = rhs.CharN;
+                if (rhs.CharN_Property.HasBeenSet)
+                {
+                    item.CharN_Property.Set(
+                        rhs.CharN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.CharN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.CharN_Property.Set(
+                            def.CharN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2322,7 +3531,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Char = rhs.Char;
+                if (rhs.Char_Property.HasBeenSet)
+                {
+                    item.Char_Property.Set(
+                        rhs.Char,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Char_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Char_Property.Set(
+                            def.Char,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2333,7 +3561,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.DoubleN = rhs.DoubleN;
+                if (rhs.DoubleN_Property.HasBeenSet)
+                {
+                    item.DoubleN_Property.Set(
+                        rhs.DoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.DoubleN_Property.Set(
+                            def.DoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2344,7 +3591,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Double = rhs.Double;
+                if (rhs.Double_Property.HasBeenSet)
+                {
+                    item.Double_Property.Set(
+                        rhs.Double,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Double_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Double_Property.Set(
+                            def.Double,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2355,7 +3621,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.FloatN = rhs.FloatN;
+                if (rhs.FloatN_Property.HasBeenSet)
+                {
+                    item.FloatN_Property.Set(
+                        rhs.FloatN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.FloatN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.FloatN_Property.Set(
+                            def.FloatN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2366,7 +3651,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Float = rhs.Float;
+                if (rhs.Float_Property.HasBeenSet)
+                {
+                    item.Float_Property.Set(
+                        rhs.Float,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Float_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Float_Property.Set(
+                            def.Float,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2377,7 +3681,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int16N = rhs.Int16N;
+                if (rhs.Int16N_Property.HasBeenSet)
+                {
+                    item.Int16N_Property.Set(
+                        rhs.Int16N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int16N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int16N_Property.Set(
+                            def.Int16N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2388,7 +3711,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int16 = rhs.Int16;
+                if (rhs.Int16_Property.HasBeenSet)
+                {
+                    item.Int16_Property.Set(
+                        rhs.Int16,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int16_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int16_Property.Set(
+                            def.Int16,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2399,7 +3741,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int32N = rhs.Int32N;
+                if (rhs.Int32N_Property.HasBeenSet)
+                {
+                    item.Int32N_Property.Set(
+                        rhs.Int32N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int32N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int32N_Property.Set(
+                            def.Int32N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2410,7 +3771,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int32 = rhs.Int32;
+                if (rhs.Int32_Property.HasBeenSet)
+                {
+                    item.Int32_Property.Set(
+                        rhs.Int32,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int32_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int32_Property.Set(
+                            def.Int32,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2421,7 +3801,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int64N = rhs.Int64N;
+                if (rhs.Int64N_Property.HasBeenSet)
+                {
+                    item.Int64N_Property.Set(
+                        rhs.Int64N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int64N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int64N_Property.Set(
+                            def.Int64N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2432,7 +3831,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int64 = rhs.Int64;
+                if (rhs.Int64_Property.HasBeenSet)
+                {
+                    item.Int64_Property.Set(
+                        rhs.Int64,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int64_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int64_Property.Set(
+                            def.Int64,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2443,7 +3861,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int8N = rhs.Int8N;
+                if (rhs.Int8N_Property.HasBeenSet)
+                {
+                    item.Int8N_Property.Set(
+                        rhs.Int8N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int8N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int8N_Property.Set(
+                            def.Int8N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2454,7 +3891,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Int8 = rhs.Int8;
+                if (rhs.Int8_Property.HasBeenSet)
+                {
+                    item.Int8_Property.Set(
+                        rhs.Int8,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Int8_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Int8_Property.Set(
+                            def.Int8,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2465,7 +3921,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Unsafe = rhs.Unsafe;
+                if (rhs.Unsafe_Property.HasBeenSet)
+                {
+                    item.Unsafe_Property.Set(
+                        rhs.Unsafe,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Unsafe_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Unsafe_Property.Set(
+                            def.Unsafe,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2476,7 +3951,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P2IntN = rhs.P2IntN;
+                if (rhs.P2IntN_Property.HasBeenSet)
+                {
+                    item.P2IntN_Property.Set(
+                        rhs.P2IntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P2IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P2IntN_Property.Set(
+                            def.P2IntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2487,7 +3981,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P2Int = rhs.P2Int;
+                if (rhs.P2Int_Property.HasBeenSet)
+                {
+                    item.P2Int_Property.Set(
+                        rhs.P2Int,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P2Int_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P2Int_Property.Set(
+                            def.P2Int,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2498,7 +4011,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P3DoubleN = rhs.P3DoubleN;
+                if (rhs.P3DoubleN_Property.HasBeenSet)
+                {
+                    item.P3DoubleN_Property.Set(
+                        rhs.P3DoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P3DoubleN_Property.Set(
+                            def.P3DoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2509,7 +4041,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P3Double = rhs.P3Double;
+                if (rhs.P3Double_Property.HasBeenSet)
+                {
+                    item.P3Double_Property.Set(
+                        rhs.P3Double,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P3Double_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P3Double_Property.Set(
+                            def.P3Double,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2520,7 +4071,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P3IntN = rhs.P3IntN;
+                if (rhs.P3IntN_Property.HasBeenSet)
+                {
+                    item.P3IntN_Property.Set(
+                        rhs.P3IntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P3IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P3IntN_Property.Set(
+                            def.P3IntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2531,7 +4101,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.P3Int = rhs.P3Int;
+                if (rhs.P3Int_Property.HasBeenSet)
+                {
+                    item.P3Int_Property.Set(
+                        rhs.P3Int,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.P3Int_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.P3Int_Property.Set(
+                            def.P3Int,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2542,7 +4131,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.PercentN = rhs.PercentN;
+                if (rhs.PercentN_Property.HasBeenSet)
+                {
+                    item.PercentN_Property.Set(
+                        rhs.PercentN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.PercentN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.PercentN_Property.Set(
+                            def.PercentN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2553,7 +4161,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Percent = rhs.Percent;
+                if (rhs.Percent_Property.HasBeenSet)
+                {
+                    item.Percent_Property.Set(
+                        rhs.Percent,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Percent_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Percent_Property.Set(
+                            def.Percent,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2564,7 +4191,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.RangeIntN = rhs.RangeIntN;
+                if (rhs.RangeIntN_Property.HasBeenSet)
+                {
+                    item.RangeIntN_Property.Set(
+                        rhs.RangeIntN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RangeIntN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.RangeIntN_Property.Set(
+                            def.RangeIntN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2575,7 +4221,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.RangeInt = rhs.RangeInt;
+                if (rhs.RangeInt_Property.HasBeenSet)
+                {
+                    item.RangeInt_Property.Set(
+                        rhs.RangeInt,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RangeInt_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.RangeInt_Property.Set(
+                            def.RangeInt,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2586,7 +4251,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.String = rhs.String;
+                if (rhs.String_Property.HasBeenSet)
+                {
+                    item.String_Property.Set(
+                        rhs.String,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.String_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.String_Property.Set(
+                            def.String,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2597,7 +4281,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UDoubleN = rhs.UDoubleN;
+                if (rhs.UDoubleN_Property.HasBeenSet)
+                {
+                    item.UDoubleN_Property.Set(
+                        rhs.UDoubleN,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UDoubleN_Property.Set(
+                            def.UDoubleN,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2608,7 +4311,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UDouble = rhs.UDouble;
+                if (rhs.UDouble_Property.HasBeenSet)
+                {
+                    item.UDouble_Property.Set(
+                        rhs.UDouble,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UDouble_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UDouble_Property.Set(
+                            def.UDouble,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2619,7 +4341,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt16N = rhs.UInt16N;
+                if (rhs.UInt16N_Property.HasBeenSet)
+                {
+                    item.UInt16N_Property.Set(
+                        rhs.UInt16N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt16N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt16N_Property.Set(
+                            def.UInt16N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2630,7 +4371,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt16 = rhs.UInt16;
+                if (rhs.UInt16_Property.HasBeenSet)
+                {
+                    item.UInt16_Property.Set(
+                        rhs.UInt16,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt16_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt16_Property.Set(
+                            def.UInt16,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2641,7 +4401,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt32N = rhs.UInt32N;
+                if (rhs.UInt32N_Property.HasBeenSet)
+                {
+                    item.UInt32N_Property.Set(
+                        rhs.UInt32N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt32N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt32N_Property.Set(
+                            def.UInt32N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2652,7 +4431,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt32 = rhs.UInt32;
+                if (rhs.UInt32_Property.HasBeenSet)
+                {
+                    item.UInt32_Property.Set(
+                        rhs.UInt32,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt32_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt32_Property.Set(
+                            def.UInt32,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2663,7 +4461,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt64N = rhs.UInt64N;
+                if (rhs.UInt64N_Property.HasBeenSet)
+                {
+                    item.UInt64N_Property.Set(
+                        rhs.UInt64N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt64N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt64N_Property.Set(
+                            def.UInt64N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2674,7 +4491,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt64 = rhs.UInt64;
+                if (rhs.UInt64_Property.HasBeenSet)
+                {
+                    item.UInt64_Property.Set(
+                        rhs.UInt64,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt64_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt64_Property.Set(
+                            def.UInt64,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2685,7 +4521,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt8N = rhs.UInt8N;
+                if (rhs.UInt8N_Property.HasBeenSet)
+                {
+                    item.UInt8N_Property.Set(
+                        rhs.UInt8N,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt8N_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt8N_Property.Set(
+                            def.UInt8N,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2696,7 +4551,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.UInt8 = rhs.UInt8;
+                if (rhs.UInt8_Property.HasBeenSet)
+                {
+                    item.UInt8_Property.Set(
+                        rhs.UInt8,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.UInt8_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.UInt8_Property.Set(
+                            def.UInt8,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2707,7 +4581,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Enum = rhs.Enum;
+                if (rhs.Enum_Property.HasBeenSet)
+                {
+                    item.Enum_Property.Set(
+                        rhs.Enum,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Enum_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.Enum_Property.Set(
+                            def.Enum,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2718,7 +4611,26 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.WildCard = rhs.WildCard;
+                if (rhs.WildCard_Property.HasBeenSet)
+                {
+                    item.WildCard_Property.Set(
+                        rhs.WildCard,
+                        cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.WildCard_Property.Unset(cmds.ToUnsetParams());
+                    }
+                    else
+                    {
+                        item.WildCard_Property.Set(
+                            def.WildCard,
+                            cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2729,7 +4641,22 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.Ref = rhs.Ref;
+                if (rhs.Ref_Property.HasBeenSet)
+                {
+                    item.Ref_Property.Set(rhs.Ref, cmds: cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.Ref = default(ObjectToRef);
+                    }
+                    else
+                    {
+                        item.Ref_Property.Set(def.Ref, cmds: cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2740,7 +4667,22 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.RefGetter = rhs.RefGetter;
+                if (rhs.RefGetter_Property.HasBeenSet)
+                {
+                    item.RefGetter_Property.Set(rhs.RefGetter, cmds: cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RefGetter = default(IObjectToRefGetter);
+                    }
+                    else
+                    {
+                        item.RefGetter_Property.Set(def.RefGetter, cmds: cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2751,7 +4693,22 @@ namespace Noggolloquy.Tests
             }
             try
             {
-                item.RefSetter = rhs.RefSetter;
+                if (rhs.RefSetter_Property.HasBeenSet)
+                {
+                    item.RefSetter_Property.Set(rhs.RefSetter, cmds: cmds);
+                }
+                else
+                {
+                    if (def == null)
+                    {
+                        item.RefSetter = default(IObjectToRef);
+                    }
+                    else
+                    {
+                        item.RefSetter_Property.Set(def.RefSetter, cmds: cmds);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -2940,95 +4897,138 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_HasBeenSet obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
+                    obj.BoolN_Property.HasBeenSet = on;
                     break;
                 case 1:
+                    obj.Bool_Property.HasBeenSet = on;
                     break;
                 case 2:
+                    obj.CharN_Property.HasBeenSet = on;
                     break;
                 case 3:
+                    obj.Char_Property.HasBeenSet = on;
                     break;
                 case 4:
+                    obj.DoubleN_Property.HasBeenSet = on;
                     break;
                 case 5:
+                    obj.Double_Property.HasBeenSet = on;
                     break;
                 case 6:
+                    obj.FloatN_Property.HasBeenSet = on;
                     break;
                 case 7:
+                    obj.Float_Property.HasBeenSet = on;
                     break;
                 case 8:
+                    obj.Int16N_Property.HasBeenSet = on;
                     break;
                 case 9:
+                    obj.Int16_Property.HasBeenSet = on;
                     break;
                 case 10:
+                    obj.Int32N_Property.HasBeenSet = on;
                     break;
                 case 11:
+                    obj.Int32_Property.HasBeenSet = on;
                     break;
                 case 12:
+                    obj.Int64N_Property.HasBeenSet = on;
                     break;
                 case 13:
+                    obj.Int64_Property.HasBeenSet = on;
                     break;
                 case 14:
+                    obj.Int8N_Property.HasBeenSet = on;
                     break;
                 case 15:
+                    obj.Int8_Property.HasBeenSet = on;
                     break;
                 case 16:
+                    obj.Unsafe_Property.HasBeenSet = on;
                     break;
                 case 17:
+                    obj.P2IntN_Property.HasBeenSet = on;
                     break;
                 case 18:
+                    obj.P2Int_Property.HasBeenSet = on;
                     break;
                 case 19:
+                    obj.P3DoubleN_Property.HasBeenSet = on;
                     break;
                 case 20:
+                    obj.P3Double_Property.HasBeenSet = on;
                     break;
                 case 21:
+                    obj.P3IntN_Property.HasBeenSet = on;
                     break;
                 case 22:
+                    obj.P3Int_Property.HasBeenSet = on;
                     break;
                 case 23:
+                    obj.PercentN_Property.HasBeenSet = on;
                     break;
                 case 24:
+                    obj.Percent_Property.HasBeenSet = on;
                     break;
                 case 25:
+                    obj.RangeIntN_Property.HasBeenSet = on;
                     break;
                 case 26:
+                    obj.RangeInt_Property.HasBeenSet = on;
                     break;
                 case 27:
+                    obj.String_Property.HasBeenSet = on;
                     break;
                 case 28:
+                    obj.UDoubleN_Property.HasBeenSet = on;
                     break;
                 case 29:
+                    obj.UDouble_Property.HasBeenSet = on;
                     break;
                 case 30:
+                    obj.UInt16N_Property.HasBeenSet = on;
                     break;
                 case 31:
+                    obj.UInt16_Property.HasBeenSet = on;
                     break;
                 case 32:
+                    obj.UInt32N_Property.HasBeenSet = on;
                     break;
                 case 33:
+                    obj.UInt32_Property.HasBeenSet = on;
                     break;
                 case 34:
+                    obj.UInt64N_Property.HasBeenSet = on;
                     break;
                 case 35:
+                    obj.UInt64_Property.HasBeenSet = on;
                     break;
                 case 36:
+                    obj.UInt8N_Property.HasBeenSet = on;
                     break;
                 case 37:
+                    obj.UInt8_Property.HasBeenSet = on;
                     break;
                 case 38:
+                    obj.Enum_Property.HasBeenSet = on;
                     break;
                 case 39:
+                    obj.WildCard_Property.HasBeenSet = on;
                     break;
                 case 40:
+                    obj.Ref_Property.HasBeenSet = on;
                     break;
                 case 41:
+                    obj.RefGetter_Property.HasBeenSet = on;
                     break;
                 case 42:
+                    obj.RefSetter_Property.HasBeenSet = on;
                     break;
                 case 43:
                     obj.List.HasBeenSet = on;
@@ -3050,138 +5050,138 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestObject_HasBeenSet obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    obj.BoolN = default(Boolean?);
+                    obj.BoolN_Property.Unset(cmds);
                     break;
                 case 1:
-                    obj.Bool = default(Boolean);
+                    obj.Bool_Property.Unset(cmds);
                     break;
                 case 2:
-                    obj.CharN = default(Char?);
+                    obj.CharN_Property.Unset(cmds);
                     break;
                 case 3:
-                    obj.Char = default(Char);
+                    obj.Char_Property.Unset(cmds);
                     break;
                 case 4:
-                    obj.DoubleN = default(Double?);
+                    obj.DoubleN_Property.Unset(cmds);
                     break;
                 case 5:
-                    obj.Double = default(Double);
+                    obj.Double_Property.Unset(cmds);
                     break;
                 case 6:
-                    obj.FloatN = default(Single?);
+                    obj.FloatN_Property.Unset(cmds);
                     break;
                 case 7:
-                    obj.Float = default(Single);
+                    obj.Float_Property.Unset(cmds);
                     break;
                 case 8:
-                    obj.Int16N = default(Int16?);
+                    obj.Int16N_Property.Unset(cmds);
                     break;
                 case 9:
-                    obj.Int16 = default(Int16);
+                    obj.Int16_Property.Unset(cmds);
                     break;
                 case 10:
-                    obj.Int32N = default(Int32?);
+                    obj.Int32N_Property.Unset(cmds);
                     break;
                 case 11:
-                    obj.Int32 = default(Int32);
+                    obj.Int32_Property.Unset(cmds);
                     break;
                 case 12:
-                    obj.Int64N = default(Int64?);
+                    obj.Int64N_Property.Unset(cmds);
                     break;
                 case 13:
-                    obj.Int64 = default(Int64);
+                    obj.Int64_Property.Unset(cmds);
                     break;
                 case 14:
-                    obj.Int8N = default(SByte?);
+                    obj.Int8N_Property.Unset(cmds);
                     break;
                 case 15:
-                    obj.Int8 = default(SByte);
+                    obj.Int8_Property.Unset(cmds);
                     break;
                 case 16:
-                    obj.Unsafe = default(bool);
+                    obj.Unsafe_Property.Unset(cmds);
                     break;
                 case 17:
-                    obj.P2IntN = default(P2Int?);
+                    obj.P2IntN_Property.Unset(cmds);
                     break;
                 case 18:
-                    obj.P2Int = default(P2Int);
+                    obj.P2Int_Property.Unset(cmds);
                     break;
                 case 19:
-                    obj.P3DoubleN = default(P3Double?);
+                    obj.P3DoubleN_Property.Unset(cmds);
                     break;
                 case 20:
-                    obj.P3Double = default(P3Double);
+                    obj.P3Double_Property.Unset(cmds);
                     break;
                 case 21:
-                    obj.P3IntN = default(P3Int?);
+                    obj.P3IntN_Property.Unset(cmds);
                     break;
                 case 22:
-                    obj.P3Int = default(P3Int);
+                    obj.P3Int_Property.Unset(cmds);
                     break;
                 case 23:
-                    obj.PercentN = default(Percent?);
+                    obj.PercentN_Property.Unset(cmds);
                     break;
                 case 24:
-                    obj.Percent = default(Percent);
+                    obj.Percent_Property.Unset(cmds);
                     break;
                 case 25:
-                    obj.RangeIntN = default(RangeInt?);
+                    obj.RangeIntN_Property.Unset(cmds);
                     break;
                 case 26:
-                    obj.RangeInt = default(RangeInt);
+                    obj.RangeInt_Property.Unset(cmds);
                     break;
                 case 27:
-                    obj.String = default(String);
+                    obj.String_Property.Unset(cmds);
                     break;
                 case 28:
-                    obj.UDoubleN = default(UDouble?);
+                    obj.UDoubleN_Property.Unset(cmds);
                     break;
                 case 29:
-                    obj.UDouble = default(UDouble);
+                    obj.UDouble_Property.Unset(cmds);
                     break;
                 case 30:
-                    obj.UInt16N = default(UInt16?);
+                    obj.UInt16N_Property.Unset(cmds);
                     break;
                 case 31:
-                    obj.UInt16 = default(UInt16);
+                    obj.UInt16_Property.Unset(cmds);
                     break;
                 case 32:
-                    obj.UInt32N = default(UInt32?);
+                    obj.UInt32N_Property.Unset(cmds);
                     break;
                 case 33:
-                    obj.UInt32 = default(UInt32);
+                    obj.UInt32_Property.Unset(cmds);
                     break;
                 case 34:
-                    obj.UInt64N = default(UInt64?);
+                    obj.UInt64N_Property.Unset(cmds);
                     break;
                 case 35:
-                    obj.UInt64 = default(UInt64);
+                    obj.UInt64_Property.Unset(cmds);
                     break;
                 case 36:
-                    obj.UInt8N = default(Byte?);
+                    obj.UInt8N_Property.Unset(cmds);
                     break;
                 case 37:
-                    obj.UInt8 = default(Byte);
+                    obj.UInt8_Property.Unset(cmds);
                     break;
                 case 38:
-                    obj.Enum = default(TestEnum);
+                    obj.Enum_Property.Unset(cmds);
                     break;
                 case 39:
-                    obj.WildCard = default(Object);
+                    obj.WildCard_Property.Unset(cmds);
                     break;
                 case 40:
-                    obj.Ref = default(ObjectToRef);
+                    obj.Ref_Property.Unset(cmds);
                     break;
                 case 41:
-                    obj.RefGetter = default(IObjectToRefGetter);
+                    obj.RefGetter_Property.Unset(cmds);
                     break;
                 case 42:
-                    obj.RefSetter = default(IObjectToRef);
+                    obj.RefSetter_Property.Unset(cmds);
                     break;
                 case 43:
                     obj.List.Unset(cmds);
@@ -3203,112 +5203,112 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_HasBeenSet obj)
         {
             switch (index)
             {
                 case 0:
-                    return true;
+                    return obj.BoolN_Property.HasBeenSet;
                 case 1:
-                    return true;
+                    return obj.Bool_Property.HasBeenSet;
                 case 2:
-                    return true;
+                    return obj.CharN_Property.HasBeenSet;
                 case 3:
-                    return true;
+                    return obj.Char_Property.HasBeenSet;
                 case 4:
-                    return true;
+                    return obj.DoubleN_Property.HasBeenSet;
                 case 5:
-                    return true;
+                    return obj.Double_Property.HasBeenSet;
                 case 6:
-                    return true;
+                    return obj.FloatN_Property.HasBeenSet;
                 case 7:
-                    return true;
+                    return obj.Float_Property.HasBeenSet;
                 case 8:
-                    return true;
+                    return obj.Int16N_Property.HasBeenSet;
                 case 9:
-                    return true;
+                    return obj.Int16_Property.HasBeenSet;
                 case 10:
-                    return true;
+                    return obj.Int32N_Property.HasBeenSet;
                 case 11:
-                    return true;
+                    return obj.Int32_Property.HasBeenSet;
                 case 12:
-                    return true;
+                    return obj.Int64N_Property.HasBeenSet;
                 case 13:
-                    return true;
+                    return obj.Int64_Property.HasBeenSet;
                 case 14:
-                    return true;
+                    return obj.Int8N_Property.HasBeenSet;
                 case 15:
-                    return true;
+                    return obj.Int8_Property.HasBeenSet;
                 case 16:
-                    return true;
+                    return obj.Unsafe_Property.HasBeenSet;
                 case 17:
-                    return true;
+                    return obj.P2IntN_Property.HasBeenSet;
                 case 18:
-                    return true;
+                    return obj.P2Int_Property.HasBeenSet;
                 case 19:
-                    return true;
+                    return obj.P3DoubleN_Property.HasBeenSet;
                 case 20:
-                    return true;
+                    return obj.P3Double_Property.HasBeenSet;
                 case 21:
-                    return true;
+                    return obj.P3IntN_Property.HasBeenSet;
                 case 22:
-                    return true;
+                    return obj.P3Int_Property.HasBeenSet;
                 case 23:
-                    return true;
+                    return obj.PercentN_Property.HasBeenSet;
                 case 24:
-                    return true;
+                    return obj.Percent_Property.HasBeenSet;
                 case 25:
-                    return true;
+                    return obj.RangeIntN_Property.HasBeenSet;
                 case 26:
-                    return true;
+                    return obj.RangeInt_Property.HasBeenSet;
                 case 27:
-                    return true;
+                    return obj.String_Property.HasBeenSet;
                 case 28:
-                    return true;
+                    return obj.UDoubleN_Property.HasBeenSet;
                 case 29:
-                    return true;
+                    return obj.UDouble_Property.HasBeenSet;
                 case 30:
-                    return true;
+                    return obj.UInt16N_Property.HasBeenSet;
                 case 31:
-                    return true;
+                    return obj.UInt16_Property.HasBeenSet;
                 case 32:
-                    return true;
+                    return obj.UInt32N_Property.HasBeenSet;
                 case 33:
-                    return true;
+                    return obj.UInt32_Property.HasBeenSet;
                 case 34:
-                    return true;
+                    return obj.UInt64N_Property.HasBeenSet;
                 case 35:
-                    return true;
+                    return obj.UInt64_Property.HasBeenSet;
                 case 36:
-                    return true;
+                    return obj.UInt8N_Property.HasBeenSet;
                 case 37:
-                    return true;
+                    return obj.UInt8_Property.HasBeenSet;
                 case 38:
-                    return true;
+                    return obj.Enum_Property.HasBeenSet;
                 case 39:
-                    return true;
+                    return obj.WildCard_Property.HasBeenSet;
                 case 40:
-                    return true;
+                    return obj.Ref_Property.HasBeenSet;
                 case 41:
-                    return true;
+                    return obj.RefGetter_Property.HasBeenSet;
                 case 42:
-                    return true;
+                    return obj.RefSetter_Property.HasBeenSet;
                 case 43:
-                    return true;
+                    return obj.List.HasBeenSet;
                 case 44:
-                    return true;
+                    return obj.RefList.HasBeenSet;
                 case 45:
-                    return true;
+                    return obj.Dict.HasBeenSet;
                 case 46:
-                    return true;
+                    return obj.RefDict.HasBeenSet;
                 case 47:
-                    return true;
+                    return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObjectGetter obj)
+        public static object GetNthObject(ushort index, ITestObject_HasBeenSetGetter obj)
         {
             switch (index)
             {
@@ -3413,138 +5413,224 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void SetNthObject(ushort index, ITestObject nog, object obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObject(ushort index, ITestObject_HasBeenSet nog, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    nog.BoolN = ((Boolean?)obj);
+                    nog.BoolN_Property.Set(
+                        ((Boolean?)obj),
+                        cmds);
                     break;
                 case 1:
-                    nog.Bool = ((Boolean)obj);
+                    nog.Bool_Property.Set(
+                        ((Boolean)obj),
+                        cmds);
                     break;
                 case 2:
-                    nog.CharN = ((Char?)obj);
+                    nog.CharN_Property.Set(
+                        ((Char?)obj),
+                        cmds);
                     break;
                 case 3:
-                    nog.Char = ((Char)obj);
+                    nog.Char_Property.Set(
+                        ((Char)obj),
+                        cmds);
                     break;
                 case 4:
-                    nog.DoubleN = ((Double?)obj);
+                    nog.DoubleN_Property.Set(
+                        ((Double?)obj),
+                        cmds);
                     break;
                 case 5:
-                    nog.Double = ((Double)obj);
+                    nog.Double_Property.Set(
+                        ((Double)obj),
+                        cmds);
                     break;
                 case 6:
-                    nog.FloatN = ((Single?)obj);
+                    nog.FloatN_Property.Set(
+                        ((Single?)obj),
+                        cmds);
                     break;
                 case 7:
-                    nog.Float = ((Single)obj);
+                    nog.Float_Property.Set(
+                        ((Single)obj),
+                        cmds);
                     break;
                 case 8:
-                    nog.Int16N = ((Int16?)obj);
+                    nog.Int16N_Property.Set(
+                        ((Int16?)obj),
+                        cmds);
                     break;
                 case 9:
-                    nog.Int16 = ((Int16)obj);
+                    nog.Int16_Property.Set(
+                        ((Int16)obj),
+                        cmds);
                     break;
                 case 10:
-                    nog.Int32N = ((Int32?)obj);
+                    nog.Int32N_Property.Set(
+                        ((Int32?)obj),
+                        cmds);
                     break;
                 case 11:
-                    nog.Int32 = ((Int32)obj);
+                    nog.Int32_Property.Set(
+                        ((Int32)obj),
+                        cmds);
                     break;
                 case 12:
-                    nog.Int64N = ((Int64?)obj);
+                    nog.Int64N_Property.Set(
+                        ((Int64?)obj),
+                        cmds);
                     break;
                 case 13:
-                    nog.Int64 = ((Int64)obj);
+                    nog.Int64_Property.Set(
+                        ((Int64)obj),
+                        cmds);
                     break;
                 case 14:
-                    nog.Int8N = ((SByte?)obj);
+                    nog.Int8N_Property.Set(
+                        ((SByte?)obj),
+                        cmds);
                     break;
                 case 15:
-                    nog.Int8 = ((SByte)obj);
+                    nog.Int8_Property.Set(
+                        ((SByte)obj),
+                        cmds);
                     break;
                 case 16:
-                    nog.Unsafe = ((bool)obj);
+                    nog.Unsafe_Property.Set(
+                        ((bool)obj),
+                        cmds);
                     break;
                 case 17:
-                    nog.P2IntN = ((P2Int?)obj);
+                    nog.P2IntN_Property.Set(
+                        ((P2Int?)obj),
+                        cmds);
                     break;
                 case 18:
-                    nog.P2Int = ((P2Int)obj);
+                    nog.P2Int_Property.Set(
+                        ((P2Int)obj),
+                        cmds);
                     break;
                 case 19:
-                    nog.P3DoubleN = ((P3Double?)obj);
+                    nog.P3DoubleN_Property.Set(
+                        ((P3Double?)obj),
+                        cmds);
                     break;
                 case 20:
-                    nog.P3Double = ((P3Double)obj);
+                    nog.P3Double_Property.Set(
+                        ((P3Double)obj),
+                        cmds);
                     break;
                 case 21:
-                    nog.P3IntN = ((P3Int?)obj);
+                    nog.P3IntN_Property.Set(
+                        ((P3Int?)obj),
+                        cmds);
                     break;
                 case 22:
-                    nog.P3Int = ((P3Int)obj);
+                    nog.P3Int_Property.Set(
+                        ((P3Int)obj),
+                        cmds);
                     break;
                 case 23:
-                    nog.PercentN = ((Percent?)obj);
+                    nog.PercentN_Property.Set(
+                        ((Percent?)obj),
+                        cmds);
                     break;
                 case 24:
-                    nog.Percent = ((Percent)obj);
+                    nog.Percent_Property.Set(
+                        ((Percent)obj),
+                        cmds);
                     break;
                 case 25:
-                    nog.RangeIntN = ((RangeInt?)obj);
+                    nog.RangeIntN_Property.Set(
+                        ((RangeInt?)obj),
+                        cmds);
                     break;
                 case 26:
-                    nog.RangeInt = ((RangeInt)obj);
+                    nog.RangeInt_Property.Set(
+                        ((RangeInt)obj),
+                        cmds);
                     break;
                 case 27:
-                    nog.String = ((String)obj);
+                    nog.String_Property.Set(
+                        ((String)obj),
+                        cmds);
                     break;
                 case 28:
-                    nog.UDoubleN = ((UDouble?)obj);
+                    nog.UDoubleN_Property.Set(
+                        ((UDouble?)obj),
+                        cmds);
                     break;
                 case 29:
-                    nog.UDouble = ((UDouble)obj);
+                    nog.UDouble_Property.Set(
+                        ((UDouble)obj),
+                        cmds);
                     break;
                 case 30:
-                    nog.UInt16N = ((UInt16?)obj);
+                    nog.UInt16N_Property.Set(
+                        ((UInt16?)obj),
+                        cmds);
                     break;
                 case 31:
-                    nog.UInt16 = ((UInt16)obj);
+                    nog.UInt16_Property.Set(
+                        ((UInt16)obj),
+                        cmds);
                     break;
                 case 32:
-                    nog.UInt32N = ((UInt32?)obj);
+                    nog.UInt32N_Property.Set(
+                        ((UInt32?)obj),
+                        cmds);
                     break;
                 case 33:
-                    nog.UInt32 = ((UInt32)obj);
+                    nog.UInt32_Property.Set(
+                        ((UInt32)obj),
+                        cmds);
                     break;
                 case 34:
-                    nog.UInt64N = ((UInt64?)obj);
+                    nog.UInt64N_Property.Set(
+                        ((UInt64?)obj),
+                        cmds);
                     break;
                 case 35:
-                    nog.UInt64 = ((UInt64)obj);
+                    nog.UInt64_Property.Set(
+                        ((UInt64)obj),
+                        cmds);
                     break;
                 case 36:
-                    nog.UInt8N = ((Byte?)obj);
+                    nog.UInt8N_Property.Set(
+                        ((Byte?)obj),
+                        cmds);
                     break;
                 case 37:
-                    nog.UInt8 = ((Byte)obj);
+                    nog.UInt8_Property.Set(
+                        ((Byte)obj),
+                        cmds);
                     break;
                 case 38:
-                    nog.Enum = ((TestEnum)obj);
+                    nog.Enum_Property.Set(
+                        ((TestEnum)obj),
+                        cmds);
                     break;
                 case 39:
-                    nog.WildCard = ((Object)obj);
+                    nog.WildCard_Property.Set(
+                        ((Object)obj),
+                        cmds);
                     break;
                 case 40:
-                    nog.Ref = ((ObjectToRef)obj);
+                    nog.Ref_Property.Set(
+                        ((ObjectToRef)obj),
+                        cmds);
                     break;
                 case 41:
-                    nog.RefGetter = ((IObjectToRefGetter)obj);
+                    nog.RefGetter_Property.Set(
+                        ((IObjectToRefGetter)obj),
+                        cmds);
                     break;
                 case 42:
-                    nog.RefSetter = ((IObjectToRef)obj);
+                    nog.RefSetter_Property.Set(
+                        ((IObjectToRef)obj),
+                        cmds);
                     break;
                 case 43:
                     nog.List.SetTo((((NotifyingList<Boolean>)obj)), cmds);
@@ -3579,11 +5665,11 @@ namespace Noggolloquy.Tests
         }
 
     }
-    public static class TestObjectExt
+    public static class TestObject_HasBeenSetExt
     {
-        public static TestObject Copy_ToNoggolloquy(this ITestObjectGetter item)
+        public static TestObject_HasBeenSet Copy_ToNoggolloquy(this ITestObject_HasBeenSetGetter item)
         {
-            return TestObject.Copy(item, def: null);
+            return TestObject_HasBeenSet.Copy(item, def: null);
         }
 
     }
@@ -3594,7 +5680,7 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Mask
-    public class TestObject_Mask<T> 
+    public class TestObject_HasBeenSet_Mask<T> 
     {
         public T BoolN;
         public T Bool;
@@ -3646,7 +5732,7 @@ namespace Noggolloquy.Tests
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
-    public class TestObject_ErrorMask : IErrorMask
+    public class TestObject_HasBeenSet_ErrorMask : IErrorMask
     {
         public Exception Overall { get; set; }
         private List<string> _warnings;

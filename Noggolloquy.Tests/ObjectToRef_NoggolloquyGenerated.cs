@@ -33,8 +33,7 @@ namespace Noggolloquy.Tests
         #region KeyField
         protected readonly INotifyingItem<Int32> _KeyField = new NotifyingItem<Int32>(
             default(Int32),
-            markAsSet: false
-        );
+            markAsSet: false);
         public INotifyingItem<Int32> KeyField_Property => _KeyField;
         public Int32 KeyField { get { return _KeyField.Value; } set { _KeyField.Value = value; } }
         INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
@@ -44,8 +43,7 @@ namespace Noggolloquy.Tests
         #region SomeField
         protected readonly INotifyingItem<Boolean> _SomeField = new NotifyingItem<Boolean>(
             default(Boolean),
-            markAsSet: false
-        );
+            markAsSet: false);
         public INotifyingItem<Boolean> SomeField_Property => _SomeField;
         public Boolean SomeField { get { return _SomeField.Value; } set { _SomeField.Value = value; } }
         INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;

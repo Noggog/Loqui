@@ -58,13 +58,14 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
                     if (this.ReadOnly)
                     {
-                        fg.AppendLine($"public IHasBeenSetGetter {this.Property} => this.{this.Property};");
+                        fg.AppendLine($"public IHasBeenSetItemGetter<T> {this.Property} => this.{this.Property};");
                     }
                     else
                     {
-                        fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                     }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetPropertyString(true)};");
                     break;
                 case NotifyingOption.Notifying:
                     if (AllowNull)
@@ -233,7 +234,7 @@ namespace Noggolloquy.Generation
                 case NotifyingOption.None:
                     break;
                 case NotifyingOption.HasBeenSet:
-                    fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
                     break;
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");

@@ -42,17 +42,17 @@ namespace Noggolloquy.Generation
                 case NotifyingOption.HasBeenSet:
                     if (!this.TrueReadOnly)
                     {
-                        fg.AppendLine($"private readonly HasBeenSetItem<{this.TypeName}> _{this.Name} = new HasBeenSetItem<{this.TypeName}>();");
-                        fg.AppendLine($"public IHasBeenSet<{this.TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}.Item; }} {(Protected ? "protected " : string.Empty)}set {{ this._{this.Name}.Set(value); }} }}");
+                        GenerateNotifyingCtor(fg, notifying: false);
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ this._{this.Name}.Set(value); }} }}");
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     else
                     {
                         fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetGetter {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                     }
                     break;
                 case NotifyingOption.Notifying:
@@ -70,23 +70,22 @@ namespace Noggolloquy.Generation
             }
         }
 
-        protected virtual void GenerateNotifyingCtor(FileGeneration fg)
+        protected virtual void GenerateNotifyingCtor(FileGeneration fg, bool notifying = true)
         {
-            fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItem<{TypeName}>(");
+            fg.AppendLine($"protected readonly {(notifying ? "INotifyingItem" : "IHasBeenSetItem")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSetItem")}<{TypeName}>(");
             using (new DepthWrapper(fg))
             {
                 if (HasDefault)
                 {
                     fg.AppendLine($"defaultVal: {GenerateDefaultValue()},");
-                    fg.AppendLine("markAsSet: false");
+                    fg.AppendLine("markAsSet: false);");
                 }
                 else
                 {
                     fg.AppendLine($"default({this.TypeName}),");
-                    fg.AppendLine("markAsSet: false");
+                    fg.AppendLine("markAsSet: false);");
                 }
             }
-            fg.AppendLine(");");
         }
 
         protected virtual string GenerateDefaultValue()
@@ -103,7 +102,7 @@ namespace Noggolloquy.Generation
                 case NotifyingOption.None:
                     break;
                 case NotifyingOption.HasBeenSet:
-                    fg.AppendLine($"new IHasBeenSet{(this.Protected ? "Getter" : $"<{TypeName}>")} {this.Property} {{ get; }}");
+                    fg.AppendLine($"new IHasBeenSetItem{(this.Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
                     break;
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"new INotifyingItem{(this.Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
@@ -122,7 +121,7 @@ namespace Noggolloquy.Generation
                 case NotifyingOption.None:
                     break;
                 case NotifyingOption.HasBeenSet:
-                    fg.AppendLine($"IHasBeenSetGetter {this.Property} {{ get; }}");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
                     break;
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
