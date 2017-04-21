@@ -1,201 +1,201 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <Import Project="..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props')" />
-   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-   <PropertyGroup>
-      <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-      <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-      <ProjectGuid>{EFE5029A-F561-4108-8547-4BE22DA99596}</ProjectGuid>
-      <OutputType>Library</OutputType>
-      <AppDesignerFolder>Properties</AppDesignerFolder>
-      <RootNamespace>Noggolloquy.Tests</RootNamespace>
-      <AssemblyName>Noggolloquy.Tests</AssemblyName>
-      <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-      <FileAlignment>512</FileAlignment>
-      <TargetFrameworkProfile />
-      <NuGetPackageImportStamp>
-      </NuGetPackageImportStamp>
-   </PropertyGroup>
-   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-      <DebugSymbols>true</DebugSymbols>
-      <DebugType>full</DebugType>
-      <Optimize>false</Optimize>
-      <OutputPath>bin\Debug\</OutputPath>
-      <DefineConstants>DEBUG;TRACE</DefineConstants>
-      <ErrorReport>prompt</ErrorReport>
-      <WarningLevel>4</WarningLevel>
-   </PropertyGroup>
-   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-      <DebugType>pdbonly</DebugType>
-      <Optimize>true</Optimize>
-      <OutputPath>bin\Release\</OutputPath>
-      <DefineConstants>TRACE</DefineConstants>
-      <ErrorReport>prompt</ErrorReport>
-      <WarningLevel>4</WarningLevel>
-   </PropertyGroup>
-   <ItemGroup>
-      <Reference Include="System" />
-      <Reference Include="System.Core" />
-      <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-         <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      </Reference>
-      <Reference Include="System.Xml.Linq" />
-      <Reference Include="System.Data.DataSetExtensions" />
-      <Reference Include="Microsoft.CSharp" />
-      <Reference Include="System.Data" />
-      <Reference Include="System.Net.Http" />
-      <Reference Include="System.Xml" />
-      <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-         <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="xunit.assert, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-         <HintPath>..\packages\xunit.assert.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.assert.dll</HintPath>
-      </Reference>
-      <Reference Include="xunit.core, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-         <HintPath>..\packages\xunit.extensibility.core.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.core.dll</HintPath>
-      </Reference>
-      <Reference Include="xunit.execution.desktop, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-         <HintPath>..\packages\xunit.extensibility.execution.2.3.0-beta1-build3642\lib\net452\xunit.execution.desktop.dll</HintPath>
-      </Reference>
-   </ItemGroup>
-   <ItemGroup>
-      <Compile Include="NoggolloquyRegistration_Tests.cs" />
-      <Compile Include="ObjectToRef_CustomMade.cs" />
-      <Compile Include="ObjectToRef_NoggolloquyGenerated.cs">
-         <DependentUpon>ObjectToRef.xml</DependentUpon>
-      </Compile>
-      <Compile Include="Properties\AssemblyInfo.cs" />
-      <Compile Include="ProtocolDefinition_NoggolloquyTests.cs" />
-      <Compile Include="TestEnum.cs" />
-      <Compile Include="TestGenericObject_NoggolloquyGenerated.cs">
-         <DependentUpon>TestGenericObject.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestGenericObject_SubClass_Defined_NoggolloquyGenerated.cs">
-         <DependentUpon>TestGenericObject_SubClass_Defined.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestGenericObject_SubClass_NoggolloquyGenerated.cs">
-         <DependentUpon>TestGenericObject_SubClass.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_HasBeenSet_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_HasBeenSet_ReadOnly_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_HasBeenSet_ReadOnly.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_Notifying_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_Notifying.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_Notifying_ReadOnly_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_Notifying_ReadOnly.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_Notifying_SubClass_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_Notifying_SubClass.xml</DependentUpon>
-      </Compile>
-      <Compile Include="TestObject_ReadOnly_NoggolloquyGenerated.cs">
-         <DependentUpon>TestObject_ReadOnly.xml</DependentUpon>
-      </Compile>
-      <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\BoolXmlTranslation_Test.cs" />
-      <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\ByteXmlTranslation_Test.cs" />
-      <Compile Include="XML\CharNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\CharXmlTranslation_Test.cs" />
-      <Compile Include="XML\DoubleNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\DoubleXmlTranslation_Test.cs" />
-      <Compile Include="XML\EnumNullableXmlTranslation_Tests.cs" />
-      <Compile Include="XML\EnumXmlTranslation_Tests.cs" />
-      <Compile Include="XML\FloatNullableXmlTranslation.cs" />
-      <Compile Include="XML\FloatXmlTranslation_Test.cs" />
-      <Compile Include="XML\Int16NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\Int16XmlTranslation_Test.cs" />
-      <Compile Include="XML\Int32NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\Int32XmlTranslation_Test.cs" />
-      <Compile Include="XML\Int64NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\Int64XmlTranslation_Test.cs" />
-      <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\Int8XmlTranslation_Test.cs" />
-      <Compile Include="XML\RefListXmlTranslation_Tests.cs" />
-      <Compile Include="XML\ListXmlTranslation_Tests.cs" />
-      <Compile Include="XML\P2IntNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\P2IntXmlTranslation_Test.cs" />
-      <Compile Include="XML\P3IntNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\P3IntXmlTranslation_Test.cs" />
-      <Compile Include="XML\PercentNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\PercentXmlTranslation_Test.cs" />
-      <Compile Include="XML\RangeDoubleNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\RangeDoubleXmlTranslation_Test.cs" />
-      <Compile Include="XML\RangeIntNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\RangeIntXmlTranslation_Test.cs" />
-      <Compile Include="XML\StringXmlTranslation_Test.cs" />
-      <Compile Include="XML\TypicalXmlTranslation_Test.cs" />
-      <Compile Include="XML\UDoubleNullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\UDoubleXmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt16NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt16XmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt32NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt32XmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
-      <Compile Include="XML\UInt64XmlTranslation_Test.cs" />
-      <Compile Include="XML\WildcardXmlTranslation_Test.cs" />
-      <Compile Include="XML\XmlUtility.cs" />
-   </ItemGroup>
-   <ItemGroup>
-      <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
-         <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
-         <Name>CSharpExt</Name>
-      </ProjectReference>
-      <ProjectReference Include="..\Noggolloquy\Noggolloquy.csproj">
-         <Project>{91f19c1e-adf8-4b84-9452-04c2cd8f46d4}</Project>
-         <Name>Noggolloquy</Name>
-      </ProjectReference>
-   </ItemGroup>
-   <ItemGroup>
-      <Content Include="ObjectToRef.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestGenericObject_SubClass.xml" />
-      <Content Include="TestGenericObject_SubClass_Defined.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestGenericObject.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_HasBeenSet_ReadOnly.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_Notifying_ReadOnly.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_ReadOnly.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_HasBeenSet.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_Notifying.xml">
-         <SubType>Designer</SubType>
-      </Content>
-      <Content Include="TestObject_Notifying_SubClass.xml">
-         <SubType>Designer</SubType>
-      </Content>
-   </ItemGroup>
-   <ItemGroup>
-      <None Include="packages.config" />
-   </ItemGroup>
-   <ItemGroup>
-      <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-   </ItemGroup>
-   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-         <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props'))" />
-   </Target>
+  <Import Project="..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EFE5029A-F561-4108-8547-4BE22DA99596}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Noggolloquy.Tests</RootNamespace>
+    <AssemblyName>Noggolloquy.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.3.0-beta1-build3642\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NoggolloquyRegistration_Tests.cs" />
+    <Compile Include="ObjectToRef_CustomMade.cs" />
+    <Compile Include="Generated Test Objects\ObjectToRef_NoggolloquyGenerated.cs">
+      <DependentUpon>ObjectToRef.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtocolDefinition_NoggolloquyTests.cs" />
+    <Compile Include="TestEnum.cs" />
+    <Compile Include="Generated Test Objects\TestGenericObject_NoggolloquyGenerated.cs">
+      <DependentUpon>TestGenericObject.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestGenericObject_SubClass_Defined_NoggolloquyGenerated.cs">
+      <DependentUpon>TestGenericObject_SubClass_Defined.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestGenericObject_SubClass_NoggolloquyGenerated.cs">
+      <DependentUpon>TestGenericObject_SubClass.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_HasBeenSet_ReadOnly.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_Notifying.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_ReadOnly_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_Notifying_ReadOnly.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_SubClass_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_Notifying_SubClass.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_ReadOnly_NoggolloquyGenerated.cs">
+      <DependentUpon>TestObject_ReadOnly.xml</DependentUpon>
+    </Compile>
+    <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\BoolXmlTranslation_Test.cs" />
+    <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\ByteXmlTranslation_Test.cs" />
+    <Compile Include="XML\CharNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\CharXmlTranslation_Test.cs" />
+    <Compile Include="XML\DoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\DoubleXmlTranslation_Test.cs" />
+    <Compile Include="XML\EnumNullableXmlTranslation_Tests.cs" />
+    <Compile Include="XML\EnumXmlTranslation_Tests.cs" />
+    <Compile Include="XML\FloatNullableXmlTranslation.cs" />
+    <Compile Include="XML\FloatXmlTranslation_Test.cs" />
+    <Compile Include="XML\Int16NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\Int16XmlTranslation_Test.cs" />
+    <Compile Include="XML\Int32NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\Int32XmlTranslation_Test.cs" />
+    <Compile Include="XML\Int64NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\Int64XmlTranslation_Test.cs" />
+    <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\Int8XmlTranslation_Test.cs" />
+    <Compile Include="XML\RefListXmlTranslation_Tests.cs" />
+    <Compile Include="XML\ListXmlTranslation_Tests.cs" />
+    <Compile Include="XML\P2IntNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\P2IntXmlTranslation_Test.cs" />
+    <Compile Include="XML\P3IntNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\P3IntXmlTranslation_Test.cs" />
+    <Compile Include="XML\PercentNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\PercentXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeDoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeDoubleXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeIntNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\RangeIntXmlTranslation_Test.cs" />
+    <Compile Include="XML\StringXmlTranslation_Test.cs" />
+    <Compile Include="XML\TypicalXmlTranslation_Test.cs" />
+    <Compile Include="XML\UDoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UDoubleXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt16NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt16XmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt32NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt32XmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\UInt64XmlTranslation_Test.cs" />
+    <Compile Include="XML\WildcardXmlTranslation_Test.cs" />
+    <Compile Include="XML\XmlUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
+      <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
+      <Name>CSharpExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noggolloquy\Noggolloquy.csproj">
+      <Project>{91f19c1e-adf8-4b84-9452-04c2cd8f46d4}</Project>
+      <Name>Noggolloquy</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Generated Test Objects\ObjectToRef.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestGenericObject_SubClass.xml" />
+    <Content Include="Generated Test Objects\TestGenericObject_SubClass_Defined.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestGenericObject.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_ReadOnly.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_ReadOnly.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_HasBeenSet.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_SubClass.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.3.0-beta1-build1309\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
 </Project>
