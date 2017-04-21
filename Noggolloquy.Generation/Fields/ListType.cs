@@ -18,19 +18,6 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 // Get nth
-                fg.AppendLine($"public {ItemTypeName} GetNth{this.Name}(int index)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return {member}[index];");
-                }
-                if (this.isNoggSingle)
-                {
-                    fg.AppendLine($"{GetterTypeName} {this.ObjectGen.Getter_InterfaceStr}.GetNth{this.Name}(int index)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return {member}[index];");
-                    }
-                }
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
@@ -41,10 +28,6 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (this.isNoggSingle)
-            {
-                fg.AppendLine($"new {ItemTypeName} GetNth{this.Name}(int index);");
-            }
             if (!this.ReadOnly)
             {
                 fg.AppendLine($"new INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
@@ -53,7 +36,6 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
-            fg.AppendLine($"{GetterTypeName} GetNth{this.Name}(int index);");
             fg.AppendLine($"INotifyingListGetter<{ItemTypeName}> {this.Name} {{ get; }}");
         }
 

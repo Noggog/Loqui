@@ -576,10 +576,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
-        public Boolean GetNthList(int index)
-        {
-            return _List[index];
-        }
         INotifyingListGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.List => _List;
         #endregion
         #endregion
@@ -588,14 +584,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        public ObjectToRef GetNthRefList(int index)
-        {
-            return _RefList[index];
-        }
-        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.GetNthRefList(int index)
-        {
-            return _RefList[index];
-        }
         INotifyingListGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefList => _RefList;
         #endregion
         #endregion
@@ -604,7 +592,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnly.Dict => _Dict;
         INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnlyGetter.Dict => _Dict;
         #endregion
         #endregion
@@ -613,7 +600,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnly.RefDict => _RefDict;
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefDict => _RefDict;
         #endregion
         #endregion
@@ -622,7 +608,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnly.DictKeyedValue => _DictKeyedValue;
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
         #endregion
@@ -1239,10 +1224,6 @@ namespace Noggolloquy.Tests
     #region Interface
     public interface ITestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnlyGetter, INoggolloquyClass<ITestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>, INoggolloquyClass<TestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>
     {
-        new ObjectToRef GetNthRefList(int index);
-        new INotifyingDictionaryGetter<Boolean, String> Dict { get; }
-        new INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
-        new INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
     public interface ITestObject_Notifying_ReadOnlyGetter : INoggolloquyObject
@@ -1506,12 +1487,10 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region List
-        Boolean GetNthList(int index);
         INotifyingListGetter<Boolean> List { get; }
         #endregion
 
         #region RefList
-        ObjectToRef GetNthRefList(int index);
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
 

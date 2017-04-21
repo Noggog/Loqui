@@ -213,10 +213,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
         #region Interface Members
-        public Boolean GetNthList(int index)
-        {
-            return _List[index];
-        }
         INotifyingList<Boolean> ITestObject.List => _List;
         INotifyingListGetter<Boolean> ITestObjectGetter.List => _List;
         #endregion
@@ -226,14 +222,6 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        public ObjectToRef GetNthRefList(int index)
-        {
-            return _RefList[index];
-        }
-        ObjectToRef ITestObjectGetter.GetNthRefList(int index)
-        {
-            return _RefList[index];
-        }
         INotifyingList<ObjectToRef> ITestObject.RefList => _RefList;
         INotifyingListGetter<ObjectToRef> ITestObjectGetter.RefList => _RefList;
         #endregion
@@ -1576,7 +1564,6 @@ namespace Noggolloquy.Tests
         new IObjectToRef RefSetter { get; set; }
 
         new INotifyingList<Boolean> List { get; }
-        new ObjectToRef GetNthRefList(int index);
         new INotifyingList<ObjectToRef> RefList { get; }
         new INotifyingDictionary<Boolean, String> Dict { get; }
         new INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get; }
@@ -1801,12 +1788,10 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region List
-        Boolean GetNthList(int index);
         INotifyingListGetter<Boolean> List { get; }
         #endregion
 
         #region RefList
-        ObjectToRef GetNthRefList(int index);
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
 
