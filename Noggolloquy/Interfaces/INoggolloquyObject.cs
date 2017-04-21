@@ -33,25 +33,12 @@ namespace Noggolloquy
 
     public static class INoggolloquyObjectExt
     {
-        public static bool HasFieldWithName(this INoggolloquyObjectGetter obj, StringCaseAgnostic name)
+        public static string PrintPretty(INoggolloquyObjectGetter obj)
         {
-            return -1 != obj.Registration.GetNameIndex(name);
+            return PrintPretty(obj, new DepthPrinter());
         }
 
-        public static IEnumerable EnumerateFields(this INoggolloquyObjectGetter obj)
-        {
-            for (ushort i = 0; i < obj.Registration.FieldCount; i++)
-            {
-                yield return obj.GetNthObject(i);
-            }
-        }
-
-        public static string PrintPretty(this INoggolloquyObjectGetter obj)
-        {
-            return obj.PrintPretty(new DepthPrinter());
-        }
-
-        public static string PrintPretty(this INoggolloquyObjectGetter obj, DepthPrinter depthPrinter)
+        public static string PrintPretty(INoggolloquyObjectGetter obj, DepthPrinter depthPrinter)
         {
             depthPrinter.AddLine(obj.Registration.Name + "=>");
             return PrintPrettyInternal(obj, depthPrinter);
@@ -124,7 +111,7 @@ namespace Noggolloquy
         }
 
         public static void CopyFieldsIn(
-            this INoggolloquyObjectSetter obj,
+            INoggolloquyObjectSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
             INoggolloquyObjectGetter def,
             bool skipReadonly,
@@ -155,7 +142,7 @@ namespace Noggolloquy
         }
 
         public static void CopyFieldsIn(
-            this INoggolloquyObjectSetter obj,
+            INoggolloquyObjectSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
             INoggolloquyObjectGetter def,
             Func<IErrorMask> errorMaskGetter,
@@ -205,11 +192,6 @@ namespace Noggolloquy
             {
                 errorMaskGetter().Overall = ex;
             }
-        }
-
-        public static object Copy(this INoggolloquyObject obj)
-        {
-            throw new NotImplementedException();
         }
     }
 }

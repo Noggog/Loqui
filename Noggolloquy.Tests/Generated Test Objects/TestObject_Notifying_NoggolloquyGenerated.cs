@@ -663,19 +663,23 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public virtual object GetNthObject(ushort index) => TestObject_NotifyingCommon.GetNthObject(index, this);
+        protected virtual object GetNthObject(ushort index) => TestObject_NotifyingCommon.GetNthObject(index, this);
+        object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        public virtual bool GetNthObjectHasBeenSet(ushort index) => TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, this);
+        protected virtual bool GetNthObjectHasBeenSet(ushort index) => TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, this);
+        bool INoggolloquyObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        public virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_NotifyingCommon.UnsetNthObject(index, this, cmds);
+        protected virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_NotifyingCommon.UnsetNthObject(index, this, cmds);
+        void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public virtual void SetNthObjectHasBeenSet(ushort index, bool on)
+        protected virtual void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestObject_NotifyingCommon.SetNthObjectHasBeenSet(index, on, this);
         }
+        void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
         public void CopyFieldsFrom(ITestObject_NotifyingGetter rhs, ITestObject_NotifyingGetter def = null, NotifyingFireParameters? cmds = null)
         {
@@ -694,7 +698,7 @@ namespace Noggolloquy.Tests
         #region To String
         public override string ToString()
         {
-            return this.PrintPretty();
+            return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
 
@@ -2346,7 +2350,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public static TestObject_Notifying CreateFromXML(XElement root)
+        public static TestObject_Notifying Create_XML(XElement root)
         {
             var ret = new TestObject_Notifying();
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.CopyIn(
@@ -2359,7 +2363,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestObject_Notifying CreateFromXML(XElement root, out TestObject_Notifying_ErrorMask errorMask)
+        public static TestObject_Notifying Create_XML(XElement root, out TestObject_Notifying_ErrorMask errorMask)
         {
             var ret = new TestObject_Notifying();
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.CopyIn(
@@ -2372,7 +2376,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public virtual void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -2383,7 +2387,7 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, out TestObject_Notifying_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -2394,17 +2398,27 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public void WriteXMLToStream(Stream stream)
+        public void Write_XML(Stream stream)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;
-                WriteXML(writer);
+                Write_XML(writer);
             }
         }
 
-        public void WriteXML(XmlWriter writer, out TestObject_Notifying_ErrorMask errorMask, string name = null)
+        public void Write_XML(Stream stream, out TestObject_Notifying_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(writer, out errorMask);
+            }
+        }
+
+        public void Write_XML(XmlWriter writer, out TestObject_Notifying_ErrorMask errorMask, string name = null)
         {
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -2414,7 +2428,7 @@ namespace Noggolloquy.Tests
                 mask: out errorMask);
         }
 
-        public virtual void WriteXML(XmlWriter writer, string name)
+        public virtual void Write_XML(XmlWriter writer, string name)
         {
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -2424,7 +2438,7 @@ namespace Noggolloquy.Tests
                 mask: out TestObject_Notifying_ErrorMask errorMask);
         }
 
-        public virtual void WriteXML(XmlWriter writer)
+        public virtual void Write_XML(XmlWriter writer)
         {
             NoggXmlTranslation<TestObject_Notifying, TestObject_Notifying_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -2462,7 +2476,8 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
+        protected virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -5861,14 +5876,6 @@ namespace Noggolloquy.Tests
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
-        }
-
-    }
-    public static class TestObject_NotifyingExt
-    {
-        public static TestObject_Notifying Copy_ToNoggolloquy(this ITestObject_NotifyingGetter item)
-        {
-            return TestObject_Notifying.Copy(item, def: null);
         }
 
     }

@@ -486,22 +486,6 @@ namespace Noggolloquy.Generation
                         field.GenerateForInterfaceExt(fg);
                     }
                 }
-
-                fg.AppendLine($"public static class {this.ExtName}");
-
-                using (new BraceWrapper(fg))
-                {
-                    if (!this.Abstract)
-                    {
-                        fg.AppendLine($"public static {this.ObjectName} Copy_ToNoggolloquy{GenericTypes}(this {this.Getter_InterfaceStr} item)");
-                        GenerateWhereClauses(fg, this.Generics);
-                        using (new BraceWrapper(fg))
-                        {
-                            GenerateStaticCopy_ToNoggolloquy(fg);
-                        }
-                        fg.AppendLine();
-                    }
-                }
             }
 
             fg.AppendLine();
@@ -570,12 +554,16 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthObject(index, this);");
+                fg.AppendLine($"protected{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthObject(index, this);");
+                if (this.IsTopClass)
+                {
+                    fg.AppendLine($"object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);");
+                }
                 fg.AppendLine();
 
                 using (new LineWrapper(fg))
                 {
-                    fg.Append($"public{this.FunctionOverride}bool GetNthObjectHasBeenSet(ushort index) => ");
+                    fg.Append($"protected{this.FunctionOverride}bool GetNthObjectHasBeenSet(ushort index) => ");
                     if (this is ClassGeneration)
                     {
                         fg.Append($"{this.ExtCommonName(this.GenericTypes)}.GetNthObjectHasBeenSet(index, this);");
@@ -585,9 +573,17 @@ namespace Noggolloquy.Generation
                         fg.Append("true;");
                     }
                 }
+                if (this.IsTopClass)
+                {
+                    fg.AppendLine($"bool INoggolloquyObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);");
+                }
                 fg.AppendLine();
 
-                fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(index, this, cmds);");
+                fg.AppendLine($"protected{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(index, this, cmds);");
+                if (this.IsTopClass)
+                {
+                    fg.AppendLine($"void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);");
+                }
                 fg.AppendLine();
             }
             fg.AppendLine();
@@ -597,10 +593,14 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Noggolloquy Interface"))
             {
-                fg.AppendLine($"public{this.FunctionOverride}void SetNthObjectHasBeenSet(ushort index, bool on)");
+                fg.AppendLine($"protected{this.FunctionOverride}void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.SetNthObjectHasBeenSet(index, on, this);");
+                }
+                if (this.IsTopClass)
+                {
+                    fg.AppendLine($"void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);");
                 }
                 fg.AppendLine();
 
@@ -709,7 +709,11 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
+            if (this.IsTopClass)
+            {
+                fg.AppendLine("void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);");
+            }
+            fg.AppendLine($"protected{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -1269,7 +1273,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("public override string ToString()");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("return this.PrintPretty();");
+                        fg.AppendLine("return INoggolloquyObjectExt.PrintPretty(this);");
                     }
                 }
                 fg.AppendLine();

@@ -61,19 +61,23 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => ObjectToRefCommon.GetNthObject(index, this);
+        protected object GetNthObject(ushort index) => ObjectToRefCommon.GetNthObject(index, this);
+        object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
+        protected bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
+        bool INoggolloquyObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(index, this, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(index, this, cmds);
+        void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public void SetNthObjectHasBeenSet(ushort index, bool on)
+        protected void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             ObjectToRefCommon.SetNthObjectHasBeenSet(index, on, this);
         }
+        void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
         public void CopyFieldsFrom(IObjectToRefGetter rhs, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
         {
@@ -92,7 +96,7 @@ namespace Noggolloquy.Tests
         #region To String
         public override string ToString()
         {
-            return this.PrintPretty();
+            return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
 
@@ -200,7 +204,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public static ObjectToRef CreateFromXML(XElement root)
+        public static ObjectToRef Create_XML(XElement root)
         {
             var ret = new ObjectToRef();
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
@@ -213,7 +217,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static ObjectToRef CreateFromXML(XElement root, out ObjectToRef_ErrorMask errorMask)
+        public static ObjectToRef Create_XML(XElement root, out ObjectToRef_ErrorMask errorMask)
         {
             var ret = new ObjectToRef();
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
@@ -226,7 +230,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -237,7 +241,7 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, out ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -248,17 +252,27 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public void WriteXMLToStream(Stream stream)
+        public void Write_XML(Stream stream)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;
-                WriteXML(writer);
+                Write_XML(writer);
             }
         }
 
-        public void WriteXML(XmlWriter writer, out ObjectToRef_ErrorMask errorMask, string name = null)
+        public void Write_XML(Stream stream, out ObjectToRef_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(writer, out errorMask);
+            }
+        }
+
+        public void Write_XML(XmlWriter writer, out ObjectToRef_ErrorMask errorMask, string name = null)
         {
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -268,7 +282,7 @@ namespace Noggolloquy.Tests
                 mask: out errorMask);
         }
 
-        public void WriteXML(XmlWriter writer, string name)
+        public void Write_XML(XmlWriter writer, string name)
         {
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -278,7 +292,7 @@ namespace Noggolloquy.Tests
                 mask: out ObjectToRef_ErrorMask errorMask);
         }
 
-        public void WriteXML(XmlWriter writer)
+        public void Write_XML(XmlWriter writer)
         {
             NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                 writer: writer,
@@ -316,7 +330,8 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
+        protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -669,14 +684,6 @@ namespace Noggolloquy.Tests
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
-        }
-
-    }
-    public static class ObjectToRefExt
-    {
-        public static ObjectToRef Copy_ToNoggolloquy(this IObjectToRefGetter item)
-        {
-            return ObjectToRef.Copy(item, def: null);
         }
 
     }

@@ -47,16 +47,16 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public override object GetNthObject(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObject(index, this);
+        protected override object GetNthObject(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObject(index, this);
 
-        public override bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObjectHasBeenSet(index, this);
+        protected override bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObjectHasBeenSet(index, this);
 
-        public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public override void SetNthObjectHasBeenSet(ushort index, bool on)
+        protected override void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestObject_Notifying_SubClassCommon.SetNthObjectHasBeenSet(index, on, this);
         }
@@ -78,7 +78,7 @@ namespace Noggolloquy.Tests
         #region To String
         public override string ToString()
         {
-            return this.PrintPretty();
+            return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
 
@@ -154,7 +154,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public new static TestObject_Notifying_SubClass CreateFromXML(XElement root)
+        public new static TestObject_Notifying_SubClass Create_XML(XElement root)
         {
             var ret = new TestObject_Notifying_SubClass();
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
@@ -167,7 +167,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestObject_Notifying_SubClass CreateFromXML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask)
+        public static TestObject_Notifying_SubClass Create_XML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask)
         {
             var ret = new TestObject_Notifying_SubClass();
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
@@ -180,7 +180,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public override void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -191,7 +191,7 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, out TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -202,10 +202,30 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public override void CopyInFromXML(XElement root, out TestObject_Notifying_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(XElement root, out TestObject_Notifying_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            CopyInFromXML(root, out TestObject_Notifying_SubClass_ErrorMask errMask, cmds: cmds);
+            CopyIn_XML(root, out TestObject_Notifying_SubClass_ErrorMask errMask, cmds: cmds);
             errorMask = errMask;
+        }
+
+        public void Write_XML(Stream stream, out TestObject_Notifying_SubClass_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(writer, out errorMask);
+            }
+        }
+
+        public void Write_XML(XmlWriter writer, out TestObject_Notifying_SubClass_ErrorMask errorMask, string name = null)
+        {
+            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.Write(
+                writer: writer,
+                name: name,
+                item: this,
+                doMasks: true,
+                mask: out errorMask);
         }
 
         #endregion
@@ -237,7 +257,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -526,14 +546,6 @@ namespace Noggolloquy.Tests
                 default:
                     return TestObject_NotifyingCommon.GetNthObject(index, obj);
             }
-        }
-
-    }
-    public static class TestObject_Notifying_SubClassExt
-    {
-        public static TestObject_Notifying_SubClass Copy_ToNoggolloquy(this ITestObject_Notifying_SubClassGetter item)
-        {
-            return TestObject_Notifying_SubClass.Copy(item, def: null);
         }
 
     }

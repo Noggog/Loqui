@@ -33,16 +33,16 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        public override object GetNthObject(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObject(index, this);
+        protected override object GetNthObject(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObject(index, this);
 
-        public override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObjectHasBeenSet(index, this);
+        protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObjectHasBeenSet(index, this);
 
-        public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClass_DefinedCommon.UnsetNthObject(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClass_DefinedCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
-        public override void SetNthObjectHasBeenSet(ushort index, bool on)
+        protected override void SetNthObjectHasBeenSet(ushort index, bool on)
         {
             TestGenericObject_SubClass_DefinedCommon.SetNthObjectHasBeenSet(index, on, this);
         }
@@ -64,7 +64,7 @@ namespace Noggolloquy.Tests
         #region To String
         public override string ToString()
         {
-            return this.PrintPretty();
+            return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
 
@@ -107,7 +107,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
         #region XML Translation
-        public new static TestGenericObject_SubClass_Defined CreateFromXML(XElement root)
+        public new static TestGenericObject_SubClass_Defined Create_XML(XElement root)
         {
             var ret = new TestGenericObject_SubClass_Defined();
             NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
@@ -120,7 +120,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestGenericObject_SubClass_Defined CreateFromXML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        public static TestGenericObject_SubClass_Defined Create_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
             var ret = new TestGenericObject_SubClass_Defined();
             NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
@@ -133,7 +133,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public override void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -144,7 +144,7 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
             NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -155,10 +155,30 @@ namespace Noggolloquy.Tests
                 cmds: cmds);
         }
 
-        public override void CopyInFromXML(XElement root, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(XElement root, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            CopyInFromXML(root, out TestGenericObject_SubClass_Defined_ErrorMask errMask, cmds: cmds);
+            CopyIn_XML(root, out TestGenericObject_SubClass_Defined_ErrorMask errMask, cmds: cmds);
             errorMask = errMask;
+        }
+
+        public void Write_XML(Stream stream, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(writer, out errorMask);
+            }
+        }
+
+        public void Write_XML(XmlWriter writer, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, string name = null)
+        {
+            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.Write(
+                writer: writer,
+                name: name,
+                item: this,
+                doMasks: true,
+                mask: out errorMask);
         }
 
         #endregion
@@ -190,7 +210,7 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -408,14 +428,6 @@ namespace Noggolloquy.Tests
                 default:
                     return TestGenericObjectCommon<long, ObjectToRef>.GetNthObject(index, obj);
             }
-        }
-
-    }
-    public static class TestGenericObject_SubClass_DefinedExt
-    {
-        public static TestGenericObject_SubClass_Defined Copy_ToNoggolloquy(this ITestGenericObject_SubClass_DefinedGetter item)
-        {
-            return TestGenericObject_SubClass_Defined.Copy(item, def: null);
         }
 
     }
