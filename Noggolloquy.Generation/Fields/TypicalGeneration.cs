@@ -37,14 +37,19 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "private " : string.Empty)}set; }}");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
                     break;
                 case NotifyingOption.HasBeenSet:
                     if (!this.TrueReadOnly)
                     {
                         GenerateNotifyingCtor(fg, notifying: false);
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ this._{this.Name}.Set(value); }} }}");
+                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => this._{ this.Name}.Value;");
+                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -58,7 +63,12 @@ namespace Noggolloquy.Generation
                 case NotifyingOption.Notifying:
                     this.GenerateNotifyingCtor(fg);
                     fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ _{this.Name}.Value = value; }} }}");
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this._{ this.Name}.Value;");
+                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                    }
                     if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");

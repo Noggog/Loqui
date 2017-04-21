@@ -5,23 +5,37 @@ namespace Noggolloquy.Generation
     public class WildcardType : TypicalTypeGeneration
     {
         public override Type Type => typeof(object);
-        
+
         public override void GenerateForClass(FileGeneration fg)
         {
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
                     fg.AppendLine($"protected {this.TypeName} _{this.Name};");
-                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get => this._{this.Name}; {(this.ReadOnly ? "protected " : string.Empty)}set => this._{this.Name} = WildcardLink.Validate(value); }}");
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this._{ this.Name};");
+                        fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
+                    }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     break;
                 case NotifyingOption.HasBeenSet:
                     GenerateNotifyingCtor(fg, notifying: false);
                     fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name}.Value = WildcardLink.Validate(value); }} ")}}}");
-                    if (!this.ReadOnly)
+                    if (ReadOnly)
+                    {
+                        fg.AppendLine($"public {this.TypeName} {this.Name} => this._{ this.Name};");
+                    }
+                    else
                     {
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => this._{ this.Name};");
+                            fg.AppendLine($"set => this._{this.Name}.Value = WildcardLink.Validate(value);");
+                        }
                     }
                     fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(false, true)};");
                     break;

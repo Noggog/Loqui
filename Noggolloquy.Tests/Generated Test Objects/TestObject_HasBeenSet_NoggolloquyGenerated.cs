@@ -36,7 +36,11 @@ namespace Noggolloquy.Tests
             default(Boolean?),
             markAsSet: false);
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
-        public Boolean? BoolN { get { return this._BoolN.Value; } set { this._BoolN.Set(value); } }
+        public Boolean? BoolN
+        {
+            get => this._BoolN.Value;
+            set => this._BoolN.Set(value);
+        }
         Boolean? ITestObject_HasBeenSetGetter.BoolN => this.BoolN;
         IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
@@ -46,7 +50,11 @@ namespace Noggolloquy.Tests
             default(Boolean),
             markAsSet: false);
         public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
-        public Boolean Bool { get { return this._Bool.Value; } set { this._Bool.Set(value); } }
+        public Boolean Bool
+        {
+            get => this._Bool.Value;
+            set => this._Bool.Set(value);
+        }
         Boolean ITestObject_HasBeenSetGetter.Bool => this.Bool;
         IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
@@ -56,7 +64,11 @@ namespace Noggolloquy.Tests
             default(Char?),
             markAsSet: false);
         public IHasBeenSetItem<Char?> CharN_Property => _CharN;
-        public Char? CharN { get { return this._CharN.Value; } set { this._CharN.Set(value); } }
+        public Char? CharN
+        {
+            get => this._CharN.Value;
+            set => this._CharN.Set(value);
+        }
         Char? ITestObject_HasBeenSetGetter.CharN => this.CharN;
         IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
@@ -66,7 +78,11 @@ namespace Noggolloquy.Tests
             default(Char),
             markAsSet: false);
         public IHasBeenSetItem<Char> Char_Property => _Char;
-        public Char Char { get { return this._Char.Value; } set { this._Char.Set(value); } }
+        public Char Char
+        {
+            get => this._Char.Value;
+            set => this._Char.Set(value);
+        }
         Char ITestObject_HasBeenSetGetter.Char => this.Char;
         IHasBeenSetItemGetter<Char> ITestObject_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
@@ -76,7 +92,11 @@ namespace Noggolloquy.Tests
             default(Double?),
             markAsSet: false);
         public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
-        public Double? DoubleN { get { return this._DoubleN.Value; } set { this._DoubleN.Set(value); } }
+        public Double? DoubleN
+        {
+            get => this._DoubleN.Value;
+            set => this._DoubleN.Set(value);
+        }
         Double? ITestObject_HasBeenSetGetter.DoubleN => this.DoubleN;
         IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
@@ -86,7 +106,11 @@ namespace Noggolloquy.Tests
             default(Double),
             markAsSet: false);
         public IHasBeenSetItem<Double> Double_Property => _Double;
-        public Double Double { get { return this._Double.Value; } set { this._Double.Set(value); } }
+        public Double Double
+        {
+            get => this._Double.Value;
+            set => this._Double.Set(value);
+        }
         Double ITestObject_HasBeenSetGetter.Double => this.Double;
         IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
@@ -96,7 +120,11 @@ namespace Noggolloquy.Tests
             default(Single?),
             markAsSet: false);
         public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
-        public Single? FloatN { get { return this._FloatN.Value; } set { this._FloatN.Set(value); } }
+        public Single? FloatN
+        {
+            get => this._FloatN.Value;
+            set => this._FloatN.Set(value);
+        }
         Single? ITestObject_HasBeenSetGetter.FloatN => this.FloatN;
         IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
@@ -106,7 +134,11 @@ namespace Noggolloquy.Tests
             default(Single),
             markAsSet: false);
         public IHasBeenSetItem<Single> Float_Property => _Float;
-        public Single Float { get { return this._Float.Value; } set { this._Float.Set(value); } }
+        public Single Float
+        {
+            get => this._Float.Value;
+            set => this._Float.Set(value);
+        }
         Single ITestObject_HasBeenSetGetter.Float => this.Float;
         IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
@@ -116,7 +148,11 @@ namespace Noggolloquy.Tests
             default(Int16?),
             markAsSet: false);
         public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
-        public Int16? Int16N { get { return this._Int16N.Value; } set { this._Int16N.Set(value); } }
+        public Int16? Int16N
+        {
+            get => this._Int16N.Value;
+            set => this._Int16N.Set(value);
+        }
         Int16? ITestObject_HasBeenSetGetter.Int16N => this.Int16N;
         IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
@@ -126,7 +162,11 @@ namespace Noggolloquy.Tests
             default(Int16),
             markAsSet: false);
         public IHasBeenSetItem<Int16> Int16_Property => _Int16;
-        public Int16 Int16 { get { return this._Int16.Value; } set { this._Int16.Set(value); } }
+        public Int16 Int16
+        {
+            get => this._Int16.Value;
+            set => this._Int16.Set(value);
+        }
         Int16 ITestObject_HasBeenSetGetter.Int16 => this.Int16;
         IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
@@ -136,7 +176,11 @@ namespace Noggolloquy.Tests
             default(Int32?),
             markAsSet: false);
         public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
-        public Int32? Int32N { get { return this._Int32N.Value; } set { this._Int32N.Set(value); } }
+        public Int32? Int32N
+        {
+            get => this._Int32N.Value;
+            set => this._Int32N.Set(value);
+        }
         Int32? ITestObject_HasBeenSetGetter.Int32N => this.Int32N;
         IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
@@ -146,7 +190,11 @@ namespace Noggolloquy.Tests
             default(Int32),
             markAsSet: false);
         public IHasBeenSetItem<Int32> Int32_Property => _Int32;
-        public Int32 Int32 { get { return this._Int32.Value; } set { this._Int32.Set(value); } }
+        public Int32 Int32
+        {
+            get => this._Int32.Value;
+            set => this._Int32.Set(value);
+        }
         Int32 ITestObject_HasBeenSetGetter.Int32 => this.Int32;
         IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
@@ -156,7 +204,11 @@ namespace Noggolloquy.Tests
             default(Int64?),
             markAsSet: false);
         public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
-        public Int64? Int64N { get { return this._Int64N.Value; } set { this._Int64N.Set(value); } }
+        public Int64? Int64N
+        {
+            get => this._Int64N.Value;
+            set => this._Int64N.Set(value);
+        }
         Int64? ITestObject_HasBeenSetGetter.Int64N => this.Int64N;
         IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
@@ -166,7 +218,11 @@ namespace Noggolloquy.Tests
             default(Int64),
             markAsSet: false);
         public IHasBeenSetItem<Int64> Int64_Property => _Int64;
-        public Int64 Int64 { get { return this._Int64.Value; } set { this._Int64.Set(value); } }
+        public Int64 Int64
+        {
+            get => this._Int64.Value;
+            set => this._Int64.Set(value);
+        }
         Int64 ITestObject_HasBeenSetGetter.Int64 => this.Int64;
         IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
@@ -176,7 +232,11 @@ namespace Noggolloquy.Tests
             default(SByte?),
             markAsSet: false);
         public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
-        public SByte? Int8N { get { return this._Int8N.Value; } set { this._Int8N.Set(value); } }
+        public SByte? Int8N
+        {
+            get => this._Int8N.Value;
+            set => this._Int8N.Set(value);
+        }
         SByte? ITestObject_HasBeenSetGetter.Int8N => this.Int8N;
         IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
@@ -186,7 +246,11 @@ namespace Noggolloquy.Tests
             default(SByte),
             markAsSet: false);
         public IHasBeenSetItem<SByte> Int8_Property => _Int8;
-        public SByte Int8 { get { return this._Int8.Value; } set { this._Int8.Set(value); } }
+        public SByte Int8
+        {
+            get => this._Int8.Value;
+            set => this._Int8.Set(value);
+        }
         SByte ITestObject_HasBeenSetGetter.Int8 => this.Int8;
         IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
@@ -196,7 +260,11 @@ namespace Noggolloquy.Tests
             default(bool),
             markAsSet: false);
         public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
-        public bool Unsafe { get { return this._Unsafe.Value; } set { this._Unsafe.Set(value); } }
+        public bool Unsafe
+        {
+            get => this._Unsafe.Value;
+            set => this._Unsafe.Set(value);
+        }
         bool ITestObject_HasBeenSetGetter.Unsafe => this.Unsafe;
         IHasBeenSetItemGetter<bool> ITestObject_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
@@ -206,7 +274,11 @@ namespace Noggolloquy.Tests
             default(P2Int?),
             markAsSet: false);
         public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
-        public P2Int? P2IntN { get { return this._P2IntN.Value; } set { this._P2IntN.Set(value); } }
+        public P2Int? P2IntN
+        {
+            get => this._P2IntN.Value;
+            set => this._P2IntN.Set(value);
+        }
         P2Int? ITestObject_HasBeenSetGetter.P2IntN => this.P2IntN;
         IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
@@ -216,7 +288,11 @@ namespace Noggolloquy.Tests
             default(P2Int),
             markAsSet: false);
         public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
-        public P2Int P2Int { get { return this._P2Int.Value; } set { this._P2Int.Set(value); } }
+        public P2Int P2Int
+        {
+            get => this._P2Int.Value;
+            set => this._P2Int.Set(value);
+        }
         P2Int ITestObject_HasBeenSetGetter.P2Int => this.P2Int;
         IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
@@ -226,7 +302,11 @@ namespace Noggolloquy.Tests
             default(P3Double?),
             markAsSet: false);
         public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
-        public P3Double? P3DoubleN { get { return this._P3DoubleN.Value; } set { this._P3DoubleN.Set(value); } }
+        public P3Double? P3DoubleN
+        {
+            get => this._P3DoubleN.Value;
+            set => this._P3DoubleN.Set(value);
+        }
         P3Double? ITestObject_HasBeenSetGetter.P3DoubleN => this.P3DoubleN;
         IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
@@ -236,7 +316,11 @@ namespace Noggolloquy.Tests
             default(P3Double),
             markAsSet: false);
         public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
-        public P3Double P3Double { get { return this._P3Double.Value; } set { this._P3Double.Set(value); } }
+        public P3Double P3Double
+        {
+            get => this._P3Double.Value;
+            set => this._P3Double.Set(value);
+        }
         P3Double ITestObject_HasBeenSetGetter.P3Double => this.P3Double;
         IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
@@ -246,7 +330,11 @@ namespace Noggolloquy.Tests
             default(P3Int?),
             markAsSet: false);
         public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
-        public P3Int? P3IntN { get { return this._P3IntN.Value; } set { this._P3IntN.Set(value); } }
+        public P3Int? P3IntN
+        {
+            get => this._P3IntN.Value;
+            set => this._P3IntN.Set(value);
+        }
         P3Int? ITestObject_HasBeenSetGetter.P3IntN => this.P3IntN;
         IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
@@ -256,7 +344,11 @@ namespace Noggolloquy.Tests
             default(P3Int),
             markAsSet: false);
         public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
-        public P3Int P3Int { get { return this._P3Int.Value; } set { this._P3Int.Set(value); } }
+        public P3Int P3Int
+        {
+            get => this._P3Int.Value;
+            set => this._P3Int.Set(value);
+        }
         P3Int ITestObject_HasBeenSetGetter.P3Int => this.P3Int;
         IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
@@ -266,7 +358,11 @@ namespace Noggolloquy.Tests
             default(Percent?),
             markAsSet: false);
         public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
-        public Percent? PercentN { get { return this._PercentN.Value; } set { this._PercentN.Set(value); } }
+        public Percent? PercentN
+        {
+            get => this._PercentN.Value;
+            set => this._PercentN.Set(value);
+        }
         Percent? ITestObject_HasBeenSetGetter.PercentN => this.PercentN;
         IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
@@ -276,7 +372,11 @@ namespace Noggolloquy.Tests
             default(Percent),
             markAsSet: false);
         public IHasBeenSetItem<Percent> Percent_Property => _Percent;
-        public Percent Percent { get { return this._Percent.Value; } set { this._Percent.Set(value); } }
+        public Percent Percent
+        {
+            get => this._Percent.Value;
+            set => this._Percent.Set(value);
+        }
         Percent ITestObject_HasBeenSetGetter.Percent => this.Percent;
         IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
@@ -286,7 +386,11 @@ namespace Noggolloquy.Tests
             default(RangeInt?),
             markAsSet: false);
         public IHasBeenSetItem<RangeInt?> RangeIntN_Property => _RangeIntN;
-        public RangeInt? RangeIntN { get { return this._RangeIntN.Value; } set { this._RangeIntN.Set(value); } }
+        public RangeInt? RangeIntN
+        {
+            get => this._RangeIntN.Value;
+            set => this._RangeIntN.Set(value);
+        }
         RangeInt? ITestObject_HasBeenSetGetter.RangeIntN => this.RangeIntN;
         IHasBeenSetItemGetter<RangeInt?> ITestObject_HasBeenSetGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
@@ -296,7 +400,11 @@ namespace Noggolloquy.Tests
             default(RangeInt),
             markAsSet: false);
         public IHasBeenSetItem<RangeInt> RangeInt_Property => _RangeInt;
-        public RangeInt RangeInt { get { return this._RangeInt.Value; } set { this._RangeInt.Set(value); } }
+        public RangeInt RangeInt
+        {
+            get => this._RangeInt.Value;
+            set => this._RangeInt.Set(value);
+        }
         RangeInt ITestObject_HasBeenSetGetter.RangeInt => this.RangeInt;
         IHasBeenSetItemGetter<RangeInt> ITestObject_HasBeenSetGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
@@ -306,7 +414,11 @@ namespace Noggolloquy.Tests
             default(String),
             markAsSet: false);
         public IHasBeenSetItem<String> String_Property => _String;
-        public String String { get { return this._String.Value; } set { this._String.Set(value); } }
+        public String String
+        {
+            get => this._String.Value;
+            set => this._String.Set(value);
+        }
         String ITestObject_HasBeenSetGetter.String => this.String;
         IHasBeenSetItemGetter<String> ITestObject_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
@@ -316,7 +428,11 @@ namespace Noggolloquy.Tests
             default(UDouble?),
             markAsSet: false);
         public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
-        public UDouble? UDoubleN { get { return this._UDoubleN.Value; } set { this._UDoubleN.Set(value); } }
+        public UDouble? UDoubleN
+        {
+            get => this._UDoubleN.Value;
+            set => this._UDoubleN.Set(value);
+        }
         UDouble? ITestObject_HasBeenSetGetter.UDoubleN => this.UDoubleN;
         IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
@@ -326,7 +442,11 @@ namespace Noggolloquy.Tests
             default(UDouble),
             markAsSet: false);
         public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
-        public UDouble UDouble { get { return this._UDouble.Value; } set { this._UDouble.Set(value); } }
+        public UDouble UDouble
+        {
+            get => this._UDouble.Value;
+            set => this._UDouble.Set(value);
+        }
         UDouble ITestObject_HasBeenSetGetter.UDouble => this.UDouble;
         IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
@@ -336,7 +456,11 @@ namespace Noggolloquy.Tests
             default(UInt16?),
             markAsSet: false);
         public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
-        public UInt16? UInt16N { get { return this._UInt16N.Value; } set { this._UInt16N.Set(value); } }
+        public UInt16? UInt16N
+        {
+            get => this._UInt16N.Value;
+            set => this._UInt16N.Set(value);
+        }
         UInt16? ITestObject_HasBeenSetGetter.UInt16N => this.UInt16N;
         IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
@@ -346,7 +470,11 @@ namespace Noggolloquy.Tests
             default(UInt16),
             markAsSet: false);
         public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
-        public UInt16 UInt16 { get { return this._UInt16.Value; } set { this._UInt16.Set(value); } }
+        public UInt16 UInt16
+        {
+            get => this._UInt16.Value;
+            set => this._UInt16.Set(value);
+        }
         UInt16 ITestObject_HasBeenSetGetter.UInt16 => this.UInt16;
         IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
@@ -356,7 +484,11 @@ namespace Noggolloquy.Tests
             default(UInt32?),
             markAsSet: false);
         public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
-        public UInt32? UInt32N { get { return this._UInt32N.Value; } set { this._UInt32N.Set(value); } }
+        public UInt32? UInt32N
+        {
+            get => this._UInt32N.Value;
+            set => this._UInt32N.Set(value);
+        }
         UInt32? ITestObject_HasBeenSetGetter.UInt32N => this.UInt32N;
         IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
@@ -366,7 +498,11 @@ namespace Noggolloquy.Tests
             default(UInt32),
             markAsSet: false);
         public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
-        public UInt32 UInt32 { get { return this._UInt32.Value; } set { this._UInt32.Set(value); } }
+        public UInt32 UInt32
+        {
+            get => this._UInt32.Value;
+            set => this._UInt32.Set(value);
+        }
         UInt32 ITestObject_HasBeenSetGetter.UInt32 => this.UInt32;
         IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
@@ -376,7 +512,11 @@ namespace Noggolloquy.Tests
             default(UInt64?),
             markAsSet: false);
         public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
-        public UInt64? UInt64N { get { return this._UInt64N.Value; } set { this._UInt64N.Set(value); } }
+        public UInt64? UInt64N
+        {
+            get => this._UInt64N.Value;
+            set => this._UInt64N.Set(value);
+        }
         UInt64? ITestObject_HasBeenSetGetter.UInt64N => this.UInt64N;
         IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
@@ -386,7 +526,11 @@ namespace Noggolloquy.Tests
             default(UInt64),
             markAsSet: false);
         public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
-        public UInt64 UInt64 { get { return this._UInt64.Value; } set { this._UInt64.Set(value); } }
+        public UInt64 UInt64
+        {
+            get => this._UInt64.Value;
+            set => this._UInt64.Set(value);
+        }
         UInt64 ITestObject_HasBeenSetGetter.UInt64 => this.UInt64;
         IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
@@ -396,7 +540,11 @@ namespace Noggolloquy.Tests
             default(Byte?),
             markAsSet: false);
         public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
-        public Byte? UInt8N { get { return this._UInt8N.Value; } set { this._UInt8N.Set(value); } }
+        public Byte? UInt8N
+        {
+            get => this._UInt8N.Value;
+            set => this._UInt8N.Set(value);
+        }
         Byte? ITestObject_HasBeenSetGetter.UInt8N => this.UInt8N;
         IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
@@ -406,7 +554,11 @@ namespace Noggolloquy.Tests
             default(Byte),
             markAsSet: false);
         public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
-        public Byte UInt8 { get { return this._UInt8.Value; } set { this._UInt8.Set(value); } }
+        public Byte UInt8
+        {
+            get => this._UInt8.Value;
+            set => this._UInt8.Set(value);
+        }
         Byte ITestObject_HasBeenSetGetter.UInt8 => this.UInt8;
         IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
@@ -415,7 +567,11 @@ namespace Noggolloquy.Tests
         protected readonly IHasBeenSetItem<TestEnum> _Enum = new HasBeenSetItem<TestEnum>(
         );
         public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
-        public TestEnum Enum { get { return this._Enum.Value; } set { this._Enum.Set(value); } }
+        public TestEnum Enum
+        {
+            get => this._Enum.Value;
+            set => this._Enum.Set(value);
+        }
         TestEnum ITestObject_HasBeenSetGetter.Enum => this.Enum;
         IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
@@ -425,8 +581,12 @@ namespace Noggolloquy.Tests
             default(Object),
             markAsSet: false);
         public IHasBeenSetItem<Object> WildCard_Property => _WildCard;
-        public Object WildCard { get { return this._WildCard; } set { this._WildCard.Value = WildcardLink.Validate(value); } }
         Object ITestObject_HasBeenSetGetter.WildCard => this.WildCard;
+        public Object WildCard
+        {
+            get => this._WildCard;
+            set => this._WildCard.Value = WildcardLink.Validate(value);
+        }
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
         #endregion
 

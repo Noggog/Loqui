@@ -44,8 +44,12 @@ namespace Noggolloquy.Generation
         {
             KeyField = node.GetAttribute<bool>("keyField", false);
             Name = node.GetAttribute<string>("name");
-            this._derivative = node.GetAttribute<bool>("derivative");
-            this.ReadOnly = Derivative || node.GetAttribute<bool>("readOnly", this.ObjectGen.ReadOnlyDefault);
+            this._derivative = node.GetAttribute<bool>("derivative", this.ObjectGen.DerivativeDefault);
+            this.ReadOnly = node.GetAttribute<bool>("readOnly", this.ObjectGen.ReadOnlyDefault || Derivative);
+            if (this._derivative && !ReadOnly)
+            {
+                throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
+            }
             this._protected = this.Derivative || this.ReadOnly;
             this._imports = node.GetAttribute<bool>("export", true);
             this._copy = node.GetAttribute<bool>("copy", !this.ReadOnly);

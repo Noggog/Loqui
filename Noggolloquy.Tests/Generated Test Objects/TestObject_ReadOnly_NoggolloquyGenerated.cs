@@ -32,177 +32,181 @@ namespace Noggolloquy.Tests
         }
         partial void CustomCtor();
         #region BoolN
-        public Boolean? BoolN { get; private set; }
+        public Boolean? BoolN { get; protected set; }
         #endregion
 
         #region Bool
-        public Boolean Bool { get; private set; }
+        public Boolean Bool { get; protected set; }
         #endregion
 
         #region CharN
-        public Char? CharN { get; private set; }
+        public Char? CharN { get; protected set; }
         #endregion
 
         #region Char
-        public Char Char { get; private set; }
+        public Char Char { get; protected set; }
         #endregion
 
         #region DoubleN
-        public Double? DoubleN { get; private set; }
+        public Double? DoubleN { get; protected set; }
         #endregion
 
         #region Double
-        public Double Double { get; private set; }
+        public Double Double { get; protected set; }
         #endregion
 
         #region FloatN
-        public Single? FloatN { get; private set; }
+        public Single? FloatN { get; protected set; }
         #endregion
 
         #region Float
-        public Single Float { get; private set; }
+        public Single Float { get; protected set; }
         #endregion
 
         #region Int16N
-        public Int16? Int16N { get; private set; }
+        public Int16? Int16N { get; protected set; }
         #endregion
 
         #region Int16
-        public Int16 Int16 { get; private set; }
+        public Int16 Int16 { get; protected set; }
         #endregion
 
         #region Int32N
-        public Int32? Int32N { get; private set; }
+        public Int32? Int32N { get; protected set; }
         #endregion
 
         #region Int32
-        public Int32 Int32 { get; private set; }
+        public Int32 Int32 { get; protected set; }
         #endregion
 
         #region Int64N
-        public Int64? Int64N { get; private set; }
+        public Int64? Int64N { get; protected set; }
         #endregion
 
         #region Int64
-        public Int64 Int64 { get; private set; }
+        public Int64 Int64 { get; protected set; }
         #endregion
 
         #region Int8N
-        public SByte? Int8N { get; private set; }
+        public SByte? Int8N { get; protected set; }
         #endregion
 
         #region Int8
-        public SByte Int8 { get; private set; }
+        public SByte Int8 { get; protected set; }
         #endregion
 
         #region Unsafe
-        public bool Unsafe { get; private set; }
+        public bool Unsafe { get; protected set; }
         #endregion
 
         #region P2IntN
-        public P2Int? P2IntN { get; private set; }
+        public P2Int? P2IntN { get; protected set; }
         #endregion
 
         #region P2Int
-        public P2Int P2Int { get; private set; }
+        public P2Int P2Int { get; protected set; }
         #endregion
 
         #region P3DoubleN
-        public P3Double? P3DoubleN { get; private set; }
+        public P3Double? P3DoubleN { get; protected set; }
         #endregion
 
         #region P3Double
-        public P3Double P3Double { get; private set; }
+        public P3Double P3Double { get; protected set; }
         #endregion
 
         #region P3IntN
-        public P3Int? P3IntN { get; private set; }
+        public P3Int? P3IntN { get; protected set; }
         #endregion
 
         #region P3Int
-        public P3Int P3Int { get; private set; }
+        public P3Int P3Int { get; protected set; }
         #endregion
 
         #region PercentN
-        public Percent? PercentN { get; private set; }
+        public Percent? PercentN { get; protected set; }
         #endregion
 
         #region Percent
-        public Percent Percent { get; private set; }
+        public Percent Percent { get; protected set; }
         #endregion
 
         #region RangeIntN
-        public RangeInt? RangeIntN { get; private set; }
+        public RangeInt? RangeIntN { get; protected set; }
         #endregion
 
         #region RangeInt
-        public RangeInt RangeInt { get; private set; }
+        public RangeInt RangeInt { get; protected set; }
         #endregion
 
         #region String
-        public String String { get; private set; }
+        public String String { get; protected set; }
         #endregion
 
         #region UDoubleN
-        public UDouble? UDoubleN { get; private set; }
+        public UDouble? UDoubleN { get; protected set; }
         #endregion
 
         #region UDouble
-        public UDouble UDouble { get; private set; }
+        public UDouble UDouble { get; protected set; }
         #endregion
 
         #region UInt16N
-        public UInt16? UInt16N { get; private set; }
+        public UInt16? UInt16N { get; protected set; }
         #endregion
 
         #region UInt16
-        public UInt16 UInt16 { get; private set; }
+        public UInt16 UInt16 { get; protected set; }
         #endregion
 
         #region UInt32N
-        public UInt32? UInt32N { get; private set; }
+        public UInt32? UInt32N { get; protected set; }
         #endregion
 
         #region UInt32
-        public UInt32 UInt32 { get; private set; }
+        public UInt32 UInt32 { get; protected set; }
         #endregion
 
         #region UInt64N
-        public UInt64? UInt64N { get; private set; }
+        public UInt64? UInt64N { get; protected set; }
         #endregion
 
         #region UInt64
-        public UInt64 UInt64 { get; private set; }
+        public UInt64 UInt64 { get; protected set; }
         #endregion
 
         #region UInt8N
-        public Byte? UInt8N { get; private set; }
+        public Byte? UInt8N { get; protected set; }
         #endregion
 
         #region UInt8
-        public Byte UInt8 { get; private set; }
+        public Byte UInt8 { get; protected set; }
         #endregion
 
         #region Enum
-        public TestEnum Enum { get; private set; }
+        public TestEnum Enum { get; protected set; }
         #endregion
 
         #region WildCard
         protected Object _WildCard;
-        public Object WildCard { get => this._WildCard; protected set => this._WildCard = WildcardLink.Validate(value); }
+        public Object WildCard
+        {
+            get => this._WildCard;
+            protected set => this._WildCard = WildcardLink.Validate(value);
+        }
         Object ITestObject_ReadOnlyGetter.WildCard => this.WildCard;
         #endregion
 
         #region Ref
-        public ObjectToRef Ref { get; private set; }
+        public ObjectToRef Ref { get; protected set; }
         #endregion
 
         #region RefGetter
-        public IObjectToRefGetter RefGetter { get; private set; }
+        public IObjectToRefGetter RefGetter { get; protected set; }
         #endregion
 
         #region RefSetter
-        public IObjectToRef RefSetter { get; private set; }
+        public IObjectToRef RefSetter { get; protected set; }
         #endregion
 
         #region List

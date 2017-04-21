@@ -35,7 +35,11 @@ namespace Noggolloquy.Tests
             default(Int32),
             markAsSet: false);
         public INotifyingItem<Int32> KeyField_Property => _KeyField;
-        public Int32 KeyField { get { return _KeyField.Value; } set { _KeyField.Value = value; } }
+        public Int32 KeyField
+        {
+            get => this._KeyField.Value;
+            set => this._KeyField.Set(value);
+        }
         INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
         INotifyingItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
@@ -45,7 +49,11 @@ namespace Noggolloquy.Tests
             default(Boolean),
             markAsSet: false);
         public INotifyingItem<Boolean> SomeField_Property => _SomeField;
-        public Boolean SomeField { get { return _SomeField.Value; } set { _SomeField.Value = value; } }
+        public Boolean SomeField
+        {
+            get => this._SomeField.Value;
+            set => this._SomeField.Set(value);
+        }
         INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
         INotifyingItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
         #endregion

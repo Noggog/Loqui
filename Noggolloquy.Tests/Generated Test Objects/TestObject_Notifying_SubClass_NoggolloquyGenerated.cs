@@ -35,7 +35,11 @@ namespace Noggolloquy.Tests
             default(Boolean),
             markAsSet: false);
         public INotifyingItem<Boolean> NewField_Property => _NewField;
-        public Boolean NewField { get { return _NewField.Value; } set { _NewField.Value = value; } }
+        public Boolean NewField
+        {
+            get => this._NewField.Value;
+            set => this._NewField.Set(value);
+        }
         INotifyingItem<Boolean> ITestObject_Notifying_SubClass.NewField_Property => this.NewField_Property;
         INotifyingItemGetter<Boolean> ITestObject_Notifying_SubClassGetter.NewField_Property => this.NewField_Property;
         #endregion

@@ -189,7 +189,11 @@ namespace Noggolloquy.Tests
 
         #region WildCard
         protected Object _WildCard;
-        public Object WildCard { get => this._WildCard; set => this._WildCard = WildcardLink.Validate(value); }
+        public Object WildCard
+        {
+            get => this._WildCard;
+            set => this._WildCard = WildcardLink.Validate(value);
+        }
         Object ITestObjectGetter.WildCard => this.WildCard;
         #endregion
 

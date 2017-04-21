@@ -36,7 +36,11 @@ namespace Noggolloquy.Tests
             default(Boolean?),
             markAsSet: false);
         public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;
-        public Boolean? BoolN { get { return _BoolN.Value; } protected set { _BoolN.Value = value; } }
+        public Boolean? BoolN
+        {
+            get => this._BoolN.Value;
+            protected set => this._BoolN.Set(value);
+        }
         INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnlyGetter.BoolN_Property => this.BoolN_Property;
         #endregion
 
@@ -45,7 +49,11 @@ namespace Noggolloquy.Tests
             default(Boolean),
             markAsSet: false);
         public INotifyingItemGetter<Boolean> Bool_Property => _Bool;
-        public Boolean Bool { get { return _Bool.Value; } protected set { _Bool.Value = value; } }
+        public Boolean Bool
+        {
+            get => this._Bool.Value;
+            protected set => this._Bool.Set(value);
+        }
         INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.Bool_Property => this.Bool_Property;
         #endregion
 
@@ -54,7 +62,11 @@ namespace Noggolloquy.Tests
             default(Char?),
             markAsSet: false);
         public INotifyingItemGetter<Char?> CharN_Property => _CharN;
-        public Char? CharN { get { return _CharN.Value; } protected set { _CharN.Value = value; } }
+        public Char? CharN
+        {
+            get => this._CharN.Value;
+            protected set => this._CharN.Set(value);
+        }
         INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnlyGetter.CharN_Property => this.CharN_Property;
         #endregion
 
@@ -63,7 +75,11 @@ namespace Noggolloquy.Tests
             default(Char),
             markAsSet: false);
         public INotifyingItemGetter<Char> Char_Property => _Char;
-        public Char Char { get { return _Char.Value; } protected set { _Char.Value = value; } }
+        public Char Char
+        {
+            get => this._Char.Value;
+            protected set => this._Char.Set(value);
+        }
         INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnlyGetter.Char_Property => this.Char_Property;
         #endregion
 
@@ -72,7 +88,11 @@ namespace Noggolloquy.Tests
             default(Double?),
             markAsSet: false);
         public INotifyingItemGetter<Double?> DoubleN_Property => _DoubleN;
-        public Double? DoubleN { get { return _DoubleN.Value; } protected set { _DoubleN.Value = value; } }
+        public Double? DoubleN
+        {
+            get => this._DoubleN.Value;
+            protected set => this._DoubleN.Set(value);
+        }
         INotifyingItemGetter<Double?> ITestObject_Notifying_ReadOnlyGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
 
@@ -81,7 +101,11 @@ namespace Noggolloquy.Tests
             default(Double),
             markAsSet: false);
         public INotifyingItemGetter<Double> Double_Property => _Double;
-        public Double Double { get { return _Double.Value; } protected set { _Double.Value = value; } }
+        public Double Double
+        {
+            get => this._Double.Value;
+            protected set => this._Double.Set(value);
+        }
         INotifyingItemGetter<Double> ITestObject_Notifying_ReadOnlyGetter.Double_Property => this.Double_Property;
         #endregion
 
@@ -90,7 +114,11 @@ namespace Noggolloquy.Tests
             default(Single?),
             markAsSet: false);
         public INotifyingItemGetter<Single?> FloatN_Property => _FloatN;
-        public Single? FloatN { get { return _FloatN.Value; } protected set { _FloatN.Value = value; } }
+        public Single? FloatN
+        {
+            get => this._FloatN.Value;
+            protected set => this._FloatN.Set(value);
+        }
         INotifyingItemGetter<Single?> ITestObject_Notifying_ReadOnlyGetter.FloatN_Property => this.FloatN_Property;
         #endregion
 
@@ -99,7 +127,11 @@ namespace Noggolloquy.Tests
             default(Single),
             markAsSet: false);
         public INotifyingItemGetter<Single> Float_Property => _Float;
-        public Single Float { get { return _Float.Value; } protected set { _Float.Value = value; } }
+        public Single Float
+        {
+            get => this._Float.Value;
+            protected set => this._Float.Set(value);
+        }
         INotifyingItemGetter<Single> ITestObject_Notifying_ReadOnlyGetter.Float_Property => this.Float_Property;
         #endregion
 
@@ -108,7 +140,11 @@ namespace Noggolloquy.Tests
             default(Int16?),
             markAsSet: false);
         public INotifyingItemGetter<Int16?> Int16N_Property => _Int16N;
-        public Int16? Int16N { get { return _Int16N.Value; } protected set { _Int16N.Value = value; } }
+        public Int16? Int16N
+        {
+            get => this._Int16N.Value;
+            protected set => this._Int16N.Set(value);
+        }
         INotifyingItemGetter<Int16?> ITestObject_Notifying_ReadOnlyGetter.Int16N_Property => this.Int16N_Property;
         #endregion
 
@@ -117,7 +153,11 @@ namespace Noggolloquy.Tests
             default(Int16),
             markAsSet: false);
         public INotifyingItemGetter<Int16> Int16_Property => _Int16;
-        public Int16 Int16 { get { return _Int16.Value; } protected set { _Int16.Value = value; } }
+        public Int16 Int16
+        {
+            get => this._Int16.Value;
+            protected set => this._Int16.Set(value);
+        }
         INotifyingItemGetter<Int16> ITestObject_Notifying_ReadOnlyGetter.Int16_Property => this.Int16_Property;
         #endregion
 
@@ -126,7 +166,11 @@ namespace Noggolloquy.Tests
             default(Int32?),
             markAsSet: false);
         public INotifyingItemGetter<Int32?> Int32N_Property => _Int32N;
-        public Int32? Int32N { get { return _Int32N.Value; } protected set { _Int32N.Value = value; } }
+        public Int32? Int32N
+        {
+            get => this._Int32N.Value;
+            protected set => this._Int32N.Set(value);
+        }
         INotifyingItemGetter<Int32?> ITestObject_Notifying_ReadOnlyGetter.Int32N_Property => this.Int32N_Property;
         #endregion
 
@@ -135,7 +179,11 @@ namespace Noggolloquy.Tests
             default(Int32),
             markAsSet: false);
         public INotifyingItemGetter<Int32> Int32_Property => _Int32;
-        public Int32 Int32 { get { return _Int32.Value; } protected set { _Int32.Value = value; } }
+        public Int32 Int32
+        {
+            get => this._Int32.Value;
+            protected set => this._Int32.Set(value);
+        }
         INotifyingItemGetter<Int32> ITestObject_Notifying_ReadOnlyGetter.Int32_Property => this.Int32_Property;
         #endregion
 
@@ -144,7 +192,11 @@ namespace Noggolloquy.Tests
             default(Int64?),
             markAsSet: false);
         public INotifyingItemGetter<Int64?> Int64N_Property => _Int64N;
-        public Int64? Int64N { get { return _Int64N.Value; } protected set { _Int64N.Value = value; } }
+        public Int64? Int64N
+        {
+            get => this._Int64N.Value;
+            protected set => this._Int64N.Set(value);
+        }
         INotifyingItemGetter<Int64?> ITestObject_Notifying_ReadOnlyGetter.Int64N_Property => this.Int64N_Property;
         #endregion
 
@@ -153,7 +205,11 @@ namespace Noggolloquy.Tests
             default(Int64),
             markAsSet: false);
         public INotifyingItemGetter<Int64> Int64_Property => _Int64;
-        public Int64 Int64 { get { return _Int64.Value; } protected set { _Int64.Value = value; } }
+        public Int64 Int64
+        {
+            get => this._Int64.Value;
+            protected set => this._Int64.Set(value);
+        }
         INotifyingItemGetter<Int64> ITestObject_Notifying_ReadOnlyGetter.Int64_Property => this.Int64_Property;
         #endregion
 
@@ -162,7 +218,11 @@ namespace Noggolloquy.Tests
             default(SByte?),
             markAsSet: false);
         public INotifyingItemGetter<SByte?> Int8N_Property => _Int8N;
-        public SByte? Int8N { get { return _Int8N.Value; } protected set { _Int8N.Value = value; } }
+        public SByte? Int8N
+        {
+            get => this._Int8N.Value;
+            protected set => this._Int8N.Set(value);
+        }
         INotifyingItemGetter<SByte?> ITestObject_Notifying_ReadOnlyGetter.Int8N_Property => this.Int8N_Property;
         #endregion
 
@@ -171,7 +231,11 @@ namespace Noggolloquy.Tests
             default(SByte),
             markAsSet: false);
         public INotifyingItemGetter<SByte> Int8_Property => _Int8;
-        public SByte Int8 { get { return _Int8.Value; } protected set { _Int8.Value = value; } }
+        public SByte Int8
+        {
+            get => this._Int8.Value;
+            protected set => this._Int8.Set(value);
+        }
         INotifyingItemGetter<SByte> ITestObject_Notifying_ReadOnlyGetter.Int8_Property => this.Int8_Property;
         #endregion
 
@@ -180,7 +244,11 @@ namespace Noggolloquy.Tests
             default(bool),
             markAsSet: false);
         public INotifyingItemGetter<bool> Unsafe_Property => _Unsafe;
-        public bool Unsafe { get { return _Unsafe.Value; } protected set { _Unsafe.Value = value; } }
+        public bool Unsafe
+        {
+            get => this._Unsafe.Value;
+            protected set => this._Unsafe.Set(value);
+        }
         INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnlyGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
 
@@ -189,7 +257,11 @@ namespace Noggolloquy.Tests
             default(P2Int?),
             markAsSet: false);
         public INotifyingItemGetter<P2Int?> P2IntN_Property => _P2IntN;
-        public P2Int? P2IntN { get { return _P2IntN.Value; } protected set { _P2IntN.Value = value; } }
+        public P2Int? P2IntN
+        {
+            get => this._P2IntN.Value;
+            protected set => this._P2IntN.Set(value);
+        }
         INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnlyGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
 
@@ -198,7 +270,11 @@ namespace Noggolloquy.Tests
             default(P2Int),
             markAsSet: false);
         public INotifyingItemGetter<P2Int> P2Int_Property => _P2Int;
-        public P2Int P2Int { get { return _P2Int.Value; } protected set { _P2Int.Value = value; } }
+        public P2Int P2Int
+        {
+            get => this._P2Int.Value;
+            protected set => this._P2Int.Set(value);
+        }
         INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnlyGetter.P2Int_Property => this.P2Int_Property;
         #endregion
 
@@ -207,7 +283,11 @@ namespace Noggolloquy.Tests
             default(P3Double?),
             markAsSet: false);
         public INotifyingItemGetter<P3Double?> P3DoubleN_Property => _P3DoubleN;
-        public P3Double? P3DoubleN { get { return _P3DoubleN.Value; } protected set { _P3DoubleN.Value = value; } }
+        public P3Double? P3DoubleN
+        {
+            get => this._P3DoubleN.Value;
+            protected set => this._P3DoubleN.Set(value);
+        }
         INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnlyGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
 
@@ -216,7 +296,11 @@ namespace Noggolloquy.Tests
             default(P3Double),
             markAsSet: false);
         public INotifyingItemGetter<P3Double> P3Double_Property => _P3Double;
-        public P3Double P3Double { get { return _P3Double.Value; } protected set { _P3Double.Value = value; } }
+        public P3Double P3Double
+        {
+            get => this._P3Double.Value;
+            protected set => this._P3Double.Set(value);
+        }
         INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnlyGetter.P3Double_Property => this.P3Double_Property;
         #endregion
 
@@ -225,7 +309,11 @@ namespace Noggolloquy.Tests
             default(P3Int?),
             markAsSet: false);
         public INotifyingItemGetter<P3Int?> P3IntN_Property => _P3IntN;
-        public P3Int? P3IntN { get { return _P3IntN.Value; } protected set { _P3IntN.Value = value; } }
+        public P3Int? P3IntN
+        {
+            get => this._P3IntN.Value;
+            protected set => this._P3IntN.Set(value);
+        }
         INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnlyGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
 
@@ -234,7 +322,11 @@ namespace Noggolloquy.Tests
             default(P3Int),
             markAsSet: false);
         public INotifyingItemGetter<P3Int> P3Int_Property => _P3Int;
-        public P3Int P3Int { get { return _P3Int.Value; } protected set { _P3Int.Value = value; } }
+        public P3Int P3Int
+        {
+            get => this._P3Int.Value;
+            protected set => this._P3Int.Set(value);
+        }
         INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnlyGetter.P3Int_Property => this.P3Int_Property;
         #endregion
 
@@ -243,7 +335,11 @@ namespace Noggolloquy.Tests
             default(Percent?),
             markAsSet: false);
         public INotifyingItemGetter<Percent?> PercentN_Property => _PercentN;
-        public Percent? PercentN { get { return _PercentN.Value; } protected set { _PercentN.Value = value; } }
+        public Percent? PercentN
+        {
+            get => this._PercentN.Value;
+            protected set => this._PercentN.Set(value);
+        }
         INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnlyGetter.PercentN_Property => this.PercentN_Property;
         #endregion
 
@@ -252,7 +348,11 @@ namespace Noggolloquy.Tests
             default(Percent),
             markAsSet: false);
         public INotifyingItemGetter<Percent> Percent_Property => _Percent;
-        public Percent Percent { get { return _Percent.Value; } protected set { _Percent.Value = value; } }
+        public Percent Percent
+        {
+            get => this._Percent.Value;
+            protected set => this._Percent.Set(value);
+        }
         INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnlyGetter.Percent_Property => this.Percent_Property;
         #endregion
 
@@ -261,7 +361,11 @@ namespace Noggolloquy.Tests
             default(RangeInt?),
             markAsSet: false);
         public INotifyingItemGetter<RangeInt?> RangeIntN_Property => _RangeIntN;
-        public RangeInt? RangeIntN { get { return _RangeIntN.Value; } protected set { _RangeIntN.Value = value; } }
+        public RangeInt? RangeIntN
+        {
+            get => this._RangeIntN.Value;
+            protected set => this._RangeIntN.Set(value);
+        }
         INotifyingItemGetter<RangeInt?> ITestObject_Notifying_ReadOnlyGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
 
@@ -270,7 +374,11 @@ namespace Noggolloquy.Tests
             default(RangeInt),
             markAsSet: false);
         public INotifyingItemGetter<RangeInt> RangeInt_Property => _RangeInt;
-        public RangeInt RangeInt { get { return _RangeInt.Value; } protected set { _RangeInt.Value = value; } }
+        public RangeInt RangeInt
+        {
+            get => this._RangeInt.Value;
+            protected set => this._RangeInt.Set(value);
+        }
         INotifyingItemGetter<RangeInt> ITestObject_Notifying_ReadOnlyGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
 
@@ -279,7 +387,11 @@ namespace Noggolloquy.Tests
             default(String),
             markAsSet: false);
         public INotifyingItemGetter<String> String_Property => _String;
-        public String String { get { return _String.Value; } protected set { _String.Value = value; } }
+        public String String
+        {
+            get => this._String.Value;
+            protected set => this._String.Set(value);
+        }
         INotifyingItemGetter<String> ITestObject_Notifying_ReadOnlyGetter.String_Property => this.String_Property;
         #endregion
 
@@ -288,7 +400,11 @@ namespace Noggolloquy.Tests
             default(UDouble?),
             markAsSet: false);
         public INotifyingItemGetter<UDouble?> UDoubleN_Property => _UDoubleN;
-        public UDouble? UDoubleN { get { return _UDoubleN.Value; } protected set { _UDoubleN.Value = value; } }
+        public UDouble? UDoubleN
+        {
+            get => this._UDoubleN.Value;
+            protected set => this._UDoubleN.Set(value);
+        }
         INotifyingItemGetter<UDouble?> ITestObject_Notifying_ReadOnlyGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
 
@@ -297,7 +413,11 @@ namespace Noggolloquy.Tests
             default(UDouble),
             markAsSet: false);
         public INotifyingItemGetter<UDouble> UDouble_Property => _UDouble;
-        public UDouble UDouble { get { return _UDouble.Value; } protected set { _UDouble.Value = value; } }
+        public UDouble UDouble
+        {
+            get => this._UDouble.Value;
+            protected set => this._UDouble.Set(value);
+        }
         INotifyingItemGetter<UDouble> ITestObject_Notifying_ReadOnlyGetter.UDouble_Property => this.UDouble_Property;
         #endregion
 
@@ -306,7 +426,11 @@ namespace Noggolloquy.Tests
             default(UInt16?),
             markAsSet: false);
         public INotifyingItemGetter<UInt16?> UInt16N_Property => _UInt16N;
-        public UInt16? UInt16N { get { return _UInt16N.Value; } protected set { _UInt16N.Value = value; } }
+        public UInt16? UInt16N
+        {
+            get => this._UInt16N.Value;
+            protected set => this._UInt16N.Set(value);
+        }
         INotifyingItemGetter<UInt16?> ITestObject_Notifying_ReadOnlyGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
 
@@ -315,7 +439,11 @@ namespace Noggolloquy.Tests
             default(UInt16),
             markAsSet: false);
         public INotifyingItemGetter<UInt16> UInt16_Property => _UInt16;
-        public UInt16 UInt16 { get { return _UInt16.Value; } protected set { _UInt16.Value = value; } }
+        public UInt16 UInt16
+        {
+            get => this._UInt16.Value;
+            protected set => this._UInt16.Set(value);
+        }
         INotifyingItemGetter<UInt16> ITestObject_Notifying_ReadOnlyGetter.UInt16_Property => this.UInt16_Property;
         #endregion
 
@@ -324,7 +452,11 @@ namespace Noggolloquy.Tests
             default(UInt32?),
             markAsSet: false);
         public INotifyingItemGetter<UInt32?> UInt32N_Property => _UInt32N;
-        public UInt32? UInt32N { get { return _UInt32N.Value; } protected set { _UInt32N.Value = value; } }
+        public UInt32? UInt32N
+        {
+            get => this._UInt32N.Value;
+            protected set => this._UInt32N.Set(value);
+        }
         INotifyingItemGetter<UInt32?> ITestObject_Notifying_ReadOnlyGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
 
@@ -333,7 +465,11 @@ namespace Noggolloquy.Tests
             default(UInt32),
             markAsSet: false);
         public INotifyingItemGetter<UInt32> UInt32_Property => _UInt32;
-        public UInt32 UInt32 { get { return _UInt32.Value; } protected set { _UInt32.Value = value; } }
+        public UInt32 UInt32
+        {
+            get => this._UInt32.Value;
+            protected set => this._UInt32.Set(value);
+        }
         INotifyingItemGetter<UInt32> ITestObject_Notifying_ReadOnlyGetter.UInt32_Property => this.UInt32_Property;
         #endregion
 
@@ -342,7 +478,11 @@ namespace Noggolloquy.Tests
             default(UInt64?),
             markAsSet: false);
         public INotifyingItemGetter<UInt64?> UInt64N_Property => _UInt64N;
-        public UInt64? UInt64N { get { return _UInt64N.Value; } protected set { _UInt64N.Value = value; } }
+        public UInt64? UInt64N
+        {
+            get => this._UInt64N.Value;
+            protected set => this._UInt64N.Set(value);
+        }
         INotifyingItemGetter<UInt64?> ITestObject_Notifying_ReadOnlyGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
 
@@ -351,7 +491,11 @@ namespace Noggolloquy.Tests
             default(UInt64),
             markAsSet: false);
         public INotifyingItemGetter<UInt64> UInt64_Property => _UInt64;
-        public UInt64 UInt64 { get { return _UInt64.Value; } protected set { _UInt64.Value = value; } }
+        public UInt64 UInt64
+        {
+            get => this._UInt64.Value;
+            protected set => this._UInt64.Set(value);
+        }
         INotifyingItemGetter<UInt64> ITestObject_Notifying_ReadOnlyGetter.UInt64_Property => this.UInt64_Property;
         #endregion
 
@@ -360,7 +504,11 @@ namespace Noggolloquy.Tests
             default(Byte?),
             markAsSet: false);
         public INotifyingItemGetter<Byte?> UInt8N_Property => _UInt8N;
-        public Byte? UInt8N { get { return _UInt8N.Value; } protected set { _UInt8N.Value = value; } }
+        public Byte? UInt8N
+        {
+            get => this._UInt8N.Value;
+            protected set => this._UInt8N.Set(value);
+        }
         INotifyingItemGetter<Byte?> ITestObject_Notifying_ReadOnlyGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
 
@@ -369,7 +517,11 @@ namespace Noggolloquy.Tests
             default(Byte),
             markAsSet: false);
         public INotifyingItemGetter<Byte> UInt8_Property => _UInt8;
-        public Byte UInt8 { get { return _UInt8.Value; } protected set { _UInt8.Value = value; } }
+        public Byte UInt8
+        {
+            get => this._UInt8.Value;
+            protected set => this._UInt8.Set(value);
+        }
         INotifyingItemGetter<Byte> ITestObject_Notifying_ReadOnlyGetter.UInt8_Property => this.UInt8_Property;
         #endregion
 
@@ -377,7 +529,11 @@ namespace Noggolloquy.Tests
         protected readonly INotifyingItem<TestEnum> _Enum = new NotifyingItem<TestEnum>(
         );
         public INotifyingItemGetter<TestEnum> Enum_Property => _Enum;
-        public TestEnum Enum { get { return _Enum.Value; } protected set { _Enum.Value = value; } }
+        public TestEnum Enum
+        {
+            get => this._Enum.Value;
+            protected set => this._Enum.Set(value);
+        }
         INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnlyGetter.Enum_Property => this.Enum_Property;
         #endregion
 
