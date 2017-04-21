@@ -21,217 +21,426 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject : ITestObject, INoggolloquyObjectSetter, IEquatable<TestObject>
+    public partial class TestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnly, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_ReadOnly>
     {
-        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Registration.Instance;
-        public static TestObject_Registration Registration => TestObject_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
+        public static TestObject_Notifying_ReadOnly_Registration Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
 
-        public TestObject()
+        public TestObject_Notifying_ReadOnly()
         {
             CustomCtor();
         }
         partial void CustomCtor();
         #region BoolN
-        public Boolean? BoolN { get; set; }
+        protected readonly INotifyingItem<Boolean?> _BoolN = new NotifyingItem<Boolean?>(
+            default(Boolean?),
+            markAsSet: false);
+        public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;
+        public Boolean? BoolN { get { return _BoolN.Value; } protected set { _BoolN.Value = value; } }
+        INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnlyGetter.BoolN_Property => this.BoolN_Property;
         #endregion
 
         #region Bool
-        public Boolean Bool { get; set; }
+        protected readonly INotifyingItem<Boolean> _Bool = new NotifyingItem<Boolean>(
+            default(Boolean),
+            markAsSet: false);
+        public INotifyingItemGetter<Boolean> Bool_Property => _Bool;
+        public Boolean Bool { get { return _Bool.Value; } protected set { _Bool.Value = value; } }
+        INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.Bool_Property => this.Bool_Property;
         #endregion
 
         #region CharN
-        public Char? CharN { get; set; }
+        protected readonly INotifyingItem<Char?> _CharN = new NotifyingItem<Char?>(
+            default(Char?),
+            markAsSet: false);
+        public INotifyingItemGetter<Char?> CharN_Property => _CharN;
+        public Char? CharN { get { return _CharN.Value; } protected set { _CharN.Value = value; } }
+        INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnlyGetter.CharN_Property => this.CharN_Property;
         #endregion
 
         #region Char
-        public Char Char { get; set; }
+        protected readonly INotifyingItem<Char> _Char = new NotifyingItem<Char>(
+            default(Char),
+            markAsSet: false);
+        public INotifyingItemGetter<Char> Char_Property => _Char;
+        public Char Char { get { return _Char.Value; } protected set { _Char.Value = value; } }
+        INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnlyGetter.Char_Property => this.Char_Property;
         #endregion
 
         #region DoubleN
-        public Double? DoubleN { get; set; }
+        protected readonly INotifyingItem<Double?> _DoubleN = new NotifyingItem<Double?>(
+            default(Double?),
+            markAsSet: false);
+        public INotifyingItemGetter<Double?> DoubleN_Property => _DoubleN;
+        public Double? DoubleN { get { return _DoubleN.Value; } protected set { _DoubleN.Value = value; } }
+        INotifyingItemGetter<Double?> ITestObject_Notifying_ReadOnlyGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
 
         #region Double
-        public Double Double { get; set; }
+        protected readonly INotifyingItem<Double> _Double = new NotifyingItem<Double>(
+            default(Double),
+            markAsSet: false);
+        public INotifyingItemGetter<Double> Double_Property => _Double;
+        public Double Double { get { return _Double.Value; } protected set { _Double.Value = value; } }
+        INotifyingItemGetter<Double> ITestObject_Notifying_ReadOnlyGetter.Double_Property => this.Double_Property;
         #endregion
 
         #region FloatN
-        public Single? FloatN { get; set; }
+        protected readonly INotifyingItem<Single?> _FloatN = new NotifyingItem<Single?>(
+            default(Single?),
+            markAsSet: false);
+        public INotifyingItemGetter<Single?> FloatN_Property => _FloatN;
+        public Single? FloatN { get { return _FloatN.Value; } protected set { _FloatN.Value = value; } }
+        INotifyingItemGetter<Single?> ITestObject_Notifying_ReadOnlyGetter.FloatN_Property => this.FloatN_Property;
         #endregion
 
         #region Float
-        public Single Float { get; set; }
+        protected readonly INotifyingItem<Single> _Float = new NotifyingItem<Single>(
+            default(Single),
+            markAsSet: false);
+        public INotifyingItemGetter<Single> Float_Property => _Float;
+        public Single Float { get { return _Float.Value; } protected set { _Float.Value = value; } }
+        INotifyingItemGetter<Single> ITestObject_Notifying_ReadOnlyGetter.Float_Property => this.Float_Property;
         #endregion
 
         #region Int16N
-        public Int16? Int16N { get; set; }
+        protected readonly INotifyingItem<Int16?> _Int16N = new NotifyingItem<Int16?>(
+            default(Int16?),
+            markAsSet: false);
+        public INotifyingItemGetter<Int16?> Int16N_Property => _Int16N;
+        public Int16? Int16N { get { return _Int16N.Value; } protected set { _Int16N.Value = value; } }
+        INotifyingItemGetter<Int16?> ITestObject_Notifying_ReadOnlyGetter.Int16N_Property => this.Int16N_Property;
         #endregion
 
         #region Int16
-        public Int16 Int16 { get; set; }
+        protected readonly INotifyingItem<Int16> _Int16 = new NotifyingItem<Int16>(
+            default(Int16),
+            markAsSet: false);
+        public INotifyingItemGetter<Int16> Int16_Property => _Int16;
+        public Int16 Int16 { get { return _Int16.Value; } protected set { _Int16.Value = value; } }
+        INotifyingItemGetter<Int16> ITestObject_Notifying_ReadOnlyGetter.Int16_Property => this.Int16_Property;
         #endregion
 
         #region Int32N
-        public Int32? Int32N { get; set; }
+        protected readonly INotifyingItem<Int32?> _Int32N = new NotifyingItem<Int32?>(
+            default(Int32?),
+            markAsSet: false);
+        public INotifyingItemGetter<Int32?> Int32N_Property => _Int32N;
+        public Int32? Int32N { get { return _Int32N.Value; } protected set { _Int32N.Value = value; } }
+        INotifyingItemGetter<Int32?> ITestObject_Notifying_ReadOnlyGetter.Int32N_Property => this.Int32N_Property;
         #endregion
 
         #region Int32
-        public Int32 Int32 { get; set; }
+        protected readonly INotifyingItem<Int32> _Int32 = new NotifyingItem<Int32>(
+            default(Int32),
+            markAsSet: false);
+        public INotifyingItemGetter<Int32> Int32_Property => _Int32;
+        public Int32 Int32 { get { return _Int32.Value; } protected set { _Int32.Value = value; } }
+        INotifyingItemGetter<Int32> ITestObject_Notifying_ReadOnlyGetter.Int32_Property => this.Int32_Property;
         #endregion
 
         #region Int64N
-        public Int64? Int64N { get; set; }
+        protected readonly INotifyingItem<Int64?> _Int64N = new NotifyingItem<Int64?>(
+            default(Int64?),
+            markAsSet: false);
+        public INotifyingItemGetter<Int64?> Int64N_Property => _Int64N;
+        public Int64? Int64N { get { return _Int64N.Value; } protected set { _Int64N.Value = value; } }
+        INotifyingItemGetter<Int64?> ITestObject_Notifying_ReadOnlyGetter.Int64N_Property => this.Int64N_Property;
         #endregion
 
         #region Int64
-        public Int64 Int64 { get; set; }
+        protected readonly INotifyingItem<Int64> _Int64 = new NotifyingItem<Int64>(
+            default(Int64),
+            markAsSet: false);
+        public INotifyingItemGetter<Int64> Int64_Property => _Int64;
+        public Int64 Int64 { get { return _Int64.Value; } protected set { _Int64.Value = value; } }
+        INotifyingItemGetter<Int64> ITestObject_Notifying_ReadOnlyGetter.Int64_Property => this.Int64_Property;
         #endregion
 
         #region Int8N
-        public SByte? Int8N { get; set; }
+        protected readonly INotifyingItem<SByte?> _Int8N = new NotifyingItem<SByte?>(
+            default(SByte?),
+            markAsSet: false);
+        public INotifyingItemGetter<SByte?> Int8N_Property => _Int8N;
+        public SByte? Int8N { get { return _Int8N.Value; } protected set { _Int8N.Value = value; } }
+        INotifyingItemGetter<SByte?> ITestObject_Notifying_ReadOnlyGetter.Int8N_Property => this.Int8N_Property;
         #endregion
 
         #region Int8
-        public SByte Int8 { get; set; }
+        protected readonly INotifyingItem<SByte> _Int8 = new NotifyingItem<SByte>(
+            default(SByte),
+            markAsSet: false);
+        public INotifyingItemGetter<SByte> Int8_Property => _Int8;
+        public SByte Int8 { get { return _Int8.Value; } protected set { _Int8.Value = value; } }
+        INotifyingItemGetter<SByte> ITestObject_Notifying_ReadOnlyGetter.Int8_Property => this.Int8_Property;
         #endregion
 
         #region Unsafe
-        public bool Unsafe { get; set; }
+        protected readonly INotifyingItem<bool> _Unsafe = new NotifyingItem<bool>(
+            default(bool),
+            markAsSet: false);
+        public INotifyingItemGetter<bool> Unsafe_Property => _Unsafe;
+        public bool Unsafe { get { return _Unsafe.Value; } protected set { _Unsafe.Value = value; } }
+        INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnlyGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
 
         #region P2IntN
-        public P2Int? P2IntN { get; set; }
+        protected readonly INotifyingItem<P2Int?> _P2IntN = new NotifyingItem<P2Int?>(
+            default(P2Int?),
+            markAsSet: false);
+        public INotifyingItemGetter<P2Int?> P2IntN_Property => _P2IntN;
+        public P2Int? P2IntN { get { return _P2IntN.Value; } protected set { _P2IntN.Value = value; } }
+        INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnlyGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
 
         #region P2Int
-        public P2Int P2Int { get; set; }
+        protected readonly INotifyingItem<P2Int> _P2Int = new NotifyingItem<P2Int>(
+            default(P2Int),
+            markAsSet: false);
+        public INotifyingItemGetter<P2Int> P2Int_Property => _P2Int;
+        public P2Int P2Int { get { return _P2Int.Value; } protected set { _P2Int.Value = value; } }
+        INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnlyGetter.P2Int_Property => this.P2Int_Property;
         #endregion
 
         #region P3DoubleN
-        public P3Double? P3DoubleN { get; set; }
+        protected readonly INotifyingItem<P3Double?> _P3DoubleN = new NotifyingItem<P3Double?>(
+            default(P3Double?),
+            markAsSet: false);
+        public INotifyingItemGetter<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        public P3Double? P3DoubleN { get { return _P3DoubleN.Value; } protected set { _P3DoubleN.Value = value; } }
+        INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnlyGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
 
         #region P3Double
-        public P3Double P3Double { get; set; }
+        protected readonly INotifyingItem<P3Double> _P3Double = new NotifyingItem<P3Double>(
+            default(P3Double),
+            markAsSet: false);
+        public INotifyingItemGetter<P3Double> P3Double_Property => _P3Double;
+        public P3Double P3Double { get { return _P3Double.Value; } protected set { _P3Double.Value = value; } }
+        INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnlyGetter.P3Double_Property => this.P3Double_Property;
         #endregion
 
         #region P3IntN
-        public P3Int? P3IntN { get; set; }
+        protected readonly INotifyingItem<P3Int?> _P3IntN = new NotifyingItem<P3Int?>(
+            default(P3Int?),
+            markAsSet: false);
+        public INotifyingItemGetter<P3Int?> P3IntN_Property => _P3IntN;
+        public P3Int? P3IntN { get { return _P3IntN.Value; } protected set { _P3IntN.Value = value; } }
+        INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnlyGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
 
         #region P3Int
-        public P3Int P3Int { get; set; }
+        protected readonly INotifyingItem<P3Int> _P3Int = new NotifyingItem<P3Int>(
+            default(P3Int),
+            markAsSet: false);
+        public INotifyingItemGetter<P3Int> P3Int_Property => _P3Int;
+        public P3Int P3Int { get { return _P3Int.Value; } protected set { _P3Int.Value = value; } }
+        INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnlyGetter.P3Int_Property => this.P3Int_Property;
         #endregion
 
         #region PercentN
-        public Percent? PercentN { get; set; }
+        protected readonly INotifyingItem<Percent?> _PercentN = new NotifyingItem<Percent?>(
+            default(Percent?),
+            markAsSet: false);
+        public INotifyingItemGetter<Percent?> PercentN_Property => _PercentN;
+        public Percent? PercentN { get { return _PercentN.Value; } protected set { _PercentN.Value = value; } }
+        INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnlyGetter.PercentN_Property => this.PercentN_Property;
         #endregion
 
         #region Percent
-        public Percent Percent { get; set; }
+        protected readonly INotifyingItem<Percent> _Percent = new NotifyingItem<Percent>(
+            default(Percent),
+            markAsSet: false);
+        public INotifyingItemGetter<Percent> Percent_Property => _Percent;
+        public Percent Percent { get { return _Percent.Value; } protected set { _Percent.Value = value; } }
+        INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnlyGetter.Percent_Property => this.Percent_Property;
         #endregion
 
         #region RangeIntN
-        public RangeInt? RangeIntN { get; set; }
+        protected readonly INotifyingItem<RangeInt?> _RangeIntN = new NotifyingItem<RangeInt?>(
+            default(RangeInt?),
+            markAsSet: false);
+        public INotifyingItemGetter<RangeInt?> RangeIntN_Property => _RangeIntN;
+        public RangeInt? RangeIntN { get { return _RangeIntN.Value; } protected set { _RangeIntN.Value = value; } }
+        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_ReadOnlyGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
 
         #region RangeInt
-        public RangeInt RangeInt { get; set; }
+        protected readonly INotifyingItem<RangeInt> _RangeInt = new NotifyingItem<RangeInt>(
+            default(RangeInt),
+            markAsSet: false);
+        public INotifyingItemGetter<RangeInt> RangeInt_Property => _RangeInt;
+        public RangeInt RangeInt { get { return _RangeInt.Value; } protected set { _RangeInt.Value = value; } }
+        INotifyingItemGetter<RangeInt> ITestObject_Notifying_ReadOnlyGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
 
         #region String
-        public String String { get; set; }
+        protected readonly INotifyingItem<String> _String = new NotifyingItem<String>(
+            default(String),
+            markAsSet: false);
+        public INotifyingItemGetter<String> String_Property => _String;
+        public String String { get { return _String.Value; } protected set { _String.Value = value; } }
+        INotifyingItemGetter<String> ITestObject_Notifying_ReadOnlyGetter.String_Property => this.String_Property;
         #endregion
 
         #region UDoubleN
-        public UDouble? UDoubleN { get; set; }
+        protected readonly INotifyingItem<UDouble?> _UDoubleN = new NotifyingItem<UDouble?>(
+            default(UDouble?),
+            markAsSet: false);
+        public INotifyingItemGetter<UDouble?> UDoubleN_Property => _UDoubleN;
+        public UDouble? UDoubleN { get { return _UDoubleN.Value; } protected set { _UDoubleN.Value = value; } }
+        INotifyingItemGetter<UDouble?> ITestObject_Notifying_ReadOnlyGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
 
         #region UDouble
-        public UDouble UDouble { get; set; }
+        protected readonly INotifyingItem<UDouble> _UDouble = new NotifyingItem<UDouble>(
+            default(UDouble),
+            markAsSet: false);
+        public INotifyingItemGetter<UDouble> UDouble_Property => _UDouble;
+        public UDouble UDouble { get { return _UDouble.Value; } protected set { _UDouble.Value = value; } }
+        INotifyingItemGetter<UDouble> ITestObject_Notifying_ReadOnlyGetter.UDouble_Property => this.UDouble_Property;
         #endregion
 
         #region UInt16N
-        public UInt16? UInt16N { get; set; }
+        protected readonly INotifyingItem<UInt16?> _UInt16N = new NotifyingItem<UInt16?>(
+            default(UInt16?),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt16?> UInt16N_Property => _UInt16N;
+        public UInt16? UInt16N { get { return _UInt16N.Value; } protected set { _UInt16N.Value = value; } }
+        INotifyingItemGetter<UInt16?> ITestObject_Notifying_ReadOnlyGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
 
         #region UInt16
-        public UInt16 UInt16 { get; set; }
+        protected readonly INotifyingItem<UInt16> _UInt16 = new NotifyingItem<UInt16>(
+            default(UInt16),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt16> UInt16_Property => _UInt16;
+        public UInt16 UInt16 { get { return _UInt16.Value; } protected set { _UInt16.Value = value; } }
+        INotifyingItemGetter<UInt16> ITestObject_Notifying_ReadOnlyGetter.UInt16_Property => this.UInt16_Property;
         #endregion
 
         #region UInt32N
-        public UInt32? UInt32N { get; set; }
+        protected readonly INotifyingItem<UInt32?> _UInt32N = new NotifyingItem<UInt32?>(
+            default(UInt32?),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt32?> UInt32N_Property => _UInt32N;
+        public UInt32? UInt32N { get { return _UInt32N.Value; } protected set { _UInt32N.Value = value; } }
+        INotifyingItemGetter<UInt32?> ITestObject_Notifying_ReadOnlyGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
 
         #region UInt32
-        public UInt32 UInt32 { get; set; }
+        protected readonly INotifyingItem<UInt32> _UInt32 = new NotifyingItem<UInt32>(
+            default(UInt32),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt32> UInt32_Property => _UInt32;
+        public UInt32 UInt32 { get { return _UInt32.Value; } protected set { _UInt32.Value = value; } }
+        INotifyingItemGetter<UInt32> ITestObject_Notifying_ReadOnlyGetter.UInt32_Property => this.UInt32_Property;
         #endregion
 
         #region UInt64N
-        public UInt64? UInt64N { get; set; }
+        protected readonly INotifyingItem<UInt64?> _UInt64N = new NotifyingItem<UInt64?>(
+            default(UInt64?),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt64?> UInt64N_Property => _UInt64N;
+        public UInt64? UInt64N { get { return _UInt64N.Value; } protected set { _UInt64N.Value = value; } }
+        INotifyingItemGetter<UInt64?> ITestObject_Notifying_ReadOnlyGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
 
         #region UInt64
-        public UInt64 UInt64 { get; set; }
+        protected readonly INotifyingItem<UInt64> _UInt64 = new NotifyingItem<UInt64>(
+            default(UInt64),
+            markAsSet: false);
+        public INotifyingItemGetter<UInt64> UInt64_Property => _UInt64;
+        public UInt64 UInt64 { get { return _UInt64.Value; } protected set { _UInt64.Value = value; } }
+        INotifyingItemGetter<UInt64> ITestObject_Notifying_ReadOnlyGetter.UInt64_Property => this.UInt64_Property;
         #endregion
 
         #region UInt8N
-        public Byte? UInt8N { get; set; }
+        protected readonly INotifyingItem<Byte?> _UInt8N = new NotifyingItem<Byte?>(
+            default(Byte?),
+            markAsSet: false);
+        public INotifyingItemGetter<Byte?> UInt8N_Property => _UInt8N;
+        public Byte? UInt8N { get { return _UInt8N.Value; } protected set { _UInt8N.Value = value; } }
+        INotifyingItemGetter<Byte?> ITestObject_Notifying_ReadOnlyGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
 
         #region UInt8
-        public Byte UInt8 { get; set; }
+        protected readonly INotifyingItem<Byte> _UInt8 = new NotifyingItem<Byte>(
+            default(Byte),
+            markAsSet: false);
+        public INotifyingItemGetter<Byte> UInt8_Property => _UInt8;
+        public Byte UInt8 { get { return _UInt8.Value; } protected set { _UInt8.Value = value; } }
+        INotifyingItemGetter<Byte> ITestObject_Notifying_ReadOnlyGetter.UInt8_Property => this.UInt8_Property;
         #endregion
 
         #region Enum
-        public TestEnum Enum { get; set; }
+        protected readonly INotifyingItem<TestEnum> _Enum = new NotifyingItem<TestEnum>(
+        );
+        public INotifyingItemGetter<TestEnum> Enum_Property => _Enum;
+        public TestEnum Enum { get { return _Enum.Value; } protected set { _Enum.Value = value; } }
+        INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnlyGetter.Enum_Property => this.Enum_Property;
         #endregion
 
         #region WildCard
-        protected Object _WildCard;
-        public Object WildCard { get => this._WildCard; set => this._WildCard = WildcardLink.Validate(value); }
-        Object ITestObjectGetter.WildCard => this.WildCard;
+        protected readonly INotifyingItem<Object> _WildCard = new NotifyingItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingItemGetter<Object> WildCard_Property => _WildCard;
+        public Object WildCard { get { return _WildCard.Value; } protected set { _WildCard.Value = value; } }
+        INotifyingItemGetter<Object> ITestObject_Notifying_ReadOnlyGetter.WildCard_Property => this.WildCard_Property;
         #endregion
 
         #region Ref
-        public ObjectToRef Ref { get; set; }
+        private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
+        public INotifyingItemGetter<ObjectToRef> Ref_Property => this._Ref;
+        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.Ref => this.Ref;
+        public ObjectToRef Ref { get { return _Ref.Value; } }
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.Ref_Property => this.Ref_Property;
         #endregion
 
         #region RefGetter
-        public IObjectToRefGetter RefGetter { get; set; }
+        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
+        public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
+        IObjectToRefGetter ITestObject_Notifying_ReadOnlyGetter.RefGetter => this.RefGetter;
+        public IObjectToRefGetter RefGetter { get { return _RefGetter.Value; } }
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnlyGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
 
         #region RefSetter
-        public IObjectToRef RefSetter { get; set; }
+        private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
+        public INotifyingItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
+        IObjectToRef ITestObject_Notifying_ReadOnlyGetter.RefSetter => this.RefSetter;
+        public IObjectToRef RefSetter { get { return _RefSetter.Value; } }
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
 
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
-        public INotifyingList<Boolean> List => _List;
+        public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
         public Boolean GetNthList(int index)
         {
             return _List[index];
         }
-        INotifyingList<Boolean> ITestObject.List => _List;
-        INotifyingListGetter<Boolean> ITestObjectGetter.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.List => _List;
         #endregion
         #endregion
 
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
-        public INotifyingList<ObjectToRef> RefList => _RefList;
+        public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
         public ObjectToRef GetNthRefList(int index)
         {
             return _RefList[index];
         }
-        ObjectToRef ITestObjectGetter.GetNthRefList(int index)
+        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.GetNthRefList(int index)
         {
             return _RefList[index];
         }
-        INotifyingList<ObjectToRef> ITestObject.RefList => _RefList;
-        INotifyingListGetter<ObjectToRef> ITestObjectGetter.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefList => _RefList;
         #endregion
         #endregion
 
@@ -239,8 +448,8 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionary<Boolean, String> ITestObject.Dict => _Dict;
-        INotifyingDictionaryGetter<Boolean, String> ITestObjectGetter.Dict => _Dict;
+        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnly.Dict => _Dict;
+        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnlyGetter.Dict => _Dict;
         #endregion
         #endregion
 
@@ -248,8 +457,8 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject.RefDict => _RefDict;
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObjectGetter.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnly.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefDict => _RefDict;
         #endregion
         #endregion
 
@@ -257,38 +466,38 @@ namespace Noggolloquy.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject.DictKeyedValue => _DictKeyedValue;
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObjectGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnly.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
         #endregion
 
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => TestObjectCommon.GetNthObject(index, this);
+        public object GetNthObject(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestObjectCommon.GetNthObjectHasBeenSet(index, this);
+        public bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObjectCommon.UnsetNthObject(index, this, cmds);
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_ReadOnlyCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObjectCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_ReadOnlyCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_ReadOnlyGetter rhs, ITestObject_Notifying_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
         }
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, out TestObject_ErrorMask errorMask, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_ReadOnlyGetter rhs, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, ITestObject_Notifying_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_ReadOnly_ErrorMask();
             errorMask = retErrorMask;
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
         }
 
         #endregion
@@ -303,11 +512,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject rhs)) return false;
+            if (!(obj is TestObject_Notifying_ReadOnly rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject rhs)
+        public bool Equals(TestObject_Notifying_ReadOnly rhs)
         {
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
@@ -465,689 +674,40 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Set To
-        public void SetTo(TestObject rhs, ITestObject def = null, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def = null, NotifyingFireParameters? cmds = null)
         {
             SetTo_Internal(rhs, def, null, cmds);
         }
 
-        public void SetTo(TestObject rhs, ITestObject def, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_ReadOnly_ErrorMask();
             errorMask = retErrorMask;
             SetTo_Internal(rhs, def, retErrorMask, cmds);
         }
 
-        private void SetTo_Internal(TestObject rhs, ITestObject def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        private void SetTo_Internal(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def, TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
-            try
-            {
-                this.BoolN = rhs.BoolN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-            try
-            {
-                this.Bool = rhs.Bool;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(1, ex);
-                }
-            }
-            try
-            {
-                this.CharN = rhs.CharN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(2, ex);
-                }
-            }
-            try
-            {
-                this.Char = rhs.Char;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(3, ex);
-                }
-            }
-            try
-            {
-                this.DoubleN = rhs.DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(4, ex);
-                }
-            }
-            try
-            {
-                this.Double = rhs.Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(5, ex);
-                }
-            }
-            try
-            {
-                this.FloatN = rhs.FloatN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(6, ex);
-                }
-            }
-            try
-            {
-                this.Float = rhs.Float;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(7, ex);
-                }
-            }
-            try
-            {
-                this.Int16N = rhs.Int16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(8, ex);
-                }
-            }
-            try
-            {
-                this.Int16 = rhs.Int16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(9, ex);
-                }
-            }
-            try
-            {
-                this.Int32N = rhs.Int32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(10, ex);
-                }
-            }
-            try
-            {
-                this.Int32 = rhs.Int32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(11, ex);
-                }
-            }
-            try
-            {
-                this.Int64N = rhs.Int64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(12, ex);
-                }
-            }
-            try
-            {
-                this.Int64 = rhs.Int64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(13, ex);
-                }
-            }
-            try
-            {
-                this.Int8N = rhs.Int8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(14, ex);
-                }
-            }
-            try
-            {
-                this.Int8 = rhs.Int8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(15, ex);
-                }
-            }
-            try
-            {
-                this.Unsafe = rhs.Unsafe;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(16, ex);
-                }
-            }
-            try
-            {
-                this.P2IntN = rhs.P2IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(17, ex);
-                }
-            }
-            try
-            {
-                this.P2Int = rhs.P2Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(18, ex);
-                }
-            }
-            try
-            {
-                this.P3DoubleN = rhs.P3DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(19, ex);
-                }
-            }
-            try
-            {
-                this.P3Double = rhs.P3Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(20, ex);
-                }
-            }
-            try
-            {
-                this.P3IntN = rhs.P3IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(21, ex);
-                }
-            }
-            try
-            {
-                this.P3Int = rhs.P3Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(22, ex);
-                }
-            }
-            try
-            {
-                this.PercentN = rhs.PercentN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(23, ex);
-                }
-            }
-            try
-            {
-                this.Percent = rhs.Percent;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(24, ex);
-                }
-            }
-            try
-            {
-                this.RangeIntN = rhs.RangeIntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(25, ex);
-                }
-            }
-            try
-            {
-                this.RangeInt = rhs.RangeInt;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(26, ex);
-                }
-            }
-            try
-            {
-                this.String = rhs.String;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(27, ex);
-                }
-            }
-            try
-            {
-                this.UDoubleN = rhs.UDoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(28, ex);
-                }
-            }
-            try
-            {
-                this.UDouble = rhs.UDouble;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(29, ex);
-                }
-            }
-            try
-            {
-                this.UInt16N = rhs.UInt16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(30, ex);
-                }
-            }
-            try
-            {
-                this.UInt16 = rhs.UInt16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(31, ex);
-                }
-            }
-            try
-            {
-                this.UInt32N = rhs.UInt32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(32, ex);
-                }
-            }
-            try
-            {
-                this.UInt32 = rhs.UInt32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(33, ex);
-                }
-            }
-            try
-            {
-                this.UInt64N = rhs.UInt64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(34, ex);
-                }
-            }
-            try
-            {
-                this.UInt64 = rhs.UInt64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(35, ex);
-                }
-            }
-            try
-            {
-                this.UInt8N = rhs.UInt8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(36, ex);
-                }
-            }
-            try
-            {
-                this.UInt8 = rhs.UInt8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(37, ex);
-                }
-            }
-            try
-            {
-                this.Enum = rhs.Enum;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(38, ex);
-                }
-            }
-            try
-            {
-                this.WildCard = rhs.WildCard;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(39, ex);
-                }
-            }
-            try
-            {
-                this.Ref = rhs.Ref;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(40, ex);
-                }
-            }
-            try
-            {
-                this.RefGetter = rhs.RefGetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(41, ex);
-                }
-            }
-            try
-            {
-                this.RefSetter = rhs.RefSetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(42, ex);
-                }
-            }
-            try
-            {
-                if (rhs.List.HasBeenSet)
-                {
-                    this._List.SetTo(rhs.List, cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this.List.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._List.SetTo(def.List, cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(43, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefList.HasBeenSet)
-                {
-                    int i = 0;
-                    List<ObjectToRef> defList = def?.RefList.ToList();
-                    this.RefList.SetTo(
-                        rhs.RefList.Select((s) =>
-                        {
-                            return s.Copy(defList?[i++]);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this.RefList.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(44, ex);
-                }
-            }
-            try
-            {
-                if (rhs.Dict.HasBeenSet)
-                {
-                    this.Dict.SetTo(
-                        rhs.Dict.Select(
-                            (i) => new KeyValuePair<Boolean, String>(
-                                i.Key,
-                                i.Value)),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._Dict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this.Dict.SetTo(
-                            def.Dict.Select(
-                                (i) => new KeyValuePair<Boolean, String>(
-                                    i.Key,
-                                    i.Value)),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(45, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefDict.HasBeenSet)
-                {
-                    int i = 0;
-                    List<KeyValuePair<ObjectToRef, ObjectToRef>> defList = def?.RefDict.ToList();
-                    this._RefDict.SetTo(
-                        rhs.RefDict.Select((s) =>
-                        {
-                            var key = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                key.CopyFieldsFrom(s.Key, defList[i++].Key);
-                            }
-                            else
-                            {
-                                key.CopyFieldsFrom(s.Key);
-                            }
-                            var value = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                value.CopyFieldsFrom(s.Value, defList[i++].Value);
-                            }
-                            else
-                            {
-                                value.CopyFieldsFrom(s.Value);
-                            }
-                            return new KeyValuePair<ObjectToRef, ObjectToRef>(key, value);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._RefDict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this.RefDict.SetTo(
-                            def.RefDict.Select(
-                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                    i.Key.Copy(),
-                                    i.Value.Copy())),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(46, ex);
-                }
-            }
-            try
-            {
-                if (rhs.DictKeyedValue.HasBeenSet)
-                {
-                    this._DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._DictKeyedValue.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._DictKeyedValue.SetTo(
-                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(47, ex);
-                }
-            }
         }
         #endregion
         #region XML Translation
-        public static TestObject CreateFromXML(XElement root)
+        public static TestObject_Notifying_ReadOnly CreateFromXML(XElement root)
         {
-            var ret = new TestObject();
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_ReadOnly();
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask,
+                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestObject CreateFromXML(XElement root, out TestObject_ErrorMask errorMask)
+        public static TestObject_Notifying_ReadOnly CreateFromXML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask)
         {
-            var ret = new TestObject();
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_ReadOnly();
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
@@ -1159,18 +719,18 @@ namespace Noggolloquy.Tests
 
         public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask,
+                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
@@ -1189,9 +749,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void WriteXML(XmlWriter writer, out TestObject_ErrorMask errorMask, string name = null)
+        public void WriteXML(XmlWriter writer, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
@@ -1201,22 +761,22 @@ namespace Noggolloquy.Tests
 
         public void WriteXML(XmlWriter writer, string name)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask);
+                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
         }
 
         public void WriteXML(XmlWriter writer)
         {
-            NoggXmlTranslation<TestObject, TestObject_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: null,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_ErrorMask errorMask);
+                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
         }
 
         #endregion
@@ -1229,20 +789,20 @@ namespace Noggolloquy.Tests
 
         protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
-            if (rhs is TestObject rhsCast)
+            if (rhs is TestObject_Notifying_ReadOnly rhsCast)
             {
-                this.CopyFieldsFrom(rhsCast, def as TestObject, cmds);
+                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_ReadOnly, cmds);
             }
         }
 
-        public TestObject Copy(ITestObjectGetter def = null)
+        public TestObject_Notifying_ReadOnly Copy(ITestObject_Notifying_ReadOnlyGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject Copy(ITestObjectGetter item, ITestObjectGetter def = null)
+        public static TestObject_Notifying_ReadOnly Copy(ITestObject_Notifying_ReadOnlyGetter item, ITestObject_Notifying_ReadOnlyGetter def = null)
         {
-            var ret = new TestObject();
+            var ret = new TestObject_Notifying_ReadOnly();
             ret.CopyFieldsFrom(item, def);
             return ret;
         }
@@ -1252,133 +812,219 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    this.BoolN = (Boolean?)obj;
+                    this._BoolN.Set(
+                        (Boolean?)obj,
+                        cmds);
                     break;
                 case 1:
-                    this.Bool = (Boolean)obj;
+                    this._Bool.Set(
+                        (Boolean)obj,
+                        cmds);
                     break;
                 case 2:
-                    this.CharN = (Char?)obj;
+                    this._CharN.Set(
+                        (Char?)obj,
+                        cmds);
                     break;
                 case 3:
-                    this.Char = (Char)obj;
+                    this._Char.Set(
+                        (Char)obj,
+                        cmds);
                     break;
                 case 4:
-                    this.DoubleN = (Double?)obj;
+                    this._DoubleN.Set(
+                        (Double?)obj,
+                        cmds);
                     break;
                 case 5:
-                    this.Double = (Double)obj;
+                    this._Double.Set(
+                        (Double)obj,
+                        cmds);
                     break;
                 case 6:
-                    this.FloatN = (Single?)obj;
+                    this._FloatN.Set(
+                        (Single?)obj,
+                        cmds);
                     break;
                 case 7:
-                    this.Float = (Single)obj;
+                    this._Float.Set(
+                        (Single)obj,
+                        cmds);
                     break;
                 case 8:
-                    this.Int16N = (Int16?)obj;
+                    this._Int16N.Set(
+                        (Int16?)obj,
+                        cmds);
                     break;
                 case 9:
-                    this.Int16 = (Int16)obj;
+                    this._Int16.Set(
+                        (Int16)obj,
+                        cmds);
                     break;
                 case 10:
-                    this.Int32N = (Int32?)obj;
+                    this._Int32N.Set(
+                        (Int32?)obj,
+                        cmds);
                     break;
                 case 11:
-                    this.Int32 = (Int32)obj;
+                    this._Int32.Set(
+                        (Int32)obj,
+                        cmds);
                     break;
                 case 12:
-                    this.Int64N = (Int64?)obj;
+                    this._Int64N.Set(
+                        (Int64?)obj,
+                        cmds);
                     break;
                 case 13:
-                    this.Int64 = (Int64)obj;
+                    this._Int64.Set(
+                        (Int64)obj,
+                        cmds);
                     break;
                 case 14:
-                    this.Int8N = (SByte?)obj;
+                    this._Int8N.Set(
+                        (SByte?)obj,
+                        cmds);
                     break;
                 case 15:
-                    this.Int8 = (SByte)obj;
+                    this._Int8.Set(
+                        (SByte)obj,
+                        cmds);
                     break;
                 case 16:
-                    this.Unsafe = (bool)obj;
+                    this._Unsafe.Set(
+                        (bool)obj,
+                        cmds);
                     break;
                 case 17:
-                    this.P2IntN = (P2Int?)obj;
+                    this._P2IntN.Set(
+                        (P2Int?)obj,
+                        cmds);
                     break;
                 case 18:
-                    this.P2Int = (P2Int)obj;
+                    this._P2Int.Set(
+                        (P2Int)obj,
+                        cmds);
                     break;
                 case 19:
-                    this.P3DoubleN = (P3Double?)obj;
+                    this._P3DoubleN.Set(
+                        (P3Double?)obj,
+                        cmds);
                     break;
                 case 20:
-                    this.P3Double = (P3Double)obj;
+                    this._P3Double.Set(
+                        (P3Double)obj,
+                        cmds);
                     break;
                 case 21:
-                    this.P3IntN = (P3Int?)obj;
+                    this._P3IntN.Set(
+                        (P3Int?)obj,
+                        cmds);
                     break;
                 case 22:
-                    this.P3Int = (P3Int)obj;
+                    this._P3Int.Set(
+                        (P3Int)obj,
+                        cmds);
                     break;
                 case 23:
-                    this.PercentN = (Percent?)obj;
+                    this._PercentN.Set(
+                        (Percent?)obj,
+                        cmds);
                     break;
                 case 24:
-                    this.Percent = (Percent)obj;
+                    this._Percent.Set(
+                        (Percent)obj,
+                        cmds);
                     break;
                 case 25:
-                    this.RangeIntN = (RangeInt?)obj;
+                    this._RangeIntN.Set(
+                        (RangeInt?)obj,
+                        cmds);
                     break;
                 case 26:
-                    this.RangeInt = (RangeInt)obj;
+                    this._RangeInt.Set(
+                        (RangeInt)obj,
+                        cmds);
                     break;
                 case 27:
-                    this.String = (String)obj;
+                    this._String.Set(
+                        (String)obj,
+                        cmds);
                     break;
                 case 28:
-                    this.UDoubleN = (UDouble?)obj;
+                    this._UDoubleN.Set(
+                        (UDouble?)obj,
+                        cmds);
                     break;
                 case 29:
-                    this.UDouble = (UDouble)obj;
+                    this._UDouble.Set(
+                        (UDouble)obj,
+                        cmds);
                     break;
                 case 30:
-                    this.UInt16N = (UInt16?)obj;
+                    this._UInt16N.Set(
+                        (UInt16?)obj,
+                        cmds);
                     break;
                 case 31:
-                    this.UInt16 = (UInt16)obj;
+                    this._UInt16.Set(
+                        (UInt16)obj,
+                        cmds);
                     break;
                 case 32:
-                    this.UInt32N = (UInt32?)obj;
+                    this._UInt32N.Set(
+                        (UInt32?)obj,
+                        cmds);
                     break;
                 case 33:
-                    this.UInt32 = (UInt32)obj;
+                    this._UInt32.Set(
+                        (UInt32)obj,
+                        cmds);
                     break;
                 case 34:
-                    this.UInt64N = (UInt64?)obj;
+                    this._UInt64N.Set(
+                        (UInt64?)obj,
+                        cmds);
                     break;
                 case 35:
-                    this.UInt64 = (UInt64)obj;
+                    this._UInt64.Set(
+                        (UInt64)obj,
+                        cmds);
                     break;
                 case 36:
-                    this.UInt8N = (Byte?)obj;
+                    this._UInt8N.Set(
+                        (Byte?)obj,
+                        cmds);
                     break;
                 case 37:
-                    this.UInt8 = (Byte)obj;
+                    this._UInt8.Set(
+                        (Byte)obj,
+                        cmds);
                     break;
                 case 38:
-                    this.Enum = (TestEnum)obj;
+                    this._Enum.Set(
+                        (TestEnum)obj,
+                        cmds);
                     break;
                 case 39:
-                    this.WildCard = (Object)obj;
+                    this._WildCard.Set(
+                        (Object)obj,
+                        cmds);
                     break;
                 case 40:
-                    this.Ref = (ObjectToRef)obj;
+                    this._Ref.Set(
+                        (ObjectToRef)obj,
+                        cmds);
                     break;
                 case 41:
-                    this.RefGetter = (IObjectToRefGetter)obj;
+                    this._RefGetter.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
                     break;
                 case 42:
-                    this.RefSetter = (IObjectToRef)obj;
+                    this._RefSetter.Set(
+                        (IObjectToRef)obj,
+                        cmds);
                     break;
                 case 43:
                     this._List.SetTo(((NotifyingList<Boolean>)obj), cmds);
@@ -1417,64 +1063,16 @@ namespace Noggolloquy.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             ClearPartial(cmds);
-            this.BoolN = default(Boolean?);
-            this.Bool = default(Boolean);
-            this.CharN = default(Char?);
-            this.Char = default(Char);
-            this.DoubleN = default(Double?);
-            this.Double = default(Double);
-            this.FloatN = default(Single?);
-            this.Float = default(Single);
-            this.Int16N = default(Int16?);
-            this.Int16 = default(Int16);
-            this.Int32N = default(Int32?);
-            this.Int32 = default(Int32);
-            this.Int64N = default(Int64?);
-            this.Int64 = default(Int64);
-            this.Int8N = default(SByte?);
-            this.Int8 = default(SByte);
-            this.Unsafe = default(bool);
-            this.P2IntN = default(P2Int?);
-            this.P2Int = default(P2Int);
-            this.P3DoubleN = default(P3Double?);
-            this.P3Double = default(P3Double);
-            this.P3IntN = default(P3Int?);
-            this.P3Int = default(P3Int);
-            this.PercentN = default(Percent?);
-            this.Percent = default(Percent);
-            this.RangeIntN = default(RangeInt?);
-            this.RangeInt = default(RangeInt);
-            this.String = default(String);
-            this.UDoubleN = default(UDouble?);
-            this.UDouble = default(UDouble);
-            this.UInt16N = default(UInt16?);
-            this.UInt16 = default(UInt16);
-            this.UInt32N = default(UInt32?);
-            this.UInt32 = default(UInt32);
-            this.UInt64N = default(UInt64?);
-            this.UInt64 = default(UInt64);
-            this.UInt8N = default(Byte?);
-            this.UInt8 = default(Byte);
-            this.Enum = default(TestEnum);
-            this.WildCard = default(Object);
-            this.Ref = default(ObjectToRef);
-            this.RefGetter = default(IObjectToRefGetter);
-            this.RefSetter = default(IObjectToRef);
-            this.List.Unset(cmds.ToUnsetParams());
-            this.RefList.Unset(cmds.ToUnsetParams());
-            this.Dict.Unset(cmds.ToUnsetParams());
-            this.RefDict.Unset(cmds.ToUnsetParams());
-            this.DictKeyedValue.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_Notifying_ReadOnly Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject();
+            var ret = new TestObject_Notifying_ReadOnly();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_ReadOnly obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
         }
@@ -1483,316 +1081,271 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject : ITestObjectGetter, INoggolloquyClass<ITestObject, ITestObjectGetter>, INoggolloquyClass<TestObject, ITestObjectGetter>
+    public interface ITestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnlyGetter, INoggolloquyClass<ITestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>, INoggolloquyClass<TestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>
     {
-        new Boolean? BoolN { get; set; }
-
-        new Boolean Bool { get; set; }
-
-        new Char? CharN { get; set; }
-
-        new Char Char { get; set; }
-
-        new Double? DoubleN { get; set; }
-
-        new Double Double { get; set; }
-
-        new Single? FloatN { get; set; }
-
-        new Single Float { get; set; }
-
-        new Int16? Int16N { get; set; }
-
-        new Int16 Int16 { get; set; }
-
-        new Int32? Int32N { get; set; }
-
-        new Int32 Int32 { get; set; }
-
-        new Int64? Int64N { get; set; }
-
-        new Int64 Int64 { get; set; }
-
-        new SByte? Int8N { get; set; }
-
-        new SByte Int8 { get; set; }
-
-        new bool Unsafe { get; set; }
-
-        new P2Int? P2IntN { get; set; }
-
-        new P2Int P2Int { get; set; }
-
-        new P3Double? P3DoubleN { get; set; }
-
-        new P3Double P3Double { get; set; }
-
-        new P3Int? P3IntN { get; set; }
-
-        new P3Int P3Int { get; set; }
-
-        new Percent? PercentN { get; set; }
-
-        new Percent Percent { get; set; }
-
-        new RangeInt? RangeIntN { get; set; }
-
-        new RangeInt RangeInt { get; set; }
-
-        new String String { get; set; }
-
-        new UDouble? UDoubleN { get; set; }
-
-        new UDouble UDouble { get; set; }
-
-        new UInt16? UInt16N { get; set; }
-
-        new UInt16 UInt16 { get; set; }
-
-        new UInt32? UInt32N { get; set; }
-
-        new UInt32 UInt32 { get; set; }
-
-        new UInt64? UInt64N { get; set; }
-
-        new UInt64 UInt64 { get; set; }
-
-        new Byte? UInt8N { get; set; }
-
-        new Byte UInt8 { get; set; }
-
-        new TestEnum Enum { get; set; }
-
-        new Object WildCard { get; set; }
-
-        new ObjectToRef Ref { get; set; }
-
-        new IObjectToRefGetter RefGetter { get; set; }
-
-        new IObjectToRef RefSetter { get; set; }
-
-        new INotifyingList<Boolean> List { get; }
         new ObjectToRef GetNthRefList(int index);
-        new INotifyingList<ObjectToRef> RefList { get; }
-        new INotifyingDictionary<Boolean, String> Dict { get; }
-        new INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get; }
-        new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
+        new INotifyingDictionaryGetter<Boolean, String> Dict { get; }
+        new INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
+        new INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
-    public interface ITestObjectGetter : INoggolloquyObject
+    public interface ITestObject_Notifying_ReadOnlyGetter : INoggolloquyObject
     {
         #region BoolN
         Boolean? BoolN { get; }
+        INotifyingItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
 
         #region Bool
         Boolean Bool { get; }
+        INotifyingItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
 
         #region CharN
         Char? CharN { get; }
+        INotifyingItemGetter<Char?> CharN_Property { get; }
 
         #endregion
 
         #region Char
         Char Char { get; }
+        INotifyingItemGetter<Char> Char_Property { get; }
 
         #endregion
 
         #region DoubleN
         Double? DoubleN { get; }
+        INotifyingItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
 
         #region Double
         Double Double { get; }
+        INotifyingItemGetter<Double> Double_Property { get; }
 
         #endregion
 
         #region FloatN
         Single? FloatN { get; }
+        INotifyingItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
 
         #region Float
         Single Float { get; }
+        INotifyingItemGetter<Single> Float_Property { get; }
 
         #endregion
 
         #region Int16N
         Int16? Int16N { get; }
+        INotifyingItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
 
         #region Int16
         Int16 Int16 { get; }
+        INotifyingItemGetter<Int16> Int16_Property { get; }
 
         #endregion
 
         #region Int32N
         Int32? Int32N { get; }
+        INotifyingItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
 
         #region Int32
         Int32 Int32 { get; }
+        INotifyingItemGetter<Int32> Int32_Property { get; }
 
         #endregion
 
         #region Int64N
         Int64? Int64N { get; }
+        INotifyingItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
 
         #region Int64
         Int64 Int64 { get; }
+        INotifyingItemGetter<Int64> Int64_Property { get; }
 
         #endregion
 
         #region Int8N
         SByte? Int8N { get; }
+        INotifyingItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
 
         #region Int8
         SByte Int8 { get; }
+        INotifyingItemGetter<SByte> Int8_Property { get; }
 
         #endregion
 
         #region Unsafe
         bool Unsafe { get; }
+        INotifyingItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
 
         #region P2IntN
         P2Int? P2IntN { get; }
+        INotifyingItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
 
         #region P2Int
         P2Int P2Int { get; }
+        INotifyingItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
 
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
+        INotifyingItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
 
         #region P3Double
         P3Double P3Double { get; }
+        INotifyingItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
 
         #region P3IntN
         P3Int? P3IntN { get; }
+        INotifyingItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
 
         #region P3Int
         P3Int P3Int { get; }
+        INotifyingItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
 
         #region PercentN
         Percent? PercentN { get; }
+        INotifyingItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
 
         #region Percent
         Percent Percent { get; }
+        INotifyingItemGetter<Percent> Percent_Property { get; }
 
         #endregion
 
         #region RangeIntN
         RangeInt? RangeIntN { get; }
+        INotifyingItemGetter<RangeInt?> RangeIntN_Property { get; }
 
         #endregion
 
         #region RangeInt
         RangeInt RangeInt { get; }
+        INotifyingItemGetter<RangeInt> RangeInt_Property { get; }
 
         #endregion
 
         #region String
         String String { get; }
+        INotifyingItemGetter<String> String_Property { get; }
 
         #endregion
 
         #region UDoubleN
         UDouble? UDoubleN { get; }
+        INotifyingItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
 
         #region UDouble
         UDouble UDouble { get; }
+        INotifyingItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
 
         #region UInt16N
         UInt16? UInt16N { get; }
+        INotifyingItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
 
         #region UInt16
         UInt16 UInt16 { get; }
+        INotifyingItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
 
         #region UInt32N
         UInt32? UInt32N { get; }
+        INotifyingItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
 
         #region UInt32
         UInt32 UInt32 { get; }
+        INotifyingItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
 
         #region UInt64N
         UInt64? UInt64N { get; }
+        INotifyingItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
 
         #region UInt64
         UInt64 UInt64 { get; }
+        INotifyingItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
 
         #region UInt8N
         Byte? UInt8N { get; }
+        INotifyingItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
 
         #region UInt8
         Byte UInt8 { get; }
+        INotifyingItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
 
         #region Enum
         TestEnum Enum { get; }
+        INotifyingItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
 
         #region WildCard
         Object WildCard { get; }
+        INotifyingItemGetter<Object> WildCard_Property { get; }
 
         #endregion
 
         #region Ref
         ObjectToRef Ref { get; }
+        INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
 
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
+        INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
 
         #region RefSetter
         IObjectToRef RefSetter { get; }
+        INotifyingItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
 
@@ -1828,30 +1381,30 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Registration
-    public class TestObject_Registration : INoggolloquyRegistration
+    public class TestObject_Notifying_ReadOnly_Registration : INoggolloquyRegistration
     {
-        public static readonly TestObject_Registration Instance = new TestObject_Registration();
+        public static readonly TestObject_Notifying_ReadOnly_Registration Instance = new TestObject_Notifying_ReadOnly_Registration();
 
         public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
-            msgID: 7,
+            msgID: 10,
             version: 0);
 
-        public const string GUID = "b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7";
+        public const string GUID = "788f2672-47d2-47d0-a157-c7426032ad72";
 
         public const ushort FieldCount = 48;
 
-        public static readonly Type MaskType = typeof(TestObject_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_ReadOnly_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_ReadOnly_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_ReadOnly);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject";
+        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_ReadOnly";
 
-        public const string Name = "TestObject";
+        public const string Name = "TestObject_Notifying_ReadOnly";
 
         public const byte GenericCount = 0;
 
@@ -2445,1033 +1998,331 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestObjectCommon
+    public static class TestObject_Notifying_ReadOnlyCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject item, ITestObjectGetter rhs, ITestObjectGetter def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(ITestObject_Notifying_ReadOnly item, ITestObject_Notifying_ReadOnlyGetter rhs, ITestObject_Notifying_ReadOnlyGetter def, TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
-            try
-            {
-                item.BoolN = rhs.BoolN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-            try
-            {
-                item.Bool = rhs.Bool;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(1, ex);
-                }
-            }
-            try
-            {
-                item.CharN = rhs.CharN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(2, ex);
-                }
-            }
-            try
-            {
-                item.Char = rhs.Char;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(3, ex);
-                }
-            }
-            try
-            {
-                item.DoubleN = rhs.DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(4, ex);
-                }
-            }
-            try
-            {
-                item.Double = rhs.Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(5, ex);
-                }
-            }
-            try
-            {
-                item.FloatN = rhs.FloatN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(6, ex);
-                }
-            }
-            try
-            {
-                item.Float = rhs.Float;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(7, ex);
-                }
-            }
-            try
-            {
-                item.Int16N = rhs.Int16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(8, ex);
-                }
-            }
-            try
-            {
-                item.Int16 = rhs.Int16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(9, ex);
-                }
-            }
-            try
-            {
-                item.Int32N = rhs.Int32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(10, ex);
-                }
-            }
-            try
-            {
-                item.Int32 = rhs.Int32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(11, ex);
-                }
-            }
-            try
-            {
-                item.Int64N = rhs.Int64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(12, ex);
-                }
-            }
-            try
-            {
-                item.Int64 = rhs.Int64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(13, ex);
-                }
-            }
-            try
-            {
-                item.Int8N = rhs.Int8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(14, ex);
-                }
-            }
-            try
-            {
-                item.Int8 = rhs.Int8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(15, ex);
-                }
-            }
-            try
-            {
-                item.Unsafe = rhs.Unsafe;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(16, ex);
-                }
-            }
-            try
-            {
-                item.P2IntN = rhs.P2IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(17, ex);
-                }
-            }
-            try
-            {
-                item.P2Int = rhs.P2Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(18, ex);
-                }
-            }
-            try
-            {
-                item.P3DoubleN = rhs.P3DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(19, ex);
-                }
-            }
-            try
-            {
-                item.P3Double = rhs.P3Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(20, ex);
-                }
-            }
-            try
-            {
-                item.P3IntN = rhs.P3IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(21, ex);
-                }
-            }
-            try
-            {
-                item.P3Int = rhs.P3Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(22, ex);
-                }
-            }
-            try
-            {
-                item.PercentN = rhs.PercentN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(23, ex);
-                }
-            }
-            try
-            {
-                item.Percent = rhs.Percent;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(24, ex);
-                }
-            }
-            try
-            {
-                item.RangeIntN = rhs.RangeIntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(25, ex);
-                }
-            }
-            try
-            {
-                item.RangeInt = rhs.RangeInt;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(26, ex);
-                }
-            }
-            try
-            {
-                item.String = rhs.String;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(27, ex);
-                }
-            }
-            try
-            {
-                item.UDoubleN = rhs.UDoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(28, ex);
-                }
-            }
-            try
-            {
-                item.UDouble = rhs.UDouble;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(29, ex);
-                }
-            }
-            try
-            {
-                item.UInt16N = rhs.UInt16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(30, ex);
-                }
-            }
-            try
-            {
-                item.UInt16 = rhs.UInt16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(31, ex);
-                }
-            }
-            try
-            {
-                item.UInt32N = rhs.UInt32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(32, ex);
-                }
-            }
-            try
-            {
-                item.UInt32 = rhs.UInt32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(33, ex);
-                }
-            }
-            try
-            {
-                item.UInt64N = rhs.UInt64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(34, ex);
-                }
-            }
-            try
-            {
-                item.UInt64 = rhs.UInt64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(35, ex);
-                }
-            }
-            try
-            {
-                item.UInt8N = rhs.UInt8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(36, ex);
-                }
-            }
-            try
-            {
-                item.UInt8 = rhs.UInt8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(37, ex);
-                }
-            }
-            try
-            {
-                item.Enum = rhs.Enum;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(38, ex);
-                }
-            }
-            try
-            {
-                item.WildCard = rhs.WildCard;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(39, ex);
-                }
-            }
-            try
-            {
-                item.Ref = rhs.Ref;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(40, ex);
-                }
-            }
-            try
-            {
-                item.RefGetter = rhs.RefGetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(41, ex);
-                }
-            }
-            try
-            {
-                item.RefSetter = rhs.RefSetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(42, ex);
-                }
-            }
-            try
-            {
-                if (rhs.List.HasBeenSet)
-                {
-                    item.List.SetTo(rhs.List, cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.List.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.List.SetTo(def.List, cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(43, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefList.HasBeenSet)
-                {
-                    int i = 0;
-                    List<ObjectToRef> defList = def?.RefList.ToList();
-                    item.RefList.SetTo(
-                        rhs.RefList.Select((s) =>
-                        {
-                            return s.Copy(defList?[i++]);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.RefList.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(44, ex);
-                }
-            }
-            try
-            {
-                if (rhs.Dict.HasBeenSet)
-                {
-                    item.Dict.SetTo(
-                        rhs.Dict.Select(
-                            (i) => new KeyValuePair<Boolean, String>(
-                                i.Key,
-                                i.Value)),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.Dict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.Dict.SetTo(
-                            def.Dict.Select(
-                                (i) => new KeyValuePair<Boolean, String>(
-                                    i.Key,
-                                    i.Value)),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(45, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefDict.HasBeenSet)
-                {
-                    int i = 0;
-                    List<KeyValuePair<ObjectToRef, ObjectToRef>> defList = def?.RefDict.ToList();
-                    item.RefDict.SetTo(
-                        rhs.RefDict.Select((s) =>
-                        {
-                            var key = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                key.CopyFieldsFrom(s.Key, defList[i++].Key);
-                            }
-                            else
-                            {
-                                key.CopyFieldsFrom(s.Key);
-                            }
-                            var value = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                value.CopyFieldsFrom(s.Value, defList[i++].Value);
-                            }
-                            else
-                            {
-                                value.CopyFieldsFrom(s.Value);
-                            }
-                            return new KeyValuePair<ObjectToRef, ObjectToRef>(key, value);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.RefDict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.RefDict.SetTo(
-                            def.RefDict.Select(
-                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                    i.Key.Copy(),
-                                    i.Value.Copy())),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(46, ex);
-                }
-            }
-            try
-            {
-                if (rhs.DictKeyedValue.HasBeenSet)
-                {
-                    item.DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.DictKeyedValue.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.DictKeyedValue.SetTo(
-                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(47, ex);
-                }
-            }
         }
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_Notifying_ReadOnly obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 1:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 2:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 3:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 4:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 5:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 6:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 7:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 8:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 9:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 10:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 11:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 12:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 13:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 14:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 15:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 16:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 17:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 18:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 19:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 20:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 21:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 22:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 23:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 24:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 25:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 26:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 27:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 28:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 29:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 30:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 31:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 32:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 33:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 34:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 35:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 36:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 37:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 38:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 39:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 40:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 41:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 42:
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 43:
-                    obj.List.HasBeenSet = on;
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 44:
-                    obj.RefList.HasBeenSet = on;
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 45:
-                    obj.Dict.HasBeenSet = on;
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 46:
-                    obj.RefDict.HasBeenSet = on;
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 47:
-                    obj.DictKeyedValue.HasBeenSet = on;
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestObject_Notifying_ReadOnly obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    obj.BoolN = default(Boolean?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 1:
-                    obj.Bool = default(Boolean);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 2:
-                    obj.CharN = default(Char?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 3:
-                    obj.Char = default(Char);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 4:
-                    obj.DoubleN = default(Double?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 5:
-                    obj.Double = default(Double);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 6:
-                    obj.FloatN = default(Single?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 7:
-                    obj.Float = default(Single);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 8:
-                    obj.Int16N = default(Int16?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 9:
-                    obj.Int16 = default(Int16);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 10:
-                    obj.Int32N = default(Int32?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 11:
-                    obj.Int32 = default(Int32);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 12:
-                    obj.Int64N = default(Int64?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 13:
-                    obj.Int64 = default(Int64);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 14:
-                    obj.Int8N = default(SByte?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 15:
-                    obj.Int8 = default(SByte);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 16:
-                    obj.Unsafe = default(bool);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 17:
-                    obj.P2IntN = default(P2Int?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 18:
-                    obj.P2Int = default(P2Int);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 19:
-                    obj.P3DoubleN = default(P3Double?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 20:
-                    obj.P3Double = default(P3Double);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 21:
-                    obj.P3IntN = default(P3Int?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 22:
-                    obj.P3Int = default(P3Int);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 23:
-                    obj.PercentN = default(Percent?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 24:
-                    obj.Percent = default(Percent);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 25:
-                    obj.RangeIntN = default(RangeInt?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 26:
-                    obj.RangeInt = default(RangeInt);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 27:
-                    obj.String = default(String);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 28:
-                    obj.UDoubleN = default(UDouble?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 29:
-                    obj.UDouble = default(UDouble);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 30:
-                    obj.UInt16N = default(UInt16?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 31:
-                    obj.UInt16 = default(UInt16);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 32:
-                    obj.UInt32N = default(UInt32?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 33:
-                    obj.UInt32 = default(UInt32);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 34:
-                    obj.UInt64N = default(UInt64?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 35:
-                    obj.UInt64 = default(UInt64);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 36:
-                    obj.UInt8N = default(Byte?);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 37:
-                    obj.UInt8 = default(Byte);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 38:
-                    obj.Enum = default(TestEnum);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 39:
-                    obj.WildCard = default(Object);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 40:
-                    obj.Ref = default(ObjectToRef);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 41:
-                    obj.RefGetter = default(IObjectToRefGetter);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 42:
-                    obj.RefSetter = default(IObjectToRef);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 43:
-                    obj.List.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 44:
-                    obj.RefList.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 45:
-                    obj.Dict.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 46:
-                    obj.RefDict.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 47:
-                    obj.DictKeyedValue.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_Notifying_ReadOnly obj)
         {
             switch (index)
             {
                 case 0:
-                    return true;
+                    return obj.BoolN_Property.HasBeenSet;
                 case 1:
-                    return true;
+                    return obj.Bool_Property.HasBeenSet;
                 case 2:
-                    return true;
+                    return obj.CharN_Property.HasBeenSet;
                 case 3:
-                    return true;
+                    return obj.Char_Property.HasBeenSet;
                 case 4:
-                    return true;
+                    return obj.DoubleN_Property.HasBeenSet;
                 case 5:
-                    return true;
+                    return obj.Double_Property.HasBeenSet;
                 case 6:
-                    return true;
+                    return obj.FloatN_Property.HasBeenSet;
                 case 7:
-                    return true;
+                    return obj.Float_Property.HasBeenSet;
                 case 8:
-                    return true;
+                    return obj.Int16N_Property.HasBeenSet;
                 case 9:
-                    return true;
+                    return obj.Int16_Property.HasBeenSet;
                 case 10:
-                    return true;
+                    return obj.Int32N_Property.HasBeenSet;
                 case 11:
-                    return true;
+                    return obj.Int32_Property.HasBeenSet;
                 case 12:
-                    return true;
+                    return obj.Int64N_Property.HasBeenSet;
                 case 13:
-                    return true;
+                    return obj.Int64_Property.HasBeenSet;
                 case 14:
-                    return true;
+                    return obj.Int8N_Property.HasBeenSet;
                 case 15:
-                    return true;
+                    return obj.Int8_Property.HasBeenSet;
                 case 16:
-                    return true;
+                    return obj.Unsafe_Property.HasBeenSet;
                 case 17:
-                    return true;
+                    return obj.P2IntN_Property.HasBeenSet;
                 case 18:
-                    return true;
+                    return obj.P2Int_Property.HasBeenSet;
                 case 19:
-                    return true;
+                    return obj.P3DoubleN_Property.HasBeenSet;
                 case 20:
-                    return true;
+                    return obj.P3Double_Property.HasBeenSet;
                 case 21:
-                    return true;
+                    return obj.P3IntN_Property.HasBeenSet;
                 case 22:
-                    return true;
+                    return obj.P3Int_Property.HasBeenSet;
                 case 23:
-                    return true;
+                    return obj.PercentN_Property.HasBeenSet;
                 case 24:
-                    return true;
+                    return obj.Percent_Property.HasBeenSet;
                 case 25:
-                    return true;
+                    return obj.RangeIntN_Property.HasBeenSet;
                 case 26:
-                    return true;
+                    return obj.RangeInt_Property.HasBeenSet;
                 case 27:
-                    return true;
+                    return obj.String_Property.HasBeenSet;
                 case 28:
-                    return true;
+                    return obj.UDoubleN_Property.HasBeenSet;
                 case 29:
-                    return true;
+                    return obj.UDouble_Property.HasBeenSet;
                 case 30:
-                    return true;
+                    return obj.UInt16N_Property.HasBeenSet;
                 case 31:
-                    return true;
+                    return obj.UInt16_Property.HasBeenSet;
                 case 32:
-                    return true;
+                    return obj.UInt32N_Property.HasBeenSet;
                 case 33:
-                    return true;
+                    return obj.UInt32_Property.HasBeenSet;
                 case 34:
-                    return true;
+                    return obj.UInt64N_Property.HasBeenSet;
                 case 35:
-                    return true;
+                    return obj.UInt64_Property.HasBeenSet;
                 case 36:
-                    return true;
+                    return obj.UInt8N_Property.HasBeenSet;
                 case 37:
-                    return true;
+                    return obj.UInt8_Property.HasBeenSet;
                 case 38:
-                    return true;
+                    return obj.Enum_Property.HasBeenSet;
                 case 39:
-                    return true;
+                    return obj.WildCard_Property.HasBeenSet;
                 case 40:
-                    return true;
+                    return obj.Ref_Property.HasBeenSet;
                 case 41:
-                    return true;
+                    return obj.RefGetter_Property.HasBeenSet;
                 case 42:
-                    return true;
+                    return obj.RefSetter_Property.HasBeenSet;
                 case 43:
-                    return true;
+                    return obj.List.HasBeenSet;
                 case 44:
-                    return true;
+                    return obj.RefList.HasBeenSet;
                 case 45:
-                    return true;
+                    return obj.Dict.HasBeenSet;
                 case 46:
-                    return true;
+                    return obj.RefDict.HasBeenSet;
                 case 47:
-                    return true;
+                    return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObjectGetter obj)
+        public static object GetNthObject(ushort index, ITestObject_Notifying_ReadOnlyGetter obj)
         {
             switch (index)
             {
@@ -3577,11 +2428,11 @@ namespace Noggolloquy.Tests
         }
 
     }
-    public static class TestObjectExt
+    public static class TestObject_Notifying_ReadOnlyExt
     {
-        public static TestObject Copy_ToNoggolloquy(this ITestObjectGetter item)
+        public static TestObject_Notifying_ReadOnly Copy_ToNoggolloquy(this ITestObject_Notifying_ReadOnlyGetter item)
         {
-            return TestObject.Copy(item, def: null);
+            return TestObject_Notifying_ReadOnly.Copy(item, def: null);
         }
 
     }
@@ -3592,7 +2443,7 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Mask
-    public class TestObject_Mask<T> 
+    public class TestObject_Notifying_ReadOnly_Mask<T> 
     {
         public T BoolN;
         public T Bool;
@@ -3644,7 +2495,7 @@ namespace Noggolloquy.Tests
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
-    public class TestObject_ErrorMask : IErrorMask
+    public class TestObject_Notifying_ReadOnly_ErrorMask : IErrorMask
     {
         public Exception Overall { get; set; }
         private List<string> _warnings;

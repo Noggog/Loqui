@@ -11,23 +11,19 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"private{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} _{this.Name};");
-                    fg.AppendLine($"public{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name} = WildcardLink.Validate(value); }} ")}}}");
+                    fg.AppendLine($"protected {this.TypeName} _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get => this._{this.Name}; {(this.ReadOnly ? "protected " : string.Empty)}set => this._{this.Name} = WildcardLink.Validate(value); }}");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     break;
                 case NotifyingOption.HasBeenSet:
-                    if (this.ReadOnly)
+                    GenerateNotifyingCtor(fg, notifying: false);
+                    fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name}.Value = WildcardLink.Validate(value); }} ")}}}");
+                    if (!this.ReadOnly)
                     {
-                        fg.AppendLine("Gibberish");
-                    }
-                    else
-                    {
-                        GenerateNotifyingCtor(fg, notifying: false);
-                        fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter<T>" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"public{(this.ReadOnly ? " readonly" : string.Empty)} {this.TypeName} {this.Name} {{ get {{ return this._{this.Name}; }} {(this.ReadOnly ? string.Empty : $"set {{ this._{this.Name}.Value = WildcardLink.Validate(value); }} ")}}}");
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetPropertyString(true)};");
                     }
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(false, true)};");
                     break;
                 case NotifyingOption.Notifying:
                     fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
@@ -48,7 +44,10 @@ namespace Noggolloquy.Generation
                     fg.AppendLine(");");
                     fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ _{this.Name}.Value = value; }} }}");
-                    fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    if (!this.ReadOnly)
+                    {
+                        fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                     break;
                 default:

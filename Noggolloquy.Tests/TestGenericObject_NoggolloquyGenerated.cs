@@ -47,8 +47,6 @@ namespace Noggolloquy.Tests
 
         public virtual bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
 
-        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObjectCommon<T, R>.SetNthObject(index, this, obj, cmds);
-
         public virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(index, this, cmds);
 
         #endregion
@@ -122,7 +120,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    this.Ref_Property.Set(
+                    this._Ref.Set(
                         rhs.Ref,
                         cmds);
                 }
@@ -130,11 +128,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Ref_Property.Unset(cmds.ToUnsetParams());
+                        this._Ref.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Ref_Property.Set(
+                        this._Ref.Set(
                             def.Ref,
                             cmds);
                     }
@@ -265,6 +263,20 @@ namespace Noggolloquy.Tests
             var ret = new TestGenericObject<T, R>();
             ret.CopyFieldsFrom(item, def);
             return ret;
+        }
+
+        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    this._Ref.Set(
+                        (R)obj,
+                        cmds);
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
         }
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
@@ -478,7 +490,9 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    item.Ref_Property.Set(rhs.Ref, cmds: cmds);
+                    item.Ref_Property.Set(
+                        rhs.Ref,
+                        cmds: cmds);
                 }
                 else
                 {
@@ -488,7 +502,9 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.Ref_Property.Set(def.Ref, cmds: cmds);
+                        item.Ref_Property.Set(
+                            def.Ref,
+                            cmds: cmds);
                     }
                 }
 
@@ -545,20 +561,6 @@ namespace Noggolloquy.Tests
             {
                 case 0:
                     return obj.Ref;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static void SetNthObject(ushort index, ITestGenericObject<T, R> nog, object obj, NotifyingFireParameters? cmds = null)
-        {
-            switch (index)
-            {
-                case 0:
-                    nog.Ref_Property.Set(
-                        ((R)obj),
-                        cmds);
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

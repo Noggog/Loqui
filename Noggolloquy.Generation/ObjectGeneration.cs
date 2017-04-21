@@ -22,6 +22,7 @@ namespace Noggolloquy.Generation
         public bool GeneratePublicBasicCtor { get; protected set; }
         public abstract NotifyingOption NotifyingDefault { get; }
         public NoggInterfaceType InterfaceTypeDefault;
+        public bool ReadOnlyDefault;
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
@@ -88,6 +89,7 @@ namespace Noggolloquy.Generation
             GeneratePublicBasicCtor = Node.GetAttribute<bool>("publicCtor", true);
             Version = Node.GetAttribute<ushort>("version", 0);
             this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", NoggInterfaceType.Direct);
+            this.ReadOnlyDefault = Node.GetAttribute<bool>("readOnlyDefault", false);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)
@@ -276,6 +278,8 @@ namespace Noggolloquy.Generation
                     GenerateCopyInAbleInterface(fg);
 
                     GenerateCopy(fg);
+
+                    GenerateSetNthObject(fg);
 
                     GenerateClear(fg);
 
@@ -474,8 +478,6 @@ namespace Noggolloquy.Generation
 
                     GenerateGetNthObject(fg);
 
-                    GenerateSetNthObject(fg);
-
                     // Fields might add some content
                     foreach (var field in this.Fields)
                     {
@@ -537,7 +539,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("try");
                     using (new BraceWrapper(fg))
                     {
-                        item.Field.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor: cmdsAccessor);
+                        item.Field.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor: cmdsAccessor, protectedMembers: false);
                     }
                     GenerateExceptionCatcher(fg, item.Field, maskAccessor, item.Index);
                 }
@@ -581,9 +583,6 @@ namespace Noggolloquy.Generation
                         fg.Append("true;");
                     }
                 }
-                fg.AppendLine();
-
-                fg.AppendLine($"public{this.FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.SetNthObject(index, this, obj, cmds);");
                 fg.AppendLine();
 
                 fg.AppendLine($"public{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(index, this, cmds);");
@@ -661,7 +660,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthObject", "index", true, "obj");
+                    GenerateStandardIndexDefault(fg, "GetNthObject", "index", true, true, "obj");
                 }
             }
             fg.AppendLine();
@@ -691,7 +690,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "GetNthObjectHasBeenSet", "index", true, "obj");
+                    GenerateStandardIndexDefault(fg, "GetNthObjectHasBeenSet", "index", true, true, "obj");
                 }
             }
             fg.AppendLine();
@@ -699,7 +698,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static void SetNthObject(ushort index, {this.InterfaceStr} nog, object obj, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"public{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -712,14 +711,14 @@ namespace Noggolloquy.Generation
                         {
                             item.Field.GenerateInterfaceSet(
                                 fg,
-                                accessorPrefix: $"nog",
-                                rhsAccessorPrefix: $"(({item.Field.TypeName})obj)",
+                                accessorPrefix: $"this",
+                                rhsAccessorPrefix: $"({item.Field.TypeName})obj",
                                 cmdsAccessor: "cmds");
                             fg.AppendLine($"break;");
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", false, "nog", "obj");
+                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", false, false, "obj", "cmds");
                 }
             }
             fg.AppendLine();
@@ -756,7 +755,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "SetNthObjectHasBeenSet", "index", false, "on", "obj");
+                    GenerateStandardIndexDefault(fg, "SetNthObjectHasBeenSet", "index", false, true, "on", "obj");
                 }
             }
             fg.AppendLine();
@@ -793,7 +792,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "UnsetNthObject", "index", false, "obj");
+                    GenerateStandardIndexDefault(fg, "UnsetNthObject", "index", false, true, "obj");
                 }
             }
             fg.AppendLine();
@@ -1037,6 +1036,7 @@ namespace Noggolloquy.Generation
             string functionName,
             string indexAccessor,
             bool ret,
+            bool common,
             params string[] otherParameters)
         {
             fg.AppendLine("default:");
@@ -1044,7 +1044,14 @@ namespace Noggolloquy.Generation
             {
                 if (this.HasBaseObject)
                 {
-                    fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.ExtCommonName(this.BaseGenericTypes)}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    if (common)
+                    {
+                        fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.ExtCommonName(this.BaseGenericTypes)}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    }
                     if (!ret)
                     {
                         fg.AppendLine("break;");

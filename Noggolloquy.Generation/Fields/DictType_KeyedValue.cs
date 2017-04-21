@@ -81,7 +81,7 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{identifier}.{this.GetName(internalUse)}.HasBeenSet = {onIdentifier};");
             }
         }
 
@@ -89,11 +89,11 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }
         }
 
-        public override string GetPropertyString(bool internalUse)
+        public override string GetName(bool internalUse, bool property = true)
         {
             if (internalUse)
             {
@@ -128,12 +128,12 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
         {
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedUse);
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
@@ -141,29 +141,29 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
+                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse)}.Unset({cmdsAccessor}.ToUnsetParams());");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse);
                 }
             }
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor)
+        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
+            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse)}.SetTo(");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}.{this.Name}).Select((i) => i.Copy()),");
+                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}.{this.GetName(false)}).Select((i) => i.Copy()),");
                 fg.AppendLine($"{cmdAccessor});");
             }
         }
 
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, true);
         }
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)

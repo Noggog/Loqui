@@ -78,7 +78,7 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{identifier}.{this.GetName(internalUse)}.HasBeenSet = {onIdentifier};");
             }
         }
 
@@ -86,11 +86,11 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }
         }
 
-        public override string GetPropertyString(bool internalUse)
+        public override string GetName(bool internalUse, bool property = true)
         {
             if (internalUse)
             {

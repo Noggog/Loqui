@@ -79,14 +79,23 @@
       <Compile Include="TestObject_HasBeenSet_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
       </Compile>
+      <Compile Include="TestObject_HasBeenSet_ReadOnly_NoggolloquyGenerated.cs">
+         <DependentUpon>TestObject_HasBeenSet_ReadOnly.xml</DependentUpon>
+      </Compile>
       <Compile Include="TestObject_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject.xml</DependentUpon>
       </Compile>
       <Compile Include="TestObject_Notifying_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject_Notifying.xml</DependentUpon>
       </Compile>
+      <Compile Include="TestObject_Notifying_ReadOnly_NoggolloquyGenerated.cs">
+         <DependentUpon>TestObject_Notifying_ReadOnly.xml</DependentUpon>
+      </Compile>
       <Compile Include="TestObject_Notifying_SubClass_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject_Notifying_SubClass.xml</DependentUpon>
+      </Compile>
+      <Compile Include="TestObject_ReadOnly_NoggolloquyGenerated.cs">
+         <DependentUpon>TestObject_ReadOnly.xml</DependentUpon>
       </Compile>
       <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
       <Compile Include="XML\BoolXmlTranslation_Test.cs" />
@@ -152,6 +161,15 @@
          <SubType>Designer</SubType>
       </Content>
       <Content Include="TestGenericObject.xml">
+         <SubType>Designer</SubType>
+      </Content>
+      <Content Include="TestObject_HasBeenSet_ReadOnly.xml">
+         <SubType>Designer</SubType>
+      </Content>
+      <Content Include="TestObject_Notifying_ReadOnly.xml">
+         <SubType>Designer</SubType>
+      </Content>
+      <Content Include="TestObject_ReadOnly.xml">
          <SubType>Designer</SubType>
       </Content>
       <Content Include="TestObject_HasBeenSet.xml">

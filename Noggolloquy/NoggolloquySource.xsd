@@ -359,6 +359,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="readOnlyDefault" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Sets the default value of the read only property on all of this objects contained fields.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="GUID" type="xs:string" >
       <xs:annotation>
         <xs:documentation>

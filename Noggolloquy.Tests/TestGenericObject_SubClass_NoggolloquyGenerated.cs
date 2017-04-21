@@ -40,8 +40,6 @@ namespace Noggolloquy.Tests
 
         public override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClassCommon<S, T, R>.GetNthObjectHasBeenSet(index, this);
 
-        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestGenericObject_SubClassCommon<S, T, R>.SetNthObject(index, this, obj, cmds);
-
         public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClassCommon<S, T, R>.UnsetNthObject(index, this, cmds);
 
         #endregion
@@ -193,6 +191,16 @@ namespace Noggolloquy.Tests
             var ret = new TestGenericObject_SubClass<S, T, R>();
             ret.CopyFieldsFrom(item, def);
             return ret;
+        }
+
+        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        {
+            switch (index)
+            {
+                default:
+                    base.SetNthObject(index, obj, cmds);
+                    break;
+            }
         }
 
         public override void Clear(NotifyingUnsetParameters? cmds = null)
@@ -422,16 +430,6 @@ namespace Noggolloquy.Tests
             {
                 default:
                     return TestGenericObjectCommon<T, R>.GetNthObject(index, obj);
-            }
-        }
-
-        public static void SetNthObject(ushort index, ITestGenericObject_SubClass<S, T, R> nog, object obj, NotifyingFireParameters? cmds = null)
-        {
-            switch (index)
-            {
-                default:
-                    TestGenericObjectCommon<T, R>.SetNthObject(index, nog, obj);
-                    break;
             }
         }
 

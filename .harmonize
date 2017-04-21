@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>cc6024f0144dd067a2b824ed40faf99696e61434</Sha>
-      <Description>IHasBeenSet API improvements</Description>
+      <Sha>81e0af0fae5984016f2123e1bfa9c911e889e5ad</Sha>
+      <Description>IHasBeenSet no longer uses NotifyingFireParameters</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-19-2017 19:59:30</CommitDate>
+      <CommitDate>04-20-2017 20:07:15</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

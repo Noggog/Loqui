@@ -57,8 +57,6 @@ namespace Noggolloquy.Tests
 
         public bool GetNthObjectHasBeenSet(ushort index) => ObjectToRefCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => ObjectToRefCommon.SetNthObject(index, this, obj, cmds);
-
         public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => ObjectToRefCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
@@ -135,7 +133,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.KeyField_Property.HasBeenSet)
                 {
-                    this.KeyField_Property.Set(
+                    this._KeyField.Set(
                         rhs.KeyField,
                         cmds);
                 }
@@ -143,11 +141,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.KeyField_Property.Unset(cmds.ToUnsetParams());
+                        this._KeyField.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.KeyField_Property.Set(
+                        this._KeyField.Set(
                             def.KeyField,
                             cmds);
                     }
@@ -165,7 +163,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.SomeField_Property.HasBeenSet)
                 {
-                    this.SomeField_Property.Set(
+                    this._SomeField.Set(
                         rhs.SomeField,
                         cmds);
                 }
@@ -173,11 +171,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.SomeField_Property.Unset(cmds.ToUnsetParams());
+                        this._SomeField.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.SomeField_Property.Set(
+                        this._SomeField.Set(
                             def.SomeField,
                             cmds);
                     }
@@ -308,6 +306,25 @@ namespace Noggolloquy.Tests
             var ret = new ObjectToRef();
             ret.CopyFieldsFrom(item, def);
             return ret;
+        }
+
+        public void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    this._KeyField.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case 1:
+                    this._SomeField.Set(
+                        (Boolean)obj,
+                        cmds);
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
         }
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
@@ -638,25 +655,6 @@ namespace Noggolloquy.Tests
                     return obj.KeyField;
                 case 1:
                     return obj.SomeField;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static void SetNthObject(ushort index, IObjectToRef nog, object obj, NotifyingFireParameters? cmds = null)
-        {
-            switch (index)
-            {
-                case 0:
-                    nog.KeyField_Property.Set(
-                        ((Int32)obj),
-                        cmds);
-                    break;
-                case 1:
-                    nog.SomeField_Property.Set(
-                        ((Boolean)obj),
-                        cmds);
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

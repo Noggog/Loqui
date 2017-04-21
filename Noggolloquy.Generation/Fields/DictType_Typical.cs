@@ -87,7 +87,7 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(internalUse)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{identifier}.{this.GetName(internalUse)}.HasBeenSet = {onIdentifier};");
             }
         }
 
@@ -95,11 +95,11 @@ namespace Noggolloquy.Generation
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetPropertyString(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }
         }
 
-        public override string GetPropertyString(bool internalUse)
+        public override string GetName(bool internalUse, bool property = true)
         {
             if (internalUse)
             {
@@ -145,7 +145,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers)
         {
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
@@ -157,11 +157,11 @@ namespace Noggolloquy.Generation
                 else
                 {
                     fg.AppendLine("int i = 0;");
-                    fg.AppendLine($"List<KeyValuePair<{this.TypeTuple}>> defList = {defaultFallbackAccessor}?.{this.Name}.ToList();");
-                    fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
+                    fg.AppendLine($"List<KeyValuePair<{this.TypeTuple}>> defList = {defaultFallbackAccessor}?.{this.GetName(false, false)}.ToList();");
+                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.SetTo(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select((s) =>");
+                        fg.AppendLine($"{rhsAccessorPrefix}.{this.GetName(false, false)}.Select((s) =>");
                         using (new BraceWrapper(fg))
                         {
                             if (KeyTypeGen is NoggType)
@@ -212,7 +212,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
+                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.Unset({cmdsAccessor}.ToUnsetParams());");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
@@ -243,7 +243,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, true);
         }
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
@@ -251,7 +251,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"{rhsAccessorPrefix}.Select(");
+                fg.AppendLine($"({rhsAccessorPrefix}).Select(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");

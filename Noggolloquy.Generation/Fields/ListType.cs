@@ -31,8 +31,10 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"return {member}[index];");
                     }
                 }
-
-                fg.AppendLine($"INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                }
                 fg.AppendLine($"INotifyingListGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
@@ -43,7 +45,10 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine($"new {ItemTypeName} GetNth{this.Name}(int index);");
             }
-            fg.AppendLine($"new INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
+            if (!this.ReadOnly)
+            {
+                fg.AppendLine($"new INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
+            }
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)
@@ -62,11 +67,11 @@ namespace Noggolloquy.Generation
 
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor, bool protectedUse)
         {
             if (defaultFallbackAccessor == null)
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor);
+                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor, protectedUse);
             }
             else
             {
@@ -75,7 +80,7 @@ namespace Noggolloquy.Generation
                 {
                     if (defaultFallbackAccessor == null || !this.isNoggSingle)
                     {
-                        GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor);
+                        GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor, protectedUse);
                     }
                     else
                     {
@@ -106,12 +111,12 @@ namespace Noggolloquy.Generation
                         fg.AppendLine("else");
                         using (new BraceWrapper(fg))
                         {
-                            GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor);
+                            GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse);
                         }
                     }
                     else
                     {
-                        GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor);
+                        GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse);
                     }
                 }
             }
@@ -119,17 +124,17 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
         }
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(({rhsAccessorPrefix}){(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo(({rhsAccessorPrefix}){(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor)
+        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdAccessor});");
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)

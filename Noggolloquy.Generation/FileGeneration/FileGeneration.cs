@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("IHasBeenSetItemGetter<T> RefSetter_Property { get; }"))
+            if (str.Contains("public IHasBeenSetItemGetter<T> RefGetter_Property => this.RefGetter_Property;"))
             {
                 int wer = 23;
                 wer++;

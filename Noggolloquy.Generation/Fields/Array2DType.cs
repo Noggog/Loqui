@@ -41,8 +41,8 @@ namespace Noggolloquy.Generation
                     }
                 }
 
-                fg.AppendLine($"INotifyingContainer2D{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.GetPropertyString(false)} => {member};");
-                fg.AppendLine($"INotifyingContainer2DGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.GetPropertyString(false)} => {member};");
+                fg.AppendLine($"INotifyingContainer2D{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.GetName(false, true)} => {member};");
+                fg.AppendLine($"INotifyingContainer2DGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.GetName(false, true)} => {member};");
             }
         }
 
@@ -51,34 +51,34 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
-            fg.AppendLine($"INotifyingContainer2DGetter<{ItemTypeName}> {this.GetPropertyString(false)} {{ get; }}");
+            fg.AppendLine($"INotifyingContainer2DGetter<{ItemTypeName}> {this.GetName(false, true)} {{ get; }}");
         }
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            fg.AppendLine($"new INotifyingContainer2D{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.GetPropertyString(false)} {{ get; }}");
+            fg.AppendLine($"new INotifyingContainer2D{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.GetName(false, true)} {{ get; }}");
         }
 
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, true);
         }
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, cmdsAccessor);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, cmdsAccessor, false);
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
-            fg.AppendLine($"return {identifier}.{this.GetPropertyString(false)};");
+            fg.AppendLine($"return {identifier}.{this.GetName(false, true)};");
         }
     }
 }

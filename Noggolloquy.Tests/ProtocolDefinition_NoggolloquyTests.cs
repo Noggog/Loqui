@@ -20,6 +20,9 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(TestGenericObject_SubClass_Registration.Instance);
             NoggolloquyRegistration.Register(TestObject_Registration.Instance);
             NoggolloquyRegistration.Register(TestObject_HasBeenSet_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_Notifying_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_HasBeenSet_ReadOnly_Registration.Instance);
         }
     }
 }

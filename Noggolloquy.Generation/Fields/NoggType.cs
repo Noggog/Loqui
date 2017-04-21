@@ -58,14 +58,14 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public {this.TypeName} {this.Name} {{ get {{ return this.{this.ProtectedName}; }} {(Protected ? "protected " : string.Empty)}set {{ {this.ProtectedName} = value; }} }}");
                     if (this.ReadOnly)
                     {
-                        fg.AppendLine($"public IHasBeenSetItemGetter<T> {this.Property} => this.{this.Property};");
+                        fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.Property};");
                     }
                     else
                     {
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                     }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
-                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetPropertyString(true)};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
                     break;
                 case NotifyingOption.Notifying:
                     if (AllowNull)
@@ -132,7 +132,7 @@ namespace Noggolloquy.Generation
             if (!string.IsNullOrWhiteSpace(refName))
             {
                 Ref r = new Ref();
-                this.InterfaceType = refNode.GetAttribute<NoggInterfaceType>("interfaceType", NoggInterfaceType.Direct);
+                this.InterfaceType = refNode.GetAttribute<NoggInterfaceType>("interfaceType", this.ObjectGen.InterfaceTypeDefault);
 
                 var genElems = refNode.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)).ToList();
                 if (genElems.Count > 0)
@@ -172,17 +172,17 @@ namespace Noggolloquy.Generation
             return $"{TypeName}{(this.AllowNull ? "?" : string.Empty)}";
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor, bool protectedUse)
         {
             if (this.Notifying == NotifyingOption.None)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.Name};");
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)} = {rhsAccessorPrefix}.{this.Name};");
                 return;
             }
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor);
+                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse: protectedUse);
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
@@ -195,22 +195,30 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdAccessor);
+                    GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdAccessor, protectedUse: protectedUse);
                 }
             }
             fg.AppendLine();
         }
 
-        private void GenerateCopyFrom(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultAccessorPrefix, string cmdAccessor)
+        private void GenerateCopyFrom(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
             if (this.RefType == NoggRefType.Generic
                 || RefGen.Obj is ClassGeneration)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Property}.Set({rhsAccessorPrefix}.{this.Name}, cmds: {cmdAccessor});");
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessorPrefix}.{this.GetName(protectedUse, true)}.Set"))
+                {
+                    args.Add($"{rhsAccessorPrefix}.{this.Name}");
+                    if (this.Notifying == NotifyingOption.Notifying)
+                    {
+                        args.Add($"cmds: {cmdAccessor}");
+                    }
+                }
             }
             else if (RefGen.Obj is StructGeneration)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Name} = new {this.RefGen.Obj.Name}({rhsAccessorPrefix}.{this.Name});");
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)} = new {this.RefGen.Obj.Name}({rhsAccessorPrefix}.{this.Name});");
             }
         }
 
@@ -218,11 +226,11 @@ namespace Noggolloquy.Generation
         {
             if (!this.SingletonMember)
             {
-                base.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor);
+                base.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
             }
             else
             {
-                this.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor);
+                this.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
             }
         }
 

@@ -33,9 +33,9 @@ namespace Noggolloquy.Generation
         public override bool Imports => subGenerator.Imports;
         public override string TypeName => subGenerator.TypeName;
 
-        public override string GetPropertyString(bool internalUse)
+        public override string GetName(bool internalUse, bool property)
         {
-            return subGenerator.GetPropertyString(internalUse);
+            return subGenerator.GetName(internalUse, property);
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
@@ -95,9 +95,9 @@ namespace Noggolloquy.Generation
             subGenerator.GenerateForGetterInterface(fg);
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
+        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
         {
-            subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+            subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse);
         }
 
         public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)

@@ -47,8 +47,6 @@ namespace Noggolloquy.Tests
 
         public override bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObjectHasBeenSet(index, this);
 
-        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObject_Notifying_SubClassCommon.SetNthObject(index, this, obj, cmds);
-
         public override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
@@ -123,7 +121,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.NewField_Property.HasBeenSet)
                 {
-                    this.NewField_Property.Set(
+                    this._NewField.Set(
                         rhs.NewField,
                         cmds);
                 }
@@ -131,11 +129,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.NewField_Property.Unset(cmds.ToUnsetParams());
+                        this._NewField.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.NewField_Property.Set(
+                        this._NewField.Set(
                             def.NewField,
                             cmds);
                     }
@@ -233,6 +231,21 @@ namespace Noggolloquy.Tests
             var ret = new TestObject_Notifying_SubClass();
             ret.CopyFieldsFrom(item, def);
             return ret;
+        }
+
+        public override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 48:
+                    this._NewField.Set(
+                        (Boolean)obj,
+                        cmds);
+                    break;
+                default:
+                    base.SetNthObject(index, obj, cmds);
+                    break;
+            }
         }
 
         public override void Clear(NotifyingUnsetParameters? cmds = null)
@@ -506,21 +519,6 @@ namespace Noggolloquy.Tests
                     return obj.NewField;
                 default:
                     return TestObject_NotifyingCommon.GetNthObject(index, obj);
-            }
-        }
-
-        public static void SetNthObject(ushort index, ITestObject_Notifying_SubClass nog, object obj, NotifyingFireParameters? cmds = null)
-        {
-            switch (index)
-            {
-                case 48:
-                    nog.NewField_Property.Set(
-                        ((Boolean)obj),
-                        cmds);
-                    break;
-                default:
-                    TestObject_NotifyingCommon.SetNthObject(index, nog, obj);
-                    break;
             }
         }
 

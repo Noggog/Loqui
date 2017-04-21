@@ -523,8 +523,6 @@ namespace Noggolloquy.Tests
 
         public virtual bool GetNthObjectHasBeenSet(ushort index) => TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, this);
 
-        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => TestObject_NotifyingCommon.SetNthObject(index, this, obj, cmds);
-
         public virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_NotifyingCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
@@ -739,7 +737,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.BoolN_Property.HasBeenSet)
                 {
-                    this.BoolN_Property.Set(
+                    this._BoolN.Set(
                         rhs.BoolN,
                         cmds);
                 }
@@ -747,11 +745,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.BoolN_Property.Unset(cmds.ToUnsetParams());
+                        this._BoolN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.BoolN_Property.Set(
+                        this._BoolN.Set(
                             def.BoolN,
                             cmds);
                     }
@@ -769,7 +767,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Bool_Property.HasBeenSet)
                 {
-                    this.Bool_Property.Set(
+                    this._Bool.Set(
                         rhs.Bool,
                         cmds);
                 }
@@ -777,11 +775,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Bool_Property.Unset(cmds.ToUnsetParams());
+                        this._Bool.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Bool_Property.Set(
+                        this._Bool.Set(
                             def.Bool,
                             cmds);
                     }
@@ -799,7 +797,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.CharN_Property.HasBeenSet)
                 {
-                    this.CharN_Property.Set(
+                    this._CharN.Set(
                         rhs.CharN,
                         cmds);
                 }
@@ -807,11 +805,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.CharN_Property.Unset(cmds.ToUnsetParams());
+                        this._CharN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.CharN_Property.Set(
+                        this._CharN.Set(
                             def.CharN,
                             cmds);
                     }
@@ -829,7 +827,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Char_Property.HasBeenSet)
                 {
-                    this.Char_Property.Set(
+                    this._Char.Set(
                         rhs.Char,
                         cmds);
                 }
@@ -837,11 +835,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Char_Property.Unset(cmds.ToUnsetParams());
+                        this._Char.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Char_Property.Set(
+                        this._Char.Set(
                             def.Char,
                             cmds);
                     }
@@ -859,7 +857,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.DoubleN_Property.HasBeenSet)
                 {
-                    this.DoubleN_Property.Set(
+                    this._DoubleN.Set(
                         rhs.DoubleN,
                         cmds);
                 }
@@ -867,11 +865,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.DoubleN_Property.Unset(cmds.ToUnsetParams());
+                        this._DoubleN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.DoubleN_Property.Set(
+                        this._DoubleN.Set(
                             def.DoubleN,
                             cmds);
                     }
@@ -889,7 +887,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Double_Property.HasBeenSet)
                 {
-                    this.Double_Property.Set(
+                    this._Double.Set(
                         rhs.Double,
                         cmds);
                 }
@@ -897,11 +895,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Double_Property.Unset(cmds.ToUnsetParams());
+                        this._Double.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Double_Property.Set(
+                        this._Double.Set(
                             def.Double,
                             cmds);
                     }
@@ -919,7 +917,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.FloatN_Property.HasBeenSet)
                 {
-                    this.FloatN_Property.Set(
+                    this._FloatN.Set(
                         rhs.FloatN,
                         cmds);
                 }
@@ -927,11 +925,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.FloatN_Property.Unset(cmds.ToUnsetParams());
+                        this._FloatN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.FloatN_Property.Set(
+                        this._FloatN.Set(
                             def.FloatN,
                             cmds);
                     }
@@ -949,7 +947,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Float_Property.HasBeenSet)
                 {
-                    this.Float_Property.Set(
+                    this._Float.Set(
                         rhs.Float,
                         cmds);
                 }
@@ -957,11 +955,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Float_Property.Unset(cmds.ToUnsetParams());
+                        this._Float.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Float_Property.Set(
+                        this._Float.Set(
                             def.Float,
                             cmds);
                     }
@@ -979,7 +977,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int16N_Property.HasBeenSet)
                 {
-                    this.Int16N_Property.Set(
+                    this._Int16N.Set(
                         rhs.Int16N,
                         cmds);
                 }
@@ -987,11 +985,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int16N_Property.Unset(cmds.ToUnsetParams());
+                        this._Int16N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int16N_Property.Set(
+                        this._Int16N.Set(
                             def.Int16N,
                             cmds);
                     }
@@ -1009,7 +1007,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int16_Property.HasBeenSet)
                 {
-                    this.Int16_Property.Set(
+                    this._Int16.Set(
                         rhs.Int16,
                         cmds);
                 }
@@ -1017,11 +1015,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int16_Property.Unset(cmds.ToUnsetParams());
+                        this._Int16.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int16_Property.Set(
+                        this._Int16.Set(
                             def.Int16,
                             cmds);
                     }
@@ -1039,7 +1037,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int32N_Property.HasBeenSet)
                 {
-                    this.Int32N_Property.Set(
+                    this._Int32N.Set(
                         rhs.Int32N,
                         cmds);
                 }
@@ -1047,11 +1045,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int32N_Property.Unset(cmds.ToUnsetParams());
+                        this._Int32N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int32N_Property.Set(
+                        this._Int32N.Set(
                             def.Int32N,
                             cmds);
                     }
@@ -1069,7 +1067,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int32_Property.HasBeenSet)
                 {
-                    this.Int32_Property.Set(
+                    this._Int32.Set(
                         rhs.Int32,
                         cmds);
                 }
@@ -1077,11 +1075,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int32_Property.Unset(cmds.ToUnsetParams());
+                        this._Int32.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int32_Property.Set(
+                        this._Int32.Set(
                             def.Int32,
                             cmds);
                     }
@@ -1099,7 +1097,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int64N_Property.HasBeenSet)
                 {
-                    this.Int64N_Property.Set(
+                    this._Int64N.Set(
                         rhs.Int64N,
                         cmds);
                 }
@@ -1107,11 +1105,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int64N_Property.Unset(cmds.ToUnsetParams());
+                        this._Int64N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int64N_Property.Set(
+                        this._Int64N.Set(
                             def.Int64N,
                             cmds);
                     }
@@ -1129,7 +1127,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int64_Property.HasBeenSet)
                 {
-                    this.Int64_Property.Set(
+                    this._Int64.Set(
                         rhs.Int64,
                         cmds);
                 }
@@ -1137,11 +1135,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int64_Property.Unset(cmds.ToUnsetParams());
+                        this._Int64.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int64_Property.Set(
+                        this._Int64.Set(
                             def.Int64,
                             cmds);
                     }
@@ -1159,7 +1157,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int8N_Property.HasBeenSet)
                 {
-                    this.Int8N_Property.Set(
+                    this._Int8N.Set(
                         rhs.Int8N,
                         cmds);
                 }
@@ -1167,11 +1165,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int8N_Property.Unset(cmds.ToUnsetParams());
+                        this._Int8N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int8N_Property.Set(
+                        this._Int8N.Set(
                             def.Int8N,
                             cmds);
                     }
@@ -1189,7 +1187,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Int8_Property.HasBeenSet)
                 {
-                    this.Int8_Property.Set(
+                    this._Int8.Set(
                         rhs.Int8,
                         cmds);
                 }
@@ -1197,11 +1195,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Int8_Property.Unset(cmds.ToUnsetParams());
+                        this._Int8.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Int8_Property.Set(
+                        this._Int8.Set(
                             def.Int8,
                             cmds);
                     }
@@ -1219,7 +1217,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Unsafe_Property.HasBeenSet)
                 {
-                    this.Unsafe_Property.Set(
+                    this._Unsafe.Set(
                         rhs.Unsafe,
                         cmds);
                 }
@@ -1227,11 +1225,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Unsafe_Property.Unset(cmds.ToUnsetParams());
+                        this._Unsafe.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Unsafe_Property.Set(
+                        this._Unsafe.Set(
                             def.Unsafe,
                             cmds);
                     }
@@ -1249,7 +1247,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P2IntN_Property.HasBeenSet)
                 {
-                    this.P2IntN_Property.Set(
+                    this._P2IntN.Set(
                         rhs.P2IntN,
                         cmds);
                 }
@@ -1257,11 +1255,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P2IntN_Property.Unset(cmds.ToUnsetParams());
+                        this._P2IntN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P2IntN_Property.Set(
+                        this._P2IntN.Set(
                             def.P2IntN,
                             cmds);
                     }
@@ -1279,7 +1277,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P2Int_Property.HasBeenSet)
                 {
-                    this.P2Int_Property.Set(
+                    this._P2Int.Set(
                         rhs.P2Int,
                         cmds);
                 }
@@ -1287,11 +1285,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P2Int_Property.Unset(cmds.ToUnsetParams());
+                        this._P2Int.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P2Int_Property.Set(
+                        this._P2Int.Set(
                             def.P2Int,
                             cmds);
                     }
@@ -1309,7 +1307,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P3DoubleN_Property.HasBeenSet)
                 {
-                    this.P3DoubleN_Property.Set(
+                    this._P3DoubleN.Set(
                         rhs.P3DoubleN,
                         cmds);
                 }
@@ -1317,11 +1315,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
+                        this._P3DoubleN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P3DoubleN_Property.Set(
+                        this._P3DoubleN.Set(
                             def.P3DoubleN,
                             cmds);
                     }
@@ -1339,7 +1337,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P3Double_Property.HasBeenSet)
                 {
-                    this.P3Double_Property.Set(
+                    this._P3Double.Set(
                         rhs.P3Double,
                         cmds);
                 }
@@ -1347,11 +1345,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P3Double_Property.Unset(cmds.ToUnsetParams());
+                        this._P3Double.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P3Double_Property.Set(
+                        this._P3Double.Set(
                             def.P3Double,
                             cmds);
                     }
@@ -1369,7 +1367,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P3IntN_Property.HasBeenSet)
                 {
-                    this.P3IntN_Property.Set(
+                    this._P3IntN.Set(
                         rhs.P3IntN,
                         cmds);
                 }
@@ -1377,11 +1375,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P3IntN_Property.Unset(cmds.ToUnsetParams());
+                        this._P3IntN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P3IntN_Property.Set(
+                        this._P3IntN.Set(
                             def.P3IntN,
                             cmds);
                     }
@@ -1399,7 +1397,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.P3Int_Property.HasBeenSet)
                 {
-                    this.P3Int_Property.Set(
+                    this._P3Int.Set(
                         rhs.P3Int,
                         cmds);
                 }
@@ -1407,11 +1405,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.P3Int_Property.Unset(cmds.ToUnsetParams());
+                        this._P3Int.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.P3Int_Property.Set(
+                        this._P3Int.Set(
                             def.P3Int,
                             cmds);
                     }
@@ -1429,7 +1427,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.PercentN_Property.HasBeenSet)
                 {
-                    this.PercentN_Property.Set(
+                    this._PercentN.Set(
                         rhs.PercentN,
                         cmds);
                 }
@@ -1437,11 +1435,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.PercentN_Property.Unset(cmds.ToUnsetParams());
+                        this._PercentN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.PercentN_Property.Set(
+                        this._PercentN.Set(
                             def.PercentN,
                             cmds);
                     }
@@ -1459,7 +1457,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Percent_Property.HasBeenSet)
                 {
-                    this.Percent_Property.Set(
+                    this._Percent.Set(
                         rhs.Percent,
                         cmds);
                 }
@@ -1467,11 +1465,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Percent_Property.Unset(cmds.ToUnsetParams());
+                        this._Percent.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Percent_Property.Set(
+                        this._Percent.Set(
                             def.Percent,
                             cmds);
                     }
@@ -1489,7 +1487,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RangeIntN_Property.HasBeenSet)
                 {
-                    this.RangeIntN_Property.Set(
+                    this._RangeIntN.Set(
                         rhs.RangeIntN,
                         cmds);
                 }
@@ -1497,11 +1495,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.RangeIntN_Property.Unset(cmds.ToUnsetParams());
+                        this._RangeIntN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.RangeIntN_Property.Set(
+                        this._RangeIntN.Set(
                             def.RangeIntN,
                             cmds);
                     }
@@ -1519,7 +1517,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RangeInt_Property.HasBeenSet)
                 {
-                    this.RangeInt_Property.Set(
+                    this._RangeInt.Set(
                         rhs.RangeInt,
                         cmds);
                 }
@@ -1527,11 +1525,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.RangeInt_Property.Unset(cmds.ToUnsetParams());
+                        this._RangeInt.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.RangeInt_Property.Set(
+                        this._RangeInt.Set(
                             def.RangeInt,
                             cmds);
                     }
@@ -1549,7 +1547,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.String_Property.HasBeenSet)
                 {
-                    this.String_Property.Set(
+                    this._String.Set(
                         rhs.String,
                         cmds);
                 }
@@ -1557,11 +1555,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.String_Property.Unset(cmds.ToUnsetParams());
+                        this._String.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.String_Property.Set(
+                        this._String.Set(
                             def.String,
                             cmds);
                     }
@@ -1579,7 +1577,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UDoubleN_Property.HasBeenSet)
                 {
-                    this.UDoubleN_Property.Set(
+                    this._UDoubleN.Set(
                         rhs.UDoubleN,
                         cmds);
                 }
@@ -1587,11 +1585,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+                        this._UDoubleN.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UDoubleN_Property.Set(
+                        this._UDoubleN.Set(
                             def.UDoubleN,
                             cmds);
                     }
@@ -1609,7 +1607,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UDouble_Property.HasBeenSet)
                 {
-                    this.UDouble_Property.Set(
+                    this._UDouble.Set(
                         rhs.UDouble,
                         cmds);
                 }
@@ -1617,11 +1615,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UDouble_Property.Unset(cmds.ToUnsetParams());
+                        this._UDouble.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UDouble_Property.Set(
+                        this._UDouble.Set(
                             def.UDouble,
                             cmds);
                     }
@@ -1639,7 +1637,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt16N_Property.HasBeenSet)
                 {
-                    this.UInt16N_Property.Set(
+                    this._UInt16N.Set(
                         rhs.UInt16N,
                         cmds);
                 }
@@ -1647,11 +1645,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt16N_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt16N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt16N_Property.Set(
+                        this._UInt16N.Set(
                             def.UInt16N,
                             cmds);
                     }
@@ -1669,7 +1667,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt16_Property.HasBeenSet)
                 {
-                    this.UInt16_Property.Set(
+                    this._UInt16.Set(
                         rhs.UInt16,
                         cmds);
                 }
@@ -1677,11 +1675,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt16_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt16.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt16_Property.Set(
+                        this._UInt16.Set(
                             def.UInt16,
                             cmds);
                     }
@@ -1699,7 +1697,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt32N_Property.HasBeenSet)
                 {
-                    this.UInt32N_Property.Set(
+                    this._UInt32N.Set(
                         rhs.UInt32N,
                         cmds);
                 }
@@ -1707,11 +1705,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt32N_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt32N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt32N_Property.Set(
+                        this._UInt32N.Set(
                             def.UInt32N,
                             cmds);
                     }
@@ -1729,7 +1727,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt32_Property.HasBeenSet)
                 {
-                    this.UInt32_Property.Set(
+                    this._UInt32.Set(
                         rhs.UInt32,
                         cmds);
                 }
@@ -1737,11 +1735,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt32_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt32.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt32_Property.Set(
+                        this._UInt32.Set(
                             def.UInt32,
                             cmds);
                     }
@@ -1759,7 +1757,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt64N_Property.HasBeenSet)
                 {
-                    this.UInt64N_Property.Set(
+                    this._UInt64N.Set(
                         rhs.UInt64N,
                         cmds);
                 }
@@ -1767,11 +1765,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt64N_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt64N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt64N_Property.Set(
+                        this._UInt64N.Set(
                             def.UInt64N,
                             cmds);
                     }
@@ -1789,7 +1787,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt64_Property.HasBeenSet)
                 {
-                    this.UInt64_Property.Set(
+                    this._UInt64.Set(
                         rhs.UInt64,
                         cmds);
                 }
@@ -1797,11 +1795,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt64_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt64.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt64_Property.Set(
+                        this._UInt64.Set(
                             def.UInt64,
                             cmds);
                     }
@@ -1819,7 +1817,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt8N_Property.HasBeenSet)
                 {
-                    this.UInt8N_Property.Set(
+                    this._UInt8N.Set(
                         rhs.UInt8N,
                         cmds);
                 }
@@ -1827,11 +1825,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt8N_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt8N.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt8N_Property.Set(
+                        this._UInt8N.Set(
                             def.UInt8N,
                             cmds);
                     }
@@ -1849,7 +1847,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.UInt8_Property.HasBeenSet)
                 {
-                    this.UInt8_Property.Set(
+                    this._UInt8.Set(
                         rhs.UInt8,
                         cmds);
                 }
@@ -1857,11 +1855,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.UInt8_Property.Unset(cmds.ToUnsetParams());
+                        this._UInt8.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.UInt8_Property.Set(
+                        this._UInt8.Set(
                             def.UInt8,
                             cmds);
                     }
@@ -1879,7 +1877,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Enum_Property.HasBeenSet)
                 {
-                    this.Enum_Property.Set(
+                    this._Enum.Set(
                         rhs.Enum,
                         cmds);
                 }
@@ -1887,11 +1885,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Enum_Property.Unset(cmds.ToUnsetParams());
+                        this._Enum.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Enum_Property.Set(
+                        this._Enum.Set(
                             def.Enum,
                             cmds);
                     }
@@ -1909,7 +1907,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.WildCard_Property.HasBeenSet)
                 {
-                    this.WildCard_Property.Set(
+                    this._WildCard.Set(
                         rhs.WildCard,
                         cmds);
                 }
@@ -1917,11 +1915,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.WildCard_Property.Unset(cmds.ToUnsetParams());
+                        this._WildCard.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.WildCard_Property.Set(
+                        this._WildCard.Set(
                             def.WildCard,
                             cmds);
                     }
@@ -1939,7 +1937,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    this.Ref_Property.Set(
+                    this._Ref.Set(
                         rhs.Ref,
                         cmds);
                 }
@@ -1947,11 +1945,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Ref_Property.Unset(cmds.ToUnsetParams());
+                        this._Ref.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.Ref_Property.Set(
+                        this._Ref.Set(
                             def.Ref,
                             cmds);
                     }
@@ -1969,7 +1967,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefGetter_Property.HasBeenSet)
                 {
-                    this.RefGetter_Property.Set(
+                    this._RefGetter.Set(
                         rhs.RefGetter,
                         cmds);
                 }
@@ -1977,11 +1975,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.RefGetter_Property.Unset(cmds.ToUnsetParams());
+                        this._RefGetter.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.RefGetter_Property.Set(
+                        this._RefGetter.Set(
                             def.RefGetter,
                             cmds);
                     }
@@ -1999,7 +1997,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefSetter_Property.HasBeenSet)
                 {
-                    this.RefSetter_Property.Set(
+                    this._RefSetter.Set(
                         rhs.RefSetter,
                         cmds);
                 }
@@ -2007,11 +2005,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.RefSetter_Property.Unset(cmds.ToUnsetParams());
+                        this._RefSetter.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.RefSetter_Property.Set(
+                        this._RefSetter.Set(
                             def.RefSetter,
                             cmds);
                     }
@@ -2029,7 +2027,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.List.HasBeenSet)
                 {
-                    this.List.SetTo(rhs.List, cmds);
+                    this._List.SetTo(rhs.List, cmds);
                 }
                 else
                 {
@@ -2039,7 +2037,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        this.List.SetTo(def.List, cmds);
+                        this._List.SetTo(def.List, cmds);
                     }
                 }
             }
@@ -2071,7 +2069,7 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        this.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
+                        this._RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
                     }
                 }
             }
@@ -2097,7 +2095,7 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.Dict.Unset(cmds.ToUnsetParams());
+                        this._Dict.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
@@ -2123,7 +2121,7 @@ namespace Noggolloquy.Tests
                 {
                     int i = 0;
                     List<KeyValuePair<ObjectToRef, ObjectToRef>> defList = def?.RefDict.ToList();
-                    this.RefDict.SetTo(
+                    this._RefDict.SetTo(
                         rhs.RefDict.Select((s) =>
                         {
                             var key = new ObjectToRef();
@@ -2152,7 +2150,7 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.RefDict.Unset(cmds.ToUnsetParams());
+                        this._RefDict.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
@@ -2176,7 +2174,7 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.DictKeyedValue.HasBeenSet)
                 {
-                    this.DictKeyedValue.SetTo(
+                    this._DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
                         cmds);
                 }
@@ -2184,11 +2182,11 @@ namespace Noggolloquy.Tests
                 {
                     if (def == null)
                     {
-                        this.DictKeyedValue.Unset(cmds.ToUnsetParams());
+                        this._DictKeyedValue.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        this.DictKeyedValue.SetTo(
+                        this._DictKeyedValue.SetTo(
                             ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
                             cmds);
                     }
@@ -2318,6 +2316,257 @@ namespace Noggolloquy.Tests
             var ret = new TestObject_Notifying();
             ret.CopyFieldsFrom(item, def);
             return ret;
+        }
+
+        public virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        {
+            switch (index)
+            {
+                case 0:
+                    this._BoolN.Set(
+                        (Boolean?)obj,
+                        cmds);
+                    break;
+                case 1:
+                    this._Bool.Set(
+                        (Boolean)obj,
+                        cmds);
+                    break;
+                case 2:
+                    this._CharN.Set(
+                        (Char?)obj,
+                        cmds);
+                    break;
+                case 3:
+                    this._Char.Set(
+                        (Char)obj,
+                        cmds);
+                    break;
+                case 4:
+                    this._DoubleN.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
+                case 5:
+                    this._Double.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case 6:
+                    this._FloatN.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
+                case 7:
+                    this._Float.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case 8:
+                    this._Int16N.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
+                case 9:
+                    this._Int16.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case 10:
+                    this._Int32N.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
+                case 11:
+                    this._Int32.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case 12:
+                    this._Int64N.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
+                case 13:
+                    this._Int64.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case 14:
+                    this._Int8N.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
+                case 15:
+                    this._Int8.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case 16:
+                    this._Unsafe.Set(
+                        (bool)obj,
+                        cmds);
+                    break;
+                case 17:
+                    this._P2IntN.Set(
+                        (P2Int?)obj,
+                        cmds);
+                    break;
+                case 18:
+                    this._P2Int.Set(
+                        (P2Int)obj,
+                        cmds);
+                    break;
+                case 19:
+                    this._P3DoubleN.Set(
+                        (P3Double?)obj,
+                        cmds);
+                    break;
+                case 20:
+                    this._P3Double.Set(
+                        (P3Double)obj,
+                        cmds);
+                    break;
+                case 21:
+                    this._P3IntN.Set(
+                        (P3Int?)obj,
+                        cmds);
+                    break;
+                case 22:
+                    this._P3Int.Set(
+                        (P3Int)obj,
+                        cmds);
+                    break;
+                case 23:
+                    this._PercentN.Set(
+                        (Percent?)obj,
+                        cmds);
+                    break;
+                case 24:
+                    this._Percent.Set(
+                        (Percent)obj,
+                        cmds);
+                    break;
+                case 25:
+                    this._RangeIntN.Set(
+                        (RangeInt?)obj,
+                        cmds);
+                    break;
+                case 26:
+                    this._RangeInt.Set(
+                        (RangeInt)obj,
+                        cmds);
+                    break;
+                case 27:
+                    this._String.Set(
+                        (String)obj,
+                        cmds);
+                    break;
+                case 28:
+                    this._UDoubleN.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
+                case 29:
+                    this._UDouble.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case 30:
+                    this._UInt16N.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
+                case 31:
+                    this._UInt16.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case 32:
+                    this._UInt32N.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
+                case 33:
+                    this._UInt32.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case 34:
+                    this._UInt64N.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
+                case 35:
+                    this._UInt64.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case 36:
+                    this._UInt8N.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
+                case 37:
+                    this._UInt8.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case 38:
+                    this._Enum.Set(
+                        (TestEnum)obj,
+                        cmds);
+                    break;
+                case 39:
+                    this._WildCard.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case 40:
+                    this._Ref.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case 41:
+                    this._RefGetter.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
+                    break;
+                case 42:
+                    this._RefSetter.Set(
+                        (IObjectToRef)obj,
+                        cmds);
+                    break;
+                case 43:
+                    this._List.SetTo(((NotifyingList<Boolean>)obj), cmds);
+                    break;
+                case 44:
+                    this._RefList.SetTo(((NotifyingList<ObjectToRef>)obj).Select((s) => s.Copy()), cmds);
+                    break;
+                case 45:
+                    this.Dict.SetTo(
+                        ((NotifyingDictionary<Boolean, String>)obj).Select(
+                            (i) => new KeyValuePair<Boolean, String>(
+                                i.Key,
+                                i.Value)),
+                        cmds);
+                    break;
+                case 46:
+                    this.RefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
+                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                i.Key.Copy(),
+                                i.Value.Copy())),
+                        cmds);
+                    break;
+                case 47:
+                    this.DictKeyedValue.SetTo(
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj).Select((i) => i.Copy()),
+                        cmds);
+                    break;
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
         }
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
@@ -4648,7 +4897,9 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.Ref_Property.HasBeenSet)
                 {
-                    item.Ref_Property.Set(rhs.Ref, cmds: cmds);
+                    item.Ref_Property.Set(
+                        rhs.Ref,
+                        cmds: cmds);
                 }
                 else
                 {
@@ -4658,7 +4909,9 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.Ref_Property.Set(def.Ref, cmds: cmds);
+                        item.Ref_Property.Set(
+                            def.Ref,
+                            cmds: cmds);
                     }
                 }
 
@@ -4674,7 +4927,9 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefGetter_Property.HasBeenSet)
                 {
-                    item.RefGetter_Property.Set(rhs.RefGetter, cmds: cmds);
+                    item.RefGetter_Property.Set(
+                        rhs.RefGetter,
+                        cmds: cmds);
                 }
                 else
                 {
@@ -4684,7 +4939,9 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.RefGetter_Property.Set(def.RefGetter, cmds: cmds);
+                        item.RefGetter_Property.Set(
+                            def.RefGetter,
+                            cmds: cmds);
                     }
                 }
 
@@ -4700,7 +4957,9 @@ namespace Noggolloquy.Tests
             {
                 if (rhs.RefSetter_Property.HasBeenSet)
                 {
-                    item.RefSetter_Property.Set(rhs.RefSetter, cmds: cmds);
+                    item.RefSetter_Property.Set(
+                        rhs.RefSetter,
+                        cmds: cmds);
                 }
                 else
                 {
@@ -4710,7 +4969,9 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.RefSetter_Property.Set(def.RefSetter, cmds: cmds);
+                        item.RefSetter_Property.Set(
+                            def.RefSetter,
+                            cmds: cmds);
                     }
                 }
 
@@ -5413,257 +5674,6 @@ namespace Noggolloquy.Tests
                     return obj.RefDict;
                 case 47:
                     return obj.DictKeyedValue;
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
-
-        public static void SetNthObject(ushort index, ITestObject_Notifying nog, object obj, NotifyingFireParameters? cmds = null)
-        {
-            switch (index)
-            {
-                case 0:
-                    nog.BoolN_Property.Set(
-                        ((Boolean?)obj),
-                        cmds);
-                    break;
-                case 1:
-                    nog.Bool_Property.Set(
-                        ((Boolean)obj),
-                        cmds);
-                    break;
-                case 2:
-                    nog.CharN_Property.Set(
-                        ((Char?)obj),
-                        cmds);
-                    break;
-                case 3:
-                    nog.Char_Property.Set(
-                        ((Char)obj),
-                        cmds);
-                    break;
-                case 4:
-                    nog.DoubleN_Property.Set(
-                        ((Double?)obj),
-                        cmds);
-                    break;
-                case 5:
-                    nog.Double_Property.Set(
-                        ((Double)obj),
-                        cmds);
-                    break;
-                case 6:
-                    nog.FloatN_Property.Set(
-                        ((Single?)obj),
-                        cmds);
-                    break;
-                case 7:
-                    nog.Float_Property.Set(
-                        ((Single)obj),
-                        cmds);
-                    break;
-                case 8:
-                    nog.Int16N_Property.Set(
-                        ((Int16?)obj),
-                        cmds);
-                    break;
-                case 9:
-                    nog.Int16_Property.Set(
-                        ((Int16)obj),
-                        cmds);
-                    break;
-                case 10:
-                    nog.Int32N_Property.Set(
-                        ((Int32?)obj),
-                        cmds);
-                    break;
-                case 11:
-                    nog.Int32_Property.Set(
-                        ((Int32)obj),
-                        cmds);
-                    break;
-                case 12:
-                    nog.Int64N_Property.Set(
-                        ((Int64?)obj),
-                        cmds);
-                    break;
-                case 13:
-                    nog.Int64_Property.Set(
-                        ((Int64)obj),
-                        cmds);
-                    break;
-                case 14:
-                    nog.Int8N_Property.Set(
-                        ((SByte?)obj),
-                        cmds);
-                    break;
-                case 15:
-                    nog.Int8_Property.Set(
-                        ((SByte)obj),
-                        cmds);
-                    break;
-                case 16:
-                    nog.Unsafe_Property.Set(
-                        ((bool)obj),
-                        cmds);
-                    break;
-                case 17:
-                    nog.P2IntN_Property.Set(
-                        ((P2Int?)obj),
-                        cmds);
-                    break;
-                case 18:
-                    nog.P2Int_Property.Set(
-                        ((P2Int)obj),
-                        cmds);
-                    break;
-                case 19:
-                    nog.P3DoubleN_Property.Set(
-                        ((P3Double?)obj),
-                        cmds);
-                    break;
-                case 20:
-                    nog.P3Double_Property.Set(
-                        ((P3Double)obj),
-                        cmds);
-                    break;
-                case 21:
-                    nog.P3IntN_Property.Set(
-                        ((P3Int?)obj),
-                        cmds);
-                    break;
-                case 22:
-                    nog.P3Int_Property.Set(
-                        ((P3Int)obj),
-                        cmds);
-                    break;
-                case 23:
-                    nog.PercentN_Property.Set(
-                        ((Percent?)obj),
-                        cmds);
-                    break;
-                case 24:
-                    nog.Percent_Property.Set(
-                        ((Percent)obj),
-                        cmds);
-                    break;
-                case 25:
-                    nog.RangeIntN_Property.Set(
-                        ((RangeInt?)obj),
-                        cmds);
-                    break;
-                case 26:
-                    nog.RangeInt_Property.Set(
-                        ((RangeInt)obj),
-                        cmds);
-                    break;
-                case 27:
-                    nog.String_Property.Set(
-                        ((String)obj),
-                        cmds);
-                    break;
-                case 28:
-                    nog.UDoubleN_Property.Set(
-                        ((UDouble?)obj),
-                        cmds);
-                    break;
-                case 29:
-                    nog.UDouble_Property.Set(
-                        ((UDouble)obj),
-                        cmds);
-                    break;
-                case 30:
-                    nog.UInt16N_Property.Set(
-                        ((UInt16?)obj),
-                        cmds);
-                    break;
-                case 31:
-                    nog.UInt16_Property.Set(
-                        ((UInt16)obj),
-                        cmds);
-                    break;
-                case 32:
-                    nog.UInt32N_Property.Set(
-                        ((UInt32?)obj),
-                        cmds);
-                    break;
-                case 33:
-                    nog.UInt32_Property.Set(
-                        ((UInt32)obj),
-                        cmds);
-                    break;
-                case 34:
-                    nog.UInt64N_Property.Set(
-                        ((UInt64?)obj),
-                        cmds);
-                    break;
-                case 35:
-                    nog.UInt64_Property.Set(
-                        ((UInt64)obj),
-                        cmds);
-                    break;
-                case 36:
-                    nog.UInt8N_Property.Set(
-                        ((Byte?)obj),
-                        cmds);
-                    break;
-                case 37:
-                    nog.UInt8_Property.Set(
-                        ((Byte)obj),
-                        cmds);
-                    break;
-                case 38:
-                    nog.Enum_Property.Set(
-                        ((TestEnum)obj),
-                        cmds);
-                    break;
-                case 39:
-                    nog.WildCard_Property.Set(
-                        ((Object)obj),
-                        cmds);
-                    break;
-                case 40:
-                    nog.Ref_Property.Set(
-                        ((ObjectToRef)obj),
-                        cmds);
-                    break;
-                case 41:
-                    nog.RefGetter_Property.Set(
-                        ((IObjectToRefGetter)obj),
-                        cmds);
-                    break;
-                case 42:
-                    nog.RefSetter_Property.Set(
-                        ((IObjectToRef)obj),
-                        cmds);
-                    break;
-                case 43:
-                    nog.List.SetTo((((NotifyingList<Boolean>)obj)), cmds);
-                    break;
-                case 44:
-                    nog.RefList.SetTo((((NotifyingList<ObjectToRef>)obj)).Select((s) => s.Copy()), cmds);
-                    break;
-                case 45:
-                    nog.Dict.SetTo(
-                        ((NotifyingDictionary<Boolean, String>)obj).Select(
-                            (i) => new KeyValuePair<Boolean, String>(
-                                i.Key,
-                                i.Value)),
-                        cmds);
-                    break;
-                case 46:
-                    nog.RefDict.SetTo(
-                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
-                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                i.Key.Copy(),
-                                i.Value.Copy())),
-                        cmds);
-                    break;
-                case 47:
-                    nog.DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)((NotifyingDictionary<Int32, ObjectToRef>)obj)).Select((i) => i.Copy()),
-                        cmds);
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

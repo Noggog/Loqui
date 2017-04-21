@@ -45,7 +45,7 @@ namespace Noggolloquy.Generation
             KeyField = node.GetAttribute<bool>("keyField", false);
             Name = node.GetAttribute<string>("name");
             this._derivative = node.GetAttribute<bool>("derivative");
-            this.ReadOnly = Derivative || node.GetAttribute<bool>("readOnly");
+            this.ReadOnly = Derivative || node.GetAttribute<bool>("readOnly", this.ObjectGen.ReadOnlyDefault);
             this._protected = this.Derivative || this.ReadOnly;
             this._imports = node.GetAttribute<bool>("export", true);
             this._copy = node.GetAttribute<bool>("copy", !this.ReadOnly);
@@ -68,7 +68,7 @@ namespace Noggolloquy.Generation
 
         public abstract void GenerateForGetterInterface(FileGeneration fg);
 
-        public abstract void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor);
+        public abstract void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers);
 
         public abstract string GenerateACopy(string rhsAccessor);
 
@@ -89,15 +89,29 @@ namespace Noggolloquy.Generation
 
         }
 
-        public virtual string GetPropertyString(bool internalUse)
+        public virtual string GetName(bool internalUse, bool property)
         {
             if (internalUse)
             {
-                return this.ProtectedProperty;
+                if (property)
+                {
+                    return this.ProtectedProperty;
+                }
+                else
+                {
+                    return this.ProtectedName;
+                }
             }
             else
             {
-                return this.Property;
+                if (property)
+                {
+                    return this.Property;
+                }
+                else
+                {
+                    return this.Name;
+                }
             }
         }
     }
