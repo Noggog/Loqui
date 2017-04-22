@@ -23,6 +23,9 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(TestObject_ReadOnly_Registration.Instance);
             NoggolloquyRegistration.Register(TestObject_Notifying_ReadOnly_Registration.Instance);
             NoggolloquyRegistration.Register(TestObject_HasBeenSet_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_Notifying_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(TestObject_HasBeenSet_Derivative_Registration.Instance);
         }
     }
 }

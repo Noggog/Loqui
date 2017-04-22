@@ -365,6 +365,8 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
+                case 48:
+                    return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsSingleton(index);
             }

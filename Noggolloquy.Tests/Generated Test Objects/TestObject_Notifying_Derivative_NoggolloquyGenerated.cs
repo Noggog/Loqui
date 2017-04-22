@@ -21,12 +21,12 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnly, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_ReadOnly>
+    public partial class TestObject_Notifying_Derivative : ITestObject_Notifying_Derivative, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_Derivative>
     {
-        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
-        public static TestObject_Notifying_ReadOnly_Registration Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_Derivative_Registration.Instance;
+        public static TestObject_Notifying_Derivative_Registration Registration => TestObject_Notifying_Derivative_Registration.Instance;
 
-        public TestObject_Notifying_ReadOnly()
+        public TestObject_Notifying_Derivative()
         {
             CustomCtor();
         }
@@ -41,7 +41,7 @@ namespace Noggolloquy.Tests
             get => this._BoolN.Value;
             protected set => this._BoolN.Set(value);
         }
-        INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnlyGetter.BoolN_Property => this.BoolN_Property;
+        INotifyingItemGetter<Boolean?> ITestObject_Notifying_DerivativeGetter.BoolN_Property => this.BoolN_Property;
         #endregion
 
         #region Bool
@@ -54,7 +54,7 @@ namespace Noggolloquy.Tests
             get => this._Bool.Value;
             protected set => this._Bool.Set(value);
         }
-        INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.Bool_Property => this.Bool_Property;
+        INotifyingItemGetter<Boolean> ITestObject_Notifying_DerivativeGetter.Bool_Property => this.Bool_Property;
         #endregion
 
         #region CharN
@@ -67,7 +67,7 @@ namespace Noggolloquy.Tests
             get => this._CharN.Value;
             protected set => this._CharN.Set(value);
         }
-        INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnlyGetter.CharN_Property => this.CharN_Property;
+        INotifyingItemGetter<Char?> ITestObject_Notifying_DerivativeGetter.CharN_Property => this.CharN_Property;
         #endregion
 
         #region Char
@@ -80,7 +80,7 @@ namespace Noggolloquy.Tests
             get => this._Char.Value;
             protected set => this._Char.Set(value);
         }
-        INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnlyGetter.Char_Property => this.Char_Property;
+        INotifyingItemGetter<Char> ITestObject_Notifying_DerivativeGetter.Char_Property => this.Char_Property;
         #endregion
 
         #region DoubleN
@@ -93,7 +93,7 @@ namespace Noggolloquy.Tests
             get => this._DoubleN.Value;
             protected set => this._DoubleN.Set(value);
         }
-        INotifyingItemGetter<Double?> ITestObject_Notifying_ReadOnlyGetter.DoubleN_Property => this.DoubleN_Property;
+        INotifyingItemGetter<Double?> ITestObject_Notifying_DerivativeGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
 
         #region Double
@@ -106,7 +106,7 @@ namespace Noggolloquy.Tests
             get => this._Double.Value;
             protected set => this._Double.Set(value);
         }
-        INotifyingItemGetter<Double> ITestObject_Notifying_ReadOnlyGetter.Double_Property => this.Double_Property;
+        INotifyingItemGetter<Double> ITestObject_Notifying_DerivativeGetter.Double_Property => this.Double_Property;
         #endregion
 
         #region FloatN
@@ -119,7 +119,7 @@ namespace Noggolloquy.Tests
             get => this._FloatN.Value;
             protected set => this._FloatN.Set(value);
         }
-        INotifyingItemGetter<Single?> ITestObject_Notifying_ReadOnlyGetter.FloatN_Property => this.FloatN_Property;
+        INotifyingItemGetter<Single?> ITestObject_Notifying_DerivativeGetter.FloatN_Property => this.FloatN_Property;
         #endregion
 
         #region Float
@@ -132,7 +132,7 @@ namespace Noggolloquy.Tests
             get => this._Float.Value;
             protected set => this._Float.Set(value);
         }
-        INotifyingItemGetter<Single> ITestObject_Notifying_ReadOnlyGetter.Float_Property => this.Float_Property;
+        INotifyingItemGetter<Single> ITestObject_Notifying_DerivativeGetter.Float_Property => this.Float_Property;
         #endregion
 
         #region Int16N
@@ -145,7 +145,7 @@ namespace Noggolloquy.Tests
             get => this._Int16N.Value;
             protected set => this._Int16N.Set(value);
         }
-        INotifyingItemGetter<Int16?> ITestObject_Notifying_ReadOnlyGetter.Int16N_Property => this.Int16N_Property;
+        INotifyingItemGetter<Int16?> ITestObject_Notifying_DerivativeGetter.Int16N_Property => this.Int16N_Property;
         #endregion
 
         #region Int16
@@ -158,7 +158,7 @@ namespace Noggolloquy.Tests
             get => this._Int16.Value;
             protected set => this._Int16.Set(value);
         }
-        INotifyingItemGetter<Int16> ITestObject_Notifying_ReadOnlyGetter.Int16_Property => this.Int16_Property;
+        INotifyingItemGetter<Int16> ITestObject_Notifying_DerivativeGetter.Int16_Property => this.Int16_Property;
         #endregion
 
         #region Int32N
@@ -171,7 +171,7 @@ namespace Noggolloquy.Tests
             get => this._Int32N.Value;
             protected set => this._Int32N.Set(value);
         }
-        INotifyingItemGetter<Int32?> ITestObject_Notifying_ReadOnlyGetter.Int32N_Property => this.Int32N_Property;
+        INotifyingItemGetter<Int32?> ITestObject_Notifying_DerivativeGetter.Int32N_Property => this.Int32N_Property;
         #endregion
 
         #region Int32
@@ -184,7 +184,7 @@ namespace Noggolloquy.Tests
             get => this._Int32.Value;
             protected set => this._Int32.Set(value);
         }
-        INotifyingItemGetter<Int32> ITestObject_Notifying_ReadOnlyGetter.Int32_Property => this.Int32_Property;
+        INotifyingItemGetter<Int32> ITestObject_Notifying_DerivativeGetter.Int32_Property => this.Int32_Property;
         #endregion
 
         #region Int64N
@@ -197,7 +197,7 @@ namespace Noggolloquy.Tests
             get => this._Int64N.Value;
             protected set => this._Int64N.Set(value);
         }
-        INotifyingItemGetter<Int64?> ITestObject_Notifying_ReadOnlyGetter.Int64N_Property => this.Int64N_Property;
+        INotifyingItemGetter<Int64?> ITestObject_Notifying_DerivativeGetter.Int64N_Property => this.Int64N_Property;
         #endregion
 
         #region Int64
@@ -210,7 +210,7 @@ namespace Noggolloquy.Tests
             get => this._Int64.Value;
             protected set => this._Int64.Set(value);
         }
-        INotifyingItemGetter<Int64> ITestObject_Notifying_ReadOnlyGetter.Int64_Property => this.Int64_Property;
+        INotifyingItemGetter<Int64> ITestObject_Notifying_DerivativeGetter.Int64_Property => this.Int64_Property;
         #endregion
 
         #region Int8N
@@ -223,7 +223,7 @@ namespace Noggolloquy.Tests
             get => this._Int8N.Value;
             protected set => this._Int8N.Set(value);
         }
-        INotifyingItemGetter<SByte?> ITestObject_Notifying_ReadOnlyGetter.Int8N_Property => this.Int8N_Property;
+        INotifyingItemGetter<SByte?> ITestObject_Notifying_DerivativeGetter.Int8N_Property => this.Int8N_Property;
         #endregion
 
         #region Int8
@@ -236,7 +236,7 @@ namespace Noggolloquy.Tests
             get => this._Int8.Value;
             protected set => this._Int8.Set(value);
         }
-        INotifyingItemGetter<SByte> ITestObject_Notifying_ReadOnlyGetter.Int8_Property => this.Int8_Property;
+        INotifyingItemGetter<SByte> ITestObject_Notifying_DerivativeGetter.Int8_Property => this.Int8_Property;
         #endregion
 
         #region Unsafe
@@ -249,7 +249,7 @@ namespace Noggolloquy.Tests
             get => this._Unsafe.Value;
             protected set => this._Unsafe.Set(value);
         }
-        INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnlyGetter.Unsafe_Property => this.Unsafe_Property;
+        INotifyingItemGetter<bool> ITestObject_Notifying_DerivativeGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
 
         #region P2IntN
@@ -262,7 +262,7 @@ namespace Noggolloquy.Tests
             get => this._P2IntN.Value;
             protected set => this._P2IntN.Set(value);
         }
-        INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnlyGetter.P2IntN_Property => this.P2IntN_Property;
+        INotifyingItemGetter<P2Int?> ITestObject_Notifying_DerivativeGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
 
         #region P2Int
@@ -275,7 +275,7 @@ namespace Noggolloquy.Tests
             get => this._P2Int.Value;
             protected set => this._P2Int.Set(value);
         }
-        INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnlyGetter.P2Int_Property => this.P2Int_Property;
+        INotifyingItemGetter<P2Int> ITestObject_Notifying_DerivativeGetter.P2Int_Property => this.P2Int_Property;
         #endregion
 
         #region P3DoubleN
@@ -288,7 +288,7 @@ namespace Noggolloquy.Tests
             get => this._P3DoubleN.Value;
             protected set => this._P3DoubleN.Set(value);
         }
-        INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnlyGetter.P3DoubleN_Property => this.P3DoubleN_Property;
+        INotifyingItemGetter<P3Double?> ITestObject_Notifying_DerivativeGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
 
         #region P3Double
@@ -301,7 +301,7 @@ namespace Noggolloquy.Tests
             get => this._P3Double.Value;
             protected set => this._P3Double.Set(value);
         }
-        INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnlyGetter.P3Double_Property => this.P3Double_Property;
+        INotifyingItemGetter<P3Double> ITestObject_Notifying_DerivativeGetter.P3Double_Property => this.P3Double_Property;
         #endregion
 
         #region P3IntN
@@ -314,7 +314,7 @@ namespace Noggolloquy.Tests
             get => this._P3IntN.Value;
             protected set => this._P3IntN.Set(value);
         }
-        INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnlyGetter.P3IntN_Property => this.P3IntN_Property;
+        INotifyingItemGetter<P3Int?> ITestObject_Notifying_DerivativeGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
 
         #region P3Int
@@ -327,7 +327,7 @@ namespace Noggolloquy.Tests
             get => this._P3Int.Value;
             protected set => this._P3Int.Set(value);
         }
-        INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnlyGetter.P3Int_Property => this.P3Int_Property;
+        INotifyingItemGetter<P3Int> ITestObject_Notifying_DerivativeGetter.P3Int_Property => this.P3Int_Property;
         #endregion
 
         #region PercentN
@@ -340,7 +340,7 @@ namespace Noggolloquy.Tests
             get => this._PercentN.Value;
             protected set => this._PercentN.Set(value);
         }
-        INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnlyGetter.PercentN_Property => this.PercentN_Property;
+        INotifyingItemGetter<Percent?> ITestObject_Notifying_DerivativeGetter.PercentN_Property => this.PercentN_Property;
         #endregion
 
         #region Percent
@@ -353,7 +353,7 @@ namespace Noggolloquy.Tests
             get => this._Percent.Value;
             protected set => this._Percent.Set(value);
         }
-        INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnlyGetter.Percent_Property => this.Percent_Property;
+        INotifyingItemGetter<Percent> ITestObject_Notifying_DerivativeGetter.Percent_Property => this.Percent_Property;
         #endregion
 
         #region RangeIntN
@@ -366,7 +366,7 @@ namespace Noggolloquy.Tests
             get => this._RangeIntN.Value;
             protected set => this._RangeIntN.Set(value);
         }
-        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_ReadOnlyGetter.RangeIntN_Property => this.RangeIntN_Property;
+        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_DerivativeGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
 
         #region RangeInt
@@ -379,7 +379,7 @@ namespace Noggolloquy.Tests
             get => this._RangeInt.Value;
             protected set => this._RangeInt.Set(value);
         }
-        INotifyingItemGetter<RangeInt> ITestObject_Notifying_ReadOnlyGetter.RangeInt_Property => this.RangeInt_Property;
+        INotifyingItemGetter<RangeInt> ITestObject_Notifying_DerivativeGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
 
         #region String
@@ -392,7 +392,7 @@ namespace Noggolloquy.Tests
             get => this._String.Value;
             protected set => this._String.Set(value);
         }
-        INotifyingItemGetter<String> ITestObject_Notifying_ReadOnlyGetter.String_Property => this.String_Property;
+        INotifyingItemGetter<String> ITestObject_Notifying_DerivativeGetter.String_Property => this.String_Property;
         #endregion
 
         #region UDoubleN
@@ -405,7 +405,7 @@ namespace Noggolloquy.Tests
             get => this._UDoubleN.Value;
             protected set => this._UDoubleN.Set(value);
         }
-        INotifyingItemGetter<UDouble?> ITestObject_Notifying_ReadOnlyGetter.UDoubleN_Property => this.UDoubleN_Property;
+        INotifyingItemGetter<UDouble?> ITestObject_Notifying_DerivativeGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
 
         #region UDouble
@@ -418,7 +418,7 @@ namespace Noggolloquy.Tests
             get => this._UDouble.Value;
             protected set => this._UDouble.Set(value);
         }
-        INotifyingItemGetter<UDouble> ITestObject_Notifying_ReadOnlyGetter.UDouble_Property => this.UDouble_Property;
+        INotifyingItemGetter<UDouble> ITestObject_Notifying_DerivativeGetter.UDouble_Property => this.UDouble_Property;
         #endregion
 
         #region UInt16N
@@ -431,7 +431,7 @@ namespace Noggolloquy.Tests
             get => this._UInt16N.Value;
             protected set => this._UInt16N.Set(value);
         }
-        INotifyingItemGetter<UInt16?> ITestObject_Notifying_ReadOnlyGetter.UInt16N_Property => this.UInt16N_Property;
+        INotifyingItemGetter<UInt16?> ITestObject_Notifying_DerivativeGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
 
         #region UInt16
@@ -444,7 +444,7 @@ namespace Noggolloquy.Tests
             get => this._UInt16.Value;
             protected set => this._UInt16.Set(value);
         }
-        INotifyingItemGetter<UInt16> ITestObject_Notifying_ReadOnlyGetter.UInt16_Property => this.UInt16_Property;
+        INotifyingItemGetter<UInt16> ITestObject_Notifying_DerivativeGetter.UInt16_Property => this.UInt16_Property;
         #endregion
 
         #region UInt32N
@@ -457,7 +457,7 @@ namespace Noggolloquy.Tests
             get => this._UInt32N.Value;
             protected set => this._UInt32N.Set(value);
         }
-        INotifyingItemGetter<UInt32?> ITestObject_Notifying_ReadOnlyGetter.UInt32N_Property => this.UInt32N_Property;
+        INotifyingItemGetter<UInt32?> ITestObject_Notifying_DerivativeGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
 
         #region UInt32
@@ -470,7 +470,7 @@ namespace Noggolloquy.Tests
             get => this._UInt32.Value;
             protected set => this._UInt32.Set(value);
         }
-        INotifyingItemGetter<UInt32> ITestObject_Notifying_ReadOnlyGetter.UInt32_Property => this.UInt32_Property;
+        INotifyingItemGetter<UInt32> ITestObject_Notifying_DerivativeGetter.UInt32_Property => this.UInt32_Property;
         #endregion
 
         #region UInt64N
@@ -483,7 +483,7 @@ namespace Noggolloquy.Tests
             get => this._UInt64N.Value;
             protected set => this._UInt64N.Set(value);
         }
-        INotifyingItemGetter<UInt64?> ITestObject_Notifying_ReadOnlyGetter.UInt64N_Property => this.UInt64N_Property;
+        INotifyingItemGetter<UInt64?> ITestObject_Notifying_DerivativeGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
 
         #region UInt64
@@ -496,7 +496,7 @@ namespace Noggolloquy.Tests
             get => this._UInt64.Value;
             protected set => this._UInt64.Set(value);
         }
-        INotifyingItemGetter<UInt64> ITestObject_Notifying_ReadOnlyGetter.UInt64_Property => this.UInt64_Property;
+        INotifyingItemGetter<UInt64> ITestObject_Notifying_DerivativeGetter.UInt64_Property => this.UInt64_Property;
         #endregion
 
         #region UInt8N
@@ -509,7 +509,7 @@ namespace Noggolloquy.Tests
             get => this._UInt8N.Value;
             protected set => this._UInt8N.Set(value);
         }
-        INotifyingItemGetter<Byte?> ITestObject_Notifying_ReadOnlyGetter.UInt8N_Property => this.UInt8N_Property;
+        INotifyingItemGetter<Byte?> ITestObject_Notifying_DerivativeGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
 
         #region UInt8
@@ -522,7 +522,7 @@ namespace Noggolloquy.Tests
             get => this._UInt8.Value;
             protected set => this._UInt8.Set(value);
         }
-        INotifyingItemGetter<Byte> ITestObject_Notifying_ReadOnlyGetter.UInt8_Property => this.UInt8_Property;
+        INotifyingItemGetter<Byte> ITestObject_Notifying_DerivativeGetter.UInt8_Property => this.UInt8_Property;
         #endregion
 
         #region Enum
@@ -534,7 +534,7 @@ namespace Noggolloquy.Tests
             get => this._Enum.Value;
             protected set => this._Enum.Set(value);
         }
-        INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnlyGetter.Enum_Property => this.Enum_Property;
+        INotifyingItemGetter<TestEnum> ITestObject_Notifying_DerivativeGetter.Enum_Property => this.Enum_Property;
         #endregion
 
         #region WildCard
@@ -545,38 +545,38 @@ namespace Noggolloquy.Tests
         );
         public INotifyingItemGetter<Object> WildCard_Property => _WildCard;
         public Object WildCard { get { return _WildCard.Value; } protected set { _WildCard.Value = value; } }
-        INotifyingItemGetter<Object> ITestObject_Notifying_ReadOnlyGetter.WildCard_Property => this.WildCard_Property;
+        INotifyingItemGetter<Object> ITestObject_Notifying_DerivativeGetter.WildCard_Property => this.WildCard_Property;
         #endregion
 
         #region Ref
         private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
         public INotifyingItemGetter<ObjectToRef> Ref_Property => this._Ref;
-        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.Ref => this.Ref;
+        ObjectToRef ITestObject_Notifying_DerivativeGetter.Ref => this.Ref;
         public ObjectToRef Ref { get { return _Ref.Value; } }
-        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.Ref_Property => this.Ref_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.Ref_Property => this.Ref_Property;
         #endregion
 
         #region RefGetter
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
-        IObjectToRefGetter ITestObject_Notifying_ReadOnlyGetter.RefGetter => this.RefGetter;
+        IObjectToRefGetter ITestObject_Notifying_DerivativeGetter.RefGetter => this.RefGetter;
         public IObjectToRefGetter RefGetter { get { return _RefGetter.Value; } }
-        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnlyGetter.RefGetter_Property => this.RefGetter_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_DerivativeGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
 
         #region RefSetter
         private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
         public INotifyingItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
-        IObjectToRef ITestObject_Notifying_ReadOnlyGetter.RefSetter => this.RefSetter;
+        IObjectToRef ITestObject_Notifying_DerivativeGetter.RefSetter => this.RefSetter;
         public IObjectToRef RefSetter { get { return _RefSetter.Value; } }
-        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefSetter_Property => this.RefSetter_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_DerivativeGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
 
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
-        INotifyingListGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_Notifying_DerivativeGetter.List => _List;
         #endregion
         #endregion
 
@@ -584,7 +584,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.RefList => _RefList;
         #endregion
         #endregion
 
@@ -592,7 +592,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnlyGetter.Dict => _Dict;
+        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_DerivativeGetter.Dict => _Dict;
         #endregion
         #endregion
 
@@ -600,7 +600,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_DerivativeGetter.RefDict => _RefDict;
         #endregion
         #endregion
 
@@ -608,37 +608,37 @@ namespace Noggolloquy.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_DerivativeGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
         #endregion
 
 
         #region Noggolloquy Getter Interface
 
-        public object GetNthObject(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObject(index, this);
+        public object GetNthObject(ushort index) => TestObject_Notifying_DerivativeCommon.GetNthObject(index, this);
 
-        public bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObjectHasBeenSet(index, this);
+        public bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_DerivativeCommon.GetNthObjectHasBeenSet(index, this);
 
-        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_ReadOnlyCommon.UnsetNthObject(index, this, cmds);
+        public void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_DerivativeCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         public void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObject_Notifying_ReadOnlyCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_DerivativeCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestObject_Notifying_ReadOnlyGetter rhs, ITestObject_Notifying_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_DerivativeGetter rhs, ITestObject_Notifying_DerivativeGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
         }
 
-        public void CopyFieldsFrom(ITestObject_Notifying_ReadOnlyGetter rhs, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, ITestObject_Notifying_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(ITestObject_Notifying_DerivativeGetter rhs, out TestObject_Notifying_Derivative_ErrorMask errorMask, ITestObject_Notifying_DerivativeGetter def = null, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_Notifying_ReadOnly_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_Derivative_ErrorMask();
             errorMask = retErrorMask;
-            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
         }
 
         #endregion
@@ -653,11 +653,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_Notifying_ReadOnly rhs)) return false;
+            if (!(obj is TestObject_Notifying_Derivative rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_Notifying_ReadOnly rhs)
+        public bool Equals(TestObject_Notifying_Derivative rhs)
         {
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
@@ -815,40 +815,40 @@ namespace Noggolloquy.Tests
         #endregion
 
         #region Set To
-        public void SetTo(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def = null, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def = null, NotifyingFireParameters? cmds = null)
         {
             SetTo_Internal(rhs, def, null, cmds);
         }
 
-        public void SetTo(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public void SetTo(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def, out TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_Notifying_ReadOnly_ErrorMask();
+            var retErrorMask = new TestObject_Notifying_Derivative_ErrorMask();
             errorMask = retErrorMask;
             SetTo_Internal(rhs, def, retErrorMask, cmds);
         }
 
-        private void SetTo_Internal(TestObject_Notifying_ReadOnly rhs, ITestObject_Notifying_ReadOnly def, TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        private void SetTo_Internal(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def, TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
         }
         #endregion
         #region XML Translation
-        public static TestObject_Notifying_ReadOnly CreateFromXML(XElement root)
+        public static TestObject_Notifying_Derivative CreateFromXML(XElement root)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_Derivative();
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
+                mask: out TestObject_Notifying_Derivative_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestObject_Notifying_ReadOnly CreateFromXML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask)
+        public static TestObject_Notifying_Derivative CreateFromXML(XElement root, out TestObject_Notifying_Derivative_ErrorMask errorMask)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_Derivative();
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipReadonly: false,
@@ -860,18 +860,18 @@ namespace Noggolloquy.Tests
 
         public void CopyInFromXML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
+                mask: out TestObject_Notifying_Derivative_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyInFromXML(XElement root, out TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipReadonly: true,
@@ -890,9 +890,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void WriteXML(XmlWriter writer, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, string name = null)
+        public void WriteXML(XmlWriter writer, out TestObject_Notifying_Derivative_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
@@ -902,22 +902,22 @@ namespace Noggolloquy.Tests
 
         public void WriteXML(XmlWriter writer, string name)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
+                mask: out TestObject_Notifying_Derivative_ErrorMask errorMask);
         }
 
         public void WriteXML(XmlWriter writer)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_Derivative, TestObject_Notifying_Derivative_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: null,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
+                mask: out TestObject_Notifying_Derivative_ErrorMask errorMask);
         }
 
         #endregion
@@ -930,20 +930,20 @@ namespace Noggolloquy.Tests
 
         protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
         {
-            if (rhs is TestObject_Notifying_ReadOnly rhsCast)
+            if (rhs is TestObject_Notifying_Derivative rhsCast)
             {
-                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_ReadOnly, cmds);
+                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_Derivative, cmds);
             }
         }
 
-        public TestObject_Notifying_ReadOnly Copy(ITestObject_Notifying_ReadOnlyGetter def = null)
+        public TestObject_Notifying_Derivative Copy(ITestObject_Notifying_DerivativeGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject_Notifying_ReadOnly Copy(ITestObject_Notifying_ReadOnlyGetter item, ITestObject_Notifying_ReadOnlyGetter def = null)
+        public static TestObject_Notifying_Derivative Copy(ITestObject_Notifying_DerivativeGetter item, ITestObject_Notifying_DerivativeGetter def = null)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
+            var ret = new TestObject_Notifying_Derivative();
             ret.CopyFieldsFrom(item, def);
             return ret;
         }
@@ -953,247 +953,54 @@ namespace Noggolloquy.Tests
             switch (index)
             {
                 case 0:
-                    this._BoolN.Set(
-                        (Boolean?)obj,
-                        cmds);
-                    break;
                 case 1:
-                    this._Bool.Set(
-                        (Boolean)obj,
-                        cmds);
-                    break;
                 case 2:
-                    this._CharN.Set(
-                        (Char?)obj,
-                        cmds);
-                    break;
                 case 3:
-                    this._Char.Set(
-                        (Char)obj,
-                        cmds);
-                    break;
                 case 4:
-                    this._DoubleN.Set(
-                        (Double?)obj,
-                        cmds);
-                    break;
                 case 5:
-                    this._Double.Set(
-                        (Double)obj,
-                        cmds);
-                    break;
                 case 6:
-                    this._FloatN.Set(
-                        (Single?)obj,
-                        cmds);
-                    break;
                 case 7:
-                    this._Float.Set(
-                        (Single)obj,
-                        cmds);
-                    break;
                 case 8:
-                    this._Int16N.Set(
-                        (Int16?)obj,
-                        cmds);
-                    break;
                 case 9:
-                    this._Int16.Set(
-                        (Int16)obj,
-                        cmds);
-                    break;
                 case 10:
-                    this._Int32N.Set(
-                        (Int32?)obj,
-                        cmds);
-                    break;
                 case 11:
-                    this._Int32.Set(
-                        (Int32)obj,
-                        cmds);
-                    break;
                 case 12:
-                    this._Int64N.Set(
-                        (Int64?)obj,
-                        cmds);
-                    break;
                 case 13:
-                    this._Int64.Set(
-                        (Int64)obj,
-                        cmds);
-                    break;
                 case 14:
-                    this._Int8N.Set(
-                        (SByte?)obj,
-                        cmds);
-                    break;
                 case 15:
-                    this._Int8.Set(
-                        (SByte)obj,
-                        cmds);
-                    break;
                 case 16:
-                    this._Unsafe.Set(
-                        (bool)obj,
-                        cmds);
-                    break;
                 case 17:
-                    this._P2IntN.Set(
-                        (P2Int?)obj,
-                        cmds);
-                    break;
                 case 18:
-                    this._P2Int.Set(
-                        (P2Int)obj,
-                        cmds);
-                    break;
                 case 19:
-                    this._P3DoubleN.Set(
-                        (P3Double?)obj,
-                        cmds);
-                    break;
                 case 20:
-                    this._P3Double.Set(
-                        (P3Double)obj,
-                        cmds);
-                    break;
                 case 21:
-                    this._P3IntN.Set(
-                        (P3Int?)obj,
-                        cmds);
-                    break;
                 case 22:
-                    this._P3Int.Set(
-                        (P3Int)obj,
-                        cmds);
-                    break;
                 case 23:
-                    this._PercentN.Set(
-                        (Percent?)obj,
-                        cmds);
-                    break;
                 case 24:
-                    this._Percent.Set(
-                        (Percent)obj,
-                        cmds);
-                    break;
                 case 25:
-                    this._RangeIntN.Set(
-                        (RangeInt?)obj,
-                        cmds);
-                    break;
                 case 26:
-                    this._RangeInt.Set(
-                        (RangeInt)obj,
-                        cmds);
-                    break;
                 case 27:
-                    this._String.Set(
-                        (String)obj,
-                        cmds);
-                    break;
                 case 28:
-                    this._UDoubleN.Set(
-                        (UDouble?)obj,
-                        cmds);
-                    break;
                 case 29:
-                    this._UDouble.Set(
-                        (UDouble)obj,
-                        cmds);
-                    break;
                 case 30:
-                    this._UInt16N.Set(
-                        (UInt16?)obj,
-                        cmds);
-                    break;
                 case 31:
-                    this._UInt16.Set(
-                        (UInt16)obj,
-                        cmds);
-                    break;
                 case 32:
-                    this._UInt32N.Set(
-                        (UInt32?)obj,
-                        cmds);
-                    break;
                 case 33:
-                    this._UInt32.Set(
-                        (UInt32)obj,
-                        cmds);
-                    break;
                 case 34:
-                    this._UInt64N.Set(
-                        (UInt64?)obj,
-                        cmds);
-                    break;
                 case 35:
-                    this._UInt64.Set(
-                        (UInt64)obj,
-                        cmds);
-                    break;
                 case 36:
-                    this._UInt8N.Set(
-                        (Byte?)obj,
-                        cmds);
-                    break;
                 case 37:
-                    this._UInt8.Set(
-                        (Byte)obj,
-                        cmds);
-                    break;
                 case 38:
-                    this._Enum.Set(
-                        (TestEnum)obj,
-                        cmds);
-                    break;
                 case 39:
-                    this._WildCard.Set(
-                        (Object)obj,
-                        cmds);
-                    break;
                 case 40:
-                    this._Ref.Set(
-                        (ObjectToRef)obj,
-                        cmds);
-                    break;
                 case 41:
-                    this._RefGetter.Set(
-                        (IObjectToRefGetter)obj,
-                        cmds);
-                    break;
                 case 42:
-                    this._RefSetter.Set(
-                        (IObjectToRef)obj,
-                        cmds);
-                    break;
                 case 43:
-                    this._List.SetTo(((NotifyingList<Boolean>)obj), cmds);
-                    break;
                 case 44:
-                    this._RefList.SetTo(((NotifyingList<ObjectToRef>)obj).Select((s) => s.Copy()), cmds);
-                    break;
                 case 45:
-                    this.Dict.SetTo(
-                        ((NotifyingDictionary<Boolean, String>)obj).Select(
-                            (i) => new KeyValuePair<Boolean, String>(
-                                i.Key,
-                                i.Value)),
-                        cmds);
-                    break;
                 case 46:
-                    this.RefDict.SetTo(
-                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
-                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                i.Key.Copy(),
-                                i.Value.Copy())),
-                        cmds);
-                    break;
                 case 47:
-                    this.DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj).Select((i) => i.Copy()),
-                        cmds);
-                    break;
+                    throw new ArgumentException($"Tried to set at a derivative index {index}");
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1206,14 +1013,14 @@ namespace Noggolloquy.Tests
             ClearPartial(cmds);
         }
 
-        public static TestObject_Notifying_ReadOnly Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_Notifying_Derivative Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
+            var ret = new TestObject_Notifying_Derivative();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_ReadOnly obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_Derivative obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
         }
@@ -1222,11 +1029,11 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnlyGetter, INoggolloquyClass<ITestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>, INoggolloquyClass<TestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>
+    public interface ITestObject_Notifying_Derivative : ITestObject_Notifying_DerivativeGetter, INoggolloquyClass<ITestObject_Notifying_Derivative, ITestObject_Notifying_DerivativeGetter>, INoggolloquyClass<TestObject_Notifying_Derivative, ITestObject_Notifying_DerivativeGetter>
     {
     }
 
-    public interface ITestObject_Notifying_ReadOnlyGetter : INoggolloquyObject
+    public interface ITestObject_Notifying_DerivativeGetter : INoggolloquyObject
     {
         #region BoolN
         Boolean? BoolN { get; }
@@ -1516,30 +1323,30 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Registration
-    public class TestObject_Notifying_ReadOnly_Registration : INoggolloquyRegistration
+    public class TestObject_Notifying_Derivative_Registration : INoggolloquyRegistration
     {
-        public static readonly TestObject_Notifying_ReadOnly_Registration Instance = new TestObject_Notifying_ReadOnly_Registration();
+        public static readonly TestObject_Notifying_Derivative_Registration Instance = new TestObject_Notifying_Derivative_Registration();
 
         public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
-            msgID: 10,
+            msgID: 13,
             version: 0);
 
-        public const string GUID = "788f2672-47d2-47d0-a157-c7426032ad72";
+        public const string GUID = "a2d50f09-643c-4263-a8d1-272110470337";
 
         public const ushort FieldCount = 48;
 
-        public static readonly Type MaskType = typeof(TestObject_Notifying_ReadOnly_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_Derivative_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_ReadOnly_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_Derivative_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject_Notifying_ReadOnly);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_Derivative);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_ReadOnly";
+        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_Derivative";
 
-        public const string Name = "TestObject_Notifying_ReadOnly";
+        public const string Name = "TestObject_Notifying_Derivative";
 
         public const byte GenericCount = 0;
 
@@ -1983,7 +1790,7 @@ namespace Noggolloquy.Tests
                 case 45:
                 case 46:
                 case 47:
-                    return false;
+                    return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -2041,7 +1848,7 @@ namespace Noggolloquy.Tests
                 case 45:
                 case 46:
                 case 47:
-                    return false;
+                    return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -2176,226 +1983,132 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestObject_Notifying_ReadOnlyCommon
+    public static class TestObject_Notifying_DerivativeCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject_Notifying_ReadOnly item, ITestObject_Notifying_ReadOnlyGetter rhs, ITestObject_Notifying_ReadOnlyGetter def, TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(ITestObject_Notifying_Derivative item, ITestObject_Notifying_DerivativeGetter rhs, ITestObject_Notifying_DerivativeGetter def, TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds)
         {
         }
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_Notifying_ReadOnly obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_Notifying_Derivative obj, NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 1:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 2:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 3:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 4:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 5:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 6:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 7:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 9:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 10:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 11:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 12:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 13:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 14:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 15:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 17:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 18:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 19:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 20:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 21:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 22:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 23:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 24:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 25:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 26:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 27:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 28:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 29:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 30:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 31:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 33:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 34:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 35:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 36:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 37:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 38:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 39:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 40:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 41:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 42:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 43:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 44:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 45:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 46:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 47:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                    throw new ArgumentException($"Tried to set at a derivative index {index}");
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject_Notifying_ReadOnly obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(ushort index, ITestObject_Notifying_Derivative obj, NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
                 case 0:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 1:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 2:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 3:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 4:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 5:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 6:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 7:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 9:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 10:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 11:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 12:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 13:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 14:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 15:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 17:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 18:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 19:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 20:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 21:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 22:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 23:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 24:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 25:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 26:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 27:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 28:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 29:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 30:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 31:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 33:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 34:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 35:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 36:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 37:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 38:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 39:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 40:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 41:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 42:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 43:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 44:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 45:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 46:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case 47:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                    throw new ArgumentException($"Tried to unset at a derivative index {index}");
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_Notifying_ReadOnly obj)
+        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_Notifying_Derivative obj)
         {
             switch (index)
             {
@@ -2500,7 +2213,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObject_Notifying_ReadOnlyGetter obj)
+        public static object GetNthObject(ushort index, ITestObject_Notifying_DerivativeGetter obj)
         {
             switch (index)
             {
@@ -2606,11 +2319,11 @@ namespace Noggolloquy.Tests
         }
 
     }
-    public static class TestObject_Notifying_ReadOnlyExt
+    public static class TestObject_Notifying_DerivativeExt
     {
-        public static TestObject_Notifying_ReadOnly Copy_ToNoggolloquy(this ITestObject_Notifying_ReadOnlyGetter item)
+        public static TestObject_Notifying_Derivative Copy_ToNoggolloquy(this ITestObject_Notifying_DerivativeGetter item)
         {
-            return TestObject_Notifying_ReadOnly.Copy(item, def: null);
+            return TestObject_Notifying_Derivative.Copy(item, def: null);
         }
 
     }
@@ -2621,7 +2334,7 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Mask
-    public class TestObject_Notifying_ReadOnly_Mask<T> 
+    public class TestObject_Notifying_Derivative_Mask<T> 
     {
         public T BoolN;
         public T Bool;
@@ -2673,7 +2386,7 @@ namespace Noggolloquy.Tests
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
-    public class TestObject_Notifying_ReadOnly_ErrorMask : IErrorMask
+    public class TestObject_Notifying_Derivative_ErrorMask : IErrorMask
     {
         public Exception Overall { get; set; }
         private List<string> _warnings;

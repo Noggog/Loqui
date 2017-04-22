@@ -464,6 +464,9 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
+                case 0:
+                case 1:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

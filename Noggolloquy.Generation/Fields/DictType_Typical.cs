@@ -130,14 +130,20 @@ namespace Noggolloquy.Generation
             var member = "_" + this.Name;
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                fg.AppendLine($"INotifyingDictionary{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"INotifyingDictionary{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                }
                 fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            fg.AppendLine($"new INotifyingDictionary{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+            if (!this.ReadOnly)
+            {
+                fg.AppendLine($"new INotifyingDictionary{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+            }
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)

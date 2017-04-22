@@ -366,6 +366,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="derivativeDefault" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Sets the default value of the derivative property on all of this objects contained fields.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="GUID" type="xs:string" >
       <xs:annotation>
         <xs:documentation>

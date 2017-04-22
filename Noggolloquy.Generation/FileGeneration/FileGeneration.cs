@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public IHasBeenSetItemGetter<T> RefGetter_Property => this.RefGetter_Property;"))
+            if (str.Contains("GetNthIsSingleton"))
             {
                 int wer = 23;
                 wer++;

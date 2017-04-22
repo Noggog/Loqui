@@ -23,6 +23,7 @@ namespace Noggolloquy.Generation
         public abstract NotifyingOption NotifyingDefault { get; }
         public NoggInterfaceType InterfaceTypeDefault;
         public bool ReadOnlyDefault;
+        public bool DerivativeDefault;
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
@@ -90,6 +91,7 @@ namespace Noggolloquy.Generation
             Version = Node.GetAttribute<ushort>("version", 0);
             this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", NoggInterfaceType.Direct);
             this.ReadOnlyDefault = Node.GetAttribute<bool>("readOnlyDefault", false);
+            this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", false);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)
@@ -674,19 +676,28 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
+                    List<int> nonNotifying = IterateFields()
+                        .Where((f) => f.Field.Notifying == NotifyingOption.None)
+                        .Select((f) => f.Index).ToList();
+                    if (nonNotifying.Count > 0)
+                    {
+                        foreach (var item in IterateFields())
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"return true;");
+                        }
+                    }
+
                     foreach (var item in IterateFields())
                     {
+                        if (item.Field.Notifying == NotifyingOption.None) continue;
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field.Notifying == NotifyingOption.None)
-                            {
-                                fg.AppendLine($"return true;");
-                            }
-                            else
-                            {
-                                fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
-                            }
+                            fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
                         }
                     }
 
@@ -704,8 +715,23 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
+                    List<int> derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative)
+                        .Select((f) => f.Index).ToList();
+                    if (derivatives.Count > 0)
+                    {
+                        foreach (var item in IterateFields())
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
+                        }
+                    }
                     foreach (var item in IterateFields())
                     {
+                        if (item.Field.Derivative) continue;
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
@@ -732,17 +758,26 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
+                    List<int> derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative)
+                        .Select((f) => f.Index).ToList();
+                    if (derivatives.Count > 0)
+                    {
+                        foreach (var item in IterateFields())
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
+                        }
+                    }
                     foreach (var item in IterateFields())
                     {
+                        if (item.Field.Derivative) continue;
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field.Derivative)
-                            {
-                                fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
-                                return;
-                            }
-
                             if (!internalUse && item.Field.Protected)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
@@ -769,17 +804,27 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
+                    List<int> derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative)
+                        .Select((f) => f.Index).ToList();
+                    if (derivatives.Count > 0)
+                    {
+                        foreach (var item in IterateFields())
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("throw new ArgumentException($\"Tried to unset at a derivative index {index}\");");
+                        }
+                    }
                     foreach (var item in IterateFields())
                     {
+                        if (item.Field.Derivative) continue;
+
                         fg.AppendLine($"case {item.Index}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field.Derivative)
-                            {
-                                fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
-                                return;
-                            }
-
                             if (item.Field.Protected)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
@@ -993,15 +1038,33 @@ namespace Noggolloquy.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    Func<TypeGeneration, bool> tester = (f) =>
                     {
-                        if (item.Field is NoggType nogg)
+                        if (!(f is NoggType nogg)) return false;
+                        return nogg.SingletonMember;
+                    };
+                    var trues = IterateFields().Where((i) => tester(i.Field));
+                    var falses = IterateFields().Where((i) => !tester(i.Field));
+                    if (trues.Any())
+                    {
+                        foreach (var item in trues)
                         {
                             fg.AppendLine($"case {item.Index}:");
-                            using (new DepthWrapper(fg))
-                            {
-                                fg.AppendLine($"return {(nogg.SingletonMember ? "true" : "false")};");
-                            }
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return true;");
+                        }
+                    }
+                    if (falses.Any())
+                    {
+                        foreach (var item in falses)
+                        {
+                            fg.AppendLine($"case {item.Index}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return false;");
                         }
                     }
 
@@ -1032,7 +1095,7 @@ namespace Noggolloquy.Generation
         }
 
         public void GenerateStandardIndexDefault(
-            FileGeneration fg, 
+            FileGeneration fg,
             string functionName,
             string indexAccessor,
             bool ret,

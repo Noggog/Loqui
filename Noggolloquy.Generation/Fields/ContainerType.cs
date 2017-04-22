@@ -65,7 +65,7 @@ namespace Noggolloquy.Generation
 
             if (this.Derivative)
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
         
