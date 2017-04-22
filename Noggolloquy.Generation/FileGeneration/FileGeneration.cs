@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("if (def == null)"))
+            if (str.Contains("if (errorMask != null)"))
             {
                 int wer = 23;
                 wer++;

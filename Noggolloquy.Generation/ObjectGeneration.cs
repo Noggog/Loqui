@@ -1536,7 +1536,12 @@ namespace Noggolloquy.Generation
             fg.AppendLine("catch (Exception ex)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({errorMaskAccessor} != null)");
+                fg.AppendLine($"if ({errorMaskAccessor} == null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("throw ex;");
+                }
+                fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{errorMaskAccessor}.SetNthException({index}, ex);");

@@ -468,7 +468,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(48, ex);
                     }

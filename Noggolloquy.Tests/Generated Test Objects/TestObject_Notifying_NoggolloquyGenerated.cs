@@ -2453,7 +2453,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(0, ex);
                     }
@@ -2483,7 +2487,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(1, ex);
                     }
@@ -2513,7 +2521,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(2, ex);
                     }
@@ -2543,7 +2555,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(3, ex);
                     }
@@ -2573,7 +2589,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(4, ex);
                     }
@@ -2603,7 +2623,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(5, ex);
                     }
@@ -2633,7 +2657,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(6, ex);
                     }
@@ -2663,7 +2691,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(7, ex);
                     }
@@ -2693,7 +2725,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(8, ex);
                     }
@@ -2723,7 +2759,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(9, ex);
                     }
@@ -2753,7 +2793,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(10, ex);
                     }
@@ -2783,7 +2827,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(11, ex);
                     }
@@ -2813,7 +2861,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(12, ex);
                     }
@@ -2843,7 +2895,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(13, ex);
                     }
@@ -2873,7 +2929,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(14, ex);
                     }
@@ -2903,7 +2963,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(15, ex);
                     }
@@ -2933,7 +2997,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(16, ex);
                     }
@@ -2963,7 +3031,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(17, ex);
                     }
@@ -2993,7 +3065,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(18, ex);
                     }
@@ -3023,7 +3099,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(19, ex);
                     }
@@ -3053,7 +3133,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(20, ex);
                     }
@@ -3083,7 +3167,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(21, ex);
                     }
@@ -3113,7 +3201,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(22, ex);
                     }
@@ -3143,7 +3235,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(23, ex);
                     }
@@ -3173,7 +3269,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(24, ex);
                     }
@@ -3203,7 +3303,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(25, ex);
                     }
@@ -3233,7 +3337,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(26, ex);
                     }
@@ -3263,7 +3371,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(27, ex);
                     }
@@ -3293,7 +3405,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(28, ex);
                     }
@@ -3323,7 +3439,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(29, ex);
                     }
@@ -3353,7 +3473,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(30, ex);
                     }
@@ -3383,7 +3507,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(31, ex);
                     }
@@ -3413,7 +3541,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(32, ex);
                     }
@@ -3443,7 +3575,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(33, ex);
                     }
@@ -3473,7 +3609,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(34, ex);
                     }
@@ -3503,7 +3643,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(35, ex);
                     }
@@ -3533,7 +3677,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(36, ex);
                     }
@@ -3563,7 +3711,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(37, ex);
                     }
@@ -3593,7 +3745,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(38, ex);
                     }
@@ -3623,7 +3779,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(39, ex);
                     }
@@ -3653,7 +3813,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(40, ex);
                     }
@@ -3683,7 +3847,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(41, ex);
                     }
@@ -3713,7 +3881,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(42, ex);
                     }
@@ -3738,7 +3910,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(43, ex);
                     }
@@ -3770,7 +3946,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(44, ex);
                     }
@@ -3805,7 +3985,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(45, ex);
                     }
@@ -3860,7 +4044,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(46, ex);
                     }
@@ -3889,7 +4077,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(47, ex);
                     }

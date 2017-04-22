@@ -3049,7 +3049,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(43, ex);
                     }
@@ -3081,7 +3085,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(44, ex);
                     }
@@ -3116,7 +3124,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(45, ex);
                     }
@@ -3171,7 +3183,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(46, ex);
                     }
@@ -3200,7 +3216,11 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask != null)
+                    if (errorMask == null)
+                    {
+                        throw ex;
+                    }
+                    else
                     {
                         errorMask.SetNthException(47, ex);
                     }
