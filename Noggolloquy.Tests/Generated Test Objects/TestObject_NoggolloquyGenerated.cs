@@ -2031,16 +2031,13 @@ namespace Noggolloquy.Tests
                     {
                         item.List.SetTo(rhs.List, cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.List.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.List.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.List.SetTo(def.List, cmds);
-                        }
+                        item.List.SetTo(def.List, cmds);
                     }
                 }
                 catch (Exception ex)
@@ -2066,16 +2063,13 @@ namespace Noggolloquy.Tests
                             }
                         ), cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefList.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefList.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
-                        }
+                        item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
                     }
                 }
                 catch (Exception ex)
@@ -2099,21 +2093,18 @@ namespace Noggolloquy.Tests
                                     i.Value)),
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Dict.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Dict.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Dict.SetTo(
-                                def.Dict.Select(
-                                    (i) => new KeyValuePair<Boolean, String>(
-                                        i.Key,
-                                        i.Value)),
-                                cmds);
-                        }
+                        item.Dict.SetTo(
+                            def.Dict.Select(
+                                (i) => new KeyValuePair<Boolean, String>(
+                                    i.Key,
+                                    i.Value)),
+                            cmds);
                     }
                 }
                 catch (Exception ex)
@@ -2157,21 +2148,18 @@ namespace Noggolloquy.Tests
                             }
                         ), cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefDict.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefDict.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefDict.SetTo(
-                                def.RefDict.Select(
-                                    (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                        i.Key.Copy(),
-                                        i.Value.Copy())),
-                                cmds);
-                        }
+                        item.RefDict.SetTo(
+                            def.RefDict.Select(
+                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                    i.Key.Copy(),
+                                    i.Value.Copy())),
+                            cmds);
                     }
                 }
                 catch (Exception ex)
@@ -2192,18 +2180,15 @@ namespace Noggolloquy.Tests
                             ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.DictKeyedValue.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.DictKeyedValue.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.DictKeyedValue.SetTo(
-                                ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                                cmds);
-                        }
+                        item.DictKeyedValue.SetTo(
+                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
+                            cmds);
                     }
                 }
                 catch (Exception ex)

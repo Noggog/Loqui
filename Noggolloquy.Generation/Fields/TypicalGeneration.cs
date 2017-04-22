@@ -86,7 +86,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateNotifyingCtor(FileGeneration fg, bool notifying = true)
         {
-            using (var args =  new ArgsWrapper(fg, true,
+            using (var args = new ArgsWrapper(fg, true,
                 $"protected readonly {(notifying ? "INotifyingItem" : "IHasBeenSetItem")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSetItem")}<{TypeName}>"))
             {
                 if (HasDefault)
@@ -187,32 +187,28 @@ namespace Noggolloquy.Generation
                         }
                     }
                 }
+                fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg, true,
+                        $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Unset"))
+                    {
+                        if (this.Notifying == NotifyingOption.Notifying)
+                        {
+                            args.Add($"{cmdsAccessor}.ToUnsetParams()");
+                        }
+                    }
+                }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                    using (new BraceWrapper(fg))
+                    using (var args = new ArgsWrapper(fg, true,
+                        $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
                     {
-                        using (var args = new ArgsWrapper(fg, true,
-                            $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Unset"))
+                        args.Add($"{defaultFallbackAccessor}.{this.GetName(internalUse: false, property: false)}");
+                        if (this.Notifying == NotifyingOption.Notifying)
                         {
-                            if (this.Notifying == NotifyingOption.Notifying)
-                            {
-                                args.Add($"{cmdsAccessor}.ToUnsetParams()");
-                            }
-                        }
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        using (var args = new ArgsWrapper(fg, true,
-                            $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
-                        {
-                            args.Add($"{defaultFallbackAccessor}.{this.GetName(internalUse: false, property: false)}");
-                            if (this.Notifying == NotifyingOption.Notifying)
-                            {
-                                args.Add($"{cmdsAccessor}");
-                            }
+                            args.Add($"{cmdsAccessor}");
                         }
                     }
                 }

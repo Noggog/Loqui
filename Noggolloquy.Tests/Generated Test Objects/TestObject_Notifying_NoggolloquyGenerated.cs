@@ -2439,18 +2439,15 @@ namespace Noggolloquy.Tests
                             rhs.BoolN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.BoolN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.BoolN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.BoolN_Property.Set(
-                                def.BoolN,
-                                cmds);
-                        }
+                        item.BoolN_Property.Set(
+                            def.BoolN,
+                            cmds);
                     }
 
                 }
@@ -2472,18 +2469,15 @@ namespace Noggolloquy.Tests
                             rhs.Bool,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Bool_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Bool_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Bool_Property.Set(
-                                def.Bool,
-                                cmds);
-                        }
+                        item.Bool_Property.Set(
+                            def.Bool,
+                            cmds);
                     }
 
                 }
@@ -2505,18 +2499,15 @@ namespace Noggolloquy.Tests
                             rhs.CharN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.CharN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.CharN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.CharN_Property.Set(
-                                def.CharN,
-                                cmds);
-                        }
+                        item.CharN_Property.Set(
+                            def.CharN,
+                            cmds);
                     }
 
                 }
@@ -2538,18 +2529,15 @@ namespace Noggolloquy.Tests
                             rhs.Char,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Char_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Char_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Char_Property.Set(
-                                def.Char,
-                                cmds);
-                        }
+                        item.Char_Property.Set(
+                            def.Char,
+                            cmds);
                     }
 
                 }
@@ -2571,18 +2559,15 @@ namespace Noggolloquy.Tests
                             rhs.DoubleN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.DoubleN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.DoubleN_Property.Set(
-                                def.DoubleN,
-                                cmds);
-                        }
+                        item.DoubleN_Property.Set(
+                            def.DoubleN,
+                            cmds);
                     }
 
                 }
@@ -2604,18 +2589,15 @@ namespace Noggolloquy.Tests
                             rhs.Double,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Double_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Double_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Double_Property.Set(
-                                def.Double,
-                                cmds);
-                        }
+                        item.Double_Property.Set(
+                            def.Double,
+                            cmds);
                     }
 
                 }
@@ -2637,18 +2619,15 @@ namespace Noggolloquy.Tests
                             rhs.FloatN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.FloatN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.FloatN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.FloatN_Property.Set(
-                                def.FloatN,
-                                cmds);
-                        }
+                        item.FloatN_Property.Set(
+                            def.FloatN,
+                            cmds);
                     }
 
                 }
@@ -2670,18 +2649,15 @@ namespace Noggolloquy.Tests
                             rhs.Float,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Float_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Float_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Float_Property.Set(
-                                def.Float,
-                                cmds);
-                        }
+                        item.Float_Property.Set(
+                            def.Float,
+                            cmds);
                     }
 
                 }
@@ -2703,18 +2679,15 @@ namespace Noggolloquy.Tests
                             rhs.Int16N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int16N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int16N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int16N_Property.Set(
-                                def.Int16N,
-                                cmds);
-                        }
+                        item.Int16N_Property.Set(
+                            def.Int16N,
+                            cmds);
                     }
 
                 }
@@ -2736,18 +2709,15 @@ namespace Noggolloquy.Tests
                             rhs.Int16,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int16_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int16_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int16_Property.Set(
-                                def.Int16,
-                                cmds);
-                        }
+                        item.Int16_Property.Set(
+                            def.Int16,
+                            cmds);
                     }
 
                 }
@@ -2769,18 +2739,15 @@ namespace Noggolloquy.Tests
                             rhs.Int32N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int32N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int32N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int32N_Property.Set(
-                                def.Int32N,
-                                cmds);
-                        }
+                        item.Int32N_Property.Set(
+                            def.Int32N,
+                            cmds);
                     }
 
                 }
@@ -2802,18 +2769,15 @@ namespace Noggolloquy.Tests
                             rhs.Int32,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int32_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int32_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int32_Property.Set(
-                                def.Int32,
-                                cmds);
-                        }
+                        item.Int32_Property.Set(
+                            def.Int32,
+                            cmds);
                     }
 
                 }
@@ -2835,18 +2799,15 @@ namespace Noggolloquy.Tests
                             rhs.Int64N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int64N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int64N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int64N_Property.Set(
-                                def.Int64N,
-                                cmds);
-                        }
+                        item.Int64N_Property.Set(
+                            def.Int64N,
+                            cmds);
                     }
 
                 }
@@ -2868,18 +2829,15 @@ namespace Noggolloquy.Tests
                             rhs.Int64,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int64_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int64_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int64_Property.Set(
-                                def.Int64,
-                                cmds);
-                        }
+                        item.Int64_Property.Set(
+                            def.Int64,
+                            cmds);
                     }
 
                 }
@@ -2901,18 +2859,15 @@ namespace Noggolloquy.Tests
                             rhs.Int8N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int8N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int8N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int8N_Property.Set(
-                                def.Int8N,
-                                cmds);
-                        }
+                        item.Int8N_Property.Set(
+                            def.Int8N,
+                            cmds);
                     }
 
                 }
@@ -2934,18 +2889,15 @@ namespace Noggolloquy.Tests
                             rhs.Int8,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Int8_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Int8_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Int8_Property.Set(
-                                def.Int8,
-                                cmds);
-                        }
+                        item.Int8_Property.Set(
+                            def.Int8,
+                            cmds);
                     }
 
                 }
@@ -2967,18 +2919,15 @@ namespace Noggolloquy.Tests
                             rhs.Unsafe,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Unsafe_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Unsafe_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Unsafe_Property.Set(
-                                def.Unsafe,
-                                cmds);
-                        }
+                        item.Unsafe_Property.Set(
+                            def.Unsafe,
+                            cmds);
                     }
 
                 }
@@ -3000,18 +2949,15 @@ namespace Noggolloquy.Tests
                             rhs.P2IntN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P2IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P2IntN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P2IntN_Property.Set(
-                                def.P2IntN,
-                                cmds);
-                        }
+                        item.P2IntN_Property.Set(
+                            def.P2IntN,
+                            cmds);
                     }
 
                 }
@@ -3033,18 +2979,15 @@ namespace Noggolloquy.Tests
                             rhs.P2Int,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P2Int_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P2Int_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P2Int_Property.Set(
-                                def.P2Int,
-                                cmds);
-                        }
+                        item.P2Int_Property.Set(
+                            def.P2Int,
+                            cmds);
                     }
 
                 }
@@ -3066,18 +3009,15 @@ namespace Noggolloquy.Tests
                             rhs.P3DoubleN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P3DoubleN_Property.Set(
-                                def.P3DoubleN,
-                                cmds);
-                        }
+                        item.P3DoubleN_Property.Set(
+                            def.P3DoubleN,
+                            cmds);
                     }
 
                 }
@@ -3099,18 +3039,15 @@ namespace Noggolloquy.Tests
                             rhs.P3Double,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P3Double_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P3Double_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P3Double_Property.Set(
-                                def.P3Double,
-                                cmds);
-                        }
+                        item.P3Double_Property.Set(
+                            def.P3Double,
+                            cmds);
                     }
 
                 }
@@ -3132,18 +3069,15 @@ namespace Noggolloquy.Tests
                             rhs.P3IntN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P3IntN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P3IntN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P3IntN_Property.Set(
-                                def.P3IntN,
-                                cmds);
-                        }
+                        item.P3IntN_Property.Set(
+                            def.P3IntN,
+                            cmds);
                     }
 
                 }
@@ -3165,18 +3099,15 @@ namespace Noggolloquy.Tests
                             rhs.P3Int,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.P3Int_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.P3Int_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.P3Int_Property.Set(
-                                def.P3Int,
-                                cmds);
-                        }
+                        item.P3Int_Property.Set(
+                            def.P3Int,
+                            cmds);
                     }
 
                 }
@@ -3198,18 +3129,15 @@ namespace Noggolloquy.Tests
                             rhs.PercentN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.PercentN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.PercentN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.PercentN_Property.Set(
-                                def.PercentN,
-                                cmds);
-                        }
+                        item.PercentN_Property.Set(
+                            def.PercentN,
+                            cmds);
                     }
 
                 }
@@ -3231,18 +3159,15 @@ namespace Noggolloquy.Tests
                             rhs.Percent,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Percent_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Percent_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Percent_Property.Set(
-                                def.Percent,
-                                cmds);
-                        }
+                        item.Percent_Property.Set(
+                            def.Percent,
+                            cmds);
                     }
 
                 }
@@ -3264,18 +3189,15 @@ namespace Noggolloquy.Tests
                             rhs.RangeIntN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RangeIntN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RangeIntN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RangeIntN_Property.Set(
-                                def.RangeIntN,
-                                cmds);
-                        }
+                        item.RangeIntN_Property.Set(
+                            def.RangeIntN,
+                            cmds);
                     }
 
                 }
@@ -3297,18 +3219,15 @@ namespace Noggolloquy.Tests
                             rhs.RangeInt,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RangeInt_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RangeInt_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RangeInt_Property.Set(
-                                def.RangeInt,
-                                cmds);
-                        }
+                        item.RangeInt_Property.Set(
+                            def.RangeInt,
+                            cmds);
                     }
 
                 }
@@ -3330,18 +3249,15 @@ namespace Noggolloquy.Tests
                             rhs.String,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.String_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.String_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.String_Property.Set(
-                                def.String,
-                                cmds);
-                        }
+                        item.String_Property.Set(
+                            def.String,
+                            cmds);
                     }
 
                 }
@@ -3363,18 +3279,15 @@ namespace Noggolloquy.Tests
                             rhs.UDoubleN,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UDoubleN_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UDoubleN_Property.Set(
-                                def.UDoubleN,
-                                cmds);
-                        }
+                        item.UDoubleN_Property.Set(
+                            def.UDoubleN,
+                            cmds);
                     }
 
                 }
@@ -3396,18 +3309,15 @@ namespace Noggolloquy.Tests
                             rhs.UDouble,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UDouble_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UDouble_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UDouble_Property.Set(
-                                def.UDouble,
-                                cmds);
-                        }
+                        item.UDouble_Property.Set(
+                            def.UDouble,
+                            cmds);
                     }
 
                 }
@@ -3429,18 +3339,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt16N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt16N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt16N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt16N_Property.Set(
-                                def.UInt16N,
-                                cmds);
-                        }
+                        item.UInt16N_Property.Set(
+                            def.UInt16N,
+                            cmds);
                     }
 
                 }
@@ -3462,18 +3369,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt16,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt16_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt16_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt16_Property.Set(
-                                def.UInt16,
-                                cmds);
-                        }
+                        item.UInt16_Property.Set(
+                            def.UInt16,
+                            cmds);
                     }
 
                 }
@@ -3495,18 +3399,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt32N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt32N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt32N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt32N_Property.Set(
-                                def.UInt32N,
-                                cmds);
-                        }
+                        item.UInt32N_Property.Set(
+                            def.UInt32N,
+                            cmds);
                     }
 
                 }
@@ -3528,18 +3429,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt32,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt32_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt32_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt32_Property.Set(
-                                def.UInt32,
-                                cmds);
-                        }
+                        item.UInt32_Property.Set(
+                            def.UInt32,
+                            cmds);
                     }
 
                 }
@@ -3561,18 +3459,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt64N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt64N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt64N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt64N_Property.Set(
-                                def.UInt64N,
-                                cmds);
-                        }
+                        item.UInt64N_Property.Set(
+                            def.UInt64N,
+                            cmds);
                     }
 
                 }
@@ -3594,18 +3489,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt64,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt64_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt64_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt64_Property.Set(
-                                def.UInt64,
-                                cmds);
-                        }
+                        item.UInt64_Property.Set(
+                            def.UInt64,
+                            cmds);
                     }
 
                 }
@@ -3627,18 +3519,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt8N,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt8N_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt8N_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt8N_Property.Set(
-                                def.UInt8N,
-                                cmds);
-                        }
+                        item.UInt8N_Property.Set(
+                            def.UInt8N,
+                            cmds);
                     }
 
                 }
@@ -3660,18 +3549,15 @@ namespace Noggolloquy.Tests
                             rhs.UInt8,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.UInt8_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.UInt8_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.UInt8_Property.Set(
-                                def.UInt8,
-                                cmds);
-                        }
+                        item.UInt8_Property.Set(
+                            def.UInt8,
+                            cmds);
                     }
 
                 }
@@ -3693,18 +3579,15 @@ namespace Noggolloquy.Tests
                             rhs.Enum,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Enum_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Enum_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Enum_Property.Set(
-                                def.Enum,
-                                cmds);
-                        }
+                        item.Enum_Property.Set(
+                            def.Enum,
+                            cmds);
                     }
 
                 }
@@ -3726,18 +3609,15 @@ namespace Noggolloquy.Tests
                             rhs.WildCard,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.WildCard_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.WildCard_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.WildCard_Property.Set(
-                                def.WildCard,
-                                cmds);
-                        }
+                        item.WildCard_Property.Set(
+                            def.WildCard,
+                            cmds);
                     }
 
                 }
@@ -3759,18 +3639,15 @@ namespace Noggolloquy.Tests
                             rhs.Ref,
                             cmds: cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Ref_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Ref_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Ref_Property.Set(
-                                def.Ref,
-                                cmds: cmds);
-                        }
+                        item.Ref_Property.Set(
+                            def.Ref,
+                            cmds: cmds);
                     }
 
                 }
@@ -3792,18 +3669,15 @@ namespace Noggolloquy.Tests
                             rhs.RefGetter,
                             cmds: cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefGetter_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefGetter_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefGetter_Property.Set(
-                                def.RefGetter,
-                                cmds: cmds);
-                        }
+                        item.RefGetter_Property.Set(
+                            def.RefGetter,
+                            cmds: cmds);
                     }
 
                 }
@@ -3825,18 +3699,15 @@ namespace Noggolloquy.Tests
                             rhs.RefSetter,
                             cmds: cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefSetter_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefSetter_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefSetter_Property.Set(
-                                def.RefSetter,
-                                cmds: cmds);
-                        }
+                        item.RefSetter_Property.Set(
+                            def.RefSetter,
+                            cmds: cmds);
                     }
 
                 }
@@ -3856,16 +3727,13 @@ namespace Noggolloquy.Tests
                     {
                         item.List.SetTo(rhs.List, cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.List.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.List.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.List.SetTo(def.List, cmds);
-                        }
+                        item.List.SetTo(def.List, cmds);
                     }
                 }
                 catch (Exception ex)
@@ -3891,16 +3759,13 @@ namespace Noggolloquy.Tests
                             }
                         ), cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefList.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefList.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
-                        }
+                        item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
                     }
                 }
                 catch (Exception ex)
@@ -3924,21 +3789,18 @@ namespace Noggolloquy.Tests
                                     i.Value)),
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Dict.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Dict.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Dict.SetTo(
-                                def.Dict.Select(
-                                    (i) => new KeyValuePair<Boolean, String>(
-                                        i.Key,
-                                        i.Value)),
-                                cmds);
-                        }
+                        item.Dict.SetTo(
+                            def.Dict.Select(
+                                (i) => new KeyValuePair<Boolean, String>(
+                                    i.Key,
+                                    i.Value)),
+                            cmds);
                     }
                 }
                 catch (Exception ex)
@@ -3982,21 +3844,18 @@ namespace Noggolloquy.Tests
                             }
                         ), cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.RefDict.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.RefDict.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.RefDict.SetTo(
-                                def.RefDict.Select(
-                                    (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                        i.Key.Copy(),
-                                        i.Value.Copy())),
-                                cmds);
-                        }
+                        item.RefDict.SetTo(
+                            def.RefDict.Select(
+                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                    i.Key.Copy(),
+                                    i.Value.Copy())),
+                            cmds);
                     }
                 }
                 catch (Exception ex)
@@ -4017,18 +3876,15 @@ namespace Noggolloquy.Tests
                             ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.DictKeyedValue.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.DictKeyedValue.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.DictKeyedValue.SetTo(
-                                ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                                cmds);
-                        }
+                        item.DictKeyedValue.SetTo(
+                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
+                            cmds);
                     }
                 }
                 catch (Exception ex)

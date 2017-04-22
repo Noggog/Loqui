@@ -75,7 +75,7 @@ namespace Noggolloquy.Generation
                 throw new NotImplementedException();
             }
         }
-        
+
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
         {
             NoggType keyNoggType = this.KeyTypeGen as NoggType;
@@ -221,19 +221,15 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"), {cmdsAccessor});");
                 }
             }
+            fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.Unset({cmdsAccessor}.ToUnsetParams());");
+            }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.Unset({cmdsAccessor}.ToUnsetParams());");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor);
-                }
+                GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor);
             }
         }
 

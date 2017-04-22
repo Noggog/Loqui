@@ -76,7 +76,7 @@ namespace Noggolloquy.Generation
         {
             NoggType valueNoggType = this.ValueTypeGen as NoggType;
             var valStr = valueNoggType == null ? "Exception" : $"Tuple<Exception, {valueNoggType.RefGen.Obj.GetMaskString("Exception")}>";
-            
+
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }
 
@@ -151,19 +151,15 @@ namespace Noggolloquy.Generation
             {
                 GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
             }
+            fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers)}.Unset({cmdsAccessor}.ToUnsetParams());");
+            }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers)}.Unset({cmdsAccessor}.ToUnsetParams());");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
-                }
+                GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
             }
         }
 

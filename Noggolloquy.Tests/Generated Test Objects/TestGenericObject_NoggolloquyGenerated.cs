@@ -484,18 +484,15 @@ namespace Noggolloquy.Tests
                             rhs.Ref,
                             cmds: cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.Ref_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.Ref_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.Ref_Property.Set(
-                                def.Ref,
-                                cmds: cmds);
-                        }
+                        item.Ref_Property.Set(
+                            def.Ref,
+                            cmds: cmds);
                     }
 
                 }

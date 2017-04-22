@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("TestObjectCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);"))
+            if (str.Contains("if (def == null)"))
             {
                 int wer = 23;
                 wer++;

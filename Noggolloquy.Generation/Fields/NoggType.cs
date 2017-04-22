@@ -192,19 +192,15 @@ namespace Noggolloquy.Generation
             {
                 GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse: protectedMembers);
             }
+            fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
+            using (new BraceWrapper(fg))
+            {
+                GenerateClear(fg, accessorPrefix, cmdsAccessor);
+            }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateClear(fg, accessorPrefix, cmdsAccessor);
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdsAccessor, protectedUse: protectedMembers);
-                }
+                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdsAccessor, protectedUse: protectedMembers);
             }
             fg.AppendLine();
         }

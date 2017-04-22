@@ -100,26 +100,15 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"), {cmdsAccessor});");
                     }
                 }
+                fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
+                }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    if (defaultFallbackAccessor != null)
-                    {
-                        fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
-                        }
-                        fg.AppendLine("else");
-                        using (new BraceWrapper(fg))
-                        {
-                            GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
-                        }
-                    }
-                    else
-                    {
-                        GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
-                    }
+                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
                 }
             }
         }

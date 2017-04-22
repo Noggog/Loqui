@@ -454,18 +454,15 @@ namespace Noggolloquy.Tests
                             rhs.NewField,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.NewField_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.NewField_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.NewField_Property.Set(
-                                def.NewField,
-                                cmds);
-                        }
+                        item.NewField_Property.Set(
+                            def.NewField,
+                            cmds);
                     }
 
                 }

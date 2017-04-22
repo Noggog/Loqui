@@ -519,18 +519,15 @@ namespace Noggolloquy.Tests
                             rhs.KeyField,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.KeyField_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.KeyField_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.KeyField_Property.Set(
-                                def.KeyField,
-                                cmds);
-                        }
+                        item.KeyField_Property.Set(
+                            def.KeyField,
+                            cmds);
                     }
 
                 }
@@ -552,18 +549,15 @@ namespace Noggolloquy.Tests
                             rhs.SomeField,
                             cmds);
                     }
+                    else if (def == null)
+                    {
+                        item.SomeField_Property.Unset(cmds.ToUnsetParams());
+                    }
                     else
                     {
-                        if (def == null)
-                        {
-                            item.SomeField_Property.Unset(cmds.ToUnsetParams());
-                        }
-                        else
-                        {
-                            item.SomeField_Property.Set(
-                                def.SomeField,
-                                cmds);
-                        }
+                        item.SomeField_Property.Set(
+                            def.SomeField,
+                            cmds);
                     }
 
                 }
