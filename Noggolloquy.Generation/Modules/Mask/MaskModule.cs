@@ -34,7 +34,7 @@ namespace Noggolloquy.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public class {obj.Name}_ErrorMask : {(obj.HasBaseObject ? $"{obj.BaseClass.Name}_ErrorMask" : "IErrorMask")}");
+            fg.AppendLine($"public class {obj.ErrorMask} : {(obj.HasBaseObject ? $"{obj.BaseClass.ErrorMask}" : "IErrorMask")}");
             using (new BraceWrapper(fg))
             {
                 if (!obj.HasBaseObject)
@@ -114,6 +114,20 @@ namespace Noggolloquy.Generation
                         GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
                     }
                 }
+            }
+
+            fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");
+            using (new BraceWrapper(fg))
+            {
+                foreach (var field in obj.Fields)
+                {
+                    if (!FieldMapping.TryGetValue(field.GetType(), out MaskModuleField fieldGen))
+                    {
+                        fieldGen = TypicalField;
+                    }
+                    fieldGen.GenerateForCopyMask(fg, field);
+                }
+                fg.AppendLine();
             }
         }
 

@@ -14,7 +14,7 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                listStr = $"IEnumerable<{noggType.RefGen.Obj.GetErrorMaskItemString()}>";
+                listStr = $"IEnumerable<{noggType.RefGen.Obj.ErrorMask}>";
             }
             return listStr;
         }
@@ -37,6 +37,15 @@ namespace Noggolloquy.Generation
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
             fg.AppendLine($"this.{field.Name} = ({GetMaskString(field as ContainerType, "Exception")})obj;");
+        }
+
+        public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is NoggType nogg)
+            {
+                fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
+            }
         }
     }
 }

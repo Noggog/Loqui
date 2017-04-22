@@ -48,25 +48,25 @@ namespace Noggolloquy.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {obj.ObjectName}();");
-                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.CopyIn(");
+                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"root: root,");
                         fg.AppendLine($"item: ret,");
                         fg.AppendLine($"skipReadonly: false,");
                         fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"mask: out {obj.GetErrorMaskItemString()} errorMask,");
+                        fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
                         fg.AppendLine($"cmds: null);");
                     }
                     fg.AppendLine("return ret;");
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"public static {obj.ObjectName} Create_XML(XElement root, out {obj.GetErrorMaskItemString()} errorMask)");
+                fg.AppendLine($"public static {obj.ObjectName} Create_XML(XElement root, out {obj.ErrorMask} errorMask)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {obj.ObjectName}();");
-                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.CopyIn(");
+                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"root: root,");
@@ -85,23 +85,23 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public" + obj.FunctionOverride + "void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.CopyIn(");
+                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"root: root,");
                     fg.AppendLine($"item: this,");
                     fg.AppendLine($"skipReadonly: true,");
                     fg.AppendLine($"doMasks: false,");
-                    fg.AppendLine($"mask: out {obj.GetErrorMaskItemString()} errorMask,");
+                    fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
                     fg.AppendLine($"cmds: cmds);");
                 }
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public virtual void CopyIn_XML(XElement root, out {obj.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"public virtual void CopyIn_XML(XElement root, out {obj.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.CopyIn(");
+                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"root: root,");
@@ -116,10 +116,10 @@ namespace Noggolloquy.Generation
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
-                fg.AppendLine($"public override void CopyIn_XML(XElement root, out {baseClass.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public override void CopyIn_XML(XElement root, out {baseClass.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"CopyIn_XML(root, out {obj.GetErrorMaskItemString()} errMask, cmds: cmds);");
+                    fg.AppendLine($"CopyIn_XML(root, out {obj.ErrorMask} errMask, cmds: cmds);");
                     fg.AppendLine("errorMask = errMask;");
                 }
                 fg.AppendLine();
@@ -144,7 +144,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine($"public void Write_XML(Stream stream, out {obj.GetErrorMaskItemString()} errorMask)");
+            fg.AppendLine($"public void Write_XML(Stream stream, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
@@ -157,10 +157,10 @@ namespace Noggolloquy.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public void Write_XML(XmlWriter writer, out {obj.GetErrorMaskItemString()} errorMask, string name = null)");
+            fg.AppendLine($"public void Write_XML(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.Write(");
+                fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.Write(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"writer: writer,");
@@ -186,14 +186,14 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public{obj.FunctionOverride}void Write_XML(XmlWriter writer, string name)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.Write(");
+                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.Write(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"writer: writer,");
                         fg.AppendLine($"name: name,");
                         fg.AppendLine($"item: this,");
                         fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"mask: out {obj.GetErrorMaskItemString()} errorMask);");
+                        fg.AppendLine($"mask: out {obj.ErrorMask} errorMask);");
                     }
                 }
                 fg.AppendLine();
@@ -201,14 +201,14 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"public{obj.FunctionOverride}void Write_XML(XmlWriter writer)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.GetErrorMaskItemString()}>.Instance.Write(");
+                    fg.AppendLine($"NoggXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.Write(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"writer: writer,");
                         fg.AppendLine($"name: null,");
                         fg.AppendLine($"item: this,");
                         fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"mask: out {obj.GetErrorMaskItemString()} errorMask);");
+                        fg.AppendLine($"mask: out {obj.ErrorMask} errorMask);");
                     }
                 }
                 fg.AppendLine();

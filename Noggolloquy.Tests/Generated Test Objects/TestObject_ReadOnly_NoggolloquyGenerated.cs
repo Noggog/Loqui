@@ -270,16 +270,37 @@ namespace Noggolloquy.Tests
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(ITestObject_ReadOnlyGetter rhs, ITestObject_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_ReadOnlyGetter rhs,
+            TestObject_ReadOnly_CopyMask copyMask = null,
+            ITestObject_ReadOnlyGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestObject_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_ReadOnlyCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestObject_ReadOnlyGetter rhs, out TestObject_ReadOnly_ErrorMask errorMask, ITestObject_ReadOnlyGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_ReadOnlyGetter rhs,
+            out TestObject_ReadOnly_ErrorMask errorMask,
+            TestObject_ReadOnly_CopyMask copyMask = null,
+            ITestObject_ReadOnlyGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestObject_ReadOnly_ErrorMask();
             errorMask = retErrorMask;
-            TestObject_ReadOnlyCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_ReadOnlyCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -455,23 +476,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestObject_ReadOnly rhs, ITestObject_ReadOnly def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestObject_ReadOnly rhs, ITestObject_ReadOnly def, out TestObject_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestObject_ReadOnly_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestObject_ReadOnly rhs, ITestObject_ReadOnly def, TestObject_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-        }
-        #endregion
         #region XML Translation
         public static TestObject_ReadOnly Create_XML(XElement root)
         {
@@ -574,28 +578,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            if (rhs is TestObject_ReadOnly rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestObject_ReadOnly, cmds);
-            }
-        }
-
         public TestObject_ReadOnly Copy(ITestObject_ReadOnlyGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject_ReadOnly Copy(ITestObject_ReadOnlyGetter item, ITestObject_ReadOnlyGetter def = null)
+        public static TestObject_ReadOnly Copy(
+            ITestObject_ReadOnlyGetter item,
+            TestObject_ReadOnly_CopyMask copyMask = null,
+            ITestObject_ReadOnlyGetter def = null)
         {
             var ret = new TestObject_ReadOnly();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -1702,7 +1699,13 @@ namespace Noggolloquy.Tests
     public static class TestObject_ReadOnlyCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject_ReadOnly item, ITestObject_ReadOnlyGetter rhs, ITestObject_ReadOnlyGetter def, TestObject_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestObject_ReadOnly item,
+            ITestObject_ReadOnlyGetter rhs,
+            ITestObject_ReadOnlyGetter def,
+            TestObject_ReadOnly_ErrorMask errorMask,
+            TestObject_ReadOnly_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
         }
 
@@ -2510,6 +2513,16 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+    }
+    public class TestObject_ReadOnly_CopyMask
+    {
+        public MaskItem<CopyType, TestObject_ReadOnly_CopyMask> Ref;
+        public MaskItem<CopyType, TestObject_ReadOnly_CopyMask> RefGetter;
+        public MaskItem<CopyType, TestObject_ReadOnly_CopyMask> RefSetter;
+        public MaskItem<CopyType, TestObject_ReadOnly_CopyMask> RefList;
+        public MaskItem<CopyType, KeyValuePair<TestObject_ReadOnly_CopyMask, TestObject_ReadOnly_CopyMask>> RefDict;
+        public MaskItem<CopyType, TestObject_ReadOnly_CopyMask> DictKeyedValue;
+
     }
     #endregion
 

@@ -39,5 +39,33 @@ namespace Noggolloquy.Generation
         {
             fg.AppendLine($"this.{field.Name} = ({GetMaskString(field as IDictType, "Exception")})obj;");
         }
+
+        public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            DictType dictType = field as DictType;
+            NoggType keyNoggType = dictType.KeyTypeGen as NoggType;
+            NoggType valueNoggType = dictType.ValueTypeGen as NoggType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    if (keyNoggType == null && valueNoggType == null) return;
+                    if (keyNoggType != null && valueNoggType != null)
+                    {
+                        fg.AppendLine($"public MaskItem<{nameof(CopyType)}, KeyValuePair<{keyNoggType.ObjectGen.CopyMask}, {valueNoggType.ObjectGen.CopyMask}>> {field.Name};");
+                    }
+                    else
+                    {
+                        NoggType nogg = keyNoggType ?? valueNoggType;
+                        fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
+                    }
+                    break;
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {valueNoggType.ObjectGen.CopyMask}> {field.Name};");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

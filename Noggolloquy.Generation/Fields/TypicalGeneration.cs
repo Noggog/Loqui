@@ -82,7 +82,7 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateNotifyingCtor(FileGeneration fg, bool notifying = true)
         {
-            using (var args =  new ArgsWrapper(fg,
+            using (var args =  new ArgsWrapper(fg, true,
                 $"protected readonly {(notifying ? "INotifyingItem" : "IHasBeenSetItem")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSetItem")}<{TypeName}>"))
             {
                 if (HasDefault)
@@ -151,7 +151,7 @@ namespace Noggolloquy.Generation
             }
             if (defaultFallbackAccessor == null)
             {
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(fg, true,
                     $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}");
@@ -166,7 +166,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
                 using (new BraceWrapper(fg))
                 {
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(fg, true,
                         $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
                     {
                         args.Add($"{rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}");
@@ -182,7 +182,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                     using (new BraceWrapper(fg))
                     {
-                        using (var args = new ArgsWrapper(fg,
+                        using (var args = new ArgsWrapper(fg, true,
                             $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Unset"))
                         {
                             if (this.Notifying == NotifyingOption.Notifying)
@@ -194,7 +194,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        using (var args = new ArgsWrapper(fg,
+                        using (var args = new ArgsWrapper(fg, true,
                             $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
                         {
                             args.Add($"{defaultFallbackAccessor}.{this.GetName(internalUse: false, property: false)}");
@@ -214,11 +214,6 @@ namespace Noggolloquy.Generation
             return rhsAccessor;
         }
 
-        public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
-        {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, true);
-        }
-
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
             if (this.Notifying == NotifyingOption.None)
@@ -227,7 +222,7 @@ namespace Noggolloquy.Generation
             }
             else
             {
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(fg, true,
                     $"{accessorPrefix}.{this.ProtectedProperty}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}");
@@ -281,7 +276,7 @@ namespace Noggolloquy.Generation
                 }
                 else
                 {
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(fg, true,
                         $"{identifier}.{this.GetName(internalUse: false, property: true)}.Unset"))
                     {
                         if (this.Notifying == NotifyingOption.Notifying)

@@ -100,11 +100,6 @@ namespace Noggolloquy.Generation
             subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse);
         }
 
-        public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
-        {
-            subGenerator.GenerateForSetTo(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor);
-        }
-
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
             subGenerator.GenerateInterfaceSet(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);

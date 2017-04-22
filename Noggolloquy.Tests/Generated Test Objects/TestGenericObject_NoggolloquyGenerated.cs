@@ -61,16 +61,37 @@ namespace Noggolloquy.Tests
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestGenericObjectGetter<T, R> rhs,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestGenericObjectCommon<T, R>.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestGenericObjectGetter<T, R> rhs, out TestGenericObject_ErrorMask errorMask, ITestGenericObjectGetter<T, R> def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestGenericObjectGetter<T, R> rhs,
+            out TestGenericObject_ErrorMask errorMask,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestGenericObject_ErrorMask();
             errorMask = retErrorMask;
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestGenericObjectCommon<T, R>.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -105,53 +126,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestGenericObject_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestGenericObject<T, R> rhs, ITestGenericObject<T, R> def, TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-            try
-            {
-                if (rhs.Ref_Property.HasBeenSet)
-                {
-                    this._Ref.Set(
-                        rhs.Ref,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._Ref.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._Ref.Set(
-                            def.Ref,
-                            cmds);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-        }
-        #endregion
         #region XML Translation
         public static TestGenericObject<T, R> Create_XML(XElement root)
         {
@@ -254,28 +228,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected virtual void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            if (rhs is TestGenericObject<T, R> rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestGenericObject<T, R>, cmds);
-            }
-        }
-
         public TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> item, ITestGenericObjectGetter<T, R> def = null)
+        public static TestGenericObject<T, R> Copy(
+            ITestGenericObjectGetter<T, R> item,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null)
         {
             var ret = new TestGenericObject<T, R>();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -499,7 +466,13 @@ namespace Noggolloquy.Tests
         where R : ObjectToRef
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestGenericObject<T, R> item, ITestGenericObjectGetter<T, R> rhs, ITestGenericObjectGetter<T, R> def, TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestGenericObject<T, R> item,
+            ITestGenericObjectGetter<T, R> rhs,
+            ITestGenericObjectGetter<T, R> def,
+            TestGenericObject_ErrorMask errorMask,
+            TestGenericObject_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
             try
             {
@@ -634,6 +607,11 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+    }
+    public class TestGenericObject_CopyMask
+    {
+        public MaskItem<CopyType, TestGenericObject_CopyMask> Ref;
+
     }
     #endregion
 

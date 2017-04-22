@@ -15,9 +15,11 @@ namespace Noggolloquy.Generation
 
         public ArgsWrapper(
             FileGeneration fg,
+            bool semicolon,
             string initialLine = null)
         {
             this.fg = fg;
+            this.SemiColon = semicolon;
             this.initialLine = initialLine;
         }
 

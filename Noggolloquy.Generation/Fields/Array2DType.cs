@@ -66,11 +66,6 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"new INotifyingContainer2D{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.GetName(false, true)} {{ get; }}");
         }
 
-        public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor)
-        {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, true);
-        }
-
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
             GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, cmdsAccessor, false);

@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("GetNthIsSingleton"))
+            if (str.Contains("TestObjectCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);"))
             {
                 int wer = 23;
                 wer++;

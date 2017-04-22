@@ -275,16 +275,37 @@ namespace Noggolloquy.Tests
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObjectGetter rhs,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObjectCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestObjectGetter rhs, out TestObject_ErrorMask errorMask, ITestObjectGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObjectGetter rhs,
+            out TestObject_ErrorMask errorMask,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestObject_ErrorMask();
             errorMask = retErrorMask;
-            TestObjectCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObjectCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -460,672 +481,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestObject rhs, ITestObject def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestObject rhs, ITestObject def, out TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestObject_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestObject rhs, ITestObject def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-            try
-            {
-                this.BoolN = rhs.BoolN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-            try
-            {
-                this.Bool = rhs.Bool;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(1, ex);
-                }
-            }
-            try
-            {
-                this.CharN = rhs.CharN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(2, ex);
-                }
-            }
-            try
-            {
-                this.Char = rhs.Char;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(3, ex);
-                }
-            }
-            try
-            {
-                this.DoubleN = rhs.DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(4, ex);
-                }
-            }
-            try
-            {
-                this.Double = rhs.Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(5, ex);
-                }
-            }
-            try
-            {
-                this.FloatN = rhs.FloatN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(6, ex);
-                }
-            }
-            try
-            {
-                this.Float = rhs.Float;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(7, ex);
-                }
-            }
-            try
-            {
-                this.Int16N = rhs.Int16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(8, ex);
-                }
-            }
-            try
-            {
-                this.Int16 = rhs.Int16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(9, ex);
-                }
-            }
-            try
-            {
-                this.Int32N = rhs.Int32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(10, ex);
-                }
-            }
-            try
-            {
-                this.Int32 = rhs.Int32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(11, ex);
-                }
-            }
-            try
-            {
-                this.Int64N = rhs.Int64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(12, ex);
-                }
-            }
-            try
-            {
-                this.Int64 = rhs.Int64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(13, ex);
-                }
-            }
-            try
-            {
-                this.Int8N = rhs.Int8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(14, ex);
-                }
-            }
-            try
-            {
-                this.Int8 = rhs.Int8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(15, ex);
-                }
-            }
-            try
-            {
-                this.Unsafe = rhs.Unsafe;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(16, ex);
-                }
-            }
-            try
-            {
-                this.P2IntN = rhs.P2IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(17, ex);
-                }
-            }
-            try
-            {
-                this.P2Int = rhs.P2Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(18, ex);
-                }
-            }
-            try
-            {
-                this.P3DoubleN = rhs.P3DoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(19, ex);
-                }
-            }
-            try
-            {
-                this.P3Double = rhs.P3Double;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(20, ex);
-                }
-            }
-            try
-            {
-                this.P3IntN = rhs.P3IntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(21, ex);
-                }
-            }
-            try
-            {
-                this.P3Int = rhs.P3Int;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(22, ex);
-                }
-            }
-            try
-            {
-                this.PercentN = rhs.PercentN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(23, ex);
-                }
-            }
-            try
-            {
-                this.Percent = rhs.Percent;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(24, ex);
-                }
-            }
-            try
-            {
-                this.RangeIntN = rhs.RangeIntN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(25, ex);
-                }
-            }
-            try
-            {
-                this.RangeInt = rhs.RangeInt;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(26, ex);
-                }
-            }
-            try
-            {
-                this.String = rhs.String;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(27, ex);
-                }
-            }
-            try
-            {
-                this.UDoubleN = rhs.UDoubleN;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(28, ex);
-                }
-            }
-            try
-            {
-                this.UDouble = rhs.UDouble;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(29, ex);
-                }
-            }
-            try
-            {
-                this.UInt16N = rhs.UInt16N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(30, ex);
-                }
-            }
-            try
-            {
-                this.UInt16 = rhs.UInt16;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(31, ex);
-                }
-            }
-            try
-            {
-                this.UInt32N = rhs.UInt32N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(32, ex);
-                }
-            }
-            try
-            {
-                this.UInt32 = rhs.UInt32;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(33, ex);
-                }
-            }
-            try
-            {
-                this.UInt64N = rhs.UInt64N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(34, ex);
-                }
-            }
-            try
-            {
-                this.UInt64 = rhs.UInt64;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(35, ex);
-                }
-            }
-            try
-            {
-                this.UInt8N = rhs.UInt8N;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(36, ex);
-                }
-            }
-            try
-            {
-                this.UInt8 = rhs.UInt8;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(37, ex);
-                }
-            }
-            try
-            {
-                this.Enum = rhs.Enum;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(38, ex);
-                }
-            }
-            try
-            {
-                this.WildCard = rhs.WildCard;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(39, ex);
-                }
-            }
-            try
-            {
-                this.Ref = rhs.Ref;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(40, ex);
-                }
-            }
-            try
-            {
-                this.RefGetter = rhs.RefGetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(41, ex);
-                }
-            }
-            try
-            {
-                this.RefSetter = rhs.RefSetter;
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(42, ex);
-                }
-            }
-            try
-            {
-                if (rhs.List.HasBeenSet)
-                {
-                    this._List.SetTo(rhs.List, cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this.List.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._List.SetTo(def.List, cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(43, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefList.HasBeenSet)
-                {
-                    int i = 0;
-                    List<ObjectToRef> defList = def?.RefList.ToList();
-                    this.RefList.SetTo(
-                        rhs.RefList.Select((s) =>
-                        {
-                            return s.Copy(defList?[i++]);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this.RefList.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(44, ex);
-                }
-            }
-            try
-            {
-                if (rhs.Dict.HasBeenSet)
-                {
-                    this.Dict.SetTo(
-                        rhs.Dict.Select(
-                            (i) => new KeyValuePair<Boolean, String>(
-                                i.Key,
-                                i.Value)),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._Dict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this.Dict.SetTo(
-                            def.Dict.Select(
-                                (i) => new KeyValuePair<Boolean, String>(
-                                    i.Key,
-                                    i.Value)),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(45, ex);
-                }
-            }
-            try
-            {
-                if (rhs.RefDict.HasBeenSet)
-                {
-                    int i = 0;
-                    List<KeyValuePair<ObjectToRef, ObjectToRef>> defList = def?.RefDict.ToList();
-                    this._RefDict.SetTo(
-                        rhs.RefDict.Select((s) =>
-                        {
-                            var key = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                key.CopyFieldsFrom(s.Key, defList[i++].Key);
-                            }
-                            else
-                            {
-                                key.CopyFieldsFrom(s.Key);
-                            }
-                            var value = new ObjectToRef();
-                            if (defList != null && defList.InRange(i))
-                            {
-                                value.CopyFieldsFrom(s.Value, defList[i++].Value);
-                            }
-                            else
-                            {
-                                value.CopyFieldsFrom(s.Value);
-                            }
-                            return new KeyValuePair<ObjectToRef, ObjectToRef>(key, value);
-                        }
-                    ), cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._RefDict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this.RefDict.SetTo(
-                            def.RefDict.Select(
-                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                    i.Key.Copy(),
-                                    i.Value.Copy())),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(46, ex);
-                }
-            }
-            try
-            {
-                if (rhs.DictKeyedValue.HasBeenSet)
-                {
-                    this._DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._DictKeyedValue.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._DictKeyedValue.SetTo(
-                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                            cmds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(47, ex);
-                }
-            }
-        }
-        #endregion
         #region XML Translation
         public static TestObject Create_XML(XElement root)
         {
@@ -1228,28 +583,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            if (rhs is TestObject rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestObject, cmds);
-            }
-        }
-
         public TestObject Copy(ITestObjectGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject Copy(ITestObjectGetter item, ITestObjectGetter def = null)
+        public static TestObject Copy(
+            ITestObjectGetter item,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null)
         {
             var ret = new TestObject();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -2495,7 +1843,13 @@ namespace Noggolloquy.Tests
     public static class TestObjectCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject item, ITestObjectGetter rhs, ITestObjectGetter def, TestObject_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestObject item,
+            ITestObjectGetter rhs,
+            ITestObjectGetter def,
+            TestObject_ErrorMask errorMask,
+            TestObject_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
             try
             {
@@ -4005,6 +3359,16 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+    }
+    public class TestObject_CopyMask
+    {
+        public MaskItem<CopyType, TestObject_CopyMask> Ref;
+        public MaskItem<CopyType, TestObject_CopyMask> RefGetter;
+        public MaskItem<CopyType, TestObject_CopyMask> RefSetter;
+        public MaskItem<CopyType, TestObject_CopyMask> RefList;
+        public MaskItem<CopyType, KeyValuePair<TestObject_CopyMask, TestObject_CopyMask>> RefDict;
+        public MaskItem<CopyType, TestObject_CopyMask> DictKeyedValue;
+
     }
     #endregion
 

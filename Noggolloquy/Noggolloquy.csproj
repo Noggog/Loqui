@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Enums\CopyType.cs" />
     <Compile Include="IErrorMask.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
     <Compile Include="Interfaces\ICopyInAble.cs" />

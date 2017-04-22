@@ -11,5 +11,6 @@ namespace Noggolloquy.Generation
         }
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
+        public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
     }
 }

@@ -104,7 +104,7 @@ namespace Noggolloquy.Generation
 
         public override void Load()
         {
-            this.Interfaces.Add($"INoggolloquyWriterSerializer<{this.GetErrorMaskItemString()}>");
+            this.Interfaces.Add($"INoggolloquyWriterSerializer<{this.ErrorMask}>");
 
             base.Load();
             foreach (var field in this.Fields)
@@ -119,10 +119,6 @@ namespace Noggolloquy.Generation
         }
 
         protected override void GenerateSetterInterface(FileGeneration fg)
-        {
-        }
-
-        protected override void GenerateSetTo(FileGeneration fg)
         {
         }
 
@@ -173,10 +169,6 @@ namespace Noggolloquy.Generation
         }
 
         protected override void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
-        {
-        }
-
-        public override void GenerateCopyInAbleInterface(FileGeneration fg)
         {
         }
 

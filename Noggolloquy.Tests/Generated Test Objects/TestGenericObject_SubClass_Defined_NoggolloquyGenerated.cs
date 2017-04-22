@@ -47,16 +47,37 @@ namespace Noggolloquy.Tests
             TestGenericObject_SubClass_DefinedCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestGenericObject_SubClass_DefinedGetter rhs, ITestGenericObject_SubClass_DefinedGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestGenericObject_SubClass_DefinedGetter rhs,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
+            ITestGenericObject_SubClass_DefinedGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestGenericObject_SubClass_DefinedGetter rhs, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, ITestGenericObject_SubClass_DefinedGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestGenericObject_SubClass_DefinedGetter rhs,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
+            ITestGenericObject_SubClass_DefinedGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
             errorMask = retErrorMask;
-            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -89,23 +110,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestGenericObject_SubClass_Defined rhs, ITestGenericObject_SubClass_Defined def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestGenericObject_SubClass_Defined rhs, ITestGenericObject_SubClass_Defined def, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestGenericObject_SubClass_Defined rhs, ITestGenericObject_SubClass_Defined def, TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-        }
-        #endregion
         #region XML Translation
         public new static TestGenericObject_SubClass_Defined Create_XML(XElement root)
         {
@@ -184,29 +188,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected override void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            base.CopyFieldsFrom_Generic(rhs, def, cmds);
-            if (rhs is TestGenericObject_SubClass_Defined rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestGenericObject_SubClass_Defined, cmds);
-            }
-        }
-
         public TestGenericObject_SubClass_Defined Copy(ITestGenericObject_SubClass_DefinedGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestGenericObject_SubClass_Defined Copy(ITestGenericObject_SubClass_DefinedGetter item, ITestGenericObject_SubClass_DefinedGetter def = null)
+        public static TestGenericObject_SubClass_Defined Copy(
+            ITestGenericObject_SubClass_DefinedGetter item,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
+            ITestGenericObject_SubClass_DefinedGetter def = null)
         {
             var ret = new TestGenericObject_SubClass_Defined();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -385,9 +381,21 @@ namespace Noggolloquy.Tests
     public static class TestGenericObject_SubClass_DefinedCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestGenericObject_SubClass_Defined item, ITestGenericObject_SubClass_DefinedGetter rhs, ITestGenericObject_SubClass_DefinedGetter def, TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestGenericObject_SubClass_Defined item,
+            ITestGenericObject_SubClass_DefinedGetter rhs,
+            ITestGenericObject_SubClass_DefinedGetter def,
+            TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
-            TestGenericObjectCommon<long, ObjectToRef>.CopyFieldsFrom(item, rhs, def, errorMask, cmds);
+            TestGenericObjectCommon<long, ObjectToRef>.CopyFieldsFrom(
+                item,
+                rhs,
+                def,
+                errorMask,
+                copyMask,
+                cmds);
         }
 
         #endregion
@@ -464,6 +472,10 @@ namespace Noggolloquy.Tests
                     break;
             }
         }
+    }
+    public class TestGenericObject_SubClass_Defined_CopyMask : TestGenericObject_CopyMask
+    {
+
     }
     #endregion
 

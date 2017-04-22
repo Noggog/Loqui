@@ -633,16 +633,37 @@ namespace Noggolloquy.Tests
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(ITestObject_Notifying_DerivativeGetter rhs, ITestObject_Notifying_DerivativeGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_Notifying_DerivativeGetter rhs,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestObject_Notifying_DerivativeGetter rhs, out TestObject_Notifying_Derivative_ErrorMask errorMask, ITestObject_Notifying_DerivativeGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_Notifying_DerivativeGetter rhs,
+            out TestObject_Notifying_Derivative_ErrorMask errorMask,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestObject_Notifying_Derivative_ErrorMask();
             errorMask = retErrorMask;
-            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -818,23 +839,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def, out TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestObject_Notifying_Derivative_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestObject_Notifying_Derivative rhs, ITestObject_Notifying_Derivative def, TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-        }
-        #endregion
         #region XML Translation
         public static TestObject_Notifying_Derivative Create_XML(XElement root)
         {
@@ -937,28 +941,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            if (rhs is TestObject_Notifying_Derivative rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_Derivative, cmds);
-            }
-        }
-
         public TestObject_Notifying_Derivative Copy(ITestObject_Notifying_DerivativeGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject_Notifying_Derivative Copy(ITestObject_Notifying_DerivativeGetter item, ITestObject_Notifying_DerivativeGetter def = null)
+        public static TestObject_Notifying_Derivative Copy(
+            ITestObject_Notifying_DerivativeGetter item,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null)
         {
             var ret = new TestObject_Notifying_Derivative();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -2001,7 +1998,13 @@ namespace Noggolloquy.Tests
     public static class TestObject_Notifying_DerivativeCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject_Notifying_Derivative item, ITestObject_Notifying_DerivativeGetter rhs, ITestObject_Notifying_DerivativeGetter def, TestObject_Notifying_Derivative_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestObject_Notifying_Derivative item,
+            ITestObject_Notifying_DerivativeGetter rhs,
+            ITestObject_Notifying_DerivativeGetter def,
+            TestObject_Notifying_Derivative_ErrorMask errorMask,
+            TestObject_Notifying_Derivative_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
         }
 
@@ -2762,6 +2765,16 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+    }
+    public class TestObject_Notifying_Derivative_CopyMask
+    {
+        public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> Ref;
+        public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefGetter;
+        public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefSetter;
+        public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefList;
+        public MaskItem<CopyType, KeyValuePair<TestObject_Notifying_Derivative_CopyMask, TestObject_Notifying_Derivative_CopyMask>> RefDict;
+        public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> DictKeyedValue;
+
     }
     #endregion
 

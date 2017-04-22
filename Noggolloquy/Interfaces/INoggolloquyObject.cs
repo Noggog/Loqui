@@ -18,7 +18,7 @@ namespace Noggolloquy
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
-    public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter, IClearable, ICopyInAble
+    public interface INoggolloquyObjectSetter : INoggolloquyObjectGetter, IClearable
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds);

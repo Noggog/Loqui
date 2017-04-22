@@ -206,7 +206,7 @@ namespace Noggolloquy.Generation
             if (this.RefType == NoggRefType.Generic
                 || RefGen.Obj is ClassGeneration)
             {
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(fg, true,
                     $"{accessorPrefix}.{this.GetName(protectedUse, true)}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}.{this.Name}");
@@ -219,18 +219,6 @@ namespace Noggolloquy.Generation
             else if (RefGen.Obj is StructGeneration)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)} = new {this.RefGen.Obj.Name}({rhsAccessorPrefix}.{this.Name});");
-            }
-        }
-
-        public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
-        {
-            if (!this.SingletonMember)
-            {
-                base.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
-            }
-            else
-            {
-                this.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
             }
         }
 
@@ -295,7 +283,7 @@ namespace Noggolloquy.Generation
             switch (this.RefType)
             {
                 case NoggRefType.Direct:
-                    return this.RefGen.Obj.GetErrorMaskItemString();
+                    return this.RefGen.Obj.ErrorMask;
                 case NoggRefType.Generic:
                     return "object";
                 default:

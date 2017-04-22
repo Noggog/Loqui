@@ -104,11 +104,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        public override void GenerateForSetTo(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor)
-        {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, true);
-        }
-
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
             fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo(({rhsAccessorPrefix}){(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");

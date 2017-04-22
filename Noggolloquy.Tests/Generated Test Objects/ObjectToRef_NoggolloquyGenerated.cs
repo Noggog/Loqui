@@ -79,16 +79,37 @@ namespace Noggolloquy.Tests
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(IObjectToRefGetter rhs, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            IObjectToRefGetter rhs,
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            ObjectToRefCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            ObjectToRefCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(IObjectToRefGetter rhs, out ObjectToRef_ErrorMask errorMask, IObjectToRefGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            IObjectToRefGetter rhs,
+            out ObjectToRef_ErrorMask errorMask,
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new ObjectToRef_ErrorMask();
             errorMask = retErrorMask;
-            ObjectToRefCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            ObjectToRefCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -126,83 +147,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(ObjectToRef rhs, IObjectToRef def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(ObjectToRef rhs, IObjectToRef def, out ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new ObjectToRef_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(ObjectToRef rhs, IObjectToRef def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-            try
-            {
-                if (rhs.KeyField_Property.HasBeenSet)
-                {
-                    this._KeyField.Set(
-                        rhs.KeyField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._KeyField.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._KeyField.Set(
-                            def.KeyField,
-                            cmds);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-            try
-            {
-                if (rhs.SomeField_Property.HasBeenSet)
-                {
-                    this._SomeField.Set(
-                        rhs.SomeField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._SomeField.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._SomeField.Set(
-                            def.SomeField,
-                            cmds);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(1, ex);
-                }
-            }
-        }
-        #endregion
         #region XML Translation
         public static ObjectToRef Create_XML(XElement root)
         {
@@ -305,28 +249,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            if (rhs is ObjectToRef rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as ObjectToRef, cmds);
-            }
-        }
-
         public ObjectToRef Copy(IObjectToRefGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static ObjectToRef Copy(IObjectToRefGetter item, IObjectToRefGetter def = null)
+        public static ObjectToRef Copy(
+            IObjectToRefGetter item,
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null)
         {
             var ret = new ObjectToRef();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -564,7 +501,13 @@ namespace Noggolloquy.Tests
     public static class ObjectToRefCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(IObjectToRef item, IObjectToRefGetter rhs, IObjectToRefGetter def, ObjectToRef_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            IObjectToRef item,
+            IObjectToRefGetter rhs,
+            IObjectToRefGetter def,
+            ObjectToRef_ErrorMask errorMask,
+            ObjectToRef_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
             try
             {
@@ -747,6 +690,10 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+    }
+    public class ObjectToRef_CopyMask
+    {
+
     }
     #endregion
 

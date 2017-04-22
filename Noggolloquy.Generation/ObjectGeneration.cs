@@ -50,6 +50,8 @@ namespace Noggolloquy.Generation
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
         public string BaseGenericTypes { get; private set; }
         public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
+        public string ErrorMask => $"{this.Name}_ErrorMask";
+        public string CopyMask => $"{this.Name}_CopyMask";
 
         public string ExtCommonName(string genericTypes) => $"{Name}Common{genericTypes}";
 
@@ -271,13 +273,9 @@ namespace Noggolloquy.Generation
 
                     GenerateEqualsSection(fg);
 
-                    GenerateSetTo(fg);
-
                     GenerateModules(fg);
 
                     GenerateInterfacesInClass(fg);
-
-                    GenerateCopyInAbleInterface(fg);
 
                     GenerateCopy(fg);
 
@@ -378,7 +376,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public static readonly Type MaskType = typeof({this.GetMaskString("")});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type ErrorMaskType = typeof({this.GetErrorMaskItemString()});");
+                    fg.AppendLine($"public static readonly Type ErrorMaskType = typeof({this.ErrorMask});");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
@@ -501,21 +499,42 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
                 // Specific HasSet version with default
-                fg.AppendLine($"public static void CopyFieldsFrom({this.InterfaceStr} item, {this.Getter_InterfaceStr} rhs, {this.Getter_InterfaceStr} def, {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds)");
+                using (var args = new ArgsWrapper(fg, false,
+                    $"public static void CopyFieldsFrom")
+                {
+                    SemiColon = false
+                })
+                {
+                    args.Add($"{this.InterfaceStr} item");
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"{this.Getter_InterfaceStr} def");
+                    args.Add($"{this.ErrorMask} errorMask");
+                    args.Add($"{this.CopyMask} copyMask");
+                    args.Add($"NotifyingFireParameters? cmds");
+                }
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopyForFields(fg, "item", "rhs", defaultFallbackAccessor: "def", maskAccessor: "errorMask", cmdsAccessor: "cmds");
+                    GenerateCopyForFields(fg, "item", "rhs", defaultFallbackAccessor: "def", maskAccessor: "errorMask", copyMaskAccessor: "copyMask", cmdsAccessor: "cmds");
                 }
                 fg.AppendLine();
             }
             fg.AppendLine();
         }
 
-        private void GenerateCopyForFields(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string maskAccessor, string cmdsAccessor)
+        private void GenerateCopyForFields(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string maskAccessor, string copyMaskAccessor, string cmdsAccessor)
         {
             if (this.HasBaseObject)
             {
-                fg.AppendLine($"{this.BaseClass.ExtCommonName(this.BaseGenericTypes)}.CopyFieldsFrom({accessorPrefix}, {rhsAccessorPrefix}, {defaultFallbackAccessor}, {maskAccessor}, {cmdsAccessor});");
+                using (var args = new ArgsWrapper(fg, true,
+                    $"{this.BaseClass.ExtCommonName(this.BaseGenericTypes)}.CopyFieldsFrom"))
+                {
+                    args.Add(accessorPrefix);
+                    args.Add(rhsAccessorPrefix);
+                    args.Add(defaultFallbackAccessor);
+                    args.Add(maskAccessor);
+                    args.Add(copyMaskAccessor);
+                    args.Add(cmdsAccessor);
+                }
             }
 
             foreach (var item in this.IterateFields())
@@ -605,20 +624,53 @@ namespace Noggolloquy.Generation
                 fg.AppendLine();
 
                 // Generic version
-                fg.AppendLine($"public void CopyFieldsFrom({this.Getter_InterfaceStr} rhs, {this.Getter_InterfaceStr} def = null, NotifyingFireParameters? cmds = null)");
+                using (var args = new ArgsWrapper(fg, false,
+                    $"public void CopyFieldsFrom"))
+                {
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"{this.CopyMask} copyMask = null");
+                    args.Add($"{this.Getter_InterfaceStr} def = null");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom(this, rhs, def, null, cmds);");
+                    using (var args = new ArgsWrapper(fg, true,
+                        $"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom"))
+                    {
+                        args.Add("item: this");
+                        args.Add("rhs: rhs");
+                        args.Add("def: def");
+                        args.Add("errorMask: null");
+                        args.Add("copyMask: copyMask");
+                        args.Add("cmds: cmds");
+                    }
                 }
                 fg.AppendLine();
 
                 // Generic version with default
-                fg.AppendLine($"public void CopyFieldsFrom({this.Getter_InterfaceStr} rhs, out {this.GetErrorMaskItemString()} errorMask, {this.Getter_InterfaceStr} def = null, NotifyingFireParameters? cmds = null)");
+                using (var args = new ArgsWrapper(fg, false,
+                    $"public void CopyFieldsFrom"))
+                {
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"out {this.ErrorMask} errorMask");
+                    args.Add($"{this.CopyMask} copyMask = null");
+                    args.Add($"{this.Getter_InterfaceStr} def = null");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString()}();");
+                    fg.AppendLine($"var retErrorMask = new {this.ErrorMask}();");
                     fg.AppendLine("errorMask = retErrorMask;");
-                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);");
+                    using (var args = new ArgsWrapper(fg, true,
+                        $"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom"))
+                    {
+                        args.Add("item: this");
+                        args.Add("rhs: rhs");
+                        args.Add("def: def");
+                        args.Add("errorMask: retErrorMask");
+                        args.Add("copyMask: copyMask");
+                        args.Add("cmds: cmds");
+                    }
                 }
                 fg.AppendLine();
             }
@@ -1280,45 +1332,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        protected virtual void GenerateSetTo(FileGeneration fg)
-        {
-            using (new RegionWrapper(fg, "Set To"))
-            {
-                fg.AppendLine($"public void SetTo({this.ObjectName} rhs, I{this.ObjectName} def = null, NotifyingFireParameters? cmds = null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("SetTo_Internal(rhs, def, null, cmds);");
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public void SetTo({this.ObjectName} rhs, I{this.ObjectName} def, out {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds = null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var retErrorMask = new {this.GetErrorMaskItemString()}();");
-                    fg.AppendLine("errorMask = retErrorMask;");
-                    fg.AppendLine("SetTo_Internal(rhs, def, retErrorMask, cmds);");
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"private void SetTo_Internal({this.ObjectName} rhs, I{this.ObjectName} def, {this.GetErrorMaskItemString()} errorMask, NotifyingFireParameters? cmds)");
-                using (new BraceWrapper(fg))
-                {
-                    foreach (var item in this.IterateFields())
-                    {
-                        if (item.Field.Copy)
-                        {
-                            fg.AppendLine("try");
-                            using (new BraceWrapper(fg))
-                            {
-                                item.Field.GenerateForSetTo(fg, "this", "rhs", "def", "cmds");
-                            }
-                            GenerateExceptionCatcher(fg, item.Field, "errorMask", item.Index);
-                        }
-                    }
-                }
-            }
-        }
-
         private void GenerateClear(FileGeneration fg, string accessor, string cmdAccessor)
         {
             foreach (var field in this.Fields)
@@ -1368,42 +1381,6 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        public virtual void GenerateCopyInAbleInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("this.CopyFieldsFrom_Generic(rhs, def, cmds);");
-            }
-            fg.AppendLine();
-
-            if (this.Abstract)
-            {
-                if (this.IsTopClass)
-                {
-                    fg.AppendLine($"{this.ProtectedKeyword} abstract void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds);");
-                    fg.AppendLine();
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride}void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)");
-                using (new BraceWrapper(fg))
-                {
-                    if (this.HasBaseObject && !this.BaseClass.Abstract)
-                    {
-                        fg.AppendLine("base.CopyFieldsFrom_Generic(rhs, def, cmds);");
-                    }
-                    fg.AppendLine($"if (rhs is {this.ObjectName} rhsCast)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"this.CopyFieldsFrom(rhsCast, def as {this.ObjectName}, cmds);");
-                    }
-                }
-                fg.AppendLine();
-            }
-        }
-
         public virtual void GenerateCopy(FileGeneration fg)
         {
             fg.AppendLine($"public {this.ObjectName} Copy({this.Getter_InterfaceStr} def = null)");
@@ -1415,11 +1392,23 @@ namespace Noggolloquy.Generation
 
             if (this.Abstract) return;
 
-            fg.AppendLine($"public static {this.ObjectName} Copy({this.Getter_InterfaceStr} item, {this.Getter_InterfaceStr} def = null)");
+            using (var args = new ArgsWrapper(fg, false,
+                $"public static {this.ObjectName} Copy"))
+            {
+                args.Add($"{this.Getter_InterfaceStr} item");
+                args.Add($"{this.CopyMask} copyMask = null");
+                args.Add($"{this.Getter_InterfaceStr} def = null");
+            }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var ret = new {this.ObjectName}();");
-                fg.AppendLine("ret.CopyFieldsFrom(item, def);");
+                using (var args = new ArgsWrapper(fg, true,
+                    "ret.CopyFieldsFrom"))
+                {
+                    args.Add("item");
+                    args.Add("copyMask: copyMask");
+                    args.Add("def: def");
+                }
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
@@ -1570,11 +1559,6 @@ namespace Noggolloquy.Generation
             str += "_Mask";
             str += $"<{t}>";
             return str;
-        }
-
-        public string GetErrorMaskItemString()
-        {
-            return $"{this.Name}_ErrorMask";
         }
 
         public virtual void Resolve()

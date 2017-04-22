@@ -18,5 +18,9 @@ namespace Noggolloquy.Generation
         {
             fg.AppendLine($"this.{field.Name} = (Exception)obj;");
         }
+
+        public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+        }
     }
 }

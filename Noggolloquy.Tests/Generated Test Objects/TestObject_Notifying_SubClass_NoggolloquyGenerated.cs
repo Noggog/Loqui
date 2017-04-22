@@ -61,16 +61,37 @@ namespace Noggolloquy.Tests
             TestObject_Notifying_SubClassCommon.SetNthObjectHasBeenSet(index, on, this);
         }
 
-        public void CopyFieldsFrom(ITestObject_Notifying_SubClassGetter rhs, ITestObject_Notifying_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_Notifying_SubClassGetter rhs,
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(this, rhs, def, null, cmds);
+            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
-        public void CopyFieldsFrom(ITestObject_Notifying_SubClassGetter rhs, out TestObject_Notifying_SubClass_ErrorMask errorMask, ITestObject_Notifying_SubClassGetter def = null, NotifyingFireParameters? cmds = null)
+        public void CopyFieldsFrom(
+            ITestObject_Notifying_SubClassGetter rhs,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null,
+            NotifyingFireParameters? cmds = null)
         {
             var retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
             errorMask = retErrorMask;
-            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(this, rhs, def, retErrorMask, cmds);
+            TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
+                item: this,
+                rhs: rhs,
+                def: def,
+                errorMask: retErrorMask,
+                copyMask: copyMask,
+                cmds: cmds);
         }
 
         #endregion
@@ -106,53 +127,6 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        #region Set To
-        public void SetTo(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def = null, NotifyingFireParameters? cmds = null)
-        {
-            SetTo_Internal(rhs, def, null, cmds);
-        }
-
-        public void SetTo(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def, out TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
-        {
-            var retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
-            errorMask = retErrorMask;
-            SetTo_Internal(rhs, def, retErrorMask, cmds);
-        }
-
-        private void SetTo_Internal(TestObject_Notifying_SubClass rhs, ITestObject_Notifying_SubClass def, TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
-        {
-            try
-            {
-                if (rhs.NewField_Property.HasBeenSet)
-                {
-                    this._NewField.Set(
-                        rhs.NewField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        this._NewField.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        this._NewField.Set(
-                            def.NewField,
-                            cmds);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(48, ex);
-                }
-            }
-        }
-        #endregion
         #region XML Translation
         public new static TestObject_Notifying_SubClass Create_XML(XElement root)
         {
@@ -231,29 +205,21 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        void ICopyInAble.CopyFieldsFrom(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            this.CopyFieldsFrom_Generic(rhs, def, cmds);
-        }
-
-        protected override void CopyFieldsFrom_Generic(object rhs, object def, NotifyingFireParameters? cmds)
-        {
-            base.CopyFieldsFrom_Generic(rhs, def, cmds);
-            if (rhs is TestObject_Notifying_SubClass rhsCast)
-            {
-                this.CopyFieldsFrom(rhsCast, def as TestObject_Notifying_SubClass, cmds);
-            }
-        }
-
         public TestObject_Notifying_SubClass Copy(ITestObject_Notifying_SubClassGetter def = null)
         {
             return Copy(this, def: def);
         }
 
-        public static TestObject_Notifying_SubClass Copy(ITestObject_Notifying_SubClassGetter item, ITestObject_Notifying_SubClassGetter def = null)
+        public static TestObject_Notifying_SubClass Copy(
+            ITestObject_Notifying_SubClassGetter item,
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null)
         {
             var ret = new TestObject_Notifying_SubClass();
-            ret.CopyFieldsFrom(item, def);
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
             return ret;
         }
 
@@ -463,9 +429,21 @@ namespace Noggolloquy.Tests
     public static class TestObject_Notifying_SubClassCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(ITestObject_Notifying_SubClass item, ITestObject_Notifying_SubClassGetter rhs, ITestObject_Notifying_SubClassGetter def, TestObject_Notifying_SubClass_ErrorMask errorMask, NotifyingFireParameters? cmds)
+        public static void CopyFieldsFrom(
+            ITestObject_Notifying_SubClass item,
+            ITestObject_Notifying_SubClassGetter rhs,
+            ITestObject_Notifying_SubClassGetter def,
+            TestObject_Notifying_SubClass_ErrorMask errorMask,
+            TestObject_Notifying_SubClass_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
         {
-            TestObject_NotifyingCommon.CopyFieldsFrom(item, rhs, def, errorMask, cmds);
+            TestObject_NotifyingCommon.CopyFieldsFrom(
+                item,
+                rhs,
+                def,
+                errorMask,
+                copyMask,
+                cmds);
             try
             {
                 if (rhs.NewField_Property.HasBeenSet)
@@ -590,6 +568,10 @@ namespace Noggolloquy.Tests
                     break;
             }
         }
+    }
+    public class TestObject_Notifying_SubClass_CopyMask : TestObject_Notifying_CopyMask
+    {
+
     }
     #endregion
 

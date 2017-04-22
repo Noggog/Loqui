@@ -27,5 +27,11 @@ namespace Noggolloquy.Generation
             NoggType nogg = field as NoggType;
             fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}>)obj;");
         }
+
+        public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            NoggType nogg = field as NoggType;
+            fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
+        }
     }
 }
