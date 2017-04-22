@@ -444,34 +444,37 @@ namespace Noggolloquy.Tests
                 errorMask,
                 copyMask,
                 cmds);
-            try
+            if (copyMask?.NewField != CopyType.Skip)
             {
-                if (rhs.NewField_Property.HasBeenSet)
+                try
                 {
-                    item.NewField_Property.Set(
-                        rhs.NewField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
+                    if (rhs.NewField_Property.HasBeenSet)
                     {
-                        item.NewField_Property.Unset(cmds.ToUnsetParams());
+                        item.NewField_Property.Set(
+                            rhs.NewField,
+                            cmds);
                     }
                     else
                     {
-                        item.NewField_Property.Set(
-                            def.NewField,
-                            cmds);
+                        if (def == null)
+                        {
+                            item.NewField_Property.Unset(cmds.ToUnsetParams());
+                        }
+                        else
+                        {
+                            item.NewField_Property.Set(
+                                def.NewField,
+                                cmds);
+                        }
                     }
-                }
 
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
+                }
+                catch (Exception ex)
                 {
-                    errorMask.SetNthException(48, ex);
+                    if (errorMask != null)
+                    {
+                        errorMask.SetNthException(48, ex);
+                    }
                 }
             }
         }
@@ -571,6 +574,7 @@ namespace Noggolloquy.Tests
     }
     public class TestObject_Notifying_SubClass_CopyMask : TestObject_Notifying_CopyMask
     {
+        public CopyType NewField = CopyType.Reference;
 
     }
     #endregion

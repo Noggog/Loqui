@@ -46,6 +46,10 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
             }
+            else
+            {
+                fg.AppendLine($"public {nameof(CopyType)} {field.Name};");
+            }
         }
     }
 }

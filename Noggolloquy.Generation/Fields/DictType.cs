@@ -23,6 +23,7 @@ namespace Noggolloquy.Generation
         private TypeGeneration subGenerator;
         private IDictType subDictGenerator;
         public DictMode Mode => subDictGenerator.Mode;
+        public override bool CopyNeedsTryCatch => subGenerator.CopyNeedsTryCatch;
 
         public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
         public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
@@ -32,6 +33,19 @@ namespace Noggolloquy.Generation
         public override string ProtectedName => subGenerator.ProtectedName;
         public override bool Imports => subGenerator.Imports;
         public override string TypeName => subGenerator.TypeName;
+
+        public override string SkipAccessor(string copyMaskAccessor)
+        {
+            if (KeyTypeGen is NoggType 
+                || ValueTypeGen is NoggType)
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall";
+            }
+            else
+            {
+                return $"{copyMaskAccessor}?.{this.Name}";
+            }
+        }
 
         public override string GetName(bool internalUse, bool property)
         {
@@ -95,9 +109,16 @@ namespace Noggolloquy.Generation
             subGenerator.GenerateForGetterInterface(fg);
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
-            subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse);
+            subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
         }
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)

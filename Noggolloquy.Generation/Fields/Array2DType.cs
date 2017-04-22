@@ -8,6 +8,8 @@ namespace Noggolloquy.Generation
         string dim;
 
         public override string TypeName => $"INotifyingContainer2D<{this.ItemTypeName}>";
+        public override bool CopyNeedsTryCatch => true;
+        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
 
         public override void Load(XElement node, bool requireName = true)
         {
@@ -51,9 +53,16 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)
@@ -68,7 +77,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, cmdsAccessor, false);
+            GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, null, cmdsAccessor, false);
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)

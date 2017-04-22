@@ -14,7 +14,8 @@ namespace Noggolloquy.Generation
         public DictMode Mode => DictMode.KeyedValue;
 
         public override string Property => $"{this.Name}";
-        public override string ProtectedName => $"{this.ProtectedProperty}"; 
+        public override string ProtectedName => $"{this.ProtectedProperty}";
+        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
 
         public override bool Imports
         {
@@ -25,6 +26,8 @@ namespace Noggolloquy.Generation
                 return true;
             }
         }
+
+        public override bool CopyNeedsTryCatch => true;
 
         public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
@@ -134,12 +137,19 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedUse)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedUse);
+                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
@@ -147,12 +157,12 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse)}.Unset({cmdsAccessor}.ToUnsetParams());");
+                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers)}.Unset({cmdsAccessor}.ToUnsetParams());");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse);
+                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
                 }
             }
         }

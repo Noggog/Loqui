@@ -26,6 +26,10 @@ namespace Noggolloquy.Generation
             }
         }
 
+        public override bool CopyNeedsTryCatch => this.Notifying == NotifyingOption.Notifying;
+
+        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}";
+
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
@@ -142,7 +146,14 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
             if (this.Notifying == NotifyingOption.None)
             {

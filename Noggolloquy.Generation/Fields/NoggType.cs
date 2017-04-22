@@ -39,6 +39,7 @@ namespace Noggolloquy.Generation
         public NoggRefType RefType { get; private set; }
         public NoggInterfaceType InterfaceType = NoggInterfaceType.Direct;
         private string _generic;
+        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
 
         public enum NoggRefType
         {
@@ -172,17 +173,24 @@ namespace Noggolloquy.Generation
             return $"{TypeName}{(this.AllowNull ? "?" : string.Empty)}";
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor, bool protectedUse)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
             if (this.Notifying == NotifyingOption.None)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)} = {rhsAccessorPrefix}.{this.Name};");
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = {rhsAccessorPrefix}.{this.Name};");
                 return;
             }
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse: protectedUse);
+                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse: protectedMembers);
             }
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
@@ -190,12 +198,12 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                 using (new BraceWrapper(fg))
                 {
-                    GenerateClear(fg, accessorPrefix, cmdAccessor);
+                    GenerateClear(fg, accessorPrefix, cmdsAccessor);
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdAccessor, protectedUse: protectedUse);
+                    GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdsAccessor, protectedUse: protectedMembers);
                 }
             }
             fg.AppendLine();

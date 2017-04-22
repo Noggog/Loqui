@@ -49,8 +49,11 @@ namespace Noggolloquy.Generation
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    if (keyNoggType == null && valueNoggType == null) return;
-                    if (keyNoggType != null && valueNoggType != null)
+                    if (keyNoggType == null && valueNoggType == null)
+                    {
+                        fg.AppendLine($"public {nameof(CopyType)} {field.Name};");
+                    }
+                    else if (keyNoggType != null && valueNoggType != null)
                     {
                         fg.AppendLine($"public MaskItem<{nameof(CopyType)}, KeyValuePair<{keyNoggType.ObjectGen.CopyMask}, {valueNoggType.ObjectGen.CopyMask}>> {field.Name};");
                     }

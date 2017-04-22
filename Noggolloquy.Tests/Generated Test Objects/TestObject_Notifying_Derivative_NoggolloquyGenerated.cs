@@ -2768,10 +2768,52 @@ namespace Noggolloquy.Tests
     }
     public class TestObject_Notifying_Derivative_CopyMask
     {
+        public CopyType BoolN = CopyType.Reference;
+        public CopyType Bool = CopyType.Reference;
+        public CopyType CharN = CopyType.Reference;
+        public CopyType Char = CopyType.Reference;
+        public CopyType DoubleN = CopyType.Reference;
+        public CopyType Double = CopyType.Reference;
+        public CopyType FloatN = CopyType.Reference;
+        public CopyType Float = CopyType.Reference;
+        public CopyType Int16N = CopyType.Reference;
+        public CopyType Int16 = CopyType.Reference;
+        public CopyType Int32N = CopyType.Reference;
+        public CopyType Int32 = CopyType.Reference;
+        public CopyType Int64N = CopyType.Reference;
+        public CopyType Int64 = CopyType.Reference;
+        public CopyType Int8N = CopyType.Reference;
+        public CopyType Int8 = CopyType.Reference;
+        public CopyType Unsafe = CopyType.Reference;
+        public CopyType P2IntN = CopyType.Reference;
+        public CopyType P2Int = CopyType.Reference;
+        public CopyType P3DoubleN = CopyType.Reference;
+        public CopyType P3Double = CopyType.Reference;
+        public CopyType P3IntN = CopyType.Reference;
+        public CopyType P3Int = CopyType.Reference;
+        public CopyType PercentN = CopyType.Reference;
+        public CopyType Percent = CopyType.Reference;
+        public CopyType RangeIntN = CopyType.Reference;
+        public CopyType RangeInt = CopyType.Reference;
+        public CopyType String = CopyType.Reference;
+        public CopyType UDoubleN = CopyType.Reference;
+        public CopyType UDouble = CopyType.Reference;
+        public CopyType UInt16N = CopyType.Reference;
+        public CopyType UInt16 = CopyType.Reference;
+        public CopyType UInt32N = CopyType.Reference;
+        public CopyType UInt32 = CopyType.Reference;
+        public CopyType UInt64N = CopyType.Reference;
+        public CopyType UInt64 = CopyType.Reference;
+        public CopyType UInt8N = CopyType.Reference;
+        public CopyType UInt8 = CopyType.Reference;
+        public CopyType Enum = CopyType.Reference;
+        public CopyType WildCard = CopyType.Reference;
         public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> Ref;
         public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefGetter;
         public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefSetter;
+        public CopyType List;
         public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> RefList;
+        public CopyType Dict;
         public MaskItem<CopyType, KeyValuePair<TestObject_Notifying_Derivative_CopyMask, TestObject_Notifying_Derivative_CopyMask>> RefDict;
         public MaskItem<CopyType, TestObject_Notifying_Derivative_CopyMask> DictKeyedValue;
 

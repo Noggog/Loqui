@@ -5,6 +5,7 @@ namespace Noggolloquy.Generation
     public class ListType : ContainerType
     {
         public override string TypeName => $"NotifyingList<{this.ItemTypeName}>";
+        public override bool CopyNeedsTryCatch => true;
 
         public override void GenerateForClass(FileGeneration fg)
         {
@@ -49,11 +50,30 @@ namespace Noggolloquy.Generation
 
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdAccessor, bool protectedUse)
+        public override string SkipAccessor(string copyMaskAccessor)
+        {
+            if (this.SubTypeGeneration is NoggType)
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall";
+            }
+            else
+            {
+                return $"{copyMaskAccessor}?.{this.Name}";
+            }
+        }
+
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
             if (defaultFallbackAccessor == null)
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor, protectedUse);
+                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
             }
             else
             {
@@ -62,7 +82,7 @@ namespace Noggolloquy.Generation
                 {
                     if (defaultFallbackAccessor == null || !this.isNoggSingle)
                     {
-                        GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdAccessor, protectedUse);
+                        GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
                     }
                     else
                     {
@@ -77,7 +97,7 @@ namespace Noggolloquy.Generation
                                 fg.AppendLine("return s.Copy(defList?[i++]);");
                             }
                         }
-                        fg.AppendLine($"), {cmdAccessor});");
+                        fg.AppendLine($"), {cmdsAccessor});");
                     }
                 }
                 fg.AppendLine("else");
@@ -88,17 +108,17 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"if ({defaultFallbackAccessor} == null)");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
+                            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
                         }
                         fg.AppendLine("else");
                         using (new BraceWrapper(fg))
                         {
-                            GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse);
+                            GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
                         }
                     }
                     else
                     {
-                        GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdAccessor, protectedUse);
+                        GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
                     }
                 }
             }

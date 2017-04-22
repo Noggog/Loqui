@@ -521,7 +521,14 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        private void GenerateCopyForFields(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string maskAccessor, string copyMaskAccessor, string cmdsAccessor)
+        private void GenerateCopyForFields(
+            FileGeneration fg,
+            string accessorPrefix, 
+            string rhsAccessorPrefix,
+            string defaultFallbackAccessor, 
+            string maskAccessor, 
+            string copyMaskAccessor,
+            string cmdsAccessor)
         {
             if (this.HasBaseObject)
             {
@@ -541,12 +548,37 @@ namespace Noggolloquy.Generation
             {
                 if (item.Field.Copy)
                 {
-                    fg.AppendLine("try");
+                    fg.AppendLine($"if ({item.Field.SkipAccessor(copyMaskAccessor)} != {nameof(CopyType)}.Skip)");
                     using (new BraceWrapper(fg))
                     {
-                        item.Field.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor: cmdsAccessor, protectedMembers: false);
+                        if (item.Field.CopyNeedsTryCatch)
+                        {
+                            fg.AppendLine("try");
+                            using (new BraceWrapper(fg))
+                            {
+                                item.Field.GenerateForCopy(
+                                    fg,
+                                    accessorPrefix,
+                                    rhsAccessorPrefix,
+                                    copyMaskAccessor,
+                                    defaultFallbackAccessor,
+                                    cmdsAccessor: cmdsAccessor,
+                                    protectedMembers: false);
+                            }
+                            GenerateExceptionCatcher(fg, item.Field, maskAccessor, item.Index);
+                        }
+                        else
+                        {
+                            item.Field.GenerateForCopy(
+                                fg,
+                                accessorPrefix,
+                                rhsAccessorPrefix,
+                                copyMaskAccessor,
+                                defaultFallbackAccessor,
+                                cmdsAccessor: cmdsAccessor,
+                                protectedMembers: false);
+                        }
                     }
-                    GenerateExceptionCatcher(fg, item.Field, maskAccessor, item.Index);
                 }
             }
         }

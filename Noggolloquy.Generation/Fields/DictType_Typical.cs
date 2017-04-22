@@ -16,6 +16,8 @@ namespace Noggolloquy.Generation
 
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
+        public override bool CopyNeedsTryCatch => true;
+        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
 
         public override bool Imports
         {
@@ -151,7 +153,14 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
-        public override void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers)
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers)
         {
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))

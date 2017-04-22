@@ -474,34 +474,37 @@ namespace Noggolloquy.Tests
             TestGenericObject_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            try
+            if (copyMask?.Ref.Overall != CopyType.Skip)
             {
-                if (rhs.Ref_Property.HasBeenSet)
+                try
                 {
-                    item.Ref_Property.Set(
-                        rhs.Ref,
-                        cmds: cmds);
-                }
-                else
-                {
-                    if (def == null)
+                    if (rhs.Ref_Property.HasBeenSet)
                     {
-                        item.Ref_Property.Unset(cmds.ToUnsetParams());
+                        item.Ref_Property.Set(
+                            rhs.Ref,
+                            cmds: cmds);
                     }
                     else
                     {
-                        item.Ref_Property.Set(
-                            def.Ref,
-                            cmds: cmds);
+                        if (def == null)
+                        {
+                            item.Ref_Property.Unset(cmds.ToUnsetParams());
+                        }
+                        else
+                        {
+                            item.Ref_Property.Set(
+                                def.Ref,
+                                cmds: cmds);
+                        }
                     }
-                }
 
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
+                }
+                catch (Exception ex)
                 {
-                    errorMask.SetNthException(0, ex);
+                    if (errorMask != null)
+                    {
+                        errorMask.SetNthException(0, ex);
+                    }
                 }
             }
         }

@@ -72,7 +72,18 @@ namespace Noggolloquy.Generation
 
         public abstract void GenerateForGetterInterface(FileGeneration fg);
 
-        public abstract void GenerateForCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers);
+        public abstract bool CopyNeedsTryCatch { get; }
+
+        public abstract string SkipAccessor(string copyMaskAccessor);
+
+        public abstract void GenerateForCopy(
+            FileGeneration fg, 
+            string accessorPrefix,
+            string rhsAccessorPrefix,
+            string copyMaskAccessor,
+            string defaultFallbackAccessor,
+            string cmdsAccessor,
+            bool protectedMembers);
 
         public abstract string GenerateACopy(string rhsAccessor);
 

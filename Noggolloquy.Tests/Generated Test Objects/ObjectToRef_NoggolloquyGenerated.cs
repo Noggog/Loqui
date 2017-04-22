@@ -509,64 +509,70 @@ namespace Noggolloquy.Tests
             ObjectToRef_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            try
+            if (copyMask?.KeyField != CopyType.Skip)
             {
-                if (rhs.KeyField_Property.HasBeenSet)
+                try
                 {
-                    item.KeyField_Property.Set(
-                        rhs.KeyField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.KeyField_Property.Unset(cmds.ToUnsetParams());
-                    }
-                    else
+                    if (rhs.KeyField_Property.HasBeenSet)
                     {
                         item.KeyField_Property.Set(
-                            def.KeyField,
+                            rhs.KeyField,
                             cmds);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                if (errorMask != null)
-                {
-                    errorMask.SetNthException(0, ex);
-                }
-            }
-            try
-            {
-                if (rhs.SomeField_Property.HasBeenSet)
-                {
-                    item.SomeField_Property.Set(
-                        rhs.SomeField,
-                        cmds);
-                }
-                else
-                {
-                    if (def == null)
-                    {
-                        item.SomeField_Property.Unset(cmds.ToUnsetParams());
                     }
                     else
                     {
-                        item.SomeField_Property.Set(
-                            def.SomeField,
-                            cmds);
+                        if (def == null)
+                        {
+                            item.KeyField_Property.Unset(cmds.ToUnsetParams());
+                        }
+                        else
+                        {
+                            item.KeyField_Property.Set(
+                                def.KeyField,
+                                cmds);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    if (errorMask != null)
+                    {
+                        errorMask.SetNthException(0, ex);
                     }
                 }
-
             }
-            catch (Exception ex)
+            if (copyMask?.SomeField != CopyType.Skip)
             {
-                if (errorMask != null)
+                try
                 {
-                    errorMask.SetNthException(1, ex);
+                    if (rhs.SomeField_Property.HasBeenSet)
+                    {
+                        item.SomeField_Property.Set(
+                            rhs.SomeField,
+                            cmds);
+                    }
+                    else
+                    {
+                        if (def == null)
+                        {
+                            item.SomeField_Property.Unset(cmds.ToUnsetParams());
+                        }
+                        else
+                        {
+                            item.SomeField_Property.Set(
+                                def.SomeField,
+                                cmds);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    if (errorMask != null)
+                    {
+                        errorMask.SetNthException(1, ex);
+                    }
                 }
             }
         }
@@ -693,6 +699,8 @@ namespace Noggolloquy.Tests
     }
     public class ObjectToRef_CopyMask
     {
+        public CopyType KeyField = CopyType.Reference;
+        public CopyType SomeField = CopyType.Reference;
 
     }
     #endregion
