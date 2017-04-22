@@ -1603,7 +1603,7 @@ namespace Noggolloquy.Tests
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            ITestObject_Derivative item,
+            this ITestObject_Derivative item,
             ITestObject_DerivativeGetter rhs,
             ITestObject_DerivativeGetter def,
             bool doErrorMask,
@@ -2366,14 +2366,14 @@ namespace Noggolloquy.Tests
         public CopyType UInt8 = CopyType.Reference;
         public CopyType Enum = CopyType.Reference;
         public CopyType WildCard = CopyType.Reference;
-        public MaskItem<CopyType, TestObject_Derivative_CopyMask> Ref;
-        public MaskItem<CopyType, TestObject_Derivative_CopyMask> RefGetter;
-        public MaskItem<CopyType, TestObject_Derivative_CopyMask> RefSetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
         public CopyType List;
-        public MaskItem<CopyType, TestObject_Derivative_CopyMask> RefList;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
         public CopyType Dict;
-        public MaskItem<CopyType, KeyValuePair<TestObject_Derivative_CopyMask, TestObject_Derivative_CopyMask>> RefDict;
-        public MaskItem<CopyType, TestObject_Derivative_CopyMask> DictKeyedValue;
+        public MaskItem<CopyType, KeyValuePair<ObjectToRef_CopyMask, ObjectToRef_CopyMask>> RefDict;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> DictKeyedValue;
 
     }
     #endregion

@@ -477,7 +477,7 @@ namespace Noggolloquy.Tests
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            ITestGenericObject<T, R> item,
+            this ITestGenericObject<T, R> item,
             ITestGenericObjectGetter<T, R> rhs,
             ITestGenericObjectGetter<T, R> def,
             bool doErrorMask,
@@ -625,7 +625,7 @@ namespace Noggolloquy.Tests
     }
     public class TestGenericObject_CopyMask
     {
-        public MaskItem<CopyType, TestGenericObject_CopyMask> Ref;
+        public CopyType Ref;
 
     }
     #endregion

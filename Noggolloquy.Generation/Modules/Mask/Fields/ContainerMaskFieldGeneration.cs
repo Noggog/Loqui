@@ -44,7 +44,7 @@ namespace Noggolloquy.Generation
             ListType listType = field as ListType;
             if (listType.SubTypeGeneration is NoggType nogg)
             {
-                fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
+                fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
             }
             else
             {

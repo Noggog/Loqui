@@ -392,7 +392,7 @@ namespace Noggolloquy.Tests
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            ITestGenericObject_SubClass_Defined item,
+            this ITestGenericObject_SubClass_Defined item,
             ITestGenericObject_SubClass_DefinedGetter rhs,
             ITestGenericObject_SubClass_DefinedGetter def,
             bool doErrorMask,

@@ -2345,7 +2345,7 @@ namespace Noggolloquy.Tests
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            ITestObject_HasBeenSet item,
+            this ITestObject_HasBeenSet item,
             ITestObject_HasBeenSetGetter rhs,
             ITestObject_HasBeenSetGetter def,
             bool doErrorMask,
@@ -2995,51 +2995,93 @@ namespace Noggolloquy.Tests
             }
             if (copyMask?.Ref.Overall != CopyType.Skip)
             {
-                if (rhs.Ref_Property.HasBeenSet)
+                try
                 {
-                    item.Ref_Property.Set(rhs.Ref);
-                }
-                else if (def == null)
-                {
-                    item.Ref = default(ObjectToRef);
-                }
-                else
-                {
-                    item.Ref_Property.Set(def.Ref);
-                }
+                    if (rhs.Ref_Property.HasBeenSet)
+                    {
+                        item.Ref_Property.Set(rhs.Ref);
+                    }
+                    else if (def == null)
+                    {
+                        item.Ref = default(ObjectToRef);
+                    }
+                    else
+                    {
+                        item.Ref_Property.Set(def.Ref);
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException(40, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
             if (copyMask?.RefGetter.Overall != CopyType.Skip)
             {
-                if (rhs.RefGetter_Property.HasBeenSet)
+                try
                 {
-                    item.RefGetter_Property.Set(rhs.RefGetter);
-                }
-                else if (def == null)
-                {
-                    item.RefGetter = default(IObjectToRefGetter);
-                }
-                else
-                {
-                    item.RefGetter_Property.Set(def.RefGetter);
-                }
+                    if (rhs.RefGetter_Property.HasBeenSet)
+                    {
+                        item.RefGetter_Property.Set(rhs.RefGetter);
+                    }
+                    else if (def == null)
+                    {
+                        item.RefGetter = default(IObjectToRefGetter);
+                    }
+                    else
+                    {
+                        item.RefGetter_Property.Set(def.RefGetter);
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException(41, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
             if (copyMask?.RefSetter.Overall != CopyType.Skip)
             {
-                if (rhs.RefSetter_Property.HasBeenSet)
+                try
                 {
-                    item.RefSetter_Property.Set(rhs.RefSetter);
-                }
-                else if (def == null)
-                {
-                    item.RefSetter = default(IObjectToRef);
-                }
-                else
-                {
-                    item.RefSetter_Property.Set(def.RefSetter);
-                }
+                    if (rhs.RefSetter_Property.HasBeenSet)
+                    {
+                        item.RefSetter_Property.Set(rhs.RefSetter);
+                    }
+                    else if (def == null)
+                    {
+                        item.RefSetter = default(IObjectToRef);
+                    }
+                    else
+                    {
+                        item.RefSetter_Property.Set(def.RefSetter);
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException(42, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
             if (copyMask?.List != CopyType.Skip)
             {
@@ -4229,14 +4271,14 @@ namespace Noggolloquy.Tests
         public CopyType UInt8 = CopyType.Reference;
         public CopyType Enum = CopyType.Reference;
         public CopyType WildCard = CopyType.Reference;
-        public MaskItem<CopyType, TestObject_HasBeenSet_CopyMask> Ref;
-        public MaskItem<CopyType, TestObject_HasBeenSet_CopyMask> RefGetter;
-        public MaskItem<CopyType, TestObject_HasBeenSet_CopyMask> RefSetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
         public CopyType List;
-        public MaskItem<CopyType, TestObject_HasBeenSet_CopyMask> RefList;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
         public CopyType Dict;
-        public MaskItem<CopyType, KeyValuePair<TestObject_HasBeenSet_CopyMask, TestObject_HasBeenSet_CopyMask>> RefDict;
-        public MaskItem<CopyType, TestObject_HasBeenSet_CopyMask> DictKeyedValue;
+        public MaskItem<CopyType, KeyValuePair<ObjectToRef_CopyMask, ObjectToRef_CopyMask>> RefDict;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> DictKeyedValue;
 
     }
     #endregion

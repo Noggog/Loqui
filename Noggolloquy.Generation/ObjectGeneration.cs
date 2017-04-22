@@ -505,7 +505,7 @@ namespace Noggolloquy.Generation
                     SemiColon = false
                 })
                 {
-                    args.Add($"{this.InterfaceStr} item");
+                    args.Add($"this {this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
                     args.Add($"bool doErrorMask");

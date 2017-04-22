@@ -31,7 +31,14 @@ namespace Noggolloquy.Generation
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
         {
             NoggType nogg = field as NoggType;
-            fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.ObjectGen.CopyMask}> {field.Name};");
+            if (nogg.RefType == NoggType.NoggRefType.Direct)
+            {
+                fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public {nameof(CopyType)} {field.Name};");
+            }
         }
     }
 }

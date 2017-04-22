@@ -47,6 +47,8 @@ namespace Noggolloquy.Generation
             Generic
         }
 
+        public override bool CopyNeedsTryCatch => true;
+
         public override void GenerateForClass(FileGeneration fg)
         {
             switch (this.Notifying)
@@ -184,13 +186,54 @@ namespace Noggolloquy.Generation
         {
             if (this.Notifying == NotifyingOption.None)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = {rhsAccessorPrefix}.{this.Name};");
+                fg.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = {rhsAccessorPrefix}.{this.Name};");
+                        fg.AppendLine("break;");
+                    }
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (this.InterfaceType == NoggInterfaceType.IGetter)
+                        {
+                            fg.AppendLine($"throw new ArgumentException($\"Cannot deep copy a getter reference.\");");
+                        }
+                        else
+                        {
+                            using (var args = new ArgsWrapper(fg, true,
+                                $"{accessorPrefix}.{this.GetName(protectedMembers, false)}.CopyFieldsFrom"))
+                            {
+                                args.Add($"{rhsAccessorPrefix}.{this.Name}");
+                                args.Add($"{copyMaskAccessor}.{this.Name}.Specific");
+                                args.Add($"{defaultFallbackAccessor}?.{this.Name}");
+                                args.Add("cmds");
+                            }
+                            fg.AppendLine("break;");
+                        }
+                    }
+                    fg.AppendLine($"default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyType)} nameof({copyMaskAccessor}?.Overall). Cannot execute copy.\");");
+                    }
+                }
                 return;
             }
             fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
             using (new BraceWrapper(fg))
             {
-                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedUse: protectedMembers);
+                GenerateCopyFrom(
+                    fg: fg,
+                    accessorPrefix: accessorPrefix, 
+                    rhsAccessorPrefix: rhsAccessorPrefix, 
+                    copyMaskAccessor: copyMaskAccessor,
+                    defaultAccessorPrefix: defaultFallbackAccessor,
+                    cmdAccessor: cmdsAccessor, 
+                    protectedUse: protectedMembers);
             }
             fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
             using (new BraceWrapper(fg))
@@ -200,12 +243,26 @@ namespace Noggolloquy.Generation
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                GenerateCopyFrom(fg, accessorPrefix, rhsAccessorPrefix: defaultFallbackAccessor, defaultAccessorPrefix: null, cmdAccessor: cmdsAccessor, protectedUse: protectedMembers);
+                GenerateCopyFrom(
+                    fg: fg,
+                    accessorPrefix: accessorPrefix, 
+                    rhsAccessorPrefix: defaultFallbackAccessor, 
+                    copyMaskAccessor: copyMaskAccessor,
+                    defaultAccessorPrefix: null,
+                    cmdAccessor: cmdsAccessor, 
+                    protectedUse: protectedMembers);
             }
             fg.AppendLine();
         }
 
-        private void GenerateCopyFrom(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string defaultAccessorPrefix, string cmdAccessor, bool protectedUse)
+        private void GenerateCopyFrom(
+            FileGeneration fg, 
+            string accessorPrefix, 
+            string rhsAccessorPrefix,
+            string copyMaskAccessor, 
+            string defaultAccessorPrefix, 
+            string cmdAccessor, 
+            bool protectedUse)
         {
             if (this.RefType == NoggRefType.Generic
                 || RefGen.Obj is ClassGeneration)

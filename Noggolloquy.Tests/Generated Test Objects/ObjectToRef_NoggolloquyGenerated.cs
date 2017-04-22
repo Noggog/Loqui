@@ -512,7 +512,7 @@ namespace Noggolloquy.Tests
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            IObjectToRef item,
+            this IObjectToRef item,
             IObjectToRefGetter rhs,
             IObjectToRefGetter def,
             bool doErrorMask,
