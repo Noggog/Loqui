@@ -71,6 +71,7 @@ namespace Noggolloquy.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
+                doErrorMask: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -83,15 +84,24 @@ namespace Noggolloquy.Tests
             ITestObject_Notifying_SubClassGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
-            errorMask = retErrorMask;
+            TestObject_Notifying_SubClass_ErrorMask retErrorMask = null;
+            Func<TestObject_Notifying_SubClass_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
+                }
+                return retErrorMask;
+            };
             TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
-                errorMask: retErrorMask,
+                doErrorMask: false,
+                errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
+            errorMask = retErrorMask;
         }
 
         #endregion
@@ -433,7 +443,8 @@ namespace Noggolloquy.Tests
             ITestObject_Notifying_SubClass item,
             ITestObject_Notifying_SubClassGetter rhs,
             ITestObject_Notifying_SubClassGetter def,
-            TestObject_Notifying_SubClass_ErrorMask errorMask,
+            bool doErrorMask,
+            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
@@ -441,6 +452,7 @@ namespace Noggolloquy.Tests
                 item,
                 rhs,
                 def,
+                doErrorMask,
                 errorMask,
                 copyMask,
                 cmds);
@@ -468,13 +480,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(48, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(48, ex);
+                        throw ex;
                     }
                 }
             }

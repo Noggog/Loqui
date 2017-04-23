@@ -690,6 +690,7 @@ namespace Noggolloquy.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
+                doErrorMask: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -702,15 +703,24 @@ namespace Noggolloquy.Tests
             ITestObject_HasBeenSetGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_HasBeenSet_ErrorMask();
-            errorMask = retErrorMask;
+            TestObject_HasBeenSet_ErrorMask retErrorMask = null;
+            Func<TestObject_HasBeenSet_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_HasBeenSet_ErrorMask();
+                }
+                return retErrorMask;
+            };
             TestObject_HasBeenSetCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
-                errorMask: retErrorMask,
+                doErrorMask: false,
+                errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
+            errorMask = retErrorMask;
         }
 
         #endregion
@@ -2338,7 +2348,8 @@ namespace Noggolloquy.Tests
             ITestObject_HasBeenSet item,
             ITestObject_HasBeenSetGetter rhs,
             ITestObject_HasBeenSetGetter def,
-            TestObject_HasBeenSet_ErrorMask errorMask,
+            bool doErrorMask,
+            Func<TestObject_HasBeenSet_ErrorMask> errorMask,
             TestObject_HasBeenSet_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
@@ -3049,13 +3060,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(43, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(43, ex);
+                        throw ex;
                     }
                 }
             }
@@ -3085,13 +3096,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(44, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(44, ex);
+                        throw ex;
                     }
                 }
             }
@@ -3124,13 +3135,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(45, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(45, ex);
+                        throw ex;
                     }
                 }
             }
@@ -3183,13 +3194,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(46, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(46, ex);
+                        throw ex;
                     }
                 }
             }
@@ -3216,13 +3227,13 @@ namespace Noggolloquy.Tests
                 }
                 catch (Exception ex)
                 {
-                    if (errorMask == null)
+                    if (doErrorMask)
                     {
-                        throw ex;
+                        errorMask().SetNthException(47, ex);
                     }
                     else
                     {
-                        errorMask.SetNthException(47, ex);
+                        throw ex;
                     }
                 }
             }

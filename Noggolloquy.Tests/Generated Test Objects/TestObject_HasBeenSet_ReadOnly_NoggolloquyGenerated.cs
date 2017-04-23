@@ -680,6 +680,7 @@ namespace Noggolloquy.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
+                doErrorMask: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -692,15 +693,24 @@ namespace Noggolloquy.Tests
             ITestObject_HasBeenSet_ReadOnlyGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_HasBeenSet_ReadOnly_ErrorMask();
-            errorMask = retErrorMask;
+            TestObject_HasBeenSet_ReadOnly_ErrorMask retErrorMask = null;
+            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_HasBeenSet_ReadOnly_ErrorMask();
+                }
+                return retErrorMask;
+            };
             TestObject_HasBeenSet_ReadOnlyCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
-                errorMask: retErrorMask,
+                doErrorMask: false,
+                errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
+            errorMask = retErrorMask;
         }
 
         #endregion
@@ -2146,7 +2156,8 @@ namespace Noggolloquy.Tests
             ITestObject_HasBeenSet_ReadOnly item,
             ITestObject_HasBeenSet_ReadOnlyGetter rhs,
             ITestObject_HasBeenSet_ReadOnlyGetter def,
-            TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask,
+            bool doErrorMask,
+            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> errorMask,
             TestObject_HasBeenSet_ReadOnly_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {

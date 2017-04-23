@@ -57,6 +57,7 @@ namespace Noggolloquy.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
+                doErrorMask: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -69,15 +70,24 @@ namespace Noggolloquy.Tests
             ITestGenericObject_SubClass_DefinedGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
-            errorMask = retErrorMask;
+            TestGenericObject_SubClass_Defined_ErrorMask retErrorMask = null;
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
+                }
+                return retErrorMask;
+            };
             TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
-                errorMask: retErrorMask,
+                doErrorMask: false,
+                errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
+            errorMask = retErrorMask;
         }
 
         #endregion
@@ -385,7 +395,8 @@ namespace Noggolloquy.Tests
             ITestGenericObject_SubClass_Defined item,
             ITestGenericObject_SubClass_DefinedGetter rhs,
             ITestGenericObject_SubClass_DefinedGetter def,
-            TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            bool doErrorMask,
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask,
             TestGenericObject_SubClass_Defined_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
@@ -393,6 +404,7 @@ namespace Noggolloquy.Tests
                 item,
                 rhs,
                 def,
+                doErrorMask,
                 errorMask,
                 copyMask,
                 cmds);

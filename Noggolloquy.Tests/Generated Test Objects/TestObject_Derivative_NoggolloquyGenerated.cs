@@ -280,6 +280,7 @@ namespace Noggolloquy.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
+                doErrorMask: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -292,15 +293,24 @@ namespace Noggolloquy.Tests
             ITestObject_DerivativeGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            var retErrorMask = new TestObject_Derivative_ErrorMask();
-            errorMask = retErrorMask;
+            TestObject_Derivative_ErrorMask retErrorMask = null;
+            Func<TestObject_Derivative_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_Derivative_ErrorMask();
+                }
+                return retErrorMask;
+            };
             TestObject_DerivativeCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
-                errorMask: retErrorMask,
+                doErrorMask: false,
+                errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
+            errorMask = retErrorMask;
         }
 
         #endregion
@@ -1596,7 +1606,8 @@ namespace Noggolloquy.Tests
             ITestObject_Derivative item,
             ITestObject_DerivativeGetter rhs,
             ITestObject_DerivativeGetter def,
-            TestObject_Derivative_ErrorMask errorMask,
+            bool doErrorMask,
+            Func<TestObject_Derivative_ErrorMask> errorMask,
             TestObject_Derivative_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {

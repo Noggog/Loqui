@@ -508,13 +508,22 @@ namespace Noggolloquy.Generation
                     args.Add($"{this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
-                    args.Add($"{this.ErrorMask} errorMask");
+                    args.Add($"bool doErrorMask");
+                    args.Add($"Func<{this.ErrorMask}> errorMask");
                     args.Add($"{this.CopyMask} copyMask");
                     args.Add($"NotifyingFireParameters? cmds");
                 }
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopyForFields(fg, "item", "rhs", defaultFallbackAccessor: "def", maskAccessor: "errorMask", copyMaskAccessor: "copyMask", cmdsAccessor: "cmds");
+                    GenerateCopyForFields(
+                        fg,
+                        "item",
+                        "rhs",
+                        defaultFallbackAccessor: "def",
+                        doErrMaskAccessor: "doErrorMask",
+                        errMaskAccessor: "errorMask",
+                        copyMaskAccessor: "copyMask",
+                        cmdsAccessor: "cmds");
                 }
                 fg.AppendLine();
             }
@@ -523,10 +532,11 @@ namespace Noggolloquy.Generation
 
         private void GenerateCopyForFields(
             FileGeneration fg,
-            string accessorPrefix, 
+            string accessorPrefix,
             string rhsAccessorPrefix,
-            string defaultFallbackAccessor, 
-            string maskAccessor, 
+            string defaultFallbackAccessor,
+            string doErrMaskAccessor,
+            string errMaskAccessor,
             string copyMaskAccessor,
             string cmdsAccessor)
         {
@@ -538,7 +548,8 @@ namespace Noggolloquy.Generation
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
                     args.Add(defaultFallbackAccessor);
-                    args.Add(maskAccessor);
+                    args.Add(doErrMaskAccessor);
+                    args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
                     args.Add(cmdsAccessor);
                 }
@@ -565,7 +576,7 @@ namespace Noggolloquy.Generation
                                     cmdsAccessor: cmdsAccessor,
                                     protectedMembers: false);
                             }
-                            GenerateExceptionCatcher(fg, item.Field, maskAccessor, item.Index);
+                            GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, item.Index);
                         }
                         else
                         {
@@ -672,6 +683,7 @@ namespace Noggolloquy.Generation
                         args.Add("item: this");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
+                        args.Add("doErrorMask: false");
                         args.Add("errorMask: null");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
@@ -691,18 +703,29 @@ namespace Noggolloquy.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var retErrorMask = new {this.ErrorMask}();");
-                    fg.AppendLine("errorMask = retErrorMask;");
+                    fg.AppendLine($"{this.ErrorMask} retErrorMask = null;");
+                    fg.AppendLine($"Func<{this.ErrorMask}> maskGetter = () =>");
+                    using (new BraceWrapper(fg) { AppendSemicolon = true })
+                    {
+                        fg.AppendLine($"if (retErrorMask == null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"retErrorMask = new {this.ErrorMask}();");
+                        }
+                        fg.AppendLine("return retErrorMask;");
+                    }
                     using (var args = new ArgsWrapper(fg, true,
                         $"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom"))
                     {
                         args.Add("item: this");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
-                        args.Add("errorMask: retErrorMask");
+                        args.Add("doErrorMask: false");
+                        args.Add("errorMask: maskGetter");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
                     }
+                    fg.AppendLine("errorMask = retErrorMask;");
                 }
                 fg.AppendLine();
             }
@@ -1531,20 +1554,20 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string errorMaskAccessor, int index)
+        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string doErrMaskAccessor, string errorMaskAccessor, int index)
         {
             fg.AppendLine("catch (Exception ex)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({errorMaskAccessor} == null)");
+                fg.AppendLine($"if ({doErrMaskAccessor})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("throw ex;");
+                    fg.AppendLine($"{errorMaskAccessor}().SetNthException({index}, ex);");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{errorMaskAccessor}.SetNthException({index}, ex);");
+                    fg.AppendLine("throw ex;");
                 }
             }
         }
