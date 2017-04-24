@@ -36,18 +36,18 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        protected override object GetNthObject(ushort index) => TestGenericObject_SubClassCommon<S, T, R>.GetNthObject(index, this);
+        protected override object GetNthObject(ushort index) => TestGenericObject_SubClassCommon.GetNthObject<S, T, R>(index, this);
 
-        protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClassCommon<S, T, R>.GetNthObjectHasBeenSet(index, this);
+        protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClassCommon.GetNthObjectHasBeenSet<S, T, R>(index, this);
 
-        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClassCommon<S, T, R>.UnsetNthObject(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClassCommon.UnsetNthObject<S, T, R>(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         protected override void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestGenericObject_SubClassCommon<S, T, R>.SetNthObjectHasBeenSet(index, on, this);
+            TestGenericObject_SubClassCommon.SetNthObjectHasBeenSet<S, T, R>(index, on, this);
         }
 
         public void CopyFieldsFrom(
@@ -56,7 +56,7 @@ namespace Noggolloquy.Tests
             ITestGenericObject_SubClassGetter<S, T, R> def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestGenericObject_SubClassCommon<S, T, R>.CopyFieldsFrom(
+            TestGenericObject_SubClassCommon.CopyFieldsFrom<S, T, R>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -82,7 +82,7 @@ namespace Noggolloquy.Tests
                 }
                 return retErrorMask;
             };
-            TestGenericObject_SubClassCommon<S, T, R>.CopyFieldsFrom(
+            TestGenericObject_SubClassCommon.CopyFieldsFrom<S, T, R>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -408,13 +408,10 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestGenericObject_SubClassCommon<S, T, R>
-        where S : ObjectToRef
-        where T : INoggolloquyObject
-        where R : ObjectToRef, INoggolloquyObject
+    public static class TestGenericObject_SubClassCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(
+        public static void CopyFieldsFrom<S, T, R>(
             this ITestGenericObject_SubClass<S, T, R> item,
             ITestGenericObject_SubClassGetter<S, T, R> rhs,
             ITestGenericObject_SubClassGetter<S, T, R> def,
@@ -422,8 +419,11 @@ namespace Noggolloquy.Tests
             Func<TestGenericObject_SubClass_ErrorMask> errorMask,
             TestGenericObject_SubClass_CopyMask copyMask,
             NotifyingFireParameters? cmds)
+            where S : ObjectToRef
+            where T : INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObject
         {
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(
+            TestGenericObjectCommon.CopyFieldsFrom<T, R>(
                 item,
                 rhs,
                 def,
@@ -435,41 +435,64 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject_SubClass<S, T, R> obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet<S, T, R>(
+            ushort index,
+            bool on,
+            ITestGenericObject_SubClass<S, T, R> obj,
+            NotifyingFireParameters? cmds = null)
+            where S : ObjectToRef
+            where T : INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObject
         {
             switch (index)
             {
                 default:
-                    TestGenericObjectCommon<T, R>.SetNthObjectHasBeenSet(index, on, obj);
+                    TestGenericObjectCommon.SetNthObjectHasBeenSet<T, R>(index, on, obj);
                     break;
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestGenericObject_SubClass<S, T, R> obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject<S, T, R>(
+            ushort index,
+            ITestGenericObject_SubClass<S, T, R> obj,
+            NotifyingUnsetParameters? cmds = null)
+            where S : ObjectToRef
+            where T : INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObject
         {
             switch (index)
             {
                 default:
-                    TestGenericObjectCommon<T, R>.UnsetNthObject(index, obj);
+                    TestGenericObjectCommon.UnsetNthObject<T, R>(index, obj);
                     break;
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestGenericObject_SubClass<S, T, R> obj)
+        public static bool GetNthObjectHasBeenSet<S, T, R>(
+            ushort index,
+            ITestGenericObject_SubClass<S, T, R> obj)
+            where S : ObjectToRef
+            where T : INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObject
         {
             switch (index)
             {
                 default:
-                    return TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, obj);
+                    return TestGenericObjectCommon.GetNthObjectHasBeenSet<T, R>(index, obj);
             }
         }
 
-        public static object GetNthObject(ushort index, ITestGenericObject_SubClassGetter<S, T, R> obj)
+        public static object GetNthObject<S, T, R>(
+            ushort index,
+            ITestGenericObject_SubClassGetter<S, T, R> obj)
+            where S : ObjectToRef
+            where T : INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObject
         {
             switch (index)
             {
                 default:
-                    return TestGenericObjectCommon<T, R>.GetNthObject(index, obj);
+                    return TestGenericObjectCommon.GetNthObject<T, R>(index, obj);
             }
         }
 

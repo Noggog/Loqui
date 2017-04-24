@@ -53,7 +53,7 @@ namespace Noggolloquy.Generation
         public string ErrorMask => $"{this.Name}_ErrorMask";
         public string CopyMask => $"{this.Name}_CopyMask";
 
-        public string ExtCommonName(string genericTypes) => $"{Name}Common{genericTypes}";
+        public string ExtCommonName => $"{Name}Common";
 
         public string InterfaceStr_Generic(string genericTypes) => $"I{this.Name}{genericTypes}";
 
@@ -218,22 +218,30 @@ namespace Noggolloquy.Generation
             return $"<{string.Join(", ", keys)}>";
         }
 
-        public void GenerateWhereClauses(FileGeneration fg, IEnumerable<KeyValuePair<string, GenericDefinition>> defs)
+        public void WriteWhereClauses(FileGeneration fg, IEnumerable<KeyValuePair<string, GenericDefinition>> defs)
         {
             using (new DepthWrapper(fg))
             {
-                foreach (var gen in defs)
+                foreach (var item in GenerateWhereClauses(defs))
                 {
-                    List<string> wheres = new List<string>();
-                    if (gen.Value.MustBeClass)
-                    {
-                        wheres.Add("class");
-                    }
-                    wheres.AddRange(gen.Value.Wheres);
-                    if (wheres.Count > 0)
-                    {
-                        fg.AppendLine($"where {gen.Key} : {string.Join(", ", wheres)}");
-                    }
+                    fg.AppendLine(item);
+                }
+            }
+        }
+
+        public IEnumerable<string> GenerateWhereClauses(IEnumerable<KeyValuePair<string, GenericDefinition>> defs = null)
+        {
+            foreach (var gen in (defs ?? this.Generics))
+            {
+                List<string> wheres = new List<string>();
+                if (gen.Value.MustBeClass)
+                {
+                    wheres.Add("class");
+                }
+                wheres.AddRange(gen.Value.Wheres);
+                if (wheres.Count > 0)
+                {
+                    yield return $"where {gen.Key} : {string.Join(", ", wheres)}";
                 }
             }
         }
@@ -246,7 +254,7 @@ namespace Noggolloquy.Generation
 
                 GenerateClassLine(fg);
 
-                GenerateWhereClauses(fg, this.Generics);
+                WriteWhereClauses(fg, this.Generics);
 
                 using (new BraceWrapper(fg))
                 {
@@ -305,7 +313,7 @@ namespace Noggolloquy.Generation
         {
             // Interface
             fg.AppendLine($"public interface {this.InterfaceStr} : {this.Getter_InterfaceStr}{(this.HasBaseObject ? ", " + this.BaseClass.InterfaceStr_Generic(this.BaseGenericTypes) : string.Empty)}, INoggolloquyClass<{this.InterfaceStr}, {this.Getter_InterfaceStr}>, INoggolloquyClass<{this.ObjectName}, {this.Getter_InterfaceStr}>");
-            GenerateWhereClauses(fg, this.Generics);
+            WriteWhereClauses(fg, this.Generics);
             using (new BraceWrapper(fg))
             {
                 foreach (var field in Fields)
@@ -320,7 +328,7 @@ namespace Noggolloquy.Generation
         {
             // Getter 
             fg.AppendLine($"public interface {this.Getter_InterfaceStr} : {(this.HasBaseObject ? this.BaseClass.Getter_InterfaceStr_Generic(this.BaseGenericTypes) : nameof(INoggolloquyObject))}");
-            GenerateWhereClauses(fg, this.Generics);
+            WriteWhereClauses(fg, this.Generics);
 
             using (new BraceWrapper(fg))
             {
@@ -447,7 +455,7 @@ namespace Noggolloquy.Generation
                 {
                     fg.AppendLine();
                     fg.AppendLine($"public class {this.RegistrationName}{this.GenericTypes} : {this.RegistrationName}");
-                    GenerateWhereClauses(fg, this.Generics);
+                    WriteWhereClauses(fg, this.Generics);
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"public static readonly {this.RegistrationName}{this.GenericTypes} GenericInstance = new {this.RegistrationName}{this.GenericTypes}();");
@@ -463,8 +471,7 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Extensions"))
             {
-                fg.AppendLine($"public static class {this.ExtCommonName(this.GenericTypes)}");
-                GenerateWhereClauses(fg, this.Generics);
+                fg.AppendLine($"public static class {this.ExtCommonName}");
 
                 using (new BraceWrapper(fg))
                 {
@@ -499,11 +506,9 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
                 // Specific HasSet version with default
-                using (var args = new ArgsWrapper(fg, false,
-                    $"public static void CopyFieldsFrom")
-                {
-                    SemiColon = false
-                })
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void CopyFieldsFrom{this.GenericTypes}",
+                    GenerateWhereClauses().ToArray()))
                 {
                     args.Add($"this {this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
@@ -543,7 +548,7 @@ namespace Noggolloquy.Generation
             if (this.HasBaseObject)
             {
                 using (var args = new ArgsWrapper(fg, true,
-                    $"{this.BaseClass.ExtCommonName(this.BaseGenericTypes)}.CopyFieldsFrom"))
+                    $"{this.BaseClass.ExtCommonName}.CopyFieldsFrom{this.BaseGenericTypes}"))
                 {
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
@@ -616,7 +621,7 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName(this.GenericTypes)}.GetNthObject(index, this);");
+                fg.AppendLine($"protected{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GenericTypes}(index, this);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);");
@@ -628,7 +633,7 @@ namespace Noggolloquy.Generation
                     fg.Append($"protected{this.FunctionOverride}bool GetNthObjectHasBeenSet(ushort index) => ");
                     if (this is ClassGeneration)
                     {
-                        fg.Append($"{this.ExtCommonName(this.GenericTypes)}.GetNthObjectHasBeenSet(index, this);");
+                        fg.Append($"{this.ExtCommonName}.GetNthObjectHasBeenSet{this.GenericTypes}(index, this);");
                     }
                     else
                     {
@@ -641,7 +646,7 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName(this.GenericTypes)}.UnsetNthObject(index, this, cmds);");
+                fg.AppendLine($"protected{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);");
@@ -658,7 +663,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"protected{this.FunctionOverride}void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{this.ExtCommonName(this.GenericTypes)}.SetNthObjectHasBeenSet(index, on, this);");
+                    fg.AppendLine($"{this.ExtCommonName}.SetNthObjectHasBeenSet{this.GenericTypes}(index, on, this);");
                 }
                 if (this.IsTopClass)
                 {
@@ -678,7 +683,7 @@ namespace Noggolloquy.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg, true,
-                        $"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom"))
+                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
                     {
                         args.Add("item: this");
                         args.Add("rhs: rhs");
@@ -715,7 +720,7 @@ namespace Noggolloquy.Generation
                         fg.AppendLine("return retErrorMask;");
                     }
                     using (var args = new ArgsWrapper(fg, true,
-                        $"{this.ExtCommonName(this.GenericTypes)}.CopyFieldsFrom"))
+                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
                     {
                         args.Add("item: this");
                         args.Add("rhs: rhs");
@@ -754,7 +759,13 @@ namespace Noggolloquy.Generation
 
         private void GenerateGetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static object GetNthObject(ushort index, {this.Getter_InterfaceStr} obj)");
+            using (var args = new FunctionWrapper(fg,
+                $"public static object GetNthObject{this.GenericTypes}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"ushort index");
+                args.Add($"{this.Getter_InterfaceStr} obj");
+            }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -777,7 +788,13 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
         {
-            fg.AppendLine($"public static bool GetNthObjectHasBeenSet(ushort index, {this.InterfaceStr} obj)");
+            using (var args = new FunctionWrapper(fg,
+                $"public static bool GetNthObjectHasBeenSet{this.GenericTypes}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"ushort index");
+                args.Add($"{this.InterfaceStr} obj");
+            }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -863,7 +880,15 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
         {
-            fg.AppendLine($"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}(ushort index, bool on, {(internalUse ? this.ObjectName : this.InterfaceStr)} obj, {nameof(NotifyingFireParameters)}? cmds = null)");
+            using (var args = new FunctionWrapper(fg,
+                $"public {(internalUse ? string.Empty : "static ")}void SetNthObjectHasBeenSet{(internalUse ? "_Internal" : string.Empty)}{this.GenericTypes}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"ushort index");
+                args.Add($"bool on");
+                args.Add($"{(internalUse ? this.ObjectName : this.InterfaceStr)} obj");
+                args.Add($"{nameof(NotifyingFireParameters)}? cmds = null");
+            }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -909,7 +934,14 @@ namespace Noggolloquy.Generation
 
         protected virtual void GenerateUnsetNthObject(FileGeneration fg)
         {
-            fg.AppendLine($"public static void UnsetNthObject(ushort index, {this.InterfaceStr} obj, {nameof(NotifyingUnsetParameters)}? cmds = null)");
+            using (var args = new FunctionWrapper(fg,
+                $"public static void UnsetNthObject{this.GenericTypes}",
+                this.GenerateWhereClauses().ToArray()))
+            {
+                args.Add("ushort index");
+                args.Add($"{this.InterfaceStr} obj");
+                args.Add($"{nameof(NotifyingUnsetParameters)}? cmds = null");
+            }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("switch (index)");
@@ -1220,7 +1252,7 @@ namespace Noggolloquy.Generation
                 {
                     if (common)
                     {
-                        fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.ExtCommonName(this.BaseGenericTypes)}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                        fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.ExtCommonName}.{functionName}{this.BaseGenericTypes}({string.Join(", ", indexAccessor.And(otherParameters))});");
                     }
                     else
                     {

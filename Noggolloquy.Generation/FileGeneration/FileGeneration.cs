@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("if (errorMask != null)"))
+            if (str.Contains("public static object GetNthObject("))
             {
                 int wer = 23;
                 wer++;

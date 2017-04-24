@@ -2058,7 +2058,11 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_HasBeenSet_Derivative obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(
+            ushort index,
+            bool on,
+            ITestObject_HasBeenSet_Derivative obj,
+            NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -2116,7 +2120,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject_HasBeenSet_Derivative obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(
+            ushort index,
+            ITestObject_HasBeenSet_Derivative obj,
+            NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -2174,7 +2181,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_HasBeenSet_Derivative obj)
+        public static bool GetNthObjectHasBeenSet(
+            ushort index,
+            ITestObject_HasBeenSet_Derivative obj)
         {
             switch (index)
             {
@@ -2279,7 +2288,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObject_HasBeenSet_DerivativeGetter obj)
+        public static object GetNthObject(
+            ushort index,
+            ITestObject_HasBeenSet_DerivativeGetter obj)
         {
             switch (index)
             {

@@ -2214,7 +2214,11 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject_Notifying_ReadOnly obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(
+            ushort index,
+            bool on,
+            ITestObject_Notifying_ReadOnly obj,
+            NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -2319,7 +2323,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject_Notifying_ReadOnly obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(
+            ushort index,
+            ITestObject_Notifying_ReadOnly obj,
+            NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -2424,7 +2431,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject_Notifying_ReadOnly obj)
+        public static bool GetNthObjectHasBeenSet(
+            ushort index,
+            ITestObject_Notifying_ReadOnly obj)
         {
             switch (index)
             {
@@ -2529,7 +2538,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObject_Notifying_ReadOnlyGetter obj)
+        public static object GetNthObject(
+            ushort index,
+            ITestObject_Notifying_ReadOnlyGetter obj)
         {
             switch (index)
             {

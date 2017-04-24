@@ -43,13 +43,13 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        protected virtual object GetNthObject(ushort index) => TestGenericObjectCommon<T, R>.GetNthObject(index, this);
+        protected virtual object GetNthObject(ushort index) => TestGenericObjectCommon.GetNthObject<T, R>(index, this);
         object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        protected virtual bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon<T, R>.GetNthObjectHasBeenSet(index, this);
+        protected virtual bool GetNthObjectHasBeenSet(ushort index) => TestGenericObjectCommon.GetNthObjectHasBeenSet<T, R>(index, this);
         bool INoggolloquyObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon<T, R>.UnsetNthObject(index, this, cmds);
+        protected virtual void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObjectCommon.UnsetNthObject<T, R>(index, this, cmds);
         void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
@@ -57,7 +57,7 @@ namespace Noggolloquy.Tests
         #region Noggolloquy Interface
         protected virtual void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestGenericObjectCommon<T, R>.SetNthObjectHasBeenSet(index, on, this);
+            TestGenericObjectCommon.SetNthObjectHasBeenSet<T, R>(index, on, this);
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
@@ -67,7 +67,7 @@ namespace Noggolloquy.Tests
             ITestGenericObjectGetter<T, R> def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(
+            TestGenericObjectCommon.CopyFieldsFrom<T, R>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -93,7 +93,7 @@ namespace Noggolloquy.Tests
                 }
                 return retErrorMask;
             };
-            TestGenericObjectCommon<T, R>.CopyFieldsFrom(
+            TestGenericObjectCommon.CopyFieldsFrom<T, R>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -472,11 +472,10 @@ namespace Noggolloquy.Tests
     }
     #endregion
     #region Extensions
-    public static class TestGenericObjectCommon<T, R>
-        where R : ObjectToRef
+    public static class TestGenericObjectCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(
+        public static void CopyFieldsFrom<T, R>(
             this ITestGenericObject<T, R> item,
             ITestGenericObjectGetter<T, R> rhs,
             ITestGenericObjectGetter<T, R> def,
@@ -484,6 +483,7 @@ namespace Noggolloquy.Tests
             Func<TestGenericObject_ErrorMask> errorMask,
             TestGenericObject_CopyMask copyMask,
             NotifyingFireParameters? cmds)
+            where R : ObjectToRef
         {
             if (copyMask?.Ref.Overall != CopyType.Skip)
             {
@@ -523,7 +523,12 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject<T, R> obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet<T, R>(
+            ushort index,
+            bool on,
+            ITestGenericObject<T, R> obj,
+            NotifyingFireParameters? cmds = null)
+            where R : ObjectToRef
         {
             switch (index)
             {
@@ -535,7 +540,11 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestGenericObject<T, R> obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject<T, R>(
+            ushort index,
+            ITestGenericObject<T, R> obj,
+            NotifyingUnsetParameters? cmds = null)
+            where R : ObjectToRef
         {
             switch (index)
             {
@@ -547,7 +556,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestGenericObject<T, R> obj)
+        public static bool GetNthObjectHasBeenSet<T, R>(
+            ushort index,
+            ITestGenericObject<T, R> obj)
+            where R : ObjectToRef
         {
             switch (index)
             {
@@ -558,7 +570,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestGenericObjectGetter<T, R> obj)
+        public static object GetNthObject<T, R>(
+            ushort index,
+            ITestGenericObjectGetter<T, R> obj)
+            where R : ObjectToRef
         {
             switch (index)
             {

@@ -2032,24 +2032,11 @@ namespace Noggolloquy.Tests
                             item.Ref = rhs.Ref;
                             break;
                         case CopyType.Deep:
-                            if (errorMask != null)
-                            {
-                                item.Ref.CopyFieldsFrom(
-                                    rhs.Ref,
-                                    out var errMask,
-                                    copyMask.Ref.Specific,
-                                    def?.Ref,
-                                    cmds);
-                                errorMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, errMask);
-                            }
-                            else
-                            {
-                                item.Ref.CopyFieldsFrom(
-                                    rhs.Ref,
-                                    copyMask.Ref.Specific,
-                                    def?.Ref,
-                                    cmds);
-                            }
+                            item.Ref.CopyFieldsFrom(
+                                rhs.Ref,
+                                copyMask.Ref.Specific,
+                                def?.Ref,
+                                cmds);
                             break;
                         default:
                             throw new NotImplementedException($"Unknown CopyType nameof(copyMask?.Overall). Cannot execute copy.");
@@ -2326,7 +2313,11 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestObject obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(
+            ushort index,
+            bool on,
+            ITestObject obj,
+            NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
@@ -2436,7 +2427,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestObject obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(
+            ushort index,
+            ITestObject obj,
+            NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
@@ -2589,7 +2583,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestObject obj)
+        public static bool GetNthObjectHasBeenSet(
+            ushort index,
+            ITestObject obj)
         {
             switch (index)
             {
@@ -2647,7 +2643,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public static object GetNthObject(ushort index, ITestObjectGetter obj)
+        public static object GetNthObject(
+            ushort index,
+            ITestObjectGetter obj)
         {
             switch (index)
             {

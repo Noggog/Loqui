@@ -400,7 +400,7 @@ namespace Noggolloquy.Tests
             TestGenericObject_SubClass_Defined_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            TestGenericObjectCommon<long, ObjectToRef>.CopyFieldsFrom(
+            TestGenericObjectCommon.CopyFieldsFrom<long, ObjectToRef>(
                 item,
                 rhs,
                 def,
@@ -412,41 +412,52 @@ namespace Noggolloquy.Tests
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(ushort index, bool on, ITestGenericObject_SubClass_Defined obj, NotifyingFireParameters? cmds = null)
+        public static void SetNthObjectHasBeenSet(
+            ushort index,
+            bool on,
+            ITestGenericObject_SubClass_Defined obj,
+            NotifyingFireParameters? cmds = null)
         {
             switch (index)
             {
                 default:
-                    TestGenericObjectCommon<long, ObjectToRef>.SetNthObjectHasBeenSet(index, on, obj);
+                    TestGenericObjectCommon.SetNthObjectHasBeenSet<long, ObjectToRef>(index, on, obj);
                     break;
             }
         }
 
-        public static void UnsetNthObject(ushort index, ITestGenericObject_SubClass_Defined obj, NotifyingUnsetParameters? cmds = null)
+        public static void UnsetNthObject(
+            ushort index,
+            ITestGenericObject_SubClass_Defined obj,
+            NotifyingUnsetParameters? cmds = null)
         {
             switch (index)
             {
                 default:
-                    TestGenericObjectCommon<long, ObjectToRef>.UnsetNthObject(index, obj);
+                    TestGenericObjectCommon.UnsetNthObject<long, ObjectToRef>(index, obj);
                     break;
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(ushort index, ITestGenericObject_SubClass_Defined obj)
+        public static bool GetNthObjectHasBeenSet(
+            ushort index,
+            ITestGenericObject_SubClass_Defined obj)
         {
             switch (index)
             {
                 default:
-                    return TestGenericObjectCommon<long, ObjectToRef>.GetNthObjectHasBeenSet(index, obj);
+                    return TestGenericObjectCommon.GetNthObjectHasBeenSet<long, ObjectToRef>(index, obj);
             }
         }
 
-        public static object GetNthObject(ushort index, ITestGenericObject_SubClass_DefinedGetter obj)
+        public static object GetNthObject(
+            ushort index,
+            ITestGenericObject_SubClass_DefinedGetter obj)
         {
             switch (index)
             {
                 default:
-                    return TestGenericObjectCommon<long, ObjectToRef>.GetNthObject(index, obj);
+                    return TestGenericObjectCommon.GetNthObject<long, ObjectToRef>(index, obj);
             }
         }
 
