@@ -178,7 +178,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}).Select((i) => i.Copy()),");
+                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}),");
                 fg.AppendLine($"{cmdsAccessor});");
             }
         }

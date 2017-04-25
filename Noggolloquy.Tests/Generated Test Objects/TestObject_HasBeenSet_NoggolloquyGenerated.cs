@@ -998,9 +998,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        public TestObject_HasBeenSet Copy(ITestObject_HasBeenSetGetter def = null)
+        public TestObject_HasBeenSet Copy(
+            TestObject_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_HasBeenSetGetter def = null)
         {
-            return Copy(this, def: def);
+            return TestObject_HasBeenSet.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
         }
 
         public static TestObject_HasBeenSet Copy(
@@ -1151,10 +1156,10 @@ namespace Noggolloquy.Tests
                     this._RefSetter.Set((IObjectToRef)obj);
                     break;
                 case 43:
-                    this._List.SetTo(((NotifyingList<Boolean>)obj), cmds);
+                    this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
                 case 44:
-                    this._RefList.SetTo(((NotifyingList<ObjectToRef>)obj).Select((s) => s.Copy()), cmds);
+                    this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
                     break;
                 case 45:
                     this.Dict.SetTo(
@@ -1174,7 +1179,7 @@ namespace Noggolloquy.Tests
                     break;
                 case 47:
                     this.DictKeyedValue.SetTo(
-                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj).Select((i) => i.Copy()),
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
                         cmds);
                     break;
                 default:
@@ -3245,7 +3250,15 @@ namespace Noggolloquy.Tests
                         item.RefList.SetTo(
                             rhs.RefList.Select((s) =>
                             {
-                                return s.Copy(defList?[i++]);
+                                switch (copyMask?.RefList.Overall ?? CopyType.Reference)
+                                {
+                                    case CopyType.Reference:
+                                        return s;
+                                    case CopyType.Deep:
+                                        return s.Copy(copyMask?.RefList.Specific, defList?[i++]);
+                                    default:
+                                        throw new NotImplementedException($"Unknown CopyType {copyMask?.RefList.Overall}. Cannot execute copy.");
+                                }
                             }
                         ), cmds);
                     }
@@ -3255,7 +3268,19 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.RefList.SetTo(def.RefList.Select((s) => s.Copy()), cmds);
+                        item.RefList.SetTo(def.RefList.Select((s) =>
+                        {
+                            switch (copyMask?.RefList.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return s;
+                                case CopyType.Deep:
+                                    return s.Copy(copyMask?.RefList.Specific);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.RefList.Overall}. Cannot execute copy.");
+                            }
+                        }),
+                        cmds);
                     }
                 }
                 catch (Exception ex)
@@ -3351,8 +3376,8 @@ namespace Noggolloquy.Tests
                         item.RefDict.SetTo(
                             def.RefDict.Select(
                                 (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                    i.Key.Copy(),
-                                    i.Value.Copy())),
+                                    i.Key.CopyFieldsFrom(),
+                                    i.Value.CopyFieldsFrom())),
                             cmds);
                     }
                 }

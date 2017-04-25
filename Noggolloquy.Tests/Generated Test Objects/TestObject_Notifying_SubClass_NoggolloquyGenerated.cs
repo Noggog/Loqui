@@ -215,9 +215,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        public TestObject_Notifying_SubClass Copy(ITestObject_Notifying_SubClassGetter def = null)
+        public TestObject_Notifying_SubClass Copy(
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null)
         {
-            return Copy(this, def: def);
+            return TestObject_Notifying_SubClass.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
         }
 
         public static TestObject_Notifying_SubClass Copy(

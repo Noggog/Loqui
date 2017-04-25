@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("switch (copyMask?.Ref.Overall ?? CopyType.Reference)"))
+            if (str.Contains("item.List.SetTo(def.List, cmds);"))
             {
                 int wer = 23;
                 wer++;

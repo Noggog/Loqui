@@ -22,6 +22,7 @@ namespace Noggolloquy.Generation
         public ProtocolGeneration ProtoGen;
         public bool KeyField { get; protected set; }
         public abstract string TypeName { get; }
+        public virtual string SetToName => TypeName;
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";

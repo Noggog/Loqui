@@ -6,6 +6,7 @@ namespace Noggolloquy.Generation
     {
         public override string TypeName => $"NotifyingList<{this.ItemTypeName}>";
         public override bool CopyNeedsTryCatch => true;
+        public override string SetToName => $"IEnumerable<{this.ItemTypeName}>";
 
         public override void GenerateForClass(FileGeneration fg)
         {
@@ -94,7 +95,25 @@ namespace Noggolloquy.Generation
                             fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select((s) =>");
                             using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine("return s.Copy(defList?[i++]);");
+                                fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine("return s;");
+                                    }
+                                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific, defList?[i++]);");
+                                    }
+                                    fg.AppendLine($"default:");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                    }
+                                }
                             }
                         }
                         fg.AppendLine($"), {cmdsAccessor});");
@@ -115,12 +134,46 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo(({rhsAccessorPrefix}){(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdsAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo({rhsAccessorPrefix}, {cmdsAccessor});");
         }
 
         private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}{(this.isNoggSingle ? ".Select((s) => s.Copy())" : string.Empty)}, {cmdAccessor});");
+            if (!this.isNoggSingle)
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}, {cmdAccessor});");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}.Select((s) =>");
+                using (new BraceWrapper(fg)
+                {
+                    AppendParenthesis = true,
+                    AppendComma = true
+                })
+                {
+                    fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("return s;");
+                        }
+                        fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific);");
+                        }
+                        fg.AppendLine($"default:");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                        }
+                    }
+                }
+                fg.AppendLine($"{cmdAccessor});");
+            }
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)

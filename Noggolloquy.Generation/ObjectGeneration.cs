@@ -866,7 +866,7 @@ namespace Noggolloquy.Generation
                             item.Field.GenerateInterfaceSet(
                                 fg,
                                 accessorPrefix: $"this",
-                                rhsAccessorPrefix: $"({item.Field.TypeName})obj",
+                                rhsAccessorPrefix: $"({item.Field.SetToName})obj",
                                 cmdsAccessor: "cmds");
                             fg.AppendLine($"break;");
                         }
@@ -1470,10 +1470,21 @@ namespace Noggolloquy.Generation
 
         public virtual void GenerateCopy(FileGeneration fg)
         {
-            fg.AppendLine($"public {this.ObjectName} Copy({this.Getter_InterfaceStr} def = null)");
+            using (var args = new FunctionWrapper(fg,
+                $"public {this.ObjectName} Copy"))
+            {
+                args.Add($"{this.CopyMask} copyMask = null");
+                args.Add($"{this.Getter_InterfaceStr} def = null");
+            }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"return Copy(this, def: def);");
+                using (var args = new ArgsWrapper(fg, true,
+                    $"return {this.ObjectName}.Copy"))
+                {
+                    args.Add("this");
+                    args.Add("copyMask: copyMask");
+                    args.Add("def: def");
+                }
             }
             fg.AppendLine();
 

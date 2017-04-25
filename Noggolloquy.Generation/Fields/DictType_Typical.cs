@@ -244,8 +244,8 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".Copy()" : string.Empty) },");
-                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".Copy()" : string.Empty)})),");
+                        fg.AppendLine($"i.Key{(this.KeyIsNogg ? ".CopyFieldsFrom()" : string.Empty) },");
+                        fg.AppendLine($"i.Value{(this.ValueIsNogg ? ".CopyFieldsFrom()" : string.Empty)})),");
                     }
                 }
                 fg.AppendLine($"{cmdAccessor});");

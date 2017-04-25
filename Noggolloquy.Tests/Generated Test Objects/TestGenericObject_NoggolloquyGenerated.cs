@@ -238,9 +238,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        public TestGenericObject<T, R> Copy(ITestGenericObjectGetter<T, R> def = null)
+        public TestGenericObject<T, R> Copy(
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null)
         {
-            return Copy(this, def: def);
+            return TestGenericObject<T, R>.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
         }
 
         public static TestGenericObject<T, R> Copy(

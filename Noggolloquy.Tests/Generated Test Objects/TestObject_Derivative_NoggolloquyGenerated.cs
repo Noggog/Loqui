@@ -588,9 +588,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        public TestObject_Derivative Copy(ITestObject_DerivativeGetter def = null)
+        public TestObject_Derivative Copy(
+            TestObject_Derivative_CopyMask copyMask = null,
+            ITestObject_DerivativeGetter def = null)
         {
-            return Copy(this, def: def);
+            return TestObject_Derivative.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
         }
 
         public static TestObject_Derivative Copy(

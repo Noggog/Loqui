@@ -259,9 +259,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Mask
         #endregion
-        public ObjectToRef Copy(IObjectToRefGetter def = null)
+        public ObjectToRef Copy(
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null)
         {
-            return Copy(this, def: def);
+            return ObjectToRef.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
         }
 
         public static ObjectToRef Copy(

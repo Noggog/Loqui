@@ -62,11 +62,6 @@ namespace Noggolloquy.Generation
             {
                 throw new NotImplementedException();
             }
-
-            if (this.Derivative)
-            {
-                //throw new NotImplementedException();
-            }
         }
         
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
