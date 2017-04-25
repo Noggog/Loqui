@@ -2033,13 +2033,25 @@ namespace Noggolloquy.Tests
                             break;
                         case CopyType.Deep:
                             item.Ref.CopyFieldsFrom(
-                                rhs.Ref,
-                                copyMask.Ref.Specific,
-                                def?.Ref,
-                                cmds);
+                                rhs: rhs.Ref,
+                                def: def?.Ref,
+                                doErrorMask: doErrorMask,
+                                errorMask: (doErrorMask ? () =>
+                                {
+                                   var errMask = errorMask();
+                                   if (errMask.Ref.Specific == null)
+                                   {
+                                      errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                         null,
+                                         new ObjectToRef_ErrorMask());
+                                   }
+                                   return errMask.Ref.Specific;
+                                } : default(Func<ObjectToRef_ErrorMask>)),
+                                copyMask: copyMask.Ref.Specific,
+                                cmds: cmds);
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyType nameof(copyMask?.Overall). Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -2066,7 +2078,7 @@ namespace Noggolloquy.Tests
                         case CopyType.Deep:
                             throw new ArgumentException($"Cannot deep copy a getter reference.");
                         default:
-                            throw new NotImplementedException($"Unknown CopyType nameof(copyMask?.Overall). Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -2092,13 +2104,25 @@ namespace Noggolloquy.Tests
                             break;
                         case CopyType.Deep:
                             item.RefSetter.CopyFieldsFrom(
-                                rhs.RefSetter,
-                                copyMask.RefSetter.Specific,
-                                def?.RefSetter,
-                                cmds);
+                                rhs: rhs.RefSetter,
+                                def: def?.RefSetter,
+                                doErrorMask: doErrorMask,
+                                errorMask: (doErrorMask ? () =>
+                                {
+                                   var errMask = errorMask();
+                                   if (errMask.RefSetter.Specific == null)
+                                   {
+                                      errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                         null,
+                                         new ObjectToRef_ErrorMask());
+                                   }
+                                   return errMask.RefSetter.Specific;
+                                } : default(Func<ObjectToRef_ErrorMask>)),
+                                copyMask: copyMask.RefSetter.Specific,
+                                cmds: cmds);
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyType nameof(copyMask?.Overall). Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)

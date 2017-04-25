@@ -3806,9 +3806,35 @@ namespace Noggolloquy.Tests
                 {
                     if (rhs.Ref_Property.HasBeenSet)
                     {
-                        item.Ref_Property.Set(
-                            rhs.Ref,
-                            cmds: cmds);
+                        switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.Ref_Property.Set(
+                                    rhs.Ref,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.Ref.CopyFieldsFrom(
+                                    rhs: rhs.Ref,
+                                    def: def?.Ref,
+                                    doErrorMask: doErrorMask,
+                                    errorMask: (doErrorMask ? () =>
+                                    {
+                                       var errMask = errorMask();
+                                       if (errMask.Ref.Specific == null)
+                                       {
+                                          errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                             null,
+                                             new ObjectToRef_ErrorMask());
+                                       }
+                                       return errMask.Ref.Specific;
+                                    } : default(Func<ObjectToRef_ErrorMask>)),
+                                    copyMask: copyMask.Ref.Specific,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
+                        }
                     }
                     else if (def == null)
                     {
@@ -3816,9 +3842,35 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.Ref_Property.Set(
-                            def.Ref,
-                            cmds: cmds);
+                        switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.Ref_Property.Set(
+                                    def.Ref,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.Ref.CopyFieldsFrom(
+                                    rhs: def.Ref,
+                                    def: null,
+                                    doErrorMask: doErrorMask,
+                                    errorMask: (doErrorMask ? () =>
+                                    {
+                                       var errMask = errorMask();
+                                       if (errMask.Ref.Specific == null)
+                                       {
+                                          errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                             null,
+                                             new ObjectToRef_ErrorMask());
+                                       }
+                                       return errMask.Ref.Specific;
+                                    } : default(Func<ObjectToRef_ErrorMask>)),
+                                    copyMask: copyMask.Ref.Specific,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
+                        }
                     }
 
                 }
@@ -3840,9 +3892,18 @@ namespace Noggolloquy.Tests
                 {
                     if (rhs.RefGetter_Property.HasBeenSet)
                     {
-                        item.RefGetter_Property.Set(
-                            rhs.RefGetter,
-                            cmds: cmds);
+                        switch (copyMask?.RefGetter.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.RefGetter_Property.Set(
+                                    rhs.RefGetter,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                throw new ArgumentException($"Cannot deep copy a getter reference.");
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
+                        }
                     }
                     else if (def == null)
                     {
@@ -3850,9 +3911,18 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.RefGetter_Property.Set(
-                            def.RefGetter,
-                            cmds: cmds);
+                        switch (copyMask?.RefGetter.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.RefGetter_Property.Set(
+                                    def.RefGetter,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                throw new ArgumentException($"Cannot deep copy a getter reference.");
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
+                        }
                     }
 
                 }
@@ -3874,9 +3944,35 @@ namespace Noggolloquy.Tests
                 {
                     if (rhs.RefSetter_Property.HasBeenSet)
                     {
-                        item.RefSetter_Property.Set(
-                            rhs.RefSetter,
-                            cmds: cmds);
+                        switch (copyMask?.RefSetter.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.RefSetter_Property.Set(
+                                    rhs.RefSetter,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.RefSetter.CopyFieldsFrom(
+                                    rhs: rhs.RefSetter,
+                                    def: def?.RefSetter,
+                                    doErrorMask: doErrorMask,
+                                    errorMask: (doErrorMask ? () =>
+                                    {
+                                       var errMask = errorMask();
+                                       if (errMask.RefSetter.Specific == null)
+                                       {
+                                          errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                             null,
+                                             new ObjectToRef_ErrorMask());
+                                       }
+                                       return errMask.RefSetter.Specific;
+                                    } : default(Func<ObjectToRef_ErrorMask>)),
+                                    copyMask: copyMask.RefSetter.Specific,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
+                        }
                     }
                     else if (def == null)
                     {
@@ -3884,9 +3980,35 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.RefSetter_Property.Set(
-                            def.RefSetter,
-                            cmds: cmds);
+                        switch (copyMask?.RefSetter.Overall ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.RefSetter_Property.Set(
+                                    def.RefSetter,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.RefSetter.CopyFieldsFrom(
+                                    rhs: def.RefSetter,
+                                    def: null,
+                                    doErrorMask: doErrorMask,
+                                    errorMask: (doErrorMask ? () =>
+                                    {
+                                       var errMask = errorMask();
+                                       if (errMask.RefSetter.Specific == null)
+                                       {
+                                          errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                             null,
+                                             new ObjectToRef_ErrorMask());
+                                       }
+                                       return errMask.RefSetter.Specific;
+                                    } : default(Func<ObjectToRef_ErrorMask>)),
+                                    copyMask: copyMask.RefSetter.Specific,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
+                        }
                     }
 
                 }

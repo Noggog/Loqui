@@ -485,15 +485,31 @@ namespace Noggolloquy.Tests
             NotifyingFireParameters? cmds)
             where R : ObjectToRef
         {
-            if (copyMask?.Ref.Overall != CopyType.Skip)
+            if (copyMask?.Ref != CopyType.Skip)
             {
                 try
                 {
                     if (rhs.Ref_Property.HasBeenSet)
                     {
-                        item.Ref_Property.Set(
-                            rhs.Ref,
-                            cmds: cmds);
+                        switch (copyMask?.Ref ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.Ref_Property.Set(
+                                    rhs.Ref,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.Ref.CopyFieldsFrom(
+                                    rhs: rhs.Ref,
+                                    def: def?.Ref,
+                                    doErrorMask: false,
+                                    errorMask: null,
+                                    copyMask: copyMask.Ref,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
+                        }
                     }
                     else if (def == null)
                     {
@@ -501,9 +517,25 @@ namespace Noggolloquy.Tests
                     }
                     else
                     {
-                        item.Ref_Property.Set(
-                            def.Ref,
-                            cmds: cmds);
+                        switch (copyMask?.Ref ?? CopyType.Reference)
+                        {
+                            case CopyType.Reference:
+                                item.Ref_Property.Set(
+                                    def.Ref,
+                                    cmds: cmds);
+                                break;
+                            case CopyType.Deep:
+                                item.Ref.CopyFieldsFrom(
+                                    rhs: def.Ref,
+                                    def: null,
+                                    doErrorMask: false,
+                                    errorMask: null,
+                                    copyMask: copyMask.Ref,
+                                    cmds: cmds);
+                                break;
+                            default:
+                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
+                        }
                     }
 
                 }

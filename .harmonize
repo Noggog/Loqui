@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>81e0af0fae5984016f2123e1bfa9c911e889e5ad</Sha>
-      <Description>IHasBeenSet no longer uses NotifyingFireParameters</Description>
+      <Sha>e32e8f77a6ca3ea8f256e94b9d86ee50f38b3c50</Sha>
+      <Description>ICollectionExt:  Last functions to do something special on the last</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-20-2017 20:07:15</CommitDate>
+      <CommitDate>04-24-2017 21:18:18</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

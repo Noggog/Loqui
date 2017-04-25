@@ -9,7 +9,7 @@ namespace Noggolloquy.Generation
     public class ArgsWrapper : IDisposable
     {
         FileGeneration fg;
-        List<string> args = new List<string>();
+        List<string[]> args = new List<string[]>();
         public bool SemiColon = true;
         string initialLine;
 
@@ -23,9 +23,9 @@ namespace Noggolloquy.Generation
             this.initialLine = initialLine;
         }
 
-        public void Add(string line)
+        public void Add(params string[] lines)
         {
-            args.Add(line);
+            args.Add(lines);
         }
 
         public void Dispose()
@@ -37,9 +37,10 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"{initialLine}();");
                     return;
                 }
-                else if (args.Count == 1)
+                else if (args.Count == 1
+                    && args[0].Length == 1)
                 {
-                    fg.AppendLine($"{initialLine}({args[0]});");
+                    fg.AppendLine($"{initialLine}({args[0][0]});");
                     return;
                 }
                 else
@@ -48,14 +49,23 @@ namespace Noggolloquy.Generation
                 }
             }
             this.fg.Depth++;
-            if (args.Count != 0)
-            {
-                for (int i = 0; i < args.Count - 1; i++)
+            args.Last(
+                each: (arg) =>
                 {
-                    fg.AppendLine(args[i] + ",");
-                }
-                fg.AppendLine($"{args[args.Count - 1]}){(SemiColon ? ";" : string.Empty)}");
-            }
+                    arg.Last(
+                        each: (item, last) =>
+                        {
+                            fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                        });
+                },
+                last: (arg) =>
+                {
+                    arg.Last(
+                        each: (item, last) =>
+                        {
+                            fg.AppendLine($"{item}{(last ? $"){(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
+                        });
+                });
             this.fg.Depth--;
         }
     }

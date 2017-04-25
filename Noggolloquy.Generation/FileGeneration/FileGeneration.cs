@@ -27,7 +27,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public static object GetNthObject("))
+            if (str.Contains("switch (copyMask?.Ref.Overall ?? CopyType.Reference)"))
             {
                 int wer = 23;
                 wer++;

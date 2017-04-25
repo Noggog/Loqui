@@ -9,6 +9,7 @@ namespace Noggolloquy.Generation
         public virtual string InterfaceStr => Obj.InterfaceStr;
         public virtual string ObjectName => Obj.ObjectName;
         public virtual string Name => Obj.Name;
+        public virtual string ErrorMask => Obj.ErrorMask;
     }
 
     public class GenRef : Ref
@@ -17,5 +18,6 @@ namespace Noggolloquy.Generation
         public override string Getter_InterfaceStr => $"{Obj.Getter_InterfaceStr_NoGenerics}<{string.Join(", ", Generics)}>";
         public override string ObjectName => $"{Obj.ObjectName}<{string.Join(", ", Generics)}> ";
         public override string Name => $"{Obj.Name}<{string.Join(", ", Generics)}>";
+        public override string ErrorMask => $"base.ErrorMask{Obj.GenericTypes}";
     }
 }
