@@ -243,7 +243,7 @@ namespace Noggolloquy.Generation
                         }
                         else
                         {
-                            using (var args = new ArgsWrapper(fg, true,
+                            using (var args = new ArgsWrapper(fg,
                                 $"{accessorPrefix}.{this.GetName(protectedMembers, false)}.CopyFieldsFrom"))
                             {
                                 args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
@@ -314,7 +314,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
                     using (new DepthWrapper(fg))
                     {
-                        using (var args = new ArgsWrapper(fg, true,
+                        using (var args = new ArgsWrapper(fg,
                             $"{accessorPrefix}.{this.GetName(protectedUse, true)}.Set"))
                         {
                             args.Add($"{rhsAccessorPrefix}.{this.Name}");
@@ -334,7 +334,7 @@ namespace Noggolloquy.Generation
                         }
                         else
                         {
-                            using (var args = new ArgsWrapper(fg, true,
+                            using (var args = new ArgsWrapper(fg,
                                 $"{accessorPrefix}.{this.GetName(protectedUse, false)}.CopyFieldsFrom"))
                             {
                                 args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");

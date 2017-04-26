@@ -105,6 +105,8 @@
     <Compile Include="Fields\TypicalWholeNumberTypeGeneration.cs" />
     <Compile Include="Fields\WildcardType.cs" />
     <Compile Include="FileGeneration\FileGeneration.cs" />
+    <Compile Include="FileGeneration\FileGenerationStringList.cs" />
+    <Compile Include="FileGeneration\FileGenerationStringBuilder.cs" />
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />

@@ -4,37 +4,22 @@ using System.Text;
 
 namespace Noggolloquy.Generation
 {
-    public class FileGeneration
+    public abstract class FileGeneration
     {
         public int Depth;
-        private StringBuilder sb = new StringBuilder();
-        public bool AddCommasToLines;
 
-        public void Append(string str)
-        {
-            if (str.Contains("item.RefSetter.CopyFieldsFrom"))
-            {
-                int wer = 23;
-                wer++;
-            }
-            sb.Append((AddCommasToLines ? ", " : string.Empty) + str);
-        }
+        public abstract void Append(string str);
 
         public void AppendLine()
         {
-            sb.Append("\n");
+            Append("\n");
         }
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("item.List.SetTo(def.List, cmds);"))
-            {
-                int wer = 23;
-                wer++;
-            }
             using (new LineWrapper(this))
             {
-                sb.Append(str);
+                Append(str);
             }
 
             if (extraLine)
@@ -45,7 +30,7 @@ namespace Noggolloquy.Generation
 
         public void Generate(FileInfo file, bool onlyIfChanged = true)
         {
-            var str = sb.ToString();
+            var str = GetString();
             file.Refresh();
             if (onlyIfChanged && file.Exists)
             {
@@ -55,5 +40,7 @@ namespace Noggolloquy.Generation
             file.Directory.Create();
             File.WriteAllText(file.FullName, str);
         }
+
+        public abstract string GetString();
     }
 }

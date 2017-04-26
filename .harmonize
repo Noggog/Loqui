@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>e32e8f77a6ca3ea8f256e94b9d86ee50f38b3c50</Sha>
-      <Description>ICollectionExt:  Last functions to do something special on the last</Description>
+      <Sha>1e914f81a0faf9aee52905e91def73807cff857d</Sha>
+      <Description>List TryGet extension functions. ICollection First extension function.  NotifyingCollection SetToWithDefault functions</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-24-2017 21:18:18</CommitDate>
+      <CommitDate>04-25-2017 21:20:53</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

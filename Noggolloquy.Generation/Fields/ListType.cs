@@ -72,62 +72,50 @@ namespace Noggolloquy.Generation
             string cmdsAccessor,
             bool protectedMembers)
         {
-            if (defaultFallbackAccessor == null)
+            if (this.isNoggSingle)
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
-            }
-            else
-            {
-                fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
-                using (new BraceWrapper(fg))
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
-                    if (defaultFallbackAccessor == null || !this.isNoggSingle)
+                    args.Add($"rhs.{this.Name}");
+                    args.Add($"def?.{this.Name}");
+                    args.Add($"cmds");
+                    args.Add((gen) =>
                     {
-                        GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
-                    }
-                    else
-                    {
-                        fg.AppendLine("int i = 0;");
-                        fg.AppendLine($"List<{this.ItemTypeName}> defList = {defaultFallbackAccessor}?.{this.Name}.ToList();");
-                        fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
-                        using (new DepthWrapper(fg))
+                        gen.AppendLine("(r, d) =>");
+                        using (new BraceWrapper(gen) {  } )
                         {
-                            fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select((s) =>");
-                            using (new BraceWrapper(fg))
+                            gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                            using (new BraceWrapper(gen))
                             {
-                                fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
-                                using (new BraceWrapper(fg))
+                                gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                                using (new DepthWrapper(gen))
                                 {
-                                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine("return s;");
-                                    }
-                                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific, defList?[i++]);");
-                                    }
-                                    fg.AppendLine($"default:");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
-                                    }
+                                    gen.AppendLine("return r;");
+                                }
+                                gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
+                                }
+                                gen.AppendLine($"default:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
                                 }
                             }
                         }
-                        fg.AppendLine($"), {cmdsAccessor});");
-                    }
+                    });
                 }
-                fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
+            }
+            else
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdsAccessor}.ToUnsetParams());");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
+                    args.Add($"rhs.{this.Name}");
+                    args.Add($"def?.{this.Name}");
+                    args.Add($"cmds");
                 }
             }
         }
@@ -139,41 +127,34 @@ namespace Noggolloquy.Generation
 
         private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
-            if (!this.isNoggSingle)
+            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}.Select((s) =>");
+            using (new BraceWrapper(fg)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse, false)}.SetTo({rhsAccessorPrefix}.{this.Name}, {cmdAccessor});");
-            }
-            else
+                AppendParenthesis = true,
+                AppendComma = true
+            })
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}.Select((s) =>");
-                using (new BraceWrapper(fg)
+                fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                using (new BraceWrapper(fg))
                 {
-                    AppendParenthesis = true,
-                    AppendComma = true
-                })
-                {
-                    fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                    using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine("return s;");
-                        }
-                        fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific);");
-                        }
-                        fg.AppendLine($"default:");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
-                        }
+                        fg.AppendLine("return s;");
+                    }
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific);");
+                    }
+                    fg.AppendLine($"default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"throw new NotImplementedException($\"Unknown CopyType {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
                     }
                 }
-                fg.AppendLine($"{cmdAccessor});");
             }
+            fg.AppendLine($"{cmdAccessor});");
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)

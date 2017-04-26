@@ -2146,18 +2146,10 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.List.HasBeenSet)
-                    {
-                        item.List.SetTo(rhs.List, cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.List.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.List.SetTo(def.List, cmds);
-                    }
+                    item.List.SetToWithDefault(
+                        rhs.List,
+                        def?.List,
+                        cmds);
                 }
                 catch (Exception ex)
                 {
@@ -2175,45 +2167,23 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.RefList.HasBeenSet)
-                    {
-                        int i = 0;
-                        List<ObjectToRef> defList = def?.RefList.ToList();
-                        item.RefList.SetTo(
-                            rhs.RefList.Select((s) =>
-                            {
-                                switch (copyMask?.RefList.Overall ?? CopyType.Reference)
-                                {
-                                    case CopyType.Reference:
-                                        return s;
-                                    case CopyType.Deep:
-                                        return s.Copy(copyMask?.RefList.Specific, defList?[i++]);
-                                    default:
-                                        throw new NotImplementedException($"Unknown CopyType {copyMask?.RefList.Overall}. Cannot execute copy.");
-                                }
-                            }
-                        ), cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.RefList.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.RefList.SetTo(def.RefList.Select((s) =>
+                    item.RefList.SetToWithDefault(
+                        rhs.RefList,
+                        def?.RefList,
+                        cmds,
+                        (r, d) =>
                         {
                             switch (copyMask?.RefList.Overall ?? CopyType.Reference)
                             {
                                 case CopyType.Reference:
-                                    return s;
+                                    return r;
                                 case CopyType.Deep:
-                                    return s.Copy(copyMask?.RefList.Specific);
+                                    return r.Copy(copyMask?.RefList.Specific, d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.RefList.Overall}. Cannot execute copy.");
                             }
-                        }),
-                        cmds);
-                    }
+                        }
+                        );
                 }
                 catch (Exception ex)
                 {

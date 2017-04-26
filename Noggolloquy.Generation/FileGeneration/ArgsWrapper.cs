@@ -9,23 +9,28 @@ namespace Noggolloquy.Generation
     public class ArgsWrapper : IDisposable
     {
         FileGeneration fg;
-        List<string[]> args = new List<string[]>();
+        List<string[]> args = new List<string[]>(); 
         public bool SemiColon = true;
         string initialLine;
 
         public ArgsWrapper(
             FileGeneration fg,
-            bool semicolon,
             string initialLine = null)
         {
             this.fg = fg;
-            this.SemiColon = semicolon;
             this.initialLine = initialLine;
         }
 
         public void Add(params string[] lines)
         {
             args.Add(lines);
+        }
+
+        public void Add(Action<FileGenerationStringList> generator)
+        {
+            var gen = new FileGenerationStringList();
+            generator(gen);
+            Add(gen.Strings.ToArray());
         }
 
         public void Dispose()
