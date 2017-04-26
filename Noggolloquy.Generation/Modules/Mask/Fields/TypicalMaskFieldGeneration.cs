@@ -21,7 +21,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
         {
-            fg.AppendLine($"public {nameof(CopyType)} {field.Name} = {nameof(CopyType)}.Reference;");
+            fg.AppendLine($"public bool {field.Name};");
         }
     }
 }

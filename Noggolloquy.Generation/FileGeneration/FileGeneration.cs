@@ -17,6 +17,12 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
+            if (str.Equals("if (copyMask?.RefDict.Overall ?? true)"))
+            {
+                int wer = 23;
+                wer++;
+            }
+
             using (new LineWrapper(this))
             {
                 Append(str);

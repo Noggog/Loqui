@@ -1867,163 +1867,163 @@ namespace Noggolloquy.Tests
             TestObject_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            if (copyMask?.BoolN != CopyType.Skip)
+            if (copyMask?.BoolN ?? true)
             {
                 item.BoolN = rhs.BoolN;
             }
-            if (copyMask?.Bool != CopyType.Skip)
+            if (copyMask?.Bool ?? true)
             {
                 item.Bool = rhs.Bool;
             }
-            if (copyMask?.CharN != CopyType.Skip)
+            if (copyMask?.CharN ?? true)
             {
                 item.CharN = rhs.CharN;
             }
-            if (copyMask?.Char != CopyType.Skip)
+            if (copyMask?.Char ?? true)
             {
                 item.Char = rhs.Char;
             }
-            if (copyMask?.DoubleN != CopyType.Skip)
+            if (copyMask?.DoubleN ?? true)
             {
                 item.DoubleN = rhs.DoubleN;
             }
-            if (copyMask?.Double != CopyType.Skip)
+            if (copyMask?.Double ?? true)
             {
                 item.Double = rhs.Double;
             }
-            if (copyMask?.FloatN != CopyType.Skip)
+            if (copyMask?.FloatN ?? true)
             {
                 item.FloatN = rhs.FloatN;
             }
-            if (copyMask?.Float != CopyType.Skip)
+            if (copyMask?.Float ?? true)
             {
                 item.Float = rhs.Float;
             }
-            if (copyMask?.Int16N != CopyType.Skip)
+            if (copyMask?.Int16N ?? true)
             {
                 item.Int16N = rhs.Int16N;
             }
-            if (copyMask?.Int16 != CopyType.Skip)
+            if (copyMask?.Int16 ?? true)
             {
                 item.Int16 = rhs.Int16;
             }
-            if (copyMask?.Int32N != CopyType.Skip)
+            if (copyMask?.Int32N ?? true)
             {
                 item.Int32N = rhs.Int32N;
             }
-            if (copyMask?.Int32 != CopyType.Skip)
+            if (copyMask?.Int32 ?? true)
             {
                 item.Int32 = rhs.Int32;
             }
-            if (copyMask?.Int64N != CopyType.Skip)
+            if (copyMask?.Int64N ?? true)
             {
                 item.Int64N = rhs.Int64N;
             }
-            if (copyMask?.Int64 != CopyType.Skip)
+            if (copyMask?.Int64 ?? true)
             {
                 item.Int64 = rhs.Int64;
             }
-            if (copyMask?.Int8N != CopyType.Skip)
+            if (copyMask?.Int8N ?? true)
             {
                 item.Int8N = rhs.Int8N;
             }
-            if (copyMask?.Int8 != CopyType.Skip)
+            if (copyMask?.Int8 ?? true)
             {
                 item.Int8 = rhs.Int8;
             }
-            if (copyMask?.Unsafe != CopyType.Skip)
+            if (copyMask?.Unsafe ?? true)
             {
                 item.Unsafe = rhs.Unsafe;
             }
-            if (copyMask?.P2IntN != CopyType.Skip)
+            if (copyMask?.P2IntN ?? true)
             {
                 item.P2IntN = rhs.P2IntN;
             }
-            if (copyMask?.P2Int != CopyType.Skip)
+            if (copyMask?.P2Int ?? true)
             {
                 item.P2Int = rhs.P2Int;
             }
-            if (copyMask?.P3DoubleN != CopyType.Skip)
+            if (copyMask?.P3DoubleN ?? true)
             {
                 item.P3DoubleN = rhs.P3DoubleN;
             }
-            if (copyMask?.P3Double != CopyType.Skip)
+            if (copyMask?.P3Double ?? true)
             {
                 item.P3Double = rhs.P3Double;
             }
-            if (copyMask?.P3IntN != CopyType.Skip)
+            if (copyMask?.P3IntN ?? true)
             {
                 item.P3IntN = rhs.P3IntN;
             }
-            if (copyMask?.P3Int != CopyType.Skip)
+            if (copyMask?.P3Int ?? true)
             {
                 item.P3Int = rhs.P3Int;
             }
-            if (copyMask?.PercentN != CopyType.Skip)
+            if (copyMask?.PercentN ?? true)
             {
                 item.PercentN = rhs.PercentN;
             }
-            if (copyMask?.Percent != CopyType.Skip)
+            if (copyMask?.Percent ?? true)
             {
                 item.Percent = rhs.Percent;
             }
-            if (copyMask?.RangeIntN != CopyType.Skip)
+            if (copyMask?.RangeIntN ?? true)
             {
                 item.RangeIntN = rhs.RangeIntN;
             }
-            if (copyMask?.RangeInt != CopyType.Skip)
+            if (copyMask?.RangeInt ?? true)
             {
                 item.RangeInt = rhs.RangeInt;
             }
-            if (copyMask?.String != CopyType.Skip)
+            if (copyMask?.String ?? true)
             {
                 item.String = rhs.String;
             }
-            if (copyMask?.UDoubleN != CopyType.Skip)
+            if (copyMask?.UDoubleN ?? true)
             {
                 item.UDoubleN = rhs.UDoubleN;
             }
-            if (copyMask?.UDouble != CopyType.Skip)
+            if (copyMask?.UDouble ?? true)
             {
                 item.UDouble = rhs.UDouble;
             }
-            if (copyMask?.UInt16N != CopyType.Skip)
+            if (copyMask?.UInt16N ?? true)
             {
                 item.UInt16N = rhs.UInt16N;
             }
-            if (copyMask?.UInt16 != CopyType.Skip)
+            if (copyMask?.UInt16 ?? true)
             {
                 item.UInt16 = rhs.UInt16;
             }
-            if (copyMask?.UInt32N != CopyType.Skip)
+            if (copyMask?.UInt32N ?? true)
             {
                 item.UInt32N = rhs.UInt32N;
             }
-            if (copyMask?.UInt32 != CopyType.Skip)
+            if (copyMask?.UInt32 ?? true)
             {
                 item.UInt32 = rhs.UInt32;
             }
-            if (copyMask?.UInt64N != CopyType.Skip)
+            if (copyMask?.UInt64N ?? true)
             {
                 item.UInt64N = rhs.UInt64N;
             }
-            if (copyMask?.UInt64 != CopyType.Skip)
+            if (copyMask?.UInt64 ?? true)
             {
                 item.UInt64 = rhs.UInt64;
             }
-            if (copyMask?.UInt8N != CopyType.Skip)
+            if (copyMask?.UInt8N ?? true)
             {
                 item.UInt8N = rhs.UInt8N;
             }
-            if (copyMask?.UInt8 != CopyType.Skip)
+            if (copyMask?.UInt8 ?? true)
             {
                 item.UInt8 = rhs.UInt8;
             }
-            if (copyMask?.Enum != CopyType.Skip)
+            if (copyMask?.Enum ?? true)
             {
                 item.Enum = rhs.Enum;
             }
-            if (copyMask?.WildCard != CopyType.Skip)
+            if (copyMask?.WildCard ?? true)
             {
                 item.WildCard = rhs.WildCard;
             }
@@ -2197,32 +2197,14 @@ namespace Noggolloquy.Tests
                     }
                 }
             }
-            if (copyMask?.Dict != CopyType.Skip)
+            if (copyMask?.Dict ?? true)
             {
                 try
                 {
-                    if (rhs.Dict.HasBeenSet)
-                    {
-                        item.Dict.SetTo(
-                            rhs.Dict.Select(
-                                (i) => new KeyValuePair<Boolean, String>(
-                                    i.Key,
-                                    i.Value)),
-                            cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.Dict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.Dict.SetTo(
-                            def.Dict.Select(
-                                (i) => new KeyValuePair<Boolean, String>(
-                                    i.Key,
-                                    i.Value)),
-                            cmds);
-                    }
+                    item.Dict.SetToWithDefault(
+                        rhs.Dict,
+                        def?.Dict,
+                        cmds);
                 }
                 catch (Exception ex)
                 {
@@ -2236,52 +2218,43 @@ namespace Noggolloquy.Tests
                     }
                 }
             }
-            if (copyMask?.RefDict.Overall != CopyType.Skip)
+            if (copyMask?.RefDict.Overall ?? true)
             {
                 try
                 {
-                    if (rhs.RefDict.HasBeenSet)
-                    {
-                        int i = 0;
-                        List<KeyValuePair<ObjectToRef, ObjectToRef>> defList = def?.RefDict.ToList();
-                        item.RefDict.SetTo(
-                            rhs.RefDict.Select((s) =>
+                    item.RefDict.SetToWithDefault(
+                        rhs.RefDict,
+                        def?.RefDict,
+                        cmds,
+                        (k, v, d) =>
+                        {
+                            ObjectToRef key;
+                            switch (copyMask?.RefDict.Specific.Key.Type ?? RefCopyType.Reference)
                             {
-                                var key = new ObjectToRef();
-                                if (defList != null && defList.InRange(i))
-                                {
-                                    key.CopyFieldsFrom(s.Key, defList[i++].Key);
-                                }
-                                else
-                                {
-                                    key.CopyFieldsFrom(s.Key);
-                                }
-                                var value = new ObjectToRef();
-                                if (defList != null && defList.InRange(i))
-                                {
-                                    value.CopyFieldsFrom(s.Value, defList[i++].Value);
-                                }
-                                else
-                                {
-                                    value.CopyFieldsFrom(s.Value);
-                                }
-                                return new KeyValuePair<ObjectToRef, ObjectToRef>(key, value);
+                                case RefCopyType.Reference:
+                                    key = k;
+                                    break;
+                                case RefCopyType.Deep:
+                                    key = k.Copy(copyMask?.RefDict.Specific.Key.Mask);
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");
                             }
-                        ), cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.RefDict.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.RefDict.SetTo(
-                            def.RefDict.Select(
-                                (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
-                                    i.Key.CopyFieldsFrom(),
-                                    i.Value.CopyFieldsFrom())),
-                            cmds);
-                    }
+                            ObjectToRef val;
+                            switch (copyMask?.RefDict.Specific.Value.Type ?? RefCopyType.Reference)
+                            {
+                                case RefCopyType.Reference:
+                                    val = v;
+                                    break;
+                                case RefCopyType.Deep:
+                                    val = v.Copy(copyMask?.RefDict.Specific.Value.Mask, d);
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");
+                            }
+                            return new KeyValuePair<ObjectToRef, ObjectToRef>(key, val);
+                        }
+                        );
                 }
                 catch (Exception ex)
                 {
@@ -2299,22 +2272,23 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.DictKeyedValue.HasBeenSet)
-                    {
-                        item.DictKeyedValue.SetTo(
-                            ((IEnumerable<ObjectToRef>)rhs.DictKeyedValue).Select((i) => i.Copy()),
-                            cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.DictKeyedValue.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.DictKeyedValue.SetTo(
-                            ((IEnumerable<ObjectToRef>)def.DictKeyedValue).Select((i) => i.Copy()),
-                            cmds);
-                    }
+                    item.DictKeyedValue.SetToWithDefault(
+                        rhs.DictKeyedValue,
+                        def?.DictKeyedValue,
+                        cmds,
+                        (r, d) =>
+                        {
+                            switch (copyMask?.DictKeyedValue.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.Deep:
+                                    return r.Copy(copyMask?.DictKeyedValue.Specific, d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.DictKeyedValue.Overall}. Cannot execute copy.");
+                            }
+                        }
+                        );
                 }
                 catch (Exception ex)
                 {
@@ -3201,53 +3175,53 @@ namespace Noggolloquy.Tests
     }
     public class TestObject_CopyMask
     {
-        public CopyType BoolN = CopyType.Reference;
-        public CopyType Bool = CopyType.Reference;
-        public CopyType CharN = CopyType.Reference;
-        public CopyType Char = CopyType.Reference;
-        public CopyType DoubleN = CopyType.Reference;
-        public CopyType Double = CopyType.Reference;
-        public CopyType FloatN = CopyType.Reference;
-        public CopyType Float = CopyType.Reference;
-        public CopyType Int16N = CopyType.Reference;
-        public CopyType Int16 = CopyType.Reference;
-        public CopyType Int32N = CopyType.Reference;
-        public CopyType Int32 = CopyType.Reference;
-        public CopyType Int64N = CopyType.Reference;
-        public CopyType Int64 = CopyType.Reference;
-        public CopyType Int8N = CopyType.Reference;
-        public CopyType Int8 = CopyType.Reference;
-        public CopyType Unsafe = CopyType.Reference;
-        public CopyType P2IntN = CopyType.Reference;
-        public CopyType P2Int = CopyType.Reference;
-        public CopyType P3DoubleN = CopyType.Reference;
-        public CopyType P3Double = CopyType.Reference;
-        public CopyType P3IntN = CopyType.Reference;
-        public CopyType P3Int = CopyType.Reference;
-        public CopyType PercentN = CopyType.Reference;
-        public CopyType Percent = CopyType.Reference;
-        public CopyType RangeIntN = CopyType.Reference;
-        public CopyType RangeInt = CopyType.Reference;
-        public CopyType String = CopyType.Reference;
-        public CopyType UDoubleN = CopyType.Reference;
-        public CopyType UDouble = CopyType.Reference;
-        public CopyType UInt16N = CopyType.Reference;
-        public CopyType UInt16 = CopyType.Reference;
-        public CopyType UInt32N = CopyType.Reference;
-        public CopyType UInt32 = CopyType.Reference;
-        public CopyType UInt64N = CopyType.Reference;
-        public CopyType UInt64 = CopyType.Reference;
-        public CopyType UInt8N = CopyType.Reference;
-        public CopyType UInt8 = CopyType.Reference;
-        public CopyType Enum = CopyType.Reference;
-        public CopyType WildCard = CopyType.Reference;
+        public bool BoolN;
+        public bool Bool;
+        public bool CharN;
+        public bool Char;
+        public bool DoubleN;
+        public bool Double;
+        public bool FloatN;
+        public bool Float;
+        public bool Int16N;
+        public bool Int16;
+        public bool Int32N;
+        public bool Int32;
+        public bool Int64N;
+        public bool Int64;
+        public bool Int8N;
+        public bool Int8;
+        public bool Unsafe;
+        public bool P2IntN;
+        public bool P2Int;
+        public bool P3DoubleN;
+        public bool P3Double;
+        public bool P3IntN;
+        public bool P3Int;
+        public bool PercentN;
+        public bool Percent;
+        public bool RangeIntN;
+        public bool RangeInt;
+        public bool String;
+        public bool UDoubleN;
+        public bool UDouble;
+        public bool UInt16N;
+        public bool UInt16;
+        public bool UInt32N;
+        public bool UInt32;
+        public bool UInt64N;
+        public bool UInt64;
+        public bool UInt8N;
+        public bool UInt8;
+        public bool Enum;
+        public bool WildCard;
         public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
         public CopyType List;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
-        public CopyType Dict;
-        public MaskItem<CopyType, KeyValuePair<ObjectToRef_CopyMask, ObjectToRef_CopyMask>> RefDict;
+        public bool Dict;
+        public MaskItem<bool, KeyValuePair<(RefCopyType Type, ObjectToRef_CopyMask Mask), (RefCopyType Type, ObjectToRef_CopyMask Mask)>> RefDict;
         public MaskItem<CopyType, ObjectToRef_CopyMask> DictKeyedValue;
 
     }

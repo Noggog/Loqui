@@ -17,7 +17,18 @@ namespace Noggolloquy.Generation
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
         public override bool CopyNeedsTryCatch => true;
-        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
+        public override string SkipCheck(string copyMaskAccessor)
+        {
+            if (KeyTypeGen is NoggType
+                || ValueTypeGen is NoggType)
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
+            }
+            else
+            {
+                return $"{copyMaskAccessor}?.{this.Name} ?? true";
+            }
+        }
 
         public override bool Imports
         {
@@ -162,74 +173,82 @@ namespace Noggolloquy.Generation
             string cmdsAccessor,
             bool protectedMembers)
         {
-            fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
-            using (new BraceWrapper(fg))
+            if (!this.KeyIsNogg && !this.ValueIsNogg)
             {
-                if (defaultFallbackAccessor == null || (!this.KeyIsNogg && !this.ValueIsNogg))
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
-                    GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+                    args.Add($"rhs.{this.Name}");
+                    args.Add($"def?.{this.Name}");
+                    args.Add($"cmds");
                 }
-                else
+                return;
+            }
+            using (var args = new ArgsWrapper(fg,
+                $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
+            {
+                args.Add($"rhs.{this.Name}");
+                args.Add($"def?.{this.Name}");
+                args.Add($"cmds");
+                args.Add((gen) =>
                 {
-                    fg.AppendLine("int i = 0;");
-                    fg.AppendLine($"List<KeyValuePair<{this.TypeTuple}>> defList = {defaultFallbackAccessor}?.{this.GetName(false, false)}.ToList();");
-                    fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.SetTo(");
-                    using (new DepthWrapper(fg))
+                    gen.AppendLine("(k, v, d) =>");
+                    using (new BraceWrapper(gen))
                     {
-                        fg.AppendLine($"{rhsAccessorPrefix}.{this.GetName(false, false)}.Select((s) =>");
-                        using (new BraceWrapper(fg))
+                        if (this.KeyIsNogg)
                         {
-                            if (KeyTypeGen is NoggType)
+                            gen.AppendLine($"{this.KeyTypeGen.TypeName} key;");
+                            gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Specific.Key.Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                            using (new BraceWrapper(gen))
                             {
-                                fg.AppendLine($"var key = new {this.KeyTypeGen.TypeName}();");
-                                fg.AppendLine("if (defList != null && defList.InRange(i))");
-                                using (new BraceWrapper(fg))
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
+                                using (new DepthWrapper(gen))
                                 {
-                                    fg.AppendLine("key.CopyFieldsFrom(s.Key, defList[i++].Key);");
+                                    gen.AppendLine($"key = k;");
+                                    gen.AppendLine($"break;");
                                 }
-                                fg.AppendLine("else");
-                                using (new BraceWrapper(fg))
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Deep)}:");
+                                using (new DepthWrapper(gen))
                                 {
-                                    fg.AppendLine("key.CopyFieldsFrom(s.Key);");
+                                    gen.AppendLine($"key = k.Copy({copyMaskAccessor}?.{this.Name}.Specific.Key.Mask);");
+                                    gen.AppendLine($"break;");
                                 }
-                            }
-                            else
-                            {
-                                fg.AppendLine("var key = s.Key;");
-                            }
-                            if (ValueTypeGen is NoggType)
-                            {
-                                fg.AppendLine($"var value = new {this.KeyTypeGen.TypeName}();");
-                                fg.AppendLine("if (defList != null && defList.InRange(i))");
-                                using (new BraceWrapper(fg))
+                                gen.AppendLine($"default:");
+                                using (new DepthWrapper(gen))
                                 {
-                                    fg.AppendLine("value.CopyFieldsFrom(s.Value, defList[i++].Value);");
-                                }
-                                fg.AppendLine("else");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine("value.CopyFieldsFrom(s.Value);");
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
                                 }
                             }
-                            else
-                            {
-                                fg.AppendLine("var value = s.Value;");
-                            }
-                            fg.AppendLine($"return new KeyValuePair<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>(key, value);");
                         }
+                        if (this.ValueIsNogg)
+                        { 
+                            gen.AppendLine($"{this.ValueTypeGen.TypeName} val;");
+                            gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Specific.Value.Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                            using (new BraceWrapper(gen))
+                            {
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"val = v;");
+                                    gen.AppendLine($"break;");
+                                }
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Deep)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"val = v.Copy({copyMaskAccessor}?.{this.Name}.Specific.Value.Mask, d);");
+                                    gen.AppendLine($"break;");
+                                }
+                                gen.AppendLine($"default:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                }
+                            }
+                        }
+
+                        gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>({(this.KeyIsNogg ? "key" : "k")}, {(this.ValueIsNogg ? "val" : "v")});");
                     }
-                    fg.AppendLine($"), {cmdsAccessor});");
-                }
-            }
-            fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)}.Unset({cmdsAccessor}.ToUnsetParams());");
-            }
-            fg.AppendLine("else");
-            using (new BraceWrapper(fg))
-            {
-                GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor);
+                });
             }
         }
 

@@ -51,16 +51,16 @@ namespace Noggolloquy.Generation
                 case DictMode.KeyValue:
                     if (keyNoggType == null && valueNoggType == null)
                     {
-                        fg.AppendLine($"public {nameof(CopyType)} {field.Name};");
+                        fg.AppendLine($"public bool {field.Name};");
                     }
                     else if (keyNoggType != null && valueNoggType != null)
                     {
-                        fg.AppendLine($"public MaskItem<{nameof(CopyType)}, KeyValuePair<{keyNoggType.RefGen.Obj.CopyMask}, {valueNoggType.RefGen.Obj.CopyMask}>> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyNoggType.RefGen.Obj.CopyMask} Mask), ({nameof(RefCopyType)} Type, {valueNoggType.RefGen.Obj.CopyMask} Mask)>> {field.Name};");
                     }
                     else
                     {
                         NoggType nogg = keyNoggType ?? valueNoggType;
-                        fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {nogg.RefGen.Obj.CopyMask} Mask)> {field.Name};");
                     }
                     break;
                 case DictMode.KeyedValue:

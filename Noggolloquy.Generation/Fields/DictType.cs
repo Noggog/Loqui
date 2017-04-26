@@ -34,18 +34,7 @@ namespace Noggolloquy.Generation
         public override bool Imports => subGenerator.Imports;
         public override string TypeName => subGenerator.TypeName;
 
-        public override string SkipAccessor(string copyMaskAccessor)
-        {
-            if (KeyTypeGen is NoggType 
-                || ValueTypeGen is NoggType)
-            {
-                return $"{copyMaskAccessor}?.{this.Name}.Overall";
-            }
-            else
-            {
-                return $"{copyMaskAccessor}?.{this.Name}";
-            }
-        }
+        public override string SkipCheck(string copyMaskAccessor) => subGenerator.SkipCheck(copyMaskAccessor);
 
         public override string GetName(bool internalUse, bool property)
         {

@@ -525,7 +525,7 @@ namespace Noggolloquy.Tests
             ObjectToRef_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            if (copyMask?.KeyField != CopyType.Skip)
+            if (copyMask?.KeyField ?? true)
             {
                 try
                 {
@@ -559,7 +559,7 @@ namespace Noggolloquy.Tests
                     }
                 }
             }
-            if (copyMask?.SomeField != CopyType.Skip)
+            if (copyMask?.SomeField ?? true)
             {
                 try
                 {
@@ -728,8 +728,8 @@ namespace Noggolloquy.Tests
     }
     public class ObjectToRef_CopyMask
     {
-        public CopyType KeyField = CopyType.Reference;
-        public CopyType SomeField = CopyType.Reference;
+        public bool KeyField;
+        public bool SomeField;
 
     }
     #endregion

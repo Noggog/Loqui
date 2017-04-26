@@ -28,7 +28,7 @@ namespace Noggolloquy.Generation
 
         public override bool CopyNeedsTryCatch => this.Notifying == NotifyingOption.Notifying;
 
-        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}";
+        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name} ?? true";
 
         public override void Load(XElement node, bool requireName = true)
         {

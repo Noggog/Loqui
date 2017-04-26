@@ -564,7 +564,7 @@ namespace Noggolloquy.Generation
             {
                 if (item.Field.Copy)
                 {
-                    fg.AppendLine($"if ({item.Field.SkipAccessor(copyMaskAccessor)} != {nameof(CopyType)}.Skip)");
+                    fg.AppendLine($"if ({item.Field.SkipCheck(copyMaskAccessor)})");
                     using (new BraceWrapper(fg))
                     {
                         if (item.Field.CopyNeedsTryCatch)

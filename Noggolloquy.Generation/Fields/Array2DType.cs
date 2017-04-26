@@ -9,7 +9,7 @@ namespace Noggolloquy.Generation
 
         public override string TypeName => $"INotifyingContainer2D<{this.ItemTypeName}>";
         public override bool CopyNeedsTryCatch => true;
-        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
+        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyType)}.{nameof(CopyType.Skip)}";
 
         public override void Load(XElement node, bool requireName = true)
         {

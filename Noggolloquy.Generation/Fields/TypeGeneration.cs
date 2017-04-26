@@ -75,7 +75,7 @@ namespace Noggolloquy.Generation
 
         public abstract bool CopyNeedsTryCatch { get; }
 
-        public abstract string SkipAccessor(string copyMaskAccessor);
+        public abstract string SkipCheck(string copyMaskAccessor);
 
         public abstract void GenerateForCopy(
             FileGeneration fg, 

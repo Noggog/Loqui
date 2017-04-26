@@ -45,14 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyType.cs" />
-    <Compile Include="IErrorMask.cs" />
+    <Compile Include="Masks\IErrorMask.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
     <Compile Include="Interfaces\ICopyInAble.cs" />
     <Compile Include="Interfaces\INoggolloquyObject.cs" />
     <Compile Include="Interfaces\INoggolloquyRegistration.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />
-    <Compile Include="MaskItem.cs" />
+    <Compile Include="Masks\MaskItem.cs" />
     <Compile Include="Registration\NoggolloquyRegistration.cs" />
     <Compile Include="Net.cs" />
     <Compile Include="ObjectKey.cs" />

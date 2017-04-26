@@ -461,7 +461,7 @@ namespace Noggolloquy.Tests
                 errorMask,
                 copyMask,
                 cmds);
-            if (copyMask?.NewField != CopyType.Skip)
+            if (copyMask?.NewField ?? true)
             {
                 try
                 {
@@ -603,7 +603,7 @@ namespace Noggolloquy.Tests
     }
     public class TestObject_Notifying_SubClass_CopyMask : TestObject_Notifying_CopyMask
     {
-        public CopyType NewField = CopyType.Reference;
+        public bool NewField;
 
     }
     #endregion

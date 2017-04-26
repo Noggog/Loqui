@@ -39,14 +39,14 @@ namespace Noggolloquy.Generation
         public NoggRefType RefType { get; private set; }
         public NoggInterfaceType InterfaceType = NoggInterfaceType.Direct;
         private string _generic;
-        public override string SkipAccessor(string copyMaskAccessor)
+        public override string SkipCheck(string copyMaskAccessor)
         {
             switch (this.RefType)
             {
                 case NoggRefType.Direct:
-                    return $"{copyMaskAccessor}?.{this.Name}.Overall";
+                    return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyType)}.{nameof(CopyType.Skip)}";
                 case NoggRefType.Generic:
-                    return $"{copyMaskAccessor}?.{this.Name}";
+                    return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyType)}.{nameof(CopyType.Skip)}";
                 default:
                     throw new NotImplementedException();
             }

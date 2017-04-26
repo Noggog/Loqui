@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>1e914f81a0faf9aee52905e91def73807cff857d</Sha>
-      <Description>List TryGet extension functions. ICollection First extension function.  NotifyingCollection SetToWithDefault functions</Description>
+      <Sha>29eee74f44057f1fd54d49f9335bc64ea6cb68de</Sha>
+      <Description>NotifyingKeyedCollection KeyGetter public readonly.  NotifyingDictionary TryGetValue and SetToWithDefault</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-25-2017 21:20:53</CommitDate>
+      <CommitDate>04-25-2017 23:36:28</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

@@ -2,7 +2,7 @@
 
 namespace Noggolloquy
 {
-    public struct MaskItem<T, V> : IEquatable<MaskItem<V, T>>
+    public class MaskItem<T, V> : IEquatable<MaskItem<V, T>>
     {
         public readonly T Overall;
         public readonly V Specific;

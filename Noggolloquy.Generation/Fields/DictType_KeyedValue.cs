@@ -15,7 +15,7 @@ namespace Noggolloquy.Generation
 
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
-        public override string SkipAccessor(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall";
+        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyType)}.{nameof(CopyType.Skip)}";
 
         public override bool Imports
         {
@@ -146,20 +146,38 @@ namespace Noggolloquy.Generation
             string cmdsAccessor,
             bool protectedMembers)
         {
-            fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
-            using (new BraceWrapper(fg))
+            using (var args = new ArgsWrapper(fg,
+                $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
             {
-                GenerateCopy(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, protectedMembers);
-            }
-            fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers)}.Unset({cmdsAccessor}.ToUnsetParams());");
-            }
-            fg.AppendLine("else");
-            using (new BraceWrapper(fg))
-            {
-                GenerateCopy(fg, accessorPrefix, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
+                args.Add($"rhs.{this.Name}");
+                args.Add($"def?.{this.Name}");
+                args.Add($"cmds");
+                args.Add((gen) =>
+                {
+                    gen.AppendLine("(r, d) =>");
+                    using (new BraceWrapper(gen))
+                    {
+                        gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                        using (new BraceWrapper(gen))
+                        {
+                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                            using (new DepthWrapper(gen))
+                            {
+                                gen.AppendLine("return r;");
+                            }
+                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                            using (new DepthWrapper(gen))
+                            {
+                                gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
+                            }
+                            gen.AppendLine($"default:");
+                            using (new DepthWrapper(gen))
+                            {
+                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                            }
+                        }
+                    }
+                });
             }
         }
 
