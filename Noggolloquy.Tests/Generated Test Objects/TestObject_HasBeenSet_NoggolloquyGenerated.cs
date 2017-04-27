@@ -2360,713 +2360,268 @@ namespace Noggolloquy.Tests
         {
             if (copyMask?.BoolN ?? true)
             {
-                if (rhs.BoolN_Property.HasBeenSet)
-                {
-                    item.BoolN_Property.Set(rhs.BoolN);
-                }
-                else if (def == null)
-                {
-                    item.BoolN_Property.Unset();
-                }
-                else
-                {
-                    item.BoolN_Property.Set(def.BoolN);
-                }
-
+                item.BoolN_Property.SetToWithDefault(
+                    rhs.BoolN_Property,
+                    def?.BoolN_Property);
             }
             if (copyMask?.Bool ?? true)
             {
-                if (rhs.Bool_Property.HasBeenSet)
-                {
-                    item.Bool_Property.Set(rhs.Bool);
-                }
-                else if (def == null)
-                {
-                    item.Bool_Property.Unset();
-                }
-                else
-                {
-                    item.Bool_Property.Set(def.Bool);
-                }
-
+                item.Bool_Property.SetToWithDefault(
+                    rhs.Bool_Property,
+                    def?.Bool_Property);
             }
             if (copyMask?.CharN ?? true)
             {
-                if (rhs.CharN_Property.HasBeenSet)
-                {
-                    item.CharN_Property.Set(rhs.CharN);
-                }
-                else if (def == null)
-                {
-                    item.CharN_Property.Unset();
-                }
-                else
-                {
-                    item.CharN_Property.Set(def.CharN);
-                }
-
+                item.CharN_Property.SetToWithDefault(
+                    rhs.CharN_Property,
+                    def?.CharN_Property);
             }
             if (copyMask?.Char ?? true)
             {
-                if (rhs.Char_Property.HasBeenSet)
-                {
-                    item.Char_Property.Set(rhs.Char);
-                }
-                else if (def == null)
-                {
-                    item.Char_Property.Unset();
-                }
-                else
-                {
-                    item.Char_Property.Set(def.Char);
-                }
-
+                item.Char_Property.SetToWithDefault(
+                    rhs.Char_Property,
+                    def?.Char_Property);
             }
             if (copyMask?.DoubleN ?? true)
             {
-                if (rhs.DoubleN_Property.HasBeenSet)
-                {
-                    item.DoubleN_Property.Set(rhs.DoubleN);
-                }
-                else if (def == null)
-                {
-                    item.DoubleN_Property.Unset();
-                }
-                else
-                {
-                    item.DoubleN_Property.Set(def.DoubleN);
-                }
-
+                item.DoubleN_Property.SetToWithDefault(
+                    rhs.DoubleN_Property,
+                    def?.DoubleN_Property);
             }
             if (copyMask?.Double ?? true)
             {
-                if (rhs.Double_Property.HasBeenSet)
-                {
-                    item.Double_Property.Set(rhs.Double);
-                }
-                else if (def == null)
-                {
-                    item.Double_Property.Unset();
-                }
-                else
-                {
-                    item.Double_Property.Set(def.Double);
-                }
-
+                item.Double_Property.SetToWithDefault(
+                    rhs.Double_Property,
+                    def?.Double_Property);
             }
             if (copyMask?.FloatN ?? true)
             {
-                if (rhs.FloatN_Property.HasBeenSet)
-                {
-                    item.FloatN_Property.Set(rhs.FloatN);
-                }
-                else if (def == null)
-                {
-                    item.FloatN_Property.Unset();
-                }
-                else
-                {
-                    item.FloatN_Property.Set(def.FloatN);
-                }
-
+                item.FloatN_Property.SetToWithDefault(
+                    rhs.FloatN_Property,
+                    def?.FloatN_Property);
             }
             if (copyMask?.Float ?? true)
             {
-                if (rhs.Float_Property.HasBeenSet)
-                {
-                    item.Float_Property.Set(rhs.Float);
-                }
-                else if (def == null)
-                {
-                    item.Float_Property.Unset();
-                }
-                else
-                {
-                    item.Float_Property.Set(def.Float);
-                }
-
+                item.Float_Property.SetToWithDefault(
+                    rhs.Float_Property,
+                    def?.Float_Property);
             }
             if (copyMask?.Int16N ?? true)
             {
-                if (rhs.Int16N_Property.HasBeenSet)
-                {
-                    item.Int16N_Property.Set(rhs.Int16N);
-                }
-                else if (def == null)
-                {
-                    item.Int16N_Property.Unset();
-                }
-                else
-                {
-                    item.Int16N_Property.Set(def.Int16N);
-                }
-
+                item.Int16N_Property.SetToWithDefault(
+                    rhs.Int16N_Property,
+                    def?.Int16N_Property);
             }
             if (copyMask?.Int16 ?? true)
             {
-                if (rhs.Int16_Property.HasBeenSet)
-                {
-                    item.Int16_Property.Set(rhs.Int16);
-                }
-                else if (def == null)
-                {
-                    item.Int16_Property.Unset();
-                }
-                else
-                {
-                    item.Int16_Property.Set(def.Int16);
-                }
-
+                item.Int16_Property.SetToWithDefault(
+                    rhs.Int16_Property,
+                    def?.Int16_Property);
             }
             if (copyMask?.Int32N ?? true)
             {
-                if (rhs.Int32N_Property.HasBeenSet)
-                {
-                    item.Int32N_Property.Set(rhs.Int32N);
-                }
-                else if (def == null)
-                {
-                    item.Int32N_Property.Unset();
-                }
-                else
-                {
-                    item.Int32N_Property.Set(def.Int32N);
-                }
-
+                item.Int32N_Property.SetToWithDefault(
+                    rhs.Int32N_Property,
+                    def?.Int32N_Property);
             }
             if (copyMask?.Int32 ?? true)
             {
-                if (rhs.Int32_Property.HasBeenSet)
-                {
-                    item.Int32_Property.Set(rhs.Int32);
-                }
-                else if (def == null)
-                {
-                    item.Int32_Property.Unset();
-                }
-                else
-                {
-                    item.Int32_Property.Set(def.Int32);
-                }
-
+                item.Int32_Property.SetToWithDefault(
+                    rhs.Int32_Property,
+                    def?.Int32_Property);
             }
             if (copyMask?.Int64N ?? true)
             {
-                if (rhs.Int64N_Property.HasBeenSet)
-                {
-                    item.Int64N_Property.Set(rhs.Int64N);
-                }
-                else if (def == null)
-                {
-                    item.Int64N_Property.Unset();
-                }
-                else
-                {
-                    item.Int64N_Property.Set(def.Int64N);
-                }
-
+                item.Int64N_Property.SetToWithDefault(
+                    rhs.Int64N_Property,
+                    def?.Int64N_Property);
             }
             if (copyMask?.Int64 ?? true)
             {
-                if (rhs.Int64_Property.HasBeenSet)
-                {
-                    item.Int64_Property.Set(rhs.Int64);
-                }
-                else if (def == null)
-                {
-                    item.Int64_Property.Unset();
-                }
-                else
-                {
-                    item.Int64_Property.Set(def.Int64);
-                }
-
+                item.Int64_Property.SetToWithDefault(
+                    rhs.Int64_Property,
+                    def?.Int64_Property);
             }
             if (copyMask?.Int8N ?? true)
             {
-                if (rhs.Int8N_Property.HasBeenSet)
-                {
-                    item.Int8N_Property.Set(rhs.Int8N);
-                }
-                else if (def == null)
-                {
-                    item.Int8N_Property.Unset();
-                }
-                else
-                {
-                    item.Int8N_Property.Set(def.Int8N);
-                }
-
+                item.Int8N_Property.SetToWithDefault(
+                    rhs.Int8N_Property,
+                    def?.Int8N_Property);
             }
             if (copyMask?.Int8 ?? true)
             {
-                if (rhs.Int8_Property.HasBeenSet)
-                {
-                    item.Int8_Property.Set(rhs.Int8);
-                }
-                else if (def == null)
-                {
-                    item.Int8_Property.Unset();
-                }
-                else
-                {
-                    item.Int8_Property.Set(def.Int8);
-                }
-
+                item.Int8_Property.SetToWithDefault(
+                    rhs.Int8_Property,
+                    def?.Int8_Property);
             }
             if (copyMask?.Unsafe ?? true)
             {
-                if (rhs.Unsafe_Property.HasBeenSet)
-                {
-                    item.Unsafe_Property.Set(rhs.Unsafe);
-                }
-                else if (def == null)
-                {
-                    item.Unsafe_Property.Unset();
-                }
-                else
-                {
-                    item.Unsafe_Property.Set(def.Unsafe);
-                }
-
+                item.Unsafe_Property.SetToWithDefault(
+                    rhs.Unsafe_Property,
+                    def?.Unsafe_Property);
             }
             if (copyMask?.P2IntN ?? true)
             {
-                if (rhs.P2IntN_Property.HasBeenSet)
-                {
-                    item.P2IntN_Property.Set(rhs.P2IntN);
-                }
-                else if (def == null)
-                {
-                    item.P2IntN_Property.Unset();
-                }
-                else
-                {
-                    item.P2IntN_Property.Set(def.P2IntN);
-                }
-
+                item.P2IntN_Property.SetToWithDefault(
+                    rhs.P2IntN_Property,
+                    def?.P2IntN_Property);
             }
             if (copyMask?.P2Int ?? true)
             {
-                if (rhs.P2Int_Property.HasBeenSet)
-                {
-                    item.P2Int_Property.Set(rhs.P2Int);
-                }
-                else if (def == null)
-                {
-                    item.P2Int_Property.Unset();
-                }
-                else
-                {
-                    item.P2Int_Property.Set(def.P2Int);
-                }
-
+                item.P2Int_Property.SetToWithDefault(
+                    rhs.P2Int_Property,
+                    def?.P2Int_Property);
             }
             if (copyMask?.P3DoubleN ?? true)
             {
-                if (rhs.P3DoubleN_Property.HasBeenSet)
-                {
-                    item.P3DoubleN_Property.Set(rhs.P3DoubleN);
-                }
-                else if (def == null)
-                {
-                    item.P3DoubleN_Property.Unset();
-                }
-                else
-                {
-                    item.P3DoubleN_Property.Set(def.P3DoubleN);
-                }
-
+                item.P3DoubleN_Property.SetToWithDefault(
+                    rhs.P3DoubleN_Property,
+                    def?.P3DoubleN_Property);
             }
             if (copyMask?.P3Double ?? true)
             {
-                if (rhs.P3Double_Property.HasBeenSet)
-                {
-                    item.P3Double_Property.Set(rhs.P3Double);
-                }
-                else if (def == null)
-                {
-                    item.P3Double_Property.Unset();
-                }
-                else
-                {
-                    item.P3Double_Property.Set(def.P3Double);
-                }
-
+                item.P3Double_Property.SetToWithDefault(
+                    rhs.P3Double_Property,
+                    def?.P3Double_Property);
             }
             if (copyMask?.P3IntN ?? true)
             {
-                if (rhs.P3IntN_Property.HasBeenSet)
-                {
-                    item.P3IntN_Property.Set(rhs.P3IntN);
-                }
-                else if (def == null)
-                {
-                    item.P3IntN_Property.Unset();
-                }
-                else
-                {
-                    item.P3IntN_Property.Set(def.P3IntN);
-                }
-
+                item.P3IntN_Property.SetToWithDefault(
+                    rhs.P3IntN_Property,
+                    def?.P3IntN_Property);
             }
             if (copyMask?.P3Int ?? true)
             {
-                if (rhs.P3Int_Property.HasBeenSet)
-                {
-                    item.P3Int_Property.Set(rhs.P3Int);
-                }
-                else if (def == null)
-                {
-                    item.P3Int_Property.Unset();
-                }
-                else
-                {
-                    item.P3Int_Property.Set(def.P3Int);
-                }
-
+                item.P3Int_Property.SetToWithDefault(
+                    rhs.P3Int_Property,
+                    def?.P3Int_Property);
             }
             if (copyMask?.PercentN ?? true)
             {
-                if (rhs.PercentN_Property.HasBeenSet)
-                {
-                    item.PercentN_Property.Set(rhs.PercentN);
-                }
-                else if (def == null)
-                {
-                    item.PercentN_Property.Unset();
-                }
-                else
-                {
-                    item.PercentN_Property.Set(def.PercentN);
-                }
-
+                item.PercentN_Property.SetToWithDefault(
+                    rhs.PercentN_Property,
+                    def?.PercentN_Property);
             }
             if (copyMask?.Percent ?? true)
             {
-                if (rhs.Percent_Property.HasBeenSet)
-                {
-                    item.Percent_Property.Set(rhs.Percent);
-                }
-                else if (def == null)
-                {
-                    item.Percent_Property.Unset();
-                }
-                else
-                {
-                    item.Percent_Property.Set(def.Percent);
-                }
-
+                item.Percent_Property.SetToWithDefault(
+                    rhs.Percent_Property,
+                    def?.Percent_Property);
             }
             if (copyMask?.RangeIntN ?? true)
             {
-                if (rhs.RangeIntN_Property.HasBeenSet)
-                {
-                    item.RangeIntN_Property.Set(rhs.RangeIntN);
-                }
-                else if (def == null)
-                {
-                    item.RangeIntN_Property.Unset();
-                }
-                else
-                {
-                    item.RangeIntN_Property.Set(def.RangeIntN);
-                }
-
+                item.RangeIntN_Property.SetToWithDefault(
+                    rhs.RangeIntN_Property,
+                    def?.RangeIntN_Property);
             }
             if (copyMask?.RangeInt ?? true)
             {
-                if (rhs.RangeInt_Property.HasBeenSet)
-                {
-                    item.RangeInt_Property.Set(rhs.RangeInt);
-                }
-                else if (def == null)
-                {
-                    item.RangeInt_Property.Unset();
-                }
-                else
-                {
-                    item.RangeInt_Property.Set(def.RangeInt);
-                }
-
+                item.RangeInt_Property.SetToWithDefault(
+                    rhs.RangeInt_Property,
+                    def?.RangeInt_Property);
             }
             if (copyMask?.String ?? true)
             {
-                if (rhs.String_Property.HasBeenSet)
-                {
-                    item.String_Property.Set(rhs.String);
-                }
-                else if (def == null)
-                {
-                    item.String_Property.Unset();
-                }
-                else
-                {
-                    item.String_Property.Set(def.String);
-                }
-
+                item.String_Property.SetToWithDefault(
+                    rhs.String_Property,
+                    def?.String_Property);
             }
             if (copyMask?.UDoubleN ?? true)
             {
-                if (rhs.UDoubleN_Property.HasBeenSet)
-                {
-                    item.UDoubleN_Property.Set(rhs.UDoubleN);
-                }
-                else if (def == null)
-                {
-                    item.UDoubleN_Property.Unset();
-                }
-                else
-                {
-                    item.UDoubleN_Property.Set(def.UDoubleN);
-                }
-
+                item.UDoubleN_Property.SetToWithDefault(
+                    rhs.UDoubleN_Property,
+                    def?.UDoubleN_Property);
             }
             if (copyMask?.UDouble ?? true)
             {
-                if (rhs.UDouble_Property.HasBeenSet)
-                {
-                    item.UDouble_Property.Set(rhs.UDouble);
-                }
-                else if (def == null)
-                {
-                    item.UDouble_Property.Unset();
-                }
-                else
-                {
-                    item.UDouble_Property.Set(def.UDouble);
-                }
-
+                item.UDouble_Property.SetToWithDefault(
+                    rhs.UDouble_Property,
+                    def?.UDouble_Property);
             }
             if (copyMask?.UInt16N ?? true)
             {
-                if (rhs.UInt16N_Property.HasBeenSet)
-                {
-                    item.UInt16N_Property.Set(rhs.UInt16N);
-                }
-                else if (def == null)
-                {
-                    item.UInt16N_Property.Unset();
-                }
-                else
-                {
-                    item.UInt16N_Property.Set(def.UInt16N);
-                }
-
+                item.UInt16N_Property.SetToWithDefault(
+                    rhs.UInt16N_Property,
+                    def?.UInt16N_Property);
             }
             if (copyMask?.UInt16 ?? true)
             {
-                if (rhs.UInt16_Property.HasBeenSet)
-                {
-                    item.UInt16_Property.Set(rhs.UInt16);
-                }
-                else if (def == null)
-                {
-                    item.UInt16_Property.Unset();
-                }
-                else
-                {
-                    item.UInt16_Property.Set(def.UInt16);
-                }
-
+                item.UInt16_Property.SetToWithDefault(
+                    rhs.UInt16_Property,
+                    def?.UInt16_Property);
             }
             if (copyMask?.UInt32N ?? true)
             {
-                if (rhs.UInt32N_Property.HasBeenSet)
-                {
-                    item.UInt32N_Property.Set(rhs.UInt32N);
-                }
-                else if (def == null)
-                {
-                    item.UInt32N_Property.Unset();
-                }
-                else
-                {
-                    item.UInt32N_Property.Set(def.UInt32N);
-                }
-
+                item.UInt32N_Property.SetToWithDefault(
+                    rhs.UInt32N_Property,
+                    def?.UInt32N_Property);
             }
             if (copyMask?.UInt32 ?? true)
             {
-                if (rhs.UInt32_Property.HasBeenSet)
-                {
-                    item.UInt32_Property.Set(rhs.UInt32);
-                }
-                else if (def == null)
-                {
-                    item.UInt32_Property.Unset();
-                }
-                else
-                {
-                    item.UInt32_Property.Set(def.UInt32);
-                }
-
+                item.UInt32_Property.SetToWithDefault(
+                    rhs.UInt32_Property,
+                    def?.UInt32_Property);
             }
             if (copyMask?.UInt64N ?? true)
             {
-                if (rhs.UInt64N_Property.HasBeenSet)
-                {
-                    item.UInt64N_Property.Set(rhs.UInt64N);
-                }
-                else if (def == null)
-                {
-                    item.UInt64N_Property.Unset();
-                }
-                else
-                {
-                    item.UInt64N_Property.Set(def.UInt64N);
-                }
-
+                item.UInt64N_Property.SetToWithDefault(
+                    rhs.UInt64N_Property,
+                    def?.UInt64N_Property);
             }
             if (copyMask?.UInt64 ?? true)
             {
-                if (rhs.UInt64_Property.HasBeenSet)
-                {
-                    item.UInt64_Property.Set(rhs.UInt64);
-                }
-                else if (def == null)
-                {
-                    item.UInt64_Property.Unset();
-                }
-                else
-                {
-                    item.UInt64_Property.Set(def.UInt64);
-                }
-
+                item.UInt64_Property.SetToWithDefault(
+                    rhs.UInt64_Property,
+                    def?.UInt64_Property);
             }
             if (copyMask?.UInt8N ?? true)
             {
-                if (rhs.UInt8N_Property.HasBeenSet)
-                {
-                    item.UInt8N_Property.Set(rhs.UInt8N);
-                }
-                else if (def == null)
-                {
-                    item.UInt8N_Property.Unset();
-                }
-                else
-                {
-                    item.UInt8N_Property.Set(def.UInt8N);
-                }
-
+                item.UInt8N_Property.SetToWithDefault(
+                    rhs.UInt8N_Property,
+                    def?.UInt8N_Property);
             }
             if (copyMask?.UInt8 ?? true)
             {
-                if (rhs.UInt8_Property.HasBeenSet)
-                {
-                    item.UInt8_Property.Set(rhs.UInt8);
-                }
-                else if (def == null)
-                {
-                    item.UInt8_Property.Unset();
-                }
-                else
-                {
-                    item.UInt8_Property.Set(def.UInt8);
-                }
-
+                item.UInt8_Property.SetToWithDefault(
+                    rhs.UInt8_Property,
+                    def?.UInt8_Property);
             }
             if (copyMask?.Enum ?? true)
             {
-                if (rhs.Enum_Property.HasBeenSet)
-                {
-                    item.Enum_Property.Set(rhs.Enum);
-                }
-                else if (def == null)
-                {
-                    item.Enum_Property.Unset();
-                }
-                else
-                {
-                    item.Enum_Property.Set(def.Enum);
-                }
-
+                item.Enum_Property.SetToWithDefault(
+                    rhs.Enum_Property,
+                    def?.Enum_Property);
             }
             if (copyMask?.WildCard ?? true)
             {
-                if (rhs.WildCard_Property.HasBeenSet)
-                {
-                    item.WildCard_Property.Set(rhs.WildCard);
-                }
-                else if (def == null)
-                {
-                    item.WildCard_Property.Unset();
-                }
-                else
-                {
-                    item.WildCard_Property.Set(def.WildCard);
-                }
-
+                item.WildCard_Property.SetToWithDefault(
+                    rhs.WildCard_Property,
+                    def?.WildCard_Property);
             }
             if (copyMask?.Ref.Overall != CopyType.Skip)
             {
                 try
                 {
-                    if (rhs.Ref_Property.HasBeenSet)
-                    {
-                        switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                    item.Ref_Property.SetToWithDefault(
+                        rhs.Ref_Property,
+                        def?.Ref_Property,
+                        (r, d) =>
                         {
-                            case CopyType.Reference:
-                                item.Ref_Property.Set(rhs.Ref);
-                                break;
-                            case CopyType.Deep:
-                                item.Ref.CopyFieldsFrom(
-                                    rhs: rhs.Ref,
-                                    def: def?.Ref,
-                                    doErrorMask: doErrorMask,
-                                    errorMask: (doErrorMask ? () =>
-                                    {
-                                       var errMask = errorMask();
-                                       if (errMask.Ref.Specific == null)
-                                       {
-                                          errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                             null,
-                                             new ObjectToRef_ErrorMask());
-                                       }
-                                       return errMask.Ref.Specific;
-                                    } : default(Func<ObjectToRef_ErrorMask>)),
-                                    copyMask: copyMask.Ref.Specific,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
+                            switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.Deep:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.Ref.Specific,
+                                        d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
+                            }
                         }
-                    }
-                    else if (def == null)
-                    {
-                        item.Ref = default(ObjectToRef);
-                    }
-                    else
-                    {
-                        switch (copyMask?.Ref.Overall ?? CopyType.Reference)
-                        {
-                            case CopyType.Reference:
-                                item.Ref_Property.Set(def.Ref);
-                                break;
-                            case CopyType.Deep:
-                                item.Ref.CopyFieldsFrom(
-                                    rhs: def.Ref,
-                                    def: null,
-                                    doErrorMask: doErrorMask,
-                                    errorMask: (doErrorMask ? () =>
-                                    {
-                                       var errMask = errorMask();
-                                       if (errMask.Ref.Specific == null)
-                                       {
-                                          errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                             null,
-                                             new ObjectToRef_ErrorMask());
-                                       }
-                                       return errMask.Ref.Specific;
-                                    } : default(Func<ObjectToRef_ErrorMask>)),
-                                    copyMask: copyMask.Ref.Specific,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
-                        }
-                    }
-
+                        );
                 }
                 catch (Exception ex)
                 {
@@ -3084,37 +2639,26 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.RefGetter_Property.HasBeenSet)
-                    {
-                        switch (copyMask?.RefGetter.Overall ?? CopyType.Reference)
+                    item.RefGetter_Property.SetToWithDefault(
+                        rhs.RefGetter_Property,
+                        def?.RefGetter_Property,
+                        (r, d) =>
                         {
-                            case CopyType.Reference:
-                                item.RefGetter_Property.Set(rhs.RefGetter);
-                                break;
-                            case CopyType.Deep:
-                                throw new ArgumentException($"Cannot deep copy a getter reference.");
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
+                            switch (copyMask?.RefGetter.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.Deep:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.RefGetter.Specific,
+                                        d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
+                            }
                         }
-                    }
-                    else if (def == null)
-                    {
-                        item.RefGetter = default(IObjectToRefGetter);
-                    }
-                    else
-                    {
-                        switch (copyMask?.RefGetter.Overall ?? CopyType.Reference)
-                        {
-                            case CopyType.Reference:
-                                item.RefGetter_Property.Set(def.RefGetter);
-                                break;
-                            case CopyType.Deep:
-                                throw new ArgumentException($"Cannot deep copy a getter reference.");
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
-                        }
-                    }
-
+                        );
                 }
                 catch (Exception ex)
                 {
@@ -3132,71 +2676,26 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.RefSetter_Property.HasBeenSet)
-                    {
-                        switch (copyMask?.RefSetter.Overall ?? CopyType.Reference)
+                    item.RefSetter_Property.SetToWithDefault(
+                        rhs.RefSetter_Property,
+                        def?.RefSetter_Property,
+                        (r, d) =>
                         {
-                            case CopyType.Reference:
-                                item.RefSetter_Property.Set(rhs.RefSetter);
-                                break;
-                            case CopyType.Deep:
-                                item.RefSetter.CopyFieldsFrom(
-                                    rhs: rhs.RefSetter,
-                                    def: def?.RefSetter,
-                                    doErrorMask: doErrorMask,
-                                    errorMask: (doErrorMask ? () =>
-                                    {
-                                       var errMask = errorMask();
-                                       if (errMask.RefSetter.Specific == null)
-                                       {
-                                          errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                             null,
-                                             new ObjectToRef_ErrorMask());
-                                       }
-                                       return errMask.RefSetter.Specific;
-                                    } : default(Func<ObjectToRef_ErrorMask>)),
-                                    copyMask: copyMask.RefSetter.Specific,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
+                            switch (copyMask?.RefSetter.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.Deep:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.RefSetter.Specific,
+                                        d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
+                            }
                         }
-                    }
-                    else if (def == null)
-                    {
-                        item.RefSetter = default(IObjectToRef);
-                    }
-                    else
-                    {
-                        switch (copyMask?.RefSetter.Overall ?? CopyType.Reference)
-                        {
-                            case CopyType.Reference:
-                                item.RefSetter_Property.Set(def.RefSetter);
-                                break;
-                            case CopyType.Deep:
-                                item.RefSetter.CopyFieldsFrom(
-                                    rhs: def.RefSetter,
-                                    def: null,
-                                    doErrorMask: doErrorMask,
-                                    errorMask: (doErrorMask ? () =>
-                                    {
-                                       var errMask = errorMask();
-                                       if (errMask.RefSetter.Specific == null)
-                                       {
-                                          errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                             null,
-                                             new ObjectToRef_ErrorMask());
-                                       }
-                                       return errMask.RefSetter.Specific;
-                                    } : default(Func<ObjectToRef_ErrorMask>)),
-                                    copyMask: copyMask.RefSetter.Specific,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
-                        }
-                    }
-
+                        );
                 }
                 catch (Exception ex)
                 {

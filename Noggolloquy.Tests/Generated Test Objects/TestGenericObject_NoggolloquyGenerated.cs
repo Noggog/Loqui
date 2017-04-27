@@ -494,55 +494,27 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.Ref_Property.HasBeenSet)
-                    {
-                        switch (copyMask?.Ref ?? CopyType.Reference)
+                    item.Ref_Property.SetToWithDefault(
+                        rhs.Ref_Property,
+                        def?.Ref_Property,
+                        cmds,
+                        (r, d) =>
                         {
-                            case CopyType.Reference:
-                                item.Ref_Property.Set(
-                                    rhs.Ref,
-                                    cmds: cmds);
-                                break;
-                            case CopyType.Deep:
-                                item.Ref.CopyFieldsFrom(
-                                    rhs: rhs.Ref,
-                                    def: def?.Ref,
-                                    doErrorMask: false,
-                                    errorMask: null,
-                                    copyMask: copyMask.Ref,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
+                            switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.Deep:
+                                    if (r == null) return null;
+                                    return R.Copy(
+                                        r,
+                                        copyMask?.Ref.Specific,
+                                        d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
+                            }
                         }
-                    }
-                    else if (def == null)
-                    {
-                        item.Ref_Property.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        switch (copyMask?.Ref ?? CopyType.Reference)
-                        {
-                            case CopyType.Reference:
-                                item.Ref_Property.Set(
-                                    def.Ref,
-                                    cmds: cmds);
-                                break;
-                            case CopyType.Deep:
-                                item.Ref.CopyFieldsFrom(
-                                    rhs: def.Ref,
-                                    def: null,
-                                    doErrorMask: false,
-                                    errorMask: null,
-                                    copyMask: copyMask.Ref,
-                                    cmds: cmds);
-                                break;
-                            default:
-                                throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
-                        }
-                    }
-
+                        );
                 }
                 catch (Exception ex)
                 {

@@ -2037,23 +2037,17 @@ namespace Noggolloquy.Tests
                             item.Ref = rhs.Ref;
                             break;
                         case CopyType.Deep:
-                            item.Ref.CopyFieldsFrom(
-                                rhs: rhs.Ref,
-                                def: def?.Ref,
-                                doErrorMask: doErrorMask,
-                                errorMask: (doErrorMask ? () =>
-                                {
-                                   var errMask = errorMask();
-                                   if (errMask.Ref.Specific == null)
-                                   {
-                                      errMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                         null,
-                                         new ObjectToRef_ErrorMask());
-                                   }
-                                   return errMask.Ref.Specific;
-                                } : default(Func<ObjectToRef_ErrorMask>)),
-                                copyMask: copyMask.Ref.Specific,
-                                cmds: cmds);
+                            if (rhs.Ref == null)
+                            {
+                                item.Ref = null;
+                            }
+                            else
+                            {
+                                item.Ref = ObjectToRef.Copy(
+                                    rhs.Ref,
+                                    copyMask?.Ref.Specific,
+                                    def?.Ref);
+                            }
                             break;
                         default:
                             throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
@@ -2081,7 +2075,18 @@ namespace Noggolloquy.Tests
                             item.RefGetter = rhs.RefGetter;
                             break;
                         case CopyType.Deep:
-                            throw new ArgumentException($"Cannot deep copy a getter reference.");
+                            if (rhs.RefGetter == null)
+                            {
+                                item.RefGetter = null;
+                            }
+                            else
+                            {
+                                item.RefGetter = ObjectToRef.Copy(
+                                    rhs.RefGetter,
+                                    copyMask?.RefGetter.Specific,
+                                    def?.RefGetter);
+                            }
+                            break;
                         default:
                             throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
                     }
@@ -2108,23 +2113,17 @@ namespace Noggolloquy.Tests
                             item.RefSetter = rhs.RefSetter;
                             break;
                         case CopyType.Deep:
-                            item.RefSetter.CopyFieldsFrom(
-                                rhs: rhs.RefSetter,
-                                def: def?.RefSetter,
-                                doErrorMask: doErrorMask,
-                                errorMask: (doErrorMask ? () =>
-                                {
-                                   var errMask = errorMask();
-                                   if (errMask.RefSetter.Specific == null)
-                                   {
-                                      errMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                         null,
-                                         new ObjectToRef_ErrorMask());
-                                   }
-                                   return errMask.RefSetter.Specific;
-                                } : default(Func<ObjectToRef_ErrorMask>)),
-                                copyMask: copyMask.RefSetter.Specific,
-                                cmds: cmds);
+                            if (rhs.RefSetter == null)
+                            {
+                                item.RefSetter = null;
+                            }
+                            else
+                            {
+                                item.RefSetter = ObjectToRef.Copy(
+                                    rhs.RefSetter,
+                                    copyMask?.RefSetter.Specific,
+                                    def?.RefSetter);
+                            }
                             break;
                         default:
                             throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");

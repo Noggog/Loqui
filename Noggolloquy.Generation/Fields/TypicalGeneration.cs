@@ -160,59 +160,15 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
                 return;
             }
-            if (defaultFallbackAccessor == null)
+            using (var args = new ArgsWrapper(fg,
+                $"{accessorPrefix}.{this.GetName(false, true)}.SetToWithDefault"))
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
+                args.Add($"{rhsAccessorPrefix}.{this.GetName(false, true)}");
+                args.Add($"{defaultFallbackAccessor}?.{this.GetName(false, true)}");
+                if (this.Notifying == NotifyingOption.Notifying)
                 {
-                    args.Add($"{rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}");
-                    if (this.Notifying == NotifyingOption.Notifying)
-                    {
-                        args.Add($"{cmdsAccessor}");
-                    }
+                    args.Add($"{cmdsAccessor}");
                 }
-            }
-            else
-            {
-                fg.AppendLine($"if ({rhsAccessorPrefix}.{this.HasBeenSetAccessor})");
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
-                    {
-                        args.Add($"{rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}");
-                        if (this.Notifying == NotifyingOption.Notifying)
-                        {
-                            args.Add($"{cmdsAccessor}");
-                        }
-                    }
-                }
-                fg.AppendLine($"else if ({defaultFallbackAccessor} == null)");
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Unset"))
-                    {
-                        if (this.Notifying == NotifyingOption.Notifying)
-                        {
-                            args.Add($"{cmdsAccessor}.ToUnsetParams()");
-                        }
-                    }
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessorPrefix}.{this.GetName(internalUse: protectedMembers, property: true)}.Set"))
-                    {
-                        args.Add($"{defaultFallbackAccessor}.{this.GetName(internalUse: false, property: false)}");
-                        if (this.Notifying == NotifyingOption.Notifying)
-                        {
-                            args.Add($"{cmdsAccessor}");
-                        }
-                    }
-                }
-                fg.AppendLine();
             }
         }
 

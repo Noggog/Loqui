@@ -529,23 +529,10 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.KeyField_Property.HasBeenSet)
-                    {
-                        item.KeyField_Property.Set(
-                            rhs.KeyField,
-                            cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.KeyField_Property.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.KeyField_Property.Set(
-                            def.KeyField,
-                            cmds);
-                    }
-
+                    item.KeyField_Property.SetToWithDefault(
+                        rhs.KeyField_Property,
+                        def?.KeyField_Property,
+                        cmds);
                 }
                 catch (Exception ex)
                 {
@@ -563,23 +550,10 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.SomeField_Property.HasBeenSet)
-                    {
-                        item.SomeField_Property.Set(
-                            rhs.SomeField,
-                            cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.SomeField_Property.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.SomeField_Property.Set(
-                            def.SomeField,
-                            cmds);
-                    }
-
+                    item.SomeField_Property.SetToWithDefault(
+                        rhs.SomeField_Property,
+                        def?.SomeField_Property,
+                        cmds);
                 }
                 catch (Exception ex)
                 {

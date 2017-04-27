@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>29eee74f44057f1fd54d49f9335bc64ea6cb68de</Sha>
-      <Description>NotifyingKeyedCollection KeyGetter public readonly.  NotifyingDictionary TryGetValue and SetToWithDefault</Description>
+      <Sha>36371f7edf468657a62abe781c259eaa7cb2091f</Sha>
+      <Description>NotifyingItem and HasBeenSetItem SetToWithDefault</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-25-2017 23:36:28</CommitDate>
+      <CommitDate>04-26-2017 23:34:04</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

@@ -465,23 +465,10 @@ namespace Noggolloquy.Tests
             {
                 try
                 {
-                    if (rhs.NewField_Property.HasBeenSet)
-                    {
-                        item.NewField_Property.Set(
-                            rhs.NewField,
-                            cmds);
-                    }
-                    else if (def == null)
-                    {
-                        item.NewField_Property.Unset(cmds.ToUnsetParams());
-                    }
-                    else
-                    {
-                        item.NewField_Property.Set(
-                            def.NewField,
-                            cmds);
-                    }
-
+                    item.NewField_Property.SetToWithDefault(
+                        rhs.NewField_Property,
+                        def?.NewField_Property,
+                        cmds);
                 }
                 catch (Exception ex)
                 {
