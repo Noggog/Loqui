@@ -26,6 +26,7 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Derivative_Registration.Instance);
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_Derivative_Registration.Instance);
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_PrivateCtor_Registration.Instance);
         }
     }
 }

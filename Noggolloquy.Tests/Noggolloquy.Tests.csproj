@@ -68,6 +68,9 @@
       <Compile Include="Generated Test Objects\TestObject_Notifying_Derivative_NoggolloquyGenerated.cs">
          <DependentUpon>TestObject_Notifying_Derivative.xml</DependentUpon>
       </Compile>
+      <Compile Include="Generated Test Objects\TestObject_PrivateCtor_NoggolloquyGenerated.cs">
+         <DependentUpon>TestObject_PrivateCtor.xml</DependentUpon>
+      </Compile>
       <Compile Include="NoggolloquyRegistration_Tests.cs" />
       <Compile Include="ObjectToRef_CustomMade.cs" />
       <Compile Include="Generated Test Objects\ObjectToRef_NoggolloquyGenerated.cs">
@@ -170,6 +173,9 @@
          <SubType>Designer</SubType>
       </Content>
       <Content Include="Generated Test Objects\TestGenericObject.xml">
+         <SubType>Designer</SubType>
+      </Content>
+      <Content Include="Generated Test Objects\TestObject_PrivateCtor.xml">
          <SubType>Designer</SubType>
       </Content>
       <Content Include="Generated Test Objects\TestObject_HasBeenSet_Derivative.xml">
