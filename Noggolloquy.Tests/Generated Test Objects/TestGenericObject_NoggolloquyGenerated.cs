@@ -40,7 +40,6 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<R> ITestGenericObjectGetter<T, R>.Ref_Property => this.Ref_Property;
         #endregion
 
-
         #region Noggolloquy Getter Interface
 
         protected virtual object GetNthObject(ushort index) => TestGenericObjectCommon.GetNthObject<T, R>(index, this);
@@ -113,6 +112,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
 
+
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -135,6 +135,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
 
         #region XML Translation
         public static TestGenericObject<T, R> Create_XML(XElement root)
@@ -236,6 +237,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestGenericObject<T, R> Copy(
             TestGenericObject_CopyMask copyMask = null,
             ITestGenericObjectGetter<T, R> def = null)
@@ -360,7 +362,6 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<R> Ref_Property { get; }
 
         #endregion
-
 
     }
 
@@ -496,6 +497,7 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
 
     public class TestGenericObject_Registration<T, R> : TestGenericObject_Registration
@@ -516,6 +518,7 @@ namespace Noggolloquy.Tests
 
     }
     #endregion
+
     #region Extensions
     public static class TestGenericObjectCommon
     {
@@ -690,7 +693,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

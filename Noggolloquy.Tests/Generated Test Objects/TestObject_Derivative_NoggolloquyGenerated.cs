@@ -34,159 +34,120 @@ namespace Noggolloquy.Tests
         #region BoolN
         public Boolean? BoolN { get; protected set; }
         #endregion
-
         #region Bool
         public Boolean Bool { get; protected set; }
         #endregion
-
         #region CharN
         public Char? CharN { get; protected set; }
         #endregion
-
         #region Char
         public Char Char { get; protected set; }
         #endregion
-
         #region DoubleN
         public Double? DoubleN { get; protected set; }
         #endregion
-
         #region Double
         public Double Double { get; protected set; }
         #endregion
-
         #region FloatN
         public Single? FloatN { get; protected set; }
         #endregion
-
         #region Float
         public Single Float { get; protected set; }
         #endregion
-
         #region Int16N
         public Int16? Int16N { get; protected set; }
         #endregion
-
         #region Int16
         public Int16 Int16 { get; protected set; }
         #endregion
-
         #region Int32N
         public Int32? Int32N { get; protected set; }
         #endregion
-
         #region Int32
         public Int32 Int32 { get; protected set; }
         #endregion
-
         #region Int64N
         public Int64? Int64N { get; protected set; }
         #endregion
-
         #region Int64
         public Int64 Int64 { get; protected set; }
         #endregion
-
         #region Int8N
         public SByte? Int8N { get; protected set; }
         #endregion
-
         #region Int8
         public SByte Int8 { get; protected set; }
         #endregion
-
         #region Unsafe
         public bool Unsafe { get; protected set; }
         #endregion
-
         #region P2IntN
         public P2Int? P2IntN { get; protected set; }
         #endregion
-
         #region P2Int
         public P2Int P2Int { get; protected set; }
         #endregion
-
         #region P3DoubleN
         public P3Double? P3DoubleN { get; protected set; }
         #endregion
-
         #region P3Double
         public P3Double P3Double { get; protected set; }
         #endregion
-
         #region P3IntN
         public P3Int? P3IntN { get; protected set; }
         #endregion
-
         #region P3Int
         public P3Int P3Int { get; protected set; }
         #endregion
-
         #region PercentN
         public Percent? PercentN { get; protected set; }
         #endregion
-
         #region Percent
         public Percent Percent { get; protected set; }
         #endregion
-
         #region RangeIntN
         public RangeInt? RangeIntN { get; protected set; }
         #endregion
-
         #region RangeInt
         public RangeInt RangeInt { get; protected set; }
         #endregion
-
         #region String
         public String String { get; protected set; }
         #endregion
-
         #region UDoubleN
         public UDouble? UDoubleN { get; protected set; }
         #endregion
-
         #region UDouble
         public UDouble UDouble { get; protected set; }
         #endregion
-
         #region UInt16N
         public UInt16? UInt16N { get; protected set; }
         #endregion
-
         #region UInt16
         public UInt16 UInt16 { get; protected set; }
         #endregion
-
         #region UInt32N
         public UInt32? UInt32N { get; protected set; }
         #endregion
-
         #region UInt32
         public UInt32 UInt32 { get; protected set; }
         #endregion
-
         #region UInt64N
         public UInt64? UInt64N { get; protected set; }
         #endregion
-
         #region UInt64
         public UInt64 UInt64 { get; protected set; }
         #endregion
-
         #region UInt8N
         public Byte? UInt8N { get; protected set; }
         #endregion
-
         #region UInt8
         public Byte UInt8 { get; protected set; }
         #endregion
-
         #region Enum
         public TestEnum Enum { get; protected set; }
         #endregion
-
         #region WildCard
         protected Object _WildCard;
         public Object WildCard
@@ -196,59 +157,55 @@ namespace Noggolloquy.Tests
         }
         Object ITestObject_DerivativeGetter.WildCard => this.WildCard;
         #endregion
-
         #region Ref
         public ObjectToRef Ref { get; protected set; }
         #endregion
-
         #region RefGetter
         public IObjectToRefGetter RefGetter { get; protected set; }
         #endregion
-
         #region RefSetter
         public IObjectToRef RefSetter { get; protected set; }
         #endregion
-
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
         INotifyingListGetter<Boolean> ITestObject_DerivativeGetter.List => _List;
         #endregion
-        #endregion
 
+        #endregion
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
         INotifyingListGetter<ObjectToRef> ITestObject_DerivativeGetter.RefList => _RefList;
         #endregion
-        #endregion
 
+        #endregion
         #region Dict
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
         INotifyingDictionaryGetter<Boolean, String> ITestObject_DerivativeGetter.Dict => _Dict;
         #endregion
-        #endregion
 
+        #endregion
         #region RefDict
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_DerivativeGetter.RefDict => _RefDict;
         #endregion
-        #endregion
 
+        #endregion
         #region DictKeyedValue
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_DerivativeGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
-        #endregion
 
+        #endregion
 
         #region Noggolloquy Getter Interface
 
@@ -321,6 +278,7 @@ namespace Noggolloquy.Tests
             return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
+
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -486,6 +444,7 @@ namespace Noggolloquy.Tests
 
         #endregion
 
+
         #region XML Translation
         public static TestObject_Derivative Create_XML(XElement root)
         {
@@ -586,6 +545,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestObject_Derivative Copy(
             TestObject_Derivative_CopyMask copyMask = null,
             ITestObject_DerivativeGetter def = null)
@@ -747,237 +707,189 @@ namespace Noggolloquy.Tests
         Boolean? BoolN { get; }
 
         #endregion
-
         #region Bool
         Boolean Bool { get; }
 
         #endregion
-
         #region CharN
         Char? CharN { get; }
 
         #endregion
-
         #region Char
         Char Char { get; }
 
         #endregion
-
         #region DoubleN
         Double? DoubleN { get; }
 
         #endregion
-
         #region Double
         Double Double { get; }
 
         #endregion
-
         #region FloatN
         Single? FloatN { get; }
 
         #endregion
-
         #region Float
         Single Float { get; }
 
         #endregion
-
         #region Int16N
         Int16? Int16N { get; }
 
         #endregion
-
         #region Int16
         Int16 Int16 { get; }
 
         #endregion
-
         #region Int32N
         Int32? Int32N { get; }
 
         #endregion
-
         #region Int32
         Int32 Int32 { get; }
 
         #endregion
-
         #region Int64N
         Int64? Int64N { get; }
 
         #endregion
-
         #region Int64
         Int64 Int64 { get; }
 
         #endregion
-
         #region Int8N
         SByte? Int8N { get; }
 
         #endregion
-
         #region Int8
         SByte Int8 { get; }
 
         #endregion
-
         #region Unsafe
         bool Unsafe { get; }
 
         #endregion
-
         #region P2IntN
         P2Int? P2IntN { get; }
 
         #endregion
-
         #region P2Int
         P2Int P2Int { get; }
 
         #endregion
-
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
 
         #endregion
-
         #region P3Double
         P3Double P3Double { get; }
 
         #endregion
-
         #region P3IntN
         P3Int? P3IntN { get; }
 
         #endregion
-
         #region P3Int
         P3Int P3Int { get; }
 
         #endregion
-
         #region PercentN
         Percent? PercentN { get; }
 
         #endregion
-
         #region Percent
         Percent Percent { get; }
 
         #endregion
-
         #region RangeIntN
         RangeInt? RangeIntN { get; }
 
         #endregion
-
         #region RangeInt
         RangeInt RangeInt { get; }
 
         #endregion
-
         #region String
         String String { get; }
 
         #endregion
-
         #region UDoubleN
         UDouble? UDoubleN { get; }
 
         #endregion
-
         #region UDouble
         UDouble UDouble { get; }
 
         #endregion
-
         #region UInt16N
         UInt16? UInt16N { get; }
 
         #endregion
-
         #region UInt16
         UInt16 UInt16 { get; }
 
         #endregion
-
         #region UInt32N
         UInt32? UInt32N { get; }
 
         #endregion
-
         #region UInt32
         UInt32 UInt32 { get; }
 
         #endregion
-
         #region UInt64N
         UInt64? UInt64N { get; }
 
         #endregion
-
         #region UInt64
         UInt64 UInt64 { get; }
 
         #endregion
-
         #region UInt8N
         Byte? UInt8N { get; }
 
         #endregion
-
         #region UInt8
         Byte UInt8 { get; }
 
         #endregion
-
         #region Enum
         TestEnum Enum { get; }
 
         #endregion
-
         #region WildCard
         Object WildCard { get; }
 
         #endregion
-
         #region Ref
         ObjectToRef Ref { get; }
 
         #endregion
-
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
 
         #endregion
-
         #region RefSetter
         IObjectToRef RefSetter { get; }
 
         #endregion
-
         #region List
         INotifyingListGetter<Boolean> List { get; }
         #endregion
-
         #region RefList
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
-
         #region Dict
         INotifyingDictionaryGetter<Boolean, String> Dict { get; }
         #endregion
-
         #region RefDict
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
         #endregion
-
         #region DictKeyedValue
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
         #endregion
-
 
     }
 
@@ -1641,8 +1553,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class TestObject_DerivativeCommon
     {
@@ -2432,7 +2346,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

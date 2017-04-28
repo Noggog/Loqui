@@ -43,7 +43,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Boolean?> ITestObject_Notifying_DerivativeGetter.BoolN_Property => this.BoolN_Property;
         #endregion
-
         #region Bool
         protected readonly INotifyingItem<Boolean> _Bool = new NotifyingItem<Boolean>(
             default(Boolean),
@@ -56,7 +55,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Boolean> ITestObject_Notifying_DerivativeGetter.Bool_Property => this.Bool_Property;
         #endregion
-
         #region CharN
         protected readonly INotifyingItem<Char?> _CharN = new NotifyingItem<Char?>(
             default(Char?),
@@ -69,7 +67,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Char?> ITestObject_Notifying_DerivativeGetter.CharN_Property => this.CharN_Property;
         #endregion
-
         #region Char
         protected readonly INotifyingItem<Char> _Char = new NotifyingItem<Char>(
             default(Char),
@@ -82,7 +79,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Char> ITestObject_Notifying_DerivativeGetter.Char_Property => this.Char_Property;
         #endregion
-
         #region DoubleN
         protected readonly INotifyingItem<Double?> _DoubleN = new NotifyingItem<Double?>(
             default(Double?),
@@ -95,7 +91,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Double?> ITestObject_Notifying_DerivativeGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
-
         #region Double
         protected readonly INotifyingItem<Double> _Double = new NotifyingItem<Double>(
             default(Double),
@@ -108,7 +103,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Double> ITestObject_Notifying_DerivativeGetter.Double_Property => this.Double_Property;
         #endregion
-
         #region FloatN
         protected readonly INotifyingItem<Single?> _FloatN = new NotifyingItem<Single?>(
             default(Single?),
@@ -121,7 +115,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Single?> ITestObject_Notifying_DerivativeGetter.FloatN_Property => this.FloatN_Property;
         #endregion
-
         #region Float
         protected readonly INotifyingItem<Single> _Float = new NotifyingItem<Single>(
             default(Single),
@@ -134,7 +127,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Single> ITestObject_Notifying_DerivativeGetter.Float_Property => this.Float_Property;
         #endregion
-
         #region Int16N
         protected readonly INotifyingItem<Int16?> _Int16N = new NotifyingItem<Int16?>(
             default(Int16?),
@@ -147,7 +139,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int16?> ITestObject_Notifying_DerivativeGetter.Int16N_Property => this.Int16N_Property;
         #endregion
-
         #region Int16
         protected readonly INotifyingItem<Int16> _Int16 = new NotifyingItem<Int16>(
             default(Int16),
@@ -160,7 +151,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int16> ITestObject_Notifying_DerivativeGetter.Int16_Property => this.Int16_Property;
         #endregion
-
         #region Int32N
         protected readonly INotifyingItem<Int32?> _Int32N = new NotifyingItem<Int32?>(
             default(Int32?),
@@ -173,7 +163,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int32?> ITestObject_Notifying_DerivativeGetter.Int32N_Property => this.Int32N_Property;
         #endregion
-
         #region Int32
         protected readonly INotifyingItem<Int32> _Int32 = new NotifyingItem<Int32>(
             default(Int32),
@@ -186,7 +175,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int32> ITestObject_Notifying_DerivativeGetter.Int32_Property => this.Int32_Property;
         #endregion
-
         #region Int64N
         protected readonly INotifyingItem<Int64?> _Int64N = new NotifyingItem<Int64?>(
             default(Int64?),
@@ -199,7 +187,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int64?> ITestObject_Notifying_DerivativeGetter.Int64N_Property => this.Int64N_Property;
         #endregion
-
         #region Int64
         protected readonly INotifyingItem<Int64> _Int64 = new NotifyingItem<Int64>(
             default(Int64),
@@ -212,7 +199,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Int64> ITestObject_Notifying_DerivativeGetter.Int64_Property => this.Int64_Property;
         #endregion
-
         #region Int8N
         protected readonly INotifyingItem<SByte?> _Int8N = new NotifyingItem<SByte?>(
             default(SByte?),
@@ -225,7 +211,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<SByte?> ITestObject_Notifying_DerivativeGetter.Int8N_Property => this.Int8N_Property;
         #endregion
-
         #region Int8
         protected readonly INotifyingItem<SByte> _Int8 = new NotifyingItem<SByte>(
             default(SByte),
@@ -238,7 +223,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<SByte> ITestObject_Notifying_DerivativeGetter.Int8_Property => this.Int8_Property;
         #endregion
-
         #region Unsafe
         protected readonly INotifyingItem<bool> _Unsafe = new NotifyingItem<bool>(
             default(bool),
@@ -251,7 +235,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<bool> ITestObject_Notifying_DerivativeGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
-
         #region P2IntN
         protected readonly INotifyingItem<P2Int?> _P2IntN = new NotifyingItem<P2Int?>(
             default(P2Int?),
@@ -264,7 +247,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P2Int?> ITestObject_Notifying_DerivativeGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
-
         #region P2Int
         protected readonly INotifyingItem<P2Int> _P2Int = new NotifyingItem<P2Int>(
             default(P2Int),
@@ -277,7 +259,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P2Int> ITestObject_Notifying_DerivativeGetter.P2Int_Property => this.P2Int_Property;
         #endregion
-
         #region P3DoubleN
         protected readonly INotifyingItem<P3Double?> _P3DoubleN = new NotifyingItem<P3Double?>(
             default(P3Double?),
@@ -290,7 +271,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P3Double?> ITestObject_Notifying_DerivativeGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
-
         #region P3Double
         protected readonly INotifyingItem<P3Double> _P3Double = new NotifyingItem<P3Double>(
             default(P3Double),
@@ -303,7 +283,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P3Double> ITestObject_Notifying_DerivativeGetter.P3Double_Property => this.P3Double_Property;
         #endregion
-
         #region P3IntN
         protected readonly INotifyingItem<P3Int?> _P3IntN = new NotifyingItem<P3Int?>(
             default(P3Int?),
@@ -316,7 +295,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P3Int?> ITestObject_Notifying_DerivativeGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
-
         #region P3Int
         protected readonly INotifyingItem<P3Int> _P3Int = new NotifyingItem<P3Int>(
             default(P3Int),
@@ -329,7 +307,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<P3Int> ITestObject_Notifying_DerivativeGetter.P3Int_Property => this.P3Int_Property;
         #endregion
-
         #region PercentN
         protected readonly INotifyingItem<Percent?> _PercentN = new NotifyingItem<Percent?>(
             default(Percent?),
@@ -342,7 +319,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Percent?> ITestObject_Notifying_DerivativeGetter.PercentN_Property => this.PercentN_Property;
         #endregion
-
         #region Percent
         protected readonly INotifyingItem<Percent> _Percent = new NotifyingItem<Percent>(
             default(Percent),
@@ -355,7 +331,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Percent> ITestObject_Notifying_DerivativeGetter.Percent_Property => this.Percent_Property;
         #endregion
-
         #region RangeIntN
         protected readonly INotifyingItem<RangeInt?> _RangeIntN = new NotifyingItem<RangeInt?>(
             default(RangeInt?),
@@ -368,7 +343,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<RangeInt?> ITestObject_Notifying_DerivativeGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
-
         #region RangeInt
         protected readonly INotifyingItem<RangeInt> _RangeInt = new NotifyingItem<RangeInt>(
             default(RangeInt),
@@ -381,7 +355,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<RangeInt> ITestObject_Notifying_DerivativeGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
-
         #region String
         protected readonly INotifyingItem<String> _String = new NotifyingItem<String>(
             default(String),
@@ -394,7 +367,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<String> ITestObject_Notifying_DerivativeGetter.String_Property => this.String_Property;
         #endregion
-
         #region UDoubleN
         protected readonly INotifyingItem<UDouble?> _UDoubleN = new NotifyingItem<UDouble?>(
             default(UDouble?),
@@ -407,7 +379,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UDouble?> ITestObject_Notifying_DerivativeGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
-
         #region UDouble
         protected readonly INotifyingItem<UDouble> _UDouble = new NotifyingItem<UDouble>(
             default(UDouble),
@@ -420,7 +391,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UDouble> ITestObject_Notifying_DerivativeGetter.UDouble_Property => this.UDouble_Property;
         #endregion
-
         #region UInt16N
         protected readonly INotifyingItem<UInt16?> _UInt16N = new NotifyingItem<UInt16?>(
             default(UInt16?),
@@ -433,7 +403,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt16?> ITestObject_Notifying_DerivativeGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
-
         #region UInt16
         protected readonly INotifyingItem<UInt16> _UInt16 = new NotifyingItem<UInt16>(
             default(UInt16),
@@ -446,7 +415,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt16> ITestObject_Notifying_DerivativeGetter.UInt16_Property => this.UInt16_Property;
         #endregion
-
         #region UInt32N
         protected readonly INotifyingItem<UInt32?> _UInt32N = new NotifyingItem<UInt32?>(
             default(UInt32?),
@@ -459,7 +427,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt32?> ITestObject_Notifying_DerivativeGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
-
         #region UInt32
         protected readonly INotifyingItem<UInt32> _UInt32 = new NotifyingItem<UInt32>(
             default(UInt32),
@@ -472,7 +439,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt32> ITestObject_Notifying_DerivativeGetter.UInt32_Property => this.UInt32_Property;
         #endregion
-
         #region UInt64N
         protected readonly INotifyingItem<UInt64?> _UInt64N = new NotifyingItem<UInt64?>(
             default(UInt64?),
@@ -485,7 +451,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt64?> ITestObject_Notifying_DerivativeGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
-
         #region UInt64
         protected readonly INotifyingItem<UInt64> _UInt64 = new NotifyingItem<UInt64>(
             default(UInt64),
@@ -498,7 +463,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<UInt64> ITestObject_Notifying_DerivativeGetter.UInt64_Property => this.UInt64_Property;
         #endregion
-
         #region UInt8N
         protected readonly INotifyingItem<Byte?> _UInt8N = new NotifyingItem<Byte?>(
             default(Byte?),
@@ -511,7 +475,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Byte?> ITestObject_Notifying_DerivativeGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
-
         #region UInt8
         protected readonly INotifyingItem<Byte> _UInt8 = new NotifyingItem<Byte>(
             default(Byte),
@@ -524,7 +487,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<Byte> ITestObject_Notifying_DerivativeGetter.UInt8_Property => this.UInt8_Property;
         #endregion
-
         #region Enum
         protected readonly INotifyingItem<TestEnum> _Enum = new NotifyingItem<TestEnum>(
         );
@@ -536,7 +498,6 @@ namespace Noggolloquy.Tests
         }
         INotifyingItemGetter<TestEnum> ITestObject_Notifying_DerivativeGetter.Enum_Property => this.Enum_Property;
         #endregion
-
         #region WildCard
         protected readonly INotifyingItem<Object> _WildCard = new NotifyingItemConvertWrapper<Object>(
             (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
@@ -547,7 +508,6 @@ namespace Noggolloquy.Tests
         public Object WildCard { get { return _WildCard.Value; } protected set { _WildCard.Value = value; } }
         INotifyingItemGetter<Object> ITestObject_Notifying_DerivativeGetter.WildCard_Property => this.WildCard_Property;
         #endregion
-
         #region Ref
         private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
         public INotifyingItemGetter<ObjectToRef> Ref_Property => this._Ref;
@@ -555,7 +515,6 @@ namespace Noggolloquy.Tests
         public ObjectToRef Ref { get { return _Ref.Value; } }
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.Ref_Property => this.Ref_Property;
         #endregion
-
         #region RefGetter
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
@@ -563,7 +522,6 @@ namespace Noggolloquy.Tests
         public IObjectToRefGetter RefGetter { get { return _RefGetter.Value; } }
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_DerivativeGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
-
         #region RefSetter
         private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
         public INotifyingItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
@@ -571,47 +529,46 @@ namespace Noggolloquy.Tests
         public IObjectToRef RefSetter { get { return _RefSetter.Value; } }
         INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_DerivativeGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
-
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
         INotifyingListGetter<Boolean> ITestObject_Notifying_DerivativeGetter.List => _List;
         #endregion
-        #endregion
 
+        #endregion
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
         INotifyingListGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.RefList => _RefList;
         #endregion
-        #endregion
 
+        #endregion
         #region Dict
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
         INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_DerivativeGetter.Dict => _Dict;
         #endregion
-        #endregion
 
+        #endregion
         #region RefDict
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_DerivativeGetter.RefDict => _RefDict;
         #endregion
-        #endregion
 
+        #endregion
         #region DictKeyedValue
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_DerivativeGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
-        #endregion
 
+        #endregion
 
         #region Noggolloquy Getter Interface
 
@@ -684,6 +641,7 @@ namespace Noggolloquy.Tests
             return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
+
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -849,6 +807,7 @@ namespace Noggolloquy.Tests
 
         #endregion
 
+
         #region XML Translation
         public static TestObject_Notifying_Derivative Create_XML(XElement root)
         {
@@ -949,6 +908,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestObject_Notifying_Derivative Copy(
             TestObject_Notifying_Derivative_CopyMask copyMask = null,
             ITestObject_Notifying_DerivativeGetter def = null)
@@ -1111,279 +1071,231 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
-
         #region Bool
         Boolean Bool { get; }
         INotifyingItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
-
         #region CharN
         Char? CharN { get; }
         INotifyingItemGetter<Char?> CharN_Property { get; }
 
         #endregion
-
         #region Char
         Char Char { get; }
         INotifyingItemGetter<Char> Char_Property { get; }
 
         #endregion
-
         #region DoubleN
         Double? DoubleN { get; }
         INotifyingItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
-
         #region Double
         Double Double { get; }
         INotifyingItemGetter<Double> Double_Property { get; }
 
         #endregion
-
         #region FloatN
         Single? FloatN { get; }
         INotifyingItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
-
         #region Float
         Single Float { get; }
         INotifyingItemGetter<Single> Float_Property { get; }
 
         #endregion
-
         #region Int16N
         Int16? Int16N { get; }
         INotifyingItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
-
         #region Int16
         Int16 Int16 { get; }
         INotifyingItemGetter<Int16> Int16_Property { get; }
 
         #endregion
-
         #region Int32N
         Int32? Int32N { get; }
         INotifyingItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
-
         #region Int32
         Int32 Int32 { get; }
         INotifyingItemGetter<Int32> Int32_Property { get; }
 
         #endregion
-
         #region Int64N
         Int64? Int64N { get; }
         INotifyingItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
-
         #region Int64
         Int64 Int64 { get; }
         INotifyingItemGetter<Int64> Int64_Property { get; }
 
         #endregion
-
         #region Int8N
         SByte? Int8N { get; }
         INotifyingItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
-
         #region Int8
         SByte Int8 { get; }
         INotifyingItemGetter<SByte> Int8_Property { get; }
 
         #endregion
-
         #region Unsafe
         bool Unsafe { get; }
         INotifyingItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
-
         #region P2IntN
         P2Int? P2IntN { get; }
         INotifyingItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
-
         #region P2Int
         P2Int P2Int { get; }
         INotifyingItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
-
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
         INotifyingItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
-
         #region P3Double
         P3Double P3Double { get; }
         INotifyingItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
-
         #region P3IntN
         P3Int? P3IntN { get; }
         INotifyingItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
-
         #region P3Int
         P3Int P3Int { get; }
         INotifyingItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
-
         #region PercentN
         Percent? PercentN { get; }
         INotifyingItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
-
         #region Percent
         Percent Percent { get; }
         INotifyingItemGetter<Percent> Percent_Property { get; }
 
         #endregion
-
         #region RangeIntN
         RangeInt? RangeIntN { get; }
         INotifyingItemGetter<RangeInt?> RangeIntN_Property { get; }
 
         #endregion
-
         #region RangeInt
         RangeInt RangeInt { get; }
         INotifyingItemGetter<RangeInt> RangeInt_Property { get; }
 
         #endregion
-
         #region String
         String String { get; }
         INotifyingItemGetter<String> String_Property { get; }
 
         #endregion
-
         #region UDoubleN
         UDouble? UDoubleN { get; }
         INotifyingItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
-
         #region UDouble
         UDouble UDouble { get; }
         INotifyingItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
-
         #region UInt16N
         UInt16? UInt16N { get; }
         INotifyingItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
-
         #region UInt16
         UInt16 UInt16 { get; }
         INotifyingItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
-
         #region UInt32N
         UInt32? UInt32N { get; }
         INotifyingItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
-
         #region UInt32
         UInt32 UInt32 { get; }
         INotifyingItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
-
         #region UInt64N
         UInt64? UInt64N { get; }
         INotifyingItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
-
         #region UInt64
         UInt64 UInt64 { get; }
         INotifyingItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
-
         #region UInt8N
         Byte? UInt8N { get; }
         INotifyingItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
-
         #region UInt8
         Byte UInt8 { get; }
         INotifyingItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
-
         #region Enum
         TestEnum Enum { get; }
         INotifyingItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
-
         #region WildCard
         Object WildCard { get; }
         INotifyingItemGetter<Object> WildCard_Property { get; }
 
         #endregion
-
         #region Ref
         ObjectToRef Ref { get; }
         INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
-
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
         INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
-
         #region RefSetter
         IObjectToRef RefSetter { get; }
         INotifyingItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
-
         #region List
         INotifyingListGetter<Boolean> List { get; }
         #endregion
-
         #region RefList
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
-
         #region Dict
         INotifyingDictionaryGetter<Boolean, String> Dict { get; }
         #endregion
-
         #region RefDict
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
         #endregion
-
         #region DictKeyedValue
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
         #endregion
-
 
     }
 
@@ -2047,8 +1959,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class TestObject_Notifying_DerivativeCommon
     {
@@ -2885,7 +2799,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

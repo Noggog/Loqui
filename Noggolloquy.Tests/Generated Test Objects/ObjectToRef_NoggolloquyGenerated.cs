@@ -43,7 +43,6 @@ namespace Noggolloquy.Tests
         INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
         INotifyingItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
-
         #region SomeField
         protected readonly INotifyingItem<Boolean> _SomeField = new NotifyingItem<Boolean>(
             default(Boolean),
@@ -57,7 +56,6 @@ namespace Noggolloquy.Tests
         INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
         INotifyingItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
         #endregion
-
 
         #region Noggolloquy Getter Interface
 
@@ -131,6 +129,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
 
+
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -156,6 +155,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
 
         #region XML Translation
         public static ObjectToRef Create_XML(XElement root)
@@ -257,6 +257,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public ObjectToRef Copy(
             ObjectToRef_CopyMask copyMask = null,
             IObjectToRefGetter def = null)
@@ -388,13 +389,11 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Int32> KeyField_Property { get; }
 
         #endregion
-
         #region SomeField
         Boolean SomeField { get; }
         INotifyingItemGetter<Boolean> SomeField_Property { get; }
 
         #endregion
-
 
     }
 
@@ -550,8 +549,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class ObjectToRefCommon
     {
@@ -746,7 +747,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

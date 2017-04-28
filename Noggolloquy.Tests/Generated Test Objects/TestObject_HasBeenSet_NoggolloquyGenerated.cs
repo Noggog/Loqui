@@ -44,7 +44,6 @@ namespace Noggolloquy.Tests
         Boolean? ITestObject_HasBeenSetGetter.BoolN => this.BoolN;
         IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
-
         #region Bool
         protected readonly IHasBeenSetItem<Boolean> _Bool = new HasBeenSetItem<Boolean>(
             default(Boolean),
@@ -58,7 +57,6 @@ namespace Noggolloquy.Tests
         Boolean ITestObject_HasBeenSetGetter.Bool => this.Bool;
         IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
-
         #region CharN
         protected readonly IHasBeenSetItem<Char?> _CharN = new HasBeenSetItem<Char?>(
             default(Char?),
@@ -72,7 +70,6 @@ namespace Noggolloquy.Tests
         Char? ITestObject_HasBeenSetGetter.CharN => this.CharN;
         IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
-
         #region Char
         protected readonly IHasBeenSetItem<Char> _Char = new HasBeenSetItem<Char>(
             default(Char),
@@ -86,7 +83,6 @@ namespace Noggolloquy.Tests
         Char ITestObject_HasBeenSetGetter.Char => this.Char;
         IHasBeenSetItemGetter<Char> ITestObject_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
-
         #region DoubleN
         protected readonly INotifyingItem<Double?> _DoubleN = new NotifyingItem<Double?>(
             default(Double?),
@@ -100,7 +96,6 @@ namespace Noggolloquy.Tests
         Double? ITestObject_HasBeenSetGetter.DoubleN => this.DoubleN;
         IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
-
         #region Double
         protected readonly INotifyingItem<Double> _Double = new NotifyingItem<Double>(
             default(Double),
@@ -114,7 +109,6 @@ namespace Noggolloquy.Tests
         Double ITestObject_HasBeenSetGetter.Double => this.Double;
         IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
-
         #region FloatN
         protected readonly INotifyingItem<Single?> _FloatN = new NotifyingItem<Single?>(
             default(Single?),
@@ -128,7 +122,6 @@ namespace Noggolloquy.Tests
         Single? ITestObject_HasBeenSetGetter.FloatN => this.FloatN;
         IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
-
         #region Float
         protected readonly INotifyingItem<Single> _Float = new NotifyingItem<Single>(
             default(Single),
@@ -142,7 +135,6 @@ namespace Noggolloquy.Tests
         Single ITestObject_HasBeenSetGetter.Float => this.Float;
         IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
-
         #region Int16N
         protected readonly INotifyingItem<Int16?> _Int16N = new NotifyingItem<Int16?>(
             default(Int16?),
@@ -156,7 +148,6 @@ namespace Noggolloquy.Tests
         Int16? ITestObject_HasBeenSetGetter.Int16N => this.Int16N;
         IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
-
         #region Int16
         protected readonly INotifyingItem<Int16> _Int16 = new NotifyingItem<Int16>(
             default(Int16),
@@ -170,7 +161,6 @@ namespace Noggolloquy.Tests
         Int16 ITestObject_HasBeenSetGetter.Int16 => this.Int16;
         IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
-
         #region Int32N
         protected readonly INotifyingItem<Int32?> _Int32N = new NotifyingItem<Int32?>(
             default(Int32?),
@@ -184,7 +174,6 @@ namespace Noggolloquy.Tests
         Int32? ITestObject_HasBeenSetGetter.Int32N => this.Int32N;
         IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
-
         #region Int32
         protected readonly INotifyingItem<Int32> _Int32 = new NotifyingItem<Int32>(
             default(Int32),
@@ -198,7 +187,6 @@ namespace Noggolloquy.Tests
         Int32 ITestObject_HasBeenSetGetter.Int32 => this.Int32;
         IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
-
         #region Int64N
         protected readonly INotifyingItem<Int64?> _Int64N = new NotifyingItem<Int64?>(
             default(Int64?),
@@ -212,7 +200,6 @@ namespace Noggolloquy.Tests
         Int64? ITestObject_HasBeenSetGetter.Int64N => this.Int64N;
         IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
-
         #region Int64
         protected readonly INotifyingItem<Int64> _Int64 = new NotifyingItem<Int64>(
             default(Int64),
@@ -226,7 +213,6 @@ namespace Noggolloquy.Tests
         Int64 ITestObject_HasBeenSetGetter.Int64 => this.Int64;
         IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
-
         #region Int8N
         protected readonly INotifyingItem<SByte?> _Int8N = new NotifyingItem<SByte?>(
             default(SByte?),
@@ -240,7 +226,6 @@ namespace Noggolloquy.Tests
         SByte? ITestObject_HasBeenSetGetter.Int8N => this.Int8N;
         IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
-
         #region Int8
         protected readonly INotifyingItem<SByte> _Int8 = new NotifyingItem<SByte>(
             default(SByte),
@@ -254,7 +239,6 @@ namespace Noggolloquy.Tests
         SByte ITestObject_HasBeenSetGetter.Int8 => this.Int8;
         IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
-
         #region Unsafe
         protected readonly IHasBeenSetItem<bool> _Unsafe = new HasBeenSetItem<bool>(
             default(bool),
@@ -268,7 +252,6 @@ namespace Noggolloquy.Tests
         bool ITestObject_HasBeenSetGetter.Unsafe => this.Unsafe;
         IHasBeenSetItemGetter<bool> ITestObject_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
-
         #region P2IntN
         protected readonly IHasBeenSetItem<P2Int?> _P2IntN = new HasBeenSetItem<P2Int?>(
             default(P2Int?),
@@ -282,7 +265,6 @@ namespace Noggolloquy.Tests
         P2Int? ITestObject_HasBeenSetGetter.P2IntN => this.P2IntN;
         IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
-
         #region P2Int
         protected readonly IHasBeenSetItem<P2Int> _P2Int = new HasBeenSetItem<P2Int>(
             default(P2Int),
@@ -296,7 +278,6 @@ namespace Noggolloquy.Tests
         P2Int ITestObject_HasBeenSetGetter.P2Int => this.P2Int;
         IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
-
         #region P3DoubleN
         protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = new HasBeenSetItem<P3Double?>(
             default(P3Double?),
@@ -310,7 +291,6 @@ namespace Noggolloquy.Tests
         P3Double? ITestObject_HasBeenSetGetter.P3DoubleN => this.P3DoubleN;
         IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
-
         #region P3Double
         protected readonly IHasBeenSetItem<P3Double> _P3Double = new HasBeenSetItem<P3Double>(
             default(P3Double),
@@ -324,7 +304,6 @@ namespace Noggolloquy.Tests
         P3Double ITestObject_HasBeenSetGetter.P3Double => this.P3Double;
         IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
-
         #region P3IntN
         protected readonly IHasBeenSetItem<P3Int?> _P3IntN = new HasBeenSetItem<P3Int?>(
             default(P3Int?),
@@ -338,7 +317,6 @@ namespace Noggolloquy.Tests
         P3Int? ITestObject_HasBeenSetGetter.P3IntN => this.P3IntN;
         IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
-
         #region P3Int
         protected readonly IHasBeenSetItem<P3Int> _P3Int = new HasBeenSetItem<P3Int>(
             default(P3Int),
@@ -352,7 +330,6 @@ namespace Noggolloquy.Tests
         P3Int ITestObject_HasBeenSetGetter.P3Int => this.P3Int;
         IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
-
         #region PercentN
         protected readonly INotifyingItem<Percent?> _PercentN = new NotifyingItem<Percent?>(
             default(Percent?),
@@ -366,7 +343,6 @@ namespace Noggolloquy.Tests
         Percent? ITestObject_HasBeenSetGetter.PercentN => this.PercentN;
         IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
-
         #region Percent
         protected readonly INotifyingItem<Percent> _Percent = new NotifyingItem<Percent>(
             default(Percent),
@@ -380,7 +356,6 @@ namespace Noggolloquy.Tests
         Percent ITestObject_HasBeenSetGetter.Percent => this.Percent;
         IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
-
         #region RangeIntN
         protected readonly INotifyingItem<RangeInt?> _RangeIntN = new NotifyingItem<RangeInt?>(
             default(RangeInt?),
@@ -394,7 +369,6 @@ namespace Noggolloquy.Tests
         RangeInt? ITestObject_HasBeenSetGetter.RangeIntN => this.RangeIntN;
         IHasBeenSetItemGetter<RangeInt?> ITestObject_HasBeenSetGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
-
         #region RangeInt
         protected readonly INotifyingItem<RangeInt> _RangeInt = new NotifyingItem<RangeInt>(
             default(RangeInt),
@@ -408,7 +382,6 @@ namespace Noggolloquy.Tests
         RangeInt ITestObject_HasBeenSetGetter.RangeInt => this.RangeInt;
         IHasBeenSetItemGetter<RangeInt> ITestObject_HasBeenSetGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
-
         #region String
         protected readonly IHasBeenSetItem<String> _String = new HasBeenSetItem<String>(
             default(String),
@@ -422,7 +395,6 @@ namespace Noggolloquy.Tests
         String ITestObject_HasBeenSetGetter.String => this.String;
         IHasBeenSetItemGetter<String> ITestObject_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
-
         #region UDoubleN
         protected readonly INotifyingItem<UDouble?> _UDoubleN = new NotifyingItem<UDouble?>(
             default(UDouble?),
@@ -436,7 +408,6 @@ namespace Noggolloquy.Tests
         UDouble? ITestObject_HasBeenSetGetter.UDoubleN => this.UDoubleN;
         IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
-
         #region UDouble
         protected readonly INotifyingItem<UDouble> _UDouble = new NotifyingItem<UDouble>(
             default(UDouble),
@@ -450,7 +421,6 @@ namespace Noggolloquy.Tests
         UDouble ITestObject_HasBeenSetGetter.UDouble => this.UDouble;
         IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
-
         #region UInt16N
         protected readonly INotifyingItem<UInt16?> _UInt16N = new NotifyingItem<UInt16?>(
             default(UInt16?),
@@ -464,7 +434,6 @@ namespace Noggolloquy.Tests
         UInt16? ITestObject_HasBeenSetGetter.UInt16N => this.UInt16N;
         IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
-
         #region UInt16
         protected readonly INotifyingItem<UInt16> _UInt16 = new NotifyingItem<UInt16>(
             default(UInt16),
@@ -478,7 +447,6 @@ namespace Noggolloquy.Tests
         UInt16 ITestObject_HasBeenSetGetter.UInt16 => this.UInt16;
         IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
-
         #region UInt32N
         protected readonly INotifyingItem<UInt32?> _UInt32N = new NotifyingItem<UInt32?>(
             default(UInt32?),
@@ -492,7 +460,6 @@ namespace Noggolloquy.Tests
         UInt32? ITestObject_HasBeenSetGetter.UInt32N => this.UInt32N;
         IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
-
         #region UInt32
         protected readonly INotifyingItem<UInt32> _UInt32 = new NotifyingItem<UInt32>(
             default(UInt32),
@@ -506,7 +473,6 @@ namespace Noggolloquy.Tests
         UInt32 ITestObject_HasBeenSetGetter.UInt32 => this.UInt32;
         IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
-
         #region UInt64N
         protected readonly INotifyingItem<UInt64?> _UInt64N = new NotifyingItem<UInt64?>(
             default(UInt64?),
@@ -520,7 +486,6 @@ namespace Noggolloquy.Tests
         UInt64? ITestObject_HasBeenSetGetter.UInt64N => this.UInt64N;
         IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
-
         #region UInt64
         protected readonly INotifyingItem<UInt64> _UInt64 = new NotifyingItem<UInt64>(
             default(UInt64),
@@ -534,7 +499,6 @@ namespace Noggolloquy.Tests
         UInt64 ITestObject_HasBeenSetGetter.UInt64 => this.UInt64;
         IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
-
         #region UInt8N
         protected readonly INotifyingItem<Byte?> _UInt8N = new NotifyingItem<Byte?>(
             default(Byte?),
@@ -548,7 +512,6 @@ namespace Noggolloquy.Tests
         Byte? ITestObject_HasBeenSetGetter.UInt8N => this.UInt8N;
         IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
-
         #region UInt8
         protected readonly INotifyingItem<Byte> _UInt8 = new NotifyingItem<Byte>(
             default(Byte),
@@ -562,7 +525,6 @@ namespace Noggolloquy.Tests
         Byte ITestObject_HasBeenSetGetter.UInt8 => this.UInt8;
         IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
-
         #region Enum
         protected readonly IHasBeenSetItem<TestEnum> _Enum = new HasBeenSetItem<TestEnum>(
         );
@@ -575,7 +537,6 @@ namespace Noggolloquy.Tests
         TestEnum ITestObject_HasBeenSetGetter.Enum => this.Enum;
         IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
-
         #region WildCard
         protected readonly IHasBeenSetItem<Object> _WildCard = new HasBeenSetItem<Object>(
             default(Object),
@@ -589,7 +550,6 @@ namespace Noggolloquy.Tests
         }
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
         #endregion
-
         #region Ref
         private  HasBeenSetItem<ObjectToRef> _Ref = new HasBeenSetItem<ObjectToRef>();
         public ObjectToRef Ref { get { return this._Ref.Item; } set { _Ref.Item = value; } }
@@ -597,7 +557,6 @@ namespace Noggolloquy.Tests
         ObjectToRef ITestObject_HasBeenSetGetter.Ref => this._Ref.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Property => this._Ref;
         #endregion
-
         #region RefGetter
         private  HasBeenSetItem<IObjectToRefGetter> _RefGetter = new HasBeenSetItem<IObjectToRefGetter>();
         public IObjectToRefGetter RefGetter { get { return this._RefGetter.Item; } set { _RefGetter.Item = value; } }
@@ -605,7 +564,6 @@ namespace Noggolloquy.Tests
         IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter => this._RefGetter.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Property => this._RefGetter;
         #endregion
-
         #region RefSetter
         private  HasBeenSetItem<IObjectToRef> _RefSetter = new HasBeenSetItem<IObjectToRef>();
         public IObjectToRef RefSetter { get { return this._RefSetter.Item; } set { _RefSetter.Item = value; } }
@@ -613,7 +571,6 @@ namespace Noggolloquy.Tests
         IObjectToRef ITestObject_HasBeenSetGetter.RefSetter => this._RefSetter.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Property => this._RefSetter;
         #endregion
-
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
@@ -621,8 +578,8 @@ namespace Noggolloquy.Tests
         INotifyingList<Boolean> ITestObject_HasBeenSet.List => _List;
         INotifyingListGetter<Boolean> ITestObject_HasBeenSetGetter.List => _List;
         #endregion
-        #endregion
 
+        #endregion
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
@@ -630,8 +587,8 @@ namespace Noggolloquy.Tests
         INotifyingList<ObjectToRef> ITestObject_HasBeenSet.RefList => _RefList;
         INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSetGetter.RefList => _RefList;
         #endregion
-        #endregion
 
+        #endregion
         #region Dict
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
@@ -639,8 +596,8 @@ namespace Noggolloquy.Tests
         INotifyingDictionary<Boolean, String> ITestObject_HasBeenSet.Dict => _Dict;
         INotifyingDictionaryGetter<Boolean, String> ITestObject_HasBeenSetGetter.Dict => _Dict;
         #endregion
-        #endregion
 
+        #endregion
         #region RefDict
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
@@ -648,8 +605,8 @@ namespace Noggolloquy.Tests
         INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_HasBeenSet.RefDict => _RefDict;
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_HasBeenSetGetter.RefDict => _RefDict;
         #endregion
-        #endregion
 
+        #endregion
         #region DictKeyedValue
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
@@ -657,8 +614,8 @@ namespace Noggolloquy.Tests
         INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject_HasBeenSet.DictKeyedValue => _DictKeyedValue;
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_HasBeenSetGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
-        #endregion
 
+        #endregion
 
         #region Noggolloquy Getter Interface
 
@@ -731,6 +688,7 @@ namespace Noggolloquy.Tests
             return INoggolloquyObjectExt.PrintPretty(this);
         }
         #endregion
+
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -896,6 +854,7 @@ namespace Noggolloquy.Tests
 
         #endregion
 
+
         #region XML Translation
         public static TestObject_HasBeenSet Create_XML(XElement root)
         {
@@ -996,6 +955,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestObject_HasBeenSet Copy(
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null)
@@ -1447,279 +1407,231 @@ namespace Noggolloquy.Tests
         IHasBeenSetItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
-
         #region Bool
         Boolean Bool { get; }
         IHasBeenSetItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
-
         #region CharN
         Char? CharN { get; }
         IHasBeenSetItemGetter<Char?> CharN_Property { get; }
 
         #endregion
-
         #region Char
         Char Char { get; }
         IHasBeenSetItemGetter<Char> Char_Property { get; }
 
         #endregion
-
         #region DoubleN
         Double? DoubleN { get; }
         IHasBeenSetItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
-
         #region Double
         Double Double { get; }
         IHasBeenSetItemGetter<Double> Double_Property { get; }
 
         #endregion
-
         #region FloatN
         Single? FloatN { get; }
         IHasBeenSetItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
-
         #region Float
         Single Float { get; }
         IHasBeenSetItemGetter<Single> Float_Property { get; }
 
         #endregion
-
         #region Int16N
         Int16? Int16N { get; }
         IHasBeenSetItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
-
         #region Int16
         Int16 Int16 { get; }
         IHasBeenSetItemGetter<Int16> Int16_Property { get; }
 
         #endregion
-
         #region Int32N
         Int32? Int32N { get; }
         IHasBeenSetItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
-
         #region Int32
         Int32 Int32 { get; }
         IHasBeenSetItemGetter<Int32> Int32_Property { get; }
 
         #endregion
-
         #region Int64N
         Int64? Int64N { get; }
         IHasBeenSetItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
-
         #region Int64
         Int64 Int64 { get; }
         IHasBeenSetItemGetter<Int64> Int64_Property { get; }
 
         #endregion
-
         #region Int8N
         SByte? Int8N { get; }
         IHasBeenSetItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
-
         #region Int8
         SByte Int8 { get; }
         IHasBeenSetItemGetter<SByte> Int8_Property { get; }
 
         #endregion
-
         #region Unsafe
         bool Unsafe { get; }
         IHasBeenSetItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
-
         #region P2IntN
         P2Int? P2IntN { get; }
         IHasBeenSetItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
-
         #region P2Int
         P2Int P2Int { get; }
         IHasBeenSetItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
-
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
         IHasBeenSetItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
-
         #region P3Double
         P3Double P3Double { get; }
         IHasBeenSetItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
-
         #region P3IntN
         P3Int? P3IntN { get; }
         IHasBeenSetItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
-
         #region P3Int
         P3Int P3Int { get; }
         IHasBeenSetItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
-
         #region PercentN
         Percent? PercentN { get; }
         IHasBeenSetItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
-
         #region Percent
         Percent Percent { get; }
         IHasBeenSetItemGetter<Percent> Percent_Property { get; }
 
         #endregion
-
         #region RangeIntN
         RangeInt? RangeIntN { get; }
         IHasBeenSetItemGetter<RangeInt?> RangeIntN_Property { get; }
 
         #endregion
-
         #region RangeInt
         RangeInt RangeInt { get; }
         IHasBeenSetItemGetter<RangeInt> RangeInt_Property { get; }
 
         #endregion
-
         #region String
         String String { get; }
         IHasBeenSetItemGetter<String> String_Property { get; }
 
         #endregion
-
         #region UDoubleN
         UDouble? UDoubleN { get; }
         IHasBeenSetItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
-
         #region UDouble
         UDouble UDouble { get; }
         IHasBeenSetItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
-
         #region UInt16N
         UInt16? UInt16N { get; }
         IHasBeenSetItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
-
         #region UInt16
         UInt16 UInt16 { get; }
         IHasBeenSetItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
-
         #region UInt32N
         UInt32? UInt32N { get; }
         IHasBeenSetItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
-
         #region UInt32
         UInt32 UInt32 { get; }
         IHasBeenSetItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
-
         #region UInt64N
         UInt64? UInt64N { get; }
         IHasBeenSetItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
-
         #region UInt64
         UInt64 UInt64 { get; }
         IHasBeenSetItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
-
         #region UInt8N
         Byte? UInt8N { get; }
         IHasBeenSetItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
-
         #region UInt8
         Byte UInt8 { get; }
         IHasBeenSetItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
-
         #region Enum
         TestEnum Enum { get; }
         IHasBeenSetItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
-
         #region WildCard
         Object WildCard { get; }
         IHasBeenSetItemGetter<Object> WildCard_Property { get; }
 
         #endregion
-
         #region Ref
         ObjectToRef Ref { get; }
         IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
-
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
         IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
-
         #region RefSetter
         IObjectToRef RefSetter { get; }
         IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
-
         #region List
         INotifyingListGetter<Boolean> List { get; }
         #endregion
-
         #region RefList
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
-
         #region Dict
         INotifyingDictionaryGetter<Boolean, String> Dict { get; }
         #endregion
-
         #region RefDict
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
         #endregion
-
         #region DictKeyedValue
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
         #endregion
-
 
     }
 
@@ -2383,8 +2295,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class TestObject_HasBeenSetCommon
     {
@@ -3922,7 +3836,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

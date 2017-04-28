@@ -99,6 +99,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
 
+
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -119,6 +120,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
 
         #region XML Translation
         public new static TestGenericObject_SubClass_Defined Create_XML(XElement root)
@@ -196,6 +198,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestGenericObject_SubClass_Defined Copy(
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
             ITestGenericObject_SubClass_DefinedGetter def = null)
@@ -430,8 +433,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class TestGenericObject_SubClass_DefinedCommon
     {
@@ -545,7 +550,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }

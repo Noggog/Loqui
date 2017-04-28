@@ -265,11 +265,10 @@ namespace Noggolloquy.Generation
                     foreach (var field in Fields)
                     {
                         if (!field.GenerateClassMembers) continue;
-                        using (new RegionWrapper(fg, field.Name))
+                        using (new RegionWrapper(fg, field.Name) { AppendExtraLine = false })
                         {
                             field.GenerateForClass(fg);
                         }
-                        fg.AppendLine();
                     }
                     fg.AppendLine();
 
@@ -294,8 +293,6 @@ namespace Noggolloquy.Generation
                     GenerateGenericCreate(fg);
                 }
             }
-
-            fg.AppendLine();
         }
 
         private void GenerateInterfaces(FileGeneration fg)
@@ -305,8 +302,6 @@ namespace Noggolloquy.Generation
                 GenerateSetterInterface(fg);
                 GenerateGetterInterface(fg);
             }
-
-            fg.AppendLine();
         }
 
         protected virtual void GenerateSetterInterface(FileGeneration fg)
@@ -334,11 +329,10 @@ namespace Noggolloquy.Generation
             {
                 foreach (var field in Fields)
                 {
-                    using (new RegionWrapper(fg, field.Name))
+                    using (new RegionWrapper(fg, field.Name) { AppendExtraLine = false })
                     {
                         field.GenerateForGetterInterface(fg);
                     }
-                    fg.AppendLine();
                 }
                 fg.AppendLine();
 
@@ -492,8 +486,6 @@ namespace Noggolloquy.Generation
                     }
                 }
             }
-
-            fg.AppendLine();
         }
 
         protected virtual void GenerateStaticCopy_ToNoggolloquy(FileGeneration fg)
@@ -532,7 +524,6 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
             }
-            fg.AppendLine();
         }
 
         private void GenerateCopyForFields(
@@ -653,7 +644,6 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
             }
-            fg.AppendLine();
         }
 
         protected virtual void GenerateNoggolloquySetterInterface(FileGeneration fg)
@@ -734,7 +724,6 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine();
             }
-            fg.AppendLine();
         }
 
         private void GenerateProtocolProperty(FileGeneration fg)
@@ -1699,7 +1688,6 @@ namespace Noggolloquy.Generation
                     fg.AppendLine();
                 }
             }
-            fg.AppendLine();
         }
 
         private void GenerateNoggolloquyInterfaces(FileGeneration fg)
@@ -1713,10 +1701,8 @@ namespace Noggolloquy.Generation
                     {
                         interfGen.Generate(this, fg);
                     }
-                    fg.AppendLine();
                 }
             }
-            fg.AppendLine();
         }
 
         public bool HasNoggolloquyInterface<T>()

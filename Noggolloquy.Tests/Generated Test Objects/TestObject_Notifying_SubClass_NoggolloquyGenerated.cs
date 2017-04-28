@@ -44,7 +44,6 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Boolean> ITestObject_Notifying_SubClassGetter.NewField_Property => this.NewField_Property;
         #endregion
 
-
         #region Noggolloquy Getter Interface
 
         protected override object GetNthObject(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObject(index, this);
@@ -113,6 +112,7 @@ namespace Noggolloquy.Tests
         }
         #endregion
 
+
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -136,6 +136,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
 
         #region XML Translation
         public new static TestObject_Notifying_SubClass Create_XML(XElement root)
@@ -213,6 +214,7 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
+
         public TestObject_Notifying_SubClass Copy(
             TestObject_Notifying_SubClass_CopyMask copyMask = null,
             ITestObject_Notifying_SubClassGetter def = null)
@@ -333,7 +335,6 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Boolean> NewField_Property { get; }
 
         #endregion
-
 
     }
 
@@ -478,8 +479,10 @@ namespace Noggolloquy.Tests
         bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
+
     }
     #endregion
+
     #region Extensions
     public static class TestObject_Notifying_SubClassCommon
     {
@@ -633,7 +636,7 @@ namespace Noggolloquy.Tests
     }
     #endregion
 
-    #endregion
 
+    #endregion
 
 }
