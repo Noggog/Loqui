@@ -22,5 +22,7 @@ namespace Noggolloquy.Internal
             BindingFlags.FlattenHierarchy;
 
         public const string COPYIN_FUNC_NAME = "CopyIn";
+        
+        public const string COPY_FUNC_NAME = "Copy";
     }
 }

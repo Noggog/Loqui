@@ -226,6 +226,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject_Notifying_SubClass Copy(
+            ITestObject_Notifying_SubClass item,
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null)
+        {
+            TestObject_Notifying_SubClass ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_SubClass)))
+            {
+                ret = new TestObject_Notifying_SubClass();
+            }
+            else
+            {
+                ret = (TestObject_Notifying_SubClass)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_Notifying_SubClass_CopyMask copyMask = null,
+            ITestObject_Notifying_SubClassGetter def = null)
+            where CopyType : class, ITestObject_Notifying_SubClass
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_SubClass)))
+            {
+                ret = new TestObject_Notifying_SubClass() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_Notifying_SubClass Copy_ToNoggolloquy(
             ITestObject_Notifying_SubClassGetter item,
             TestObject_Notifying_SubClass_CopyMask copyMask = null,
             ITestObject_Notifying_SubClassGetter def = null)

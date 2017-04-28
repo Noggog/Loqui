@@ -21,7 +21,7 @@ namespace Noggolloquy.Tests
 {
     #region Class
     public partial class TestGenericObject<T, R> : ITestGenericObject<T, R>, INoggolloquyObjectSetter, IEquatable<TestGenericObject<T, R>>
-        where R : ObjectToRef
+        where R : ObjectToRef, INoggolloquyObjectGetter
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestGenericObject_Registration.Instance;
         public static TestGenericObject_Registration Registration => TestGenericObject_Registration.Instance;
@@ -249,6 +249,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestGenericObject<T, R> Copy(
+            ITestGenericObject<T, R> item,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null)
+        {
+            TestGenericObject<T, R> ret;
+            if (item.GetType().Equals(typeof(TestGenericObject<T, R>)))
+            {
+                ret = new TestGenericObject<T, R>();
+            }
+            else
+            {
+                ret = (TestGenericObject<T, R>)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, R> def = null)
+            where CopyType : class, ITestGenericObject<T, R>
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestGenericObject<T, R>)))
+            {
+                ret = new TestGenericObject<T, R>() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestGenericObject<T, R> Copy_ToNoggolloquy(
             ITestGenericObjectGetter<T, R> item,
             TestGenericObject_CopyMask copyMask = null,
             ITestGenericObjectGetter<T, R> def = null)
@@ -301,7 +347,7 @@ namespace Noggolloquy.Tests
 
     #region Interface
     public interface ITestGenericObject<T, R> : ITestGenericObjectGetter<T, R>, INoggolloquyClass<ITestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>, INoggolloquyClass<TestGenericObject<T, R>, ITestGenericObjectGetter<T, R>>
-        where R : ObjectToRef
+        where R : ObjectToRef, INoggolloquyObjectGetter
     {
         new R Ref { get; set; }
         new INotifyingItem<R> Ref_Property { get; }
@@ -309,7 +355,7 @@ namespace Noggolloquy.Tests
     }
 
     public interface ITestGenericObjectGetter<T, R> : INoggolloquyObject
-        where R : ObjectToRef
+        where R : ObjectToRef, INoggolloquyObjectGetter
     {
         #region Ref
         R Ref { get; }
@@ -459,7 +505,7 @@ namespace Noggolloquy.Tests
     }
 
     public class TestGenericObject_Registration<T, R> : TestGenericObject_Registration
-        where R : ObjectToRef
+        where R : ObjectToRef, INoggolloquyObjectGetter
     {
         public static readonly TestGenericObject_Registration<T, R> GenericInstance = new TestGenericObject_Registration<T, R>();
 
@@ -488,7 +534,7 @@ namespace Noggolloquy.Tests
             Func<TestGenericObject_ErrorMask> errorMask,
             TestGenericObject_CopyMask copyMask,
             NotifyingFireParameters? cmds)
-            where R : ObjectToRef
+            where R : ObjectToRef, INoggolloquyObjectGetter
         {
             if (copyMask?.Ref != CopyType.Skip)
             {
@@ -500,16 +546,14 @@ namespace Noggolloquy.Tests
                         cmds,
                         (r, d) =>
                         {
-                            switch (copyMask?.Ref.Overall ?? CopyType.Reference)
+                            switch (copyMask?.Ref ?? CopyType.Reference)
                             {
                                 case CopyType.Reference:
                                     return r;
                                 case CopyType.Deep:
                                     if (r == null) return null;
-                                    return R.Copy(
-                                        r,
-                                        copyMask?.Ref.Specific,
-                                        d);
+                                    var copyFunc = NoggolloquyRegistration.GetCopyFunc<R>();
+                                    return copyFunc(r, null, d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref}. Cannot execute copy.");
                             }
@@ -537,7 +581,7 @@ namespace Noggolloquy.Tests
             bool on,
             ITestGenericObject<T, R> obj,
             NotifyingFireParameters? cmds = null)
-            where R : ObjectToRef
+            where R : ObjectToRef, INoggolloquyObjectGetter
         {
             switch (index)
             {
@@ -553,7 +597,7 @@ namespace Noggolloquy.Tests
             ushort index,
             ITestGenericObject<T, R> obj,
             NotifyingUnsetParameters? cmds = null)
-            where R : ObjectToRef
+            where R : ObjectToRef, INoggolloquyObjectGetter
         {
             switch (index)
             {
@@ -568,7 +612,7 @@ namespace Noggolloquy.Tests
         public static bool GetNthObjectHasBeenSet<T, R>(
             ushort index,
             ITestGenericObject<T, R> obj)
-            where R : ObjectToRef
+            where R : ObjectToRef, INoggolloquyObjectGetter
         {
             switch (index)
             {
@@ -582,7 +626,7 @@ namespace Noggolloquy.Tests
         public static object GetNthObject<T, R>(
             ushort index,
             ITestGenericObjectGetter<T, R> obj)
-            where R : ObjectToRef
+            where R : ObjectToRef, INoggolloquyObjectGetter
         {
             switch (index)
             {

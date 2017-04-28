@@ -185,6 +185,7 @@ namespace Noggolloquy.Generation
                 this.RefType = NoggRefType.Generic;
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
+                gen.Wheres.Add(nameof(INoggolloquyObjectGetter));
                 if (SingletonMember)
                 {
                     throw new ArgumentException("Cannot be a generic and singleton.");
@@ -268,7 +269,7 @@ namespace Noggolloquy.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessorPrefix}.{this.Name} = {this.ObjectTypeName}.Copy"))
+                                $"{accessorPrefix}.{this.Name} = {this.ObjectTypeName}.Copy{(this.InterfaceType == NoggInterfaceType.IGetter ? "_ToNoggolloquy" : string.Empty)}"))
                             {
                                 args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
@@ -300,7 +301,7 @@ namespace Noggolloquy.Generation
                     gen.AppendLine($"(r, d) =>");
                     using (new BraceWrapper(gen))
                     {
-                        gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                        gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}{(this.RefType == NoggRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
                         using (new BraceWrapper(gen))
                         {
                             gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
@@ -312,12 +313,23 @@ namespace Noggolloquy.Generation
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine("if (r == null) return null;");
-                                using (var args2 = new ArgsWrapper(gen,
-                                    $"return {this.ObjectTypeName}.Copy"))
+                                if (this.RefType == NoggRefType.Direct)
                                 {
-                                    args2.Add($"r");
-                                    args2.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
-                                    args2.Add($"d");
+                                    using (var args2 = new ArgsWrapper(gen,
+                                        $"return {this.ObjectTypeName}.Copy{(this.InterfaceType == NoggInterfaceType.IGetter ? "_ToNoggolloquy" : string.Empty)}"))
+                                    {
+                                        args2.Add($"r");
+                                        if (this.RefType == NoggRefType.Direct)
+                                        {
+                                            args2.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
+                                        }
+                                        args2.Add($"def: d");
+                                    }
+                                }
+                                else
+                                {
+                                    gen.AppendLine($"var copyFunc = {nameof(NoggolloquyRegistration)}.GetCopyFunc<{_generic}>();");
+                                    gen.AppendLine($"return copyFunc(r, null, d);");
                                 }
                             }
                             gen.AppendLine($"default:");
@@ -330,7 +342,7 @@ namespace Noggolloquy.Generation
                 });
             }
         }
-        
+
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");

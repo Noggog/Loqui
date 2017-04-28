@@ -17,7 +17,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("if (copyMask?.RefDict.Overall ?? true)"))
+            if (str.Equals("where R : ObjectToRef"))
             {
                 int wer = 23;
                 wer++;

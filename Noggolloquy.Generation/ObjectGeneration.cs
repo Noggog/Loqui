@@ -1493,6 +1493,75 @@ namespace Noggolloquy.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.ObjectName} Copy"))
             {
+                args.Add($"{this.InterfaceStr} item");
+                args.Add($"{this.CopyMask} copyMask = null");
+                args.Add($"{this.Getter_InterfaceStr} def = null");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{this.ObjectName} ret;");
+                fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"ret = new {this.ObjectName}();");
+                }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                }
+                using (var args = new ArgsWrapper(fg,
+                    "ret.CopyFieldsFrom"))
+                {
+                    args.Add("item");
+                    args.Add("copyMask: copyMask");
+                    args.Add("def: def");
+                }
+                fg.AppendLine("return ret;");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static CopyType Copy<CopyType>"))
+            {
+                args.Add($"CopyType item");
+                args.Add($"{this.CopyMask} copyMask = null");
+                args.Add($"{this.Getter_InterfaceStr} def = null");
+            }
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLine($"where CopyType : class, {this.InterfaceStr}");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"CopyType ret;");
+                fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"ret = new {this.ObjectName}() as CopyType;");
+                }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"ret = (CopyType)Activator.CreateInstance(item.GetType());");
+                }
+                using (var args = new ArgsWrapper(fg,
+                    "ret.CopyFieldsFrom"))
+                {
+                    args.Add("item");
+                    args.Add("copyMask: copyMask");
+                    args.Add("doErrorMask: false");
+                    args.Add("errorMask: null");
+                    args.Add("cmds: null");
+                    args.Add("def: def");
+                }
+                fg.AppendLine("return ret;");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.ObjectName} Copy_ToNoggolloquy"))
+            {
                 args.Add($"{this.Getter_InterfaceStr} item");
                 args.Add($"{this.CopyMask} copyMask = null");
                 args.Add($"{this.Getter_InterfaceStr} def = null");

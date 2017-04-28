@@ -106,5 +106,21 @@ namespace Noggolloquy.Tests
             Assert.NotNull(func);
             Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef>>), func);
         }
+
+        [Fact]
+        public void GetCopyFunc()
+        {
+            var func = NoggolloquyRegistration.GetCopyFunc<TestObject_Notifying>();
+            Assert.NotNull(func);
+            Assert.IsType(typeof(Func<TestObject_Notifying, object, object, TestObject_Notifying>), func);
+        }
+
+        [Fact]
+        public void GetCopyFunc_Generic()
+        {
+            var func = NoggolloquyRegistration.GetCopyFunc<TestGenericObject<bool, ObjectToRef>>();
+            Assert.NotNull(func);
+            Assert.IsType(typeof(Func<TestGenericObject<bool, ObjectToRef>, object, object, TestGenericObject<bool, ObjectToRef>>), func);
+        }
     }
 }

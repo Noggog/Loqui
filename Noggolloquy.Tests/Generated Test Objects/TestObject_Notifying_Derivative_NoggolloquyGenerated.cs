@@ -962,6 +962,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject_Notifying_Derivative Copy(
+            ITestObject_Notifying_Derivative item,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null)
+        {
+            TestObject_Notifying_Derivative ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_Derivative)))
+            {
+                ret = new TestObject_Notifying_Derivative();
+            }
+            else
+            {
+                ret = (TestObject_Notifying_Derivative)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null)
+            where CopyType : class, ITestObject_Notifying_Derivative
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_Derivative)))
+            {
+                ret = new TestObject_Notifying_Derivative() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_Notifying_Derivative Copy_ToNoggolloquy(
             ITestObject_Notifying_DerivativeGetter item,
             TestObject_Notifying_Derivative_CopyMask copyMask = null,
             ITestObject_Notifying_DerivativeGetter def = null)

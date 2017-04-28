@@ -23,7 +23,7 @@ namespace Noggolloquy.Tests
     public partial class TestGenericObject_SubClass<S, T, R> : TestGenericObject<T, R>, ITestGenericObject_SubClass<S, T, R>, INoggolloquyObjectSetter, IEquatable<TestGenericObject_SubClass<S, T, R>>
         where S : ObjectToRef
         where T : INoggolloquyObject
-        where R : ObjectToRef, INoggolloquyObject
+        where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestGenericObject_SubClass_Registration.Instance;
         public new static TestGenericObject_SubClass_Registration Registration => TestGenericObject_SubClass_Registration.Instance;
@@ -212,6 +212,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestGenericObject_SubClass<S, T, R> Copy(
+            ITestGenericObject_SubClass<S, T, R> item,
+            TestGenericObject_SubClass_CopyMask copyMask = null,
+            ITestGenericObject_SubClassGetter<S, T, R> def = null)
+        {
+            TestGenericObject_SubClass<S, T, R> ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass<S, T, R>)))
+            {
+                ret = new TestGenericObject_SubClass<S, T, R>();
+            }
+            else
+            {
+                ret = (TestGenericObject_SubClass<S, T, R>)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestGenericObject_SubClass_CopyMask copyMask = null,
+            ITestGenericObject_SubClassGetter<S, T, R> def = null)
+            where CopyType : class, ITestGenericObject_SubClass<S, T, R>
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass<S, T, R>)))
+            {
+                ret = new TestGenericObject_SubClass<S, T, R>() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestGenericObject_SubClass<S, T, R> Copy_ToNoggolloquy(
             ITestGenericObject_SubClassGetter<S, T, R> item,
             TestGenericObject_SubClass_CopyMask copyMask = null,
             ITestGenericObject_SubClassGetter<S, T, R> def = null)
@@ -258,14 +304,14 @@ namespace Noggolloquy.Tests
     public interface ITestGenericObject_SubClass<S, T, R> : ITestGenericObject_SubClassGetter<S, T, R>, ITestGenericObject<T, R>, INoggolloquyClass<ITestGenericObject_SubClass<S, T, R>, ITestGenericObject_SubClassGetter<S, T, R>>, INoggolloquyClass<TestGenericObject_SubClass<S, T, R>, ITestGenericObject_SubClassGetter<S, T, R>>
         where S : ObjectToRef
         where T : INoggolloquyObject
-        where R : ObjectToRef, INoggolloquyObject
+        where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
     {
     }
 
     public interface ITestGenericObject_SubClassGetter<S, T, R> : ITestGenericObjectGetter<T, R>
         where S : ObjectToRef
         where T : INoggolloquyObject
-        where R : ObjectToRef, INoggolloquyObject
+        where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
     {
 
         #region XML Translation
@@ -397,7 +443,7 @@ namespace Noggolloquy.Tests
     public class TestGenericObject_SubClass_Registration<S, T, R> : TestGenericObject_SubClass_Registration
         where S : ObjectToRef
         where T : INoggolloquyObject
-        where R : ObjectToRef, INoggolloquyObject
+        where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
     {
         public static readonly TestGenericObject_SubClass_Registration<S, T, R> GenericInstance = new TestGenericObject_SubClass_Registration<S, T, R>();
 
@@ -426,7 +472,7 @@ namespace Noggolloquy.Tests
             NotifyingFireParameters? cmds)
             where S : ObjectToRef
             where T : INoggolloquyObject
-            where R : ObjectToRef, INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
         {
             TestGenericObjectCommon.CopyFieldsFrom<T, R>(
                 item,
@@ -447,7 +493,7 @@ namespace Noggolloquy.Tests
             NotifyingFireParameters? cmds = null)
             where S : ObjectToRef
             where T : INoggolloquyObject
-            where R : ObjectToRef, INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
         {
             switch (index)
             {
@@ -463,7 +509,7 @@ namespace Noggolloquy.Tests
             NotifyingUnsetParameters? cmds = null)
             where S : ObjectToRef
             where T : INoggolloquyObject
-            where R : ObjectToRef, INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
         {
             switch (index)
             {
@@ -478,7 +524,7 @@ namespace Noggolloquy.Tests
             ITestGenericObject_SubClass<S, T, R> obj)
             where S : ObjectToRef
             where T : INoggolloquyObject
-            where R : ObjectToRef, INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
         {
             switch (index)
             {
@@ -492,7 +538,7 @@ namespace Noggolloquy.Tests
             ITestGenericObject_SubClassGetter<S, T, R> obj)
             where S : ObjectToRef
             where T : INoggolloquyObject
-            where R : ObjectToRef, INoggolloquyObject
+            where R : ObjectToRef, INoggolloquyObjectGetter, INoggolloquyObject
         {
             switch (index)
             {

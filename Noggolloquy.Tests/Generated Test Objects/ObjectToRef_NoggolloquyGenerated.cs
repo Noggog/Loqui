@@ -270,6 +270,52 @@ namespace Noggolloquy.Tests
         }
 
         public static ObjectToRef Copy(
+            IObjectToRef item,
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null)
+        {
+            ObjectToRef ret;
+            if (item.GetType().Equals(typeof(ObjectToRef)))
+            {
+                ret = new ObjectToRef();
+            }
+            else
+            {
+                ret = (ObjectToRef)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            ObjectToRef_CopyMask copyMask = null,
+            IObjectToRefGetter def = null)
+            where CopyType : class, IObjectToRef
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(ObjectToRef)))
+            {
+                ret = new ObjectToRef() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static ObjectToRef Copy_ToNoggolloquy(
             IObjectToRefGetter item,
             ObjectToRef_CopyMask copyMask = null,
             IObjectToRefGetter def = null)

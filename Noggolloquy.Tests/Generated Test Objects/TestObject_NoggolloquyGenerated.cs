@@ -604,6 +604,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject Copy(
+            ITestObject item,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null)
+        {
+            TestObject ret;
+            if (item.GetType().Equals(typeof(TestObject)))
+            {
+                ret = new TestObject();
+            }
+            else
+            {
+                ret = (TestObject)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null)
+            where CopyType : class, ITestObject
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject)))
+            {
+                ret = new TestObject() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject Copy_ToNoggolloquy(
             ITestObjectGetter item,
             TestObject_CopyMask copyMask = null,
             ITestObjectGetter def = null)
@@ -2081,7 +2127,7 @@ namespace Noggolloquy.Tests
                             }
                             else
                             {
-                                item.RefGetter = ObjectToRef.Copy(
+                                item.RefGetter = ObjectToRef.Copy_ToNoggolloquy(
                                     rhs.RefGetter,
                                     copyMask?.RefGetter.Specific,
                                     def?.RefGetter);
@@ -2234,7 +2280,7 @@ namespace Noggolloquy.Tests
                                     key = k;
                                     break;
                                 case RefCopyType.Deep:
-                                    key = k.Copy(copyMask?.RefDict.Specific.Key.Mask);
+                                    key = k.Copy(copyMask: copyMask?.RefDict.Specific.Key.Mask);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");

@@ -14,8 +14,9 @@ namespace Noggolloquy
         static Dictionary<string, INoggolloquyRegistration> NameRegisters = new Dictionary<string, INoggolloquyRegistration>();
         static Dictionary<Type, INoggolloquyRegistration> TypeRegister = new Dictionary<Type, INoggolloquyRegistration>();
         static Dictionary<Type, Type> GenericRegisters = new Dictionary<Type, Type>();
-        static Dictionary<Type, Delegate> CreateFuncRegister = new Dictionary<Type, Delegate>();
-        static Dictionary<Type, Delegate> CopyInFuncRegister = new Dictionary<Type, Delegate>();
+        static Dictionary<Type, object> CreateFuncRegister = new Dictionary<Type, object>();
+        static Dictionary<Type, object> CopyInFuncRegister = new Dictionary<Type, object>();
+        static Dictionary<Type, object> CopyFuncRegister = new Dictionary<Type, object>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
 
         static NoggolloquyRegistration()
@@ -265,6 +266,60 @@ namespace Noggolloquy
                 parameters: new ParameterExpression[] { fields, obj }).Compile();
             CopyInFuncRegister[t] = del;
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
+        }
+
+        public static Func<T, object, object, T> GetCopyFunc<T>()
+        {
+            var t = typeof(T);
+            if (CopyFuncRegister.TryGetValue(t, out var copyFunc))
+            {
+                return copyFunc as Func<T, object, object, T>;
+            }
+            var register = GetRegister(t);
+            var methodInfo = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where((m) => m.IsGenericMethod)
+                .Where((m) => m.Name.Equals(Constants.COPY_FUNC_NAME))
+                .First();
+            methodInfo = methodInfo.MakeGenericMethod(
+                new Type[]
+                {
+                    t,
+                });
+
+            //var methodParams = methodInfo.GetParameters();
+            //var item = Expression.Parameter(t, "item");
+            //var copyMask = Expression.Parameter(typeof(object), "copyMask");
+            //var copyCast = Expression.TypeAs(
+            //    copyMask,
+            //    methodParams[1].ParameterType);
+            //var defaults = Expression.Parameter(typeof(object), "defaults");
+            //var defaultsCast = Expression.TypeAs(
+            //    defaults,
+            //    methodParams[2].ParameterType);
+            //var tArgs = new List<Type>();
+            //foreach (var p in methodInfo.GetParameters())
+            //{
+            //    tArgs.Add(p.ParameterType);
+            //}
+            //tArgs.Add(methodInfo.ReturnType);
+            //var del = Expression.Lambda(
+            //    delegateType: Expression.GetDelegateType(tArgs.ToArray()),
+            //    body: Expression.Call(methodInfo, item, copyCast, defaultsCast),
+            //    parameters: new ParameterExpression[] { item, copyMask, defaults }).Compile();
+            var f = new Func<T, object, object, T>(
+                (item, copy, def) =>
+                {
+                    return (T)methodInfo.Invoke(
+                        null,
+                        new object[]
+                        {
+                            item,
+                            copy,
+                            def
+                        });
+                });
+            CopyFuncRegister[t] = f;
+            return f;
         }
     }
 }

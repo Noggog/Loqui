@@ -599,6 +599,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject_ReadOnly Copy(
+            ITestObject_ReadOnly item,
+            TestObject_ReadOnly_CopyMask copyMask = null,
+            ITestObject_ReadOnlyGetter def = null)
+        {
+            TestObject_ReadOnly ret;
+            if (item.GetType().Equals(typeof(TestObject_ReadOnly)))
+            {
+                ret = new TestObject_ReadOnly();
+            }
+            else
+            {
+                ret = (TestObject_ReadOnly)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_ReadOnly_CopyMask copyMask = null,
+            ITestObject_ReadOnlyGetter def = null)
+            where CopyType : class, ITestObject_ReadOnly
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject_ReadOnly)))
+            {
+                ret = new TestObject_ReadOnly() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_ReadOnly Copy_ToNoggolloquy(
             ITestObject_ReadOnlyGetter item,
             TestObject_ReadOnly_CopyMask copyMask = null,
             ITestObject_ReadOnlyGetter def = null)

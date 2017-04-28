@@ -210,7 +210,7 @@ namespace Noggolloquy.Generation
                                 gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Deep)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"key = k.Copy({copyMaskAccessor}?.{this.Name}.Specific.Key.Mask);");
+                                    gen.AppendLine($"key = k.Copy(copyMask: {copyMaskAccessor}?.{this.Name}.Specific.Key.Mask);");
                                     gen.AppendLine($"break;");
                                 }
                                 gen.AppendLine($"default:");

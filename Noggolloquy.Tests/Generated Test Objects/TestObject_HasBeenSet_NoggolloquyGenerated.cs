@@ -1009,6 +1009,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject_HasBeenSet Copy(
+            ITestObject_HasBeenSet item,
+            TestObject_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_HasBeenSetGetter def = null)
+        {
+            TestObject_HasBeenSet ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet)))
+            {
+                ret = new TestObject_HasBeenSet();
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_HasBeenSetGetter def = null)
+            where CopyType : class, ITestObject_HasBeenSet
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet)))
+            {
+                ret = new TestObject_HasBeenSet() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_HasBeenSet Copy_ToNoggolloquy(
             ITestObject_HasBeenSetGetter item,
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null)
@@ -2616,7 +2662,7 @@ namespace Noggolloquy.Tests
                                     return ObjectToRef.Copy(
                                         r,
                                         copyMask?.Ref.Specific,
-                                        d);
+                                        def: d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref.Overall}. Cannot execute copy.");
                             }
@@ -2650,10 +2696,10 @@ namespace Noggolloquy.Tests
                                     return r;
                                 case CopyType.Deep:
                                     if (r == null) return null;
-                                    return ObjectToRef.Copy(
+                                    return ObjectToRef.Copy_ToNoggolloquy(
                                         r,
                                         copyMask?.RefGetter.Specific,
-                                        d);
+                                        def: d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter.Overall}. Cannot execute copy.");
                             }
@@ -2690,7 +2736,7 @@ namespace Noggolloquy.Tests
                                     return ObjectToRef.Copy(
                                         r,
                                         copyMask?.RefSetter.Specific,
-                                        d);
+                                        def: d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter.Overall}. Cannot execute copy.");
                             }
@@ -2802,7 +2848,7 @@ namespace Noggolloquy.Tests
                                     key = k;
                                     break;
                                 case RefCopyType.Deep:
-                                    key = k.Copy(copyMask?.RefDict.Specific.Key.Mask);
+                                    key = k.Copy(copyMask: copyMask?.RefDict.Specific.Key.Mask);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");

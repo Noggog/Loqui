@@ -962,6 +962,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestObject_Notifying_ReadOnly Copy(
+            ITestObject_Notifying_ReadOnly item,
+            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnlyGetter def = null)
+        {
+            TestObject_Notifying_ReadOnly ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly)))
+            {
+                ret = new TestObject_Notifying_ReadOnly();
+            }
+            else
+            {
+                ret = (TestObject_Notifying_ReadOnly)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnlyGetter def = null)
+            where CopyType : class, ITestObject_Notifying_ReadOnly
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly)))
+            {
+                ret = new TestObject_Notifying_ReadOnly() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_Notifying_ReadOnly Copy_ToNoggolloquy(
             ITestObject_Notifying_ReadOnlyGetter item,
             TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
             ITestObject_Notifying_ReadOnlyGetter def = null)

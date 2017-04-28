@@ -209,6 +209,52 @@ namespace Noggolloquy.Tests
         }
 
         public static TestGenericObject_SubClass_Defined Copy(
+            ITestGenericObject_SubClass_Defined item,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
+            ITestGenericObject_SubClass_DefinedGetter def = null)
+        {
+            TestGenericObject_SubClass_Defined ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined)))
+            {
+                ret = new TestGenericObject_SubClass_Defined();
+            }
+            else
+            {
+                ret = (TestGenericObject_SubClass_Defined)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType Copy<CopyType>(
+            CopyType item,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
+            ITestGenericObject_SubClass_DefinedGetter def = null)
+            where CopyType : class, ITestGenericObject_SubClass_Defined
+        {
+            CopyType ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined)))
+            {
+                ret = new TestGenericObject_SubClass_Defined() as CopyType;
+            }
+            else
+            {
+                ret = (CopyType)Activator.CreateInstance(item.GetType());
+            }
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doErrorMask: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestGenericObject_SubClass_Defined Copy_ToNoggolloquy(
             ITestGenericObject_SubClass_DefinedGetter item,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
             ITestGenericObject_SubClass_DefinedGetter def = null)
