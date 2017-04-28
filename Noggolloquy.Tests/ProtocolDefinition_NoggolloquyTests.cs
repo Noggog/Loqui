@@ -12,20 +12,20 @@ namespace Noggolloquy
 
         public void Register()
         {
-            NoggolloquyRegistration.Register(TestGenericObject_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Notifying_Registration.Instance);
-            NoggolloquyRegistration.Register(ObjectToRef_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Notifying_SubClass_Registration.Instance);
-            NoggolloquyRegistration.Register(TestGenericObject_SubClass_Defined_Registration.Instance);
-            NoggolloquyRegistration.Register(TestGenericObject_SubClass_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_HasBeenSet_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_ReadOnly_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Notifying_ReadOnly_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_HasBeenSet_ReadOnly_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Derivative_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_Notifying_Derivative_Registration.Instance);
-            NoggolloquyRegistration.Register(TestObject_HasBeenSet_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestGenericObject_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.ObjectToRef_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_SubClass_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestGenericObject_SubClass_Defined_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestGenericObject_SubClass_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_ReadOnly_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_Derivative_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_Derivative_Registration.Instance);
         }
     }
 }

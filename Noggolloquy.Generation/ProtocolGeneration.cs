@@ -179,7 +179,7 @@ namespace Noggolloquy.Generation
                         foreach (var obj in this.ObjectGenerationsByID.Values
                             .OrderBy((o) => o.ID))
                         {
-                            fg.AppendLine($"NoggolloquyRegistration.Register({obj.RegistrationName}.Instance);");
+                            fg.AppendLine($"NoggolloquyRegistration.Register({obj.InternalNamespace}.{obj.RegistrationName}.Instance);");
                         }
                     }
                 }

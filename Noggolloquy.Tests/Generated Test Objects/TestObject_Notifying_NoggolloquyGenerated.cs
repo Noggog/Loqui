@@ -11,6 +11,7 @@ using System.Text;
 using Noggolloquy;
 using Noggog;
 using Noggog.Notifying;
+using Noggolloquy.Tests.Internals;
 using Noggolloquy.Tests;
 using System.Xml;
 using System.Xml.Linq;
@@ -1724,6 +1725,10 @@ namespace Noggolloquy.Tests
 
     #endregion
 
+}
+
+namespace Noggolloquy.Tests.Internals
+{
     #region Registration
     public class TestObject_Notifying_Registration : INoggolloquyRegistration
     {
@@ -4471,6 +4476,7 @@ namespace Noggolloquy.Tests
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+
     }
     public class TestObject_Notifying_CopyMask
     {

@@ -114,6 +114,7 @@ namespace Noggolloquy.Generation
                         GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
                     }
                 }
+                fg.AppendLine();
             }
 
             fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");

@@ -11,6 +11,7 @@ using System.Text;
 using Noggolloquy;
 using Noggog;
 using Noggog.Notifying;
+using Noggolloquy.Tests.Internals;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -319,6 +320,10 @@ namespace Noggolloquy.Tests
 
     #endregion
 
+}
+
+namespace Noggolloquy.Tests.Internals
+{
     #region Registration
     public class TestGenericObject_SubClass_Registration : INoggolloquyRegistration
     {
@@ -578,6 +583,7 @@ namespace Noggolloquy.Tests
                     break;
             }
         }
+
     }
     public class TestGenericObject_SubClass_CopyMask : TestGenericObject_CopyMask
     {
