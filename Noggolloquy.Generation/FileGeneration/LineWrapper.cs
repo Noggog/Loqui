@@ -9,10 +9,7 @@ namespace Noggolloquy.Generation
         public LineWrapper(FileGeneration fg)
         {
             this.fg = fg;
-            for (int i = 0; i < fg.Depth; i++)
-            {
-                fg.Append("    ");
-            }
+            this.fg.Append(this.fg.DepthStr);
         }
 
         public void Dispose()

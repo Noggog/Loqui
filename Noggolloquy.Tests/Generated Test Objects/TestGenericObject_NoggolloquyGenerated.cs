@@ -236,8 +236,6 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
-        #region Mask
-        #endregion
         public TestGenericObject<T, R> Copy(
             TestGenericObject_CopyMask copyMask = null,
             ITestGenericObjectGetter<T, R> def = null)
@@ -364,10 +362,6 @@ namespace Noggolloquy.Tests
         #endregion
 
 
-        #region XML Translation
-        #endregion
-        #region Mask
-        #endregion
     }
 
     #endregion
@@ -641,8 +635,6 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Modules
-    #region XML Translation
-    #endregion
 
     #region Mask
     public class TestGenericObject_Mask<T> 
@@ -700,7 +692,5 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Noggolloquy Interfaces
-    #endregion
 
 }

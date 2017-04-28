@@ -213,8 +213,6 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
-        #region Mask
-        #endregion
         public TestObject_Notifying_SubClass Copy(
             TestObject_Notifying_SubClass_CopyMask copyMask = null,
             ITestObject_Notifying_SubClassGetter def = null)
@@ -337,10 +335,6 @@ namespace Noggolloquy.Tests
         #endregion
 
 
-        #region XML Translation
-        #endregion
-        #region Mask
-        #endregion
     }
 
     #endregion
@@ -595,8 +589,6 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Modules
-    #region XML Translation
-    #endregion
 
     #region Mask
     public class TestObject_Notifying_SubClass_Mask<T>  : TestObject_Notifying_Mask<T>
@@ -643,7 +635,5 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Noggolloquy Interfaces
-    #endregion
 
 }

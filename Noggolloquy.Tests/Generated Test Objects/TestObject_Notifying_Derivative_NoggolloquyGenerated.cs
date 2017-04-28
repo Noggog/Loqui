@@ -949,8 +949,6 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
-        #region Mask
-        #endregion
         public TestObject_Notifying_Derivative Copy(
             TestObject_Notifying_Derivative_CopyMask copyMask = null,
             ITestObject_Notifying_DerivativeGetter def = null)
@@ -1387,10 +1385,6 @@ namespace Noggolloquy.Tests
         #endregion
 
 
-        #region XML Translation
-        #endregion
-        #region Mask
-        #endregion
     }
 
     #endregion
@@ -2413,8 +2407,6 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Modules
-    #region XML Translation
-    #endregion
 
     #region Mask
     public class TestObject_Notifying_Derivative_Mask<T> 
@@ -2895,7 +2887,5 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Noggolloquy Interfaces
-    #endregion
 
 }

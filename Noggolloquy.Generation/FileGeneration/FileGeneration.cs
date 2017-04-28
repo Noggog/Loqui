@@ -1,14 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace Noggolloquy.Generation
 {
-    public abstract class FileGeneration
+    public class FileGeneration
     {
         public int Depth;
+        public List<string> Strings = new List<string>();
+        public string DepthStr
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < this.Depth; i++)
+                {
+                    sb.Append("    ");
+                }
+                return sb.ToString();
+            }
+        }
 
-        public abstract void Append(string str);
+        public void Append(string str)
+        {
+            if (str.Length == 1 && str[0] == '\n')
+            {
+                Strings.Add("");
+                return;
+            }
+            string[] split = str.Split('\n');
+            split.First(
+                (s, first) =>
+                {
+                    if (Strings.Count == 0)
+                    {
+                        Strings.Add(s);
+                    }
+                    else
+                    {
+                        if (first)
+                        {
+                            Strings[Strings.Count - 1] = Strings[Strings.Count - 1] + s;
+                        }
+                        else
+                        {
+                            Strings.Add(s);
+                        }
+                    }
+                });
+        }
 
         public void AppendLine()
         {
@@ -46,7 +87,10 @@ namespace Noggolloquy.Generation
             file.Directory.Create();
             File.WriteAllText(file.FullName, str);
         }
-
-        public abstract string GetString();
+        
+        public string GetString()
+        {
+            return string.Join("\n", Strings);
+        }
     }
 }

@@ -586,8 +586,6 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
-        #region Mask
-        #endregion
         public TestObject_ReadOnly Copy(
             TestObject_ReadOnly_CopyMask copyMask = null,
             ITestObject_ReadOnlyGetter def = null)
@@ -1088,10 +1086,6 @@ namespace Noggolloquy.Tests
         #endregion
 
 
-        #region XML Translation
-        #endregion
-        #region Mask
-        #endregion
     }
 
     #endregion
@@ -2161,8 +2155,6 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Modules
-    #region XML Translation
-    #endregion
 
     #region Mask
     public class TestObject_ReadOnly_Mask<T> 
@@ -2643,7 +2635,5 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Noggolloquy Interfaces
-    #endregion
 
 }

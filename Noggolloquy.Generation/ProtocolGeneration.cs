@@ -152,7 +152,7 @@ namespace Noggolloquy.Generation
                 namespaces.Add(obj.Namespace);
             }
 
-            FileGeneration fg = new FileGenerationStringBuilder();
+            FileGeneration fg = new FileGeneration();
             foreach (var nameS in namespaces)
             {
                 fg.AppendLine($"using {nameS};");

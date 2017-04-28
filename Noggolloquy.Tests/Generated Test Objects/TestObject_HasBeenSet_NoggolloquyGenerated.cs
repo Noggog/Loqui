@@ -996,8 +996,6 @@ namespace Noggolloquy.Tests
         }
 
         #endregion
-        #region Mask
-        #endregion
         public TestObject_HasBeenSet Copy(
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null)
@@ -1723,10 +1721,6 @@ namespace Noggolloquy.Tests
         #endregion
 
 
-        #region XML Translation
-        #endregion
-        #region Mask
-        #endregion
     }
 
     #endregion
@@ -3450,8 +3444,6 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Modules
-    #region XML Translation
-    #endregion
 
     #region Mask
     public class TestObject_HasBeenSet_Mask<T> 
@@ -3932,7 +3924,5 @@ namespace Noggolloquy.Tests
 
     #endregion
 
-    #region Noggolloquy Interfaces
-    #endregion
 
 }

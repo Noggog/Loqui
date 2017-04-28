@@ -26,9 +26,9 @@ namespace Noggolloquy.Generation
             args.Add(lines);
         }
 
-        public void Add(Action<FileGenerationStringList> generator)
+        public void Add(Action<FileGeneration> generator)
         {
-            var gen = new FileGenerationStringList();
+            var gen = new FileGeneration();
             generator(gen);
             Add(gen.Strings.ToArray());
         }
