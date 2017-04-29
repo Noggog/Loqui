@@ -317,10 +317,15 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
         {
             ClearPartial(cmds);
-            this.BoolN = default(Boolean?);
+        }
+
+        public void Clear(NotifyingUnsetParameters? cmds = null)
+        {
+            CallClearPartial_Internal(cmds);
+            TestObject_PrivateCtorCommon.Clear(this, cmds);
         }
 
         public static TestObject_PrivateCtor Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -580,6 +585,12 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
+        public static void Clear(
+            ITestObject_PrivateCtor item,
+            NotifyingUnsetParameters? cmds = null)
+        {
+            item.BoolN = default(Boolean?);
+        }
     }
     #endregion
 

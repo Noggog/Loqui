@@ -325,10 +325,15 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public virtual void Clear(NotifyingUnsetParameters? cmds = null)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
         {
             ClearPartial(cmds);
-            this.Ref_Property.Unset(cmds.ToUnsetParams());
+        }
+
+        public virtual void Clear(NotifyingUnsetParameters? cmds = null)
+        {
+            CallClearPartial_Internal(cmds);
+            TestGenericObjectCommon.Clear(this, cmds);
         }
 
         public static TestGenericObject<T, R> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -639,6 +644,13 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
+        public static void Clear<T, R>(
+            ITestGenericObject<T, R> item,
+            NotifyingUnsetParameters? cmds = null)
+            where R : ObjectToRef, INoggolloquyObjectGetter
+        {
+            item.Ref_Property.Unset(cmds.ToUnsetParams());
+        }
     }
     #endregion
 

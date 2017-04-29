@@ -102,6 +102,7 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse)}.HasBeenSet = {onIdentifier};");
             }
+            fg.AppendLine("break;");
         }
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
@@ -110,6 +111,7 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }
+            fg.AppendLine("break;");
         }
 
         public override string GetName(bool internalUse, bool property = true)
@@ -288,6 +290,7 @@ namespace Noggolloquy.Generation
                 }
                 fg.AppendLine($"{cmdsAccessor});");
             }
+            fg.AppendLine($"break;");
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)

@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("where R : ObjectToRef"))
+            if (str.Equals("if (copyMask?.RefGetter.Overall != CopyType.Skip)"))
             {
                 int wer = 23;
                 wer++;

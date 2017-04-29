@@ -56,6 +56,10 @@ namespace Noggolloquy.Generation
         private string _generic;
         public override string SkipCheck(string copyMaskAccessor)
         {
+            if (this.SingletonMember)
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
+            }
             switch (this.RefType)
             {
                 case NoggRefType.Direct:
@@ -66,6 +70,7 @@ namespace Noggolloquy.Generation
                     throw new NotImplementedException();
             }
         }
+        public override bool Copy => base.Copy && !(this.InterfaceType == NoggInterfaceType.IGetter && this.SingletonMember);
 
         public enum NoggRefType
         {
@@ -80,7 +85,14 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
+                    if (this.SingletonMember)
+                    {
+                        fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; }} = new {this.ObjectTypeName}();");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
+                    }
                     break;
                 case NotifyingOption.HasBeenSet:
                     fg.AppendLine($"private {(this.ReadOnly ? "readonly" : string.Empty)} HasBeenSetItem<{this.TypeName}> {this.ProtectedProperty} = new HasBeenSetItem<{this.TypeName}>();");
@@ -103,7 +115,7 @@ namespace Noggolloquy.Generation
                     }
                     else if (SingletonMember)
                     { // Singleton
-                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemNoggSingleton<{TypeName}, {this.RefGen.InterfaceStr}, {this.TypeName}>(new {this.RefGen.ObjectName}());");
+                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(new {this.RefGen.ObjectName}());");
                     }
                     else
                     {
@@ -124,10 +136,10 @@ namespace Noggolloquy.Generation
                         }
                         fg.AppendLine(");");
                     }
-                    fg.AppendLine($"public INotifyingItem{(Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonMember) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
-                    if (!this.ReadOnly)
+                    if (!this.ReadOnly && !this.SingletonMember)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -141,7 +153,6 @@ namespace Noggolloquy.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
-            _allowNull = node.GetAttribute<bool>("allowNull", true);
             SingletonMember = node.GetAttribute<bool>("singleton", false);
 
             var refNode = node.Element(XName.Get("Direct", NoggolloquyGenerator.Namespace));
@@ -199,7 +210,7 @@ namespace Noggolloquy.Generation
 
         private string StructTypeName()
         {
-            return $"{TypeName}{(this.AllowNull ? "?" : string.Empty)}";
+            return $"{TypeName}?";
         }
 
         private string[] GenerateMaskFunc()
@@ -243,6 +254,12 @@ namespace Noggolloquy.Generation
             if (RefGen?.Obj is StructGeneration)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = new {this.RefGen.Obj.Name}({rhsAccessorPrefix}.{this.Name});");
+                return;
+            }
+
+            if (this.SingletonMember)
+            {
+                this.GenerateCopyFieldsFrom(fg);
                 return;
             }
 
@@ -343,6 +360,63 @@ namespace Noggolloquy.Generation
             }
         }
 
+        private void GenerateCopyFieldsFrom(FileGeneration fg)
+        {
+            using (var args = new ArgsWrapper(fg,
+                $"{this.RefGen.Obj.ExtCommonName}.CopyFieldsFrom"))
+            {
+                args.Add($"item: item.{this.Name}");
+                args.Add($"rhs: rhs.{this.Name}");
+                args.Add($"def: def?.{this.Name}");
+                args.Add($"doErrorMask: doErrorMask");
+                args.Add((gen) =>
+                {
+                    gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.RefGen.Obj.ErrorMask}>(() =>");
+                    using (new BraceWrapper(gen))
+                    {
+                        gen.AppendLine($"var baseMask = errorMask();");
+                        gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
+                        using (new BraceWrapper(gen))
+                        {
+                            gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.RefGen.Obj.ErrorMask}>(null, new {this.RefGen.Obj.ErrorMask}());");
+                        }
+                        gen.AppendLine($"return baseMask.{this.Name}.Specific;");
+                    }
+                    gen.Append($") : null)");
+                });
+                args.Add($"copyMask: copyMask?.{this.Name}.Specific");
+                args.Add($"cmds: cmds");
+            }
+        }
+
+        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        {
+            if (!this.SingletonMember)
+            {
+                base.GenerateUnsetNth(fg, identifier, cmdsAccessor);
+                return;
+            }
+            if (this.InterfaceType == NoggInterfaceType.IGetter)
+            {
+                fg.AppendLine($"throw new ArgumentException(\"Cannot unset a get only singleton: {this.Name}\");");
+            }
+            else
+            {
+                fg.AppendLine($"{this.RefGen.Obj.ExtCommonName}.Clear({identifier}.{this.Name}, cmds.ToUnsetParams());");
+                fg.AppendLine("break;");
+            }
+        }
+
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        {
+            if (!this.SingletonMember)
+            {
+                base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);
+                return;
+            }
+            fg.AppendLine($"throw new ArgumentException(\"Cannot mark set status of a singleton: {this.Name}\");");
+        }
+
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
@@ -360,6 +434,24 @@ namespace Noggolloquy.Generation
                     throw new NotImplementedException();
             }
             fg.AppendLine();
+        }
+
+        public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
+        {
+            if (!this.SingletonMember)
+            {
+                base.GenerateInterfaceSet(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+                return;
+            }
+            fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {this.Name}\");");
+        }
+
+        public override void GenerateForInterface(FileGeneration fg)
+        {
+            if (!this.SingletonMember)
+            {
+                base.GenerateForInterface(fg);
+            }
         }
 
         public override IEnumerable<string> GetRequiredNamespaces()

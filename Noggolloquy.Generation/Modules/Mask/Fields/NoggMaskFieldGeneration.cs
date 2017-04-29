@@ -33,7 +33,15 @@ namespace Noggolloquy.Generation
             NoggType nogg = field as NoggType;
             if (nogg.RefType == NoggType.NoggRefType.Direct)
             {
-                fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+                if (nogg.SingletonMember)
+                {
+                    if (nogg.InterfaceType == NoggInterfaceType.IGetter) return;
+                    fg.AppendLine($"public MaskItem<bool, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+                }
+                else
+                {
+                    fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+                }
             }
             else
             {

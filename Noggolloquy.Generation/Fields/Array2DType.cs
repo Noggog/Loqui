@@ -78,6 +78,7 @@ namespace Noggolloquy.Generation
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
             GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, null, null, cmdsAccessor, false);
+            fg.AppendLine($"break;");
         }
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)

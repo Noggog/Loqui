@@ -126,7 +126,7 @@ namespace Noggolloquy.Generation
         {
         }
 
-        protected override void GenerateClear(FileGeneration fg)
+        protected override void GenerateClear(FileGeneration fg, bool classFile)
         {
         }
 

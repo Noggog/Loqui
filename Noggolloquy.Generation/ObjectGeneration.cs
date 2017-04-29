@@ -295,7 +295,7 @@ namespace Noggolloquy.Generation
 
                     GenerateSetNthObject(fg);
 
-                    GenerateClear(fg);
+                    GenerateClear(fg, true);
 
                     GenerateGenericCreate(fg);
                 }
@@ -485,6 +485,8 @@ namespace Noggolloquy.Generation
                     GenerateGetNthObjectHasBeenSet(fg);
 
                     GenerateGetNthObject(fg);
+
+                    GenerateClear(fg, false);
 
                     // Fields might add some content
                     foreach (var field in this.Fields)
@@ -864,7 +866,6 @@ namespace Noggolloquy.Generation
                                 accessorPrefix: $"this",
                                 rhsAccessorPrefix: $"({item.Field.SetToName})obj",
                                 cmdsAccessor: "cmds");
-                            fg.AppendLine($"break;");
                         }
                     }
 
@@ -917,7 +918,6 @@ namespace Noggolloquy.Generation
                             else
                             {
                                 item.Field.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
-                                fg.AppendLine("break;");
                             }
                         }
                     }
@@ -971,7 +971,6 @@ namespace Noggolloquy.Generation
                             else
                             {
                                 item.Field.GenerateUnsetNth(fg, "obj", "cmds");
-                                fg.AppendLine("break;");
                             }
                         }
                     }
@@ -1415,15 +1414,6 @@ namespace Noggolloquy.Generation
             }
         }
 
-        private void GenerateClear(FileGeneration fg, string accessor, string cmdAccessor)
-        {
-            foreach (var field in this.Fields)
-            {
-                if (field.ReadOnly) continue;
-                field.GenerateClear(fg, accessor, cmdAccessor);
-            }
-        }
-
         private void GenerateModules(FileGeneration fg)
         {
             if (this.gen.GenerationModules.Count > 0)
@@ -1577,28 +1567,53 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        protected virtual void GenerateClear(FileGeneration fg)
+        protected virtual void GenerateClear(FileGeneration fg, bool classFile)
         {
-            if (!HasBaseObject)
+            if (classFile)
             {
-                fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters? cmds);");
+                if (!HasBaseObject)
+                {
+                    fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters? cmds);");
+                    fg.AppendLine();
+
+                    fg.AppendLine("protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ClearPartial(cmds);");
+                    }
+                    fg.AppendLine();
+                }
+
+                fg.AppendLine($"public{FunctionOverride}void Clear(NotifyingUnsetParameters? cmds = null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("CallClearPartial_Internal(cmds);");
+                    fg.AppendLine($"{this.ExtCommonName}.Clear(this, cmds);");
+                }
                 fg.AppendLine();
             }
-
-            fg.AppendLine($"public{FunctionOverride}void Clear(NotifyingUnsetParameters? cmds = null)");
-            using (new BraceWrapper(fg))
+            else
             {
-                if (HasBaseObject)
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void Clear{this.GenericTypes}",
+                    GenerateWhereClauses().ToArray()))
                 {
-                    fg.AppendLine("base.Clear(cmds);");
+                    args.Add($"{this.InterfaceStr} item");
+                    args.Add($"NotifyingUnsetParameters? cmds = null");
                 }
-                else
+                using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("ClearPartial(cmds);");
+                    foreach (var field in this.Fields)
+                    {
+                        if (field.ReadOnly) continue;
+                        field.GenerateClear(fg, "item", "cmds");
+                    }
                 }
-                GenerateClear(fg, "this", "cmds");
             }
-            fg.AppendLine();
+        }
+
+        private void GenerateClear(FileGeneration fg, string accessor, string cmdAccessor)
+        {
         }
 
         protected virtual void GenerateGenericCreate(FileGeneration fg)

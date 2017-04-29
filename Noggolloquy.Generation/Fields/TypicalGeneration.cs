@@ -195,6 +195,7 @@ namespace Noggolloquy.Generation
                     }
                 }
             }
+            fg.AppendLine($"break;");
         }
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
@@ -227,6 +228,7 @@ namespace Noggolloquy.Generation
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false, property: true)}.HasBeenSet = {onIdentifier};");
             }
+            fg.AppendLine("break;");
         }
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
@@ -249,6 +251,7 @@ namespace Noggolloquy.Generation
                     }
                 }
             }
+            fg.AppendLine("break;");
         }
     }
 }

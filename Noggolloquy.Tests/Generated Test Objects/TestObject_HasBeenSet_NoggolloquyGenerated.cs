@@ -558,6 +558,13 @@ namespace Noggolloquy.Tests
         ObjectToRef ITestObject_HasBeenSetGetter.Ref => this._Ref.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Property => this._Ref;
         #endregion
+        #region Ref_Singleton
+        private  HasBeenSetItem<ObjectToRef> _Ref_Singleton = new HasBeenSetItem<ObjectToRef>();
+        public ObjectToRef Ref_Singleton { get { return this._Ref_Singleton.Item; } set { _Ref_Singleton.Item = value; } }
+        public IHasBeenSetItem<ObjectToRef> Ref_Singleton_Property => _Ref_Singleton;
+        ObjectToRef ITestObject_HasBeenSetGetter.Ref_Singleton => this._Ref_Singleton.Item;
+        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Singleton_Property => this._Ref_Singleton;
+        #endregion
         #region RefGetter
         private  HasBeenSetItem<IObjectToRefGetter> _RefGetter = new HasBeenSetItem<IObjectToRefGetter>();
         public IObjectToRefGetter RefGetter { get { return this._RefGetter.Item; } set { _RefGetter.Item = value; } }
@@ -565,12 +572,26 @@ namespace Noggolloquy.Tests
         IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter => this._RefGetter.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Property => this._RefGetter;
         #endregion
+        #region RefGetter_Singleton
+        private  HasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton = new HasBeenSetItem<IObjectToRefGetter>();
+        public IObjectToRefGetter RefGetter_Singleton { get { return this._RefGetter_Singleton.Item; } set { _RefGetter_Singleton.Item = value; } }
+        public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Singleton_Property => _RefGetter_Singleton;
+        IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter_Singleton => this._RefGetter_Singleton.Item;
+        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        #endregion
         #region RefSetter
         private  HasBeenSetItem<IObjectToRef> _RefSetter = new HasBeenSetItem<IObjectToRef>();
         public IObjectToRef RefSetter { get { return this._RefSetter.Item; } set { _RefSetter.Item = value; } }
         public IHasBeenSetItem<IObjectToRef> RefSetter_Property => _RefSetter;
         IObjectToRef ITestObject_HasBeenSetGetter.RefSetter => this._RefSetter.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Property => this._RefSetter;
+        #endregion
+        #region RefSetter_Singleton
+        private  HasBeenSetItem<IObjectToRef> _RefSetter_Singleton = new HasBeenSetItem<IObjectToRef>();
+        public IObjectToRef RefSetter_Singleton { get { return this._RefSetter_Singleton.Item; } set { _RefSetter_Singleton.Item = value; } }
+        public IHasBeenSetItem<IObjectToRef> RefSetter_Singleton_Property => _RefSetter_Singleton;
+        IObjectToRef ITestObject_HasBeenSetGetter.RefSetter_Singleton => this._RefSetter_Singleton.Item;
+        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
@@ -741,8 +762,11 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.Ref_Singleton, rhs.Ref_Singleton)) return false;
             if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
+            if (!object.Equals(this.RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
             if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
+            if (!object.Equals(this.RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
             if (!object.Equals(this.List, rhs.List)) return false;
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
             if (!object.Equals(this.Dict, rhs.Dict)) return false;
@@ -753,6 +777,9 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
+            
+            
+            
             
             
             
@@ -843,8 +870,11 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
             .CombineHashCode(HashHelper.GetHashCode(Ref))
+            .CombineHashCode(HashHelper.GetHashCode(Ref_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefGetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefGetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefSetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefSetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(List))
             .CombineHashCode(HashHelper.GetHashCode(RefList))
             .CombineHashCode(HashHelper.GetHashCode(Dict))
@@ -1155,18 +1185,24 @@ namespace Noggolloquy.Tests
                     this._Ref.Set((ObjectToRef)obj);
                     break;
                 case 41:
+                    throw new ArgumentException("Cannot set singleton member Ref_Singleton");
+                case 42:
                     this._RefGetter.Set((IObjectToRefGetter)obj);
                     break;
-                case 42:
+                case 43:
+                    throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
+                case 44:
                     this._RefSetter.Set((IObjectToRef)obj);
                     break;
-                case 43:
+                case 45:
+                    throw new ArgumentException("Cannot set singleton member RefSetter_Singleton");
+                case 46:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
-                case 44:
+                case 47:
                     this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
                     break;
-                case 45:
+                case 48:
                     this.Dict.SetTo(
                         ((NotifyingDictionary<Boolean, String>)obj).Select(
                             (i) => new KeyValuePair<Boolean, String>(
@@ -1174,7 +1210,7 @@ namespace Noggolloquy.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case 46:
+                case 49:
                     this.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -1182,7 +1218,7 @@ namespace Noggolloquy.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case 47:
+                case 50:
                     this.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
                         cmds);
@@ -1194,57 +1230,15 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
         {
             ClearPartial(cmds);
-            this.BoolN = default(Boolean?);
-            this.Bool = default(Boolean);
-            this.CharN = default(Char?);
-            this.Char = default(Char);
-            this.DoubleN = default(Double?);
-            this.Double = default(Double);
-            this.FloatN = default(Single?);
-            this.Float = default(Single);
-            this.Int16N = default(Int16?);
-            this.Int16 = default(Int16);
-            this.Int32N = default(Int32?);
-            this.Int32 = default(Int32);
-            this.Int64N = default(Int64?);
-            this.Int64 = default(Int64);
-            this.Int8N = default(SByte?);
-            this.Int8 = default(SByte);
-            this.Unsafe = default(bool);
-            this.P2IntN = default(P2Int?);
-            this.P2Int = default(P2Int);
-            this.P3DoubleN = default(P3Double?);
-            this.P3Double = default(P3Double);
-            this.P3IntN = default(P3Int?);
-            this.P3Int = default(P3Int);
-            this.PercentN = default(Percent?);
-            this.Percent = default(Percent);
-            this.RangeIntN = default(RangeInt?);
-            this.RangeInt = default(RangeInt);
-            this.String = default(String);
-            this.UDoubleN = default(UDouble?);
-            this.UDouble = default(UDouble);
-            this.UInt16N = default(UInt16?);
-            this.UInt16 = default(UInt16);
-            this.UInt32N = default(UInt32?);
-            this.UInt32 = default(UInt32);
-            this.UInt64N = default(UInt64?);
-            this.UInt64 = default(UInt64);
-            this.UInt8N = default(Byte?);
-            this.UInt8 = default(Byte);
-            this.Enum = default(TestEnum);
-            this.WildCard = default(Object);
-            this.Ref = default(ObjectToRef);
-            this.RefGetter = default(IObjectToRefGetter);
-            this.RefSetter = default(IObjectToRef);
-            this.List.Unset(cmds.ToUnsetParams());
-            this.RefList.Unset(cmds.ToUnsetParams());
-            this.Dict.Unset(cmds.ToUnsetParams());
-            this.RefDict.Unset(cmds.ToUnsetParams());
-            this.DictKeyedValue.Unset(cmds.ToUnsetParams());
+        }
+
+        public void Clear(NotifyingUnsetParameters? cmds = null)
+        {
+            CallClearPartial_Internal(cmds);
+            TestObject_HasBeenSetCommon.Clear(this, cmds);
         }
 
         public static TestObject_HasBeenSet Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -1608,14 +1602,29 @@ namespace Noggolloquy.Tests
         IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
+        #region Ref_Singleton
+        ObjectToRef Ref_Singleton { get; }
+        IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
+
+        #endregion
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
         IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
+        #region RefGetter_Singleton
+        IObjectToRefGetter RefGetter_Singleton { get; }
+        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
+
+        #endregion
         #region RefSetter
         IObjectToRef RefSetter { get; }
         IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property { get; }
+
+        #endregion
+        #region RefSetter_Singleton
+        IObjectToRef RefSetter_Singleton { get; }
+        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
 
         #endregion
         #region List
@@ -1656,7 +1665,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "8dd2de32-392f-409f-b0bb-410a8d687c92";
 
-        public const ushort FieldCount = 48;
+        public const ushort FieldCount = 51;
 
         public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Mask<>);
 
@@ -1758,20 +1767,26 @@ namespace Noggolloquy.Tests.Internals
                     return 39;
                 case "REF":
                     return 40;
-                case "REFGETTER":
+                case "REF_SINGLETON":
                     return 41;
-                case "REFSETTER":
+                case "REFGETTER":
                     return 42;
-                case "LIST":
+                case "REFGETTER_SINGLETON":
                     return 43;
-                case "REFLIST":
+                case "REFSETTER":
                     return 44;
-                case "DICT":
+                case "REFSETTER_SINGLETON":
                     return 45;
-                case "REFDICT":
+                case "LIST":
                     return 46;
-                case "DICTKEYEDVALUE":
+                case "REFLIST":
                     return 47;
+                case "DICT":
+                    return 48;
+                case "REFDICT":
+                    return 49;
+                case "DICTKEYEDVALUE":
+                    return 50;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -1781,8 +1796,8 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 43:
-                case 44:
+                case 46:
+                case 47:
                     return true;
                 case 0:
                 case 1:
@@ -1827,9 +1842,12 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                 case 41:
                 case 42:
+                case 43:
+                case 44:
                 case 45:
-                case 46:
-                case 47:
+                case 48:
+                case 49:
+                case 50:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1843,7 +1861,10 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                 case 41:
                 case 42:
+                case 43:
                 case 44:
+                case 45:
+                case 47:
                     return true;
                 case 0:
                 case 1:
@@ -1885,10 +1906,10 @@ namespace Noggolloquy.Tests.Internals
                 case 37:
                 case 38:
                 case 39:
-                case 43:
-                case 45:
                 case 46:
-                case 47:
+                case 48:
+                case 49:
+                case 50:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1899,6 +1920,10 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
+                case 41:
+                case 43:
+                case 45:
+                    return true;
                 case 0:
                 case 1:
                 case 2:
@@ -1940,13 +1965,13 @@ namespace Noggolloquy.Tests.Internals
                 case 38:
                 case 39:
                 case 40:
-                case 41:
                 case 42:
-                case 43:
                 case 44:
-                case 45:
                 case 46:
                 case 47:
+                case 48:
+                case 49:
+                case 50:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2040,18 +2065,24 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                     return "Ref";
                 case 41:
-                    return "RefGetter";
+                    return "Ref_Singleton";
                 case 42:
-                    return "RefSetter";
+                    return "RefGetter";
                 case 43:
-                    return "List";
+                    return "RefGetter_Singleton";
                 case 44:
-                    return "RefList";
+                    return "RefSetter";
                 case 45:
-                    return "Dict";
+                    return "RefSetter_Singleton";
                 case 46:
-                    return "RefDict";
+                    return "List";
                 case 47:
+                    return "RefList";
+                case 48:
+                    return "Dict";
+                case 49:
+                    return "RefDict";
+                case 50:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2110,6 +2141,9 @@ namespace Noggolloquy.Tests.Internals
                 case 45:
                 case 46:
                 case 47:
+                case 48:
+                case 49:
+                case 50:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2168,6 +2202,9 @@ namespace Noggolloquy.Tests.Internals
                 case 45:
                 case 46:
                 case 47:
+                case 48:
+                case 49:
+                case 50:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2261,18 +2298,24 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                     return typeof(ObjectToRef);
                 case 41:
-                    return typeof(IObjectToRefGetter);
+                    return typeof(ObjectToRef);
                 case 42:
-                    return typeof(IObjectToRef);
+                    return typeof(IObjectToRefGetter);
                 case 43:
-                    return typeof(NotifyingList<Boolean>);
+                    return typeof(IObjectToRefGetter);
                 case 44:
-                    return typeof(NotifyingList<ObjectToRef>);
+                    return typeof(IObjectToRef);
                 case 45:
-                    return typeof(NotifyingDictionary<Boolean, String>);
+                    return typeof(IObjectToRef);
                 case 46:
-                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                    return typeof(NotifyingList<Boolean>);
                 case 47:
+                    return typeof(NotifyingList<ObjectToRef>);
+                case 48:
+                    return typeof(NotifyingDictionary<Boolean, String>);
+                case 49:
+                    return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case 50:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2594,6 +2637,40 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Ref_Singleton.Overall ?? true)
+            {
+                try
+                {
+                    ObjectToRefCommon.CopyFieldsFrom(
+                        item: item.Ref_Singleton,
+                        rhs: rhs.Ref_Singleton,
+                        def: def?.Ref_Singleton,
+                        doErrorMask: doErrorMask,
+                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                        {
+                            var baseMask = errorMask();
+                            if (baseMask.Ref_Singleton.Specific == null)
+                            {
+                                baseMask.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                            }
+                            return baseMask.Ref_Singleton.Specific;
+                        }
+                        ) : null),
+                        copyMask: copyMask?.Ref_Singleton.Specific,
+                        cmds: cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException(41, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.RefGetter.Overall != CopyType.Skip)
             {
                 try
@@ -2623,7 +2700,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(41, ex);
+                        errorMask().SetNthException(42, ex);
                     }
                     else
                     {
@@ -2660,7 +2737,41 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(42, ex);
+                        errorMask().SetNthException(44, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.RefSetter_Singleton.Overall ?? true)
+            {
+                try
+                {
+                    ObjectToRefCommon.CopyFieldsFrom(
+                        item: item.RefSetter_Singleton,
+                        rhs: rhs.RefSetter_Singleton,
+                        def: def?.RefSetter_Singleton,
+                        doErrorMask: doErrorMask,
+                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                        {
+                            var baseMask = errorMask();
+                            if (baseMask.RefSetter_Singleton.Specific == null)
+                            {
+                                baseMask.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                            }
+                            return baseMask.RefSetter_Singleton.Specific;
+                        }
+                        ) : null),
+                        copyMask: copyMask?.RefSetter_Singleton.Specific,
+                        cmds: cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException(45, ex);
                     }
                     else
                     {
@@ -2681,7 +2792,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(43, ex);
+                        errorMask().SetNthException(46, ex);
                     }
                     else
                     {
@@ -2715,7 +2826,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(44, ex);
+                        errorMask().SetNthException(47, ex);
                     }
                     else
                     {
@@ -2736,7 +2847,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(45, ex);
+                        errorMask().SetNthException(48, ex);
                     }
                     else
                     {
@@ -2786,7 +2897,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(46, ex);
+                        errorMask().SetNthException(49, ex);
                     }
                     else
                     {
@@ -2820,7 +2931,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(47, ex);
+                        errorMask().SetNthException(50, ex);
                     }
                     else
                     {
@@ -2964,24 +3075,30 @@ namespace Noggolloquy.Tests.Internals
                     obj.Ref_Property.HasBeenSet = on;
                     break;
                 case 41:
+                    throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
+                case 42:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
-                case 42:
+                case 43:
+                    throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
+                case 44:
                     obj.RefSetter_Property.HasBeenSet = on;
                     break;
-                case 43:
+                case 45:
+                    throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
+                case 46:
                     obj.List.HasBeenSet = on;
                     break;
-                case 44:
+                case 47:
                     obj.RefList.HasBeenSet = on;
                     break;
-                case 45:
+                case 48:
                     obj.Dict.HasBeenSet = on;
                     break;
-                case 46:
+                case 49:
                     obj.RefDict.HasBeenSet = on;
                     break;
-                case 47:
+                case 50:
                     obj.DictKeyedValue.HasBeenSet = on;
                     break;
                 default:
@@ -3120,24 +3237,32 @@ namespace Noggolloquy.Tests.Internals
                     obj.Ref_Property.Unset();
                     break;
                 case 41:
-                    obj.RefGetter_Property.Unset();
+                    ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
                     break;
                 case 42:
-                    obj.RefSetter_Property.Unset();
+                    obj.RefGetter_Property.Unset();
                     break;
                 case 43:
-                    obj.List.Unset(cmds);
-                    break;
+                    throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
                 case 44:
-                    obj.RefList.Unset(cmds);
+                    obj.RefSetter_Property.Unset();
                     break;
                 case 45:
-                    obj.Dict.Unset(cmds);
+                    ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
                     break;
                 case 46:
-                    obj.RefDict.Unset(cmds);
+                    obj.List.Unset(cmds);
                     break;
                 case 47:
+                    obj.RefList.Unset(cmds);
+                    break;
+                case 48:
+                    obj.Dict.Unset(cmds);
+                    break;
+                case 49:
+                    obj.RefDict.Unset(cmds);
+                    break;
+                case 50:
                     obj.DictKeyedValue.Unset(cmds);
                     break;
                 default:
@@ -3234,18 +3359,24 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                     return obj.Ref_Property.HasBeenSet;
                 case 41:
-                    return obj.RefGetter_Property.HasBeenSet;
+                    return obj.Ref_Singleton_Property.HasBeenSet;
                 case 42:
-                    return obj.RefSetter_Property.HasBeenSet;
+                    return obj.RefGetter_Property.HasBeenSet;
                 case 43:
-                    return obj.List.HasBeenSet;
+                    return obj.RefGetter_Singleton_Property.HasBeenSet;
                 case 44:
-                    return obj.RefList.HasBeenSet;
+                    return obj.RefSetter_Property.HasBeenSet;
                 case 45:
-                    return obj.Dict.HasBeenSet;
+                    return obj.RefSetter_Singleton_Property.HasBeenSet;
                 case 46:
-                    return obj.RefDict.HasBeenSet;
+                    return obj.List.HasBeenSet;
                 case 47:
+                    return obj.RefList.HasBeenSet;
+                case 48:
+                    return obj.Dict.HasBeenSet;
+                case 49:
+                    return obj.RefDict.HasBeenSet;
+                case 50:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -3341,24 +3472,83 @@ namespace Noggolloquy.Tests.Internals
                 case 40:
                     return obj.Ref;
                 case 41:
-                    return obj.RefGetter;
+                    return obj.Ref_Singleton;
                 case 42:
-                    return obj.RefSetter;
+                    return obj.RefGetter;
                 case 43:
-                    return obj.List;
+                    return obj.RefGetter_Singleton;
                 case 44:
-                    return obj.RefList;
+                    return obj.RefSetter;
                 case 45:
-                    return obj.Dict;
+                    return obj.RefSetter_Singleton;
                 case 46:
-                    return obj.RefDict;
+                    return obj.List;
                 case 47:
+                    return obj.RefList;
+                case 48:
+                    return obj.Dict;
+                case 49:
+                    return obj.RefDict;
+                case 50:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
+        public static void Clear(
+            ITestObject_HasBeenSet item,
+            NotifyingUnsetParameters? cmds = null)
+        {
+            item.BoolN = default(Boolean?);
+            item.Bool = default(Boolean);
+            item.CharN = default(Char?);
+            item.Char = default(Char);
+            item.DoubleN = default(Double?);
+            item.Double = default(Double);
+            item.FloatN = default(Single?);
+            item.Float = default(Single);
+            item.Int16N = default(Int16?);
+            item.Int16 = default(Int16);
+            item.Int32N = default(Int32?);
+            item.Int32 = default(Int32);
+            item.Int64N = default(Int64?);
+            item.Int64 = default(Int64);
+            item.Int8N = default(SByte?);
+            item.Int8 = default(SByte);
+            item.Unsafe = default(bool);
+            item.P2IntN = default(P2Int?);
+            item.P2Int = default(P2Int);
+            item.P3DoubleN = default(P3Double?);
+            item.P3Double = default(P3Double);
+            item.P3IntN = default(P3Int?);
+            item.P3Int = default(P3Int);
+            item.PercentN = default(Percent?);
+            item.Percent = default(Percent);
+            item.RangeIntN = default(RangeInt?);
+            item.RangeInt = default(RangeInt);
+            item.String = default(String);
+            item.UDoubleN = default(UDouble?);
+            item.UDouble = default(UDouble);
+            item.UInt16N = default(UInt16?);
+            item.UInt16 = default(UInt16);
+            item.UInt32N = default(UInt32?);
+            item.UInt32 = default(UInt32);
+            item.UInt64N = default(UInt64?);
+            item.UInt64 = default(UInt64);
+            item.UInt8N = default(Byte?);
+            item.UInt8 = default(Byte);
+            item.Enum = default(TestEnum);
+            item.WildCard = default(Object);
+            item.Ref = default(ObjectToRef);
+            item.RefGetter = default(IObjectToRefGetter);
+            item.RefSetter = default(IObjectToRef);
+            item.List.Unset(cmds.ToUnsetParams());
+            item.RefList.Unset(cmds.ToUnsetParams());
+            item.Dict.Unset(cmds.ToUnsetParams());
+            item.RefDict.Unset(cmds.ToUnsetParams());
+            item.DictKeyedValue.Unset(cmds.ToUnsetParams());
+        }
     }
     #endregion
 
@@ -3408,8 +3598,11 @@ namespace Noggolloquy.Tests.Internals
         public T Enum;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> Ref_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefGetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefGetter_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefSetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefSetter_Singleton { get; set; }
         public MaskItem<T, IEnumerable<T>> List;
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<T, IEnumerable<KeyValuePair<T, T>>> Dict;
@@ -3473,8 +3666,11 @@ namespace Noggolloquy.Tests.Internals
         public Exception Enum;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter_Singleton;
         public MaskItem<Exception, IEnumerable<Exception>> List;
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> Dict;
@@ -3609,24 +3805,33 @@ namespace Noggolloquy.Tests.Internals
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 41:
-                    this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 42:
-                    this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 43:
-                    this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
+                    this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 44:
-                    this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
+                    this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 45:
-                    this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
+                    this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case 46:
-                    this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
                 case 47:
+                    this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
+                    break;
+                case 48:
+                    this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
+                    break;
+                case 49:
+                    this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    break;
+                case 50:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
                     break;
                 default:
@@ -3762,24 +3967,33 @@ namespace Noggolloquy.Tests.Internals
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 41:
-                    this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 42:
-                    this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 43:
-                    this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
+                    this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 44:
-                    this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
+                    this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 45:
-                    this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
+                    this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case 46:
-                    this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
                 case 47:
+                    this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
+                    break;
+                case 48:
+                    this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
+                    break;
+                case 49:
+                    this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    break;
+                case 50:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
                 default:
@@ -3831,8 +4045,10 @@ namespace Noggolloquy.Tests.Internals
         public bool Enum;
         public bool WildCard;
         public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
+        public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
+        public MaskItem<bool, ObjectToRef_CopyMask> RefSetter_Singleton;
         public CopyType List;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
         public bool Dict;

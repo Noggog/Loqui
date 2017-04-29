@@ -281,7 +281,8 @@ namespace Noggolloquy.Tests
 
         public override void Clear(NotifyingUnsetParameters? cmds = null)
         {
-            base.Clear(cmds);
+            CallClearPartial_Internal(cmds);
+            TestGenericObject_SubClass_DefinedCommon.Clear(this, cmds);
         }
 
         public new static TestGenericObject_SubClass_Defined Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -516,6 +517,11 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
+        public static void Clear(
+            ITestGenericObject_SubClass_Defined item,
+            NotifyingUnsetParameters? cmds = null)
+        {
+        }
     }
     #endregion
 

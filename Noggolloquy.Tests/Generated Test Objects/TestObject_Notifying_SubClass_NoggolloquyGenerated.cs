@@ -289,7 +289,7 @@ namespace Noggolloquy.Tests
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     this._NewField.Set(
                         (Boolean)obj,
                         cmds);
@@ -302,8 +302,8 @@ namespace Noggolloquy.Tests
 
         public override void Clear(NotifyingUnsetParameters? cmds = null)
         {
-            base.Clear(cmds);
-            this.NewField_Property.Unset(cmds.ToUnsetParams());
+            CallClearPartial_Internal(cmds);
+            TestObject_Notifying_SubClassCommon.Clear(this, cmds);
         }
 
         public new static TestObject_Notifying_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -390,7 +390,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsEnumerable(index);
@@ -401,7 +401,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsNoggolloquy(index);
@@ -412,7 +412,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsSingleton(index);
@@ -423,7 +423,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return "NewField";
                 default:
                     return TestObject_Notifying_Registration.GetNthName(index);
@@ -434,7 +434,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsNthDerivative(index);
@@ -445,7 +445,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsReadOnly(index);
@@ -456,7 +456,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return typeof(Boolean);
                 default:
                     return TestObject_Notifying_Registration.GetNthType(index);
@@ -522,7 +522,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(48, ex);
+                        errorMask().SetNthException(51, ex);
                     }
                     else
                     {
@@ -542,7 +542,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     obj.NewField_Property.HasBeenSet = on;
                     break;
                 default:
@@ -558,7 +558,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     obj.NewField_Property.Unset(cmds);
                     break;
                 default:
@@ -573,7 +573,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return obj.NewField_Property.HasBeenSet;
                 default:
                     return TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, obj);
@@ -586,13 +586,19 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     return obj.NewField;
                 default:
                     return TestObject_NotifyingCommon.GetNthObject(index, obj);
             }
         }
 
+        public static void Clear(
+            ITestObject_Notifying_SubClass item,
+            NotifyingUnsetParameters? cmds = null)
+        {
+            item.NewField_Property.Unset(cmds.ToUnsetParams());
+        }
     }
     #endregion
 
@@ -612,7 +618,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     this.NewField = ex;
                     break;
                 default:
@@ -625,7 +631,7 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (index)
             {
-                case 48:
+                case 51:
                     this.NewField = (Exception)obj;
                     break;
                 default:

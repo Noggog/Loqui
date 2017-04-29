@@ -1040,9 +1040,15 @@ namespace Noggolloquy.Tests
 
         partial void ClearPartial(NotifyingUnsetParameters? cmds);
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
         {
             ClearPartial(cmds);
+        }
+
+        public void Clear(NotifyingUnsetParameters? cmds = null)
+        {
+            CallClearPartial_Internal(cmds);
+            TestObject_Notifying_DerivativeCommon.Clear(this, cmds);
         }
 
         public static TestObject_Notifying_Derivative Create(IEnumerable<KeyValuePair<ushort, object>> fields)
@@ -2322,6 +2328,11 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
+        public static void Clear(
+            ITestObject_Notifying_Derivative item,
+            NotifyingUnsetParameters? cmds = null)
+        {
+        }
     }
     #endregion
 
