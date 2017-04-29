@@ -1356,10 +1356,7 @@ namespace Noggolloquy.Generation
                             {
                                 if (!HasKeyField() || field.KeyField)
                                 {
-                                    using (new LineWrapper(fg))
-                                    {
-                                        hashItems.Add($"HashHelper.GetHashCode({field.Name})");
-                                    }
+                                    hashItems.Add($"HashHelper.GetHashCode({field.Name})");
                                 }
                             }
                             if (this.HasBaseObject)

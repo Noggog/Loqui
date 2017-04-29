@@ -147,8 +147,6 @@ namespace Noggolloquy.Tests
 
         public override int GetHashCode()
         {
-            
-            
             return 
             HashHelper.GetHashCode(KeyField)
             .CombineHashCode(HashHelper.GetHashCode(SomeField))
