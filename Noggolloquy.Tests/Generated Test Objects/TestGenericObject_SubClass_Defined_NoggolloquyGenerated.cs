@@ -316,6 +316,12 @@ namespace Noggolloquy.Tests
 
 namespace Noggolloquy.Tests.Internals
 {
+    #region Field Index
+    public enum TestGenericObject_SubClass_Defined_FieldIndex
+    {
+    }
+    #endregion
+
     #region Registration
     public class TestGenericObject_SubClass_Defined_Registration : INoggolloquyRegistration
     {

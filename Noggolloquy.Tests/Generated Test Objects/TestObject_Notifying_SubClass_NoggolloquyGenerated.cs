@@ -344,6 +344,13 @@ namespace Noggolloquy.Tests
 
 namespace Noggolloquy.Tests.Internals
 {
+    #region Field Index
+    public enum TestObject_Notifying_SubClass_FieldIndex
+    {
+        NewField = 51,
+    }
+    #endregion
+
     #region Registration
     public class TestObject_Notifying_SubClass_Registration : INoggolloquyRegistration
     {

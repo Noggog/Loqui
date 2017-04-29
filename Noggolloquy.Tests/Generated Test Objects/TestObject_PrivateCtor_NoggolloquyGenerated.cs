@@ -364,6 +364,13 @@ namespace Noggolloquy.Tests
 
 namespace Noggolloquy.Tests.Internals
 {
+    #region Field Index
+    public enum TestObject_PrivateCtor_FieldIndex
+    {
+        BoolN = 0,
+    }
+    #endregion
+
     #region Registration
     public class TestObject_PrivateCtor_Registration : INoggolloquyRegistration
     {

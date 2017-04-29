@@ -192,6 +192,7 @@ namespace Noggolloquy.Generation
 
             using (new NamespaceWrapper(fg, this.InternalNamespace))
             {
+                GenerateEnumIndex(fg);
                 GenerateRegistration(fg);
                 GenerateInterfaceExtensions(fg);
                 GenerateTranslations(fg);
@@ -352,6 +353,21 @@ namespace Noggolloquy.Generation
                 }
             }
             fg.AppendLine();
+        }
+
+        protected void GenerateEnumIndex(FileGeneration fg)
+        {
+            using (new RegionWrapper(fg, "Field Index"))
+            {
+                fg.AppendLine($"public enum {this.Name}_FieldIndex");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var field in this.IterateFields())
+                    {
+                        fg.AppendLine($"{field.Field.Name} = {field.Index},");
+                    }
+                }
+            }
         }
 
         protected void GenerateRegistration(FileGeneration fg)

@@ -1457,6 +1457,60 @@ namespace Noggolloquy.Tests
 
 namespace Noggolloquy.Tests.Internals
 {
+    #region Field Index
+    public enum TestObject_Notifying_ReadOnly_FieldIndex
+    {
+        BoolN = 0,
+        Bool = 1,
+        CharN = 2,
+        Char = 3,
+        DoubleN = 4,
+        Double = 5,
+        FloatN = 6,
+        Float = 7,
+        Int16N = 8,
+        Int16 = 9,
+        Int32N = 10,
+        Int32 = 11,
+        Int64N = 12,
+        Int64 = 13,
+        Int8N = 14,
+        Int8 = 15,
+        Unsafe = 16,
+        P2IntN = 17,
+        P2Int = 18,
+        P3DoubleN = 19,
+        P3Double = 20,
+        P3IntN = 21,
+        P3Int = 22,
+        PercentN = 23,
+        Percent = 24,
+        RangeIntN = 25,
+        RangeInt = 26,
+        String = 27,
+        UDoubleN = 28,
+        UDouble = 29,
+        UInt16N = 30,
+        UInt16 = 31,
+        UInt32N = 32,
+        UInt32 = 33,
+        UInt64N = 34,
+        UInt64 = 35,
+        UInt8N = 36,
+        UInt8 = 37,
+        Enum = 38,
+        WildCard = 39,
+        Ref = 40,
+        RefGetter = 41,
+        RefSetter = 42,
+        List = 43,
+        RefList = 44,
+        Dict = 45,
+        RefDict = 46,
+        DictKeyedValue = 47,
+    }
+    #endregion
+
     #region Registration
     public class TestObject_Notifying_ReadOnly_Registration : INoggolloquyRegistration
     {

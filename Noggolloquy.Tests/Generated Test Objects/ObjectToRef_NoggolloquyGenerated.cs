@@ -406,6 +406,14 @@ namespace Noggolloquy.Tests
 
 namespace Noggolloquy.Tests.Internals
 {
+    #region Field Index
+    public enum ObjectToRef_FieldIndex
+    {
+        KeyField = 0,
+        SomeField = 1,
+    }
+    #endregion
+
     #region Registration
     public class ObjectToRef_Registration : INoggolloquyRegistration
     {
