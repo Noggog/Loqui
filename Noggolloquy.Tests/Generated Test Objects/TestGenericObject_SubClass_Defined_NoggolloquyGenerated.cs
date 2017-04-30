@@ -271,7 +271,8 @@ namespace Noggolloquy.Tests
 
         protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     base.SetNthObject(index, obj, cmds);
@@ -363,7 +364,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.GetNthIsEnumerable(index);
@@ -372,7 +374,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.GetNthIsNoggolloquy(index);
@@ -381,7 +384,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.GetNthIsSingleton(index);
@@ -390,7 +394,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.GetNthName(index);
@@ -399,7 +404,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.IsNthDerivative(index);
@@ -408,7 +414,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.IsReadOnly(index);
@@ -417,7 +424,8 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObject_Registration.GetNthType(index);
@@ -480,7 +488,8 @@ namespace Noggolloquy.Tests.Internals
             ITestGenericObject_SubClass_Defined obj,
             NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     TestGenericObjectCommon.SetNthObjectHasBeenSet<long, ObjectToRef>(index, on, obj);
@@ -493,7 +502,8 @@ namespace Noggolloquy.Tests.Internals
             ITestGenericObject_SubClass_Defined obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     TestGenericObjectCommon.UnsetNthObject<long, ObjectToRef>(index, obj);
@@ -505,7 +515,8 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestGenericObject_SubClass_Defined obj)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObjectCommon.GetNthObjectHasBeenSet<long, ObjectToRef>(index, obj);
@@ -516,7 +527,8 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestGenericObject_SubClass_DefinedGetter obj)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     return TestGenericObjectCommon.GetNthObject<long, ObjectToRef>(index, obj);
@@ -543,7 +555,8 @@ namespace Noggolloquy.Tests.Internals
 
         public override void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     base.SetNthException(index, ex);
@@ -553,7 +566,8 @@ namespace Noggolloquy.Tests.Internals
 
         public override void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
             {
                 default:
                     base.SetNthMask(index, obj);

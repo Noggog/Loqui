@@ -329,14 +329,15 @@ namespace Noggolloquy.Tests
         void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     this._KeyField.Set(
                         (Int32)obj,
                         cmds);
                     break;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     this._SomeField.Set(
                         (Boolean)obj,
                         cmds);
@@ -459,10 +460,11 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
+                case ObjectToRef_FieldIndex.KeyField:
+                case ObjectToRef_FieldIndex.SomeField:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -471,10 +473,11 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
+                case ObjectToRef_FieldIndex.KeyField:
+                case ObjectToRef_FieldIndex.SomeField:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -483,10 +486,11 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
+                case ObjectToRef_FieldIndex.KeyField:
+                case ObjectToRef_FieldIndex.SomeField:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -495,11 +499,12 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     return "KeyField";
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     return "SomeField";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -508,10 +513,11 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
+                case ObjectToRef_FieldIndex.KeyField:
+                case ObjectToRef_FieldIndex.SomeField:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -520,10 +526,11 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
+                case ObjectToRef_FieldIndex.KeyField:
+                case ObjectToRef_FieldIndex.SomeField:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -532,11 +539,12 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     return typeof(Int32);
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     return typeof(Boolean);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -594,7 +602,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(0, ex);
+                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
                     }
                     else
                     {
@@ -615,7 +623,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(1, ex);
+                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
                     }
                     else
                     {
@@ -633,12 +641,13 @@ namespace Noggolloquy.Tests.Internals
             IObjectToRef obj,
             NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     obj.KeyField_Property.HasBeenSet = on;
                     break;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     obj.SomeField_Property.HasBeenSet = on;
                     break;
                 default:
@@ -651,12 +660,13 @@ namespace Noggolloquy.Tests.Internals
             IObjectToRef obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     obj.KeyField_Property.Unset(cmds);
                     break;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     obj.SomeField_Property.Unset(cmds);
                     break;
                 default:
@@ -668,11 +678,12 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             IObjectToRef obj)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     return obj.KeyField_Property.HasBeenSet;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     return obj.SomeField_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -683,11 +694,12 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             IObjectToRefGetter obj)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     return obj.KeyField;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     return obj.SomeField;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -733,12 +745,13 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     this.KeyField = ex;
                     break;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     this.SomeField = ex;
                     break;
                 default:
@@ -748,12 +761,13 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case ObjectToRef_FieldIndex.KeyField:
                     this.KeyField = (Exception)obj;
                     break;
-                case 1:
+                case ObjectToRef_FieldIndex.SomeField:
                     this.SomeField = (Exception)obj;
                     break;
                 default:

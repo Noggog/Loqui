@@ -1009,236 +1009,237 @@ namespace Noggolloquy.Tests
         void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     this._BoolN.Set(
                         (Boolean?)obj,
                         cmds);
                     break;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     this._Bool.Set(
                         (Boolean)obj,
                         cmds);
                     break;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     this._CharN.Set(
                         (Char?)obj,
                         cmds);
                     break;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     this._Char.Set(
                         (Char)obj,
                         cmds);
                     break;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     this._DoubleN.Set(
                         (Double?)obj,
                         cmds);
                     break;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     this._Double.Set(
                         (Double)obj,
                         cmds);
                     break;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     this._FloatN.Set(
                         (Single?)obj,
                         cmds);
                     break;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     this._Float.Set(
                         (Single)obj,
                         cmds);
                     break;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     this._Int16N.Set(
                         (Int16?)obj,
                         cmds);
                     break;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     this._Int16.Set(
                         (Int16)obj,
                         cmds);
                     break;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     this._Int32N.Set(
                         (Int32?)obj,
                         cmds);
                     break;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     this._Int32.Set(
                         (Int32)obj,
                         cmds);
                     break;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     this._Int64N.Set(
                         (Int64?)obj,
                         cmds);
                     break;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     this._Int64.Set(
                         (Int64)obj,
                         cmds);
                     break;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     this._Int8N.Set(
                         (SByte?)obj,
                         cmds);
                     break;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     this._Int8.Set(
                         (SByte)obj,
                         cmds);
                     break;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     this._Unsafe.Set(
                         (bool)obj,
                         cmds);
                     break;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     this._P2IntN.Set(
                         (P2Int?)obj,
                         cmds);
                     break;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     this._P2Int.Set(
                         (P2Int)obj,
                         cmds);
                     break;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     this._P3DoubleN.Set(
                         (P3Double?)obj,
                         cmds);
                     break;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     this._P3Double.Set(
                         (P3Double)obj,
                         cmds);
                     break;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     this._P3IntN.Set(
                         (P3Int?)obj,
                         cmds);
                     break;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     this._P3Int.Set(
                         (P3Int)obj,
                         cmds);
                     break;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     this._PercentN.Set(
                         (Percent?)obj,
                         cmds);
                     break;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     this._Percent.Set(
                         (Percent)obj,
                         cmds);
                     break;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     this._RangeIntN.Set(
                         (RangeInt?)obj,
                         cmds);
                     break;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     this._RangeInt.Set(
                         (RangeInt)obj,
                         cmds);
                     break;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     this._String.Set(
                         (String)obj,
                         cmds);
                     break;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     this._UDoubleN.Set(
                         (UDouble?)obj,
                         cmds);
                     break;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     this._UDouble.Set(
                         (UDouble)obj,
                         cmds);
                     break;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     this._UInt16N.Set(
                         (UInt16?)obj,
                         cmds);
                     break;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     this._UInt16.Set(
                         (UInt16)obj,
                         cmds);
                     break;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     this._UInt32N.Set(
                         (UInt32?)obj,
                         cmds);
                     break;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     this._UInt32.Set(
                         (UInt32)obj,
                         cmds);
                     break;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     this._UInt64N.Set(
                         (UInt64?)obj,
                         cmds);
                     break;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     this._UInt64.Set(
                         (UInt64)obj,
                         cmds);
                     break;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     this._UInt8N.Set(
                         (Byte?)obj,
                         cmds);
                     break;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     this._UInt8.Set(
                         (Byte)obj,
                         cmds);
                     break;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     this._Enum.Set(
                         (TestEnum)obj,
                         cmds);
                     break;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     this._WildCard.Set(
                         (Object)obj,
                         cmds);
                     break;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     this._Ref.Set(
                         (ObjectToRef)obj,
                         cmds);
                     break;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Cannot set singleton member Ref_Singleton");
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     this._RefGetter.Set(
                         (IObjectToRefGetter)obj,
                         cmds);
                     break;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     this._RefSetter.Set(
                         (IObjectToRef)obj,
                         cmds);
                     break;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefSetter_Singleton");
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
                     break;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     this.Dict.SetTo(
                         ((NotifyingDictionary<Boolean, String>)obj).Select(
                             (i) => new KeyValuePair<Boolean, String>(
@@ -1246,7 +1247,7 @@ namespace Noggolloquy.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     this.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -1254,7 +1255,7 @@ namespace Noggolloquy.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
                         cmds);
@@ -1887,60 +1888,61 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 46:
-                case 47:
+                case TestObject_Notifying_FieldIndex.List:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return true;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 48:
-                case 49:
-                case 50:
+                case TestObject_Notifying_FieldIndex.BoolN:
+                case TestObject_Notifying_FieldIndex.Bool:
+                case TestObject_Notifying_FieldIndex.CharN:
+                case TestObject_Notifying_FieldIndex.Char:
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                case TestObject_Notifying_FieldIndex.Double:
+                case TestObject_Notifying_FieldIndex.FloatN:
+                case TestObject_Notifying_FieldIndex.Float:
+                case TestObject_Notifying_FieldIndex.Int16N:
+                case TestObject_Notifying_FieldIndex.Int16:
+                case TestObject_Notifying_FieldIndex.Int32N:
+                case TestObject_Notifying_FieldIndex.Int32:
+                case TestObject_Notifying_FieldIndex.Int64N:
+                case TestObject_Notifying_FieldIndex.Int64:
+                case TestObject_Notifying_FieldIndex.Int8N:
+                case TestObject_Notifying_FieldIndex.Int8:
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                case TestObject_Notifying_FieldIndex.P2Int:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_FieldIndex.P3Double:
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                case TestObject_Notifying_FieldIndex.P3Int:
+                case TestObject_Notifying_FieldIndex.PercentN:
+                case TestObject_Notifying_FieldIndex.Percent:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
+                case TestObject_Notifying_FieldIndex.RangeInt:
+                case TestObject_Notifying_FieldIndex.String:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                case TestObject_Notifying_FieldIndex.UDouble:
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                case TestObject_Notifying_FieldIndex.UInt16:
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                case TestObject_Notifying_FieldIndex.UInt32:
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                case TestObject_Notifying_FieldIndex.UInt64:
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                case TestObject_Notifying_FieldIndex.UInt8:
+                case TestObject_Notifying_FieldIndex.Enum:
+                case TestObject_Notifying_FieldIndex.WildCard:
+                case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_FieldIndex.Dict:
+                case TestObject_Notifying_FieldIndex.RefDict:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1949,60 +1951,61 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 47:
+                case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return true;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 46:
-                case 48:
-                case 49:
-                case 50:
+                case TestObject_Notifying_FieldIndex.BoolN:
+                case TestObject_Notifying_FieldIndex.Bool:
+                case TestObject_Notifying_FieldIndex.CharN:
+                case TestObject_Notifying_FieldIndex.Char:
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                case TestObject_Notifying_FieldIndex.Double:
+                case TestObject_Notifying_FieldIndex.FloatN:
+                case TestObject_Notifying_FieldIndex.Float:
+                case TestObject_Notifying_FieldIndex.Int16N:
+                case TestObject_Notifying_FieldIndex.Int16:
+                case TestObject_Notifying_FieldIndex.Int32N:
+                case TestObject_Notifying_FieldIndex.Int32:
+                case TestObject_Notifying_FieldIndex.Int64N:
+                case TestObject_Notifying_FieldIndex.Int64:
+                case TestObject_Notifying_FieldIndex.Int8N:
+                case TestObject_Notifying_FieldIndex.Int8:
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                case TestObject_Notifying_FieldIndex.P2Int:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_FieldIndex.P3Double:
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                case TestObject_Notifying_FieldIndex.P3Int:
+                case TestObject_Notifying_FieldIndex.PercentN:
+                case TestObject_Notifying_FieldIndex.Percent:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
+                case TestObject_Notifying_FieldIndex.RangeInt:
+                case TestObject_Notifying_FieldIndex.String:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                case TestObject_Notifying_FieldIndex.UDouble:
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                case TestObject_Notifying_FieldIndex.UInt16:
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                case TestObject_Notifying_FieldIndex.UInt32:
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                case TestObject_Notifying_FieldIndex.UInt64:
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                case TestObject_Notifying_FieldIndex.UInt8:
+                case TestObject_Notifying_FieldIndex.Enum:
+                case TestObject_Notifying_FieldIndex.WildCard:
+                case TestObject_Notifying_FieldIndex.List:
+                case TestObject_Notifying_FieldIndex.Dict:
+                case TestObject_Notifying_FieldIndex.RefDict:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2011,60 +2014,61 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 41:
-                case 43:
-                case 45:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return true;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 42:
-                case 44:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
+                case TestObject_Notifying_FieldIndex.BoolN:
+                case TestObject_Notifying_FieldIndex.Bool:
+                case TestObject_Notifying_FieldIndex.CharN:
+                case TestObject_Notifying_FieldIndex.Char:
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                case TestObject_Notifying_FieldIndex.Double:
+                case TestObject_Notifying_FieldIndex.FloatN:
+                case TestObject_Notifying_FieldIndex.Float:
+                case TestObject_Notifying_FieldIndex.Int16N:
+                case TestObject_Notifying_FieldIndex.Int16:
+                case TestObject_Notifying_FieldIndex.Int32N:
+                case TestObject_Notifying_FieldIndex.Int32:
+                case TestObject_Notifying_FieldIndex.Int64N:
+                case TestObject_Notifying_FieldIndex.Int64:
+                case TestObject_Notifying_FieldIndex.Int8N:
+                case TestObject_Notifying_FieldIndex.Int8:
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                case TestObject_Notifying_FieldIndex.P2Int:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_FieldIndex.P3Double:
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                case TestObject_Notifying_FieldIndex.P3Int:
+                case TestObject_Notifying_FieldIndex.PercentN:
+                case TestObject_Notifying_FieldIndex.Percent:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
+                case TestObject_Notifying_FieldIndex.RangeInt:
+                case TestObject_Notifying_FieldIndex.String:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                case TestObject_Notifying_FieldIndex.UDouble:
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                case TestObject_Notifying_FieldIndex.UInt16:
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                case TestObject_Notifying_FieldIndex.UInt32:
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                case TestObject_Notifying_FieldIndex.UInt64:
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                case TestObject_Notifying_FieldIndex.UInt8:
+                case TestObject_Notifying_FieldIndex.Enum:
+                case TestObject_Notifying_FieldIndex.WildCard:
+                case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.List:
+                case TestObject_Notifying_FieldIndex.RefList:
+                case TestObject_Notifying_FieldIndex.Dict:
+                case TestObject_Notifying_FieldIndex.RefDict:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2073,109 +2077,110 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     return "BoolN";
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     return "Bool";
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     return "CharN";
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     return "Char";
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     return "DoubleN";
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     return "Double";
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     return "FloatN";
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     return "Float";
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     return "Int16N";
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     return "Int16";
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     return "Int32N";
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     return "Int32";
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     return "Int64N";
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     return "Int64";
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     return "Int8N";
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     return "Int8";
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     return "Unsafe";
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     return "P2IntN";
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     return "P2Int";
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     return "P3DoubleN";
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     return "P3Double";
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     return "P3IntN";
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     return "P3Int";
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     return "PercentN";
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     return "Percent";
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     return "RangeIntN";
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     return "RangeInt";
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     return "String";
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     return "UDoubleN";
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     return "UDouble";
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     return "UInt16N";
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     return "UInt16";
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     return "UInt32N";
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     return "UInt32";
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     return "UInt64N";
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     return "UInt64";
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     return "UInt8N";
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     return "UInt8";
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     return "Enum";
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     return "WildCard";
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     return "Ref";
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return "Ref_Singleton";
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     return "RefGetter";
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return "RefGetter_Singleton";
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     return "RefSetter";
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return "RefSetter_Singleton";
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     return "List";
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return "RefList";
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     return "Dict";
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     return "RefDict";
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2184,59 +2189,60 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
+                case TestObject_Notifying_FieldIndex.BoolN:
+                case TestObject_Notifying_FieldIndex.Bool:
+                case TestObject_Notifying_FieldIndex.CharN:
+                case TestObject_Notifying_FieldIndex.Char:
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                case TestObject_Notifying_FieldIndex.Double:
+                case TestObject_Notifying_FieldIndex.FloatN:
+                case TestObject_Notifying_FieldIndex.Float:
+                case TestObject_Notifying_FieldIndex.Int16N:
+                case TestObject_Notifying_FieldIndex.Int16:
+                case TestObject_Notifying_FieldIndex.Int32N:
+                case TestObject_Notifying_FieldIndex.Int32:
+                case TestObject_Notifying_FieldIndex.Int64N:
+                case TestObject_Notifying_FieldIndex.Int64:
+                case TestObject_Notifying_FieldIndex.Int8N:
+                case TestObject_Notifying_FieldIndex.Int8:
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                case TestObject_Notifying_FieldIndex.P2Int:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_FieldIndex.P3Double:
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                case TestObject_Notifying_FieldIndex.P3Int:
+                case TestObject_Notifying_FieldIndex.PercentN:
+                case TestObject_Notifying_FieldIndex.Percent:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
+                case TestObject_Notifying_FieldIndex.RangeInt:
+                case TestObject_Notifying_FieldIndex.String:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                case TestObject_Notifying_FieldIndex.UDouble:
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                case TestObject_Notifying_FieldIndex.UInt16:
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                case TestObject_Notifying_FieldIndex.UInt32:
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                case TestObject_Notifying_FieldIndex.UInt64:
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                case TestObject_Notifying_FieldIndex.UInt8:
+                case TestObject_Notifying_FieldIndex.Enum:
+                case TestObject_Notifying_FieldIndex.WildCard:
+                case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_FieldIndex.List:
+                case TestObject_Notifying_FieldIndex.RefList:
+                case TestObject_Notifying_FieldIndex.Dict:
+                case TestObject_Notifying_FieldIndex.RefDict:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2245,59 +2251,60 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
+                case TestObject_Notifying_FieldIndex.BoolN:
+                case TestObject_Notifying_FieldIndex.Bool:
+                case TestObject_Notifying_FieldIndex.CharN:
+                case TestObject_Notifying_FieldIndex.Char:
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                case TestObject_Notifying_FieldIndex.Double:
+                case TestObject_Notifying_FieldIndex.FloatN:
+                case TestObject_Notifying_FieldIndex.Float:
+                case TestObject_Notifying_FieldIndex.Int16N:
+                case TestObject_Notifying_FieldIndex.Int16:
+                case TestObject_Notifying_FieldIndex.Int32N:
+                case TestObject_Notifying_FieldIndex.Int32:
+                case TestObject_Notifying_FieldIndex.Int64N:
+                case TestObject_Notifying_FieldIndex.Int64:
+                case TestObject_Notifying_FieldIndex.Int8N:
+                case TestObject_Notifying_FieldIndex.Int8:
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                case TestObject_Notifying_FieldIndex.P2Int:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_FieldIndex.P3Double:
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                case TestObject_Notifying_FieldIndex.P3Int:
+                case TestObject_Notifying_FieldIndex.PercentN:
+                case TestObject_Notifying_FieldIndex.Percent:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
+                case TestObject_Notifying_FieldIndex.RangeInt:
+                case TestObject_Notifying_FieldIndex.String:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                case TestObject_Notifying_FieldIndex.UDouble:
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                case TestObject_Notifying_FieldIndex.UInt16:
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                case TestObject_Notifying_FieldIndex.UInt32:
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                case TestObject_Notifying_FieldIndex.UInt64:
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                case TestObject_Notifying_FieldIndex.UInt8:
+                case TestObject_Notifying_FieldIndex.Enum:
+                case TestObject_Notifying_FieldIndex.WildCard:
+                case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_FieldIndex.List:
+                case TestObject_Notifying_FieldIndex.RefList:
+                case TestObject_Notifying_FieldIndex.Dict:
+                case TestObject_Notifying_FieldIndex.RefDict:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2306,109 +2313,110 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     return typeof(Boolean?);
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     return typeof(Boolean);
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     return typeof(Char?);
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     return typeof(Char);
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     return typeof(Double?);
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     return typeof(Double);
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     return typeof(Single?);
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     return typeof(Single);
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     return typeof(Int16?);
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     return typeof(Int16);
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     return typeof(Int32?);
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     return typeof(Int32);
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     return typeof(Int64?);
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     return typeof(Int64);
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     return typeof(SByte?);
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     return typeof(SByte);
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     return typeof(bool);
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     return typeof(P2Int?);
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     return typeof(P2Int);
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     return typeof(P3Double?);
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     return typeof(P3Double);
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     return typeof(P3Int?);
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     return typeof(P3Int);
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     return typeof(Percent?);
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     return typeof(Percent);
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     return typeof(RangeInt?);
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     return typeof(RangeInt);
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     return typeof(String);
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     return typeof(UDouble);
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     return typeof(UInt16?);
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     return typeof(UInt16);
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     return typeof(UInt32?);
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     return typeof(UInt32);
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     return typeof(UInt64?);
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     return typeof(UInt64);
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     return typeof(Byte?);
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     return typeof(Byte);
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     return typeof(TestEnum);
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     return typeof(Object);
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     return typeof(ObjectToRef);
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return typeof(ObjectToRef);
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return typeof(IObjectToRefGetter);
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     return typeof(IObjectToRef);
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     return typeof(NotifyingList<Boolean>);
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     return typeof(NotifyingDictionary<Boolean, String>);
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2466,7 +2474,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(0, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.BoolN, ex);
                     }
                     else
                     {
@@ -2487,7 +2495,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(1, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Bool, ex);
                     }
                     else
                     {
@@ -2508,7 +2516,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(2, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.CharN, ex);
                     }
                     else
                     {
@@ -2529,7 +2537,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(3, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Char, ex);
                     }
                     else
                     {
@@ -2550,7 +2558,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(4, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.DoubleN, ex);
                     }
                     else
                     {
@@ -2571,7 +2579,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(5, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Double, ex);
                     }
                     else
                     {
@@ -2592,7 +2600,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(6, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.FloatN, ex);
                     }
                     else
                     {
@@ -2613,7 +2621,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(7, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Float, ex);
                     }
                     else
                     {
@@ -2634,7 +2642,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(8, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int16N, ex);
                     }
                     else
                     {
@@ -2655,7 +2663,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(9, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int16, ex);
                     }
                     else
                     {
@@ -2676,7 +2684,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(10, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int32N, ex);
                     }
                     else
                     {
@@ -2697,7 +2705,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(11, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int32, ex);
                     }
                     else
                     {
@@ -2718,7 +2726,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(12, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int64N, ex);
                     }
                     else
                     {
@@ -2739,7 +2747,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(13, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int64, ex);
                     }
                     else
                     {
@@ -2760,7 +2768,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(14, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int8N, ex);
                     }
                     else
                     {
@@ -2781,7 +2789,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(15, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Int8, ex);
                     }
                     else
                     {
@@ -2802,7 +2810,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(16, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Unsafe, ex);
                     }
                     else
                     {
@@ -2823,7 +2831,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(17, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P2IntN, ex);
                     }
                     else
                     {
@@ -2844,7 +2852,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(18, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P2Int, ex);
                     }
                     else
                     {
@@ -2865,7 +2873,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(19, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P3DoubleN, ex);
                     }
                     else
                     {
@@ -2886,7 +2894,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(20, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P3Double, ex);
                     }
                     else
                     {
@@ -2907,7 +2915,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(21, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P3IntN, ex);
                     }
                     else
                     {
@@ -2928,7 +2936,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(22, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.P3Int, ex);
                     }
                     else
                     {
@@ -2949,7 +2957,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(23, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.PercentN, ex);
                     }
                     else
                     {
@@ -2970,7 +2978,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(24, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Percent, ex);
                     }
                     else
                     {
@@ -2991,7 +2999,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(25, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RangeIntN, ex);
                     }
                     else
                     {
@@ -3012,7 +3020,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(26, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RangeInt, ex);
                     }
                     else
                     {
@@ -3033,7 +3041,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(27, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.String, ex);
                     }
                     else
                     {
@@ -3054,7 +3062,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(28, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UDoubleN, ex);
                     }
                     else
                     {
@@ -3075,7 +3083,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(29, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UDouble, ex);
                     }
                     else
                     {
@@ -3096,7 +3104,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(30, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt16N, ex);
                     }
                     else
                     {
@@ -3117,7 +3125,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(31, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt16, ex);
                     }
                     else
                     {
@@ -3138,7 +3146,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(32, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt32N, ex);
                     }
                     else
                     {
@@ -3159,7 +3167,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(33, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt32, ex);
                     }
                     else
                     {
@@ -3180,7 +3188,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(34, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt64N, ex);
                     }
                     else
                     {
@@ -3201,7 +3209,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(35, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt64, ex);
                     }
                     else
                     {
@@ -3222,7 +3230,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(36, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt8N, ex);
                     }
                     else
                     {
@@ -3243,7 +3251,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(37, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.UInt8, ex);
                     }
                     else
                     {
@@ -3264,7 +3272,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(38, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Enum, ex);
                     }
                     else
                     {
@@ -3285,7 +3293,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(39, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.WildCard, ex);
                     }
                     else
                     {
@@ -3323,7 +3331,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(40, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Ref, ex);
                     }
                     else
                     {
@@ -3357,7 +3365,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(41, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Ref_Singleton, ex);
                     }
                     else
                     {
@@ -3395,7 +3403,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(42, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefGetter, ex);
                     }
                     else
                     {
@@ -3433,7 +3441,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(44, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefSetter, ex);
                     }
                     else
                     {
@@ -3467,7 +3475,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(45, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefSetter_Singleton, ex);
                     }
                     else
                     {
@@ -3488,7 +3496,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(46, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.List, ex);
                     }
                     else
                     {
@@ -3522,7 +3530,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(47, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefList, ex);
                     }
                     else
                     {
@@ -3543,7 +3551,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(48, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Dict, ex);
                     }
                     else
                     {
@@ -3593,7 +3601,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(49, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefDict, ex);
                     }
                     else
                     {
@@ -3627,7 +3635,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(50, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.DictKeyedValue, ex);
                     }
                     else
                     {
@@ -3645,156 +3653,157 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_Notifying obj,
             NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     obj.BoolN_Property.HasBeenSet = on;
                     break;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     obj.Bool_Property.HasBeenSet = on;
                     break;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     obj.CharN_Property.HasBeenSet = on;
                     break;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     obj.Char_Property.HasBeenSet = on;
                     break;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     obj.DoubleN_Property.HasBeenSet = on;
                     break;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     obj.Double_Property.HasBeenSet = on;
                     break;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     obj.FloatN_Property.HasBeenSet = on;
                     break;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     obj.Float_Property.HasBeenSet = on;
                     break;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     obj.Int16N_Property.HasBeenSet = on;
                     break;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     obj.Int16_Property.HasBeenSet = on;
                     break;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     obj.Int32N_Property.HasBeenSet = on;
                     break;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     obj.Int32_Property.HasBeenSet = on;
                     break;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     obj.Int64N_Property.HasBeenSet = on;
                     break;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     obj.Int64_Property.HasBeenSet = on;
                     break;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     obj.Int8N_Property.HasBeenSet = on;
                     break;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     obj.Int8_Property.HasBeenSet = on;
                     break;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     obj.Unsafe_Property.HasBeenSet = on;
                     break;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     obj.P2IntN_Property.HasBeenSet = on;
                     break;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     obj.P2Int_Property.HasBeenSet = on;
                     break;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     obj.P3DoubleN_Property.HasBeenSet = on;
                     break;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     obj.P3Double_Property.HasBeenSet = on;
                     break;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     obj.P3IntN_Property.HasBeenSet = on;
                     break;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     obj.P3Int_Property.HasBeenSet = on;
                     break;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     obj.PercentN_Property.HasBeenSet = on;
                     break;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     obj.Percent_Property.HasBeenSet = on;
                     break;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     obj.RangeIntN_Property.HasBeenSet = on;
                     break;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     obj.RangeInt_Property.HasBeenSet = on;
                     break;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     obj.String_Property.HasBeenSet = on;
                     break;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     obj.UDoubleN_Property.HasBeenSet = on;
                     break;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     obj.UDouble_Property.HasBeenSet = on;
                     break;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     obj.UInt16N_Property.HasBeenSet = on;
                     break;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     obj.UInt16_Property.HasBeenSet = on;
                     break;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     obj.UInt32N_Property.HasBeenSet = on;
                     break;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     obj.UInt32_Property.HasBeenSet = on;
                     break;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     obj.UInt64N_Property.HasBeenSet = on;
                     break;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     obj.UInt64_Property.HasBeenSet = on;
                     break;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     obj.UInt8N_Property.HasBeenSet = on;
                     break;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     obj.UInt8_Property.HasBeenSet = on;
                     break;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     obj.Enum_Property.HasBeenSet = on;
                     break;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     obj.WildCard_Property.HasBeenSet = on;
                     break;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
                     break;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.HasBeenSet = on;
                     break;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     obj.List.HasBeenSet = on;
                     break;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     obj.RefList.HasBeenSet = on;
                     break;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     obj.Dict.HasBeenSet = on;
                     break;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     obj.RefDict.HasBeenSet = on;
                     break;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.HasBeenSet = on;
                     break;
                 default:
@@ -3807,158 +3816,159 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_Notifying obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     obj.BoolN_Property.Unset(cmds);
                     break;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     obj.Bool_Property.Unset(cmds);
                     break;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     obj.CharN_Property.Unset(cmds);
                     break;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     obj.Char_Property.Unset(cmds);
                     break;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     obj.DoubleN_Property.Unset(cmds);
                     break;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     obj.Double_Property.Unset(cmds);
                     break;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     obj.FloatN_Property.Unset(cmds);
                     break;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     obj.Float_Property.Unset(cmds);
                     break;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     obj.Int16N_Property.Unset(cmds);
                     break;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     obj.Int16_Property.Unset(cmds);
                     break;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     obj.Int32N_Property.Unset(cmds);
                     break;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     obj.Int32_Property.Unset(cmds);
                     break;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     obj.Int64N_Property.Unset(cmds);
                     break;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     obj.Int64_Property.Unset(cmds);
                     break;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     obj.Int8N_Property.Unset(cmds);
                     break;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     obj.Int8_Property.Unset(cmds);
                     break;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     obj.Unsafe_Property.Unset(cmds);
                     break;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     obj.P2IntN_Property.Unset(cmds);
                     break;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     obj.P2Int_Property.Unset(cmds);
                     break;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     obj.P3DoubleN_Property.Unset(cmds);
                     break;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     obj.P3Double_Property.Unset(cmds);
                     break;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     obj.P3IntN_Property.Unset(cmds);
                     break;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     obj.P3Int_Property.Unset(cmds);
                     break;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     obj.PercentN_Property.Unset(cmds);
                     break;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     obj.Percent_Property.Unset(cmds);
                     break;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     obj.RangeIntN_Property.Unset(cmds);
                     break;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     obj.RangeInt_Property.Unset(cmds);
                     break;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     obj.String_Property.Unset(cmds);
                     break;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     obj.UDoubleN_Property.Unset(cmds);
                     break;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     obj.UDouble_Property.Unset(cmds);
                     break;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     obj.UInt16N_Property.Unset(cmds);
                     break;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     obj.UInt16_Property.Unset(cmds);
                     break;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     obj.UInt32N_Property.Unset(cmds);
                     break;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     obj.UInt32_Property.Unset(cmds);
                     break;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     obj.UInt64N_Property.Unset(cmds);
                     break;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     obj.UInt64_Property.Unset(cmds);
                     break;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     obj.UInt8N_Property.Unset(cmds);
                     break;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     obj.UInt8_Property.Unset(cmds);
                     break;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     obj.Enum_Property.Unset(cmds);
                     break;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     obj.WildCard_Property.Unset(cmds);
                     break;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     obj.Ref_Property.Unset(cmds);
                     break;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
                     break;
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.Unset(cmds);
                     break;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.Unset(cmds);
                     break;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
                     break;
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     obj.List.Unset(cmds);
                     break;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     obj.RefList.Unset(cmds);
                     break;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     obj.Dict.Unset(cmds);
                     break;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     obj.RefDict.Unset(cmds);
                     break;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.Unset(cmds);
                     break;
                 default:
@@ -3970,109 +3980,110 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_Notifying obj)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     return obj.Bool_Property.HasBeenSet;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     return obj.CharN_Property.HasBeenSet;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     return obj.Char_Property.HasBeenSet;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     return obj.Double_Property.HasBeenSet;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     return obj.FloatN_Property.HasBeenSet;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     return obj.Float_Property.HasBeenSet;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     return obj.Int16N_Property.HasBeenSet;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     return obj.Int16_Property.HasBeenSet;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     return obj.Int32N_Property.HasBeenSet;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     return obj.Int32_Property.HasBeenSet;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     return obj.Int64N_Property.HasBeenSet;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     return obj.Int64_Property.HasBeenSet;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     return obj.Int8N_Property.HasBeenSet;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     return obj.Int8_Property.HasBeenSet;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     return obj.Unsafe_Property.HasBeenSet;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     return obj.P2IntN_Property.HasBeenSet;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     return obj.P2Int_Property.HasBeenSet;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN_Property.HasBeenSet;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     return obj.P3Double_Property.HasBeenSet;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     return obj.P3IntN_Property.HasBeenSet;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     return obj.P3Int_Property.HasBeenSet;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     return obj.PercentN_Property.HasBeenSet;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     return obj.Percent_Property.HasBeenSet;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     return obj.RangeIntN_Property.HasBeenSet;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     return obj.RangeInt_Property.HasBeenSet;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     return obj.String_Property.HasBeenSet;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     return obj.UDoubleN_Property.HasBeenSet;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     return obj.UDouble_Property.HasBeenSet;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     return obj.UInt16N_Property.HasBeenSet;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     return obj.UInt16_Property.HasBeenSet;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     return obj.UInt32N_Property.HasBeenSet;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     return obj.UInt32_Property.HasBeenSet;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     return obj.UInt64N_Property.HasBeenSet;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     return obj.UInt64_Property.HasBeenSet;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     return obj.UInt8N_Property.HasBeenSet;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     return obj.UInt8_Property.HasBeenSet;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton_Property.HasBeenSet;
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton_Property.HasBeenSet;
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton_Property.HasBeenSet;
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     return obj.List.HasBeenSet;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return obj.RefList.HasBeenSet;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     return obj.Dict.HasBeenSet;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     return obj.RefDict.HasBeenSet;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -4083,109 +4094,110 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_NotifyingGetter obj)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     return obj.BoolN;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     return obj.Bool;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     return obj.CharN;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     return obj.Char;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     return obj.DoubleN;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     return obj.Double;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     return obj.FloatN;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     return obj.Float;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     return obj.Int16N;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     return obj.Int16;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     return obj.Int32N;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     return obj.Int32;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     return obj.Int64N;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     return obj.Int64;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     return obj.Int8N;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     return obj.Int8;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     return obj.Unsafe;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     return obj.P2IntN;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     return obj.P2Int;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     return obj.P3Double;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     return obj.P3IntN;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     return obj.P3Int;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     return obj.PercentN;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     return obj.Percent;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     return obj.RangeIntN;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     return obj.RangeInt;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     return obj.String;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     return obj.UDouble;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     return obj.UInt16N;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     return obj.UInt16;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     return obj.UInt32N;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     return obj.UInt32;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     return obj.UInt64N;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     return obj.UInt64;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     return obj.UInt8N;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     return obj.UInt8;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     return obj.Enum;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     return obj.WildCard;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     return obj.Ref;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton;
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     return obj.RefGetter;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton;
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     return obj.RefSetter;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton;
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     return obj.List;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     return obj.RefList;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     return obj.Dict;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     return obj.RefDict;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -4375,159 +4387,160 @@ namespace Noggolloquy.Tests.Internals
 
         public virtual void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     this.Bool = ex;
                     break;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     this.CharN = ex;
                     break;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     this.Char = ex;
                     break;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     this.Double = ex;
                     break;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     this.FloatN = ex;
                     break;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     this.Float = ex;
                     break;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     this.Int16N = ex;
                     break;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     this.Int16 = ex;
                     break;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     this.Int32N = ex;
                     break;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     this.Int32 = ex;
                     break;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     this.Int64N = ex;
                     break;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     this.Int64 = ex;
                     break;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     this.Int8N = ex;
                     break;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     this.Int8 = ex;
                     break;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     this.Unsafe = ex;
                     break;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     this.P2IntN = ex;
                     break;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     this.P2Int = ex;
                     break;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     this.P3DoubleN = ex;
                     break;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     this.P3Double = ex;
                     break;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     this.P3IntN = ex;
                     break;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     this.P3Int = ex;
                     break;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     this.PercentN = ex;
                     break;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     this.Percent = ex;
                     break;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     this.RangeIntN = ex;
                     break;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     this.RangeInt = ex;
                     break;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     this.String = ex;
                     break;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
                     break;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     this.UDouble = ex;
                     break;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     this.UInt16N = ex;
                     break;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     this.UInt16 = ex;
                     break;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     this.UInt32N = ex;
                     break;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     this.UInt32 = ex;
                     break;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     this.UInt64N = ex;
                     break;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     this.UInt64 = ex;
                     break;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     this.UInt8N = ex;
                     break;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     this.UInt8 = ex;
                     break;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     this.Enum = ex;
                     break;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     this.WildCard = ex;
                     break;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
                     break;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
                     break;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
                     break;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
                     break;
                 default:
@@ -4537,159 +4550,160 @@ namespace Noggolloquy.Tests.Internals
 
         public virtual void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_Notifying_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
-                case 1:
+                case TestObject_Notifying_FieldIndex.Bool:
                     this.Bool = (Exception)obj;
                     break;
-                case 2:
+                case TestObject_Notifying_FieldIndex.CharN:
                     this.CharN = (Exception)obj;
                     break;
-                case 3:
+                case TestObject_Notifying_FieldIndex.Char:
                     this.Char = (Exception)obj;
                     break;
-                case 4:
+                case TestObject_Notifying_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
-                case 5:
+                case TestObject_Notifying_FieldIndex.Double:
                     this.Double = (Exception)obj;
                     break;
-                case 6:
+                case TestObject_Notifying_FieldIndex.FloatN:
                     this.FloatN = (Exception)obj;
                     break;
-                case 7:
+                case TestObject_Notifying_FieldIndex.Float:
                     this.Float = (Exception)obj;
                     break;
-                case 8:
+                case TestObject_Notifying_FieldIndex.Int16N:
                     this.Int16N = (Exception)obj;
                     break;
-                case 9:
+                case TestObject_Notifying_FieldIndex.Int16:
                     this.Int16 = (Exception)obj;
                     break;
-                case 10:
+                case TestObject_Notifying_FieldIndex.Int32N:
                     this.Int32N = (Exception)obj;
                     break;
-                case 11:
+                case TestObject_Notifying_FieldIndex.Int32:
                     this.Int32 = (Exception)obj;
                     break;
-                case 12:
+                case TestObject_Notifying_FieldIndex.Int64N:
                     this.Int64N = (Exception)obj;
                     break;
-                case 13:
+                case TestObject_Notifying_FieldIndex.Int64:
                     this.Int64 = (Exception)obj;
                     break;
-                case 14:
+                case TestObject_Notifying_FieldIndex.Int8N:
                     this.Int8N = (Exception)obj;
                     break;
-                case 15:
+                case TestObject_Notifying_FieldIndex.Int8:
                     this.Int8 = (Exception)obj;
                     break;
-                case 16:
+                case TestObject_Notifying_FieldIndex.Unsafe:
                     this.Unsafe = (Exception)obj;
                     break;
-                case 17:
+                case TestObject_Notifying_FieldIndex.P2IntN:
                     this.P2IntN = (Exception)obj;
                     break;
-                case 18:
+                case TestObject_Notifying_FieldIndex.P2Int:
                     this.P2Int = (Exception)obj;
                     break;
-                case 19:
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
                     this.P3DoubleN = (Exception)obj;
                     break;
-                case 20:
+                case TestObject_Notifying_FieldIndex.P3Double:
                     this.P3Double = (Exception)obj;
                     break;
-                case 21:
+                case TestObject_Notifying_FieldIndex.P3IntN:
                     this.P3IntN = (Exception)obj;
                     break;
-                case 22:
+                case TestObject_Notifying_FieldIndex.P3Int:
                     this.P3Int = (Exception)obj;
                     break;
-                case 23:
+                case TestObject_Notifying_FieldIndex.PercentN:
                     this.PercentN = (Exception)obj;
                     break;
-                case 24:
+                case TestObject_Notifying_FieldIndex.Percent:
                     this.Percent = (Exception)obj;
                     break;
-                case 25:
+                case TestObject_Notifying_FieldIndex.RangeIntN:
                     this.RangeIntN = (Exception)obj;
                     break;
-                case 26:
+                case TestObject_Notifying_FieldIndex.RangeInt:
                     this.RangeInt = (Exception)obj;
                     break;
-                case 27:
+                case TestObject_Notifying_FieldIndex.String:
                     this.String = (Exception)obj;
                     break;
-                case 28:
+                case TestObject_Notifying_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
                     break;
-                case 29:
+                case TestObject_Notifying_FieldIndex.UDouble:
                     this.UDouble = (Exception)obj;
                     break;
-                case 30:
+                case TestObject_Notifying_FieldIndex.UInt16N:
                     this.UInt16N = (Exception)obj;
                     break;
-                case 31:
+                case TestObject_Notifying_FieldIndex.UInt16:
                     this.UInt16 = (Exception)obj;
                     break;
-                case 32:
+                case TestObject_Notifying_FieldIndex.UInt32N:
                     this.UInt32N = (Exception)obj;
                     break;
-                case 33:
+                case TestObject_Notifying_FieldIndex.UInt32:
                     this.UInt32 = (Exception)obj;
                     break;
-                case 34:
+                case TestObject_Notifying_FieldIndex.UInt64N:
                     this.UInt64N = (Exception)obj;
                     break;
-                case 35:
+                case TestObject_Notifying_FieldIndex.UInt64:
                     this.UInt64 = (Exception)obj;
                     break;
-                case 36:
+                case TestObject_Notifying_FieldIndex.UInt8N:
                     this.UInt8N = (Exception)obj;
                     break;
-                case 37:
+                case TestObject_Notifying_FieldIndex.UInt8:
                     this.UInt8 = (Exception)obj;
                     break;
-                case 38:
+                case TestObject_Notifying_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
                     break;
-                case 39:
+                case TestObject_Notifying_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
                     break;
-                case 40:
+                case TestObject_Notifying_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 41:
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 42:
+                case TestObject_Notifying_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 43:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 44:
+                case TestObject_Notifying_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 45:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case 46:
+                case TestObject_Notifying_FieldIndex.List:
                     this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
-                case 47:
+                case TestObject_Notifying_FieldIndex.RefList:
                     this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
                     break;
-                case 48:
+                case TestObject_Notifying_FieldIndex.Dict:
                     this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
                     break;
-                case 49:
+                case TestObject_Notifying_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
                     break;
-                case 50:
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
                 default:

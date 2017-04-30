@@ -286,9 +286,10 @@ namespace Noggolloquy.Tests
 
         protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     this._NewField.Set(
                         (Boolean)obj,
                         cmds);
@@ -394,9 +395,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsEnumerable(index);
@@ -405,9 +407,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsNoggolloquy(index);
@@ -416,9 +419,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.GetNthIsSingleton(index);
@@ -427,9 +431,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return "NewField";
                 default:
                     return TestObject_Notifying_Registration.GetNthName(index);
@@ -438,9 +443,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsNthDerivative(index);
@@ -449,9 +455,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
                     return TestObject_Notifying_Registration.IsReadOnly(index);
@@ -460,9 +467,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return typeof(Boolean);
                 default:
                     return TestObject_Notifying_Registration.GetNthType(index);
@@ -528,7 +536,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(51, ex);
+                        errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
                     }
                     else
                     {
@@ -546,9 +554,10 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_Notifying_SubClass obj,
             NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     obj.NewField_Property.HasBeenSet = on;
                     break;
                 default:
@@ -562,9 +571,10 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_Notifying_SubClass obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     obj.NewField_Property.Unset(cmds);
                     break;
                 default:
@@ -577,9 +587,10 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_Notifying_SubClass obj)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return obj.NewField_Property.HasBeenSet;
                 default:
                     return TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, obj);
@@ -590,9 +601,10 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_Notifying_SubClassGetter obj)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return obj.NewField;
                 default:
                     return TestObject_NotifyingCommon.GetNthObject(index, obj);
@@ -622,9 +634,10 @@ namespace Noggolloquy.Tests.Internals
 
         public override void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     this.NewField = ex;
                     break;
                 default:
@@ -635,9 +648,10 @@ namespace Noggolloquy.Tests.Internals
 
         public override void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
+            switch (enu)
             {
-                case 51:
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     this.NewField = (Exception)obj;
                     break;
                 default:

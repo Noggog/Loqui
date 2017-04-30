@@ -304,9 +304,10 @@ namespace Noggolloquy.Tests
         void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     this.BoolN = (Boolean?)obj;
                     break;
                 default:
@@ -414,9 +415,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -425,9 +427,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -436,9 +439,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -447,9 +451,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return "BoolN";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -458,9 +463,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -469,9 +475,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -480,9 +487,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return typeof(Boolean?);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -541,9 +549,10 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_PrivateCtor obj,
             NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -555,9 +564,10 @@ namespace Noggolloquy.Tests.Internals
             ITestObject_PrivateCtor obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     obj.BoolN = default(Boolean?);
                     break;
                 default:
@@ -569,9 +579,10 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_PrivateCtor obj)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -582,9 +593,10 @@ namespace Noggolloquy.Tests.Internals
             ushort index,
             ITestObject_PrivateCtorGetter obj)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     return obj.BoolN;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -627,9 +639,10 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
                 default:
@@ -639,9 +652,10 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
                 default:

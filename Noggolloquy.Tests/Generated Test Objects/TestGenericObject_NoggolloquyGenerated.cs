@@ -310,9 +310,10 @@ namespace Noggolloquy.Tests
         void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected virtual void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     this._Ref.Set(
                         (R)obj,
                         cmds);
@@ -426,9 +427,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -437,9 +439,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -448,9 +451,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -459,9 +463,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return "Ref";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -470,9 +475,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -481,9 +487,10 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsReadOnly(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -523,9 +530,10 @@ namespace Noggolloquy.Tests.Internals
 
         public new static Type GetNthType(ushort index)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return typeof(R);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -577,7 +585,7 @@ namespace Noggolloquy.Tests.Internals
                 {
                     if (doErrorMask)
                     {
-                        errorMask().SetNthException(0, ex);
+                        errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
                     }
                     else
                     {
@@ -596,9 +604,10 @@ namespace Noggolloquy.Tests.Internals
             NotifyingFireParameters? cmds = null)
             where R : ObjectToRef, INoggolloquyObjectGetter
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
                     break;
                 default:
@@ -612,9 +621,10 @@ namespace Noggolloquy.Tests.Internals
             NotifyingUnsetParameters? cmds = null)
             where R : ObjectToRef, INoggolloquyObjectGetter
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     obj.Ref_Property.Unset(cmds);
                     break;
                 default:
@@ -627,9 +637,10 @@ namespace Noggolloquy.Tests.Internals
             ITestGenericObject<T, R> obj)
             where R : ObjectToRef, INoggolloquyObjectGetter
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -641,9 +652,10 @@ namespace Noggolloquy.Tests.Internals
             ITestGenericObjectGetter<T, R> obj)
             where R : ObjectToRef, INoggolloquyObjectGetter
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     return obj.Ref;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -687,9 +699,10 @@ namespace Noggolloquy.Tests.Internals
 
         public virtual void SetNthException(ushort index, Exception ex)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, object>(ex, null);
                     break;
                 default:
@@ -699,9 +712,10 @@ namespace Noggolloquy.Tests.Internals
 
         public virtual void SetNthMask(ushort index, object obj)
         {
-            switch (index)
+            TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
+            switch (enu)
             {
-                case 0:
+                case TestGenericObject_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, object>)obj;
                     break;
                 default:

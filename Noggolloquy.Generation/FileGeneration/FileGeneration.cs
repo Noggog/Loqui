@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("if (copyMask?.RefGetter.Overall != CopyType.Skip)"))
+            if (str.Equals("errorMask().SetNthException(52, ex);"))
             {
                 int wer = 23;
                 wer++;

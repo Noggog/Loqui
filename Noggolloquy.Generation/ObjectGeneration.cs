@@ -53,6 +53,7 @@ namespace Noggolloquy.Generation
         public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
         public string ErrorMask => $"{this.Name}_ErrorMask";
         public string CopyMask => $"{this.Name}_CopyMask";
+        public string EnumName => $"{this.Name}_FieldIndex";
 
         public string ExtCommonName => $"{Name}Common";
 
@@ -359,7 +360,7 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Field Index"))
             {
-                fg.AppendLine($"public enum {this.Name}_FieldIndex");
+                fg.AppendLine($"public enum {this.EnumName}");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.IterateFields())
@@ -597,7 +598,7 @@ namespace Noggolloquy.Generation
                                     cmdsAccessor: cmdsAccessor,
                                     protectedMembers: false);
                             }
-                            GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, item.Index);
+                            GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, $"{this.EnumName}.{item.Field.Name}");
                         }
                         else
                         {
@@ -782,12 +783,13 @@ namespace Noggolloquy.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             item.Field.GenerateGetNth(fg, "obj");
@@ -811,17 +813,17 @@ namespace Noggolloquy.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    List<int> nonNotifying = IterateFields()
-                        .Where((f) => f.Field.Notifying == NotifyingOption.None)
-                        .Select((f) => f.Index).ToList();
+                    var nonNotifying = IterateFields()
+                        .Where((f) => f.Field.Notifying == NotifyingOption.None).ToList();
                     if (nonNotifying.Count > 0)
                     {
-                        foreach (var item in IterateFields())
+                        foreach (var item in nonNotifying)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -832,7 +834,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Notifying == NotifyingOption.None) continue;
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
@@ -854,17 +856,17 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"protected{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    List<int> derivatives = IterateFields()
-                        .Where((f) => f.Field.Derivative)
-                        .Select((f) => f.Index).ToList();
+                    var derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative).ToList();
                     if (derivatives.Count > 0)
                     {
-                        foreach (var item in IterateFields())
+                        foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -874,7 +876,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             item.Field.GenerateInterfaceSet(
@@ -904,17 +906,17 @@ namespace Noggolloquy.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    List<int> derivatives = IterateFields()
-                        .Where((f) => f.Field.Derivative)
-                        .Select((f) => f.Index).ToList();
+                    var derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative).ToList();
                     if (derivatives.Count > 0)
                     {
-                        foreach (var item in IterateFields())
+                        foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -924,7 +926,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             if (!internalUse && item.Field.Protected)
@@ -956,17 +958,17 @@ namespace Noggolloquy.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    List<int> derivatives = IterateFields()
-                        .Where((f) => f.Field.Derivative)
-                        .Select((f) => f.Index).ToList();
+                    var derivatives = IterateFields()
+                        .Where((f) => f.Field.Derivative).ToList();
                     if (derivatives.Count > 0)
                     {
-                        foreach (var item in IterateFields())
+                        foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -977,7 +979,7 @@ namespace Noggolloquy.Generation
                     {
                         if (item.Field.Derivative) continue;
 
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             if (item.Field.Protected)
@@ -1002,7 +1004,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static bool GetNthIsNoggolloquy(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     Func<TypeGeneration, bool> tester = (t) =>
@@ -1035,7 +1038,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1046,7 +1049,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1065,7 +1068,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static bool IsNthDerivative(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     var trues = IterateFields().Where((i) => i.Field.Derivative);
@@ -1074,7 +1078,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1085,7 +1089,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1104,7 +1108,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static bool GetNthIsEnumerable(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     var trues = IterateFields().Where((i) => i.Field is ContainerType);
@@ -1113,7 +1118,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1124,7 +1129,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1143,12 +1148,13 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"public{(generic ? " new " : " ")}static Type GetNthType(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return typeof({item.Field.TypeName});");
@@ -1166,12 +1172,13 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static string GetNthName(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {item.Index}:");
+                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return \"{item.Field.Name}\";");
@@ -1189,7 +1196,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static bool GetNthIsSingleton(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     Func<TypeGeneration, bool> tester = (f) =>
@@ -1203,7 +1211,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1214,7 +1222,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1656,7 +1664,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("public static bool IsReadOnly(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("switch (index)");
+                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
                     var trues = IterateFields().Where((i) => i.Field.Derivative);
@@ -1665,7 +1674,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1676,7 +1685,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {item.Index}:");
+                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1690,7 +1699,7 @@ namespace Noggolloquy.Generation
             fg.AppendLine();
         }
 
-        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string doErrMaskAccessor, string errorMaskAccessor, int index)
+        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string doErrMaskAccessor, string errorMaskAccessor, string enumAccessor)
         {
             fg.AppendLine("catch (Exception ex)");
             using (new BraceWrapper(fg))
@@ -1698,7 +1707,7 @@ namespace Noggolloquy.Generation
                 fg.AppendLine($"if ({doErrMaskAccessor})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{errorMaskAccessor}().SetNthException({index}, ex);");
+                    fg.AppendLine($"{errorMaskAccessor}().SetNthException((ushort){enumAccessor}, ex);");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
