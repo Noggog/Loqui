@@ -112,6 +112,35 @@ namespace Noggolloquy
 
         public static void CopyFieldsIn(
             INoggolloquyObjectSetter obj,
+            INoggolloquyObjectGetter rhs,
+            INoggolloquyObjectGetter def,
+            bool skipReadonly,
+            NotifyingFireParameters? cmds = null)
+        {
+            for (ushort i = 0; i < obj.Registration.FieldCount; i++)
+            {
+                if (skipReadonly && obj.Registration.IsReadOnly(i)) continue;
+                if (obj.Registration.IsNthDerivative(i)) continue;
+                if (rhs.GetNthObjectHasBeenSet(i))
+                {
+                    obj.SetNthObject(i, rhs.GetNthObject(i), cmds);
+                }
+                else
+                {
+                    if (def != null && def.GetNthObjectHasBeenSet(i))
+                    {
+                        obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                    }
+                    else
+                    {
+                        obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                    }
+                }
+            }
+        }
+
+        public static void CopyFieldsIn(
+            INoggolloquyObjectSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
             INoggolloquyObjectGetter def,
             bool skipReadonly,

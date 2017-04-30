@@ -274,7 +274,16 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.Name};");
                         fg.AppendLine("break;");
                     }
-                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.CopyIn)}:");
+                    if (this.InterfaceType != NoggInterfaceType.IGetter)
+                    {
+                        using (new DepthWrapper(fg))
+                        {
+                            this.GenerateCopyFieldsFrom(fg);
+                            fg.AppendLine("break;");
+                        }
+                    }
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"if ({rhsAccessorPrefix}.{this.Name} == null)");
@@ -326,7 +335,16 @@ namespace Noggolloquy.Generation
                             {
                                 gen.AppendLine("return r;");
                             }
-                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.CopyIn)}:");
+                            if (this.InterfaceType != NoggInterfaceType.IGetter)
+                            {
+                                using (new DepthWrapper(gen))
+                                {
+                                    this.GenerateCopyFieldsFrom(gen);
+                                    gen.AppendLine("return r;");
+                                }
+                            }
+                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine("if (r == null) return null;");
@@ -362,30 +380,54 @@ namespace Noggolloquy.Generation
 
         private void GenerateCopyFieldsFrom(FileGeneration fg)
         {
-            using (var args = new ArgsWrapper(fg,
-                $"{this.RefGen.Obj.ExtCommonName}.CopyFieldsFrom"))
+            if (this.RefType == NoggRefType.Direct)
             {
-                args.Add($"item: item.{this.Name}");
-                args.Add($"rhs: rhs.{this.Name}");
-                args.Add($"def: def?.{this.Name}");
-                args.Add($"doErrorMask: doErrorMask");
-                args.Add((gen) =>
+                using (var args = new ArgsWrapper(fg,
+                    $"{this.RefGen?.Obj.ExtCommonName}.CopyFieldsFrom"))
                 {
-                    gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.RefGen.Obj.ErrorMask}>(() =>");
-                    using (new BraceWrapper(gen))
+                    args.Add($"item: item.{this.Name}");
+                    args.Add($"rhs: rhs.{this.Name}");
+                    args.Add($"def: def?.{this.Name}");
+                    if (this.RefType == NoggRefType.Direct)
                     {
-                        gen.AppendLine($"var baseMask = errorMask();");
-                        gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
-                        using (new BraceWrapper(gen))
+                        args.Add($"doErrorMask: doErrorMask");
+                        args.Add((gen) =>
                         {
-                            gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.RefGen.Obj.ErrorMask}>(null, new {this.RefGen.Obj.ErrorMask}());");
-                        }
-                        gen.AppendLine($"return baseMask.{this.Name}.Specific;");
+                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.RefGen.Obj.ErrorMask}>(() =>");
+                            using (new BraceWrapper(gen))
+                            {
+                                gen.AppendLine($"var baseMask = errorMask();");
+                                gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
+                                using (new BraceWrapper(gen))
+                                {
+                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.RefGen.Obj.ErrorMask}>(null, new {this.RefGen.Obj.ErrorMask}());");
+                                }
+                                gen.AppendLine($"return baseMask.{this.Name}.Specific;");
+                            }
+                            gen.Append($") : null)");
+                        });
+                        args.Add($"copyMask: copyMask?.{this.Name}.Specific");
                     }
-                    gen.Append($") : null)");
-                });
-                args.Add($"copyMask: copyMask?.{this.Name}.Specific");
-                args.Add($"cmds: cmds");
+                    else
+                    {
+                        args.Add($"doErrorMask: false");
+                        args.Add($"errorMask: null");
+                        args.Add($"copyMask: null");
+                    }
+                    args.Add($"cmds: cmds");
+                }
+            }
+            else
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"INoggolloquyObjectExt.CopyFieldsIn"))
+                {
+                    args.Add("obj: r");
+                    args.Add("rhs: item.Ref");
+                    args.Add("def: def?.Ref");
+                    args.Add("skipReadonly: true");
+                    args.Add("cmds: cmds");
+                }
             }
         }
 

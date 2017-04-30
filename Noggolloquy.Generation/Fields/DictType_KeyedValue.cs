@@ -167,7 +167,7 @@ namespace Noggolloquy.Generation
                             {
                                 gen.AppendLine("return r;");
                             }
-                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");

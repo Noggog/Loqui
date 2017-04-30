@@ -571,7 +571,15 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.CopyIn:
+                                    INoggolloquyObjectExt.CopyFieldsIn(
+                                        obj: r,
+                                        rhs: item.Ref,
+                                        def: def?.Ref,
+                                        skipReadonly: true,
+                                        cmds: cmds);
+                                    return r;
+                                case CopyType.MakeCopy:
                                     if (r == null) return null;
                                     var copyFunc = NoggolloquyRegistration.GetCopyFunc<R>();
                                     return copyFunc(r, null, d);

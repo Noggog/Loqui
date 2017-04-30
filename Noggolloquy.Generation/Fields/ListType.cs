@@ -93,7 +93,7 @@ namespace Noggolloquy.Generation
                                 {
                                     gen.AppendLine("return r;");
                                 }
-                                gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                                gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
                                     gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
@@ -143,7 +143,7 @@ namespace Noggolloquy.Generation
                     {
                         fg.AppendLine("return s;");
                     }
-                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Deep)}:");
+                    fg.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific);");

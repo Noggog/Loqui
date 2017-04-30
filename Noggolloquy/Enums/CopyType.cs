@@ -10,6 +10,7 @@ namespace Noggolloquy
     {
         Reference,
         Skip,
-        Deep
+        CopyIn,
+        MakeCopy
     }
 }

@@ -2627,7 +2627,26 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.CopyIn:
+                                    ObjectToRefCommon.CopyFieldsFrom(
+                                        item: item.Ref,
+                                        rhs: rhs.Ref,
+                                        def: def?.Ref,
+                                        doErrorMask: doErrorMask,
+                                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                                        {
+                                            var baseMask = errorMask();
+                                            if (baseMask.Ref.Specific == null)
+                                            {
+                                                baseMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                            }
+                                            return baseMask.Ref.Specific;
+                                        }
+                                        ) : null),
+                                        copyMask: copyMask?.Ref.Specific,
+                                        cmds: cmds);
+                                    return r;
+                                case CopyType.MakeCopy:
                                     if (r == null) return null;
                                     return ObjectToRef.Copy(
                                         r,
@@ -2698,7 +2717,8 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.CopyIn:
+                                case CopyType.MakeCopy:
                                     if (r == null) return null;
                                     return ObjectToRef.Copy_ToNoggolloquy(
                                         r,
@@ -2735,7 +2755,26 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.CopyIn:
+                                    ObjectToRefCommon.CopyFieldsFrom(
+                                        item: item.RefSetter,
+                                        rhs: rhs.RefSetter,
+                                        def: def?.RefSetter,
+                                        doErrorMask: doErrorMask,
+                                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                                        {
+                                            var baseMask = errorMask();
+                                            if (baseMask.RefSetter.Specific == null)
+                                            {
+                                                baseMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                            }
+                                            return baseMask.RefSetter.Specific;
+                                        }
+                                        ) : null),
+                                        copyMask: copyMask?.RefSetter.Specific,
+                                        cmds: cmds);
+                                    return r;
+                                case CopyType.MakeCopy:
                                     if (r == null) return null;
                                     return ObjectToRef.Copy(
                                         r,
@@ -2828,7 +2867,7 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.MakeCopy:
                                     return r.Copy(copyMask?.RefList.Specific, d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.RefList.Overall}. Cannot execute copy.");
@@ -2933,7 +2972,7 @@ namespace Noggolloquy.Tests.Internals
                             {
                                 case CopyType.Reference:
                                     return r;
-                                case CopyType.Deep:
+                                case CopyType.MakeCopy:
                                     return r.Copy(copyMask?.DictKeyedValue.Specific, d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyType {copyMask?.DictKeyedValue.Overall}. Cannot execute copy.");
