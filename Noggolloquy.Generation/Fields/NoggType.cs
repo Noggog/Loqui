@@ -48,15 +48,13 @@ namespace Noggolloquy.Generation
                 }
             }
         }
-        public bool _allowNull = true;
-        public bool AllowNull => _allowNull && !SingletonMember;
-        public bool SingletonMember;
+        public SingletonLevel SingletonType;
         public NoggRefType RefType { get; private set; }
         public NoggInterfaceType InterfaceType = NoggInterfaceType.Direct;
         private string _generic;
         public override string SkipCheck(string copyMaskAccessor)
         {
-            if (this.SingletonMember)
+            if (this.SingletonType == SingletonLevel.Singleton)
             {
                 return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
             }
@@ -70,12 +68,19 @@ namespace Noggolloquy.Generation
                     throw new NotImplementedException();
             }
         }
-        public override bool Copy => base.Copy && !(this.InterfaceType == NoggInterfaceType.IGetter && this.SingletonMember);
+        public override bool Copy => base.Copy && !(this.InterfaceType == NoggInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
 
         public enum NoggRefType
         {
             Direct,
             Generic
+        }
+
+        public enum SingletonLevel
+        {
+            None,
+            NotNull,
+            Singleton
         }
 
         public override bool CopyNeedsTryCatch => true;
@@ -85,7 +90,7 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    if (this.SingletonMember)
+                    if (this.SingletonType == SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; }} = new {this.ObjectTypeName}();");
                     }
@@ -109,37 +114,39 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
                     break;
                 case NotifyingOption.Notifying:
-                    if (AllowNull)
+                    switch (this.SingletonType)
                     {
-                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
-                    }
-                    else if (SingletonMember)
-                    { // Singleton
-                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(new {this.RefGen.ObjectName}());");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"defaultVal: new {TypeName}(),");
-                            fg.AppendLine("incomingConverter: (oldV, i) =>");
-                            using (new BraceWrapper(fg))
+                        case SingletonLevel.None:
+                            fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
+                            break;
+                        case SingletonLevel.NotNull:
+                            fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(");
+                            using (new DepthWrapper(fg))
                             {
-                                fg.AppendLine("if (i == null)");
+                                fg.AppendLine($"defaultVal: new {TypeName}(),");
+                                fg.AppendLine("incomingConverter: (oldV, i) =>");
                                 using (new BraceWrapper(fg))
                                 {
-                                    fg.AppendLine($"i = new {TypeName}();");
+                                    fg.AppendLine("if (i == null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"i = new {TypeName}();");
+                                    }
+                                    fg.AppendLine($"return new Tuple<{TypeName}, bool>(i, true);");
                                 }
-                                fg.AppendLine($"return new Tuple<{TypeName}, bool>(i, true);");
                             }
-                        }
-                        fg.AppendLine(");");
+                            fg.AppendLine(");");
+                            break;
+                        case SingletonLevel.Singleton:
+                            fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(new {this.RefGen.ObjectName}());");
+                            break;
+                        default:
+                            throw new NotImplementedException();
                     }
-                    fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonMember) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
-                    if (!this.ReadOnly && !this.SingletonMember)
+                    if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -153,7 +160,7 @@ namespace Noggolloquy.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
-            SingletonMember = node.GetAttribute<bool>("singleton", false);
+            this.SingletonType = node.GetAttribute("singleton", SingletonLevel.None);
 
             var refNode = node.Element(XName.Get("Direct", NoggolloquyGenerator.Namespace));
             var genericNode = node.Element(XName.Get("Generic", NoggolloquyGenerator.Namespace));
@@ -197,7 +204,7 @@ namespace Noggolloquy.Generation
                 this._generic = genericName;
                 var gen = this.ObjectGen.Generics[this._generic];
                 gen.Wheres.Add(nameof(INoggolloquyObjectGetter));
-                if (SingletonMember)
+                if (this.SingletonType == SingletonLevel.Singleton)
                 {
                     throw new ArgumentException("Cannot be a generic and singleton.");
                 }
@@ -257,7 +264,7 @@ namespace Noggolloquy.Generation
                 return;
             }
 
-            if (this.SingletonMember)
+            if (this.SingletonType == SingletonLevel.Singleton)
             {
                 this.GenerateCopyFieldsFrom(fg);
                 return;
@@ -433,7 +440,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
         {
-            if (!this.SingletonMember)
+            if (this.SingletonType != SingletonLevel.Singleton)
             {
                 base.GenerateUnsetNth(fg, identifier, cmdsAccessor);
                 return;
@@ -451,7 +458,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
         {
-            if (!this.SingletonMember)
+            if (this.SingletonType != SingletonLevel.Singleton)
             {
                 base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);
                 return;
@@ -480,7 +487,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            if (!this.SingletonMember)
+            if (this.SingletonType != SingletonLevel.Singleton)
             {
                 base.GenerateInterfaceSet(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
                 return;
@@ -490,7 +497,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (!this.SingletonMember)
+            if (this.SingletonType != SingletonLevel.Singleton)
             {
                 base.GenerateForInterface(fg);
             }
@@ -506,10 +513,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            if (this.SingletonMember)
-            {
-            }
-            else
+            if (this.SingletonType != SingletonLevel.Singleton)
             {
                 base.GenerateClear(fg, accessorPrefix, cmdAccessor);
             }

@@ -87,6 +87,14 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="SingletonLevel" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="NotNull" />
+      <xs:enumeration value="Singleton" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:group name="FieldOptions">
     <xs:choice>
       <xs:element name="UInt8" type="Ranged" />
@@ -665,12 +673,10 @@
             </xs:annotation>
           </xs:element>
         </xs:choice>
-        <xs:attribute name="singleton" type="xs:boolean" >
+        <xs:attribute name="singleton" type="SingletonLevel" >
           <xs:annotation>
             <xs:documentation>
-              Creates a referenced class on construction.  This class instance will never be replaced.
-              If something sets this member, it will have the values copied in, rather than the reference pointer replaced.
-              This means it's safer to subscribe to without worry, and will never be null.
+              Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>

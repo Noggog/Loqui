@@ -1203,7 +1203,7 @@ namespace Noggolloquy.Generation
                     Func<TypeGeneration, bool> tester = (f) =>
                     {
                         if (!(f is NoggType nogg)) return false;
-                        return nogg.SingletonMember;
+                        return nogg.SingletonType == NoggType.SingletonLevel.Singleton;
                     };
                     var trues = IterateFields().Where((i) => tester(i.Field));
                     var falses = IterateFields().Where((i) => !tester(i.Field));

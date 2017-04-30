@@ -1,4 +1,5 @@
 ﻿using System;
+using static Noggolloquy.Generation.NoggType;
 
 namespace Noggolloquy.Generation
 {
@@ -31,9 +32,9 @@ namespace Noggolloquy.Generation
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
         {
             NoggType nogg = field as NoggType;
-            if (nogg.RefType == NoggType.NoggRefType.Direct)
+            if (nogg.RefType == NoggRefType.Direct)
             {
-                if (nogg.SingletonMember)
+                if (nogg.SingletonType == SingletonLevel.Singleton)
                 {
                     if (nogg.InterfaceType == NoggInterfaceType.IGetter) return;
                     fg.AppendLine($"public MaskItem<bool, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
