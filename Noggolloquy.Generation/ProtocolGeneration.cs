@@ -26,6 +26,9 @@ namespace Noggolloquy.Generation
                 return this.DefFileLocationOverride;
             }
         }
+        public NoggInterfaceType InterfaceTypeDefault = NoggInterfaceType.Direct;
+        public bool ProtectedDefault;
+        public bool DerivativeDefault;
 
         public ProtocolGeneration(
             NoggolloquyGenerator gen,
@@ -35,6 +38,9 @@ namespace Noggolloquy.Generation
             this.Definition = def;
             this.Gen = gen;
             this.DefFileLocationOverride = defFileLocation;
+            this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
+            this.ProtectedDefault = gen.ProtectedDefault;
+            this.DerivativeDefault = gen.DerivativeDefault;
         }
 
         public void LoadInitialObjects(IEnumerable<System.Tuple<XDocument, FileInfo>> xmlDocs)

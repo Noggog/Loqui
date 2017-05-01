@@ -25,6 +25,9 @@ namespace Noggolloquy.Generation
         public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
         public static string Namespace => "http://tempuri.org/NoggolloquySource.xsd";
         public List<string> Namespaces = new List<string>();
+        public NoggInterfaceType InterfaceTypeDefault = NoggInterfaceType.Direct;
+        public bool ProtectedDefault;
+        public bool DerivativeDefault;
 
         public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
         {

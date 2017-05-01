@@ -93,9 +93,9 @@ namespace Noggolloquy.Generation
             GenerateToString = Node.GetAttribute<bool>("generateToString", true);
             GeneratePublicBasicCtor = Node.GetAttribute<bool>("publicCtor", true);
             Version = Node.GetAttribute<ushort>("version", 0);
-            this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", NoggInterfaceType.Direct);
-            this.ProtectedDefault = Node.GetAttribute<bool>("protectedDefault", false);
-            this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", false);
+            this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", this.ProtoGen.InterfaceTypeDefault);
+            this.ProtectedDefault = Node.GetAttribute<bool>("protectedDefault", this.ProtoGen.ProtectedDefault);
+            this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", this.ProtoGen.DerivativeDefault);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)
