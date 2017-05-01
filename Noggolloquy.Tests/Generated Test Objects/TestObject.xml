@@ -48,16 +48,25 @@
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />
       </Ref>
+      <Ref name="Ref_NotNull" singleton="NotNull" >
+        <Direct refName="ObjectToRef" />
+      </Ref>
       <Ref name="Ref_Singleton" singleton="Singleton">
         <Direct refName="ObjectToRef" />
       </Ref>
       <Ref name="RefGetter">
         <Direct refName="ObjectToRef" interfaceType="IGetter" />
       </Ref>
+      <Ref name="RefGetter_NotNull" singleton="NotNull" >
+        <Direct refName="ObjectToRef" interfaceType="IGetter" />
+      </Ref>
       <Ref name="RefGetter_Singleton" singleton="Singleton">
         <Direct refName="ObjectToRef" interfaceType="IGetter" />
       </Ref>
       <Ref name="RefSetter">
+        <Direct refName="ObjectToRef" interfaceType="ISetter" />
+      </Ref>
+      <Ref name="RefSetter_NotNull" singleton="NotNull">
         <Direct refName="ObjectToRef" interfaceType="ISetter" />
       </Ref>
       <Ref name="RefSetter_Singleton" singleton="Singleton">

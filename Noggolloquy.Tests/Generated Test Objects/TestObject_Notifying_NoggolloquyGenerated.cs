@@ -557,6 +557,24 @@ namespace Noggolloquy.Tests
         INotifyingItem<ObjectToRef> ITestObject_Notifying.Ref_Property => this.Ref_Property;
         INotifyingItemGetter<ObjectToRef> ITestObject_NotifyingGetter.Ref_Property => this.Ref_Property;
         #endregion
+        #region Ref_NotNull
+        private readonly INotifyingItem<ObjectToRef> _Ref_NotNull = new NotifyingItemConvertWrapper<ObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<ObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<ObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingItem<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
+        ObjectToRef ITestObject_NotifyingGetter.Ref_NotNull => this.Ref_NotNull;
+        public ObjectToRef Ref_NotNull { get { return _Ref_NotNull.Value; } set { _Ref_NotNull.Value = value; } }
+        INotifyingItem<ObjectToRef> ITestObject_Notifying.Ref_NotNull_Property => this.Ref_NotNull_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObject_NotifyingGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
+        #endregion
         #region Ref_Singleton
         private readonly INotifyingItem<ObjectToRef> _Ref_Singleton = new NotifyingItem<ObjectToRef>(new ObjectToRef());
         public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
@@ -572,6 +590,24 @@ namespace Noggolloquy.Tests
         INotifyingItem<IObjectToRefGetter> ITestObject_Notifying.RefGetter_Property => this.RefGetter_Property;
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_NotifyingGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
+        #region RefGetter_NotNull
+        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRefGetter>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRefGetter>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRefGetter>.Succeed(change.New);
+            }
+        );
+        public INotifyingItem<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        IObjectToRefGetter ITestObject_NotifyingGetter.RefGetter_NotNull => this.RefGetter_NotNull;
+        public IObjectToRefGetter RefGetter_NotNull { get { return _RefGetter_NotNull.Value; } set { _RefGetter_NotNull.Value = value; } }
+        INotifyingItem<IObjectToRefGetter> ITestObject_Notifying.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_NotifyingGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        #endregion
         #region RefGetter_Singleton
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton = new NotifyingItem<IObjectToRefGetter>(new ObjectToRef());
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
@@ -586,6 +622,24 @@ namespace Noggolloquy.Tests
         public IObjectToRef RefSetter { get { return _RefSetter.Value; } set { _RefSetter.Value = value; } }
         INotifyingItem<IObjectToRef> ITestObject_Notifying.RefSetter_Property => this.RefSetter_Property;
         INotifyingItemGetter<IObjectToRef> ITestObject_NotifyingGetter.RefSetter_Property => this.RefSetter_Property;
+        #endregion
+        #region RefSetter_NotNull
+        private readonly INotifyingItem<IObjectToRef> _RefSetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingItem<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        IObjectToRef ITestObject_NotifyingGetter.RefSetter_NotNull => this.RefSetter_NotNull;
+        public IObjectToRef RefSetter_NotNull { get { return _RefSetter_NotNull.Value; } set { _RefSetter_NotNull.Value = value; } }
+        INotifyingItem<IObjectToRef> ITestObject_Notifying.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_NotifyingGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         #endregion
         #region RefSetter_Singleton
         private readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton = new NotifyingItem<IObjectToRef>(new ObjectToRef());
@@ -763,10 +817,13 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.Ref_NotNull, rhs.Ref_NotNull)) return false;
             if (!object.Equals(this.Ref_Singleton, rhs.Ref_Singleton)) return false;
             if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
+            if (!object.Equals(this.RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
             if (!object.Equals(this.RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
             if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
+            if (!object.Equals(this.RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
             if (!object.Equals(this.RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
             if (!object.Equals(this.List, rhs.List)) return false;
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
@@ -820,10 +877,13 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
             .CombineHashCode(HashHelper.GetHashCode(Ref))
+            .CombineHashCode(HashHelper.GetHashCode(Ref_NotNull))
             .CombineHashCode(HashHelper.GetHashCode(Ref_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefGetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefGetter_NotNull))
             .CombineHashCode(HashHelper.GetHashCode(RefGetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefSetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefSetter_NotNull))
             .CombineHashCode(HashHelper.GetHashCode(RefSetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(List))
             .CombineHashCode(HashHelper.GetHashCode(RefList))
@@ -1217,6 +1277,11 @@ namespace Noggolloquy.Tests
                         (ObjectToRef)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    this._Ref_NotNull.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Cannot set singleton member Ref_Singleton");
                 case TestObject_Notifying_FieldIndex.RefGetter:
@@ -1224,10 +1289,20 @@ namespace Noggolloquy.Tests
                         (IObjectToRefGetter)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    this._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     this._RefSetter.Set(
+                        (IObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    this._RefSetter_NotNull.Set(
                         (IObjectToRef)obj,
                         cmds);
                     break;
@@ -1419,11 +1494,20 @@ namespace Noggolloquy.Tests
         new ObjectToRef Ref { get; set; }
         new INotifyingItem<ObjectToRef> Ref_Property { get; }
 
+        new ObjectToRef Ref_NotNull { get; set; }
+        new INotifyingItem<ObjectToRef> Ref_NotNull_Property { get; }
+
         new IObjectToRefGetter RefGetter { get; set; }
         new INotifyingItem<IObjectToRefGetter> RefGetter_Property { get; }
 
+        new IObjectToRefGetter RefGetter_NotNull { get; set; }
+        new INotifyingItem<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+
         new IObjectToRef RefSetter { get; set; }
         new INotifyingItem<IObjectToRef> RefSetter_Property { get; }
+
+        new IObjectToRef RefSetter_NotNull { get; set; }
+        new INotifyingItem<IObjectToRef> RefSetter_NotNull_Property { get; }
 
         new INotifyingList<Boolean> List { get; }
         new INotifyingList<ObjectToRef> RefList { get; }
@@ -1639,6 +1723,11 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
+        #region Ref_NotNull
+        ObjectToRef Ref_NotNull { get; }
+        INotifyingItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
+
+        #endregion
         #region Ref_Singleton
         ObjectToRef Ref_Singleton { get; }
         INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
@@ -1649,6 +1738,11 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
+        #region RefGetter_NotNull
+        IObjectToRefGetter RefGetter_NotNull { get; }
+        INotifyingItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+
+        #endregion
         #region RefGetter_Singleton
         IObjectToRefGetter RefGetter_Singleton { get; }
         INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
@@ -1657,6 +1751,11 @@ namespace Noggolloquy.Tests
         #region RefSetter
         IObjectToRef RefSetter { get; }
         INotifyingItemGetter<IObjectToRef> RefSetter_Property { get; }
+
+        #endregion
+        #region RefSetter_NotNull
+        IObjectToRef RefSetter_NotNull { get; }
+        INotifyingItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
 
         #endregion
         #region RefSetter_Singleton
@@ -1732,16 +1831,19 @@ namespace Noggolloquy.Tests.Internals
         Enum = 38,
         WildCard = 39,
         Ref = 40,
-        Ref_Singleton = 41,
-        RefGetter = 42,
-        RefGetter_Singleton = 43,
-        RefSetter = 44,
-        RefSetter_Singleton = 45,
-        List = 46,
-        RefList = 47,
-        Dict = 48,
-        RefDict = 49,
-        DictKeyedValue = 50,
+        Ref_NotNull = 41,
+        Ref_Singleton = 42,
+        RefGetter = 43,
+        RefGetter_NotNull = 44,
+        RefGetter_Singleton = 45,
+        RefSetter = 46,
+        RefSetter_NotNull = 47,
+        RefSetter_Singleton = 48,
+        List = 49,
+        RefList = 50,
+        Dict = 51,
+        RefDict = 52,
+        DictKeyedValue = 53,
     }
     #endregion
 
@@ -1759,7 +1861,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "8b849143-0fd6-4a70-b8ce-2e1e0be2e32f";
 
-        public const ushort FieldCount = 51;
+        public const ushort FieldCount = 54;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_Mask<>);
 
@@ -1861,26 +1963,32 @@ namespace Noggolloquy.Tests.Internals
                     return 39;
                 case "REF":
                     return 40;
-                case "REF_SINGLETON":
+                case "REF_NOTNULL":
                     return 41;
-                case "REFGETTER":
+                case "REF_SINGLETON":
                     return 42;
-                case "REFGETTER_SINGLETON":
+                case "REFGETTER":
                     return 43;
-                case "REFSETTER":
+                case "REFGETTER_NOTNULL":
                     return 44;
-                case "REFSETTER_SINGLETON":
+                case "REFGETTER_SINGLETON":
                     return 45;
-                case "LIST":
+                case "REFSETTER":
                     return 46;
-                case "REFLIST":
+                case "REFSETTER_NOTNULL":
                     return 47;
-                case "DICT":
+                case "REFSETTER_SINGLETON":
                     return 48;
-                case "REFDICT":
+                case "LIST":
                     return 49;
-                case "DICTKEYEDVALUE":
+                case "REFLIST":
                     return 50;
+                case "DICT":
+                    return 51;
+                case "REFDICT":
+                    return 52;
+                case "DICTKEYEDVALUE":
+                    return 53;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -1935,10 +2043,13 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Enum:
                 case TestObject_Notifying_FieldIndex.WildCard:
                 case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_FieldIndex.Dict:
                 case TestObject_Notifying_FieldIndex.RefDict:
@@ -1955,10 +2066,13 @@ namespace Noggolloquy.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefList:
                     return true;
@@ -2062,8 +2176,11 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Enum:
                 case TestObject_Notifying_FieldIndex.WildCard:
                 case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_FieldIndex.List:
                 case TestObject_Notifying_FieldIndex.RefList:
                 case TestObject_Notifying_FieldIndex.Dict:
@@ -2162,14 +2279,20 @@ namespace Noggolloquy.Tests.Internals
                     return "WildCard";
                 case TestObject_Notifying_FieldIndex.Ref:
                     return "Ref";
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    return "Ref_NotNull";
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return "Ref_Singleton";
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     return "RefGetter";
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    return "RefGetter_NotNull";
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return "RefGetter_Singleton";
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     return "RefSetter";
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    return "RefSetter_NotNull";
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return "RefSetter_Singleton";
                 case TestObject_Notifying_FieldIndex.List:
@@ -2233,10 +2356,13 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Enum:
                 case TestObject_Notifying_FieldIndex.WildCard:
                 case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_FieldIndex.List:
                 case TestObject_Notifying_FieldIndex.RefList:
@@ -2295,10 +2421,13 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Enum:
                 case TestObject_Notifying_FieldIndex.WildCard:
                 case TestObject_Notifying_FieldIndex.Ref:
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_FieldIndex.RefGetter:
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_FieldIndex.List:
                 case TestObject_Notifying_FieldIndex.RefList:
@@ -2398,13 +2527,19 @@ namespace Noggolloquy.Tests.Internals
                     return typeof(Object);
                 case TestObject_Notifying_FieldIndex.Ref:
                     return typeof(ObjectToRef);
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    return typeof(ObjectToRef);
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return typeof(ObjectToRef);
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    return typeof(IObjectToRefGetter);
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return typeof(IObjectToRefGetter);
                 case TestObject_Notifying_FieldIndex.RefSetter:
+                    return typeof(IObjectToRef);
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
                     return typeof(IObjectToRef);
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
@@ -3358,6 +3493,63 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Ref_NotNull.Overall != CopyType.Skip)
+            {
+                try
+                {
+                    item.Ref_NotNull_Property.SetToWithDefault(
+                        rhs.Ref_NotNull_Property,
+                        def?.Ref_NotNull_Property,
+                        cmds,
+                        (r, d) =>
+                        {
+                            switch (copyMask?.Ref_NotNull.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.CopyIn:
+                                    ObjectToRefCommon.CopyFieldsFrom(
+                                        item: item.Ref_NotNull,
+                                        rhs: rhs.Ref_NotNull,
+                                        def: def?.Ref_NotNull,
+                                        doErrorMask: doErrorMask,
+                                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                                        {
+                                            var baseMask = errorMask();
+                                            if (baseMask.Ref_NotNull.Specific == null)
+                                            {
+                                                baseMask.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                            }
+                                            return baseMask.Ref_NotNull.Specific;
+                                        }
+                                        ) : null),
+                                        copyMask: copyMask?.Ref_NotNull.Specific,
+                                        cmds: cmds);
+                                    return r;
+                                case CopyType.MakeCopy:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.Ref_NotNull.Specific,
+                                        def: d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.Ref_NotNull.Overall}. Cannot execute copy.");
+                            }
+                        }
+                        );
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.Ref_NotNull, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Ref_Singleton.Overall ?? true)
             {
                 try
@@ -3431,6 +3623,45 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.RefGetter_NotNull.Overall != CopyType.Skip)
+            {
+                try
+                {
+                    item.RefGetter_NotNull_Property.SetToWithDefault(
+                        rhs.RefGetter_NotNull_Property,
+                        def?.RefGetter_NotNull_Property,
+                        cmds,
+                        (r, d) =>
+                        {
+                            switch (copyMask?.RefGetter_NotNull.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.CopyIn:
+                                case CopyType.MakeCopy:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy_ToNoggolloquy(
+                                        r,
+                                        copyMask?.RefGetter_NotNull.Specific,
+                                        def: d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.RefGetter_NotNull.Overall}. Cannot execute copy.");
+                            }
+                        }
+                        );
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefGetter_NotNull, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.RefSetter.Overall != CopyType.Skip)
             {
                 try
@@ -3481,6 +3712,63 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefSetter, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.RefSetter_NotNull.Overall != CopyType.Skip)
+            {
+                try
+                {
+                    item.RefSetter_NotNull_Property.SetToWithDefault(
+                        rhs.RefSetter_NotNull_Property,
+                        def?.RefSetter_NotNull_Property,
+                        cmds,
+                        (r, d) =>
+                        {
+                            switch (copyMask?.RefSetter_NotNull.Overall ?? CopyType.Reference)
+                            {
+                                case CopyType.Reference:
+                                    return r;
+                                case CopyType.CopyIn:
+                                    ObjectToRefCommon.CopyFieldsFrom(
+                                        item: item.RefSetter_NotNull,
+                                        rhs: rhs.RefSetter_NotNull,
+                                        def: def?.RefSetter_NotNull,
+                                        doErrorMask: doErrorMask,
+                                        errorMask: (doErrorMask ? new Func<ObjectToRef_ErrorMask>(() =>
+                                        {
+                                            var baseMask = errorMask();
+                                            if (baseMask.RefSetter_NotNull.Specific == null)
+                                            {
+                                                baseMask.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                            }
+                                            return baseMask.RefSetter_NotNull.Specific;
+                                        }
+                                        ) : null),
+                                        copyMask: copyMask?.RefSetter_NotNull.Specific,
+                                        cmds: cmds);
+                                    return r;
+                                case CopyType.MakeCopy:
+                                    if (r == null) return null;
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.RefSetter_NotNull.Specific,
+                                        def: d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyType {copyMask?.RefSetter_NotNull.Overall}. Cannot execute copy.");
+                            }
+                        }
+                        );
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefSetter_NotNull, ex);
                     }
                     else
                     {
@@ -3818,15 +4106,24 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    obj.Ref_NotNull_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    obj.RefGetter_NotNull_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    obj.RefSetter_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
@@ -3981,16 +4278,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Ref:
                     obj.Ref_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    obj.Ref_NotNull_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
                     break;
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    obj.RefGetter_NotNull_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    obj.RefSetter_NotNull_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
@@ -4104,14 +4410,20 @@ namespace Noggolloquy.Tests.Internals
                     return obj.WildCard_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    return obj.Ref_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    return obj.RefGetter_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    return obj.RefSetter_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_FieldIndex.List:
@@ -4218,14 +4530,20 @@ namespace Noggolloquy.Tests.Internals
                     return obj.WildCard;
                 case TestObject_Notifying_FieldIndex.Ref:
                     return obj.Ref;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    return obj.Ref_NotNull;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton;
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     return obj.RefGetter;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    return obj.RefGetter_NotNull;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton;
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     return obj.RefSetter;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    return obj.RefSetter_NotNull;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton;
                 case TestObject_Notifying_FieldIndex.List:
@@ -4288,8 +4606,11 @@ namespace Noggolloquy.Tests.Internals
             item.Enum_Property.Unset(cmds.ToUnsetParams());
             item.WildCard_Property.Unset(cmds.ToUnsetParams());
             item.Ref_Property.Unset(cmds.ToUnsetParams());
+            item.Ref_NotNull_Property.Unset(cmds.ToUnsetParams());
             item.RefGetter_Property.Unset(cmds.ToUnsetParams());
+            item.RefGetter_NotNull_Property.Unset(cmds.ToUnsetParams());
             item.RefSetter_Property.Unset(cmds.ToUnsetParams());
+            item.RefSetter_NotNull_Property.Unset(cmds.ToUnsetParams());
             item.List.Unset(cmds.ToUnsetParams());
             item.RefList.Unset(cmds.ToUnsetParams());
             item.Dict.Unset(cmds.ToUnsetParams());
@@ -4345,10 +4666,13 @@ namespace Noggolloquy.Tests.Internals
         public T Enum;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefGetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefGetter_NotNull { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefGetter_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefSetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefSetter_NotNull { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefSetter_Singleton { get; set; }
         public MaskItem<T, IEnumerable<T>> List;
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
@@ -4413,10 +4737,13 @@ namespace Noggolloquy.Tests.Internals
         public Exception Enum;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter_NotNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter_NotNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter_Singleton;
         public MaskItem<Exception, IEnumerable<Exception>> List;
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
@@ -4552,17 +4879,26 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    this.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    this.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    this.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
@@ -4715,17 +5051,26 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    this.Ref_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    this.RefGetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    this.RefSetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
@@ -4794,9 +5139,12 @@ namespace Noggolloquy.Tests.Internals
         public bool Enum;
         public bool WildCard;
         public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter_NotNull;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> RefSetter_Singleton;
         public CopyType List;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;

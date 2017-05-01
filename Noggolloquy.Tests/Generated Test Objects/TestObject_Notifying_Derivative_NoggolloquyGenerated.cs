@@ -516,6 +516,30 @@ namespace Noggolloquy.Tests
         public ObjectToRef Ref { get { return _Ref.Value; } }
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.Ref_Property => this.Ref_Property;
         #endregion
+        #region Ref_NotNull
+        private readonly INotifyingItem<ObjectToRef> _Ref_NotNull = new NotifyingItemConvertWrapper<ObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<ObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<ObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingItemGetter<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
+        ObjectToRef ITestObject_Notifying_DerivativeGetter.Ref_NotNull => this.Ref_NotNull;
+        public ObjectToRef Ref_NotNull { get { return _Ref_NotNull.Value; } }
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
+        #endregion
+        #region Ref_Singleton
+        private readonly INotifyingItem<ObjectToRef> _Ref_Singleton = new NotifyingItem<ObjectToRef>(new ObjectToRef());
+        public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
+        ObjectToRef ITestObject_Notifying_DerivativeGetter.Ref_Singleton => this.Ref_Singleton;
+        public ObjectToRef Ref_Singleton { get { return _Ref_Singleton.Value; } }
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_DerivativeGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
+        #endregion
         #region RefGetter
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
@@ -523,12 +547,60 @@ namespace Noggolloquy.Tests
         public IObjectToRefGetter RefGetter { get { return _RefGetter.Value; } }
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_DerivativeGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
+        #region RefGetter_NotNull
+        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRefGetter>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRefGetter>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRefGetter>.Succeed(change.New);
+            }
+        );
+        public INotifyingItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        IObjectToRefGetter ITestObject_Notifying_DerivativeGetter.RefGetter_NotNull => this.RefGetter_NotNull;
+        public IObjectToRefGetter RefGetter_NotNull { get { return _RefGetter_NotNull.Value; } }
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_DerivativeGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        #endregion
+        #region RefGetter_Singleton
+        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton = new NotifyingItem<IObjectToRefGetter>(new ObjectToRef());
+        public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        IObjectToRefGetter ITestObject_Notifying_DerivativeGetter.RefGetter_Singleton => this.RefGetter_Singleton;
+        public IObjectToRefGetter RefGetter_Singleton { get { return _RefGetter_Singleton.Value; } }
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_DerivativeGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
+        #endregion
         #region RefSetter
         private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
         public INotifyingItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
         IObjectToRef ITestObject_Notifying_DerivativeGetter.RefSetter => this.RefSetter;
         public IObjectToRef RefSetter { get { return _RefSetter.Value; } }
         INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_DerivativeGetter.RefSetter_Property => this.RefSetter_Property;
+        #endregion
+        #region RefSetter_NotNull
+        private readonly INotifyingItem<IObjectToRef> _RefSetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingItemGetter<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        IObjectToRef ITestObject_Notifying_DerivativeGetter.RefSetter_NotNull => this.RefSetter_NotNull;
+        public IObjectToRef RefSetter_NotNull { get { return _RefSetter_NotNull.Value; } }
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_DerivativeGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
+        #endregion
+        #region RefSetter_Singleton
+        private readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton = new NotifyingItem<IObjectToRef>(new ObjectToRef());
+        public INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        IObjectToRef ITestObject_Notifying_DerivativeGetter.RefSetter_Singleton => this.RefSetter_Singleton;
+        public IObjectToRef RefSetter_Singleton { get { return _RefSetter_Singleton.Value; } }
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_DerivativeGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
@@ -694,8 +766,14 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.Ref_NotNull, rhs.Ref_NotNull)) return false;
+            if (!object.Equals(this.Ref_Singleton, rhs.Ref_Singleton)) return false;
             if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
+            if (!object.Equals(this.RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
+            if (!object.Equals(this.RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
             if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
+            if (!object.Equals(this.RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
+            if (!object.Equals(this.RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
             if (!object.Equals(this.List, rhs.List)) return false;
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
             if (!object.Equals(this.Dict, rhs.Dict)) return false;
@@ -748,8 +826,14 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
             .CombineHashCode(HashHelper.GetHashCode(Ref))
+            .CombineHashCode(HashHelper.GetHashCode(Ref_NotNull))
+            .CombineHashCode(HashHelper.GetHashCode(Ref_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefGetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefGetter_NotNull))
+            .CombineHashCode(HashHelper.GetHashCode(RefGetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(RefSetter))
+            .CombineHashCode(HashHelper.GetHashCode(RefSetter_NotNull))
+            .CombineHashCode(HashHelper.GetHashCode(RefSetter_Singleton))
             .CombineHashCode(HashHelper.GetHashCode(List))
             .CombineHashCode(HashHelper.GetHashCode(RefList))
             .CombineHashCode(HashHelper.GetHashCode(Dict))
@@ -978,8 +1062,14 @@ namespace Noggolloquy.Tests
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -1231,14 +1321,44 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
+        #region Ref_NotNull
+        ObjectToRef Ref_NotNull { get; }
+        INotifyingItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
+
+        #endregion
+        #region Ref_Singleton
+        ObjectToRef Ref_Singleton { get; }
+        INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
+
+        #endregion
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
         INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
+        #region RefGetter_NotNull
+        IObjectToRefGetter RefGetter_NotNull { get; }
+        INotifyingItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+
+        #endregion
+        #region RefGetter_Singleton
+        IObjectToRefGetter RefGetter_Singleton { get; }
+        INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
+
+        #endregion
         #region RefSetter
         IObjectToRef RefSetter { get; }
         INotifyingItemGetter<IObjectToRef> RefSetter_Property { get; }
+
+        #endregion
+        #region RefSetter_NotNull
+        IObjectToRef RefSetter_NotNull { get; }
+        INotifyingItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
+
+        #endregion
+        #region RefSetter_Singleton
+        IObjectToRef RefSetter_Singleton { get; }
+        INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
 
         #endregion
         #region List
@@ -1309,13 +1429,19 @@ namespace Noggolloquy.Tests.Internals
         Enum = 38,
         WildCard = 39,
         Ref = 40,
-        RefGetter = 41,
-        RefSetter = 42,
-        List = 43,
-        RefList = 44,
-        Dict = 45,
-        RefDict = 46,
-        DictKeyedValue = 47,
+        Ref_NotNull = 41,
+        Ref_Singleton = 42,
+        RefGetter = 43,
+        RefGetter_NotNull = 44,
+        RefGetter_Singleton = 45,
+        RefSetter = 46,
+        RefSetter_NotNull = 47,
+        RefSetter_Singleton = 48,
+        List = 49,
+        RefList = 50,
+        Dict = 51,
+        RefDict = 52,
+        DictKeyedValue = 53,
     }
     #endregion
 
@@ -1333,7 +1459,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "a2d50f09-643c-4263-a8d1-272110470337";
 
-        public const ushort FieldCount = 48;
+        public const ushort FieldCount = 54;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_Derivative_Mask<>);
 
@@ -1435,20 +1561,32 @@ namespace Noggolloquy.Tests.Internals
                     return 39;
                 case "REF":
                     return 40;
-                case "REFGETTER":
+                case "REF_NOTNULL":
                     return 41;
-                case "REFSETTER":
+                case "REF_SINGLETON":
                     return 42;
-                case "LIST":
+                case "REFGETTER":
                     return 43;
-                case "REFLIST":
+                case "REFGETTER_NOTNULL":
                     return 44;
-                case "DICT":
+                case "REFGETTER_SINGLETON":
                     return 45;
-                case "REFDICT":
+                case "REFSETTER":
                     return 46;
-                case "DICTKEYEDVALUE":
+                case "REFSETTER_NOTNULL":
                     return 47;
+                case "REFSETTER_SINGLETON":
+                    return 48;
+                case "LIST":
+                    return 49;
+                case "REFLIST":
+                    return 50;
+                case "DICT":
+                    return 51;
+                case "REFDICT":
+                    return 52;
+                case "DICTKEYEDVALUE":
+                    return 53;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -1503,8 +1641,14 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
                 case TestObject_Notifying_Derivative_FieldIndex.RefDict:
                 case TestObject_Notifying_Derivative_FieldIndex.DictKeyedValue:
@@ -1520,8 +1664,14 @@ namespace Noggolloquy.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                     return true;
                 case TestObject_Notifying_Derivative_FieldIndex.BoolN:
@@ -1579,6 +1729,10 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_FieldIndex enu = (TestObject_Notifying_Derivative_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    return true;
                 case TestObject_Notifying_Derivative_FieldIndex.BoolN:
                 case TestObject_Notifying_Derivative_FieldIndex.Bool:
                 case TestObject_Notifying_Derivative_FieldIndex.CharN:
@@ -1620,8 +1774,11 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -1720,10 +1877,22 @@ namespace Noggolloquy.Tests.Internals
                     return "WildCard";
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     return "Ref";
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    return "Ref_NotNull";
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    return "Ref_Singleton";
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     return "RefGetter";
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    return "RefGetter_NotNull";
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    return "RefGetter_Singleton";
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
                     return "RefSetter";
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    return "RefSetter_NotNull";
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    return "RefSetter_Singleton";
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     return "List";
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
@@ -1785,8 +1954,14 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -1844,8 +2019,14 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -1944,9 +2125,21 @@ namespace Noggolloquy.Tests.Internals
                     return typeof(Object);
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     return typeof(ObjectToRef);
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    return typeof(ObjectToRef);
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    return typeof(ObjectToRef);
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    return typeof(IObjectToRefGetter);
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    return typeof(IObjectToRefGetter);
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                    return typeof(IObjectToRef);
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    return typeof(IObjectToRef);
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     return typeof(NotifyingList<Boolean>);
@@ -2055,8 +2248,14 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -2117,8 +2316,14 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Enum:
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
                 case TestObject_Notifying_Derivative_FieldIndex.Dict:
@@ -2219,10 +2424,22 @@ namespace Noggolloquy.Tests.Internals
                     return obj.WildCard_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    return obj.Ref_NotNull_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    return obj.Ref_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    return obj.RefGetter_NotNull_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    return obj.RefGetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    return obj.RefSetter_NotNull_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    return obj.RefSetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     return obj.List.HasBeenSet;
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
@@ -2327,10 +2544,22 @@ namespace Noggolloquy.Tests.Internals
                     return obj.WildCard;
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     return obj.Ref;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    return obj.Ref_NotNull;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    return obj.Ref_Singleton;
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     return obj.RefGetter;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    return obj.RefGetter_NotNull;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    return obj.RefGetter_Singleton;
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
                     return obj.RefSetter;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    return obj.RefSetter_NotNull;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    return obj.RefSetter_Singleton;
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     return obj.List;
                 case TestObject_Notifying_Derivative_FieldIndex.RefList:
@@ -2400,8 +2629,14 @@ namespace Noggolloquy.Tests.Internals
         public T Enum;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> Ref_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefGetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefGetter_NotNull { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefGetter_Singleton { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> RefSetter { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefSetter_NotNull { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefSetter_Singleton { get; set; }
         public MaskItem<T, IEnumerable<T>> List;
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<T, IEnumerable<KeyValuePair<T, T>>> Dict;
@@ -2465,8 +2700,14 @@ namespace Noggolloquy.Tests.Internals
         public Exception Enum;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter_NotNull;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefGetter_Singleton;
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter_NotNull;
+        public MaskItem<Exception, ObjectToRef_ErrorMask> RefSetter_Singleton;
         public MaskItem<Exception, IEnumerable<Exception>> List;
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> Dict;
@@ -2601,11 +2842,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    this.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    this.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    this.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
@@ -2755,11 +3014,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_NotNull:
+                    this.Ref_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.Ref_Singleton:
+                    this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
                 case TestObject_Notifying_Derivative_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_NotNull:
+                    this.RefGetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefGetter_Singleton:
+                    this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
                 case TestObject_Notifying_Derivative_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_NotNull:
+                    this.RefSetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
+                    break;
+                case TestObject_Notifying_Derivative_FieldIndex.RefSetter_Singleton:
+                    this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.List:
                     this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
@@ -2825,8 +3102,13 @@ namespace Noggolloquy.Tests.Internals
         public bool Enum;
         public bool WildCard;
         public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref_NotNull;
+        public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter_NotNull;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
+        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter_NotNull;
+        public MaskItem<bool, ObjectToRef_CopyMask> RefSetter_Singleton;
         public CopyType List;
         public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
         public bool Dict;
