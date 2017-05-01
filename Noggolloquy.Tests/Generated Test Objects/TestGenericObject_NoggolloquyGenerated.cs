@@ -144,7 +144,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
-                skipReadonly: false,
+                skipProtected: false,
                 doMasks: false,
                 mask: out TestGenericObject_ErrorMask errorMask,
                 cmds: null);
@@ -157,7 +157,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
-                skipReadonly: false,
+                skipProtected: false,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: null);
@@ -169,7 +169,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
-                skipReadonly: true,
+                skipProtected: true,
                 doMasks: false,
                 mask: out TestGenericObject_ErrorMask errorMask,
                 cmds: cmds);
@@ -180,7 +180,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestGenericObject<T, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
-                skipReadonly: true,
+                skipProtected: true,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: cmds);
@@ -339,13 +339,13 @@ namespace Noggolloquy.Tests
         public static TestGenericObject<T, R> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestGenericObject<T, R>();
-            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
+            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
             return ret;
         }
 
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericObject<T, R> obj)
         {
-            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
+            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
 
     }
@@ -485,7 +485,7 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
-        public static bool IsReadOnly(ushort index)
+        public static bool IsProtected(ushort index)
         {
             TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
             switch (enu)
@@ -517,7 +517,7 @@ namespace Noggolloquy.Tests.Internals
         bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
         string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
         bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
-        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        bool INoggolloquyRegistration.IsProtected(ushort index) => IsProtected(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
 
@@ -576,7 +576,7 @@ namespace Noggolloquy.Tests.Internals
                                         obj: r,
                                         rhs: item.Ref,
                                         def: def?.Ref,
-                                        skipReadonly: true,
+                                        skipProtected: true,
                                         cmds: cmds);
                                     return r;
                                 case CopyType.MakeCopy:

@@ -23,7 +23,7 @@ namespace Noggolloquy.Generation
         public bool GeneratePublicBasicCtor { get; protected set; }
         public abstract NotifyingOption NotifyingDefault { get; }
         public NoggInterfaceType InterfaceTypeDefault;
-        public bool ReadOnlyDefault;
+        public bool ProtectedDefault;
         public bool DerivativeDefault;
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
@@ -94,7 +94,7 @@ namespace Noggolloquy.Generation
             GeneratePublicBasicCtor = Node.GetAttribute<bool>("publicCtor", true);
             Version = Node.GetAttribute<ushort>("version", 0);
             this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", NoggInterfaceType.Direct);
-            this.ReadOnlyDefault = Node.GetAttribute<bool>("readOnlyDefault", false);
+            this.ProtectedDefault = Node.GetAttribute<bool>("protectedDefault", false);
             this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", false);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
@@ -432,7 +432,7 @@ namespace Noggolloquy.Generation
 
                     GenerateNthObjectIsDerivative(fg);
 
-                    GenerateIsReadOnly(fg);
+                    GenerateIsProtected(fg);
 
                     if (this.Generics.Count == 0)
                     {
@@ -463,7 +463,7 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);");
                         fg.AppendLine($"string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);");
                         fg.AppendLine($"bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);");
-                        fg.AppendLine($"bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);");
+                        fg.AppendLine($"bool INoggolloquyRegistration.IsProtected(ushort index) => IsProtected(index);");
                         fg.AppendLine($"Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);");
 
                     }
@@ -1626,7 +1626,7 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var field in this.Fields)
                     {
-                        if (field.ReadOnly) continue;
+                        if (field.Protected) continue;
                         field.GenerateClear(fg, "item", "cmds");
                     }
                 }
@@ -1645,7 +1645,7 @@ namespace Noggolloquy.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {this.ObjectName}();");
-                    fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);");
+                    fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);");
                     fg.AppendLine("return ret;");
                 }
                 fg.AppendLine();
@@ -1654,22 +1654,22 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"public static void {Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);");
+                fg.AppendLine("INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);");
             }
             fg.AppendLine();
         }
 
-        private void GenerateIsReadOnly(FileGeneration fg)
+        private void GenerateIsProtected(FileGeneration fg)
         {
-            fg.AppendLine("public static bool IsReadOnly(ushort index)");
+            fg.AppendLine("public static bool IsProtected(ushort index)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    var trues = IterateFields().Where((i) => i.Field.Derivative);
-                    var falses = IterateFields().Where((i) => !i.Field.Derivative);
+                    var trues = IterateFields().Where((i) => i.Field.Protected);
+                    var falses = IterateFields().Where((i) => !i.Field.Protected);
                     if (trues.Any())
                     {
                         foreach (var item in trues)
@@ -1693,7 +1693,7 @@ namespace Noggolloquy.Generation
                         }
                     }
 
-                    GenerateStandardRegistrationDefault(fg, "IsReadOnly", "index", true);
+                    GenerateStandardRegistrationDefault(fg, "IsProtected", "index", true);
                 }
             }
             fg.AppendLine();

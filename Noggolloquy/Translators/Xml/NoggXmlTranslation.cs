@@ -25,7 +25,7 @@ namespace Noggolloquy.Xml
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             INoggolloquyRegistration registration,
             XElement root,
-            bool skipReadonly,
+            bool skipProtected,
             bool doMasks,
             Func<IErrorMask> mask)
         {
@@ -53,8 +53,8 @@ namespace Noggolloquy.Xml
                         continue;
                     }
 
-                    var readOnly = registration.IsReadOnly(i.Value);
-                    if (readOnly && skipReadonly) continue;
+                    var @protected = registration.IsProtected(i.Value);
+                    if (@protected && skipProtected) continue;
 
                     try
                     {
@@ -103,7 +103,7 @@ namespace Noggolloquy.Xml
         public void CopyIn<C>(
             XElement root,
             C item,
-            bool skipReadonly,
+            bool skipProtected,
             bool doMasks,
             out M mask,
             NotifyingFireParameters? cmds)
@@ -129,7 +129,7 @@ namespace Noggolloquy.Xml
             var fields = EnumerateObjects(
                 item.Registration,
                 root,
-                skipReadonly,
+                skipProtected,
                 doMasks,
                 maskGet);
             var copyIn = NoggolloquyRegistration.GetCopyInFunc<C>();
@@ -160,7 +160,7 @@ namespace Noggolloquy.Xml
             var fields = EnumerateObjects(
                 regis,
                 root,
-                skipReadonly: false,
+                skipProtected: false,
                 doMasks: doMasks,
                 mask: maskGet);
             var create = NoggolloquyRegistration.GetCreateFunc<T>();

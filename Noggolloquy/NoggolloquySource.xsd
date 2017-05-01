@@ -367,10 +367,10 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="readOnlyDefault" type="xs:boolean" >
+    <xs:attribute name="protectedDefault" type="xs:boolean" >
       <xs:annotation>
         <xs:documentation>
-          Sets the default value of the read only property on all of this objects contained fields.
+          Sets the default value of the protected property on all of this objects contained fields.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -550,13 +550,13 @@
         <xs:documentation>
           Marks the field as read-only from the public.  It can only be set from inside the class.
 
-          This field is different from being marked readOnly because it will NOT be exported.  It only exists in the class definition, never on-disk.
+          This field is different from being marked protected because it will NOT be exported.  It only exists in the class definition, never on-disk.
 
-          If a field is marked derivative, it is implicitly marked readOnly as well.
+          If a field is marked derivative, it is implicitly marked protected as well.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="readOnly" type="xs:boolean" >
+    <xs:attribute name="protected" type="xs:boolean" >
       <xs:annotation>
         <xs:documentation>
           Marks the field as read-only from the public.  It can only be set from inside the class.

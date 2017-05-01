@@ -145,7 +145,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
-                skipReadonly: false,
+                skipProtected: false,
                 doMasks: false,
                 mask: out TestObject_Notifying_SubClass_ErrorMask errorMask,
                 cmds: null);
@@ -158,7 +158,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
-                skipReadonly: false,
+                skipProtected: false,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: null);
@@ -170,7 +170,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
-                skipReadonly: true,
+                skipProtected: true,
                 doMasks: false,
                 mask: out TestObject_Notifying_SubClass_ErrorMask errorMask,
                 cmds: cmds);
@@ -181,7 +181,7 @@ namespace Noggolloquy.Tests
             NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
-                skipReadonly: true,
+                skipProtected: true,
                 doMasks: true,
                 mask: out errorMask,
                 cmds: cmds);
@@ -309,13 +309,13 @@ namespace Noggolloquy.Tests
         public new static TestObject_Notifying_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_Notifying_SubClass();
-            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipReadonly: false, cmds: null);
+            INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
             return ret;
         }
 
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_SubClass obj)
         {
-            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipReadonly: false, cmds: null);
+            INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
 
     }
@@ -453,7 +453,7 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
-        public static bool IsReadOnly(ushort index)
+        public static bool IsProtected(ushort index)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)
@@ -461,7 +461,7 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_SubClass_FieldIndex.NewField:
                     return false;
                 default:
-                    return TestObject_Notifying_Registration.IsReadOnly(index);
+                    return TestObject_Notifying_Registration.IsProtected(index);
             }
         }
 
@@ -495,7 +495,7 @@ namespace Noggolloquy.Tests.Internals
         bool INoggolloquyRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);
         string INoggolloquyRegistration.GetNthName(ushort index) => GetNthName(index);
         bool INoggolloquyRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);
-        bool INoggolloquyRegistration.IsReadOnly(ushort index) => IsReadOnly(index);
+        bool INoggolloquyRegistration.IsProtected(ushort index) => IsProtected(index);
         Type INoggolloquyRegistration.GetNthType(ushort index) => GetNthType(index);
         #endregion
 

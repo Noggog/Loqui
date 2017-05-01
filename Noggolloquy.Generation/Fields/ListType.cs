@@ -20,7 +20,7 @@ namespace Noggolloquy.Generation
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 // Get nth
-                if (!this.ReadOnly)
+                if (!this.Protected)
                 {
                     fg.AppendLine($"INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
@@ -30,7 +30,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (!this.ReadOnly)
+            if (!this.Protected)
             {
                 fg.AppendLine($"new INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
             }

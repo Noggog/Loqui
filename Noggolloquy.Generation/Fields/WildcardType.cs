@@ -16,14 +16,14 @@ namespace Noggolloquy.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name};");
-                        fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
+                        fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
                     }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     break;
                 case NotifyingOption.HasBeenSet:
                     GenerateNotifyingCtor(fg, notifying: false);
                     fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    if (ReadOnly)
+                    if (this.Protected)
                     {
                         fg.AppendLine($"public {this.TypeName} {this.Name} => this._{ this.Name};");
                     }
@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine(");");
                     fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(Protected ? "protected " : string.Empty)}set {{ _{this.Name}.Value = value; }} }}");
-                    if (!this.ReadOnly)
+                    if (!this.Protected)
                     {
                         fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }

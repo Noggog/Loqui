@@ -53,7 +53,7 @@ namespace Noggolloquy.Generation
                     {
                         fg.AppendLine($"root: root,");
                         fg.AppendLine($"item: ret,");
-                        fg.AppendLine($"skipReadonly: false,");
+                        fg.AppendLine($"skipProtected: false,");
                         fg.AppendLine($"doMasks: false,");
                         fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
                         fg.AppendLine($"cmds: null);");
@@ -71,7 +71,7 @@ namespace Noggolloquy.Generation
                     {
                         fg.AppendLine($"root: root,");
                         fg.AppendLine($"item: ret,");
-                        fg.AppendLine($"skipReadonly: false,");
+                        fg.AppendLine($"skipProtected: false,");
                         fg.AppendLine($"doMasks: true,");
                         fg.AppendLine($"mask: out errorMask,");
                         fg.AppendLine($"cmds: null);");
@@ -90,7 +90,7 @@ namespace Noggolloquy.Generation
                 {
                     fg.AppendLine($"root: root,");
                     fg.AppendLine($"item: this,");
-                    fg.AppendLine($"skipReadonly: true,");
+                    fg.AppendLine($"skipProtected: true,");
                     fg.AppendLine($"doMasks: false,");
                     fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
                     fg.AppendLine($"cmds: cmds);");
@@ -106,7 +106,7 @@ namespace Noggolloquy.Generation
                 {
                     fg.AppendLine($"root: root,");
                     fg.AppendLine($"item: this,");
-                    fg.AppendLine($"skipReadonly: true,");
+                    fg.AppendLine($"skipProtected: true,");
                     fg.AppendLine($"doMasks: true,");
                     fg.AppendLine($"mask: out errorMask,");
                     fg.AppendLine($"cmds: cmds);");

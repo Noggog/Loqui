@@ -32,9 +32,7 @@ namespace Noggolloquy.Generation
         public virtual bool Derivative => this._derivative;
         private bool _imports;
         public virtual bool Imports => _imports && !Derivative;
-        private bool _protected;
-        public virtual bool Protected => _protected;
-        public bool ReadOnly;
+        public bool Protected;
         private bool _copy;
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
@@ -46,14 +44,13 @@ namespace Noggolloquy.Generation
             KeyField = node.GetAttribute<bool>("keyField", false);
             Name = node.GetAttribute<string>("name");
             this._derivative = node.GetAttribute<bool>("derivative", this.ObjectGen.DerivativeDefault);
-            this.ReadOnly = node.GetAttribute<bool>("readOnly", this.ObjectGen.ReadOnlyDefault || Derivative);
-            if (this._derivative && !ReadOnly)
+            this.Protected = node.GetAttribute<bool>("protected", this.ObjectGen.ProtectedDefault || Derivative);
+            if (this._derivative && !Protected)
             {
                 throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
             }
-            this._protected = this.Derivative || this.ReadOnly;
             this._imports = node.GetAttribute<bool>("export", true);
-            this._copy = node.GetAttribute<bool>("copy", !this.ReadOnly);
+            this._copy = node.GetAttribute<bool>("copy", !this.Protected);
             this.GenerateClassMembers = node.GetAttribute<bool>("generateClassMembers", true);
             this.Notifying = node.GetAttribute<NotifyingOption>("notifying", this.ObjectGen.NotifyingDefault);
             if (requireName && Name == null)

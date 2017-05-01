@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
   <Protocol ProtocolID="1" />
-  <Object name="TestObject_HasBeenSet_ReadOnly" notifyingDefault="HasBeenSet" readOnlyDefault="true" GUID="e5fa5ce2-b193-42a6-9fc1-c58c7f06b8c4" ID="11">
+  <Object name="TestObject_HasBeenSet_ReadOnly" notifyingDefault="HasBeenSet" protectedDefault="true" GUID="e5fa5ce2-b193-42a6-9fc1-c58c7f06b8c4" ID="11">
     <Fields>
       <BoolNull name="BoolN" />
       <Bool name="Bool" />

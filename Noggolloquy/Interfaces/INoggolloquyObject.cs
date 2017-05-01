@@ -114,12 +114,12 @@ namespace Noggolloquy
             INoggolloquyObjectSetter obj,
             INoggolloquyObjectGetter rhs,
             INoggolloquyObjectGetter def,
-            bool skipReadonly,
+            bool skipProtected,
             NotifyingFireParameters? cmds = null)
         {
             for (ushort i = 0; i < obj.Registration.FieldCount; i++)
             {
-                if (skipReadonly && obj.Registration.IsReadOnly(i)) continue;
+                if (skipProtected && obj.Registration.IsProtected(i)) continue;
                 if (obj.Registration.IsNthDerivative(i)) continue;
                 if (rhs.GetNthObjectHasBeenSet(i))
                 {
@@ -143,7 +143,7 @@ namespace Noggolloquy
             INoggolloquyObjectSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
             INoggolloquyObjectGetter def,
-            bool skipReadonly,
+            bool skipProtected,
             NotifyingFireParameters? cmds = null)
         {
             if (fields == null || !fields.Any()) return;
@@ -151,7 +151,7 @@ namespace Noggolloquy
             foreach (var field in fields)
             {
                 readFields.Add(field.Key);
-                if (skipReadonly && obj.Registration.IsReadOnly(field.Key)) continue;
+                if (skipProtected && obj.Registration.IsProtected(field.Key)) continue;
                 obj.SetNthObject(field.Key, field.Value, cmds);
             }
 
@@ -175,7 +175,7 @@ namespace Noggolloquy
             IEnumerable<KeyValuePair<ushort, object>> fields,
             INoggolloquyObjectGetter def,
             Func<IErrorMask> errorMaskGetter,
-            bool skipReadonly,
+            bool skipProtected,
             NotifyingFireParameters? cmds = null)
         {
             if (!fields.Any()) return;
@@ -185,7 +185,7 @@ namespace Noggolloquy
                 foreach (var field in fields)
                 {
                     readFields.Add(field.Key);
-                    if (skipReadonly && obj.Registration.IsReadOnly(field.Key)) continue;
+                    if (skipProtected && obj.Registration.IsProtected(field.Key)) continue;
                     try
                     {
                         obj.SetNthObject(field.Key, field.Value, cmds);

@@ -132,7 +132,7 @@ namespace Noggolloquy.Generation
                             fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set {{ this.{this.ProtectedName} = value; }}");
                         }
                     }
-                    if (this.ReadOnly)
+                    if (this.Protected)
                     {
                         fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.Property};");
                     }
@@ -176,7 +176,7 @@ namespace Noggolloquy.Generation
                     fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
-                    if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
+                    if (!this.Protected && this.SingletonType != SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -462,7 +462,7 @@ namespace Noggolloquy.Generation
                     args.Add("obj: r");
                     args.Add("rhs: item.Ref");
                     args.Add("def: def?.Ref");
-                    args.Add("skipReadonly: true");
+                    args.Add("skipProtected: true");
                     args.Add("cmds: cmds");
                 }
             }

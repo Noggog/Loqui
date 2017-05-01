@@ -41,7 +41,7 @@ namespace Noggolloquy.Generation
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
                     break;
                 case NotifyingOption.HasBeenSet:
                     if (!this.TrueReadOnly)
@@ -73,7 +73,7 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"get => this._{ this.Name}.Value;");
                         fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
-                    if (!this.ReadOnly)
+                    if (!this.Protected)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -109,7 +109,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (this.ReadOnly) return;
+            if (this.Protected) return;
             fg.AppendLine($"new {TypeName} {this.Name} {{ get; {(Protected ? string.Empty : "set; ")}}}");
             switch (this.Notifying)
             {
@@ -200,7 +200,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            if (this.ReadOnly) return;
+            if (this.Protected) return;
             switch (this.Notifying)
             {
                 case NotifyingOption.None:

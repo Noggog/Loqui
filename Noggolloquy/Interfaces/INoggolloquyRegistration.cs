@@ -31,7 +31,7 @@ namespace Noggolloquy
 
         ushort? GetNameIndex(StringCaseAgnostic name);
 
-        bool IsReadOnly(ushort index);
+        bool IsProtected(ushort index);
 
         Type MaskType { get; }
 

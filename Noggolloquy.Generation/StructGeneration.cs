@@ -110,7 +110,7 @@ namespace Noggolloquy.Generation
             foreach (var field in this.Fields)
             {
                 field.Notifying = NotifyingOption.None;
-                field.ReadOnly = true;
+                field.Protected = true;
             }
         }
 

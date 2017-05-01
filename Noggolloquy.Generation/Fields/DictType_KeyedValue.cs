@@ -118,7 +118,7 @@ namespace Noggolloquy.Generation
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                if (!this.ReadOnly)
+                if (!this.Protected)
                 {
                     fg.AppendLine($"INotifyingKeyedCollection{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
@@ -128,7 +128,7 @@ namespace Noggolloquy.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (!this.ReadOnly)
+            if (!this.Protected)
             {
                 fg.AppendLine($"new INotifyingKeyedCollection{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
             }
