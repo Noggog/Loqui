@@ -30,6 +30,7 @@ namespace Noggolloquy.Generation
         public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
+        public bool RaisePropertyChanged;
         private bool _imports;
         public virtual bool Imports => _imports && !Derivative;
         public bool Protected;
@@ -52,6 +53,7 @@ namespace Noggolloquy.Generation
             this._imports = node.GetAttribute<bool>("export", true);
             this._copy = node.GetAttribute<bool>("copy", !this.Protected);
             this.GenerateClassMembers = node.GetAttribute<bool>("generateClassMembers", true);
+            this.RaisePropertyChanged = node.GetAttribute<bool>("raisePropertyChanged", this.ObjectGen.RaisePropertyChangedDefault);
             this.Notifying = node.GetAttribute<NotifyingOption>("notifying", this.ObjectGen.NotifyingDefault);
             if (requireName && Name == null)
             {
@@ -62,6 +64,11 @@ namespace Noggolloquy.Generation
         public virtual IEnumerable<string> GetRequiredNamespaces()
         {
             yield break;
+        }
+
+        public virtual void GenerateForCtor(FileGeneration fg)
+        {
+
         }
 
         public abstract void GenerateForClass(FileGeneration fg);

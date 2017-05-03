@@ -42,7 +42,7 @@ namespace Noggolloquy.Xml
                         () =>
                         {
                             return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                        }).Value = GetResponse<IXmlTranslation<object>>.Fail(ex);
+                        }).Item = GetResponse<IXmlTranslation<object>>.Fail(ex);
                 }
             }
         }
@@ -78,9 +78,9 @@ namespace Noggolloquy.Xml
                 () =>
                 {
                     return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                }).Value = GetResponse<IXmlTranslation<object>>.Succeed(transl);
+                }).Item = GetResponse<IXmlTranslation<object>>.Succeed(transl);
             if (string.IsNullOrEmpty(transl.ElementName)) return;
-            elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Value = t;
+            elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Item = t;
         }
 
         public static INotifyingItemGetter<GetResponse<IXmlTranslation<Object>>> GetTranslator(Type t)
@@ -122,12 +122,12 @@ namespace Noggolloquy.Xml
                 transl = null;
                 return false;
             }
-            if (not.Value.Failed)
+            if (not.Item.Failed)
             {
                 transl = null;
                 return false;
             }
-            transl = not.Value.Value;
+            transl = not.Item.Value;
             return transl != null;
         }
     }
@@ -146,11 +146,11 @@ namespace Noggolloquy.Xml
                 {
                     if (change.New.Failed)
                     {
-                        _translator.Value = change.New.BubbleFailure<IXmlTranslation<T>>();
+                        _translator.Item = change.New.BubbleFailure<IXmlTranslation<T>>();
                         return;
                     }
                     var caster = change.New.Value as XmlTranslationCaster<T>;
-                    _translator.Value = GetResponse<IXmlTranslation<T>>.Succeed(caster.Source);
+                    _translator.Item = GetResponse<IXmlTranslation<T>>.Succeed(caster.Source);
                 });
         }
 

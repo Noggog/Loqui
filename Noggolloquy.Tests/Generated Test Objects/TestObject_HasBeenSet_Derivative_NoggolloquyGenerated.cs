@@ -33,610 +33,541 @@ namespace Noggolloquy.Tests
         }
         partial void CustomCtor();
         #region BoolN
-        protected readonly IHasBeenSetItem<Boolean?> _BoolN = new HasBeenSetItem<Boolean?>(
-            default(Boolean?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Boolean?> _BoolN = HasBeenSetItem.Factory<Boolean?>(markAsSet: false);
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
         public Boolean? BoolN
         {
-            get => this._BoolN.Value;
+            get => this._BoolN.Item;
             protected set => this._BoolN.Set(value);
         }
         Boolean? ITestObject_HasBeenSet_DerivativeGetter.BoolN => this.BoolN;
         IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSet_DerivativeGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
-        protected readonly IHasBeenSetItem<Boolean> _Bool = new HasBeenSetItem<Boolean>(
-            default(Boolean),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Boolean> _Bool = HasBeenSetItem.Factory<Boolean>(markAsSet: false);
         public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
         public Boolean Bool
         {
-            get => this._Bool.Value;
+            get => this._Bool.Item;
             protected set => this._Bool.Set(value);
         }
         Boolean ITestObject_HasBeenSet_DerivativeGetter.Bool => this.Bool;
         IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSet_DerivativeGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
-        protected readonly IHasBeenSetItem<Char?> _CharN = new HasBeenSetItem<Char?>(
-            default(Char?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Char?> _CharN = HasBeenSetItem.Factory<Char?>(markAsSet: false);
         public IHasBeenSetItem<Char?> CharN_Property => _CharN;
         public Char? CharN
         {
-            get => this._CharN.Value;
+            get => this._CharN.Item;
             protected set => this._CharN.Set(value);
         }
         Char? ITestObject_HasBeenSet_DerivativeGetter.CharN => this.CharN;
         IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSet_DerivativeGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
-        protected readonly IHasBeenSetItem<Char> _Char = new HasBeenSetItem<Char>(
-            default(Char),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Char> _Char = HasBeenSetItem.Factory<Char>(markAsSet: false);
         public IHasBeenSetItem<Char> Char_Property => _Char;
         public Char Char
         {
-            get => this._Char.Value;
+            get => this._Char.Item;
             protected set => this._Char.Set(value);
         }
         Char ITestObject_HasBeenSet_DerivativeGetter.Char => this.Char;
         IHasBeenSetItemGetter<Char> ITestObject_HasBeenSet_DerivativeGetter.Char_Property => this.Char_Property;
         #endregion
         #region DoubleN
-        protected readonly INotifyingItem<Double?> _DoubleN = new NotifyingItem<Double?>(
-            default(Double?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Double?> _DoubleN = HasBeenSetItem.Factory<Double?>(markAsSet: false);
         public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
         public Double? DoubleN
         {
-            get => this._DoubleN.Value;
+            get => this._DoubleN.Item;
             protected set => this._DoubleN.Set(value);
         }
         Double? ITestObject_HasBeenSet_DerivativeGetter.DoubleN => this.DoubleN;
         IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSet_DerivativeGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region Double
-        protected readonly INotifyingItem<Double> _Double = new NotifyingItem<Double>(
-            default(Double),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Double> _Double = HasBeenSetItem.Factory<Double>(markAsSet: false);
         public IHasBeenSetItem<Double> Double_Property => _Double;
         public Double Double
         {
-            get => this._Double.Value;
+            get => this._Double.Item;
             protected set => this._Double.Set(value);
         }
         Double ITestObject_HasBeenSet_DerivativeGetter.Double => this.Double;
         IHasBeenSetItemGetter<Double> ITestObject_HasBeenSet_DerivativeGetter.Double_Property => this.Double_Property;
         #endregion
         #region FloatN
-        protected readonly INotifyingItem<Single?> _FloatN = new NotifyingItem<Single?>(
-            default(Single?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Single?> _FloatN = HasBeenSetItem.Factory<Single?>(markAsSet: false);
         public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
         public Single? FloatN
         {
-            get => this._FloatN.Value;
+            get => this._FloatN.Item;
             protected set => this._FloatN.Set(value);
         }
         Single? ITestObject_HasBeenSet_DerivativeGetter.FloatN => this.FloatN;
         IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSet_DerivativeGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region Float
-        protected readonly INotifyingItem<Single> _Float = new NotifyingItem<Single>(
-            default(Single),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Single> _Float = HasBeenSetItem.Factory<Single>(markAsSet: false);
         public IHasBeenSetItem<Single> Float_Property => _Float;
         public Single Float
         {
-            get => this._Float.Value;
+            get => this._Float.Item;
             protected set => this._Float.Set(value);
         }
         Single ITestObject_HasBeenSet_DerivativeGetter.Float => this.Float;
         IHasBeenSetItemGetter<Single> ITestObject_HasBeenSet_DerivativeGetter.Float_Property => this.Float_Property;
         #endregion
         #region Int16N
-        protected readonly INotifyingItem<Int16?> _Int16N = new NotifyingItem<Int16?>(
-            default(Int16?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int16?> _Int16N = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
         public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
         public Int16? Int16N
         {
-            get => this._Int16N.Value;
+            get => this._Int16N.Item;
             protected set => this._Int16N.Set(value);
         }
         Int16? ITestObject_HasBeenSet_DerivativeGetter.Int16N => this.Int16N;
         IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSet_DerivativeGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16
-        protected readonly INotifyingItem<Int16> _Int16 = new NotifyingItem<Int16>(
-            default(Int16),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int16> _Int16 = HasBeenSetItem.Factory<Int16>(markAsSet: false);
         public IHasBeenSetItem<Int16> Int16_Property => _Int16;
         public Int16 Int16
         {
-            get => this._Int16.Value;
+            get => this._Int16.Item;
             protected set => this._Int16.Set(value);
         }
         Int16 ITestObject_HasBeenSet_DerivativeGetter.Int16 => this.Int16;
         IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSet_DerivativeGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int32N
-        protected readonly INotifyingItem<Int32?> _Int32N = new NotifyingItem<Int32?>(
-            default(Int32?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int32?> _Int32N = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
         public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
         public Int32? Int32N
         {
-            get => this._Int32N.Value;
+            get => this._Int32N.Item;
             protected set => this._Int32N.Set(value);
         }
         Int32? ITestObject_HasBeenSet_DerivativeGetter.Int32N => this.Int32N;
         IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSet_DerivativeGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32
-        protected readonly INotifyingItem<Int32> _Int32 = new NotifyingItem<Int32>(
-            default(Int32),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int32> _Int32 = HasBeenSetItem.Factory<Int32>(markAsSet: false);
         public IHasBeenSetItem<Int32> Int32_Property => _Int32;
         public Int32 Int32
         {
-            get => this._Int32.Value;
+            get => this._Int32.Item;
             protected set => this._Int32.Set(value);
         }
         Int32 ITestObject_HasBeenSet_DerivativeGetter.Int32 => this.Int32;
         IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSet_DerivativeGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int64N
-        protected readonly INotifyingItem<Int64?> _Int64N = new NotifyingItem<Int64?>(
-            default(Int64?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int64?> _Int64N = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
         public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
         public Int64? Int64N
         {
-            get => this._Int64N.Value;
+            get => this._Int64N.Item;
             protected set => this._Int64N.Set(value);
         }
         Int64? ITestObject_HasBeenSet_DerivativeGetter.Int64N => this.Int64N;
         IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSet_DerivativeGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64
-        protected readonly INotifyingItem<Int64> _Int64 = new NotifyingItem<Int64>(
-            default(Int64),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Int64> _Int64 = HasBeenSetItem.Factory<Int64>(markAsSet: false);
         public IHasBeenSetItem<Int64> Int64_Property => _Int64;
         public Int64 Int64
         {
-            get => this._Int64.Value;
+            get => this._Int64.Item;
             protected set => this._Int64.Set(value);
         }
         Int64 ITestObject_HasBeenSet_DerivativeGetter.Int64 => this.Int64;
         IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSet_DerivativeGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int8N
-        protected readonly INotifyingItem<SByte?> _Int8N = new NotifyingItem<SByte?>(
-            default(SByte?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<SByte?> _Int8N = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
         public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
         public SByte? Int8N
         {
-            get => this._Int8N.Value;
+            get => this._Int8N.Item;
             protected set => this._Int8N.Set(value);
         }
         SByte? ITestObject_HasBeenSet_DerivativeGetter.Int8N => this.Int8N;
         IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSet_DerivativeGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8
-        protected readonly INotifyingItem<SByte> _Int8 = new NotifyingItem<SByte>(
-            default(SByte),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<SByte> _Int8 = HasBeenSetItem.Factory<SByte>(markAsSet: false);
         public IHasBeenSetItem<SByte> Int8_Property => _Int8;
         public SByte Int8
         {
-            get => this._Int8.Value;
+            get => this._Int8.Item;
             protected set => this._Int8.Set(value);
         }
         SByte ITestObject_HasBeenSet_DerivativeGetter.Int8 => this.Int8;
         IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSet_DerivativeGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Unsafe
-        protected readonly IHasBeenSetItem<bool> _Unsafe = new HasBeenSetItem<bool>(
-            default(bool),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<bool> _Unsafe = HasBeenSetItem.Factory<bool>(markAsSet: false);
         public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
         public bool Unsafe
         {
-            get => this._Unsafe.Value;
+            get => this._Unsafe.Item;
             protected set => this._Unsafe.Set(value);
         }
         bool ITestObject_HasBeenSet_DerivativeGetter.Unsafe => this.Unsafe;
         IHasBeenSetItemGetter<bool> ITestObject_HasBeenSet_DerivativeGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region P2IntN
-        protected readonly IHasBeenSetItem<P2Int?> _P2IntN = new HasBeenSetItem<P2Int?>(
-            default(P2Int?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P2Int?> _P2IntN = HasBeenSetItem.Factory<P2Int?>(markAsSet: false);
         public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
         public P2Int? P2IntN
         {
-            get => this._P2IntN.Value;
+            get => this._P2IntN.Item;
             protected set => this._P2IntN.Set(value);
         }
         P2Int? ITestObject_HasBeenSet_DerivativeGetter.P2IntN => this.P2IntN;
         IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSet_DerivativeGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
-        protected readonly IHasBeenSetItem<P2Int> _P2Int = new HasBeenSetItem<P2Int>(
-            default(P2Int),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P2Int> _P2Int = HasBeenSetItem.Factory<P2Int>(markAsSet: false);
         public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
         public P2Int P2Int
         {
-            get => this._P2Int.Value;
+            get => this._P2Int.Item;
             protected set => this._P2Int.Set(value);
         }
         P2Int ITestObject_HasBeenSet_DerivativeGetter.P2Int => this.P2Int;
         IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSet_DerivativeGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
-        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = new HasBeenSetItem<P3Double?>(
-            default(P3Double?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = HasBeenSetItem.Factory<P3Double?>(markAsSet: false);
         public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
         public P3Double? P3DoubleN
         {
-            get => this._P3DoubleN.Value;
+            get => this._P3DoubleN.Item;
             protected set => this._P3DoubleN.Set(value);
         }
         P3Double? ITestObject_HasBeenSet_DerivativeGetter.P3DoubleN => this.P3DoubleN;
         IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSet_DerivativeGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
-        protected readonly IHasBeenSetItem<P3Double> _P3Double = new HasBeenSetItem<P3Double>(
-            default(P3Double),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P3Double> _P3Double = HasBeenSetItem.Factory<P3Double>(markAsSet: false);
         public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
         public P3Double P3Double
         {
-            get => this._P3Double.Value;
+            get => this._P3Double.Item;
             protected set => this._P3Double.Set(value);
         }
         P3Double ITestObject_HasBeenSet_DerivativeGetter.P3Double => this.P3Double;
         IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSet_DerivativeGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
-        protected readonly IHasBeenSetItem<P3Int?> _P3IntN = new HasBeenSetItem<P3Int?>(
-            default(P3Int?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P3Int?> _P3IntN = HasBeenSetItem.Factory<P3Int?>(markAsSet: false);
         public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
         public P3Int? P3IntN
         {
-            get => this._P3IntN.Value;
+            get => this._P3IntN.Item;
             protected set => this._P3IntN.Set(value);
         }
         P3Int? ITestObject_HasBeenSet_DerivativeGetter.P3IntN => this.P3IntN;
         IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSet_DerivativeGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
-        protected readonly IHasBeenSetItem<P3Int> _P3Int = new HasBeenSetItem<P3Int>(
-            default(P3Int),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<P3Int> _P3Int = HasBeenSetItem.Factory<P3Int>(markAsSet: false);
         public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
         public P3Int P3Int
         {
-            get => this._P3Int.Value;
+            get => this._P3Int.Item;
             protected set => this._P3Int.Set(value);
         }
         P3Int ITestObject_HasBeenSet_DerivativeGetter.P3Int => this.P3Int;
         IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSet_DerivativeGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
-        protected readonly INotifyingItem<Percent?> _PercentN = new NotifyingItem<Percent?>(
-            default(Percent?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Percent?> _PercentN = HasBeenSetItem.Factory<Percent?>(markAsSet: false);
         public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
         public Percent? PercentN
         {
-            get => this._PercentN.Value;
+            get => this._PercentN.Item;
             protected set => this._PercentN.Set(value);
         }
         Percent? ITestObject_HasBeenSet_DerivativeGetter.PercentN => this.PercentN;
         IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSet_DerivativeGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
-        protected readonly INotifyingItem<Percent> _Percent = new NotifyingItem<Percent>(
-            default(Percent),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Percent> _Percent = HasBeenSetItem.Factory<Percent>(markAsSet: false);
         public IHasBeenSetItem<Percent> Percent_Property => _Percent;
         public Percent Percent
         {
-            get => this._Percent.Value;
+            get => this._Percent.Item;
             protected set => this._Percent.Set(value);
         }
         Percent ITestObject_HasBeenSet_DerivativeGetter.Percent => this.Percent;
         IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSet_DerivativeGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeIntN
-        protected readonly INotifyingItem<RangeInt?> _RangeIntN = new NotifyingItem<RangeInt?>(
-            default(RangeInt?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<RangeInt?> _RangeIntN = HasBeenSetItem.Factory<RangeInt?>(markAsSet: false);
         public IHasBeenSetItem<RangeInt?> RangeIntN_Property => _RangeIntN;
         public RangeInt? RangeIntN
         {
-            get => this._RangeIntN.Value;
+            get => this._RangeIntN.Item;
             protected set => this._RangeIntN.Set(value);
         }
         RangeInt? ITestObject_HasBeenSet_DerivativeGetter.RangeIntN => this.RangeIntN;
         IHasBeenSetItemGetter<RangeInt?> ITestObject_HasBeenSet_DerivativeGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
         #region RangeInt
-        protected readonly INotifyingItem<RangeInt> _RangeInt = new NotifyingItem<RangeInt>(
-            default(RangeInt),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<RangeInt> _RangeInt = HasBeenSetItem.Factory<RangeInt>(markAsSet: false);
         public IHasBeenSetItem<RangeInt> RangeInt_Property => _RangeInt;
         public RangeInt RangeInt
         {
-            get => this._RangeInt.Value;
+            get => this._RangeInt.Item;
             protected set => this._RangeInt.Set(value);
         }
         RangeInt ITestObject_HasBeenSet_DerivativeGetter.RangeInt => this.RangeInt;
         IHasBeenSetItemGetter<RangeInt> ITestObject_HasBeenSet_DerivativeGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
         #region String
-        protected readonly IHasBeenSetItem<String> _String = new HasBeenSetItem<String>(
-            default(String),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<String> _String = HasBeenSetItem.Factory<String>(markAsSet: false);
         public IHasBeenSetItem<String> String_Property => _String;
         public String String
         {
-            get => this._String.Value;
+            get => this._String.Item;
             protected set => this._String.Set(value);
         }
         String ITestObject_HasBeenSet_DerivativeGetter.String => this.String;
         IHasBeenSetItemGetter<String> ITestObject_HasBeenSet_DerivativeGetter.String_Property => this.String_Property;
         #endregion
         #region UDoubleN
-        protected readonly INotifyingItem<UDouble?> _UDoubleN = new NotifyingItem<UDouble?>(
-            default(UDouble?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
         public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
         public UDouble? UDoubleN
         {
-            get => this._UDoubleN.Value;
+            get => this._UDoubleN.Item;
             protected set => this._UDoubleN.Set(value);
         }
         UDouble? ITestObject_HasBeenSet_DerivativeGetter.UDoubleN => this.UDoubleN;
         IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSet_DerivativeGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDouble
-        protected readonly INotifyingItem<UDouble> _UDouble = new NotifyingItem<UDouble>(
-            default(UDouble),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UDouble> _UDouble = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
         public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
         public UDouble UDouble
         {
-            get => this._UDouble.Value;
+            get => this._UDouble.Item;
             protected set => this._UDouble.Set(value);
         }
         UDouble ITestObject_HasBeenSet_DerivativeGetter.UDouble => this.UDouble;
         IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSet_DerivativeGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UInt16N
-        protected readonly INotifyingItem<UInt16?> _UInt16N = new NotifyingItem<UInt16?>(
-            default(UInt16?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt16?> _UInt16N = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
         public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
         public UInt16? UInt16N
         {
-            get => this._UInt16N.Value;
+            get => this._UInt16N.Item;
             protected set => this._UInt16N.Set(value);
         }
         UInt16? ITestObject_HasBeenSet_DerivativeGetter.UInt16N => this.UInt16N;
         IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSet_DerivativeGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16
-        protected readonly INotifyingItem<UInt16> _UInt16 = new NotifyingItem<UInt16>(
-            default(UInt16),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt16> _UInt16 = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
         public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
         public UInt16 UInt16
         {
-            get => this._UInt16.Value;
+            get => this._UInt16.Item;
             protected set => this._UInt16.Set(value);
         }
         UInt16 ITestObject_HasBeenSet_DerivativeGetter.UInt16 => this.UInt16;
         IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSet_DerivativeGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt32N
-        protected readonly INotifyingItem<UInt32?> _UInt32N = new NotifyingItem<UInt32?>(
-            default(UInt32?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt32?> _UInt32N = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
         public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
         public UInt32? UInt32N
         {
-            get => this._UInt32N.Value;
+            get => this._UInt32N.Item;
             protected set => this._UInt32N.Set(value);
         }
         UInt32? ITestObject_HasBeenSet_DerivativeGetter.UInt32N => this.UInt32N;
         IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSet_DerivativeGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32
-        protected readonly INotifyingItem<UInt32> _UInt32 = new NotifyingItem<UInt32>(
-            default(UInt32),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt32> _UInt32 = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
         public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
         public UInt32 UInt32
         {
-            get => this._UInt32.Value;
+            get => this._UInt32.Item;
             protected set => this._UInt32.Set(value);
         }
         UInt32 ITestObject_HasBeenSet_DerivativeGetter.UInt32 => this.UInt32;
         IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSet_DerivativeGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt64N
-        protected readonly INotifyingItem<UInt64?> _UInt64N = new NotifyingItem<UInt64?>(
-            default(UInt64?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt64?> _UInt64N = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
         public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
         public UInt64? UInt64N
         {
-            get => this._UInt64N.Value;
+            get => this._UInt64N.Item;
             protected set => this._UInt64N.Set(value);
         }
         UInt64? ITestObject_HasBeenSet_DerivativeGetter.UInt64N => this.UInt64N;
         IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSet_DerivativeGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64
-        protected readonly INotifyingItem<UInt64> _UInt64 = new NotifyingItem<UInt64>(
-            default(UInt64),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<UInt64> _UInt64 = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
         public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
         public UInt64 UInt64
         {
-            get => this._UInt64.Value;
+            get => this._UInt64.Item;
             protected set => this._UInt64.Set(value);
         }
         UInt64 ITestObject_HasBeenSet_DerivativeGetter.UInt64 => this.UInt64;
         IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSet_DerivativeGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt8N
-        protected readonly INotifyingItem<Byte?> _UInt8N = new NotifyingItem<Byte?>(
-            default(Byte?),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Byte?> _UInt8N = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
         public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
         public Byte? UInt8N
         {
-            get => this._UInt8N.Value;
+            get => this._UInt8N.Item;
             protected set => this._UInt8N.Set(value);
         }
         Byte? ITestObject_HasBeenSet_DerivativeGetter.UInt8N => this.UInt8N;
         IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSet_DerivativeGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8
-        protected readonly INotifyingItem<Byte> _UInt8 = new NotifyingItem<Byte>(
-            default(Byte),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Byte> _UInt8 = HasBeenSetItem.Factory<Byte>(markAsSet: false);
         public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
         public Byte UInt8
         {
-            get => this._UInt8.Value;
+            get => this._UInt8.Item;
             protected set => this._UInt8.Set(value);
         }
         Byte ITestObject_HasBeenSet_DerivativeGetter.UInt8 => this.UInt8;
         IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSet_DerivativeGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region Enum
-        protected readonly IHasBeenSetItem<TestEnum> _Enum = new HasBeenSetItem<TestEnum>(
-        );
+        protected readonly IHasBeenSetItem<TestEnum> _Enum = HasBeenSetItem.Factory<TestEnum>(markAsSet: false);
         public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
         public TestEnum Enum
         {
-            get => this._Enum.Value;
+            get => this._Enum.Item;
             protected set => this._Enum.Set(value);
         }
         TestEnum ITestObject_HasBeenSet_DerivativeGetter.Enum => this.Enum;
         IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSet_DerivativeGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region WildCard
-        protected readonly IHasBeenSetItem<Object> _WildCard = new HasBeenSetItem<Object>(
-            default(Object),
-            markAsSet: false);
+        protected readonly IHasBeenSetItem<Object> _WildCard = HasBeenSetItem.Factory<Object>(markAsSet: false);
         public IHasBeenSetItemGetter<Object> WildCard_Property => _WildCard;
         public Object WildCard => this._WildCard;
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSet_DerivativeGetter.WildCard_Property => this.WildCard_Property;
         #endregion
         #region Ref
-        private readonly HasBeenSetItem<ObjectToRef> _Ref = new HasBeenSetItem<ObjectToRef>();
+        protected readonly IHasBeenSetItem<ObjectToRef> _Ref = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
         public ObjectToRef Ref
         {
-            get { return this._Ref.Item; }
-            protected set { this._Ref.Item = value; }
+            get => this._Ref.Item;
+            protected set => this._Ref.Item = value;
         }
         public IHasBeenSetItemGetter<ObjectToRef> Ref_Property => this.Ref_Property;
         ObjectToRef ITestObject_HasBeenSet_DerivativeGetter.Ref => this._Ref.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_DerivativeGetter.Ref_Property => this._Ref;
         #endregion
         #region Ref_NotNull
-        private readonly HasBeenSetItemNoNull<ObjectToRef> _Ref_NotNull = new HasBeenSetItemNoNull<ObjectToRef>();
+        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(markAsSet: false);
         public ObjectToRef Ref_NotNull
         {
-            get { return this._Ref_NotNull.Item; }
-            protected set { this._Ref_NotNull.Item = value; }
+            get => this._Ref_NotNull.Item;
+            protected set => this._Ref_NotNull.Item = value;
         }
         public IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property => this.Ref_NotNull_Property;
         ObjectToRef ITestObject_HasBeenSet_DerivativeGetter.Ref_NotNull => this._Ref_NotNull.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_DerivativeGetter.Ref_NotNull_Property => this._Ref_NotNull;
         #endregion
         #region Ref_Singleton
-        private readonly HasBeenSetItem<ObjectToRef> _Ref_Singleton = new HasBeenSetItem<ObjectToRef>();
+        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            markAsSet: false);
         public ObjectToRef Ref_Singleton
         {
-            get { return this._Ref_Singleton.Item; }
+            get => this._Ref_Singleton.Item;
         }
         public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this.Ref_Singleton_Property;
         ObjectToRef ITestObject_HasBeenSet_DerivativeGetter.Ref_Singleton => this._Ref_Singleton.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_DerivativeGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
         #region RefGetter
-        private readonly HasBeenSetItem<IObjectToRefGetter> _RefGetter = new HasBeenSetItem<IObjectToRefGetter>();
+        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(markAsSet: false);
         public IObjectToRefGetter RefGetter
         {
-            get { return this._RefGetter.Item; }
-            protected set { this._RefGetter.Item = value; }
+            get => this._RefGetter.Item;
+            protected set => this._RefGetter.Item = value;
         }
         public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property => this.RefGetter_Property;
         IObjectToRefGetter ITestObject_HasBeenSet_DerivativeGetter.RefGetter => this._RefGetter.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_DerivativeGetter.RefGetter_Property => this._RefGetter;
         #endregion
         #region RefGetter_NotNull
-        private readonly HasBeenSetItemNoNull<IObjectToRefGetter, ObjectToRef> _RefGetter_NotNull = new HasBeenSetItemNoNull<IObjectToRefGetter, ObjectToRef>();
+        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
+            noNullFallback: () => new ObjectToRef(),
+            markAsSet: false);
         public IObjectToRefGetter RefGetter_NotNull
         {
-            get { return this._RefGetter_NotNull.Item; }
-            protected set { this._RefGetter_NotNull.Item = value; }
+            get => this._RefGetter_NotNull.Item;
+            protected set => this._RefGetter_NotNull.Item = value;
         }
         public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
         IObjectToRefGetter ITestObject_HasBeenSet_DerivativeGetter.RefGetter_NotNull => this._RefGetter_NotNull.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_DerivativeGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
         #endregion
         #region RefGetter_Singleton
-        private readonly HasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton = new HasBeenSetItem<IObjectToRefGetter>();
+        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
+            defaultVal: new ObjectToRef(),
+            markAsSet: false);
         public IObjectToRefGetter RefGetter_Singleton
         {
-            get { return this._RefGetter_Singleton.Item; }
+            get => this._RefGetter_Singleton.Item;
         }
         public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         IObjectToRefGetter ITestObject_HasBeenSet_DerivativeGetter.RefGetter_Singleton => this._RefGetter_Singleton.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_DerivativeGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
         #region RefSetter
-        private readonly HasBeenSetItem<IObjectToRef> _RefSetter = new HasBeenSetItem<IObjectToRef>();
+        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(markAsSet: false);
         public IObjectToRef RefSetter
         {
-            get { return this._RefSetter.Item; }
-            protected set { this._RefSetter.Item = value; }
+            get => this._RefSetter.Item;
+            protected set => this._RefSetter.Item = value;
         }
         public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property => this.RefSetter_Property;
         IObjectToRef ITestObject_HasBeenSet_DerivativeGetter.RefSetter => this._RefSetter.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_DerivativeGetter.RefSetter_Property => this._RefSetter;
         #endregion
         #region RefSetter_NotNull
-        private readonly HasBeenSetItemNoNull<IObjectToRef, ObjectToRef> _RefSetter_NotNull = new HasBeenSetItemNoNull<IObjectToRef, ObjectToRef>();
+        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
+            noNullFallback: () => new ObjectToRef(),
+            markAsSet: false);
         public IObjectToRef RefSetter_NotNull
         {
-            get { return this._RefSetter_NotNull.Item; }
-            protected set { this._RefSetter_NotNull.Item = value; }
+            get => this._RefSetter_NotNull.Item;
+            protected set => this._RefSetter_NotNull.Item = value;
         }
         public IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         IObjectToRef ITestObject_HasBeenSet_DerivativeGetter.RefSetter_NotNull => this._RefSetter_NotNull.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_DerivativeGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
         #endregion
         #region RefSetter_Singleton
-        private readonly HasBeenSetItem<IObjectToRef> _RefSetter_Singleton = new HasBeenSetItem<IObjectToRef>();
+        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            markAsSet: false);
         public IObjectToRef RefSetter_Singleton
         {
-            get { return this._RefSetter_Singleton.Item; }
+            get => this._RefSetter_Singleton.Item;
         }
         public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         IObjectToRef ITestObject_HasBeenSet_DerivativeGetter.RefSetter_Singleton => this._RefSetter_Singleton.Item;

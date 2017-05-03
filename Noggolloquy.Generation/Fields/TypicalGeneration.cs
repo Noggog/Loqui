@@ -36,22 +36,63 @@ namespace Noggolloquy.Generation
             HasDefault = node.TryGetAttribute("default", out DefaultValue);
         }
 
+        public override void GenerateForCtor(FileGeneration fg)
+        {
+            base.GenerateForCtor(fg);
+
+            switch (this.Notifying)
+            {
+                case NotifyingOption.HasBeenSet:
+                case NotifyingOption.Notifying:
+                    if (!this.TrueReadOnly)
+                    {
+                        if (this.RaisePropertyChanged)
+                        {
+                            GenerateNotifyingConstruction(fg, $"_{this.Name}");
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        
         public override void GenerateForClass(FileGeneration fg)
         {
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                    if (this.RaisePropertyChanged)
+                    {
+                        fg.AppendLine($"private {TypeName} _{this.Name};");
+                        fg.AppendLine($"public {TypeName} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => _{this.Name};");
+                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                        }
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                    }
                     break;
                 case NotifyingOption.HasBeenSet:
                     if (!this.TrueReadOnly)
                     {
-                        GenerateNotifyingCtor(fg, notifying: false);
+                        if (this.RaisePropertyChanged)
+                        {
+                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
+                        }
+                        else
+                        {
+                            GenerateNotifyingCtor(fg);
+                        }
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"get => this._{ this.Name}.Value;");
+                            fg.AppendLine($"get => this._{ this.Name}.Item;");
                             fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
@@ -65,12 +106,19 @@ namespace Noggolloquy.Generation
                     }
                     break;
                 case NotifyingOption.Notifying:
-                    this.GenerateNotifyingCtor(fg);
+                    if (this.RaisePropertyChanged)
+                    {
+                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg);
+                    }
                     fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => this._{ this.Name}.Value;");
+                        fg.AppendLine($"get => this._{ this.Name}.Item;");
                         fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
                     if (!this.Protected)
@@ -84,21 +132,25 @@ namespace Noggolloquy.Generation
             }
         }
 
-        protected virtual void GenerateNotifyingCtor(FileGeneration fg, bool notifying = true)
+        protected void GenerateNotifyingCtor(FileGeneration fg)
+        {
+            GenerateNotifyingConstruction(fg, $"protected readonly I{(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}<{TypeName}> _{this.Name}");
+        }
+
+        protected virtual void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
             using (var args = new ArgsWrapper(fg,
-                $"protected readonly {(notifying ? "INotifyingItem" : "IHasBeenSetItem")}<{TypeName}> _{this.Name} = new {(notifying ? "NotifyingItem" : "HasBeenSetItem")}<{TypeName}>"))
+                $"{prepend} = {(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory<{TypeName}>"))
             {
+                if (this.RaisePropertyChanged)
+                {
+                    args.Add($"onSet: (i) => this.OnPropertyChanged(nameof({this.Name}))");
+                }
                 if (HasDefault)
                 {
                     args.Add($"defaultVal: {GenerateDefaultValue()}");
-                    args.Add("markAsSet: false");
                 }
-                else
-                {
-                    args.Add($"default({this.TypeName})");
-                    args.Add("markAsSet: false");
-                }
+                args.Add("markAsSet: false");
             }
         }
 

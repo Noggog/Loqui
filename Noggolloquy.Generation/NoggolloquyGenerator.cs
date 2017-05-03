@@ -28,6 +28,7 @@ namespace Noggolloquy.Generation
         public NoggInterfaceType InterfaceTypeDefault = NoggInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public bool RaisePropertyChangedDefault = true;
 
         public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
         {

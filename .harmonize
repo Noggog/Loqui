@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>604a61050e683a2debbf16e8a1039e73bce3ed76</Sha>
-      <Description>Notifying file organization</Description>
+      <Sha>4f8b97836e7e11bac8076d79210329d57bc39fbc</Sha>
+      <Description>HasBeenSet and NotifyingItem Factories offering many optional features</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>04-30-2017 23:06:01</CommitDate>
+      <CommitDate>05-03-2017 18:01:42</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

@@ -17,7 +17,8 @@ namespace Noggolloquy.Tests.Generator
             NoggolloquyGenerator gen = new NoggolloquyGenerator(
                 new DirectoryInfo(pathPrefix))
             {
-                DefaultNamespace = "Noggolloquy.Tests"
+                DefaultNamespace = "Noggolloquy.Tests",
+                RaisePropertyChangedDefault = false
             };
 
             // Add Field Types

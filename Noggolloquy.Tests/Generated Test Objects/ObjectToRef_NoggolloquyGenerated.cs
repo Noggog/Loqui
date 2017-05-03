@@ -32,26 +32,22 @@ namespace Noggolloquy.Tests
         }
         partial void CustomCtor();
         #region KeyField
-        protected readonly INotifyingItem<Int32> _KeyField = new NotifyingItem<Int32>(
-            default(Int32),
-            markAsSet: false);
+        protected readonly INotifyingItem<Int32> _KeyField = NotifyingItem.Factory<Int32>(markAsSet: false);
         public INotifyingItem<Int32> KeyField_Property => _KeyField;
         public Int32 KeyField
         {
-            get => this._KeyField.Value;
+            get => this._KeyField.Item;
             set => this._KeyField.Set(value);
         }
         INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
         INotifyingItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
         #region SomeField
-        protected readonly INotifyingItem<Boolean> _SomeField = new NotifyingItem<Boolean>(
-            default(Boolean),
-            markAsSet: false);
+        protected readonly INotifyingItem<Boolean> _SomeField = NotifyingItem.Factory<Boolean>(markAsSet: false);
         public INotifyingItem<Boolean> SomeField_Property => _SomeField;
         public Boolean SomeField
         {
-            get => this._SomeField.Value;
+            get => this._SomeField.Item;
             set => this._SomeField.Set(value);
         }
         INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;

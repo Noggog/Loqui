@@ -32,13 +32,11 @@ namespace Noggolloquy.Tests
         }
         partial void CustomCtor();
         #region NewField
-        protected readonly INotifyingItem<Boolean> _NewField = new NotifyingItem<Boolean>(
-            default(Boolean),
-            markAsSet: false);
+        protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>(markAsSet: false);
         public INotifyingItem<Boolean> NewField_Property => _NewField;
         public Boolean NewField
         {
-            get => this._NewField.Value;
+            get => this._NewField.Item;
             set => this._NewField.Set(value);
         }
         INotifyingItem<Boolean> ITestObject_Notifying_SubClass.NewField_Property => this.NewField_Property;

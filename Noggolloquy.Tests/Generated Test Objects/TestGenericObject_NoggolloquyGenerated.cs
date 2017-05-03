@@ -36,7 +36,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingItem<R> _Ref = new NotifyingItem<R>();
         public INotifyingItem<R> Ref_Property => this._Ref;
         R ITestGenericObjectGetter<T, R>.Ref => this.Ref;
-        public R Ref { get { return _Ref.Value; } set { _Ref.Value = value; } }
+        public R Ref { get => _Ref.Item; set => _Ref.Item = value; }
         INotifyingItem<R> ITestGenericObject<T, R>.Ref_Property => this.Ref_Property;
         INotifyingItemGetter<R> ITestGenericObjectGetter<T, R>.Ref_Property => this.Ref_Property;
         #endregion

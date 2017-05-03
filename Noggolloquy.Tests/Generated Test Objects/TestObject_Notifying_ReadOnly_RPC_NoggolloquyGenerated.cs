@@ -22,12 +22,12 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnly, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_ReadOnly>
+    public partial class TestObject_Notifying_ReadOnly_RPC : ITestObject_Notifying_ReadOnly_RPC, INoggolloquyObjectSetter, IEquatable<TestObject_Notifying_ReadOnly_RPC>
     {
-        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
-        public static TestObject_Notifying_ReadOnly_Registration Registration => TestObject_Notifying_ReadOnly_Registration.Instance;
+        INoggolloquyRegistration INoggolloquyObject.Registration => TestObject_Notifying_ReadOnly_RPC_Registration.Instance;
+        public static TestObject_Notifying_ReadOnly_RPC_Registration Registration => TestObject_Notifying_ReadOnly_RPC_Registration.Instance;
 
-        public TestObject_Notifying_ReadOnly()
+        public TestObject_Notifying_ReadOnly_RPC()
         {
             CustomCtor();
         }
@@ -40,7 +40,7 @@ namespace Noggolloquy.Tests
             get => this._BoolN.Item;
             protected set => this._BoolN.Set(value);
         }
-        INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnlyGetter.BoolN_Property => this.BoolN_Property;
+        INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnly_RPCGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
         protected readonly INotifyingItem<Boolean> _Bool = NotifyingItem.Factory<Boolean>(markAsSet: false);
@@ -50,7 +50,7 @@ namespace Noggolloquy.Tests
             get => this._Bool.Item;
             protected set => this._Bool.Set(value);
         }
-        INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.Bool_Property => this.Bool_Property;
+        INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnly_RPCGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
         protected readonly INotifyingItem<Char?> _CharN = NotifyingItem.Factory<Char?>(markAsSet: false);
@@ -60,7 +60,7 @@ namespace Noggolloquy.Tests
             get => this._CharN.Item;
             protected set => this._CharN.Set(value);
         }
-        INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnlyGetter.CharN_Property => this.CharN_Property;
+        INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnly_RPCGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
         protected readonly INotifyingItem<Char> _Char = NotifyingItem.Factory<Char>(markAsSet: false);
@@ -70,7 +70,7 @@ namespace Noggolloquy.Tests
             get => this._Char.Item;
             protected set => this._Char.Set(value);
         }
-        INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnlyGetter.Char_Property => this.Char_Property;
+        INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnly_RPCGetter.Char_Property => this.Char_Property;
         #endregion
         #region DoubleN
         protected readonly INotifyingItem<Double?> _DoubleN = NotifyingItem.Factory<Double?>(markAsSet: false);
@@ -80,7 +80,7 @@ namespace Noggolloquy.Tests
             get => this._DoubleN.Item;
             protected set => this._DoubleN.Set(value);
         }
-        INotifyingItemGetter<Double?> ITestObject_Notifying_ReadOnlyGetter.DoubleN_Property => this.DoubleN_Property;
+        INotifyingItemGetter<Double?> ITestObject_Notifying_ReadOnly_RPCGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region Double
         protected readonly INotifyingItem<Double> _Double = NotifyingItem.Factory<Double>(markAsSet: false);
@@ -90,7 +90,7 @@ namespace Noggolloquy.Tests
             get => this._Double.Item;
             protected set => this._Double.Set(value);
         }
-        INotifyingItemGetter<Double> ITestObject_Notifying_ReadOnlyGetter.Double_Property => this.Double_Property;
+        INotifyingItemGetter<Double> ITestObject_Notifying_ReadOnly_RPCGetter.Double_Property => this.Double_Property;
         #endregion
         #region FloatN
         protected readonly INotifyingItem<Single?> _FloatN = NotifyingItem.Factory<Single?>(markAsSet: false);
@@ -100,7 +100,7 @@ namespace Noggolloquy.Tests
             get => this._FloatN.Item;
             protected set => this._FloatN.Set(value);
         }
-        INotifyingItemGetter<Single?> ITestObject_Notifying_ReadOnlyGetter.FloatN_Property => this.FloatN_Property;
+        INotifyingItemGetter<Single?> ITestObject_Notifying_ReadOnly_RPCGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region Float
         protected readonly INotifyingItem<Single> _Float = NotifyingItem.Factory<Single>(markAsSet: false);
@@ -110,7 +110,7 @@ namespace Noggolloquy.Tests
             get => this._Float.Item;
             protected set => this._Float.Set(value);
         }
-        INotifyingItemGetter<Single> ITestObject_Notifying_ReadOnlyGetter.Float_Property => this.Float_Property;
+        INotifyingItemGetter<Single> ITestObject_Notifying_ReadOnly_RPCGetter.Float_Property => this.Float_Property;
         #endregion
         #region Int16N
         protected readonly INotifyingItem<Int16?> _Int16N = NotifyingItem.Factory<Int16?>(markAsSet: false);
@@ -120,7 +120,7 @@ namespace Noggolloquy.Tests
             get => this._Int16N.Item;
             protected set => this._Int16N.Set(value);
         }
-        INotifyingItemGetter<Int16?> ITestObject_Notifying_ReadOnlyGetter.Int16N_Property => this.Int16N_Property;
+        INotifyingItemGetter<Int16?> ITestObject_Notifying_ReadOnly_RPCGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16
         protected readonly INotifyingItem<Int16> _Int16 = NotifyingItem.Factory<Int16>(markAsSet: false);
@@ -130,7 +130,7 @@ namespace Noggolloquy.Tests
             get => this._Int16.Item;
             protected set => this._Int16.Set(value);
         }
-        INotifyingItemGetter<Int16> ITestObject_Notifying_ReadOnlyGetter.Int16_Property => this.Int16_Property;
+        INotifyingItemGetter<Int16> ITestObject_Notifying_ReadOnly_RPCGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int32N
         protected readonly INotifyingItem<Int32?> _Int32N = NotifyingItem.Factory<Int32?>(markAsSet: false);
@@ -140,7 +140,7 @@ namespace Noggolloquy.Tests
             get => this._Int32N.Item;
             protected set => this._Int32N.Set(value);
         }
-        INotifyingItemGetter<Int32?> ITestObject_Notifying_ReadOnlyGetter.Int32N_Property => this.Int32N_Property;
+        INotifyingItemGetter<Int32?> ITestObject_Notifying_ReadOnly_RPCGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32
         protected readonly INotifyingItem<Int32> _Int32 = NotifyingItem.Factory<Int32>(markAsSet: false);
@@ -150,7 +150,7 @@ namespace Noggolloquy.Tests
             get => this._Int32.Item;
             protected set => this._Int32.Set(value);
         }
-        INotifyingItemGetter<Int32> ITestObject_Notifying_ReadOnlyGetter.Int32_Property => this.Int32_Property;
+        INotifyingItemGetter<Int32> ITestObject_Notifying_ReadOnly_RPCGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int64N
         protected readonly INotifyingItem<Int64?> _Int64N = NotifyingItem.Factory<Int64?>(markAsSet: false);
@@ -160,7 +160,7 @@ namespace Noggolloquy.Tests
             get => this._Int64N.Item;
             protected set => this._Int64N.Set(value);
         }
-        INotifyingItemGetter<Int64?> ITestObject_Notifying_ReadOnlyGetter.Int64N_Property => this.Int64N_Property;
+        INotifyingItemGetter<Int64?> ITestObject_Notifying_ReadOnly_RPCGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64
         protected readonly INotifyingItem<Int64> _Int64 = NotifyingItem.Factory<Int64>(markAsSet: false);
@@ -170,7 +170,7 @@ namespace Noggolloquy.Tests
             get => this._Int64.Item;
             protected set => this._Int64.Set(value);
         }
-        INotifyingItemGetter<Int64> ITestObject_Notifying_ReadOnlyGetter.Int64_Property => this.Int64_Property;
+        INotifyingItemGetter<Int64> ITestObject_Notifying_ReadOnly_RPCGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int8N
         protected readonly INotifyingItem<SByte?> _Int8N = NotifyingItem.Factory<SByte?>(markAsSet: false);
@@ -180,7 +180,7 @@ namespace Noggolloquy.Tests
             get => this._Int8N.Item;
             protected set => this._Int8N.Set(value);
         }
-        INotifyingItemGetter<SByte?> ITestObject_Notifying_ReadOnlyGetter.Int8N_Property => this.Int8N_Property;
+        INotifyingItemGetter<SByte?> ITestObject_Notifying_ReadOnly_RPCGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8
         protected readonly INotifyingItem<SByte> _Int8 = NotifyingItem.Factory<SByte>(markAsSet: false);
@@ -190,7 +190,7 @@ namespace Noggolloquy.Tests
             get => this._Int8.Item;
             protected set => this._Int8.Set(value);
         }
-        INotifyingItemGetter<SByte> ITestObject_Notifying_ReadOnlyGetter.Int8_Property => this.Int8_Property;
+        INotifyingItemGetter<SByte> ITestObject_Notifying_ReadOnly_RPCGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Unsafe
         protected readonly INotifyingItem<bool> _Unsafe = NotifyingItem.Factory<bool>(markAsSet: false);
@@ -200,7 +200,7 @@ namespace Noggolloquy.Tests
             get => this._Unsafe.Item;
             protected set => this._Unsafe.Set(value);
         }
-        INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnlyGetter.Unsafe_Property => this.Unsafe_Property;
+        INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnly_RPCGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region P2IntN
         protected readonly INotifyingItem<P2Int?> _P2IntN = NotifyingItem.Factory<P2Int?>(markAsSet: false);
@@ -210,7 +210,7 @@ namespace Noggolloquy.Tests
             get => this._P2IntN.Item;
             protected set => this._P2IntN.Set(value);
         }
-        INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnlyGetter.P2IntN_Property => this.P2IntN_Property;
+        INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnly_RPCGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
         protected readonly INotifyingItem<P2Int> _P2Int = NotifyingItem.Factory<P2Int>(markAsSet: false);
@@ -220,7 +220,7 @@ namespace Noggolloquy.Tests
             get => this._P2Int.Item;
             protected set => this._P2Int.Set(value);
         }
-        INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnlyGetter.P2Int_Property => this.P2Int_Property;
+        INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnly_RPCGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
         protected readonly INotifyingItem<P3Double?> _P3DoubleN = NotifyingItem.Factory<P3Double?>(markAsSet: false);
@@ -230,7 +230,7 @@ namespace Noggolloquy.Tests
             get => this._P3DoubleN.Item;
             protected set => this._P3DoubleN.Set(value);
         }
-        INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnlyGetter.P3DoubleN_Property => this.P3DoubleN_Property;
+        INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnly_RPCGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
         protected readonly INotifyingItem<P3Double> _P3Double = NotifyingItem.Factory<P3Double>(markAsSet: false);
@@ -240,7 +240,7 @@ namespace Noggolloquy.Tests
             get => this._P3Double.Item;
             protected set => this._P3Double.Set(value);
         }
-        INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnlyGetter.P3Double_Property => this.P3Double_Property;
+        INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnly_RPCGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
         protected readonly INotifyingItem<P3Int?> _P3IntN = NotifyingItem.Factory<P3Int?>(markAsSet: false);
@@ -250,7 +250,7 @@ namespace Noggolloquy.Tests
             get => this._P3IntN.Item;
             protected set => this._P3IntN.Set(value);
         }
-        INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnlyGetter.P3IntN_Property => this.P3IntN_Property;
+        INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnly_RPCGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
         protected readonly INotifyingItem<P3Int> _P3Int = NotifyingItem.Factory<P3Int>(markAsSet: false);
@@ -260,7 +260,7 @@ namespace Noggolloquy.Tests
             get => this._P3Int.Item;
             protected set => this._P3Int.Set(value);
         }
-        INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnlyGetter.P3Int_Property => this.P3Int_Property;
+        INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnly_RPCGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
         protected readonly INotifyingItem<Percent?> _PercentN = NotifyingItem.Factory<Percent?>(markAsSet: false);
@@ -270,7 +270,7 @@ namespace Noggolloquy.Tests
             get => this._PercentN.Item;
             protected set => this._PercentN.Set(value);
         }
-        INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnlyGetter.PercentN_Property => this.PercentN_Property;
+        INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnly_RPCGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
         protected readonly INotifyingItem<Percent> _Percent = NotifyingItem.Factory<Percent>(markAsSet: false);
@@ -280,7 +280,7 @@ namespace Noggolloquy.Tests
             get => this._Percent.Item;
             protected set => this._Percent.Set(value);
         }
-        INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnlyGetter.Percent_Property => this.Percent_Property;
+        INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnly_RPCGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeIntN
         protected readonly INotifyingItem<RangeInt?> _RangeIntN = NotifyingItem.Factory<RangeInt?>(markAsSet: false);
@@ -290,7 +290,7 @@ namespace Noggolloquy.Tests
             get => this._RangeIntN.Item;
             protected set => this._RangeIntN.Set(value);
         }
-        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_ReadOnlyGetter.RangeIntN_Property => this.RangeIntN_Property;
+        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
         #region RangeInt
         protected readonly INotifyingItem<RangeInt> _RangeInt = NotifyingItem.Factory<RangeInt>(markAsSet: false);
@@ -300,7 +300,7 @@ namespace Noggolloquy.Tests
             get => this._RangeInt.Item;
             protected set => this._RangeInt.Set(value);
         }
-        INotifyingItemGetter<RangeInt> ITestObject_Notifying_ReadOnlyGetter.RangeInt_Property => this.RangeInt_Property;
+        INotifyingItemGetter<RangeInt> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
         #region String
         protected readonly INotifyingItem<String> _String = NotifyingItem.Factory<String>(markAsSet: false);
@@ -310,7 +310,7 @@ namespace Noggolloquy.Tests
             get => this._String.Item;
             protected set => this._String.Set(value);
         }
-        INotifyingItemGetter<String> ITestObject_Notifying_ReadOnlyGetter.String_Property => this.String_Property;
+        INotifyingItemGetter<String> ITestObject_Notifying_ReadOnly_RPCGetter.String_Property => this.String_Property;
         #endregion
         #region UDoubleN
         protected readonly INotifyingItem<UDouble?> _UDoubleN = NotifyingItem.Factory<UDouble?>(markAsSet: false);
@@ -320,7 +320,7 @@ namespace Noggolloquy.Tests
             get => this._UDoubleN.Item;
             protected set => this._UDoubleN.Set(value);
         }
-        INotifyingItemGetter<UDouble?> ITestObject_Notifying_ReadOnlyGetter.UDoubleN_Property => this.UDoubleN_Property;
+        INotifyingItemGetter<UDouble?> ITestObject_Notifying_ReadOnly_RPCGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDouble
         protected readonly INotifyingItem<UDouble> _UDouble = NotifyingItem.Factory<UDouble>(markAsSet: false);
@@ -330,7 +330,7 @@ namespace Noggolloquy.Tests
             get => this._UDouble.Item;
             protected set => this._UDouble.Set(value);
         }
-        INotifyingItemGetter<UDouble> ITestObject_Notifying_ReadOnlyGetter.UDouble_Property => this.UDouble_Property;
+        INotifyingItemGetter<UDouble> ITestObject_Notifying_ReadOnly_RPCGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UInt16N
         protected readonly INotifyingItem<UInt16?> _UInt16N = NotifyingItem.Factory<UInt16?>(markAsSet: false);
@@ -340,7 +340,7 @@ namespace Noggolloquy.Tests
             get => this._UInt16N.Item;
             protected set => this._UInt16N.Set(value);
         }
-        INotifyingItemGetter<UInt16?> ITestObject_Notifying_ReadOnlyGetter.UInt16N_Property => this.UInt16N_Property;
+        INotifyingItemGetter<UInt16?> ITestObject_Notifying_ReadOnly_RPCGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16
         protected readonly INotifyingItem<UInt16> _UInt16 = NotifyingItem.Factory<UInt16>(markAsSet: false);
@@ -350,7 +350,7 @@ namespace Noggolloquy.Tests
             get => this._UInt16.Item;
             protected set => this._UInt16.Set(value);
         }
-        INotifyingItemGetter<UInt16> ITestObject_Notifying_ReadOnlyGetter.UInt16_Property => this.UInt16_Property;
+        INotifyingItemGetter<UInt16> ITestObject_Notifying_ReadOnly_RPCGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt32N
         protected readonly INotifyingItem<UInt32?> _UInt32N = NotifyingItem.Factory<UInt32?>(markAsSet: false);
@@ -360,7 +360,7 @@ namespace Noggolloquy.Tests
             get => this._UInt32N.Item;
             protected set => this._UInt32N.Set(value);
         }
-        INotifyingItemGetter<UInt32?> ITestObject_Notifying_ReadOnlyGetter.UInt32N_Property => this.UInt32N_Property;
+        INotifyingItemGetter<UInt32?> ITestObject_Notifying_ReadOnly_RPCGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32
         protected readonly INotifyingItem<UInt32> _UInt32 = NotifyingItem.Factory<UInt32>(markAsSet: false);
@@ -370,7 +370,7 @@ namespace Noggolloquy.Tests
             get => this._UInt32.Item;
             protected set => this._UInt32.Set(value);
         }
-        INotifyingItemGetter<UInt32> ITestObject_Notifying_ReadOnlyGetter.UInt32_Property => this.UInt32_Property;
+        INotifyingItemGetter<UInt32> ITestObject_Notifying_ReadOnly_RPCGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt64N
         protected readonly INotifyingItem<UInt64?> _UInt64N = NotifyingItem.Factory<UInt64?>(markAsSet: false);
@@ -380,7 +380,7 @@ namespace Noggolloquy.Tests
             get => this._UInt64N.Item;
             protected set => this._UInt64N.Set(value);
         }
-        INotifyingItemGetter<UInt64?> ITestObject_Notifying_ReadOnlyGetter.UInt64N_Property => this.UInt64N_Property;
+        INotifyingItemGetter<UInt64?> ITestObject_Notifying_ReadOnly_RPCGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64
         protected readonly INotifyingItem<UInt64> _UInt64 = NotifyingItem.Factory<UInt64>(markAsSet: false);
@@ -390,7 +390,7 @@ namespace Noggolloquy.Tests
             get => this._UInt64.Item;
             protected set => this._UInt64.Set(value);
         }
-        INotifyingItemGetter<UInt64> ITestObject_Notifying_ReadOnlyGetter.UInt64_Property => this.UInt64_Property;
+        INotifyingItemGetter<UInt64> ITestObject_Notifying_ReadOnly_RPCGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt8N
         protected readonly INotifyingItem<Byte?> _UInt8N = NotifyingItem.Factory<Byte?>(markAsSet: false);
@@ -400,7 +400,7 @@ namespace Noggolloquy.Tests
             get => this._UInt8N.Item;
             protected set => this._UInt8N.Set(value);
         }
-        INotifyingItemGetter<Byte?> ITestObject_Notifying_ReadOnlyGetter.UInt8N_Property => this.UInt8N_Property;
+        INotifyingItemGetter<Byte?> ITestObject_Notifying_ReadOnly_RPCGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8
         protected readonly INotifyingItem<Byte> _UInt8 = NotifyingItem.Factory<Byte>(markAsSet: false);
@@ -410,7 +410,7 @@ namespace Noggolloquy.Tests
             get => this._UInt8.Item;
             protected set => this._UInt8.Set(value);
         }
-        INotifyingItemGetter<Byte> ITestObject_Notifying_ReadOnlyGetter.UInt8_Property => this.UInt8_Property;
+        INotifyingItemGetter<Byte> ITestObject_Notifying_ReadOnly_RPCGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region Enum
         protected readonly INotifyingItem<TestEnum> _Enum = NotifyingItem.Factory<TestEnum>(markAsSet: false);
@@ -420,7 +420,7 @@ namespace Noggolloquy.Tests
             get => this._Enum.Item;
             protected set => this._Enum.Set(value);
         }
-        INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnlyGetter.Enum_Property => this.Enum_Property;
+        INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnly_RPCGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region WildCard
         protected readonly INotifyingItem<Object> _WildCard = new NotifyingItemConvertWrapper<Object>(
@@ -430,14 +430,14 @@ namespace Noggolloquy.Tests
         );
         public INotifyingItemGetter<Object> WildCard_Property => _WildCard;
         public Object WildCard { get => _WildCard.Item; protected set => _WildCard.Item = value; }
-        INotifyingItemGetter<Object> ITestObject_Notifying_ReadOnlyGetter.WildCard_Property => this.WildCard_Property;
+        INotifyingItemGetter<Object> ITestObject_Notifying_ReadOnly_RPCGetter.WildCard_Property => this.WildCard_Property;
         #endregion
         #region Ref
         private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
         public INotifyingItemGetter<ObjectToRef> Ref_Property => this._Ref;
-        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.Ref => this.Ref;
+        ObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.Ref => this.Ref;
         public ObjectToRef Ref { get => _Ref.Item; }
-        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.Ref_Property => this.Ref_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.Ref_Property => this.Ref_Property;
         #endregion
         #region Ref_NotNull
         private readonly INotifyingItem<ObjectToRef> _Ref_NotNull = new NotifyingItemConvertWrapper<ObjectToRef>(
@@ -452,23 +452,23 @@ namespace Noggolloquy.Tests
             }
         );
         public INotifyingItemGetter<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
-        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.Ref_NotNull => this.Ref_NotNull;
+        ObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.Ref_NotNull => this.Ref_NotNull;
         public ObjectToRef Ref_NotNull { get => _Ref_NotNull.Item; }
-        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
         #endregion
         #region Ref_Singleton
         private readonly INotifyingItem<ObjectToRef> _Ref_Singleton = new NotifyingItem<ObjectToRef>(new ObjectToRef());
         public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
-        ObjectToRef ITestObject_Notifying_ReadOnlyGetter.Ref_Singleton => this.Ref_Singleton;
+        ObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
-        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
+        INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
         #endregion
         #region RefGetter
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
-        IObjectToRefGetter ITestObject_Notifying_ReadOnlyGetter.RefGetter => this.RefGetter;
+        IObjectToRefGetter ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter => this.RefGetter;
         public IObjectToRefGetter RefGetter { get => _RefGetter.Item; }
-        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnlyGetter.RefGetter_Property => this.RefGetter_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
         #region RefGetter_NotNull
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRefGetter>(
@@ -483,23 +483,23 @@ namespace Noggolloquy.Tests
             }
         );
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
-        IObjectToRefGetter ITestObject_Notifying_ReadOnlyGetter.RefGetter_NotNull => this.RefGetter_NotNull;
+        IObjectToRefGetter ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter_NotNull => this.RefGetter_NotNull;
         public IObjectToRefGetter RefGetter_NotNull { get => _RefGetter_NotNull.Item; }
-        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnlyGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
         #endregion
         #region RefGetter_Singleton
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton = new NotifyingItem<IObjectToRefGetter>(new ObjectToRef());
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
-        IObjectToRefGetter ITestObject_Notifying_ReadOnlyGetter.RefGetter_Singleton => this.RefGetter_Singleton;
+        IObjectToRefGetter ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
-        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnlyGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
+        INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_ReadOnly_RPCGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         #endregion
         #region RefSetter
         private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
         public INotifyingItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
-        IObjectToRef ITestObject_Notifying_ReadOnlyGetter.RefSetter => this.RefSetter;
+        IObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter => this.RefSetter;
         public IObjectToRef RefSetter { get => _RefSetter.Item; }
-        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefSetter_Property => this.RefSetter_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
         #region RefSetter_NotNull
         private readonly INotifyingItem<IObjectToRef> _RefSetter_NotNull = new NotifyingItemConvertWrapper<IObjectToRef>(
@@ -514,22 +514,22 @@ namespace Noggolloquy.Tests
             }
         );
         public INotifyingItemGetter<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
-        IObjectToRef ITestObject_Notifying_ReadOnlyGetter.RefSetter_NotNull => this.RefSetter_NotNull;
+        IObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter_NotNull => this.RefSetter_NotNull;
         public IObjectToRef RefSetter_NotNull { get => _RefSetter_NotNull.Item; }
-        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         #endregion
         #region RefSetter_Singleton
         private readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton = new NotifyingItem<IObjectToRef>(new ObjectToRef());
         public INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
-        IObjectToRef ITestObject_Notifying_ReadOnlyGetter.RefSetter_Singleton => this.RefSetter_Singleton;
+        IObjectToRef ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
-        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
+        INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
-        INotifyingListGetter<Boolean> ITestObject_Notifying_ReadOnlyGetter.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_Notifying_ReadOnly_RPCGetter.List => _List;
         #endregion
 
         #endregion
@@ -537,7 +537,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.RefList => _RefList;
         #endregion
 
         #endregion
@@ -545,7 +545,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
         public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnlyGetter.Dict => _Dict;
+        INotifyingDictionaryGetter<Boolean, String> ITestObject_Notifying_ReadOnly_RPCGetter.Dict => _Dict;
         #endregion
 
         #endregion
@@ -553,7 +553,7 @@ namespace Noggolloquy.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.RefDict => _RefDict;
         #endregion
 
         #endregion
@@ -561,20 +561,20 @@ namespace Noggolloquy.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnlyGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
 
         #endregion
 
         #region Noggolloquy Getter Interface
 
-        protected object GetNthObject(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObject(index, this);
+        protected object GetNthObject(ushort index) => TestObject_Notifying_ReadOnly_RPCCommon.GetNthObject(index, this);
         object INoggolloquyObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_ReadOnlyCommon.GetNthObjectHasBeenSet(index, this);
+        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_ReadOnly_RPCCommon.GetNthObjectHasBeenSet(index, this);
         bool INoggolloquyObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_ReadOnlyCommon.UnsetNthObject(index, this, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_ReadOnly_RPCCommon.UnsetNthObject(index, this, cmds);
         void INoggolloquyObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
@@ -582,17 +582,17 @@ namespace Noggolloquy.Tests
         #region Noggolloquy Interface
         protected void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObject_Notifying_ReadOnlyCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_ReadOnly_RPCCommon.SetNthObjectHasBeenSet(index, on, this);
         }
         void INoggolloquyObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
         public void CopyFieldsFrom(
-            ITestObject_Notifying_ReadOnlyGetter rhs,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter rhs,
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(
+            TestObject_Notifying_ReadOnly_RPCCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -603,22 +603,22 @@ namespace Noggolloquy.Tests
         }
 
         public void CopyFieldsFrom(
-            ITestObject_Notifying_ReadOnlyGetter rhs,
-            out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter rhs,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnly_ErrorMask retErrorMask = null;
-            Func<TestObject_Notifying_ReadOnly_ErrorMask> maskGetter = () =>
+            TestObject_Notifying_ReadOnly_RPC_ErrorMask retErrorMask = null;
+            Func<TestObject_Notifying_ReadOnly_RPC_ErrorMask> maskGetter = () =>
             {
                 if (retErrorMask == null)
                 {
-                    retErrorMask = new TestObject_Notifying_ReadOnly_ErrorMask();
+                    retErrorMask = new TestObject_Notifying_ReadOnly_RPC_ErrorMask();
                 }
                 return retErrorMask;
             };
-            TestObject_Notifying_ReadOnlyCommon.CopyFieldsFrom(
+            TestObject_Notifying_ReadOnly_RPCCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -642,11 +642,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_Notifying_ReadOnly rhs)) return false;
+            if (!(obj is TestObject_Notifying_ReadOnly_RPC rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_Notifying_ReadOnly rhs)
+        public bool Equals(TestObject_Notifying_ReadOnly_RPC rhs)
         {
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
@@ -769,23 +769,23 @@ namespace Noggolloquy.Tests
 
 
         #region XML Translation
-        public static TestObject_Notifying_ReadOnly Create_XML(XElement root)
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(XElement root)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_ReadOnly_RPC();
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipProtected: false,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
+                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
                 cmds: null);
             return ret;
         }
 
-        public static TestObject_Notifying_ReadOnly Create_XML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask)
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(XElement root, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            var ret = new TestObject_Notifying_ReadOnly_RPC();
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipProtected: false,
@@ -797,18 +797,18 @@ namespace Noggolloquy.Tests
 
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask,
+                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
                 cmds: cmds);
         }
 
-        public virtual void CopyIn_XML(XElement root, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(XElement root, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -827,7 +827,7 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void Write_XML(Stream stream, out TestObject_Notifying_ReadOnly_ErrorMask errorMask)
+        public void Write_XML(Stream stream, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
             {
@@ -837,9 +837,9 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public void Write_XML(XmlWriter writer, out TestObject_Notifying_ReadOnly_ErrorMask errorMask, string name = null)
+        public void Write_XML(XmlWriter writer, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
@@ -849,49 +849,49 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(XmlWriter writer, string name)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
+                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
         }
 
         public void Write_XML(XmlWriter writer)
         {
-            NoggXmlTranslation<TestObject_Notifying_ReadOnly, TestObject_Notifying_ReadOnly_ErrorMask>.Instance.Write(
+            NoggXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.Write(
                 writer: writer,
                 name: null,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_ErrorMask errorMask);
+                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
         }
 
         #endregion
 
-        public TestObject_Notifying_ReadOnly Copy(
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null)
+        public TestObject_Notifying_ReadOnly_RPC Copy(
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null)
         {
-            return TestObject_Notifying_ReadOnly.Copy(
+            return TestObject_Notifying_ReadOnly_RPC.Copy(
                 this,
                 copyMask: copyMask,
                 def: def);
         }
 
-        public static TestObject_Notifying_ReadOnly Copy(
-            ITestObject_Notifying_ReadOnly item,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null)
+        public static TestObject_Notifying_ReadOnly_RPC Copy(
+            ITestObject_Notifying_ReadOnly_RPC item,
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null)
         {
-            TestObject_Notifying_ReadOnly ret;
-            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly)))
+            TestObject_Notifying_ReadOnly_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly_RPC)))
             {
-                ret = new TestObject_Notifying_ReadOnly();
+                ret = new TestObject_Notifying_ReadOnly_RPC();
             }
             else
             {
-                ret = (TestObject_Notifying_ReadOnly)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_ReadOnly_RPC)Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -902,14 +902,14 @@ namespace Noggolloquy.Tests
 
         public static CopyType Copy<CopyType>(
             CopyType item,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null)
-            where CopyType : class, ITestObject_Notifying_ReadOnly
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null)
+            where CopyType : class, ITestObject_Notifying_ReadOnly_RPC
         {
             CopyType ret;
-            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly)))
+            if (item.GetType().Equals(typeof(TestObject_Notifying_ReadOnly_RPC)))
             {
-                ret = new TestObject_Notifying_ReadOnly() as CopyType;
+                ret = new TestObject_Notifying_ReadOnly_RPC() as CopyType;
             }
             else
             {
@@ -925,12 +925,12 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestObject_Notifying_ReadOnly Copy_ToNoggolloquy(
-            ITestObject_Notifying_ReadOnlyGetter item,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask = null,
-            ITestObject_Notifying_ReadOnlyGetter def = null)
+        public static TestObject_Notifying_ReadOnly_RPC Copy_ToNoggolloquy(
+            ITestObject_Notifying_ReadOnly_RPCGetter item,
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_ReadOnly_RPCGetter def = null)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
+            var ret = new TestObject_Notifying_ReadOnly_RPC();
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -941,252 +941,252 @@ namespace Noggolloquy.Tests
         void INoggolloquyObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     this._BoolN.Set(
                         (Boolean?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     this._Bool.Set(
                         (Boolean)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     this._CharN.Set(
                         (Char?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     this._Char.Set(
                         (Char)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     this._DoubleN.Set(
                         (Double?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     this._Double.Set(
                         (Double)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     this._FloatN.Set(
                         (Single?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     this._Float.Set(
                         (Single)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     this._Int16N.Set(
                         (Int16?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     this._Int16.Set(
                         (Int16)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     this._Int32N.Set(
                         (Int32?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     this._Int32.Set(
                         (Int32)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     this._Int64N.Set(
                         (Int64?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     this._Int64.Set(
                         (Int64)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     this._Int8N.Set(
                         (SByte?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     this._Int8.Set(
                         (SByte)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     this._Unsafe.Set(
                         (bool)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     this._P2IntN.Set(
                         (P2Int?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     this._P2Int.Set(
                         (P2Int)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     this._P3DoubleN.Set(
                         (P3Double?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     this._P3Double.Set(
                         (P3Double)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     this._P3IntN.Set(
                         (P3Int?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     this._P3Int.Set(
                         (P3Int)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     this._PercentN.Set(
                         (Percent?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     this._Percent.Set(
                         (Percent)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     this._RangeIntN.Set(
                         (RangeInt?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     this._RangeInt.Set(
                         (RangeInt)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     this._String.Set(
                         (String)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     this._UDoubleN.Set(
                         (UDouble?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     this._UDouble.Set(
                         (UDouble)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     this._UInt16N.Set(
                         (UInt16?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     this._UInt16.Set(
                         (UInt16)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     this._UInt32N.Set(
                         (UInt32?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     this._UInt32.Set(
                         (UInt32)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     this._UInt64N.Set(
                         (UInt64?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     this._UInt64.Set(
                         (UInt64)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     this._UInt8N.Set(
                         (Byte?)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     this._UInt8.Set(
                         (Byte)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     this._Enum.Set(
                         (TestEnum)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     this._WildCard.Set(
                         (Object)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     this._Ref.Set(
                         (ObjectToRef)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     this._Ref_NotNull.Set(
                         (ObjectToRef)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Cannot set singleton member Ref_Singleton");
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     this._RefGetter.Set(
                         (IObjectToRefGetter)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     this._RefGetter_NotNull.Set(
                         (IObjectToRefGetter)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     this._RefSetter.Set(
                         (IObjectToRef)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     this._RefSetter_NotNull.Set(
                         (IObjectToRef)obj,
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefSetter_Singleton");
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     this.Dict.SetTo(
                         ((NotifyingDictionary<Boolean, String>)obj).Select(
                             (i) => new KeyValuePair<Boolean, String>(
@@ -1194,7 +1194,7 @@ namespace Noggolloquy.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     this.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -1202,7 +1202,7 @@ namespace Noggolloquy.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
                         cmds);
@@ -1222,17 +1222,17 @@ namespace Noggolloquy.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             CallClearPartial_Internal(cmds);
-            TestObject_Notifying_ReadOnlyCommon.Clear(this, cmds);
+            TestObject_Notifying_ReadOnly_RPCCommon.Clear(this, cmds);
         }
 
-        public static TestObject_Notifying_ReadOnly Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_Notifying_ReadOnly_RPC Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject_Notifying_ReadOnly();
+            var ret = new TestObject_Notifying_ReadOnly_RPC();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_ReadOnly obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_ReadOnly_RPC obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
@@ -1241,11 +1241,11 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject_Notifying_ReadOnly : ITestObject_Notifying_ReadOnlyGetter, INoggolloquyClass<ITestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>, INoggolloquyClass<TestObject_Notifying_ReadOnly, ITestObject_Notifying_ReadOnlyGetter>
+    public interface ITestObject_Notifying_ReadOnly_RPC : ITestObject_Notifying_ReadOnly_RPCGetter, INoggolloquyClass<ITestObject_Notifying_ReadOnly_RPC, ITestObject_Notifying_ReadOnly_RPCGetter>, INoggolloquyClass<TestObject_Notifying_ReadOnly_RPC, ITestObject_Notifying_ReadOnly_RPCGetter>
     {
     }
 
-    public interface ITestObject_Notifying_ReadOnlyGetter : INoggolloquyObject
+    public interface ITestObject_Notifying_ReadOnly_RPCGetter : INoggolloquyObject
     {
         #region BoolN
         Boolean? BoolN { get; }
@@ -1517,7 +1517,7 @@ namespace Noggolloquy.Tests
 namespace Noggolloquy.Tests.Internals
 {
     #region Field Index
-    public enum TestObject_Notifying_ReadOnly_FieldIndex
+    public enum TestObject_Notifying_ReadOnly_RPC_FieldIndex
     {
         BoolN = 0,
         Bool = 1,
@@ -1577,30 +1577,30 @@ namespace Noggolloquy.Tests.Internals
     #endregion
 
     #region Registration
-    public class TestObject_Notifying_ReadOnly_Registration : INoggolloquyRegistration
+    public class TestObject_Notifying_ReadOnly_RPC_Registration : INoggolloquyRegistration
     {
-        public static readonly TestObject_Notifying_ReadOnly_Registration Instance = new TestObject_Notifying_ReadOnly_Registration();
+        public static readonly TestObject_Notifying_ReadOnly_RPC_Registration Instance = new TestObject_Notifying_ReadOnly_RPC_Registration();
 
         public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_NoggolloquyTests.Definition;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_NoggolloquyTests.ProtocolKey,
-            msgID: 10,
+            msgID: 22,
             version: 0);
 
-        public const string GUID = "788f2672-47d2-47d0-a157-c7426032ad72";
+        public const string GUID = "70bd22b0-0f87-4b21-84bd-3e2baef30749";
 
         public const ushort FieldCount = 54;
 
-        public static readonly Type MaskType = typeof(TestObject_Notifying_ReadOnly_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_ReadOnly_RPC_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_ReadOnly_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_ReadOnly_RPC_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject_Notifying_ReadOnly);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_ReadOnly_RPC);
 
-        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_ReadOnly";
+        public const string FullName = "Noggolloquy.Tests.TestObject_Notifying_ReadOnly_RPC";
 
-        public const string Name = "TestObject_Notifying_ReadOnly";
+        public const string Name = "TestObject_Notifying_ReadOnly_RPC";
 
         public const byte GenericCount = 0;
 
@@ -1725,64 +1725,64 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return true;
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1791,64 +1791,64 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsNoggolloquy(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return true;
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1857,64 +1857,64 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1923,116 +1923,116 @@ namespace Noggolloquy.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     return "BoolN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     return "Bool";
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     return "CharN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     return "Char";
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     return "DoubleN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     return "Double";
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     return "FloatN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     return "Float";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     return "Int16N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     return "Int16";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     return "Int32N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     return "Int32";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     return "Int64N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     return "Int64";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     return "Int8N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     return "Int8";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     return "Unsafe";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     return "P2IntN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     return "P2Int";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return "P3DoubleN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     return "P3Double";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     return "P3IntN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     return "P3Int";
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     return "PercentN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     return "Percent";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     return "RangeIntN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     return "RangeInt";
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     return "String";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return "UDoubleN";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     return "UDouble";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     return "UInt16N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     return "UInt16";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     return "UInt32N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     return "UInt32";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     return "UInt64N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     return "UInt64";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     return "UInt8N";
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     return "UInt8";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     return "Enum";
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     return "WildCard";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     return "Ref";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return "Ref_NotNull";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return "Ref_Singleton";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     return "RefGetter";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return "RefGetter_NotNull";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return "RefGetter_Singleton";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     return "RefSetter";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return "RefSetter_NotNull";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return "RefSetter_Singleton";
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     return "List";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return "RefList";
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     return "Dict";
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     return "RefDict";
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2041,63 +2041,63 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2106,63 +2106,63 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool IsProtected(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2171,116 +2171,116 @@ namespace Noggolloquy.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     return typeof(Boolean?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     return typeof(Boolean);
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     return typeof(Char?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     return typeof(Char);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     return typeof(Double?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     return typeof(Double);
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     return typeof(Single?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     return typeof(Single);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     return typeof(Int16?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     return typeof(Int16);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     return typeof(Int32?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     return typeof(Int32);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     return typeof(Int64?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     return typeof(Int64);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     return typeof(SByte?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     return typeof(SByte);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     return typeof(bool);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     return typeof(P2Int?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     return typeof(P2Int);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return typeof(P3Double?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     return typeof(P3Double);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     return typeof(P3Int?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     return typeof(P3Int);
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     return typeof(Percent?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     return typeof(Percent);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     return typeof(RangeInt?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     return typeof(RangeInt);
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     return typeof(String);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     return typeof(UDouble);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     return typeof(UInt16?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     return typeof(UInt16);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     return typeof(UInt32?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     return typeof(UInt32);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     return typeof(UInt64?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     return typeof(UInt64);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     return typeof(Byte?);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     return typeof(Byte);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     return typeof(TestEnum);
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     return typeof(Object);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     return typeof(ObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return typeof(ObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return typeof(ObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return typeof(IObjectToRefGetter);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return typeof(IObjectToRefGetter);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     return typeof(IObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return typeof(IObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     return typeof(NotifyingList<Boolean>);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     return typeof(NotifyingDictionary<Boolean, String>);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2313,16 +2313,16 @@ namespace Noggolloquy.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class TestObject_Notifying_ReadOnlyCommon
+    public static class TestObject_Notifying_ReadOnly_RPCCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            this ITestObject_Notifying_ReadOnly item,
-            ITestObject_Notifying_ReadOnlyGetter rhs,
-            ITestObject_Notifying_ReadOnlyGetter def,
+            this ITestObject_Notifying_ReadOnly_RPC item,
+            ITestObject_Notifying_ReadOnly_RPCGetter rhs,
+            ITestObject_Notifying_ReadOnly_RPCGetter def,
             bool doErrorMask,
-            Func<TestObject_Notifying_ReadOnly_ErrorMask> errorMask,
-            TestObject_Notifying_ReadOnly_CopyMask copyMask,
+            Func<TestObject_Notifying_ReadOnly_RPC_ErrorMask> errorMask,
+            TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
         }
@@ -2332,119 +2332,119 @@ namespace Noggolloquy.Tests.Internals
         public static void SetNthObjectHasBeenSet(
             ushort index,
             bool on,
-            ITestObject_Notifying_ReadOnly obj,
+            ITestObject_Notifying_ReadOnly_RPC obj,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2453,119 +2453,119 @@ namespace Noggolloquy.Tests.Internals
 
         public static void UnsetNthObject(
             ushort index,
-            ITestObject_Notifying_ReadOnly obj,
+            ITestObject_Notifying_ReadOnly_RPC obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2574,118 +2574,118 @@ namespace Noggolloquy.Tests.Internals
 
         public static bool GetNthObjectHasBeenSet(
             ushort index,
-            ITestObject_Notifying_ReadOnly obj)
+            ITestObject_Notifying_ReadOnly_RPC obj)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     return obj.Bool_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     return obj.CharN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     return obj.Char_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     return obj.Double_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     return obj.FloatN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     return obj.Float_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     return obj.Int16N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     return obj.Int16_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     return obj.Int32N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     return obj.Int32_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     return obj.Int64N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     return obj.Int64_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     return obj.Int8N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     return obj.Int8_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     return obj.P2IntN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     return obj.P2Int_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     return obj.P3Double_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     return obj.P3IntN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     return obj.P3Int_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     return obj.PercentN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     return obj.Percent_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     return obj.RangeIntN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     return obj.RangeInt_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     return obj.String_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     return obj.UDouble_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     return obj.UInt16_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     return obj.UInt32_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     return obj.UInt64_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     return obj.UInt8_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton_Property.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     return obj.List.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return obj.RefList.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     return obj.Dict.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     return obj.RefDict.HasBeenSet;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2694,118 +2694,118 @@ namespace Noggolloquy.Tests.Internals
 
         public static object GetNthObject(
             ushort index,
-            ITestObject_Notifying_ReadOnlyGetter obj)
+            ITestObject_Notifying_ReadOnly_RPCGetter obj)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     return obj.BoolN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     return obj.Bool;
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     return obj.CharN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     return obj.Char;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     return obj.Double;
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     return obj.FloatN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     return obj.Float;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     return obj.Int16N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     return obj.Int16;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     return obj.Int32N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     return obj.Int32;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     return obj.Int64N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     return obj.Int64;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     return obj.Int8N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     return obj.Int8;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     return obj.P2IntN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     return obj.P2Int;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     return obj.P3Double;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     return obj.P3IntN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     return obj.P3Int;
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     return obj.PercentN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     return obj.Percent;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     return obj.RangeIntN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     return obj.RangeInt;
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     return obj.String;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     return obj.UDouble;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     return obj.UInt16;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     return obj.UInt32;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     return obj.UInt64;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     return obj.UInt8;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum;
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     return obj.Ref;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     return obj.RefGetter;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     return obj.RefSetter;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton;
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     return obj.List;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     return obj.RefList;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     return obj.Dict;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     return obj.RefDict;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -2813,7 +2813,7 @@ namespace Noggolloquy.Tests.Internals
         }
 
         public static void Clear(
-            ITestObject_Notifying_ReadOnly item,
+            ITestObject_Notifying_ReadOnly_RPC item,
             NotifyingUnsetParameters? cmds = null)
         {
         }
@@ -2823,7 +2823,7 @@ namespace Noggolloquy.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_Notifying_ReadOnly_Mask<T> 
+    public class TestObject_Notifying_ReadOnly_RPC_Mask<T> 
     {
         public T BoolN;
         public T Bool;
@@ -2881,7 +2881,7 @@ namespace Noggolloquy.Tests.Internals
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
-    public class TestObject_Notifying_ReadOnly_ErrorMask : IErrorMask
+    public class TestObject_Notifying_ReadOnly_RPC_ErrorMask : IErrorMask
     {
         public Exception Overall { get; set; }
         private List<string> _warnings;
@@ -2953,169 +2953,169 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthException(ushort index, Exception ex)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     this.Bool = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     this.CharN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     this.Char = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     this.Double = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     this.FloatN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     this.Float = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     this.Int16N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     this.Int16 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     this.Int32N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     this.Int32 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     this.Int64N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     this.Int64 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     this.Int8N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     this.Int8 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     this.Unsafe = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     this.P2IntN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     this.P2Int = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     this.P3DoubleN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     this.P3Double = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     this.P3IntN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     this.P3Int = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     this.PercentN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     this.Percent = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     this.RangeIntN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     this.RangeInt = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     this.String = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     this.UDouble = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     this.UInt16N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     this.UInt16 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     this.UInt32N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     this.UInt32 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     this.UInt64N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     this.UInt64 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     this.UInt8N = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     this.UInt8 = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = ex;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     this.RefList = new MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
                     break;
                 default:
@@ -3125,169 +3125,169 @@ namespace Noggolloquy.Tests.Internals
 
         public void SetNthMask(ushort index, object obj)
         {
-            TestObject_Notifying_ReadOnly_FieldIndex enu = (TestObject_Notifying_ReadOnly_FieldIndex)index;
+            TestObject_Notifying_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
                     this.Bool = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
                     this.CharN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Char:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
                     this.Char = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
                     this.Double = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.FloatN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
                     this.FloatN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Float:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
                     this.Float = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
                     this.Int16N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
                     this.Int16 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
                     this.Int32N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
                     this.Int32 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
                     this.Int64N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
                     this.Int64 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
                     this.Int8N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Int8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
                     this.Int8 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Unsafe:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
                     this.Unsafe = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
                     this.P2IntN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P2Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
                     this.P2Int = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     this.P3DoubleN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Double:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
                     this.P3Double = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3IntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
                     this.P3IntN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.P3Int:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
                     this.P3Int = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.PercentN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
                     this.PercentN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Percent:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
                     this.Percent = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeIntN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeIntN:
                     this.RangeIntN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RangeInt:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt:
                     this.RangeInt = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.String:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
                     this.String = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDoubleN:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UDouble:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
                     this.UDouble = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
                     this.UInt16N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt16:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
                     this.UInt16 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
                     this.UInt32N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt32:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
                     this.UInt32 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
                     this.UInt64N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt64:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
                     this.UInt64 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8N:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
                     this.UInt8N = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.UInt8:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
                     this.UInt8 = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Enum:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.WildCard:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.List:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
                     this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
                     this.RefList = (MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.Dict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
                     this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.RefDict:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
                     break;
-                case TestObject_Notifying_ReadOnly_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
                 default:
@@ -3296,7 +3296,7 @@ namespace Noggolloquy.Tests.Internals
         }
 
     }
-    public class TestObject_Notifying_ReadOnly_CopyMask
+    public class TestObject_Notifying_ReadOnly_RPC_CopyMask
     {
         public bool BoolN;
         public bool Bool;

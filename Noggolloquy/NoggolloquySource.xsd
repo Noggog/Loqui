@@ -360,6 +360,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="raisePropertyChangedDefault" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Sets the default value of the "Raise Property Changed" property on all of this objects contained fields.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="interfaceTypeDefault" type="NoggInterfaceType" >
       <xs:annotation>
         <xs:documentation>
@@ -569,6 +576,13 @@
       <xs:annotation>
         <xs:documentation>
           Whether the field should be Notifying and can be subscribed to.  By default this is true.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="raisePropertyChanged" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether the field should utilize RaisePropertyChanged interface.  By default this is true.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

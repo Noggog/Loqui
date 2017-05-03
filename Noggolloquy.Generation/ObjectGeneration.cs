@@ -2,6 +2,7 @@
 using Noggolloquy.Internal;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Noggolloquy.Generation
         public NoggInterfaceType InterfaceTypeDefault;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public bool RaisePropertyChangedDefault;
+        public bool HasRaisedPropertyChanged => this.Fields.Any((f) => f.RaisePropertyChanged);
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.Fields.Count : 0;
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
@@ -96,6 +99,7 @@ namespace Noggolloquy.Generation
             this.InterfaceTypeDefault = Node.GetAttribute<NoggInterfaceType>("interfaceTypeDefault", this.ProtoGen.InterfaceTypeDefault);
             this.ProtectedDefault = Node.GetAttribute<bool>("protectedDefault", this.ProtoGen.ProtectedDefault);
             this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", this.ProtoGen.DerivativeDefault);
+            this.RaisePropertyChangedDefault = Node.GetAttribute<bool>("raisePropertyChangedDefault", this.ProtoGen.RaisePropertyChangedDefault);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)
@@ -146,6 +150,12 @@ namespace Noggolloquy.Generation
             foreach (var mods in this.gen.GenerationModules)
             {
                 mods.Modify(this);
+            }
+
+            if (this.HasRaisedPropertyChanged)
+            {
+                this.requiredNamespaces.Add("System.ComponentModel");
+                this.Interfaces.Add(nameof(INotifyPropertyChanged));
             }
         }
 
@@ -267,7 +277,9 @@ namespace Noggolloquy.Generation
 
                 using (new BraceWrapper(fg))
                 {
-                    GenerateRegrationRouting(fg);
+                    GenerateRegistrationRouting(fg);
+
+                    GenerateRaisePropertyChanged(fg);
 
                     GenerateCtor(fg);
                     // Generate fields
@@ -617,11 +629,27 @@ namespace Noggolloquy.Generation
         }
 
         #region Generation Snippets
-        protected void GenerateRegrationRouting(FileGeneration fg)
+        protected void GenerateRegistrationRouting(FileGeneration fg)
         {
             fg.AppendLine($"INoggolloquyRegistration INoggolloquyObject.Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine($"public{NewOverride}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine();
+        }
+
+        protected void GenerateRaisePropertyChanged(FileGeneration fg)
+        {
+            if (!this.HasRaisedPropertyChanged) return;
+            using (new RegionWrapper(fg, "PropertyChangedHandler"))
+            {
+                fg.AppendLine($"public event PropertyChangedEventHandler PropertyChanged;");
+                fg.AppendLine();
+
+                fg.AppendLine($"protected void OnPropertyChanged(string name)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));");
+                }
+            }
         }
 
         protected abstract void GenerateCtor(FileGeneration fg);

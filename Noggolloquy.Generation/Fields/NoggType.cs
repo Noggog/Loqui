@@ -85,6 +85,27 @@ namespace Noggolloquy.Generation
 
         public override bool CopyNeedsTryCatch => true;
 
+        public override void GenerateForCtor(FileGeneration fg)
+        {
+            base.GenerateForCtor(fg);
+
+            switch (this.Notifying)
+            {
+                case NotifyingOption.HasBeenSet:
+                case NotifyingOption.Notifying:
+                    if (!this.TrueReadOnly)
+                    {
+                        if (this.RaisePropertyChanged)
+                        {
+                            GenerateNotifyingConstruction(fg, $"_{this.Name}");
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void GenerateForClass(FileGeneration fg)
         {
             switch (this.Notifying)
@@ -93,7 +114,20 @@ namespace Noggolloquy.Generation
                     switch (this.SingletonType)
                     {
                         case SingletonLevel.None:
-                            fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                            if (this.RaisePropertyChanged)
+                            {
+                                fg.AppendLine($"private {TypeName} _{this.Name};");
+                                fg.AppendLine($"public {TypeName} {this.Name}");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"get => _{this.Name};");
+                                    fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                                }
+                            }
+                            else
+                            {
+                                fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                            }
                             break;
                         case SingletonLevel.NotNull:
                             fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.ObjectTypeName}();");
@@ -112,24 +146,21 @@ namespace Noggolloquy.Generation
                     }
                     break;
                 case NotifyingOption.HasBeenSet:
-                    string hasBeenSet;
-                    if (this.SingletonType != SingletonLevel.NotNull)
+                    if (this.RaisePropertyChanged)
                     {
-                        hasBeenSet = $"HasBeenSetItem<{this.TypeName}>";
+                        fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
                     }
                     else
                     {
-                        hasBeenSet = $"HasBeenSetItem{(this.SingletonType == SingletonLevel.NotNull ? "NoNull" : string.Empty)}";
-                        hasBeenSet += $"<{this.TypeName}{((this.InterfaceType != NoggInterfaceType.Direct ? $", {this.RefGen.Name}" : string.Empty))}>";
+                        GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"private readonly {hasBeenSet} {this.ProtectedProperty} = new {hasBeenSet}();");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get {{ return this.{ this.ProtectedName}; }}");
+                        fg.AppendLine($"get => this.{ this.ProtectedName};");
                         if (this.SingletonType != SingletonLevel.Singleton)
                         {
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set {{ this.{this.ProtectedName} = value; }}");
+                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
                         }
                     }
                     if (this.Protected)
@@ -175,7 +206,7 @@ namespace Noggolloquy.Generation
                     }
                     fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get {{ return _{this.Name}.Value; }} {(this.Protected ? string.Empty : $"set {{ _{this.Name}.Value = value; }} ")}}}");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.Protected ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
                     if (!this.Protected && this.SingletonType != SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
@@ -184,6 +215,35 @@ namespace Noggolloquy.Generation
                     break;
                 default:
                     throw new NotImplementedException();
+            }
+        }
+
+        protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
+        {
+            using (var args = new ArgsWrapper(fg,
+                $"{prepend} = {(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == NoggInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
+            {
+                switch (this.SingletonType)
+                {
+                    case SingletonLevel.None:
+                    case SingletonLevel.NotNull:
+                        break;
+                    case SingletonLevel.Singleton:
+                        args.Add($"defaultVal: new {this.RefGen.ObjectName}()");
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                if (this.RaisePropertyChanged)
+                {
+                    args.Add($"onSet: (i) => this.OnPropertyChanged(nameof({this.Name}))");
+                }
+                if (this.SingletonType == SingletonLevel.NotNull
+                    && this.InterfaceType != NoggInterfaceType.Direct)
+                {
+                    args.Add($"noNullFallback: () => new {this.ObjectTypeName}()");
+                }
+                args.Add("markAsSet: false");
             }
         }
 

@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("errorMask().SetNthException(52, ex);"))
+            if (str.Equals("get => this._Bool.Value;"))
             {
                 int wer = 23;
                 wer++;

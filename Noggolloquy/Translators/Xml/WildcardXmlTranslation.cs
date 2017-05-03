@@ -15,7 +15,7 @@ namespace Noggolloquy.Xml
 
         public IXmlTranslation<Object> GetTranslator(Type t)
         {
-            return XmlTranslator.GetTranslator(t).Value.Value;
+            return XmlTranslator.GetTranslator(t).Item.Value;
         }
 
         public bool Validate(Type t)
@@ -38,7 +38,7 @@ namespace Noggolloquy.Xml
                     throw ex;
                 }
             }
-            var xml = GetTranslator(t.Value);
+            var xml = GetTranslator(t.Item);
             return xml.Parse(root, doMasks, out maskObj);
         }
 

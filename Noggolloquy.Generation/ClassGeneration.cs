@@ -112,6 +112,10 @@ namespace Noggolloquy.Generation
             fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
             using (new BraceWrapper(fg))
             {
+                foreach (var field in this.Fields)
+                {
+                    field.GenerateForCtor(fg);
+                }
                 fg.AppendLine("CustomCtor();");
             }
             fg.AppendLine("partial void CustomCtor();");

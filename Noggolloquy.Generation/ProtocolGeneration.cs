@@ -29,6 +29,7 @@ namespace Noggolloquy.Generation
         public NoggInterfaceType InterfaceTypeDefault = NoggInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public bool RaisePropertyChangedDefault = true;
 
         public ProtocolGeneration(
             NoggolloquyGenerator gen,
@@ -41,6 +42,7 @@ namespace Noggolloquy.Generation
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
             this.ProtectedDefault = gen.ProtectedDefault;
             this.DerivativeDefault = gen.DerivativeDefault;
+            this.RaisePropertyChangedDefault = gen.RaisePropertyChangedDefault;
         }
 
         public void LoadInitialObjects(IEnumerable<System.Tuple<XDocument, FileInfo>> xmlDocs)

@@ -27,6 +27,14 @@ namespace Noggolloquy
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_Derivative_Registration.Instance);
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_Derivative_Registration.Instance);
             NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_PrivateCtor_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Derivative_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_Derivative_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_ReadOnly_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_HasBeenSet_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_Derivative_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_ReadOnly_RPC_Registration.Instance);
+            NoggolloquyRegistration.Register(Noggolloquy.Tests.Internals.TestObject_Notifying_RPC_Registration.Instance);
         }
     }
 }
