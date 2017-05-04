@@ -132,5 +132,10 @@ namespace Noggolloquy.Generation
                 }
             }
         }
+
+        public virtual void Resolve()
+        {
+            this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
+        }
     }
 }

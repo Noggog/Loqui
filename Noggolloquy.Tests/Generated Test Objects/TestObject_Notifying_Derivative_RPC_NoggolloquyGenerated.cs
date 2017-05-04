@@ -39,6 +39,18 @@ namespace Noggolloquy.Tests
 
         public TestObject_Notifying_Derivative_RPC()
         {
+            _BoolN = NotifyingItem.Factory<Boolean?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(BoolN)),
+                markAsSet: false);
+            _Bool = NotifyingItem.Factory<Boolean>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Bool)),
+                markAsSet: false);
+            _CharN = NotifyingItem.Factory<Char?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(CharN)),
+                markAsSet: false);
+            _Char = NotifyingItem.Factory<Char>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Char)),
+                markAsSet: false);
             _DoubleN = NotifyingItem.Factory<Double?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(DoubleN)),
                 markAsSet: false);
@@ -280,6 +292,46 @@ namespace Noggolloquy.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #region BoolN
+        protected readonly INotifyingItem<Boolean?> _BoolN;
+        public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;
+        public Boolean? BoolN
+        {
+            get => this._BoolN.Item;
+            protected set => this._BoolN.Set(value);
+        }
+        INotifyingItemGetter<Boolean?> ITestObject_Notifying_Derivative_RPCGetter.BoolN_Property => this.BoolN_Property;
+        #endregion
+        #region Bool
+        protected readonly INotifyingItem<Boolean> _Bool;
+        public INotifyingItemGetter<Boolean> Bool_Property => _Bool;
+        public Boolean Bool
+        {
+            get => this._Bool.Item;
+            protected set => this._Bool.Set(value);
+        }
+        INotifyingItemGetter<Boolean> ITestObject_Notifying_Derivative_RPCGetter.Bool_Property => this.Bool_Property;
+        #endregion
+        #region CharN
+        protected readonly INotifyingItem<Char?> _CharN;
+        public INotifyingItemGetter<Char?> CharN_Property => _CharN;
+        public Char? CharN
+        {
+            get => this._CharN.Item;
+            protected set => this._CharN.Set(value);
+        }
+        INotifyingItemGetter<Char?> ITestObject_Notifying_Derivative_RPCGetter.CharN_Property => this.CharN_Property;
+        #endregion
+        #region Char
+        protected readonly INotifyingItem<Char> _Char;
+        public INotifyingItemGetter<Char> Char_Property => _Char;
+        public Char Char
+        {
+            get => this._Char.Item;
+            protected set => this._Char.Set(value);
+        }
+        INotifyingItemGetter<Char> ITestObject_Notifying_Derivative_RPCGetter.Char_Property => this.Char_Property;
+        #endregion
         #region DoubleN
         protected readonly INotifyingItem<Double?> _DoubleN;
         public INotifyingItemGetter<Double?> DoubleN_Property => _DoubleN;
@@ -1098,6 +1150,10 @@ namespace Noggolloquy.Tests
 
         public bool Equals(TestObject_Notifying_Derivative_RPC rhs)
         {
+            if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
+            if (!object.Equals(this.Bool, rhs.Bool)) return false;
+            if (!object.Equals(this.CharN, rhs.CharN)) return false;
+            if (!object.Equals(this.Char, rhs.Char)) return false;
             if (!object.Equals(this.DoubleN, rhs.DoubleN)) return false;
             if (!object.Equals(this.DoubleN_Ranged, rhs.DoubleN_Ranged)) return false;
             if (!object.Equals(this.Double, rhs.Double)) return false;
@@ -1176,7 +1232,11 @@ namespace Noggolloquy.Tests
         public override int GetHashCode()
         {
             return 
-            HashHelper.GetHashCode(DoubleN)
+            HashHelper.GetHashCode(BoolN)
+            .CombineHashCode(HashHelper.GetHashCode(Bool))
+            .CombineHashCode(HashHelper.GetHashCode(CharN))
+            .CombineHashCode(HashHelper.GetHashCode(Char))
+            .CombineHashCode(HashHelper.GetHashCode(DoubleN))
             .CombineHashCode(HashHelper.GetHashCode(DoubleN_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Double))
             .CombineHashCode(HashHelper.GetHashCode(Double_Ranged))
@@ -1430,6 +1490,10 @@ namespace Noggolloquy.Tests
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -1543,6 +1607,26 @@ namespace Noggolloquy.Tests
 
     public interface ITestObject_Notifying_Derivative_RPCGetter : INoggolloquyObject
     {
+        #region BoolN
+        Boolean? BoolN { get; }
+        INotifyingItemGetter<Boolean?> BoolN_Property { get; }
+
+        #endregion
+        #region Bool
+        Boolean Bool { get; }
+        INotifyingItemGetter<Boolean> Bool_Property { get; }
+
+        #endregion
+        #region CharN
+        Char? CharN { get; }
+        INotifyingItemGetter<Char?> CharN_Property { get; }
+
+        #endregion
+        #region Char
+        Char Char { get; }
+        INotifyingItemGetter<Char> Char_Property { get; }
+
+        #endregion
         #region DoubleN
         Double? DoubleN { get; }
         INotifyingItemGetter<Double?> DoubleN_Property { get; }
@@ -1905,78 +1989,82 @@ namespace Noggolloquy.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_Derivative_RPC_FieldIndex
     {
-        DoubleN = 0,
-        DoubleN_Ranged = 1,
-        Double = 2,
-        Double_Ranged = 3,
-        FloatN = 4,
-        FloatN_Ranged = 5,
-        Float = 6,
-        Float_Ranged = 7,
-        Int16N = 8,
-        Int16N_Ranged = 9,
-        Int16 = 10,
-        Int16_Ranged = 11,
-        Int32N = 12,
-        Int32N_Ranged = 13,
-        Int32 = 14,
-        Int32_Ranged = 15,
-        Int64N = 16,
-        Int64N_Ranged = 17,
-        Int64 = 18,
-        Int64_Ranged = 19,
-        Int8N = 20,
-        Int8N_Ranged = 21,
-        Int8 = 22,
-        Int8_Ranged = 23,
-        Unsafe = 24,
-        P2IntN = 25,
-        P2Int = 26,
-        P3DoubleN = 27,
-        P3Double = 28,
-        P3IntN = 29,
-        P3Int = 30,
-        PercentN = 31,
-        Percent = 32,
-        RangeIntN = 33,
-        RangeInt = 34,
-        String = 35,
-        UDoubleN = 36,
-        UDoubleN_Ranged = 37,
-        UDouble = 38,
-        UDouble_Ranged = 39,
-        UInt16N = 40,
-        UInt16N_Ranged = 41,
-        UInt16 = 42,
-        UInt16_Ranged = 43,
-        UInt32N = 44,
-        UInt32N_Ranged = 45,
-        UInt32 = 46,
-        UInt32_Ranged = 47,
-        UInt64N = 48,
-        UInt64N_Ranged = 49,
-        UInt64 = 50,
-        UInt64_Ranged = 51,
-        UInt8N = 52,
-        UInt8N_Ranged = 53,
-        UInt8 = 54,
-        UInt8_Ranged = 55,
-        Enum = 56,
-        WildCard = 57,
-        Ref = 58,
-        Ref_NotNull = 59,
-        Ref_Singleton = 60,
-        RefGetter = 61,
-        RefGetter_NotNull = 62,
-        RefGetter_Singleton = 63,
-        RefSetter = 64,
-        RefSetter_NotNull = 65,
-        RefSetter_Singleton = 66,
-        List = 67,
-        RefList = 68,
-        Dict = 69,
-        RefDict = 70,
-        DictKeyedValue = 71,
+        BoolN = 0,
+        Bool = 1,
+        CharN = 2,
+        Char = 3,
+        DoubleN = 4,
+        DoubleN_Ranged = 5,
+        Double = 6,
+        Double_Ranged = 7,
+        FloatN = 8,
+        FloatN_Ranged = 9,
+        Float = 10,
+        Float_Ranged = 11,
+        Int16N = 12,
+        Int16N_Ranged = 13,
+        Int16 = 14,
+        Int16_Ranged = 15,
+        Int32N = 16,
+        Int32N_Ranged = 17,
+        Int32 = 18,
+        Int32_Ranged = 19,
+        Int64N = 20,
+        Int64N_Ranged = 21,
+        Int64 = 22,
+        Int64_Ranged = 23,
+        Int8N = 24,
+        Int8N_Ranged = 25,
+        Int8 = 26,
+        Int8_Ranged = 27,
+        Unsafe = 28,
+        P2IntN = 29,
+        P2Int = 30,
+        P3DoubleN = 31,
+        P3Double = 32,
+        P3IntN = 33,
+        P3Int = 34,
+        PercentN = 35,
+        Percent = 36,
+        RangeIntN = 37,
+        RangeInt = 38,
+        String = 39,
+        UDoubleN = 40,
+        UDoubleN_Ranged = 41,
+        UDouble = 42,
+        UDouble_Ranged = 43,
+        UInt16N = 44,
+        UInt16N_Ranged = 45,
+        UInt16 = 46,
+        UInt16_Ranged = 47,
+        UInt32N = 48,
+        UInt32N_Ranged = 49,
+        UInt32 = 50,
+        UInt32_Ranged = 51,
+        UInt64N = 52,
+        UInt64N_Ranged = 53,
+        UInt64 = 54,
+        UInt64_Ranged = 55,
+        UInt8N = 56,
+        UInt8N_Ranged = 57,
+        UInt8 = 58,
+        UInt8_Ranged = 59,
+        Enum = 60,
+        WildCard = 61,
+        Ref = 62,
+        Ref_NotNull = 63,
+        Ref_Singleton = 64,
+        RefGetter = 65,
+        RefGetter_NotNull = 66,
+        RefGetter_Singleton = 67,
+        RefSetter = 68,
+        RefSetter_NotNull = 69,
+        RefSetter_Singleton = 70,
+        List = 71,
+        RefList = 72,
+        Dict = 73,
+        RefDict = 74,
+        DictKeyedValue = 75,
     }
     #endregion
 
@@ -1994,7 +2082,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "c676bc18-14c3-4cec-bd74-5c241915897c";
 
-        public const ushort FieldCount = 72;
+        public const ushort FieldCount = 76;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_Derivative_RPC_Mask<>);
 
@@ -2014,150 +2102,158 @@ namespace Noggolloquy.Tests.Internals
         {
             switch (str.Upper)
             {
-                case "DOUBLEN":
+                case "BOOLN":
                     return 0;
-                case "DOUBLEN_RANGED":
+                case "BOOL":
                     return 1;
-                case "DOUBLE":
+                case "CHARN":
                     return 2;
-                case "DOUBLE_RANGED":
+                case "CHAR":
                     return 3;
-                case "FLOATN":
+                case "DOUBLEN":
                     return 4;
-                case "FLOATN_RANGED":
+                case "DOUBLEN_RANGED":
                     return 5;
-                case "FLOAT":
+                case "DOUBLE":
                     return 6;
-                case "FLOAT_RANGED":
+                case "DOUBLE_RANGED":
                     return 7;
-                case "INT16N":
+                case "FLOATN":
                     return 8;
-                case "INT16N_RANGED":
+                case "FLOATN_RANGED":
                     return 9;
-                case "INT16":
+                case "FLOAT":
                     return 10;
-                case "INT16_RANGED":
+                case "FLOAT_RANGED":
                     return 11;
-                case "INT32N":
+                case "INT16N":
                     return 12;
-                case "INT32N_RANGED":
+                case "INT16N_RANGED":
                     return 13;
-                case "INT32":
+                case "INT16":
                     return 14;
-                case "INT32_RANGED":
+                case "INT16_RANGED":
                     return 15;
-                case "INT64N":
+                case "INT32N":
                     return 16;
-                case "INT64N_RANGED":
+                case "INT32N_RANGED":
                     return 17;
-                case "INT64":
+                case "INT32":
                     return 18;
-                case "INT64_RANGED":
+                case "INT32_RANGED":
                     return 19;
-                case "INT8N":
+                case "INT64N":
                     return 20;
-                case "INT8N_RANGED":
+                case "INT64N_RANGED":
                     return 21;
-                case "INT8":
+                case "INT64":
                     return 22;
-                case "INT8_RANGED":
+                case "INT64_RANGED":
                     return 23;
-                case "UNSAFE":
+                case "INT8N":
                     return 24;
-                case "P2INTN":
+                case "INT8N_RANGED":
                     return 25;
-                case "P2INT":
+                case "INT8":
                     return 26;
-                case "P3DOUBLEN":
+                case "INT8_RANGED":
                     return 27;
-                case "P3DOUBLE":
+                case "UNSAFE":
                     return 28;
-                case "P3INTN":
+                case "P2INTN":
                     return 29;
-                case "P3INT":
+                case "P2INT":
                     return 30;
-                case "PERCENTN":
+                case "P3DOUBLEN":
                     return 31;
-                case "PERCENT":
+                case "P3DOUBLE":
                     return 32;
-                case "RANGEINTN":
+                case "P3INTN":
                     return 33;
-                case "RANGEINT":
+                case "P3INT":
                     return 34;
-                case "STRING":
+                case "PERCENTN":
                     return 35;
-                case "UDOUBLEN":
+                case "PERCENT":
                     return 36;
-                case "UDOUBLEN_RANGED":
+                case "RANGEINTN":
                     return 37;
-                case "UDOUBLE":
+                case "RANGEINT":
                     return 38;
-                case "UDOUBLE_RANGED":
+                case "STRING":
                     return 39;
-                case "UINT16N":
+                case "UDOUBLEN":
                     return 40;
-                case "UINT16N_RANGED":
+                case "UDOUBLEN_RANGED":
                     return 41;
-                case "UINT16":
+                case "UDOUBLE":
                     return 42;
-                case "UINT16_RANGED":
+                case "UDOUBLE_RANGED":
                     return 43;
-                case "UINT32N":
+                case "UINT16N":
                     return 44;
-                case "UINT32N_RANGED":
+                case "UINT16N_RANGED":
                     return 45;
-                case "UINT32":
+                case "UINT16":
                     return 46;
-                case "UINT32_RANGED":
+                case "UINT16_RANGED":
                     return 47;
-                case "UINT64N":
+                case "UINT32N":
                     return 48;
-                case "UINT64N_RANGED":
+                case "UINT32N_RANGED":
                     return 49;
-                case "UINT64":
+                case "UINT32":
                     return 50;
-                case "UINT64_RANGED":
+                case "UINT32_RANGED":
                     return 51;
-                case "UINT8N":
+                case "UINT64N":
                     return 52;
-                case "UINT8N_RANGED":
+                case "UINT64N_RANGED":
                     return 53;
-                case "UINT8":
+                case "UINT64":
                     return 54;
-                case "UINT8_RANGED":
+                case "UINT64_RANGED":
                     return 55;
-                case "ENUM":
+                case "UINT8N":
                     return 56;
-                case "WILDCARD":
+                case "UINT8N_RANGED":
                     return 57;
-                case "REF":
+                case "UINT8":
                     return 58;
-                case "REF_NOTNULL":
+                case "UINT8_RANGED":
                     return 59;
-                case "REF_SINGLETON":
+                case "ENUM":
                     return 60;
-                case "REFGETTER":
+                case "WILDCARD":
                     return 61;
-                case "REFGETTER_NOTNULL":
+                case "REF":
                     return 62;
-                case "REFGETTER_SINGLETON":
+                case "REF_NOTNULL":
                     return 63;
-                case "REFSETTER":
+                case "REF_SINGLETON":
                     return 64;
-                case "REFSETTER_NOTNULL":
+                case "REFGETTER":
                     return 65;
-                case "REFSETTER_SINGLETON":
+                case "REFGETTER_NOTNULL":
                     return 66;
-                case "LIST":
+                case "REFGETTER_SINGLETON":
                     return 67;
-                case "REFLIST":
+                case "REFSETTER":
                     return 68;
-                case "DICT":
+                case "REFSETTER_NOTNULL":
                     return 69;
-                case "REFDICT":
+                case "REFSETTER_SINGLETON":
                     return 70;
-                case "DICTKEYEDVALUE":
+                case "LIST":
                     return 71;
+                case "REFLIST":
+                    return 72;
+                case "DICT":
+                    return 73;
+                case "REFDICT":
+                    return 74;
+                case "DICTKEYEDVALUE":
+                    return 75;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -2171,6 +2267,10 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.List:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefList:
                     return true;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -2263,6 +2363,10 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefList:
                     return true;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -2340,6 +2444,10 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -2420,6 +2528,14 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    return "BoolN";
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    return "Bool";
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    return "CharN";
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    return "Char";
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     return "DoubleN";
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
@@ -2574,6 +2690,10 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -2657,6 +2777,10 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -2740,6 +2864,14 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    return typeof(Boolean?);
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    return typeof(Boolean);
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    return typeof(Char?);
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    return typeof(Char);
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     return typeof(Double?);
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
@@ -2940,6 +3072,10 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -3026,6 +3162,10 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
@@ -3111,6 +3251,14 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    return obj.BoolN_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    return obj.Bool_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    return obj.CharN_Property.HasBeenSet;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    return obj.Char_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
@@ -3267,6 +3415,14 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    return obj.BoolN;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    return obj.Bool;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    return obj.CharN;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    return obj.Char;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
@@ -3429,6 +3585,10 @@ namespace Noggolloquy.Tests.Internals
     #region Mask
     public class TestObject_Notifying_Derivative_RPC_Mask<T> 
     {
+        public T BoolN;
+        public T Bool;
+        public T CharN;
+        public T Char;
         public T DoubleN;
         public T DoubleN_Ranged;
         public T Double;
@@ -3518,6 +3678,10 @@ namespace Noggolloquy.Tests.Internals
                 return _warnings;
             }
         }
+        public Exception BoolN;
+        public Exception Bool;
+        public Exception CharN;
+        public Exception Char;
         public Exception DoubleN;
         public Exception DoubleN_Ranged;
         public Exception Double;
@@ -3596,6 +3760,18 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    this.BoolN = ex;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    this.Bool = ex;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    this.CharN = ex;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    this.Char = ex;
+                    break;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
@@ -3822,6 +3998,18 @@ namespace Noggolloquy.Tests.Internals
             TestObject_Notifying_Derivative_RPC_FieldIndex enu = (TestObject_Notifying_Derivative_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
+                    this.BoolN = (Exception)obj;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
+                    this.Bool = (Exception)obj;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
+                    this.CharN = (Exception)obj;
+                    break;
+                case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
+                    this.Char = (Exception)obj;
+                    break;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
@@ -4046,6 +4234,10 @@ namespace Noggolloquy.Tests.Internals
     }
     public class TestObject_Notifying_Derivative_RPC_CopyMask
     {
+        public bool BoolN;
+        public bool Bool;
+        public bool CharN;
+        public bool Char;
         public bool DoubleN;
         public bool DoubleN_Ranged;
         public bool Double;

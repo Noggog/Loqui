@@ -68,7 +68,7 @@ namespace Noggolloquy.Generation
         public FileInfo SourceXMLFile { get; private set; }
         protected NoggolloquyGenerator gen;
         public ProtocolGeneration ProtoGen;
-        private HashSet<string> requiredNamespaces = new HashSet<string>();
+        public HashSet<string> RequiredNamespaces = new HashSet<string>();
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<TypeGeneration> Fields = new List<TypeGeneration>();
 
@@ -79,14 +79,14 @@ namespace Noggolloquy.Generation
             this.TargetDir = sourceFile.Directory;
             this.SourceXMLFile = sourceFile;
 
-            requiredNamespaces.Add("System");
-            requiredNamespaces.Add("System.Collections");
-            requiredNamespaces.Add("System.Collections.Generic");
-            requiredNamespaces.Add("System.Linq");
-            requiredNamespaces.Add("System.Text");
-            requiredNamespaces.Add("Noggolloquy");
-            requiredNamespaces.Add("Noggog");
-            requiredNamespaces.Add("Noggog.Notifying");
+            RequiredNamespaces.Add("System");
+            RequiredNamespaces.Add("System.Collections");
+            RequiredNamespaces.Add("System.Collections.Generic");
+            RequiredNamespaces.Add("System.Linq");
+            RequiredNamespaces.Add("System.Text");
+            RequiredNamespaces.Add("Noggolloquy");
+            RequiredNamespaces.Add("Noggog");
+            RequiredNamespaces.Add("Noggog.Notifying");
         }
 
         public virtual void Load()
@@ -108,11 +108,11 @@ namespace Noggolloquy.Generation
                 {
                     if (!string.IsNullOrWhiteSpace(node.Value))
                     {
-                        this.requiredNamespaces.Add(node.Value);
+                        this.RequiredNamespaces.Add(node.Value);
                     }
                 }
             }
-            requiredNamespaces.Add(InternalNamespace);
+            RequiredNamespaces.Add(InternalNamespace);
 
             foreach (var generic in Node.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)))
             {
@@ -151,12 +151,6 @@ namespace Noggolloquy.Generation
             {
                 mods.Modify(this);
             }
-
-            if (this.HasRaisedPropertyChanged)
-            {
-                this.requiredNamespaces.Add("System.ComponentModel");
-                this.Interfaces.Add(nameof(INotifyPropertyChanged));
-            }
         }
 
         public bool LoadField(XElement fieldNode, bool requireName, out TypeGeneration typeGen)
@@ -166,7 +160,7 @@ namespace Noggolloquy.Generation
                 typeGen = null;
                 return false;
             }
-
+            
             if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out typeGen))
             {
                 throw new ArgumentException("Unknown field type: " + fieldNode.Name);
@@ -175,7 +169,11 @@ namespace Noggolloquy.Generation
             typeGen.ObjectGen = this;
             typeGen.ProtoGen = this.ProtoGen;
             typeGen.Load(fieldNode, requireName);
-            requiredNamespaces.Add(typeGen.GetRequiredNamespaces());
+            var name = typeGen.Name;
+            if (this.Fields.Any((f) => f.Name?.Equals(name) ?? false))
+            {
+                throw new ArgumentException("Cannot have two fields with the same name.");
+            }
             return true;
         }
 
@@ -1351,10 +1349,10 @@ namespace Noggolloquy.Generation
 
         private void AddNamespaces(FileGeneration fg)
         {
-            requiredNamespaces.Add(
+            RequiredNamespaces.Add(
                 this.gen.GenerationModules.SelectMany((tr) => tr.RequiredUsingStatements())
                 .Union(this.GenerationInterfaces.SelectMany((i) => i.RequiredUsingStatements())));
-            foreach (var nameSpace in requiredNamespaces.Union(gen.Namespaces))
+            foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
             {
                 fg.AppendLine($"using {nameSpace};");
             }
@@ -1793,6 +1791,17 @@ namespace Noggolloquy.Generation
 
         public virtual void Resolve()
         {
+            foreach (var field in this.Fields.ToList())
+            {
+                field.Resolve();
+            }
+
+            if (this.HasRaisedPropertyChanged)
+            {
+                this.RequiredNamespaces.Add("System.ComponentModel");
+                this.Interfaces.Add(nameof(INotifyPropertyChanged));
+            }
+
             if (this.HasBaseObject)
             {
                 foreach (var baseGen in this.BaseClass.Generics)

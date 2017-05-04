@@ -83,6 +83,7 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<StringType>("String");
             AddTypeAssociation<UnsafeType>("UnsafeObject");
             AddTypeAssociation<WildcardType>("Wildcard");
+            AddTypeAssociation<FieldBatchPointerType>("FieldBatch");
         }
 
         public void AddTypeAssociation<T>(StringCaseAgnostic key, bool overrideExisting = false)
@@ -170,6 +171,20 @@ namespace Noggolloquy.Generation
         public void Add(GenerationInterface interf)
         {
             GenerationInterfaces.Add(interf);
+        }
+
+        public bool TryGetProtocol(ushort protoID, out KeyValuePair<ProtocolDefinition, ProtocolGeneration> protoGen)
+        {
+            if (!this.idUsageDict.TryGetValue(protoID, out var def)
+                || !this.targetData.TryGetValue(def, out var gen))
+            {
+                protoGen = default(KeyValuePair<ProtocolDefinition, ProtocolGeneration>);
+                return false;
+            }
+            protoGen = new KeyValuePair<ProtocolDefinition, ProtocolGeneration>(
+                def,
+                gen);
+            return true;
         }
 
         public void Generate()

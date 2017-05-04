@@ -12,20 +12,11 @@ namespace Noggolloquy.Generation
         public ProtocolDefinition Definition;
         public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
         public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
+        public Dictionary<StringCaseAgnostic, FieldBatch> FieldBatchesByName = new Dictionary<StringCaseAgnostic, FieldBatch>();
         public bool Empty => ObjectGenerationsByID.Count == 0;
         public NoggolloquyGenerator Gen { get; private set; }
         public DirectoryInfo DefFileLocationOverride { get; private set; }
-        public DirectoryInfo DefFileLocation
-        {
-            get
-            {
-                if (this.DefFileLocationOverride == null)
-                {
-                    return this.Gen.CommonGenerationFolder;
-                }
-                return this.DefFileLocationOverride;
-            }
-        }
+        public DirectoryInfo DefFileLocation => this.DefFileLocationOverride ?? this.Gen.CommonGenerationFolder;
         public NoggInterfaceType InterfaceTypeDefault = NoggInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
@@ -60,6 +51,13 @@ namespace Noggolloquy.Generation
                 if (namespaceNode != null)
                 {
                     namespaceStr = namespaceNode.Value;
+                }
+
+                foreach (var batch in objNode.Elements(XName.Get("FieldBatch", NoggolloquyGenerator.Namespace)))
+                {
+                    var fieldBatch = new FieldBatch(this.Gen);
+                    fieldBatch.Load(batch);
+                    this.FieldBatchesByName[fieldBatch.Name] = fieldBatch;
                 }
 
                 foreach (var obj in objNode.Elements(XName.Get("Object", NoggolloquyGenerator.Namespace))

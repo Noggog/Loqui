@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FieldBatch.cs" />
+    <Compile Include="Fields\FieldBatchPointerType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />

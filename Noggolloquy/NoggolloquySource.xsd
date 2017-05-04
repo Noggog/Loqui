@@ -68,6 +68,15 @@
           </xs:annotation>
         </xs:element>
       </xs:choice>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FieldBatch" type="FieldBatch" minOccurs="0" maxOccurs="unbounded" >
+          <xs:annotation>
+            <xs:documentation>
+              Define a new field batch object to contain reusable field chunks.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
     </xs:choice>
   </xs:complexType>
 
@@ -97,6 +106,7 @@
 
   <xs:group name="FieldOptions">
     <xs:choice>
+      <xs:element name="FieldBatch" type="FieldBatchPointer" />
       <xs:element name="UInt8" type="RangedInt" />
       <xs:element name="UInt16" type="RangedInt" />
       <xs:element name="UInt32" type="RangedInt" />
@@ -123,10 +133,10 @@
       <xs:element name="BoolNull" type="Bool" />
       <xs:element name="Char" type="Char" />
       <xs:element name="CharNull" type="Char" />
-      <xs:element name="RangeInt" type="Ranged" />
-      <xs:element name="RangeIntNull" type="Ranged" />
-      <xs:element name="RangeDouble" type="Ranged" />
-      <xs:element name="RangeDoubleNull" type="Ranged" />
+      <xs:element name="RangeInt" type="RangedInt" />
+      <xs:element name="RangeIntNull" type="RangedInt" />
+      <xs:element name="RangeDouble" type="RangedFloat" />
+      <xs:element name="RangeDoubleNull" type="RangedFloat" />
       <xs:element name="Percent" type="String" />
       <xs:element name="PercentNull" type="String" />
       <xs:element name="Float" type="RangedFloat" />
@@ -161,22 +171,23 @@
 
   <xs:group name="NamedFieldOptions">
     <xs:choice>
-      <xs:element name="UInt8" type="NRanged" />
-      <xs:element name="UInt16" type="NRanged" />
-      <xs:element name="UInt32" type="NRanged" />
-      <xs:element name="UInt64" type="NRanged" />
-      <xs:element name="Int8" type="NRanged" />
-      <xs:element name="Int16" type="NRanged" />
-      <xs:element name="Int32" type="NRanged" />
-      <xs:element name="Int64" type="NRanged" />
-      <xs:element name="UInt8Null" type="NRanged" />
-      <xs:element name="UInt16Null" type="NRanged" />
-      <xs:element name="UInt32Null" type="NRanged" />
-      <xs:element name="UInt64Null" type="NRanged" />
-      <xs:element name="Int8Null" type="NRanged" />
-      <xs:element name="Int16Null" type="NRanged" />
-      <xs:element name="Int32Null" type="NRanged" />
-      <xs:element name="Int64Null" type="NRanged" />
+      <xs:element name="FieldBatch" type="FieldBatchPointer" />
+      <xs:element name="UInt8" type="NRangedInt" />
+      <xs:element name="UInt16" type="NRangedInt" />
+      <xs:element name="UInt32" type="NRangedInt" />
+      <xs:element name="UInt64" type="NRangedInt" />
+      <xs:element name="Int8" type="NRangedInt" />
+      <xs:element name="Int16" type="NRangedInt" />
+      <xs:element name="Int32" type="NRangedInt" />
+      <xs:element name="Int64" type="NRangedInt" />
+      <xs:element name="UInt8Null" type="NRangedInt" />
+      <xs:element name="UInt16Null" type="NRangedInt" />
+      <xs:element name="UInt32Null" type="NRangedInt" />
+      <xs:element name="UInt64Null" type="NRangedInt" />
+      <xs:element name="Int8Null" type="NRangedInt" />
+      <xs:element name="Int16Null" type="NRangedInt" />
+      <xs:element name="Int32Null" type="NRangedInt" />
+      <xs:element name="Int64Null" type="NRangedInt" />
       <xs:element name="P2Int" type="NString" />
       <xs:element name="P2IntNull" type="NString" />
       <xs:element name="P3Int" type="NString" />
@@ -194,18 +205,18 @@
       <xs:element name="Char" type="NChar" />
       <xs:element name="CharNull" type="NChar" />
       <xs:element name="Random" type="NField" />
-      <xs:element name="RangeInt" type="NRanged" />
-      <xs:element name="RangeIntNull" type="NRanged" />
-      <xs:element name="RangeDouble" type="NRanged" />
-      <xs:element name="RangeDoubleNull" type="NRanged" />
+      <xs:element name="RangeInt" type="NRangedInt" />
+      <xs:element name="RangeIntNull" type="NRangedInt" />
+      <xs:element name="RangeDouble" type="NRangedFloat" />
+      <xs:element name="RangeDoubleNull" type="NRangedFloat" />
       <xs:element name="Percent" type="NString" />
       <xs:element name="PercentNull" type="NString" />
-      <xs:element name="Float" type="NRanged" />
-      <xs:element name="FloatNull" type="NRanged" />
-      <xs:element name="UDouble" type="NRanged" />
-      <xs:element name="UDoubleNull" type="NRanged" />
-      <xs:element name="Double" type="NRanged" />
-      <xs:element name="DoubleNull" type="NRanged" />
+      <xs:element name="Float" type="NRangedFloat" />
+      <xs:element name="FloatNull" type="NRangedFloat" />
+      <xs:element name="UDouble" type="NRangedFloat" />
+      <xs:element name="UDoubleNull" type="NRangedFloat" />
+      <xs:element name="Double" type="NRangedFloat" />
+      <xs:element name="DoubleNull" type="NRangedFloat" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
@@ -229,7 +240,27 @@
     </xs:choice>
   </xs:group>
 
-  <xs:complexType name="StructType">
+  <xs:complexType name="FieldBatch">
+    <xs:choice minOccurs="0" maxOccurs="unbounded" >
+      <xs:element name="Fields" type="FieldsType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Generic" type="Generic" minOccurs="0" maxOccurs="unbounded" >
+        <xs:annotation>
+          <xs:documentation>
+            The generic symbols to define in the object.  These can be used/referenced by fields.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string" use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          The name this object should have.  This needs to be unique per protocol.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+    <xs:complexType name="StructType">
     <xs:choice minOccurs="0" maxOccurs="unbounded" >
       <xs:element name="Interface" type="xs:string" minOccurs="0" maxOccurs="1" >
         <xs:annotation>
@@ -617,6 +648,23 @@
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FieldBatchPointer" >
+    <xs:attribute name="name" type="xs:string" use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          Name of the field batch object to reference.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="protocolID" type="xs:unsignedShort" >
+      <xs:annotation>
+        <xs:documentation>
+          Protocol of the field batch object to reference.  Omittion assumes the same protocol as the current object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="RangedInt" >
