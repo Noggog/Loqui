@@ -5,61 +5,50 @@ namespace Noggolloquy.Generation
 {
     public abstract class TypicalDoubleNumberTypeGeneration : TypicalRangedTypeGeneration
     {
-        string defaultFrom;
-        string defaultTo;
-
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
             if (!HasRange) return;
-            string[] split = this.Range.Split('-');
-            if (split.Length != 2)
-            {
-                throw new ArgumentException("Range field was not properly split with -");
-            }
-
-            defaultFrom = split[0];
-            defaultTo = split[1];
 
             double min, max;
-            if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(Min) && string.IsNullOrWhiteSpace(Max))
             {
-                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
+                throw new ArgumentException($"Value was not convertable to range: {this.Min}-{this.Max}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultFrom))
+            if (string.IsNullOrWhiteSpace(Min))
             {
                 min = double.MinValue;
-                defaultFrom = "double.MinValue";
+                Min = "double.MinValue";
             }
-            else if (!double.TryParse(defaultFrom, out min))
+            else if (!double.TryParse(Min, out min))
             {
-                throw new ArgumentException($"Value was not convertable to double: {split[0]}");
+                throw new ArgumentException($"Value was not convertable to double: {this.Min}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(Max))
             {
                 max = double.MaxValue;
-                defaultTo = "double.MaxValue";
+                Max = "double.MaxValue";
             }
-            else if (!double.TryParse(defaultTo, out max))
+            else if (!double.TryParse(Max, out max))
             {
-                throw new ArgumentException($"Value was not convertable to double: {split[1]}");
+                throw new ArgumentException($"Value was not convertable to double: {this.Max}");
             }
 
             if (min > max)
             {
                 throw new ArgumentException($"Min {min} was greater than max {max}");
             }
-        }
 
-        public override void GenerateForClass(FileGeneration fg)
-        {
-            base.GenerateForClass(fg);
-
-            if (this.HasRange)
+            if (!Min.EndsWith("d"))
             {
-                fg.AppendLine($"public static RangeDouble {RangeMemberName} = new RangeDouble({defaultFrom}, {defaultTo});");
+                Min += "d";
+            }
+
+            if (!Max.EndsWith("d"))
+            {
+                Max += "d";
             }
         }
     }

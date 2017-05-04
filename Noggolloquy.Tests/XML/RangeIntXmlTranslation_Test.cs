@@ -11,22 +11,22 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class RangeIntXmlTranslation_Test : TypicalXmlTranslation_Test<RangeInt>
+    public class RangeIntXmlTranslation_Test : TypicalXmlTranslation_Test<RangeInt32>
     {
-        public static readonly RangeInt TYPICAL_VALUE = new RangeInt(5, 7994);
-        public static readonly RangeInt ZERO_VALUE = new RangeInt(0, 0);
-        public static readonly RangeInt NEGATIVE_VALUE = new RangeInt(-67, -6);
+        public static readonly RangeInt32 TYPICAL_VALUE = new RangeInt32(5, 7994);
+        public static readonly RangeInt32 ZERO_VALUE = new RangeInt32(0, 0);
+        public static readonly RangeInt32 NEGATIVE_VALUE = new RangeInt32(-67, -6);
         public const string MIN = "Min";
         public const string MAX = "Max";
 
         public override string ExpectedName => "RangeInt";
 
-        public override IXmlTranslation<RangeInt> GetTranslation()
+        public override IXmlTranslation<RangeInt32> GetTranslation()
         {
             return new RangeIntXmlTranslation();
         }
 
-        public override XElement GetTypicalElement(RangeInt value, string name = null)
+        public override XElement GetTypicalElement(RangeInt32 value, string name = null)
         {
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             elem.SetAttributeValue(XName.Get(MIN), value.Min);

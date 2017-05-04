@@ -5,13 +5,13 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
-    public class RangeIntXmlTranslation : TypicalXmlTranslation<RangeInt>
+    public class RangeIntXmlTranslation : TypicalXmlTranslation<RangeInt32>
     {
         public readonly static RangeIntXmlTranslation Instance = new RangeIntXmlTranslation();
         public const string MIN = "Min";
         public const string MAX = "Max";
 
-        protected override bool WriteValue(XmlWriter writer, string name, RangeInt? item, bool doMasks, out object maskObj)
+        protected override bool WriteValue(XmlWriter writer, string name, RangeInt32? item, bool doMasks, out object maskObj)
         {
             maskObj = null;
             if (!item.HasValue) return true;
@@ -20,17 +20,17 @@ namespace Noggolloquy.Xml
             return true;
         }
 
-        protected override string GetItemStr(RangeInt item)
+        protected override string GetItemStr(RangeInt32 item)
         {
             throw new NotImplementedException();
         }
 
-        protected override RangeInt ParseNonNullString(string str)
+        protected override RangeInt32 ParseNonNullString(string str)
         {
             throw new NotImplementedException();
         }
 
-        protected override TryGet<RangeInt?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        protected override TryGet<RangeInt32?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
         {
             maskObj = null;
             int? min, max;
@@ -64,9 +64,9 @@ namespace Noggolloquy.Xml
             {
                 max = null;
             }
-            if (!min.HasValue && !max.HasValue) return TryGet<RangeInt?>.Succeed(null);
-            return TryGet<RangeInt?>.Succeed(
-                new RangeInt(min, max));
+            if (!min.HasValue && !max.HasValue) return TryGet<RangeInt32?>.Succeed(null);
+            return TryGet<RangeInt32?>.Succeed(
+                new RangeInt32(min, max));
         }
     }
 }

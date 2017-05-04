@@ -13,19 +13,13 @@ namespace Noggolloquy.Generation
 
             if (!HasRange) return;
 
-            string[] split = this.Range.Split('-');
-            if (split.Length != 2)
-            {
-                throw new ArgumentException("Range field was not properly split with -");
-            }
-
-            defaultFrom = split[0];
-            defaultTo = split[1];
+            defaultFrom = this.Min;
+            defaultTo = this.Max;
 
             int min, max;
             if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
             {
-                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
+                throw new ArgumentException($"Value was not convertable to range: {this.Min}-{this.Max}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultFrom))
@@ -35,7 +29,7 @@ namespace Noggolloquy.Generation
             }
             else if (!int.TryParse(defaultFrom, out min))
             {
-                throw new ArgumentException($"Value was not convertable to int: {split[0]}");
+                throw new ArgumentException($"Value was not convertable to int: {this.Min}");
             }
 
             if (string.IsNullOrWhiteSpace(defaultTo))
@@ -45,23 +39,12 @@ namespace Noggolloquy.Generation
             }
             else if (!int.TryParse(defaultTo, out max))
             {
-                throw new ArgumentException($"Value was not convertable to int: {split[1]}");
+                throw new ArgumentException($"Value was not convertable to int: {this.Max}");
             }
 
             if (min > max)
             {
                 throw new ArgumentException($"Min {min} was greater than max {max}");
-            }
-        }
-
-        public override void GenerateForClass(FileGeneration fg)
-        {
-            base.GenerateForClass(fg);
-
-            if (this.HasRange)
-            {
-                string[] split = this.Range.Split('-');
-                fg.AppendLine($"public static RangeInt {RangeMemberName} = new RangeInt({split[0]}, {split[1]});");
             }
         }
     }

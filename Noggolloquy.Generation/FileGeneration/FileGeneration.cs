@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("get => this._Bool.Value;"))
+            if (str.Equals("OnPropertyChanged(nameof({ this.Name}));"))
             {
                 int wer = 23;
                 wer++;

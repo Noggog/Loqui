@@ -54,38 +54,74 @@ namespace Noggolloquy.Tests
             _DoubleN = NotifyingItem.Factory<Double?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(DoubleN)),
                 markAsSet: false);
+            _DoubleN_Ranged = NotifyingItem.Factory<Double?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(DoubleN_Ranged)),
+                markAsSet: false);
             _Double = NotifyingItem.Factory<Double>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Double)),
+                markAsSet: false);
+            _Double_Ranged = NotifyingItem.Factory<Double>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Double_Ranged)),
                 markAsSet: false);
             _FloatN = NotifyingItem.Factory<Single?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(FloatN)),
                 markAsSet: false);
+            _FloatN_Ranged = NotifyingItem.Factory<Single?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(FloatN_Ranged)),
+                markAsSet: false);
             _Float = NotifyingItem.Factory<Single>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Float)),
+                markAsSet: false);
+            _Float_Ranged = NotifyingItem.Factory<Single>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Float_Ranged)),
                 markAsSet: false);
             _Int16N = NotifyingItem.Factory<Int16?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int16N)),
                 markAsSet: false);
+            _Int16N_Ranged = NotifyingItem.Factory<Int16?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int16N_Ranged)),
+                markAsSet: false);
             _Int16 = NotifyingItem.Factory<Int16>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int16)),
+                markAsSet: false);
+            _Int16_Ranged = NotifyingItem.Factory<Int16>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int16_Ranged)),
                 markAsSet: false);
             _Int32N = NotifyingItem.Factory<Int32?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int32N)),
                 markAsSet: false);
+            _Int32N_Ranged = NotifyingItem.Factory<Int32?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int32N_Ranged)),
+                markAsSet: false);
             _Int32 = NotifyingItem.Factory<Int32>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int32)),
+                markAsSet: false);
+            _Int32_Ranged = NotifyingItem.Factory<Int32>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int32_Ranged)),
                 markAsSet: false);
             _Int64N = NotifyingItem.Factory<Int64?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int64N)),
                 markAsSet: false);
+            _Int64N_Ranged = NotifyingItem.Factory<Int64?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int64N_Ranged)),
+                markAsSet: false);
             _Int64 = NotifyingItem.Factory<Int64>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int64)),
+                markAsSet: false);
+            _Int64_Ranged = NotifyingItem.Factory<Int64>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int64_Ranged)),
                 markAsSet: false);
             _Int8N = NotifyingItem.Factory<SByte?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int8N)),
                 markAsSet: false);
+            _Int8N_Ranged = NotifyingItem.Factory<SByte?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int8N_Ranged)),
+                markAsSet: false);
             _Int8 = NotifyingItem.Factory<SByte>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Int8)),
+                markAsSet: false);
+            _Int8_Ranged = NotifyingItem.Factory<SByte>(
+                onSet: (i) => this.OnPropertyChanged(nameof(Int8_Ranged)),
                 markAsSet: false);
             _Unsafe = NotifyingItem.Factory<bool>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Unsafe)),
@@ -114,10 +150,10 @@ namespace Noggolloquy.Tests
             _Percent = NotifyingItem.Factory<Percent>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Percent)),
                 markAsSet: false);
-            _RangeIntN = NotifyingItem.Factory<RangeInt?>(
+            _RangeIntN = NotifyingItem.Factory<RangeInt32?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RangeIntN)),
                 markAsSet: false);
-            _RangeInt = NotifyingItem.Factory<RangeInt>(
+            _RangeInt = NotifyingItem.Factory<RangeInt32>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RangeInt)),
                 markAsSet: false);
             _String = NotifyingItem.Factory<String>(
@@ -126,32 +162,62 @@ namespace Noggolloquy.Tests
             _UDoubleN = NotifyingItem.Factory<UDouble?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN)),
                 markAsSet: false);
+            _UDoubleN_Ranged = NotifyingItem.Factory<UDouble?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN_Ranged)),
+                markAsSet: false);
             _UDouble = NotifyingItem.Factory<UDouble>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UDouble)),
+                markAsSet: false);
+            _UDouble_Ranged = NotifyingItem.Factory<UDouble>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UDouble_Ranged)),
                 markAsSet: false);
             _UInt16N = NotifyingItem.Factory<UInt16?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt16N)),
                 markAsSet: false);
+            _UInt16N_Ranged = NotifyingItem.Factory<UInt16?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt16N_Ranged)),
+                markAsSet: false);
             _UInt16 = NotifyingItem.Factory<UInt16>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt16)),
+                markAsSet: false);
+            _UInt16_Ranged = NotifyingItem.Factory<UInt16>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt16_Ranged)),
                 markAsSet: false);
             _UInt32N = NotifyingItem.Factory<UInt32?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt32N)),
                 markAsSet: false);
+            _UInt32N_Ranged = NotifyingItem.Factory<UInt32?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt32N_Ranged)),
+                markAsSet: false);
             _UInt32 = NotifyingItem.Factory<UInt32>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt32)),
+                markAsSet: false);
+            _UInt32_Ranged = NotifyingItem.Factory<UInt32>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt32_Ranged)),
                 markAsSet: false);
             _UInt64N = NotifyingItem.Factory<UInt64?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt64N)),
                 markAsSet: false);
+            _UInt64N_Ranged = NotifyingItem.Factory<UInt64?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt64N_Ranged)),
+                markAsSet: false);
             _UInt64 = NotifyingItem.Factory<UInt64>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt64)),
+                markAsSet: false);
+            _UInt64_Ranged = NotifyingItem.Factory<UInt64>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt64_Ranged)),
                 markAsSet: false);
             _UInt8N = NotifyingItem.Factory<Byte?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt8N)),
                 markAsSet: false);
+            _UInt8N_Ranged = NotifyingItem.Factory<Byte?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt8N_Ranged)),
+                markAsSet: false);
             _UInt8 = NotifyingItem.Factory<Byte>(
                 onSet: (i) => this.OnPropertyChanged(nameof(UInt8)),
+                markAsSet: false);
+            _UInt8_Ranged = NotifyingItem.Factory<Byte>(
+                onSet: (i) => this.OnPropertyChanged(nameof(UInt8_Ranged)),
                 markAsSet: false);
             _Enum = NotifyingItem.Factory<TestEnum>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Enum)),
@@ -281,6 +347,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Double?> ITestObject_Notifying_RPC.DoubleN_Property => this.DoubleN_Property;
         INotifyingItemGetter<Double?> ITestObject_Notifying_RPCGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
+        #region DoubleN_Ranged
+        protected readonly INotifyingItem<Double?> _DoubleN_Ranged;
+        public INotifyingItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
+        public Double? DoubleN_Ranged
+        {
+            get => this._DoubleN_Ranged.Item;
+            set => this._DoubleN_Ranged.Set(value?.PutInRange(DoubleN_Ranged_Range.Min, DoubleN_Ranged_Range.Max));
+        }
+        INotifyingItem<Double?> ITestObject_Notifying_RPC.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
+        INotifyingItemGetter<Double?> ITestObject_Notifying_RPCGetter.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
+        public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
+        #endregion
         #region Double
         protected readonly INotifyingItem<Double> _Double;
         public INotifyingItem<Double> Double_Property => _Double;
@@ -291,6 +369,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Double> ITestObject_Notifying_RPC.Double_Property => this.Double_Property;
         INotifyingItemGetter<Double> ITestObject_Notifying_RPCGetter.Double_Property => this.Double_Property;
+        #endregion
+        #region Double_Ranged
+        protected readonly INotifyingItem<Double> _Double_Ranged;
+        public INotifyingItem<Double> Double_Ranged_Property => _Double_Ranged;
+        public Double Double_Ranged
+        {
+            get => this._Double_Ranged.Item;
+            set => this._Double_Ranged.Set(value.PutInRange(Double_Ranged_Range.Min, Double_Ranged_Range.Max));
+        }
+        INotifyingItem<Double> ITestObject_Notifying_RPC.Double_Ranged_Property => this.Double_Ranged_Property;
+        INotifyingItemGetter<Double> ITestObject_Notifying_RPCGetter.Double_Ranged_Property => this.Double_Ranged_Property;
+        public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
         protected readonly INotifyingItem<Single?> _FloatN;
@@ -303,6 +393,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Single?> ITestObject_Notifying_RPC.FloatN_Property => this.FloatN_Property;
         INotifyingItemGetter<Single?> ITestObject_Notifying_RPCGetter.FloatN_Property => this.FloatN_Property;
         #endregion
+        #region FloatN_Ranged
+        protected readonly INotifyingItem<Single?> _FloatN_Ranged;
+        public INotifyingItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
+        public Single? FloatN_Ranged
+        {
+            get => this._FloatN_Ranged.Item;
+            set => this._FloatN_Ranged.Set(value?.PutInRange(FloatN_Ranged_Range.Min, FloatN_Ranged_Range.Max));
+        }
+        INotifyingItem<Single?> ITestObject_Notifying_RPC.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
+        INotifyingItemGetter<Single?> ITestObject_Notifying_RPCGetter.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
+        public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
+        #endregion
         #region Float
         protected readonly INotifyingItem<Single> _Float;
         public INotifyingItem<Single> Float_Property => _Float;
@@ -313,6 +415,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Single> ITestObject_Notifying_RPC.Float_Property => this.Float_Property;
         INotifyingItemGetter<Single> ITestObject_Notifying_RPCGetter.Float_Property => this.Float_Property;
+        #endregion
+        #region Float_Ranged
+        protected readonly INotifyingItem<Single> _Float_Ranged;
+        public INotifyingItem<Single> Float_Ranged_Property => _Float_Ranged;
+        public Single Float_Ranged
+        {
+            get => this._Float_Ranged.Item;
+            set => this._Float_Ranged.Set(value.PutInRange(Float_Ranged_Range.Min, Float_Ranged_Range.Max));
+        }
+        INotifyingItem<Single> ITestObject_Notifying_RPC.Float_Ranged_Property => this.Float_Ranged_Property;
+        INotifyingItemGetter<Single> ITestObject_Notifying_RPCGetter.Float_Ranged_Property => this.Float_Ranged_Property;
+        public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
         protected readonly INotifyingItem<Int16?> _Int16N;
@@ -325,6 +439,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Int16?> ITestObject_Notifying_RPC.Int16N_Property => this.Int16N_Property;
         INotifyingItemGetter<Int16?> ITestObject_Notifying_RPCGetter.Int16N_Property => this.Int16N_Property;
         #endregion
+        #region Int16N_Ranged
+        protected readonly INotifyingItem<Int16?> _Int16N_Ranged;
+        public INotifyingItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
+        public Int16? Int16N_Ranged
+        {
+            get => this._Int16N_Ranged.Item;
+            set => this._Int16N_Ranged.Set(value?.PutInRange(Int16N_Ranged_Range.Min, Int16N_Ranged_Range.Max));
+        }
+        INotifyingItem<Int16?> ITestObject_Notifying_RPC.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
+        INotifyingItemGetter<Int16?> ITestObject_Notifying_RPCGetter.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
+        public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
+        #endregion
         #region Int16
         protected readonly INotifyingItem<Int16> _Int16;
         public INotifyingItem<Int16> Int16_Property => _Int16;
@@ -335,6 +461,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Int16> ITestObject_Notifying_RPC.Int16_Property => this.Int16_Property;
         INotifyingItemGetter<Int16> ITestObject_Notifying_RPCGetter.Int16_Property => this.Int16_Property;
+        #endregion
+        #region Int16_Ranged
+        protected readonly INotifyingItem<Int16> _Int16_Ranged;
+        public INotifyingItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
+        public Int16 Int16_Ranged
+        {
+            get => this._Int16_Ranged.Item;
+            set => this._Int16_Ranged.Set(value.PutInRange(Int16_Ranged_Range.Min, Int16_Ranged_Range.Max));
+        }
+        INotifyingItem<Int16> ITestObject_Notifying_RPC.Int16_Ranged_Property => this.Int16_Ranged_Property;
+        INotifyingItemGetter<Int16> ITestObject_Notifying_RPCGetter.Int16_Ranged_Property => this.Int16_Ranged_Property;
+        public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
         protected readonly INotifyingItem<Int32?> _Int32N;
@@ -347,6 +485,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Int32?> ITestObject_Notifying_RPC.Int32N_Property => this.Int32N_Property;
         INotifyingItemGetter<Int32?> ITestObject_Notifying_RPCGetter.Int32N_Property => this.Int32N_Property;
         #endregion
+        #region Int32N_Ranged
+        protected readonly INotifyingItem<Int32?> _Int32N_Ranged;
+        public INotifyingItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
+        public Int32? Int32N_Ranged
+        {
+            get => this._Int32N_Ranged.Item;
+            set => this._Int32N_Ranged.Set(value?.PutInRange(Int32N_Ranged_Range.Min, Int32N_Ranged_Range.Max));
+        }
+        INotifyingItem<Int32?> ITestObject_Notifying_RPC.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
+        INotifyingItemGetter<Int32?> ITestObject_Notifying_RPCGetter.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
+        public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
+        #endregion
         #region Int32
         protected readonly INotifyingItem<Int32> _Int32;
         public INotifyingItem<Int32> Int32_Property => _Int32;
@@ -357,6 +507,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Int32> ITestObject_Notifying_RPC.Int32_Property => this.Int32_Property;
         INotifyingItemGetter<Int32> ITestObject_Notifying_RPCGetter.Int32_Property => this.Int32_Property;
+        #endregion
+        #region Int32_Ranged
+        protected readonly INotifyingItem<Int32> _Int32_Ranged;
+        public INotifyingItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
+        public Int32 Int32_Ranged
+        {
+            get => this._Int32_Ranged.Item;
+            set => this._Int32_Ranged.Set(value.PutInRange(Int32_Ranged_Range.Min, Int32_Ranged_Range.Max));
+        }
+        INotifyingItem<Int32> ITestObject_Notifying_RPC.Int32_Ranged_Property => this.Int32_Ranged_Property;
+        INotifyingItemGetter<Int32> ITestObject_Notifying_RPCGetter.Int32_Ranged_Property => this.Int32_Ranged_Property;
+        public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
         protected readonly INotifyingItem<Int64?> _Int64N;
@@ -369,6 +531,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Int64?> ITestObject_Notifying_RPC.Int64N_Property => this.Int64N_Property;
         INotifyingItemGetter<Int64?> ITestObject_Notifying_RPCGetter.Int64N_Property => this.Int64N_Property;
         #endregion
+        #region Int64N_Ranged
+        protected readonly INotifyingItem<Int64?> _Int64N_Ranged;
+        public INotifyingItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
+        public Int64? Int64N_Ranged
+        {
+            get => this._Int64N_Ranged.Item;
+            set => this._Int64N_Ranged.Set(value?.PutInRange(Int64N_Ranged_Range.Min, Int64N_Ranged_Range.Max));
+        }
+        INotifyingItem<Int64?> ITestObject_Notifying_RPC.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
+        INotifyingItemGetter<Int64?> ITestObject_Notifying_RPCGetter.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
+        public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
+        #endregion
         #region Int64
         protected readonly INotifyingItem<Int64> _Int64;
         public INotifyingItem<Int64> Int64_Property => _Int64;
@@ -379,6 +553,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Int64> ITestObject_Notifying_RPC.Int64_Property => this.Int64_Property;
         INotifyingItemGetter<Int64> ITestObject_Notifying_RPCGetter.Int64_Property => this.Int64_Property;
+        #endregion
+        #region Int64_Ranged
+        protected readonly INotifyingItem<Int64> _Int64_Ranged;
+        public INotifyingItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
+        public Int64 Int64_Ranged
+        {
+            get => this._Int64_Ranged.Item;
+            set => this._Int64_Ranged.Set(value.PutInRange(Int64_Ranged_Range.Min, Int64_Ranged_Range.Max));
+        }
+        INotifyingItem<Int64> ITestObject_Notifying_RPC.Int64_Ranged_Property => this.Int64_Ranged_Property;
+        INotifyingItemGetter<Int64> ITestObject_Notifying_RPCGetter.Int64_Ranged_Property => this.Int64_Ranged_Property;
+        public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
         protected readonly INotifyingItem<SByte?> _Int8N;
@@ -391,6 +577,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<SByte?> ITestObject_Notifying_RPC.Int8N_Property => this.Int8N_Property;
         INotifyingItemGetter<SByte?> ITestObject_Notifying_RPCGetter.Int8N_Property => this.Int8N_Property;
         #endregion
+        #region Int8N_Ranged
+        protected readonly INotifyingItem<SByte?> _Int8N_Ranged;
+        public INotifyingItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
+        public SByte? Int8N_Ranged
+        {
+            get => this._Int8N_Ranged.Item;
+            set => this._Int8N_Ranged.Set(value?.PutInRange(Int8N_Ranged_Range.Min, Int8N_Ranged_Range.Max));
+        }
+        INotifyingItem<SByte?> ITestObject_Notifying_RPC.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
+        INotifyingItemGetter<SByte?> ITestObject_Notifying_RPCGetter.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
+        public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
+        #endregion
         #region Int8
         protected readonly INotifyingItem<SByte> _Int8;
         public INotifyingItem<SByte> Int8_Property => _Int8;
@@ -401,6 +599,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<SByte> ITestObject_Notifying_RPC.Int8_Property => this.Int8_Property;
         INotifyingItemGetter<SByte> ITestObject_Notifying_RPCGetter.Int8_Property => this.Int8_Property;
+        #endregion
+        #region Int8_Ranged
+        protected readonly INotifyingItem<SByte> _Int8_Ranged;
+        public INotifyingItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
+        public SByte Int8_Ranged
+        {
+            get => this._Int8_Ranged.Item;
+            set => this._Int8_Ranged.Set(value.PutInRange(Int8_Ranged_Range.Min, Int8_Ranged_Range.Max));
+        }
+        INotifyingItem<SByte> ITestObject_Notifying_RPC.Int8_Ranged_Property => this.Int8_Ranged_Property;
+        INotifyingItemGetter<SByte> ITestObject_Notifying_RPCGetter.Int8_Ranged_Property => this.Int8_Ranged_Property;
+        public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
         protected readonly INotifyingItem<bool> _Unsafe;
@@ -502,26 +712,26 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Percent> ITestObject_Notifying_RPCGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeIntN
-        protected readonly INotifyingItem<RangeInt?> _RangeIntN;
-        public INotifyingItem<RangeInt?> RangeIntN_Property => _RangeIntN;
-        public RangeInt? RangeIntN
+        protected readonly INotifyingItem<RangeInt32?> _RangeIntN;
+        public INotifyingItem<RangeInt32?> RangeIntN_Property => _RangeIntN;
+        public RangeInt32? RangeIntN
         {
             get => this._RangeIntN.Item;
             set => this._RangeIntN.Set(value);
         }
-        INotifyingItem<RangeInt?> ITestObject_Notifying_RPC.RangeIntN_Property => this.RangeIntN_Property;
-        INotifyingItemGetter<RangeInt?> ITestObject_Notifying_RPCGetter.RangeIntN_Property => this.RangeIntN_Property;
+        INotifyingItem<RangeInt32?> ITestObject_Notifying_RPC.RangeIntN_Property => this.RangeIntN_Property;
+        INotifyingItemGetter<RangeInt32?> ITestObject_Notifying_RPCGetter.RangeIntN_Property => this.RangeIntN_Property;
         #endregion
         #region RangeInt
-        protected readonly INotifyingItem<RangeInt> _RangeInt;
-        public INotifyingItem<RangeInt> RangeInt_Property => _RangeInt;
-        public RangeInt RangeInt
+        protected readonly INotifyingItem<RangeInt32> _RangeInt;
+        public INotifyingItem<RangeInt32> RangeInt_Property => _RangeInt;
+        public RangeInt32 RangeInt
         {
             get => this._RangeInt.Item;
             set => this._RangeInt.Set(value);
         }
-        INotifyingItem<RangeInt> ITestObject_Notifying_RPC.RangeInt_Property => this.RangeInt_Property;
-        INotifyingItemGetter<RangeInt> ITestObject_Notifying_RPCGetter.RangeInt_Property => this.RangeInt_Property;
+        INotifyingItem<RangeInt32> ITestObject_Notifying_RPC.RangeInt_Property => this.RangeInt_Property;
+        INotifyingItemGetter<RangeInt32> ITestObject_Notifying_RPCGetter.RangeInt_Property => this.RangeInt_Property;
         #endregion
         #region String
         protected readonly INotifyingItem<String> _String;
@@ -545,6 +755,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<UDouble?> ITestObject_Notifying_RPC.UDoubleN_Property => this.UDoubleN_Property;
         INotifyingItemGetter<UDouble?> ITestObject_Notifying_RPCGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
+        #region UDoubleN_Ranged
+        protected readonly INotifyingItem<UDouble?> _UDoubleN_Ranged;
+        public INotifyingItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
+        public UDouble? UDoubleN_Ranged
+        {
+            get => this._UDoubleN_Ranged.Item;
+            set => this._UDoubleN_Ranged.Set(value?.PutInRange(UDoubleN_Ranged_Range.Min, UDoubleN_Ranged_Range.Max));
+        }
+        INotifyingItem<UDouble?> ITestObject_Notifying_RPC.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
+        INotifyingItemGetter<UDouble?> ITestObject_Notifying_RPCGetter.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
+        public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
+        #endregion
         #region UDouble
         protected readonly INotifyingItem<UDouble> _UDouble;
         public INotifyingItem<UDouble> UDouble_Property => _UDouble;
@@ -555,6 +777,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<UDouble> ITestObject_Notifying_RPC.UDouble_Property => this.UDouble_Property;
         INotifyingItemGetter<UDouble> ITestObject_Notifying_RPCGetter.UDouble_Property => this.UDouble_Property;
+        #endregion
+        #region UDouble_Ranged
+        protected readonly INotifyingItem<UDouble> _UDouble_Ranged;
+        public INotifyingItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
+        public UDouble UDouble_Ranged
+        {
+            get => this._UDouble_Ranged.Item;
+            set => this._UDouble_Ranged.Set(value.PutInRange(UDouble_Ranged_Range.Min, UDouble_Ranged_Range.Max));
+        }
+        INotifyingItem<UDouble> ITestObject_Notifying_RPC.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
+        INotifyingItemGetter<UDouble> ITestObject_Notifying_RPCGetter.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
+        public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
         protected readonly INotifyingItem<UInt16?> _UInt16N;
@@ -567,6 +801,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<UInt16?> ITestObject_Notifying_RPC.UInt16N_Property => this.UInt16N_Property;
         INotifyingItemGetter<UInt16?> ITestObject_Notifying_RPCGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
+        #region UInt16N_Ranged
+        protected readonly INotifyingItem<UInt16?> _UInt16N_Ranged;
+        public INotifyingItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
+        public UInt16? UInt16N_Ranged
+        {
+            get => this._UInt16N_Ranged.Item;
+            set => this._UInt16N_Ranged.Set(value?.PutInRange(UInt16N_Ranged_Range.Min, UInt16N_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt16?> ITestObject_Notifying_RPC.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
+        INotifyingItemGetter<UInt16?> ITestObject_Notifying_RPCGetter.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
+        public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
+        #endregion
         #region UInt16
         protected readonly INotifyingItem<UInt16> _UInt16;
         public INotifyingItem<UInt16> UInt16_Property => _UInt16;
@@ -577,6 +823,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<UInt16> ITestObject_Notifying_RPC.UInt16_Property => this.UInt16_Property;
         INotifyingItemGetter<UInt16> ITestObject_Notifying_RPCGetter.UInt16_Property => this.UInt16_Property;
+        #endregion
+        #region UInt16_Ranged
+        protected readonly INotifyingItem<UInt16> _UInt16_Ranged;
+        public INotifyingItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
+        public UInt16 UInt16_Ranged
+        {
+            get => this._UInt16_Ranged.Item;
+            set => this._UInt16_Ranged.Set(value.PutInRange(UInt16_Ranged_Range.Min, UInt16_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt16> ITestObject_Notifying_RPC.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
+        INotifyingItemGetter<UInt16> ITestObject_Notifying_RPCGetter.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
+        public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
         protected readonly INotifyingItem<UInt32?> _UInt32N;
@@ -589,6 +847,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<UInt32?> ITestObject_Notifying_RPC.UInt32N_Property => this.UInt32N_Property;
         INotifyingItemGetter<UInt32?> ITestObject_Notifying_RPCGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
+        #region UInt32N_Ranged
+        protected readonly INotifyingItem<UInt32?> _UInt32N_Ranged;
+        public INotifyingItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
+        public UInt32? UInt32N_Ranged
+        {
+            get => this._UInt32N_Ranged.Item;
+            set => this._UInt32N_Ranged.Set(value?.PutInRange(UInt32N_Ranged_Range.Min, UInt32N_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt32?> ITestObject_Notifying_RPC.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
+        INotifyingItemGetter<UInt32?> ITestObject_Notifying_RPCGetter.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
+        public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
+        #endregion
         #region UInt32
         protected readonly INotifyingItem<UInt32> _UInt32;
         public INotifyingItem<UInt32> UInt32_Property => _UInt32;
@@ -599,6 +869,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<UInt32> ITestObject_Notifying_RPC.UInt32_Property => this.UInt32_Property;
         INotifyingItemGetter<UInt32> ITestObject_Notifying_RPCGetter.UInt32_Property => this.UInt32_Property;
+        #endregion
+        #region UInt32_Ranged
+        protected readonly INotifyingItem<UInt32> _UInt32_Ranged;
+        public INotifyingItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
+        public UInt32 UInt32_Ranged
+        {
+            get => this._UInt32_Ranged.Item;
+            set => this._UInt32_Ranged.Set(value.PutInRange(UInt32_Ranged_Range.Min, UInt32_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt32> ITestObject_Notifying_RPC.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
+        INotifyingItemGetter<UInt32> ITestObject_Notifying_RPCGetter.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
+        public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
         protected readonly INotifyingItem<UInt64?> _UInt64N;
@@ -611,6 +893,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<UInt64?> ITestObject_Notifying_RPC.UInt64N_Property => this.UInt64N_Property;
         INotifyingItemGetter<UInt64?> ITestObject_Notifying_RPCGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
+        #region UInt64N_Ranged
+        protected readonly INotifyingItem<UInt64?> _UInt64N_Ranged;
+        public INotifyingItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
+        public UInt64? UInt64N_Ranged
+        {
+            get => this._UInt64N_Ranged.Item;
+            set => this._UInt64N_Ranged.Set(value?.PutInRange(UInt64N_Ranged_Range.Min, UInt64N_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt64?> ITestObject_Notifying_RPC.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
+        INotifyingItemGetter<UInt64?> ITestObject_Notifying_RPCGetter.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
+        public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
+        #endregion
         #region UInt64
         protected readonly INotifyingItem<UInt64> _UInt64;
         public INotifyingItem<UInt64> UInt64_Property => _UInt64;
@@ -621,6 +915,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<UInt64> ITestObject_Notifying_RPC.UInt64_Property => this.UInt64_Property;
         INotifyingItemGetter<UInt64> ITestObject_Notifying_RPCGetter.UInt64_Property => this.UInt64_Property;
+        #endregion
+        #region UInt64_Ranged
+        protected readonly INotifyingItem<UInt64> _UInt64_Ranged;
+        public INotifyingItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
+        public UInt64 UInt64_Ranged
+        {
+            get => this._UInt64_Ranged.Item;
+            set => this._UInt64_Ranged.Set(value.PutInRange(UInt64_Ranged_Range.Min, UInt64_Ranged_Range.Max));
+        }
+        INotifyingItem<UInt64> ITestObject_Notifying_RPC.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
+        INotifyingItemGetter<UInt64> ITestObject_Notifying_RPCGetter.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
+        public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
         protected readonly INotifyingItem<Byte?> _UInt8N;
@@ -633,6 +939,18 @@ namespace Noggolloquy.Tests
         INotifyingItem<Byte?> ITestObject_Notifying_RPC.UInt8N_Property => this.UInt8N_Property;
         INotifyingItemGetter<Byte?> ITestObject_Notifying_RPCGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
+        #region UInt8N_Ranged
+        protected readonly INotifyingItem<Byte?> _UInt8N_Ranged;
+        public INotifyingItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
+        public Byte? UInt8N_Ranged
+        {
+            get => this._UInt8N_Ranged.Item;
+            set => this._UInt8N_Ranged.Set(value?.PutInRange(UInt8N_Ranged_Range.Min, UInt8N_Ranged_Range.Max));
+        }
+        INotifyingItem<Byte?> ITestObject_Notifying_RPC.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
+        INotifyingItemGetter<Byte?> ITestObject_Notifying_RPCGetter.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
+        public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
+        #endregion
         #region UInt8
         protected readonly INotifyingItem<Byte> _UInt8;
         public INotifyingItem<Byte> UInt8_Property => _UInt8;
@@ -643,6 +961,18 @@ namespace Noggolloquy.Tests
         }
         INotifyingItem<Byte> ITestObject_Notifying_RPC.UInt8_Property => this.UInt8_Property;
         INotifyingItemGetter<Byte> ITestObject_Notifying_RPCGetter.UInt8_Property => this.UInt8_Property;
+        #endregion
+        #region UInt8_Ranged
+        protected readonly INotifyingItem<Byte> _UInt8_Ranged;
+        public INotifyingItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
+        public Byte UInt8_Ranged
+        {
+            get => this._UInt8_Ranged.Item;
+            set => this._UInt8_Ranged.Set(value.PutInRange(UInt8_Ranged_Range.Min, UInt8_Ranged_Range.Max));
+        }
+        INotifyingItem<Byte> ITestObject_Notifying_RPC.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
+        INotifyingItemGetter<Byte> ITestObject_Notifying_RPCGetter.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
+        public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
         protected readonly INotifyingItem<TestEnum> _Enum;
@@ -898,17 +1228,29 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
             if (!object.Equals(this.Char, rhs.Char)) return false;
             if (!object.Equals(this.DoubleN, rhs.DoubleN)) return false;
+            if (!object.Equals(this.DoubleN_Ranged, rhs.DoubleN_Ranged)) return false;
             if (!object.Equals(this.Double, rhs.Double)) return false;
+            if (!object.Equals(this.Double_Ranged, rhs.Double_Ranged)) return false;
             if (!object.Equals(this.FloatN, rhs.FloatN)) return false;
+            if (!object.Equals(this.FloatN_Ranged, rhs.FloatN_Ranged)) return false;
             if (!object.Equals(this.Float, rhs.Float)) return false;
+            if (!object.Equals(this.Float_Ranged, rhs.Float_Ranged)) return false;
             if (!object.Equals(this.Int16N, rhs.Int16N)) return false;
+            if (!object.Equals(this.Int16N_Ranged, rhs.Int16N_Ranged)) return false;
             if (!object.Equals(this.Int16, rhs.Int16)) return false;
+            if (!object.Equals(this.Int16_Ranged, rhs.Int16_Ranged)) return false;
             if (!object.Equals(this.Int32N, rhs.Int32N)) return false;
+            if (!object.Equals(this.Int32N_Ranged, rhs.Int32N_Ranged)) return false;
             if (!object.Equals(this.Int32, rhs.Int32)) return false;
+            if (!object.Equals(this.Int32_Ranged, rhs.Int32_Ranged)) return false;
             if (!object.Equals(this.Int64N, rhs.Int64N)) return false;
+            if (!object.Equals(this.Int64N_Ranged, rhs.Int64N_Ranged)) return false;
             if (!object.Equals(this.Int64, rhs.Int64)) return false;
+            if (!object.Equals(this.Int64_Ranged, rhs.Int64_Ranged)) return false;
             if (!object.Equals(this.Int8N, rhs.Int8N)) return false;
+            if (!object.Equals(this.Int8N_Ranged, rhs.Int8N_Ranged)) return false;
             if (!object.Equals(this.Int8, rhs.Int8)) return false;
+            if (!object.Equals(this.Int8_Ranged, rhs.Int8_Ranged)) return false;
             if (!object.Equals(this.Unsafe, rhs.Unsafe)) return false;
             if (!object.Equals(this.P2IntN, rhs.P2IntN)) return false;
             if (!object.Equals(this.P2Int, rhs.P2Int)) return false;
@@ -922,15 +1264,25 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.RangeInt, rhs.RangeInt)) return false;
             if (!object.Equals(this.String, rhs.String)) return false;
             if (!object.Equals(this.UDoubleN, rhs.UDoubleN)) return false;
+            if (!object.Equals(this.UDoubleN_Ranged, rhs.UDoubleN_Ranged)) return false;
             if (!object.Equals(this.UDouble, rhs.UDouble)) return false;
+            if (!object.Equals(this.UDouble_Ranged, rhs.UDouble_Ranged)) return false;
             if (!object.Equals(this.UInt16N, rhs.UInt16N)) return false;
+            if (!object.Equals(this.UInt16N_Ranged, rhs.UInt16N_Ranged)) return false;
             if (!object.Equals(this.UInt16, rhs.UInt16)) return false;
+            if (!object.Equals(this.UInt16_Ranged, rhs.UInt16_Ranged)) return false;
             if (!object.Equals(this.UInt32N, rhs.UInt32N)) return false;
+            if (!object.Equals(this.UInt32N_Ranged, rhs.UInt32N_Ranged)) return false;
             if (!object.Equals(this.UInt32, rhs.UInt32)) return false;
+            if (!object.Equals(this.UInt32_Ranged, rhs.UInt32_Ranged)) return false;
             if (!object.Equals(this.UInt64N, rhs.UInt64N)) return false;
+            if (!object.Equals(this.UInt64N_Ranged, rhs.UInt64N_Ranged)) return false;
             if (!object.Equals(this.UInt64, rhs.UInt64)) return false;
+            if (!object.Equals(this.UInt64_Ranged, rhs.UInt64_Ranged)) return false;
             if (!object.Equals(this.UInt8N, rhs.UInt8N)) return false;
+            if (!object.Equals(this.UInt8N_Ranged, rhs.UInt8N_Ranged)) return false;
             if (!object.Equals(this.UInt8, rhs.UInt8)) return false;
+            if (!object.Equals(this.UInt8_Ranged, rhs.UInt8_Ranged)) return false;
             if (!object.Equals(this.Enum, rhs.Enum)) return false;
             if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
@@ -958,17 +1310,29 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(CharN))
             .CombineHashCode(HashHelper.GetHashCode(Char))
             .CombineHashCode(HashHelper.GetHashCode(DoubleN))
+            .CombineHashCode(HashHelper.GetHashCode(DoubleN_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Double))
+            .CombineHashCode(HashHelper.GetHashCode(Double_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(FloatN))
+            .CombineHashCode(HashHelper.GetHashCode(FloatN_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Float))
+            .CombineHashCode(HashHelper.GetHashCode(Float_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int16N))
+            .CombineHashCode(HashHelper.GetHashCode(Int16N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int16))
+            .CombineHashCode(HashHelper.GetHashCode(Int16_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int32N))
+            .CombineHashCode(HashHelper.GetHashCode(Int32N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int32))
+            .CombineHashCode(HashHelper.GetHashCode(Int32_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int64N))
+            .CombineHashCode(HashHelper.GetHashCode(Int64N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int64))
+            .CombineHashCode(HashHelper.GetHashCode(Int64_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int8N))
+            .CombineHashCode(HashHelper.GetHashCode(Int8N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Int8))
+            .CombineHashCode(HashHelper.GetHashCode(Int8_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Unsafe))
             .CombineHashCode(HashHelper.GetHashCode(P2IntN))
             .CombineHashCode(HashHelper.GetHashCode(P2Int))
@@ -982,15 +1346,25 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(RangeInt))
             .CombineHashCode(HashHelper.GetHashCode(String))
             .CombineHashCode(HashHelper.GetHashCode(UDoubleN))
+            .CombineHashCode(HashHelper.GetHashCode(UDoubleN_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UDouble))
+            .CombineHashCode(HashHelper.GetHashCode(UDouble_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt16N))
+            .CombineHashCode(HashHelper.GetHashCode(UInt16N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt16))
+            .CombineHashCode(HashHelper.GetHashCode(UInt16_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt32N))
+            .CombineHashCode(HashHelper.GetHashCode(UInt32N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt32))
+            .CombineHashCode(HashHelper.GetHashCode(UInt32_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt64N))
+            .CombineHashCode(HashHelper.GetHashCode(UInt64N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt64))
+            .CombineHashCode(HashHelper.GetHashCode(UInt64_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt8N))
+            .CombineHashCode(HashHelper.GetHashCode(UInt8N_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(UInt8))
+            .CombineHashCode(HashHelper.GetHashCode(UInt8_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Enum))
             .CombineHashCode(HashHelper.GetHashCode(WildCard))
             .CombineHashCode(HashHelper.GetHashCode(Ref))
@@ -1214,8 +1588,18 @@ namespace Noggolloquy.Tests
                         (Double?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    this._DoubleN_Ranged.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     this._Double.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    this._Double_Ranged.Set(
                         (Double)obj,
                         cmds);
                     break;
@@ -1224,8 +1608,18 @@ namespace Noggolloquy.Tests
                         (Single?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    this._FloatN_Ranged.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     this._Float.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    this._Float_Ranged.Set(
                         (Single)obj,
                         cmds);
                     break;
@@ -1234,8 +1628,18 @@ namespace Noggolloquy.Tests
                         (Int16?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    this._Int16N_Ranged.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     this._Int16.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    this._Int16_Ranged.Set(
                         (Int16)obj,
                         cmds);
                     break;
@@ -1244,8 +1648,18 @@ namespace Noggolloquy.Tests
                         (Int32?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    this._Int32N_Ranged.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     this._Int32.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    this._Int32_Ranged.Set(
                         (Int32)obj,
                         cmds);
                     break;
@@ -1254,8 +1668,18 @@ namespace Noggolloquy.Tests
                         (Int64?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    this._Int64N_Ranged.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     this._Int64.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    this._Int64_Ranged.Set(
                         (Int64)obj,
                         cmds);
                     break;
@@ -1264,8 +1688,18 @@ namespace Noggolloquy.Tests
                         (SByte?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    this._Int8N_Ranged.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     this._Int8.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    this._Int8_Ranged.Set(
                         (SByte)obj,
                         cmds);
                     break;
@@ -1316,12 +1750,12 @@ namespace Noggolloquy.Tests
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeIntN:
                     this._RangeIntN.Set(
-                        (RangeInt?)obj,
+                        (RangeInt32?)obj,
                         cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                     this._RangeInt.Set(
-                        (RangeInt)obj,
+                        (RangeInt32)obj,
                         cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.String:
@@ -1334,8 +1768,18 @@ namespace Noggolloquy.Tests
                         (UDouble?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    this._UDoubleN_Ranged.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     this._UDouble.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    this._UDouble_Ranged.Set(
                         (UDouble)obj,
                         cmds);
                     break;
@@ -1344,8 +1788,18 @@ namespace Noggolloquy.Tests
                         (UInt16?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    this._UInt16N_Ranged.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     this._UInt16.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    this._UInt16_Ranged.Set(
                         (UInt16)obj,
                         cmds);
                     break;
@@ -1354,8 +1808,18 @@ namespace Noggolloquy.Tests
                         (UInt32?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    this._UInt32N_Ranged.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     this._UInt32.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    this._UInt32_Ranged.Set(
                         (UInt32)obj,
                         cmds);
                     break;
@@ -1364,8 +1828,18 @@ namespace Noggolloquy.Tests
                         (UInt64?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    this._UInt64N_Ranged.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     this._UInt64.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    this._UInt64_Ranged.Set(
                         (UInt64)obj,
                         cmds);
                     break;
@@ -1374,8 +1848,18 @@ namespace Noggolloquy.Tests
                         (Byte?)obj,
                         cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    this._UInt8N_Ranged.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     this._UInt8.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    this._UInt8_Ranged.Set(
                         (Byte)obj,
                         cmds);
                     break;
@@ -1503,38 +1987,74 @@ namespace Noggolloquy.Tests
         new Double? DoubleN { get; set; }
         new INotifyingItem<Double?> DoubleN_Property { get; }
 
+        new Double? DoubleN_Ranged { get; set; }
+        new INotifyingItem<Double?> DoubleN_Ranged_Property { get; }
+
         new Double Double { get; set; }
         new INotifyingItem<Double> Double_Property { get; }
+
+        new Double Double_Ranged { get; set; }
+        new INotifyingItem<Double> Double_Ranged_Property { get; }
 
         new Single? FloatN { get; set; }
         new INotifyingItem<Single?> FloatN_Property { get; }
 
+        new Single? FloatN_Ranged { get; set; }
+        new INotifyingItem<Single?> FloatN_Ranged_Property { get; }
+
         new Single Float { get; set; }
         new INotifyingItem<Single> Float_Property { get; }
+
+        new Single Float_Ranged { get; set; }
+        new INotifyingItem<Single> Float_Ranged_Property { get; }
 
         new Int16? Int16N { get; set; }
         new INotifyingItem<Int16?> Int16N_Property { get; }
 
+        new Int16? Int16N_Ranged { get; set; }
+        new INotifyingItem<Int16?> Int16N_Ranged_Property { get; }
+
         new Int16 Int16 { get; set; }
         new INotifyingItem<Int16> Int16_Property { get; }
+
+        new Int16 Int16_Ranged { get; set; }
+        new INotifyingItem<Int16> Int16_Ranged_Property { get; }
 
         new Int32? Int32N { get; set; }
         new INotifyingItem<Int32?> Int32N_Property { get; }
 
+        new Int32? Int32N_Ranged { get; set; }
+        new INotifyingItem<Int32?> Int32N_Ranged_Property { get; }
+
         new Int32 Int32 { get; set; }
         new INotifyingItem<Int32> Int32_Property { get; }
+
+        new Int32 Int32_Ranged { get; set; }
+        new INotifyingItem<Int32> Int32_Ranged_Property { get; }
 
         new Int64? Int64N { get; set; }
         new INotifyingItem<Int64?> Int64N_Property { get; }
 
+        new Int64? Int64N_Ranged { get; set; }
+        new INotifyingItem<Int64?> Int64N_Ranged_Property { get; }
+
         new Int64 Int64 { get; set; }
         new INotifyingItem<Int64> Int64_Property { get; }
+
+        new Int64 Int64_Ranged { get; set; }
+        new INotifyingItem<Int64> Int64_Ranged_Property { get; }
 
         new SByte? Int8N { get; set; }
         new INotifyingItem<SByte?> Int8N_Property { get; }
 
+        new SByte? Int8N_Ranged { get; set; }
+        new INotifyingItem<SByte?> Int8N_Ranged_Property { get; }
+
         new SByte Int8 { get; set; }
         new INotifyingItem<SByte> Int8_Property { get; }
+
+        new SByte Int8_Ranged { get; set; }
+        new INotifyingItem<SByte> Int8_Ranged_Property { get; }
 
         new bool Unsafe { get; set; }
         new INotifyingItem<bool> Unsafe_Property { get; }
@@ -1563,11 +2083,11 @@ namespace Noggolloquy.Tests
         new Percent Percent { get; set; }
         new INotifyingItem<Percent> Percent_Property { get; }
 
-        new RangeInt? RangeIntN { get; set; }
-        new INotifyingItem<RangeInt?> RangeIntN_Property { get; }
+        new RangeInt32? RangeIntN { get; set; }
+        new INotifyingItem<RangeInt32?> RangeIntN_Property { get; }
 
-        new RangeInt RangeInt { get; set; }
-        new INotifyingItem<RangeInt> RangeInt_Property { get; }
+        new RangeInt32 RangeInt { get; set; }
+        new INotifyingItem<RangeInt32> RangeInt_Property { get; }
 
         new String String { get; set; }
         new INotifyingItem<String> String_Property { get; }
@@ -1575,32 +2095,62 @@ namespace Noggolloquy.Tests
         new UDouble? UDoubleN { get; set; }
         new INotifyingItem<UDouble?> UDoubleN_Property { get; }
 
+        new UDouble? UDoubleN_Ranged { get; set; }
+        new INotifyingItem<UDouble?> UDoubleN_Ranged_Property { get; }
+
         new UDouble UDouble { get; set; }
         new INotifyingItem<UDouble> UDouble_Property { get; }
+
+        new UDouble UDouble_Ranged { get; set; }
+        new INotifyingItem<UDouble> UDouble_Ranged_Property { get; }
 
         new UInt16? UInt16N { get; set; }
         new INotifyingItem<UInt16?> UInt16N_Property { get; }
 
+        new UInt16? UInt16N_Ranged { get; set; }
+        new INotifyingItem<UInt16?> UInt16N_Ranged_Property { get; }
+
         new UInt16 UInt16 { get; set; }
         new INotifyingItem<UInt16> UInt16_Property { get; }
+
+        new UInt16 UInt16_Ranged { get; set; }
+        new INotifyingItem<UInt16> UInt16_Ranged_Property { get; }
 
         new UInt32? UInt32N { get; set; }
         new INotifyingItem<UInt32?> UInt32N_Property { get; }
 
+        new UInt32? UInt32N_Ranged { get; set; }
+        new INotifyingItem<UInt32?> UInt32N_Ranged_Property { get; }
+
         new UInt32 UInt32 { get; set; }
         new INotifyingItem<UInt32> UInt32_Property { get; }
+
+        new UInt32 UInt32_Ranged { get; set; }
+        new INotifyingItem<UInt32> UInt32_Ranged_Property { get; }
 
         new UInt64? UInt64N { get; set; }
         new INotifyingItem<UInt64?> UInt64N_Property { get; }
 
+        new UInt64? UInt64N_Ranged { get; set; }
+        new INotifyingItem<UInt64?> UInt64N_Ranged_Property { get; }
+
         new UInt64 UInt64 { get; set; }
         new INotifyingItem<UInt64> UInt64_Property { get; }
+
+        new UInt64 UInt64_Ranged { get; set; }
+        new INotifyingItem<UInt64> UInt64_Ranged_Property { get; }
 
         new Byte? UInt8N { get; set; }
         new INotifyingItem<Byte?> UInt8N_Property { get; }
 
+        new Byte? UInt8N_Ranged { get; set; }
+        new INotifyingItem<Byte?> UInt8N_Ranged_Property { get; }
+
         new Byte UInt8 { get; set; }
         new INotifyingItem<Byte> UInt8_Property { get; }
+
+        new Byte UInt8_Ranged { get; set; }
+        new INotifyingItem<Byte> UInt8_Ranged_Property { get; }
 
         new TestEnum Enum { get; set; }
         new INotifyingItem<TestEnum> Enum_Property { get; }
@@ -1660,9 +2210,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
+        #region DoubleN_Ranged
+        Double? DoubleN_Ranged { get; }
+        INotifyingItemGetter<Double?> DoubleN_Ranged_Property { get; }
+
+        #endregion
         #region Double
         Double Double { get; }
         INotifyingItemGetter<Double> Double_Property { get; }
+
+        #endregion
+        #region Double_Ranged
+        Double Double_Ranged { get; }
+        INotifyingItemGetter<Double> Double_Ranged_Property { get; }
 
         #endregion
         #region FloatN
@@ -1670,9 +2230,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
+        #region FloatN_Ranged
+        Single? FloatN_Ranged { get; }
+        INotifyingItemGetter<Single?> FloatN_Ranged_Property { get; }
+
+        #endregion
         #region Float
         Single Float { get; }
         INotifyingItemGetter<Single> Float_Property { get; }
+
+        #endregion
+        #region Float_Ranged
+        Single Float_Ranged { get; }
+        INotifyingItemGetter<Single> Float_Ranged_Property { get; }
 
         #endregion
         #region Int16N
@@ -1680,9 +2250,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
+        #region Int16N_Ranged
+        Int16? Int16N_Ranged { get; }
+        INotifyingItemGetter<Int16?> Int16N_Ranged_Property { get; }
+
+        #endregion
         #region Int16
         Int16 Int16 { get; }
         INotifyingItemGetter<Int16> Int16_Property { get; }
+
+        #endregion
+        #region Int16_Ranged
+        Int16 Int16_Ranged { get; }
+        INotifyingItemGetter<Int16> Int16_Ranged_Property { get; }
 
         #endregion
         #region Int32N
@@ -1690,9 +2270,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
+        #region Int32N_Ranged
+        Int32? Int32N_Ranged { get; }
+        INotifyingItemGetter<Int32?> Int32N_Ranged_Property { get; }
+
+        #endregion
         #region Int32
         Int32 Int32 { get; }
         INotifyingItemGetter<Int32> Int32_Property { get; }
+
+        #endregion
+        #region Int32_Ranged
+        Int32 Int32_Ranged { get; }
+        INotifyingItemGetter<Int32> Int32_Ranged_Property { get; }
 
         #endregion
         #region Int64N
@@ -1700,9 +2290,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
+        #region Int64N_Ranged
+        Int64? Int64N_Ranged { get; }
+        INotifyingItemGetter<Int64?> Int64N_Ranged_Property { get; }
+
+        #endregion
         #region Int64
         Int64 Int64 { get; }
         INotifyingItemGetter<Int64> Int64_Property { get; }
+
+        #endregion
+        #region Int64_Ranged
+        Int64 Int64_Ranged { get; }
+        INotifyingItemGetter<Int64> Int64_Ranged_Property { get; }
 
         #endregion
         #region Int8N
@@ -1710,9 +2310,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
+        #region Int8N_Ranged
+        SByte? Int8N_Ranged { get; }
+        INotifyingItemGetter<SByte?> Int8N_Ranged_Property { get; }
+
+        #endregion
         #region Int8
         SByte Int8 { get; }
         INotifyingItemGetter<SByte> Int8_Property { get; }
+
+        #endregion
+        #region Int8_Ranged
+        SByte Int8_Ranged { get; }
+        INotifyingItemGetter<SByte> Int8_Ranged_Property { get; }
 
         #endregion
         #region Unsafe
@@ -1761,13 +2371,13 @@ namespace Noggolloquy.Tests
 
         #endregion
         #region RangeIntN
-        RangeInt? RangeIntN { get; }
-        INotifyingItemGetter<RangeInt?> RangeIntN_Property { get; }
+        RangeInt32? RangeIntN { get; }
+        INotifyingItemGetter<RangeInt32?> RangeIntN_Property { get; }
 
         #endregion
         #region RangeInt
-        RangeInt RangeInt { get; }
-        INotifyingItemGetter<RangeInt> RangeInt_Property { get; }
+        RangeInt32 RangeInt { get; }
+        INotifyingItemGetter<RangeInt32> RangeInt_Property { get; }
 
         #endregion
         #region String
@@ -1780,9 +2390,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
+        #region UDoubleN_Ranged
+        UDouble? UDoubleN_Ranged { get; }
+        INotifyingItemGetter<UDouble?> UDoubleN_Ranged_Property { get; }
+
+        #endregion
         #region UDouble
         UDouble UDouble { get; }
         INotifyingItemGetter<UDouble> UDouble_Property { get; }
+
+        #endregion
+        #region UDouble_Ranged
+        UDouble UDouble_Ranged { get; }
+        INotifyingItemGetter<UDouble> UDouble_Ranged_Property { get; }
 
         #endregion
         #region UInt16N
@@ -1790,9 +2410,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
+        #region UInt16N_Ranged
+        UInt16? UInt16N_Ranged { get; }
+        INotifyingItemGetter<UInt16?> UInt16N_Ranged_Property { get; }
+
+        #endregion
         #region UInt16
         UInt16 UInt16 { get; }
         INotifyingItemGetter<UInt16> UInt16_Property { get; }
+
+        #endregion
+        #region UInt16_Ranged
+        UInt16 UInt16_Ranged { get; }
+        INotifyingItemGetter<UInt16> UInt16_Ranged_Property { get; }
 
         #endregion
         #region UInt32N
@@ -1800,9 +2430,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
+        #region UInt32N_Ranged
+        UInt32? UInt32N_Ranged { get; }
+        INotifyingItemGetter<UInt32?> UInt32N_Ranged_Property { get; }
+
+        #endregion
         #region UInt32
         UInt32 UInt32 { get; }
         INotifyingItemGetter<UInt32> UInt32_Property { get; }
+
+        #endregion
+        #region UInt32_Ranged
+        UInt32 UInt32_Ranged { get; }
+        INotifyingItemGetter<UInt32> UInt32_Ranged_Property { get; }
 
         #endregion
         #region UInt64N
@@ -1810,9 +2450,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
+        #region UInt64N_Ranged
+        UInt64? UInt64N_Ranged { get; }
+        INotifyingItemGetter<UInt64?> UInt64N_Ranged_Property { get; }
+
+        #endregion
         #region UInt64
         UInt64 UInt64 { get; }
         INotifyingItemGetter<UInt64> UInt64_Property { get; }
+
+        #endregion
+        #region UInt64_Ranged
+        UInt64 UInt64_Ranged { get; }
+        INotifyingItemGetter<UInt64> UInt64_Ranged_Property { get; }
 
         #endregion
         #region UInt8N
@@ -1820,9 +2470,19 @@ namespace Noggolloquy.Tests
         INotifyingItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
+        #region UInt8N_Ranged
+        Byte? UInt8N_Ranged { get; }
+        INotifyingItemGetter<Byte?> UInt8N_Ranged_Property { get; }
+
+        #endregion
         #region UInt8
         Byte UInt8 { get; }
         INotifyingItemGetter<Byte> UInt8_Property { get; }
+
+        #endregion
+        #region UInt8_Ranged
+        Byte UInt8_Ranged { get; }
+        INotifyingItemGetter<Byte> UInt8_Ranged_Property { get; }
 
         #endregion
         #region Enum
@@ -1912,55 +2572,77 @@ namespace Noggolloquy.Tests.Internals
         CharN = 2,
         Char = 3,
         DoubleN = 4,
-        Double = 5,
-        FloatN = 6,
-        Float = 7,
-        Int16N = 8,
-        Int16 = 9,
-        Int32N = 10,
-        Int32 = 11,
-        Int64N = 12,
-        Int64 = 13,
-        Int8N = 14,
-        Int8 = 15,
-        Unsafe = 16,
-        P2IntN = 17,
-        P2Int = 18,
-        P3DoubleN = 19,
-        P3Double = 20,
-        P3IntN = 21,
-        P3Int = 22,
-        PercentN = 23,
-        Percent = 24,
-        RangeIntN = 25,
-        RangeInt = 26,
-        String = 27,
-        UDoubleN = 28,
-        UDouble = 29,
-        UInt16N = 30,
-        UInt16 = 31,
-        UInt32N = 32,
-        UInt32 = 33,
-        UInt64N = 34,
-        UInt64 = 35,
-        UInt8N = 36,
-        UInt8 = 37,
-        Enum = 38,
-        WildCard = 39,
-        Ref = 40,
-        Ref_NotNull = 41,
-        Ref_Singleton = 42,
-        RefGetter = 43,
-        RefGetter_NotNull = 44,
-        RefGetter_Singleton = 45,
-        RefSetter = 46,
-        RefSetter_NotNull = 47,
-        RefSetter_Singleton = 48,
-        List = 49,
-        RefList = 50,
-        Dict = 51,
-        RefDict = 52,
-        DictKeyedValue = 53,
+        DoubleN_Ranged = 5,
+        Double = 6,
+        Double_Ranged = 7,
+        FloatN = 8,
+        FloatN_Ranged = 9,
+        Float = 10,
+        Float_Ranged = 11,
+        Int16N = 12,
+        Int16N_Ranged = 13,
+        Int16 = 14,
+        Int16_Ranged = 15,
+        Int32N = 16,
+        Int32N_Ranged = 17,
+        Int32 = 18,
+        Int32_Ranged = 19,
+        Int64N = 20,
+        Int64N_Ranged = 21,
+        Int64 = 22,
+        Int64_Ranged = 23,
+        Int8N = 24,
+        Int8N_Ranged = 25,
+        Int8 = 26,
+        Int8_Ranged = 27,
+        Unsafe = 28,
+        P2IntN = 29,
+        P2Int = 30,
+        P3DoubleN = 31,
+        P3Double = 32,
+        P3IntN = 33,
+        P3Int = 34,
+        PercentN = 35,
+        Percent = 36,
+        RangeIntN = 37,
+        RangeInt = 38,
+        String = 39,
+        UDoubleN = 40,
+        UDoubleN_Ranged = 41,
+        UDouble = 42,
+        UDouble_Ranged = 43,
+        UInt16N = 44,
+        UInt16N_Ranged = 45,
+        UInt16 = 46,
+        UInt16_Ranged = 47,
+        UInt32N = 48,
+        UInt32N_Ranged = 49,
+        UInt32 = 50,
+        UInt32_Ranged = 51,
+        UInt64N = 52,
+        UInt64N_Ranged = 53,
+        UInt64 = 54,
+        UInt64_Ranged = 55,
+        UInt8N = 56,
+        UInt8N_Ranged = 57,
+        UInt8 = 58,
+        UInt8_Ranged = 59,
+        Enum = 60,
+        WildCard = 61,
+        Ref = 62,
+        Ref_NotNull = 63,
+        Ref_Singleton = 64,
+        RefGetter = 65,
+        RefGetter_NotNull = 66,
+        RefGetter_Singleton = 67,
+        RefSetter = 68,
+        RefSetter_NotNull = 69,
+        RefSetter_Singleton = 70,
+        List = 71,
+        RefList = 72,
+        Dict = 73,
+        RefDict = 74,
+        DictKeyedValue = 75,
     }
     #endregion
 
@@ -1978,7 +2660,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "7ba65986-3bcf-477c-91a0-2b87e88e7754";
 
-        public const ushort FieldCount = 54;
+        public const ushort FieldCount = 76;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_RPC_Mask<>);
 
@@ -2008,104 +2690,148 @@ namespace Noggolloquy.Tests.Internals
                     return 3;
                 case "DOUBLEN":
                     return 4;
-                case "DOUBLE":
+                case "DOUBLEN_RANGED":
                     return 5;
-                case "FLOATN":
+                case "DOUBLE":
                     return 6;
-                case "FLOAT":
+                case "DOUBLE_RANGED":
                     return 7;
-                case "INT16N":
+                case "FLOATN":
                     return 8;
-                case "INT16":
+                case "FLOATN_RANGED":
                     return 9;
-                case "INT32N":
+                case "FLOAT":
                     return 10;
-                case "INT32":
+                case "FLOAT_RANGED":
                     return 11;
-                case "INT64N":
+                case "INT16N":
                     return 12;
-                case "INT64":
+                case "INT16N_RANGED":
                     return 13;
-                case "INT8N":
+                case "INT16":
                     return 14;
-                case "INT8":
+                case "INT16_RANGED":
                     return 15;
-                case "UNSAFE":
+                case "INT32N":
                     return 16;
-                case "P2INTN":
+                case "INT32N_RANGED":
                     return 17;
-                case "P2INT":
+                case "INT32":
                     return 18;
-                case "P3DOUBLEN":
+                case "INT32_RANGED":
                     return 19;
-                case "P3DOUBLE":
+                case "INT64N":
                     return 20;
-                case "P3INTN":
+                case "INT64N_RANGED":
                     return 21;
-                case "P3INT":
+                case "INT64":
                     return 22;
-                case "PERCENTN":
+                case "INT64_RANGED":
                     return 23;
-                case "PERCENT":
+                case "INT8N":
                     return 24;
-                case "RANGEINTN":
+                case "INT8N_RANGED":
                     return 25;
-                case "RANGEINT":
+                case "INT8":
                     return 26;
-                case "STRING":
+                case "INT8_RANGED":
                     return 27;
-                case "UDOUBLEN":
+                case "UNSAFE":
                     return 28;
-                case "UDOUBLE":
+                case "P2INTN":
                     return 29;
-                case "UINT16N":
+                case "P2INT":
                     return 30;
-                case "UINT16":
+                case "P3DOUBLEN":
                     return 31;
-                case "UINT32N":
+                case "P3DOUBLE":
                     return 32;
-                case "UINT32":
+                case "P3INTN":
                     return 33;
-                case "UINT64N":
+                case "P3INT":
                     return 34;
-                case "UINT64":
+                case "PERCENTN":
                     return 35;
-                case "UINT8N":
+                case "PERCENT":
                     return 36;
-                case "UINT8":
+                case "RANGEINTN":
                     return 37;
-                case "ENUM":
+                case "RANGEINT":
                     return 38;
-                case "WILDCARD":
+                case "STRING":
                     return 39;
-                case "REF":
+                case "UDOUBLEN":
                     return 40;
-                case "REF_NOTNULL":
+                case "UDOUBLEN_RANGED":
                     return 41;
-                case "REF_SINGLETON":
+                case "UDOUBLE":
                     return 42;
-                case "REFGETTER":
+                case "UDOUBLE_RANGED":
                     return 43;
-                case "REFGETTER_NOTNULL":
+                case "UINT16N":
                     return 44;
-                case "REFGETTER_SINGLETON":
+                case "UINT16N_RANGED":
                     return 45;
-                case "REFSETTER":
+                case "UINT16":
                     return 46;
-                case "REFSETTER_NOTNULL":
+                case "UINT16_RANGED":
                     return 47;
-                case "REFSETTER_SINGLETON":
+                case "UINT32N":
                     return 48;
-                case "LIST":
+                case "UINT32N_RANGED":
                     return 49;
-                case "REFLIST":
+                case "UINT32":
                     return 50;
-                case "DICT":
+                case "UINT32_RANGED":
                     return 51;
-                case "REFDICT":
+                case "UINT64N":
                     return 52;
-                case "DICTKEYEDVALUE":
+                case "UINT64N_RANGED":
                     return 53;
+                case "UINT64":
+                    return 54;
+                case "UINT64_RANGED":
+                    return 55;
+                case "UINT8N":
+                    return 56;
+                case "UINT8N_RANGED":
+                    return 57;
+                case "UINT8":
+                    return 58;
+                case "UINT8_RANGED":
+                    return 59;
+                case "ENUM":
+                    return 60;
+                case "WILDCARD":
+                    return 61;
+                case "REF":
+                    return 62;
+                case "REF_NOTNULL":
+                    return 63;
+                case "REF_SINGLETON":
+                    return 64;
+                case "REFGETTER":
+                    return 65;
+                case "REFGETTER_NOTNULL":
+                    return 66;
+                case "REFGETTER_SINGLETON":
+                    return 67;
+                case "REFSETTER":
+                    return 68;
+                case "REFSETTER_NOTNULL":
+                    return 69;
+                case "REFSETTER_SINGLETON":
+                    return 70;
+                case "LIST":
+                    return 71;
+                case "REFLIST":
+                    return 72;
+                case "DICT":
+                    return 73;
+                case "REFDICT":
+                    return 74;
+                case "DICTKEYEDVALUE":
+                    return 75;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -2124,17 +2850,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
                 case TestObject_Notifying_RPC_FieldIndex.Char:
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
@@ -2148,15 +2886,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                 case TestObject_Notifying_RPC_FieldIndex.String:
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
                 case TestObject_Notifying_RPC_FieldIndex.Ref:
@@ -2198,17 +2946,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
                 case TestObject_Notifying_RPC_FieldIndex.Char:
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
@@ -2222,15 +2982,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                 case TestObject_Notifying_RPC_FieldIndex.String:
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
                 case TestObject_Notifying_RPC_FieldIndex.List:
@@ -2257,17 +3027,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
                 case TestObject_Notifying_RPC_FieldIndex.Char:
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
@@ -2281,15 +3063,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                 case TestObject_Notifying_RPC_FieldIndex.String:
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
                 case TestObject_Notifying_RPC_FieldIndex.Ref:
@@ -2324,28 +3116,52 @@ namespace Noggolloquy.Tests.Internals
                     return "Char";
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     return "DoubleN";
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    return "DoubleN_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     return "Double";
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    return "Double_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     return "FloatN";
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    return "FloatN_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     return "Float";
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    return "Float_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     return "Int16N";
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    return "Int16N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     return "Int16";
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    return "Int16_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     return "Int32N";
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    return "Int32N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     return "Int32";
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    return "Int32_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     return "Int64N";
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    return "Int64N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     return "Int64";
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    return "Int64_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     return "Int8N";
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    return "Int8N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     return "Int8";
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    return "Int8_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     return "Unsafe";
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
@@ -2372,24 +3188,44 @@ namespace Noggolloquy.Tests.Internals
                     return "String";
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     return "UDoubleN";
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    return "UDoubleN_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     return "UDouble";
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    return "UDouble_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     return "UInt16N";
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    return "UInt16N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     return "UInt16";
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    return "UInt16_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     return "UInt32N";
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    return "UInt32N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     return "UInt32";
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    return "UInt32_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     return "UInt64N";
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    return "UInt64N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     return "UInt64";
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    return "UInt64_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     return "UInt8N";
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    return "UInt8N_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     return "UInt8";
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    return "UInt8_Ranged";
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     return "Enum";
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
@@ -2437,17 +3273,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
                 case TestObject_Notifying_RPC_FieldIndex.Char:
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
@@ -2461,15 +3309,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                 case TestObject_Notifying_RPC_FieldIndex.String:
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
                 case TestObject_Notifying_RPC_FieldIndex.Ref:
@@ -2502,17 +3360,29 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
                 case TestObject_Notifying_RPC_FieldIndex.Char:
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
@@ -2526,15 +3396,25 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
                 case TestObject_Notifying_RPC_FieldIndex.String:
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
                 case TestObject_Notifying_RPC_FieldIndex.Ref:
@@ -2572,27 +3452,51 @@ namespace Noggolloquy.Tests.Internals
                     return typeof(Char);
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     return typeof(Double?);
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    return typeof(Double?);
                 case TestObject_Notifying_RPC_FieldIndex.Double:
+                    return typeof(Double);
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
                     return typeof(Double);
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     return typeof(Single?);
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    return typeof(Single?);
                 case TestObject_Notifying_RPC_FieldIndex.Float:
+                    return typeof(Single);
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
                     return typeof(Single);
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     return typeof(Int16?);
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    return typeof(Int16?);
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
+                    return typeof(Int16);
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
                     return typeof(Int16);
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     return typeof(Int32?);
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    return typeof(Int32?);
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
+                    return typeof(Int32);
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
                     return typeof(Int32);
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     return typeof(Int64?);
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    return typeof(Int64?);
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
+                    return typeof(Int64);
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
                     return typeof(Int64);
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     return typeof(SByte?);
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    return typeof(SByte?);
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
+                    return typeof(SByte);
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
                     return typeof(SByte);
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     return typeof(bool);
@@ -2613,30 +3517,50 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.Percent:
                     return typeof(Percent);
                 case TestObject_Notifying_RPC_FieldIndex.RangeIntN:
-                    return typeof(RangeInt?);
+                    return typeof(RangeInt32?);
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt:
-                    return typeof(RangeInt);
+                    return typeof(RangeInt32);
                 case TestObject_Notifying_RPC_FieldIndex.String:
                     return typeof(String);
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    return typeof(UDouble?);
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
+                    return typeof(UDouble);
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
                     return typeof(UDouble);
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     return typeof(UInt16?);
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    return typeof(UInt16?);
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
+                    return typeof(UInt16);
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
                     return typeof(UInt16);
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     return typeof(UInt32?);
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    return typeof(UInt32?);
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
+                    return typeof(UInt32);
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
                     return typeof(UInt32);
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     return typeof(UInt64?);
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    return typeof(UInt64?);
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
+                    return typeof(UInt64);
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
                     return typeof(UInt64);
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     return typeof(Byte?);
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    return typeof(Byte?);
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
+                    return typeof(Byte);
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
                     return typeof(Byte);
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     return typeof(TestEnum);
@@ -2818,6 +3742,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.DoubleN_Ranged ?? true)
+            {
+                try
+                {
+                    item.DoubleN_Ranged_Property.SetToWithDefault(
+                        rhs.DoubleN_Ranged_Property,
+                        def?.DoubleN_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Double ?? true)
             {
                 try
@@ -2832,6 +3777,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Double, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Double_Ranged ?? true)
+            {
+                try
+                {
+                    item.Double_Ranged_Property.SetToWithDefault(
+                        rhs.Double_Ranged_Property,
+                        def?.Double_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Double_Ranged, ex);
                     }
                     else
                     {
@@ -2860,6 +3826,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.FloatN_Ranged ?? true)
+            {
+                try
+                {
+                    item.FloatN_Ranged_Property.SetToWithDefault(
+                        rhs.FloatN_Ranged_Property,
+                        def?.FloatN_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Float ?? true)
             {
                 try
@@ -2874,6 +3861,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Float, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Float_Ranged ?? true)
+            {
+                try
+                {
+                    item.Float_Ranged_Property.SetToWithDefault(
+                        rhs.Float_Ranged_Property,
+                        def?.Float_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Float_Ranged, ex);
                     }
                     else
                     {
@@ -2902,6 +3910,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Int16N_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int16N_Ranged_Property.SetToWithDefault(
+                        rhs.Int16N_Ranged_Property,
+                        def?.Int16N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Int16 ?? true)
             {
                 try
@@ -2916,6 +3945,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int16, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Int16_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int16_Ranged_Property.SetToWithDefault(
+                        rhs.Int16_Ranged_Property,
+                        def?.Int16_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int16_Ranged, ex);
                     }
                     else
                     {
@@ -2944,6 +3994,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Int32N_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int32N_Ranged_Property.SetToWithDefault(
+                        rhs.Int32N_Ranged_Property,
+                        def?.Int32N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Int32 ?? true)
             {
                 try
@@ -2958,6 +4029,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int32, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Int32_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int32_Ranged_Property.SetToWithDefault(
+                        rhs.Int32_Ranged_Property,
+                        def?.Int32_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int32_Ranged, ex);
                     }
                     else
                     {
@@ -2986,6 +4078,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Int64N_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int64N_Ranged_Property.SetToWithDefault(
+                        rhs.Int64N_Ranged_Property,
+                        def?.Int64N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Int64 ?? true)
             {
                 try
@@ -3000,6 +4113,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int64, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Int64_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int64_Ranged_Property.SetToWithDefault(
+                        rhs.Int64_Ranged_Property,
+                        def?.Int64_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int64_Ranged, ex);
                     }
                     else
                     {
@@ -3028,6 +4162,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.Int8N_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int8N_Ranged_Property.SetToWithDefault(
+                        rhs.Int8N_Ranged_Property,
+                        def?.Int8N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.Int8 ?? true)
             {
                 try
@@ -3042,6 +4197,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int8, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.Int8_Ranged ?? true)
+            {
+                try
+                {
+                    item.Int8_Ranged_Property.SetToWithDefault(
+                        rhs.Int8_Ranged_Property,
+                        def?.Int8_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.Int8_Ranged, ex);
                     }
                     else
                     {
@@ -3322,6 +4498,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.UDoubleN_Ranged ?? true)
+            {
+                try
+                {
+                    item.UDoubleN_Ranged_Property.SetToWithDefault(
+                        rhs.UDoubleN_Ranged_Property,
+                        def?.UDoubleN_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.UDouble ?? true)
             {
                 try
@@ -3336,6 +4533,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UDouble, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.UDouble_Ranged ?? true)
+            {
+                try
+                {
+                    item.UDouble_Ranged_Property.SetToWithDefault(
+                        rhs.UDouble_Ranged_Property,
+                        def?.UDouble_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged, ex);
                     }
                     else
                     {
@@ -3364,6 +4582,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.UInt16N_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt16N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt16N_Ranged_Property,
+                        def?.UInt16N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.UInt16 ?? true)
             {
                 try
@@ -3378,6 +4617,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt16, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.UInt16_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt16_Ranged_Property.SetToWithDefault(
+                        rhs.UInt16_Ranged_Property,
+                        def?.UInt16_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged, ex);
                     }
                     else
                     {
@@ -3406,6 +4666,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.UInt32N_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt32N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt32N_Ranged_Property,
+                        def?.UInt32N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.UInt32 ?? true)
             {
                 try
@@ -3420,6 +4701,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt32, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.UInt32_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt32_Ranged_Property.SetToWithDefault(
+                        rhs.UInt32_Ranged_Property,
+                        def?.UInt32_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged, ex);
                     }
                     else
                     {
@@ -3448,6 +4750,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.UInt64N_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt64N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt64N_Ranged_Property,
+                        def?.UInt64N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.UInt64 ?? true)
             {
                 try
@@ -3462,6 +4785,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt64, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.UInt64_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt64_Ranged_Property.SetToWithDefault(
+                        rhs.UInt64_Ranged_Property,
+                        def?.UInt64_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged, ex);
                     }
                     else
                     {
@@ -3490,6 +4834,27 @@ namespace Noggolloquy.Tests.Internals
                     }
                 }
             }
+            if (copyMask?.UInt8N_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt8N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt8N_Ranged_Property,
+                        def?.UInt8N_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
             if (copyMask?.UInt8 ?? true)
             {
                 try
@@ -3504,6 +4869,27 @@ namespace Noggolloquy.Tests.Internals
                     if (doErrorMask)
                     {
                         errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt8, ex);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            if (copyMask?.UInt8_Ranged ?? true)
+            {
+                try
+                {
+                    item.UInt8_Ranged_Property.SetToWithDefault(
+                        rhs.UInt8_Ranged_Property,
+                        def?.UInt8_Ranged_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask)
+                    {
+                        errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged, ex);
                     }
                     else
                     {
@@ -4115,38 +5501,74 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     obj.DoubleN_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    obj.DoubleN_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     obj.Double_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    obj.Double_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     obj.FloatN_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    obj.FloatN_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     obj.Float_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    obj.Float_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     obj.Int16N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    obj.Int16N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     obj.Int16_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    obj.Int16_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     obj.Int32N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    obj.Int32N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     obj.Int32_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    obj.Int32_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     obj.Int64N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    obj.Int64N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     obj.Int64_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    obj.Int64_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     obj.Int8N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    obj.Int8N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     obj.Int8_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    obj.Int8_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     obj.Unsafe_Property.HasBeenSet = on;
@@ -4187,32 +5609,62 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     obj.UDoubleN_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    obj.UDoubleN_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     obj.UDouble_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    obj.UDouble_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     obj.UInt16N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    obj.UInt16N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     obj.UInt16_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    obj.UInt16_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     obj.UInt32N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    obj.UInt32N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     obj.UInt32_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    obj.UInt32_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     obj.UInt64N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    obj.UInt64N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     obj.UInt64_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    obj.UInt64_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     obj.UInt8N_Property.HasBeenSet = on;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    obj.UInt8N_Ranged_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     obj.UInt8_Property.HasBeenSet = on;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    obj.UInt8_Ranged_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     obj.Enum_Property.HasBeenSet = on;
@@ -4287,38 +5739,74 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     obj.DoubleN_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    obj.DoubleN_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     obj.Double_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    obj.Double_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     obj.FloatN_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    obj.FloatN_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     obj.Float_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    obj.Float_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     obj.Int16N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    obj.Int16N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     obj.Int16_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    obj.Int16_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     obj.Int32N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    obj.Int32N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     obj.Int32_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    obj.Int32_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     obj.Int64N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    obj.Int64N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     obj.Int64_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    obj.Int64_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     obj.Int8N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    obj.Int8N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     obj.Int8_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    obj.Int8_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     obj.Unsafe_Property.Unset(cmds);
@@ -4359,32 +5847,62 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     obj.UDoubleN_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    obj.UDoubleN_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     obj.UDouble_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    obj.UDouble_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     obj.UInt16N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    obj.UInt16N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     obj.UInt16_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    obj.UInt16_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     obj.UInt32N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    obj.UInt32N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     obj.UInt32_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    obj.UInt32_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     obj.UInt64N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    obj.UInt64N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     obj.UInt64_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    obj.UInt64_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     obj.UInt8N_Property.Unset(cmds);
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    obj.UInt8N_Ranged_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     obj.UInt8_Property.Unset(cmds);
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    obj.UInt8_Ranged_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     obj.Enum_Property.Unset(cmds);
@@ -4455,28 +5973,52 @@ namespace Noggolloquy.Tests.Internals
                     return obj.Char_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    return obj.DoubleN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     return obj.Double_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    return obj.Double_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     return obj.FloatN_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    return obj.FloatN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     return obj.Float_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    return obj.Float_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     return obj.Int16N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    return obj.Int16N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     return obj.Int16_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    return obj.Int16_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     return obj.Int32N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    return obj.Int32N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     return obj.Int32_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    return obj.Int32_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     return obj.Int64N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    return obj.Int64N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     return obj.Int64_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    return obj.Int64_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     return obj.Int8N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    return obj.Int8N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     return obj.Int8_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    return obj.Int8_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
@@ -4503,24 +6045,44 @@ namespace Noggolloquy.Tests.Internals
                     return obj.String_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    return obj.UDoubleN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     return obj.UDouble_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    return obj.UDouble_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    return obj.UInt16N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     return obj.UInt16_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    return obj.UInt16_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    return obj.UInt32N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     return obj.UInt32_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    return obj.UInt32_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    return obj.UInt64N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     return obj.UInt64_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    return obj.UInt64_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    return obj.UInt8N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     return obj.UInt8_Property.HasBeenSet;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    return obj.UInt8_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
@@ -4575,28 +6137,52 @@ namespace Noggolloquy.Tests.Internals
                     return obj.Char;
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    return obj.DoubleN_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     return obj.Double;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    return obj.Double_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     return obj.FloatN;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    return obj.FloatN_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     return obj.Float;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    return obj.Float_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     return obj.Int16N;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    return obj.Int16N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     return obj.Int16;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    return obj.Int16_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     return obj.Int32N;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    return obj.Int32N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     return obj.Int32;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    return obj.Int32_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     return obj.Int64N;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    return obj.Int64N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     return obj.Int64;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    return obj.Int64_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     return obj.Int8N;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    return obj.Int8N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     return obj.Int8;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    return obj.Int8_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe;
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
@@ -4623,24 +6209,44 @@ namespace Noggolloquy.Tests.Internals
                     return obj.String;
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    return obj.UDoubleN_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     return obj.UDouble;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    return obj.UDouble_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    return obj.UInt16N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     return obj.UInt16;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    return obj.UInt16_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    return obj.UInt32N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     return obj.UInt32;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    return obj.UInt32_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    return obj.UInt64N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     return obj.UInt64;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    return obj.UInt64_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    return obj.UInt8N_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     return obj.UInt8;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    return obj.UInt8_Ranged;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     return obj.Enum;
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
@@ -4687,17 +6293,29 @@ namespace Noggolloquy.Tests.Internals
             item.CharN_Property.Unset(cmds.ToUnsetParams());
             item.Char_Property.Unset(cmds.ToUnsetParams());
             item.DoubleN_Property.Unset(cmds.ToUnsetParams());
+            item.DoubleN_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Double_Property.Unset(cmds.ToUnsetParams());
+            item.Double_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.FloatN_Property.Unset(cmds.ToUnsetParams());
+            item.FloatN_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Float_Property.Unset(cmds.ToUnsetParams());
+            item.Float_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int16N_Property.Unset(cmds.ToUnsetParams());
+            item.Int16N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int16_Property.Unset(cmds.ToUnsetParams());
+            item.Int16_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int32N_Property.Unset(cmds.ToUnsetParams());
+            item.Int32N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int32_Property.Unset(cmds.ToUnsetParams());
+            item.Int32_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int64N_Property.Unset(cmds.ToUnsetParams());
+            item.Int64N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int64_Property.Unset(cmds.ToUnsetParams());
+            item.Int64_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int8N_Property.Unset(cmds.ToUnsetParams());
+            item.Int8N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Int8_Property.Unset(cmds.ToUnsetParams());
+            item.Int8_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Unsafe_Property.Unset(cmds.ToUnsetParams());
             item.P2IntN_Property.Unset(cmds.ToUnsetParams());
             item.P2Int_Property.Unset(cmds.ToUnsetParams());
@@ -4711,15 +6329,25 @@ namespace Noggolloquy.Tests.Internals
             item.RangeInt_Property.Unset(cmds.ToUnsetParams());
             item.String_Property.Unset(cmds.ToUnsetParams());
             item.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+            item.UDoubleN_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UDouble_Property.Unset(cmds.ToUnsetParams());
+            item.UDouble_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt16N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt16_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt32N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt32_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt64N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt64_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt8N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8N_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.UInt8_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8_Ranged_Property.Unset(cmds.ToUnsetParams());
             item.Enum_Property.Unset(cmds.ToUnsetParams());
             item.WildCard_Property.Unset(cmds.ToUnsetParams());
             item.Ref_Property.Unset(cmds.ToUnsetParams());
@@ -4747,17 +6375,29 @@ namespace Noggolloquy.Tests.Internals
         public T CharN;
         public T Char;
         public T DoubleN;
+        public T DoubleN_Ranged;
         public T Double;
+        public T Double_Ranged;
         public T FloatN;
+        public T FloatN_Ranged;
         public T Float;
+        public T Float_Ranged;
         public T Int16N;
+        public T Int16N_Ranged;
         public T Int16;
+        public T Int16_Ranged;
         public T Int32N;
+        public T Int32N_Ranged;
         public T Int32;
+        public T Int32_Ranged;
         public T Int64N;
+        public T Int64N_Ranged;
         public T Int64;
+        public T Int64_Ranged;
         public T Int8N;
+        public T Int8N_Ranged;
         public T Int8;
+        public T Int8_Ranged;
         public T Unsafe;
         public T P2IntN;
         public T P2Int;
@@ -4771,15 +6411,25 @@ namespace Noggolloquy.Tests.Internals
         public T RangeInt;
         public T String;
         public T UDoubleN;
+        public T UDoubleN_Ranged;
         public T UDouble;
+        public T UDouble_Ranged;
         public T UInt16N;
+        public T UInt16N_Ranged;
         public T UInt16;
+        public T UInt16_Ranged;
         public T UInt32N;
+        public T UInt32N_Ranged;
         public T UInt32;
+        public T UInt32_Ranged;
         public T UInt64N;
+        public T UInt64N_Ranged;
         public T UInt64;
+        public T UInt64_Ranged;
         public T UInt8N;
+        public T UInt8N_Ranged;
         public T UInt8;
+        public T UInt8_Ranged;
         public T Enum;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
@@ -4818,17 +6468,29 @@ namespace Noggolloquy.Tests.Internals
         public Exception CharN;
         public Exception Char;
         public Exception DoubleN;
+        public Exception DoubleN_Ranged;
         public Exception Double;
+        public Exception Double_Ranged;
         public Exception FloatN;
+        public Exception FloatN_Ranged;
         public Exception Float;
+        public Exception Float_Ranged;
         public Exception Int16N;
+        public Exception Int16N_Ranged;
         public Exception Int16;
+        public Exception Int16_Ranged;
         public Exception Int32N;
+        public Exception Int32N_Ranged;
         public Exception Int32;
+        public Exception Int32_Ranged;
         public Exception Int64N;
+        public Exception Int64N_Ranged;
         public Exception Int64;
+        public Exception Int64_Ranged;
         public Exception Int8N;
+        public Exception Int8N_Ranged;
         public Exception Int8;
+        public Exception Int8_Ranged;
         public Exception Unsafe;
         public Exception P2IntN;
         public Exception P2Int;
@@ -4842,15 +6504,25 @@ namespace Noggolloquy.Tests.Internals
         public Exception RangeInt;
         public Exception String;
         public Exception UDoubleN;
+        public Exception UDoubleN_Ranged;
         public Exception UDouble;
+        public Exception UDouble_Ranged;
         public Exception UInt16N;
+        public Exception UInt16N_Ranged;
         public Exception UInt16;
+        public Exception UInt16_Ranged;
         public Exception UInt32N;
+        public Exception UInt32N_Ranged;
         public Exception UInt32;
+        public Exception UInt32_Ranged;
         public Exception UInt64N;
+        public Exception UInt64N_Ranged;
         public Exception UInt64;
+        public Exception UInt64_Ranged;
         public Exception UInt8N;
+        public Exception UInt8N_Ranged;
         public Exception UInt8;
+        public Exception UInt8_Ranged;
         public Exception Enum;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
@@ -4888,38 +6560,74 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    this.DoubleN_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     this.Double = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    this.Double_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     this.FloatN = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    this.FloatN_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     this.Float = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    this.Float_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     this.Int16N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    this.Int16N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     this.Int16 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    this.Int16_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     this.Int32N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    this.Int32N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     this.Int32 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    this.Int32_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     this.Int64N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    this.Int64N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     this.Int64 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    this.Int64_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     this.Int8N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    this.Int8N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     this.Int8 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    this.Int8_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     this.Unsafe = ex;
@@ -4960,32 +6668,62 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    this.UDoubleN_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     this.UDouble = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    this.UDouble_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     this.UInt16N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    this.UInt16N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     this.UInt16 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    this.UInt16_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     this.UInt32N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    this.UInt32N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     this.UInt32 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    this.UInt32_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     this.UInt64N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    this.UInt64N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     this.UInt64 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    this.UInt64_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     this.UInt8N = ex;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    this.UInt8N_Ranged = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     this.UInt8 = ex;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    this.UInt8_Ranged = ex;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     this.Enum = ex;
@@ -5060,38 +6798,74 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
+                    this.DoubleN_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
                     this.Double = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
+                    this.Double_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
                     this.FloatN = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
+                    this.FloatN_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
                     this.Float = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
+                    this.Float_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
                     this.Int16N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
+                    this.Int16N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
                     this.Int16 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
+                    this.Int16_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
                     this.Int32N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
+                    this.Int32N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
                     this.Int32 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
+                    this.Int32_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
                     this.Int64N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
+                    this.Int64N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
                     this.Int64 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
+                    this.Int64_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
                     this.Int8N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
+                    this.Int8N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
                     this.Int8 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
+                    this.Int8_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
                     this.Unsafe = (Exception)obj;
@@ -5132,32 +6906,62 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
+                    this.UDoubleN_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
                     this.UDouble = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
+                    this.UDouble_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
                     this.UInt16N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
+                    this.UInt16N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
                     this.UInt16 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
+                    this.UInt16_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
                     this.UInt32N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
+                    this.UInt32N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
                     this.UInt32 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
+                    this.UInt32_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
                     this.UInt64N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
+                    this.UInt64N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
                     this.UInt64 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
+                    this.UInt64_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
                     this.UInt8N = (Exception)obj;
                     break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
+                    this.UInt8N_Ranged = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
                     this.UInt8 = (Exception)obj;
+                    break;
+                case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
+                    this.UInt8_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
@@ -5220,17 +7024,29 @@ namespace Noggolloquy.Tests.Internals
         public bool CharN;
         public bool Char;
         public bool DoubleN;
+        public bool DoubleN_Ranged;
         public bool Double;
+        public bool Double_Ranged;
         public bool FloatN;
+        public bool FloatN_Ranged;
         public bool Float;
+        public bool Float_Ranged;
         public bool Int16N;
+        public bool Int16N_Ranged;
         public bool Int16;
+        public bool Int16_Ranged;
         public bool Int32N;
+        public bool Int32N_Ranged;
         public bool Int32;
+        public bool Int32_Ranged;
         public bool Int64N;
+        public bool Int64N_Ranged;
         public bool Int64;
+        public bool Int64_Ranged;
         public bool Int8N;
+        public bool Int8N_Ranged;
         public bool Int8;
+        public bool Int8_Ranged;
         public bool Unsafe;
         public bool P2IntN;
         public bool P2Int;
@@ -5244,15 +7060,25 @@ namespace Noggolloquy.Tests.Internals
         public bool RangeInt;
         public bool String;
         public bool UDoubleN;
+        public bool UDoubleN_Ranged;
         public bool UDouble;
+        public bool UDouble_Ranged;
         public bool UInt16N;
+        public bool UInt16N_Ranged;
         public bool UInt16;
+        public bool UInt16_Ranged;
         public bool UInt32N;
+        public bool UInt32N_Ranged;
         public bool UInt32;
+        public bool UInt32_Ranged;
         public bool UInt64N;
+        public bool UInt64N_Ranged;
         public bool UInt64;
+        public bool UInt64_Ranged;
         public bool UInt8N;
+        public bool UInt8N_Ranged;
         public bool UInt8;
+        public bool UInt8_Ranged;
         public bool Enum;
         public bool WildCard;
         public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;

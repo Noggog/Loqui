@@ -3,22 +3,30 @@
   <Protocol ProtocolID="1" />
   <Object name="TestObject_Notifying_Derivative_RPC" notifyingDefault="Notifying" derivativeDefault="true" raisePropertyChangedDefault="true" GUID="c676bc18-14c3-4cec-bd74-5c241915897c" ID="21">
     <Fields>
-      <BoolNull name="BoolN" />
-      <Bool name="Bool" />
-      <CharNull name="CharN" />
-      <Char name="Char" />
       <DoubleNull name="DoubleN" />
+      <DoubleNull name="DoubleN_Ranged" min="-5.41" max="5.51" />
       <Double name="Double" />
+      <Double name="Double_Ranged" min="-5.41" max="5.51" />
       <FloatNull name="FloatN" />
+      <FloatNull name="FloatN_Ranged" min="-5.41" max="5.51" />
       <Float name="Float" />
+      <Float name="Float_Ranged" min="-5.41" max="5.51" />
       <Int16Null name="Int16N" />
+      <Int16Null name="Int16N_Ranged" min="-6" max="7" />
       <Int16 name="Int16" />
+      <Int16 name="Int16_Ranged" min="-6" max="7" />
       <Int32Null name="Int32N" />
+      <Int32Null name="Int32N_Ranged" min="-6" max="7" />
       <Int32 name="Int32" />
+      <Int32 name="Int32_Ranged" min="-6" max="7" />
       <Int64Null name="Int64N" />
+      <Int64Null name="Int64N_Ranged" min="-6" max="7" />
       <Int64 name="Int64" />
+      <Int64 name="Int64_Ranged" min="-6" max="7" />
       <Int8Null name="Int8N" />
+      <Int8Null name="Int8N_Ranged" min="-6" max="7" />
       <Int8 name="Int8" />
+      <Int8 name="Int8_Ranged" min="-6" max="7" />
       <UnsafeObject name="Unsafe">
         <TargetType>bool</TargetType>
       </UnsafeObject>
@@ -34,15 +42,25 @@
       <RangeInt name="RangeInt" />
       <String name="String" />
       <UDoubleNull name="UDoubleN" />
+      <UDoubleNull name="UDoubleN_Ranged" min="3.5" max="6.4" />
       <UDouble name="UDouble" />
+      <UDouble name="UDouble_Ranged" min="3.5" max="6.4" />
       <UInt16Null name="UInt16N" />
+      <UInt16Null name="UInt16N_Ranged" min="3" max="6" />
       <UInt16 name="UInt16" />
+      <UInt16 name="UInt16_Ranged" min="3" max="6" />
       <UInt32Null name="UInt32N" />
+      <UInt32Null name="UInt32N_Ranged" min="3" max="6" />
       <UInt32 name="UInt32" />
+      <UInt32 name="UInt32_Ranged" min="3" max="6" />
       <UInt64Null name="UInt64N" />
+      <UInt64Null name="UInt64N_Ranged" min="3" max="6" />
       <UInt64 name="UInt64" />
+      <UInt64 name="UInt64_Ranged" min="3" max="6" />
       <UInt8Null name="UInt8N" />
+      <UInt8Null name="UInt8N_Ranged" min="3" max="6" />
       <UInt8 name="UInt8" />
+      <UInt8 name="UInt8_Ranged" min="3" max="6" />
       <Enum name="Enum" enumName="TestEnum" />
       <Wildcard name="WildCard" />
       <Ref name="Ref">

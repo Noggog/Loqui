@@ -8,7 +8,7 @@ namespace Noggolloquy.Generation
     {
         string defaultFrom, defaultTo;
 
-        public override Type Type => typeof(RangeInt);
+        public override Type Type => typeof(RangeInt32);
 
         public override void Load(XElement node, bool requireName = true)
         {

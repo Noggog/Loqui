@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>4f8b97836e7e11bac8076d79210329d57bc39fbc</Sha>
-      <Description>HasBeenSet and NotifyingItem Factories offering many optional features</Description>
+      <Sha>dd0c06d4e0139756c3a8002239bcd35e307fd79b</Sha>
+      <Description>Additional RangePrimitives</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>05-03-2017 18:01:42</CommitDate>
+      <CommitDate>05-04-2017 17:59:39</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

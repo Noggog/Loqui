@@ -5,46 +5,35 @@ namespace Noggolloquy.Generation
 {
     public abstract class TypicalFloatNumberTypeGeneration : TypicalRangedTypeGeneration
     {
-        string defaultFrom;
-        string defaultTo;
-
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
             if (!HasRange) return;
-            string[] split = this.Range.Split('-');
-            if (split.Length != 2)
-            {
-                throw new ArgumentException("Range field was not properly split with -");
-            }
-
-            defaultFrom = split[0];
-            defaultTo = split[1];
 
             float minFloat, maxFloat;
-            if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(Min) && string.IsNullOrWhiteSpace(Max))
             {
-                throw new ArgumentException($"Value was not convertable to range: {this.Range}");
+                throw new ArgumentException($"Value was not convertable to range: {this.Min}-{this.Max}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultFrom))
+            if (string.IsNullOrWhiteSpace(Min))
             {
                 minFloat = float.MinValue;
-                defaultFrom = "float.MinValue";
+                Min = "float.MinValue";
             }
-            else if (!float.TryParse(defaultFrom, out minFloat))
+            else if (!float.TryParse(Min, out minFloat))
             {
-                throw new ArgumentException($"Value was not convertable to float: {split[0]}");
+                throw new ArgumentException($"Value was not convertable to float: {this.Min}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(Max))
             {
                 maxFloat = float.MaxValue;
-                defaultTo = "float.MaxValue";
+                Max = "float.MaxValue";
             }
-            else if (!float.TryParse(defaultTo, out maxFloat))
+            else if (!float.TryParse(Max, out maxFloat))
             {
-                throw new ArgumentException($"Value was not convertable to float: {split[1]}");
+                throw new ArgumentException($"Value was not convertable to float: {this.Max}");
             }
 
             if (minFloat > maxFloat)
@@ -52,24 +41,14 @@ namespace Noggolloquy.Generation
                 throw new ArgumentException($"Min {minFloat} was greater than max {maxFloat}");
             }
 
-            if (!defaultFrom.EndsWith("f"))
+            if (!Min.EndsWith("f"))
             {
-                defaultFrom += "f";
+                Min += "f";
             }
 
-            if (!defaultTo.EndsWith("f"))
+            if (!Max.EndsWith("f"))
             {
-                defaultTo += "f";
-            }
-        }
-
-        public override void GenerateForClass(FileGeneration fg)
-        {
-            base.GenerateForClass(fg);
-
-            if (this.HasRange)
-            {
-                fg.AppendLine($"public static RangeFloat {RangeMemberName} = new RangeFloat({defaultFrom}, {defaultTo});");
+                Max += "f";
             }
         }
     }
