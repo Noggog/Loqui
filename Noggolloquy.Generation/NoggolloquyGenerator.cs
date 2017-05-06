@@ -12,6 +12,8 @@ namespace Noggolloquy.Generation
     public class NoggolloquyGenerator
     {
         private const string CSPROJ_NAMESPACE = "http://schemas.microsoft.com/developer/msbuild/2003";
+        private List<DirectoryInfo> sourceFolders = new List<DirectoryInfo>();
+        private HashSet<FileInfo> sourceFiles = new HashSet<FileInfo>();
         Dictionary<ProtocolDefinition, ProtocolGeneration> targetData = new Dictionary<ProtocolDefinition, ProtocolGeneration>();
         Dictionary<ushort, ProtocolDefinition> idUsageDict = new Dictionary<ushort, ProtocolDefinition>();
         List<FileInfo> projectsToModify = new List<FileInfo>();
@@ -30,9 +32,16 @@ namespace Noggolloquy.Generation
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault = true;
 
-        public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder)
+        public NoggolloquyGenerator(DirectoryInfo commonGenerationFolder, bool typical = true)
         {
             this.CommonGenerationFolder = commonGenerationFolder;
+            if (typical)
+            {
+                this.AddTypicalTypeAssociations();
+                this.Add(new XmlTranslationGeneration());
+                this.Add(new MaskModule());
+                this.AddSearchableFolder(this.CommonGenerationFolder);
+            }
         }
 
         public void AddTypicalTypeAssociations()
@@ -118,15 +127,25 @@ namespace Noggolloquy.Generation
 
         public void AddSpecificFolders(params DirectoryInfo[] dirs)
         {
+            this.sourceFolders.AddRange(dirs);
+        }
+
+        protected void LoadSpecificFolders(IEnumerable<DirectoryInfo> dirs)
+        {
             foreach (var dir in dirs)
             {
                 addedTargetDirs.Add(dir);
                 dir.Refresh();
-                AddSpecificFile(dir.EnumerateFiles().ToArray());
+                LoadSpecificFile(dir.EnumerateFiles().ToArray());
             }
         }
-
+        
         public void AddSpecificFile(params FileInfo[] files)
+        {
+            this.sourceFiles.Add(files);
+        }
+
+        protected void LoadSpecificFile(IEnumerable<FileInfo> files)
         {
             foreach (var protocolGen in this.targetData.Values)
             {
@@ -189,6 +208,9 @@ namespace Noggolloquy.Generation
 
         public void Generate()
         {
+            this.LoadSpecificFolders(this.sourceFolders);
+            this.LoadSpecificFile(this.sourceFiles);
+
             foreach (var mod in this.GenerationModules)
             {
                 mod.Modify(this);
