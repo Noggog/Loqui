@@ -129,5 +129,10 @@ namespace Noggolloquy.Generation
         {
             return subGenerator.GenerateACopy(rhsAccessor);
         }
+
+        public override void Resolve()
+        {
+            subGenerator.Resolve();
+        }
     }
 }

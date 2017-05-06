@@ -6,6 +6,7 @@ namespace Noggolloquy.Generation
 {
     class DictType_KeyedValue : TypeGeneration, IDictType
     {
+        XElement node;
         public NoggType ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;
         public TypeGeneration KeyTypeGen;
@@ -38,7 +39,11 @@ namespace Noggolloquy.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
+            this.node = node;
+        }
 
+        public override void Resolve()
+        {
             var keyedValNode = node.Element(XName.Get("KeyedValue", NoggolloquyGenerator.Namespace));
             if (keyedValNode == null)
             {
@@ -70,6 +75,7 @@ namespace Noggolloquy.Generation
             {
                 throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
             }
+            base.Resolve();
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception, bool key)
