@@ -104,6 +104,14 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="DisabledLevel" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Enabled" />
+      <xs:enumeration value="SkipGeneration" />
+      <xs:enumeration value="OmitEntirely" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:group name="FieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
@@ -321,6 +329,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+      <xs:attribute name="disable" type="DisabledLevel">
+        <xs:annotation>
+          <xs:documentation>
+            Whether to skip this object while generating
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="ObjectType">
@@ -467,6 +482,13 @@
       <xs:annotation>
         <xs:documentation>
           The version this message is.  Increment to define a new version old ones can upgrade to.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="disable" type="DisabledLevel">
+      <xs:annotation>
+        <xs:documentation>
+          Whether to skip this object while generating
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

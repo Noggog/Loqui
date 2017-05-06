@@ -63,6 +63,7 @@ namespace Noggolloquy.Generation
                 foreach (var obj in objNode.Elements(XName.Get("Object", NoggolloquyGenerator.Namespace))
                     .And(objNode.Elements(XName.Get("Struct", NoggolloquyGenerator.Namespace))))
                 {
+                    if (obj.GetAttribute<DisabledLevel>("disable", DisabledLevel.Enabled) == DisabledLevel.OmitEntirely) continue;
                     ObjectGeneration objGen;
                     if (obj.Name.LocalName.Equals("Object"))
                     {

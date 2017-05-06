@@ -18,6 +18,7 @@ namespace Noggolloquy.Generation
         public string Namespace;
         public string InternalNamespace => Namespace + ".Internals";
         public abstract bool Abstract { get; }
+        public DisabledLevel Disabled { get; protected set; }
         public bool GenerateClass { get; protected set; }
         public bool GenerateEquals { get; protected set; }
         public bool GenerateToString { get; protected set; }
@@ -100,6 +101,7 @@ namespace Noggolloquy.Generation
             this.ProtectedDefault = Node.GetAttribute<bool>("protectedDefault", this.ProtoGen.ProtectedDefault);
             this.DerivativeDefault = Node.GetAttribute<bool>("derivativeDefault", this.ProtoGen.DerivativeDefault);
             this.RaisePropertyChangedDefault = Node.GetAttribute<bool>("raisePropertyChangedDefault", this.ProtoGen.RaisePropertyChangedDefault);
+            this.Disabled = Node.GetAttribute<DisabledLevel>("disable", DisabledLevel.Enabled);
 
             var namespacesNode = Node.Element(XName.Get("Namespaces", NoggolloquyGenerator.Namespace));
             if (namespacesNode != null)
@@ -179,6 +181,7 @@ namespace Noggolloquy.Generation
 
         public void Generate()
         {
+            if (this.Disabled != DisabledLevel.Enabled) return;
             FileGeneration fg = new FileGeneration();
             fg.AppendLine("/*");
             fg.AppendLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
