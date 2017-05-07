@@ -93,6 +93,8 @@ namespace Noggolloquy.Generation
             AddTypeAssociation<UnsafeType>("UnsafeObject");
             AddTypeAssociation<WildcardType>("Wildcard");
             AddTypeAssociation<FieldBatchPointerType>("FieldBatch");
+            AddTypeAssociation<DateTimeType>("DateTime");
+            AddTypeAssociation<DateTimeNullType>("DateTimeNull");
         }
 
         public void AddTypeAssociation<T>(StringCaseAgnostic key, bool overrideExisting = false)

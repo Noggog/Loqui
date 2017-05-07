@@ -153,7 +153,8 @@
       <xs:element name="UDoubleNull" type="RangedFloat" />
       <xs:element name="Double" type="RangedFloat" />
       <xs:element name="DoubleNull" type="RangedFloat" />
-      <xs:element name="Random" type="Field" />
+      <xs:element name="DateTime" type="DateTime" />
+      <xs:element name="DateTimeNull" type="DateTime" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
@@ -225,6 +226,8 @@
       <xs:element name="UDoubleNull" type="NRangedFloat" />
       <xs:element name="Double" type="NRangedFloat" />
       <xs:element name="DoubleNull" type="NRangedFloat" />
+      <xs:element name="DateTime" type="NDateTime" />
+      <xs:element name="DateTimeNull" type="NDateTime" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
@@ -268,7 +271,7 @@
     </xs:attribute>
   </xs:complexType>
 
-    <xs:complexType name="StructType">
+  <xs:complexType name="StructType">
     <xs:choice minOccurs="0" maxOccurs="unbounded" >
       <xs:element name="Interface" type="xs:string" minOccurs="0" maxOccurs="1" >
         <xs:annotation>
@@ -329,13 +332,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-      <xs:attribute name="disable" type="DisabledLevel">
-        <xs:annotation>
-          <xs:documentation>
-            Whether to skip this object while generating
-          </xs:documentation>
-        </xs:annotation>
-      </xs:attribute>
+    <xs:attribute name="disable" type="DisabledLevel">
+      <xs:annotation>
+        <xs:documentation>
+          Whether to skip this object while generating
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="ObjectType">
@@ -493,7 +496,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
-  
+
   <xs:complexType name="Namespaces">
     <xs:annotation>
       <xs:documentation>
@@ -759,33 +762,29 @@
         Creates a single member reference to another Noggolloquy object type.
       </xs:documentation>
     </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="Field">
-        <xs:choice>
-          <xs:element name="Direct" type="RefDirect">
-            <xs:annotation>
-              <xs:documentation>
-                Direct reference to another Noggolloquy type.
-              </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="Generic" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>
-                Name of generic to reference.  The generic will enforce that it's a Noggolloquy object.
-              </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-        </xs:choice>
-        <xs:attribute name="singleton" type="SingletonLevel" >
-          <xs:annotation>
-            <xs:documentation>
-              Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
-            </xs:documentation>
-          </xs:annotation>
-        </xs:attribute>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:choice>
+      <xs:element name="Direct" type="RefDirect">
+        <xs:annotation>
+          <xs:documentation>
+            Direct reference to another Noggolloquy type.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Generic" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Name of generic to reference.  The generic will enforce that it's a Noggolloquy object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute name="singleton" type="SingletonLevel" >
+      <xs:annotation>
+        <xs:documentation>
+          Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="NRef" >
@@ -841,6 +840,22 @@
   </xs:complexType>
 
   <xs:complexType name="NBool" >
+    <xs:complexContent>
+      <xs:extension base="Bool">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DateTime" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:date" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NDateTime" >
     <xs:complexContent>
       <xs:extension base="Bool">
         <xs:attribute name="name" type="xs:string" use="required" />

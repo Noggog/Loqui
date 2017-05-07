@@ -44,6 +44,12 @@ namespace Noggolloquy.Tests
         #region Char
         public Char Char { get; protected set; }
         #endregion
+        #region DateTimeNull
+        public DateTime? DateTimeNull { get; protected set; }
+        #endregion
+        #region DateTime
+        public DateTime DateTime { get; protected set; }
+        #endregion
         #region DoubleN
         public Double? DoubleN { get; protected set; }
         #endregion
@@ -591,6 +597,8 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
             if (!object.Equals(this.Char, rhs.Char)) return false;
+            if (!object.Equals(this.DateTimeNull, rhs.DateTimeNull)) return false;
+            if (!object.Equals(this.DateTime, rhs.DateTime)) return false;
             if (!object.Equals(this.DoubleN, rhs.DoubleN)) return false;
             if (!object.Equals(this.DoubleN_Ranged, rhs.DoubleN_Ranged)) return false;
             if (!object.Equals(this.Double, rhs.Double)) return false;
@@ -673,6 +681,8 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(Bool))
             .CombineHashCode(HashHelper.GetHashCode(CharN))
             .CombineHashCode(HashHelper.GetHashCode(Char))
+            .CombineHashCode(HashHelper.GetHashCode(DateTimeNull))
+            .CombineHashCode(HashHelper.GetHashCode(DateTime))
             .CombineHashCode(HashHelper.GetHashCode(DoubleN))
             .CombineHashCode(HashHelper.GetHashCode(DoubleN_Ranged))
             .CombineHashCode(HashHelper.GetHashCode(Double))
@@ -946,6 +956,12 @@ namespace Noggolloquy.Tests
                     break;
                 case TestObject_ReadOnly_FieldIndex.Char:
                     this.Char = (Char)obj;
+                    break;
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    this.DateTimeNull = (DateTime?)obj;
+                    break;
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    this.DateTime = (DateTime)obj;
                     break;
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     this.DoubleN = (Double?)obj;
@@ -1226,6 +1242,14 @@ namespace Noggolloquy.Tests
         #endregion
         #region Char
         Char Char { get; }
+
+        #endregion
+        #region DateTimeNull
+        DateTime? DateTimeNull { get; }
+
+        #endregion
+        #region DateTime
+        DateTime DateTime { get; }
 
         #endregion
         #region DoubleN
@@ -1527,78 +1551,80 @@ namespace Noggolloquy.Tests.Internals
         Bool = 1,
         CharN = 2,
         Char = 3,
-        DoubleN = 4,
-        DoubleN_Ranged = 5,
-        Double = 6,
-        Double_Ranged = 7,
-        FloatN = 8,
-        FloatN_Ranged = 9,
-        Float = 10,
-        Float_Ranged = 11,
-        Int16N = 12,
-        Int16N_Ranged = 13,
-        Int16 = 14,
-        Int16_Ranged = 15,
-        Int32N = 16,
-        Int32N_Ranged = 17,
-        Int32 = 18,
-        Int32_Ranged = 19,
-        Int64N = 20,
-        Int64N_Ranged = 21,
-        Int64 = 22,
-        Int64_Ranged = 23,
-        Int8N = 24,
-        Int8N_Ranged = 25,
-        Int8 = 26,
-        Int8_Ranged = 27,
-        Unsafe = 28,
-        P2IntN = 29,
-        P2Int = 30,
-        P3DoubleN = 31,
-        P3Double = 32,
-        P3IntN = 33,
-        P3Int = 34,
-        PercentN = 35,
-        Percent = 36,
-        RangeIntN = 37,
-        RangeInt = 38,
-        String = 39,
-        UDoubleN = 40,
-        UDoubleN_Ranged = 41,
-        UDouble = 42,
-        UDouble_Ranged = 43,
-        UInt16N = 44,
-        UInt16N_Ranged = 45,
-        UInt16 = 46,
-        UInt16_Ranged = 47,
-        UInt32N = 48,
-        UInt32N_Ranged = 49,
-        UInt32 = 50,
-        UInt32_Ranged = 51,
-        UInt64N = 52,
-        UInt64N_Ranged = 53,
-        UInt64 = 54,
-        UInt64_Ranged = 55,
-        UInt8N = 56,
-        UInt8N_Ranged = 57,
-        UInt8 = 58,
-        UInt8_Ranged = 59,
-        Enum = 60,
-        WildCard = 61,
-        Ref = 62,
-        Ref_NotNull = 63,
-        Ref_Singleton = 64,
-        RefGetter = 65,
-        RefGetter_NotNull = 66,
-        RefGetter_Singleton = 67,
-        RefSetter = 68,
-        RefSetter_NotNull = 69,
-        RefSetter_Singleton = 70,
-        List = 71,
-        RefList = 72,
-        Dict = 73,
-        RefDict = 74,
-        DictKeyedValue = 75,
+        DateTimeNull = 4,
+        DateTime = 5,
+        DoubleN = 6,
+        DoubleN_Ranged = 7,
+        Double = 8,
+        Double_Ranged = 9,
+        FloatN = 10,
+        FloatN_Ranged = 11,
+        Float = 12,
+        Float_Ranged = 13,
+        Int16N = 14,
+        Int16N_Ranged = 15,
+        Int16 = 16,
+        Int16_Ranged = 17,
+        Int32N = 18,
+        Int32N_Ranged = 19,
+        Int32 = 20,
+        Int32_Ranged = 21,
+        Int64N = 22,
+        Int64N_Ranged = 23,
+        Int64 = 24,
+        Int64_Ranged = 25,
+        Int8N = 26,
+        Int8N_Ranged = 27,
+        Int8 = 28,
+        Int8_Ranged = 29,
+        Unsafe = 30,
+        P2IntN = 31,
+        P2Int = 32,
+        P3DoubleN = 33,
+        P3Double = 34,
+        P3IntN = 35,
+        P3Int = 36,
+        PercentN = 37,
+        Percent = 38,
+        RangeIntN = 39,
+        RangeInt = 40,
+        String = 41,
+        UDoubleN = 42,
+        UDoubleN_Ranged = 43,
+        UDouble = 44,
+        UDouble_Ranged = 45,
+        UInt16N = 46,
+        UInt16N_Ranged = 47,
+        UInt16 = 48,
+        UInt16_Ranged = 49,
+        UInt32N = 50,
+        UInt32N_Ranged = 51,
+        UInt32 = 52,
+        UInt32_Ranged = 53,
+        UInt64N = 54,
+        UInt64N_Ranged = 55,
+        UInt64 = 56,
+        UInt64_Ranged = 57,
+        UInt8N = 58,
+        UInt8N_Ranged = 59,
+        UInt8 = 60,
+        UInt8_Ranged = 61,
+        Enum = 62,
+        WildCard = 63,
+        Ref = 64,
+        Ref_NotNull = 65,
+        Ref_Singleton = 66,
+        RefGetter = 67,
+        RefGetter_NotNull = 68,
+        RefGetter_Singleton = 69,
+        RefSetter = 70,
+        RefSetter_NotNull = 71,
+        RefSetter_Singleton = 72,
+        List = 73,
+        RefList = 74,
+        Dict = 75,
+        RefDict = 76,
+        DictKeyedValue = 77,
     }
     #endregion
 
@@ -1616,7 +1642,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "10250077-4ed4-4a77-a6c9-f59d9f563858";
 
-        public const ushort FieldCount = 76;
+        public const ushort FieldCount = 78;
 
         public static readonly Type MaskType = typeof(TestObject_ReadOnly_Mask<>);
 
@@ -1644,150 +1670,154 @@ namespace Noggolloquy.Tests.Internals
                     return 2;
                 case "CHAR":
                     return 3;
-                case "DOUBLEN":
+                case "DATETIMENULL":
                     return 4;
-                case "DOUBLEN_RANGED":
+                case "DATETIME":
                     return 5;
-                case "DOUBLE":
+                case "DOUBLEN":
                     return 6;
-                case "DOUBLE_RANGED":
+                case "DOUBLEN_RANGED":
                     return 7;
-                case "FLOATN":
+                case "DOUBLE":
                     return 8;
-                case "FLOATN_RANGED":
+                case "DOUBLE_RANGED":
                     return 9;
-                case "FLOAT":
+                case "FLOATN":
                     return 10;
-                case "FLOAT_RANGED":
+                case "FLOATN_RANGED":
                     return 11;
-                case "INT16N":
+                case "FLOAT":
                     return 12;
-                case "INT16N_RANGED":
+                case "FLOAT_RANGED":
                     return 13;
-                case "INT16":
+                case "INT16N":
                     return 14;
-                case "INT16_RANGED":
+                case "INT16N_RANGED":
                     return 15;
-                case "INT32N":
+                case "INT16":
                     return 16;
-                case "INT32N_RANGED":
+                case "INT16_RANGED":
                     return 17;
-                case "INT32":
+                case "INT32N":
                     return 18;
-                case "INT32_RANGED":
+                case "INT32N_RANGED":
                     return 19;
-                case "INT64N":
+                case "INT32":
                     return 20;
-                case "INT64N_RANGED":
+                case "INT32_RANGED":
                     return 21;
-                case "INT64":
+                case "INT64N":
                     return 22;
-                case "INT64_RANGED":
+                case "INT64N_RANGED":
                     return 23;
-                case "INT8N":
+                case "INT64":
                     return 24;
-                case "INT8N_RANGED":
+                case "INT64_RANGED":
                     return 25;
-                case "INT8":
+                case "INT8N":
                     return 26;
-                case "INT8_RANGED":
+                case "INT8N_RANGED":
                     return 27;
-                case "UNSAFE":
+                case "INT8":
                     return 28;
-                case "P2INTN":
+                case "INT8_RANGED":
                     return 29;
-                case "P2INT":
+                case "UNSAFE":
                     return 30;
-                case "P3DOUBLEN":
+                case "P2INTN":
                     return 31;
-                case "P3DOUBLE":
+                case "P2INT":
                     return 32;
-                case "P3INTN":
+                case "P3DOUBLEN":
                     return 33;
-                case "P3INT":
+                case "P3DOUBLE":
                     return 34;
-                case "PERCENTN":
+                case "P3INTN":
                     return 35;
-                case "PERCENT":
+                case "P3INT":
                     return 36;
-                case "RANGEINTN":
+                case "PERCENTN":
                     return 37;
-                case "RANGEINT":
+                case "PERCENT":
                     return 38;
-                case "STRING":
+                case "RANGEINTN":
                     return 39;
-                case "UDOUBLEN":
+                case "RANGEINT":
                     return 40;
-                case "UDOUBLEN_RANGED":
+                case "STRING":
                     return 41;
-                case "UDOUBLE":
+                case "UDOUBLEN":
                     return 42;
-                case "UDOUBLE_RANGED":
+                case "UDOUBLEN_RANGED":
                     return 43;
-                case "UINT16N":
+                case "UDOUBLE":
                     return 44;
-                case "UINT16N_RANGED":
+                case "UDOUBLE_RANGED":
                     return 45;
-                case "UINT16":
+                case "UINT16N":
                     return 46;
-                case "UINT16_RANGED":
+                case "UINT16N_RANGED":
                     return 47;
-                case "UINT32N":
+                case "UINT16":
                     return 48;
-                case "UINT32N_RANGED":
+                case "UINT16_RANGED":
                     return 49;
-                case "UINT32":
+                case "UINT32N":
                     return 50;
-                case "UINT32_RANGED":
+                case "UINT32N_RANGED":
                     return 51;
-                case "UINT64N":
+                case "UINT32":
                     return 52;
-                case "UINT64N_RANGED":
+                case "UINT32_RANGED":
                     return 53;
-                case "UINT64":
+                case "UINT64N":
                     return 54;
-                case "UINT64_RANGED":
+                case "UINT64N_RANGED":
                     return 55;
-                case "UINT8N":
+                case "UINT64":
                     return 56;
-                case "UINT8N_RANGED":
+                case "UINT64_RANGED":
                     return 57;
-                case "UINT8":
+                case "UINT8N":
                     return 58;
-                case "UINT8_RANGED":
+                case "UINT8N_RANGED":
                     return 59;
-                case "ENUM":
+                case "UINT8":
                     return 60;
-                case "WILDCARD":
+                case "UINT8_RANGED":
                     return 61;
-                case "REF":
+                case "ENUM":
                     return 62;
-                case "REF_NOTNULL":
+                case "WILDCARD":
                     return 63;
-                case "REF_SINGLETON":
+                case "REF":
                     return 64;
-                case "REFGETTER":
+                case "REF_NOTNULL":
                     return 65;
-                case "REFGETTER_NOTNULL":
+                case "REF_SINGLETON":
                     return 66;
-                case "REFGETTER_SINGLETON":
+                case "REFGETTER":
                     return 67;
-                case "REFSETTER":
+                case "REFGETTER_NOTNULL":
                     return 68;
-                case "REFSETTER_NOTNULL":
+                case "REFGETTER_SINGLETON":
                     return 69;
-                case "REFSETTER_SINGLETON":
+                case "REFSETTER":
                     return 70;
-                case "LIST":
+                case "REFSETTER_NOTNULL":
                     return 71;
-                case "REFLIST":
+                case "REFSETTER_SINGLETON":
                     return 72;
-                case "DICT":
+                case "LIST":
                     return 73;
-                case "REFDICT":
+                case "REFLIST":
                     return 74;
-                case "DICTKEYEDVALUE":
+                case "DICT":
                     return 75;
+                case "REFDICT":
+                    return 76;
+                case "DICTKEYEDVALUE":
+                    return 77;
                 default:
                     throw new ArgumentException($"Queried unknown field: {str}");
             }
@@ -1805,6 +1835,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -1901,6 +1933,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -1982,6 +2016,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -2070,6 +2106,10 @@ namespace Noggolloquy.Tests.Internals
                     return "CharN";
                 case TestObject_ReadOnly_FieldIndex.Char:
                     return "Char";
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    return "DateTimeNull";
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    return "DateTime";
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     return "DoubleN";
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
@@ -2228,6 +2268,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -2315,6 +2357,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -2406,6 +2450,10 @@ namespace Noggolloquy.Tests.Internals
                     return typeof(Char?);
                 case TestObject_ReadOnly_FieldIndex.Char:
                     return typeof(Char);
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    return typeof(DateTime?);
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    return typeof(DateTime);
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     return typeof(Double?);
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
@@ -2614,6 +2662,10 @@ namespace Noggolloquy.Tests.Internals
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Char:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
@@ -2779,6 +2831,10 @@ namespace Noggolloquy.Tests.Internals
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Char:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
@@ -2939,6 +2995,8 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Bool:
                 case TestObject_ReadOnly_FieldIndex.CharN:
                 case TestObject_ReadOnly_FieldIndex.Char:
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                case TestObject_ReadOnly_FieldIndex.DateTime:
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
                 case TestObject_ReadOnly_FieldIndex.Double:
@@ -3032,6 +3090,10 @@ namespace Noggolloquy.Tests.Internals
                     return obj.CharN;
                 case TestObject_ReadOnly_FieldIndex.Char:
                     return obj.Char;
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    return obj.DateTimeNull;
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    return obj.DateTime;
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     return obj.DoubleN;
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
@@ -3198,6 +3260,8 @@ namespace Noggolloquy.Tests.Internals
         public T Bool;
         public T CharN;
         public T Char;
+        public T DateTimeNull;
+        public T DateTime;
         public T DoubleN;
         public T DoubleN_Ranged;
         public T Double;
@@ -3291,6 +3355,8 @@ namespace Noggolloquy.Tests.Internals
         public Exception Bool;
         public Exception CharN;
         public Exception Char;
+        public Exception DateTimeNull;
+        public Exception DateTime;
         public Exception DoubleN;
         public Exception DoubleN_Ranged;
         public Exception Double;
@@ -3380,6 +3446,12 @@ namespace Noggolloquy.Tests.Internals
                     break;
                 case TestObject_ReadOnly_FieldIndex.Char:
                     this.Char = ex;
+                    break;
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    this.DateTimeNull = ex;
+                    break;
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    this.DateTime = ex;
                     break;
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     this.DoubleN = ex;
@@ -3619,6 +3691,12 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_ReadOnly_FieldIndex.Char:
                     this.Char = (Exception)obj;
                     break;
+                case TestObject_ReadOnly_FieldIndex.DateTimeNull:
+                    this.DateTimeNull = (Exception)obj;
+                    break;
+                case TestObject_ReadOnly_FieldIndex.DateTime:
+                    this.DateTime = (Exception)obj;
+                    break;
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
@@ -3847,6 +3925,8 @@ namespace Noggolloquy.Tests.Internals
         public bool Bool;
         public bool CharN;
         public bool Char;
+        public bool DateTimeNull;
+        public bool DateTime;
         public bool DoubleN;
         public bool DoubleN_Ranged;
         public bool Double;

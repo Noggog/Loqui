@@ -7,6 +7,8 @@
       <Bool name="Bool" />
       <CharNull name="CharN" />
       <Char name="Char" />
+      <DateTimeNull name="DateTimeNull" />
+      <DateTime name="DateTime" />
       <DoubleNull name="DoubleN" />
       <DoubleNull name="DoubleN_Ranged" min="-5.41" max="5.51" />
       <Double name="Double" />

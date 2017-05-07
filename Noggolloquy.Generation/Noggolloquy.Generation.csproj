@@ -47,6 +47,8 @@
     <Compile Include="Enums\DisabledLevel.cs" />
     <Compile Include="FieldBatch.cs" />
     <Compile Include="Fields\FieldBatchPointerType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\DateTimeType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />

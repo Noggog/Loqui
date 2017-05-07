@@ -354,7 +354,7 @@ namespace Noggolloquy.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_SubClass_FieldIndex
     {
-        NewField = 76,
+        NewField = 78,
     }
     #endregion
 
