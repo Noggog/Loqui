@@ -375,7 +375,7 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

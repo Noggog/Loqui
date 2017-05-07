@@ -454,11 +454,11 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 case "KEYFIELD":
-                    return 0;
+                    return (ushort)ObjectToRef_FieldIndex.KeyField;
                 case "SOMEFIELD":
-                    return 1;
+                    return (ushort)ObjectToRef_FieldIndex.SomeField;
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

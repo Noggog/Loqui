@@ -415,9 +415,9 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 case "BOOLN":
-                    return 0;
+                    return (ushort)TestObject_PrivateCtor_FieldIndex.BoolN;
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

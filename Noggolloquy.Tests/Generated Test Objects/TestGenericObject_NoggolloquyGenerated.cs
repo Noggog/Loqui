@@ -427,9 +427,9 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 case "REF":
-                    return 0;
+                    return (ushort)TestGenericObject_FieldIndex.Ref;
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

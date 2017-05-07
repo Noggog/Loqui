@@ -393,9 +393,9 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 case "NEWFIELD":
-                    return 0;
+                    return (ushort)TestObject_Notifying_SubClass_FieldIndex.NewField;
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

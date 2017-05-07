@@ -1663,163 +1663,163 @@ namespace Noggolloquy.Tests.Internals
             switch (str.Upper)
             {
                 case "BOOLN":
-                    return 0;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.BoolN;
                 case "BOOL":
-                    return 1;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Bool;
                 case "CHARN":
-                    return 2;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.CharN;
                 case "CHAR":
-                    return 3;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Char;
                 case "DATETIMENULL":
-                    return 4;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.DateTimeNull;
                 case "DATETIME":
-                    return 5;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.DateTime;
                 case "DOUBLEN":
-                    return 6;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.DoubleN;
                 case "DOUBLEN_RANGED":
-                    return 7;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.DoubleN_Ranged;
                 case "DOUBLE":
-                    return 8;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Double;
                 case "DOUBLE_RANGED":
-                    return 9;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Double_Ranged;
                 case "FLOATN":
-                    return 10;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.FloatN;
                 case "FLOATN_RANGED":
-                    return 11;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.FloatN_Ranged;
                 case "FLOAT":
-                    return 12;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Float;
                 case "FLOAT_RANGED":
-                    return 13;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Float_Ranged;
                 case "INT16N":
-                    return 14;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int16N;
                 case "INT16N_RANGED":
-                    return 15;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int16N_Ranged;
                 case "INT16":
-                    return 16;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int16;
                 case "INT16_RANGED":
-                    return 17;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int16_Ranged;
                 case "INT32N":
-                    return 18;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int32N;
                 case "INT32N_RANGED":
-                    return 19;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int32N_Ranged;
                 case "INT32":
-                    return 20;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int32;
                 case "INT32_RANGED":
-                    return 21;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int32_Ranged;
                 case "INT64N":
-                    return 22;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int64N;
                 case "INT64N_RANGED":
-                    return 23;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int64N_Ranged;
                 case "INT64":
-                    return 24;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int64;
                 case "INT64_RANGED":
-                    return 25;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int64_Ranged;
                 case "INT8N":
-                    return 26;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int8N;
                 case "INT8N_RANGED":
-                    return 27;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int8N_Ranged;
                 case "INT8":
-                    return 28;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int8;
                 case "INT8_RANGED":
-                    return 29;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Int8_Ranged;
                 case "UNSAFE":
-                    return 30;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Unsafe;
                 case "P2INTN":
-                    return 31;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P2IntN;
                 case "P2INT":
-                    return 32;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P2Int;
                 case "P3DOUBLEN":
-                    return 33;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P3DoubleN;
                 case "P3DOUBLE":
-                    return 34;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P3Double;
                 case "P3INTN":
-                    return 35;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P3IntN;
                 case "P3INT":
-                    return 36;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.P3Int;
                 case "PERCENTN":
-                    return 37;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.PercentN;
                 case "PERCENT":
-                    return 38;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Percent;
                 case "RANGEINTN":
-                    return 39;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RangeIntN;
                 case "RANGEINT":
-                    return 40;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RangeInt;
                 case "STRING":
-                    return 41;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.String;
                 case "UDOUBLEN":
-                    return 42;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UDoubleN;
                 case "UDOUBLEN_RANGED":
-                    return 43;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged;
                 case "UDOUBLE":
-                    return 44;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UDouble;
                 case "UDOUBLE_RANGED":
-                    return 45;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UDouble_Ranged;
                 case "UINT16N":
-                    return 46;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt16N;
                 case "UINT16N_RANGED":
-                    return 47;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt16N_Ranged;
                 case "UINT16":
-                    return 48;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt16;
                 case "UINT16_RANGED":
-                    return 49;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt16_Ranged;
                 case "UINT32N":
-                    return 50;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt32N;
                 case "UINT32N_RANGED":
-                    return 51;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt32N_Ranged;
                 case "UINT32":
-                    return 52;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt32;
                 case "UINT32_RANGED":
-                    return 53;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt32_Ranged;
                 case "UINT64N":
-                    return 54;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt64N;
                 case "UINT64N_RANGED":
-                    return 55;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt64N_Ranged;
                 case "UINT64":
-                    return 56;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt64;
                 case "UINT64_RANGED":
-                    return 57;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt64_Ranged;
                 case "UINT8N":
-                    return 58;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt8N;
                 case "UINT8N_RANGED":
-                    return 59;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt8N_Ranged;
                 case "UINT8":
-                    return 60;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt8;
                 case "UINT8_RANGED":
-                    return 61;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.UInt8_Ranged;
                 case "ENUM":
-                    return 62;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Enum;
                 case "WILDCARD":
-                    return 63;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.WildCard;
                 case "REF":
-                    return 64;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Ref;
                 case "REF_NOTNULL":
-                    return 65;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Ref_NotNull;
                 case "REF_SINGLETON":
-                    return 66;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Ref_Singleton;
                 case "REFGETTER":
-                    return 67;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefGetter;
                 case "REFGETTER_NOTNULL":
-                    return 68;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull;
                 case "REFGETTER_SINGLETON":
-                    return 69;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefGetter_Singleton;
                 case "REFSETTER":
-                    return 70;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefSetter;
                 case "REFSETTER_NOTNULL":
-                    return 71;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull;
                 case "REFSETTER_SINGLETON":
-                    return 72;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefSetter_Singleton;
                 case "LIST":
-                    return 73;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.List;
                 case "REFLIST":
-                    return 74;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefList;
                 case "DICT":
-                    return 75;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.Dict;
                 case "REFDICT":
-                    return 76;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.RefDict;
                 case "DICTKEYEDVALUE":
-                    return 77;
+                    return (ushort)TestObject_ReadOnly_FieldIndex.DictKeyedValue;
                 default:
-                    throw new ArgumentException($"Queried unknown field: {str}");
+                    return null;
             }
         }
 

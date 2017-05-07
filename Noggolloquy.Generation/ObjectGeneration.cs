@@ -1336,14 +1336,14 @@ namespace Noggolloquy.Generation
                         fg.AppendLine($"case \"{this.Fields[i].Name.ToUpper()}\":");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return {i};");
+                            fg.AppendLine($"return (ushort){this.EnumName}.{this.Fields[i].Name};");
                         }
                     }
 
                     fg.AppendLine("default:");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("throw new ArgumentException($\"Queried unknown field: {str}\");");
+                        fg.AppendLine("return null;");
                     }
                 }
             }
