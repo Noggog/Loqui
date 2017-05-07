@@ -124,6 +124,14 @@ namespace Noggolloquy.Tests
 
 
         #region XML Translation
+        public new static TestGenericObject_SubClass_Defined Create_XML(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return Create_XML(XElement.Parse(reader.ReadToEnd()));
+            }
+        }
+
         public new static TestGenericObject_SubClass_Defined Create_XML(XElement root)
         {
             var ret = new TestGenericObject_SubClass_Defined();

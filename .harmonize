@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>dd0c06d4e0139756c3a8002239bcd35e307fd79b</Sha>
-      <Description>Additional RangePrimitives</Description>
+      <Sha>4609eb9f916285abe21c396bdd0e0df16a0bf1d4</Sha>
+      <Description>NotifyingKeyedCollection API adjustments</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>05-04-2017 17:59:39</CommitDate>
+      <CommitDate>05-06-2017 23:57:09</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

@@ -44,6 +44,17 @@ namespace Noggolloquy.Generation
 
             if (!obj.Abstract)
             {
+                fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(Stream stream)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"using (var reader = new StreamReader(stream))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("return Create_XML(XElement.Parse(reader.ReadToEnd()));");
+                    }
+                }
+                fg.AppendLine();
+
                 fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(XElement root)");
                 using (new BraceWrapper(fg))
                 {

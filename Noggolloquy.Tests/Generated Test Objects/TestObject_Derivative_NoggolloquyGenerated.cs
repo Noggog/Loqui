@@ -752,6 +752,14 @@ namespace Noggolloquy.Tests
 
 
         #region XML Translation
+        public static TestObject_Derivative Create_XML(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return Create_XML(XElement.Parse(reader.ReadToEnd()));
+            }
+        }
+
         public static TestObject_Derivative Create_XML(XElement root)
         {
             var ret = new TestObject_Derivative();
