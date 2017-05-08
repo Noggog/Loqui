@@ -115,22 +115,22 @@
   <xs:group name="FieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
-      <xs:element name="UInt8" type="RangedInt" />
-      <xs:element name="UInt16" type="RangedInt" />
-      <xs:element name="UInt32" type="RangedInt" />
-      <xs:element name="UInt64" type="RangedInt" />
-      <xs:element name="Int8" type="RangedInt" />
-      <xs:element name="Int16" type="RangedInt" />
-      <xs:element name="Int32" type="RangedInt" />
-      <xs:element name="Int64" type="RangedInt" />
-      <xs:element name="UInt8Null" type="RangedInt" />
-      <xs:element name="UInt16Null" type="RangedInt" />
-      <xs:element name="UInt32Null" type="RangedInt" />
-      <xs:element name="UInt64Null" type="RangedInt" />
-      <xs:element name="Int8Null" type="RangedInt" />
-      <xs:element name="Int16Null" type="RangedInt" />
-      <xs:element name="Int32Null" type="RangedInt" />
-      <xs:element name="Int64Null" type="RangedInt" />
+      <xs:element name="UInt8" type="RangedUInt8" />
+      <xs:element name="UInt16" type="RangedUInt16" />
+      <xs:element name="UInt32" type="RangedUInt32" />
+      <xs:element name="UInt64" type="RangedUInt64" />
+      <xs:element name="Int8" type="RangedInt8" />
+      <xs:element name="Int16" type="RangedInt16" />
+      <xs:element name="Int32" type="RangedInt32" />
+      <xs:element name="Int64" type="RangedInt64" />
+      <xs:element name="UInt8Null" type="RangedUInt8" />
+      <xs:element name="UInt16Null" type="RangedUInt16" />
+      <xs:element name="UInt32Null" type="RangedUInt32" />
+      <xs:element name="UInt64Null" type="RangedUInt64" />
+      <xs:element name="Int8Null" type="RangedInt8" />
+      <xs:element name="Int16Null" type="RangedInt16" />
+      <xs:element name="Int32Null" type="RangedInt32" />
+      <xs:element name="Int64Null" type="RangedInt64" />
       <xs:element name="P2Int" type="String" />
       <xs:element name="P2IntNull" type="String" />
       <xs:element name="P3Int" type="String" />
@@ -141,8 +141,22 @@
       <xs:element name="BoolNull" type="Bool" />
       <xs:element name="Char" type="Char" />
       <xs:element name="CharNull" type="Char" />
-      <xs:element name="RangeInt" type="RangedInt" />
-      <xs:element name="RangeIntNull" type="RangedInt" />
+      <xs:element name="RangeInt8" type="RangedUInt8" />
+      <xs:element name="RangeInt8Null" type="RangedUInt8" />
+      <xs:element name="RangeInt16" type="RangedUInt16" />
+      <xs:element name="RangeInt16Null" type="RangedUInt16" />
+      <xs:element name="RangeInt32" type="RangedUInt32" />
+      <xs:element name="RangeInt32Null" type="RangedUInt32" />
+      <xs:element name="RangeInt64" type="RangedUInt64" />
+      <xs:element name="RangeInt64Null" type="RangedUInt64" />
+      <xs:element name="RangeUInt8" type="RangedUInt8" />
+      <xs:element name="RangeUInt8Null" type="RangedUInt8" />
+      <xs:element name="RangeUInt16" type="RangedUInt16" />
+      <xs:element name="RangeUInt16Null" type="RangedUInt16" />
+      <xs:element name="RangeUInt32" type="RangedUInt32" />
+      <xs:element name="RangeUInt32Null" type="RangedUInt32" />
+      <xs:element name="RangeUInt64" type="RangedUInt64" />
+      <xs:element name="RangeUInt64Null" type="RangedUInt64" />
       <xs:element name="RangeDouble" type="RangedFloat" />
       <xs:element name="RangeDoubleNull" type="RangedFloat" />
       <xs:element name="Percent" type="String" />
@@ -181,22 +195,22 @@
   <xs:group name="NamedFieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
-      <xs:element name="UInt8" type="NRangedInt" />
-      <xs:element name="UInt16" type="NRangedInt" />
-      <xs:element name="UInt32" type="NRangedInt" />
-      <xs:element name="UInt64" type="NRangedInt" />
-      <xs:element name="Int8" type="NRangedInt" />
-      <xs:element name="Int16" type="NRangedInt" />
-      <xs:element name="Int32" type="NRangedInt" />
-      <xs:element name="Int64" type="NRangedInt" />
-      <xs:element name="UInt8Null" type="NRangedInt" />
-      <xs:element name="UInt16Null" type="NRangedInt" />
-      <xs:element name="UInt32Null" type="NRangedInt" />
-      <xs:element name="UInt64Null" type="NRangedInt" />
-      <xs:element name="Int8Null" type="NRangedInt" />
-      <xs:element name="Int16Null" type="NRangedInt" />
-      <xs:element name="Int32Null" type="NRangedInt" />
-      <xs:element name="Int64Null" type="NRangedInt" />
+      <xs:element name="UInt8" type="NRangedUInt8" />
+      <xs:element name="UInt16" type="NRangedUInt16" />
+      <xs:element name="UInt32" type="NRangedUInt32" />
+      <xs:element name="UInt64" type="NRangedUInt64" />
+      <xs:element name="Int8" type="NRangedInt8" />
+      <xs:element name="Int16" type="NRangedInt16" />
+      <xs:element name="Int32" type="NRangedInt32" />
+      <xs:element name="Int64" type="NRangedInt64" />
+      <xs:element name="UInt8Null" type="NRangedUInt8" />
+      <xs:element name="UInt16Null" type="NRangedUInt16" />
+      <xs:element name="UInt32Null" type="NRangedUInt32" />
+      <xs:element name="UInt64Null" type="NRangedUInt64" />
+      <xs:element name="Int8Null" type="NRangedInt8" />
+      <xs:element name="Int16Null" type="NRangedInt16" />
+      <xs:element name="Int32Null" type="NRangedInt32" />
+      <xs:element name="Int64Null" type="NRangedInt64" />
       <xs:element name="P2Int" type="NString" />
       <xs:element name="P2IntNull" type="NString" />
       <xs:element name="P3Int" type="NString" />
@@ -214,8 +228,22 @@
       <xs:element name="Char" type="NChar" />
       <xs:element name="CharNull" type="NChar" />
       <xs:element name="Random" type="NField" />
-      <xs:element name="RangeInt" type="NRangedInt" />
-      <xs:element name="RangeIntNull" type="NRangedInt" />
+      <xs:element name="RangeInt8" type="NRangedUInt8" />
+      <xs:element name="RangeInt8Null" type="NRangedUInt8" />
+      <xs:element name="RangeInt16" type="NRangedUInt16" />
+      <xs:element name="RangeInt16Null" type="NRangedUInt16" />
+      <xs:element name="RangeInt32" type="NRangedUInt32" />
+      <xs:element name="RangeInt32Null" type="NRangedUInt32" />
+      <xs:element name="RangeInt64" type="NRangedUInt64" />
+      <xs:element name="RangeInt64Null" type="NRangedUInt64" />
+      <xs:element name="RangeUInt8" type="NRangedUInt8" />
+      <xs:element name="RangeUInt8Null" type="NRangedUInt8" />
+      <xs:element name="RangeUInt16" type="NRangedUInt16" />
+      <xs:element name="RangeUInt16Null" type="NRangedUInt16" />
+      <xs:element name="RangeUInt32" type="NRangedUInt32" />
+      <xs:element name="RangeUInt32Null" type="NRangedUInt32" />
+      <xs:element name="RangeUInt64" type="NRangedUInt64" />
+      <xs:element name="RangeUInt64Null" type="NRangedUInt64" />
       <xs:element name="RangeDouble" type="NRangedFloat" />
       <xs:element name="RangeDoubleNull" type="NRangedFloat" />
       <xs:element name="Percent" type="NString" />
@@ -692,7 +720,45 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="RangedInt" >
+  <xs:complexType name="RangedInt8" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:short" />
+        <xs:attribute name="max" type="xs:short" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedInt8" >
+    <xs:complexContent>
+      <xs:extension base="RangedInt8">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedInt16" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:short" />
+        <xs:attribute name="max" type="xs:short" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedInt16" >
+    <xs:complexContent>
+      <xs:extension base="RangedInt16">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedInt32" >
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:attribute name="default" type="xs:string" />
@@ -703,9 +769,104 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="NRangedInt" >
+  <xs:complexType name="NRangedInt32" >
     <xs:complexContent>
-      <xs:extension base="RangedInt">
+      <xs:extension base="RangedInt32">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedInt64" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:long" />
+        <xs:attribute name="max" type="xs:long" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedInt64" >
+    <xs:complexContent>
+      <xs:extension base="RangedInt64">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedUInt8" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:byte" />
+        <xs:attribute name="max" type="xs:byte" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedUInt8" >
+    <xs:complexContent>
+      <xs:extension base="RangedUInt8">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedUInt16" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:unsignedShort" />
+        <xs:attribute name="max" type="xs:unsignedShort" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedUInt16" >
+    <xs:complexContent>
+      <xs:extension base="RangedUInt16">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedUInt32" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:unsignedInt" />
+        <xs:attribute name="max" type="xs:unsignedInt" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedUInt32" >
+    <xs:complexContent>
+      <xs:extension base="RangedUInt32">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RangedUInt64" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+        <xs:attribute name="min" type="xs:unsignedLong" />
+        <xs:attribute name="max" type="xs:unsignedLong" />
+        <xs:attribute name="rangeThrowException" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRangedUInt64" >
+    <xs:complexContent>
+      <xs:extension base="RangedUInt64">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>

@@ -11,26 +11,26 @@ using Xunit;
 
 namespace Noggolloquy.Tests.XML
 {
-    public class RangeIntXmlTranslation_Test : TypicalXmlTranslation_Test<RangeInt32>
+    public class RangeUInt64NullableXmlTranslation_Test : TypicalXmlTranslation_Test<RangeUInt64?>
     {
-        public static readonly RangeInt32 TYPICAL_VALUE = new RangeInt32(5, 7994);
-        public static readonly RangeInt32 ZERO_VALUE = new RangeInt32(0, 0);
-        public static readonly RangeInt32 NEGATIVE_VALUE = new RangeInt32(-67, -6);
+        public static readonly RangeUInt64 TYPICAL_VALUE = new RangeUInt64(5, 3_147_483_647);
+        public static readonly RangeUInt64 ZERO_VALUE = new RangeUInt64(0, 0);
         public const string MIN = "Min";
         public const string MAX = "Max";
 
-        public override string ExpectedName => "RangeInt";
+        public override string ExpectedName => "RangeUInt64N";
 
-        public override IXmlTranslation<RangeInt32> GetTranslation()
+        public override IXmlTranslation<RangeUInt64?> GetTranslation()
         {
-            return new RangeIntXmlTranslation();
+            return new RangeUInt64XmlTranslation();
         }
 
-        public override XElement GetTypicalElement(RangeInt32 value, string name = null)
+        public override XElement GetTypicalElement(RangeUInt64? value, string name = null)
         {
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
-            elem.SetAttributeValue(XName.Get(MIN), value.Min);
-            elem.SetAttributeValue(XName.Get(MAX), value.Max);
+            if (value == null) return elem;
+            elem.SetAttributeValue(XName.Get(MIN), value.Value.Min);
+            elem.SetAttributeValue(XName.Get(MAX), value.Value.Max);
             return elem;
         }
 
@@ -106,12 +106,13 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
 
         [Fact]
@@ -123,9 +124,9 @@ namespace Noggolloquy.Tests.XML
                 elem,
                 doMasks: true,
                 maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
         #endregion
 
@@ -136,12 +137,13 @@ namespace Noggolloquy.Tests.XML
             var transl = GetTranslation();
             var elem = GetElementNoValue();
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: false,
+                maskObj: out object maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
 
         [Fact]
@@ -154,9 +156,9 @@ namespace Noggolloquy.Tests.XML
                 elem,
                 doMasks: true,
                 maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.Null(maskObj);
+            Assert.Equal(null, ret.Value);
         }
         #endregion
 
@@ -250,14 +252,14 @@ namespace Noggolloquy.Tests.XML
         }
 
         [Fact]
-        public void Reimport_Negative()
+        public void Reimport_Null()
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             var writeResp = transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: NEGATIVE_VALUE,
+                item: null,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.True(writeResp);
@@ -266,7 +268,7 @@ namespace Noggolloquy.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(NEGATIVE_VALUE, readResp.Value);
+            Assert.Equal(null, readResp.Value);
         }
         #endregion
     }

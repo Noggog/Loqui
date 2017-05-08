@@ -62,6 +62,13 @@
     <Compile Include="ProtocolDefinition.cs" />
     <Compile Include="ProtocolKey.cs" />
     <Compile Include="Translators\Xml\DateTimeXmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeInt64XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeUInt64XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeUInt32XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeUInt16XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeUInt8XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeInt8XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeInt16XmlTranslation.cs" />
     <Compile Include="Translators\Xml\XmlConstants.cs" />
     <Compile Include="WildcardLink.cs" />
     <Compile Include="Translators\Xml\BooleanXmlTranslation.cs" />
@@ -81,7 +88,7 @@
     <Compile Include="Translators\Xml\P3IntXmlTranslation.cs" />
     <Compile Include="Translators\Xml\PercentXmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeDoubleXmlTranslation.cs" />
-    <Compile Include="Translators\Xml\RangeIntXmlTranslation.cs" />
+    <Compile Include="Translators\Xml\RangeInt32XmlTranslation.cs" />
     <Compile Include="Translators\Xml\FloatXmlTranslation.cs" />
     <Compile Include="Translators\Xml\StringXmlTranslation.cs" />
     <Compile Include="Translators\Xml\TypicalXmlTranslation.cs" />

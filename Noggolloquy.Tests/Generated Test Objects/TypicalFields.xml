@@ -44,8 +44,22 @@
       <P3Int name="P3Int" />
       <PercentNull name="PercentN" />
       <Percent name="Percent" />
-      <RangeIntNull name="RangeIntN" />
-      <RangeInt name="RangeInt" />
+      <RangeInt8Null name="RangeInt8N" />
+      <RangeInt8 name="RangeInt8" />
+      <RangeInt16Null name="RangeInt16N" />
+      <RangeInt16 name="RangeInt16" />
+      <RangeInt32Null name="RangeInt32N" />
+      <RangeInt32 name="RangeInt32" />
+      <RangeInt64Null name="RangeInt64N" />
+      <RangeInt64 name="RangeInt64" />
+      <RangeUInt8Null name="RangeUInt8N" />
+      <RangeUInt8 name="RangeUInt8" />
+      <RangeUInt16Null name="RangeUInt16N" />
+      <RangeUInt16 name="RangeUInt16" />
+      <RangeUInt32Null name="RangeUInt32N" />
+      <RangeUInt32 name="RangeUInt32" />
+      <RangeUInt64Null name="RangeUInt64N" />
+      <RangeUInt64 name="RangeUInt64" />
       <String name="String" />
       <UDoubleNull name="UDoubleN" />
       <UDoubleNull name="UDoubleN_Ranged" min="3.5" max="6.4" />

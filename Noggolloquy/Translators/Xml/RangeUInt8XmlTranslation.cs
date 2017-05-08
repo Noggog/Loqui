@@ -5,13 +5,13 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
-    public class RangeIntXmlTranslation : TypicalXmlTranslation<RangeInt32>
+    public class RangeUInt8XmlTranslation : TypicalXmlTranslation<RangeUInt8>
     {
-        public readonly static RangeIntXmlTranslation Instance = new RangeIntXmlTranslation();
+        public readonly static RangeUInt8XmlTranslation Instance = new RangeUInt8XmlTranslation();
         public const string MIN = "Min";
         public const string MAX = "Max";
 
-        protected override bool WriteValue(XmlWriter writer, string name, RangeInt32? item, bool doMasks, out object maskObj)
+        protected override bool WriteValue(XmlWriter writer, string name, RangeUInt8? item, bool doMasks, out object maskObj)
         {
             maskObj = null;
             if (!item.HasValue) return true;
@@ -20,23 +20,23 @@ namespace Noggolloquy.Xml
             return true;
         }
 
-        protected override string GetItemStr(RangeInt32 item)
+        protected override string GetItemStr(RangeUInt8 item)
         {
             throw new NotImplementedException();
         }
 
-        protected override RangeInt32 ParseNonNullString(string str)
+        protected override RangeUInt8 ParseNonNullString(string str)
         {
             throw new NotImplementedException();
         }
 
-        protected override TryGet<RangeInt32?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        protected override TryGet<RangeUInt8?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
         {
             maskObj = null;
-            int? min, max;
+            byte? min, max;
             if (root.TryGetAttribute(MIN, out XAttribute val))
             {
-                if (int.TryParse(val.Value, out var i))
+                if (byte.TryParse(val.Value, out var i))
                 {
                     min = i;
                 }
@@ -51,7 +51,7 @@ namespace Noggolloquy.Xml
             }
             if (root.TryGetAttribute(MAX, out val))
             {
-                if (int.TryParse(val.Value, out var i))
+                if (byte.TryParse(val.Value, out var i))
                 {
                     max = i;
                 }
@@ -64,9 +64,9 @@ namespace Noggolloquy.Xml
             {
                 max = null;
             }
-            if (!min.HasValue && !max.HasValue) return TryGet<RangeInt32?>.Succeed(null);
-            return TryGet<RangeInt32?>.Succeed(
-                new RangeInt32(min, max));
+            if (!min.HasValue && !max.HasValue) return TryGet<RangeUInt8?>.Succeed(null);
+            return TryGet<RangeUInt8?>.Succeed(
+                new RangeUInt8(min, max));
         }
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Fields\FieldBatchPointerType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\TypicalRangedIntType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />
@@ -94,8 +95,6 @@
     <Compile Include="Fields\TypicalTypeGeneration\PercentType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\RangeDoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\RangeDoubleType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\RangeIntNullType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\RangeIntType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\StringType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\UDoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\UDoubleType.cs" />

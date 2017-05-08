@@ -257,11 +257,53 @@ namespace Noggolloquy.Tests
         #region Percent
         public Percent Percent { get; protected set; }
         #endregion
-        #region RangeIntN
-        public RangeInt32? RangeIntN { get; protected set; }
+        #region RangeInt8N
+        public RangeInt8? RangeInt8N { get; protected set; }
         #endregion
-        #region RangeInt
-        public RangeInt32 RangeInt { get; protected set; }
+        #region RangeInt8
+        public RangeInt8 RangeInt8 { get; protected set; }
+        #endregion
+        #region RangeInt16N
+        public RangeInt16? RangeInt16N { get; protected set; }
+        #endregion
+        #region RangeInt16
+        public RangeInt16 RangeInt16 { get; protected set; }
+        #endregion
+        #region RangeInt32N
+        public RangeInt32? RangeInt32N { get; protected set; }
+        #endregion
+        #region RangeInt32
+        public RangeInt32 RangeInt32 { get; protected set; }
+        #endregion
+        #region RangeInt64N
+        public RangeInt64? RangeInt64N { get; protected set; }
+        #endregion
+        #region RangeInt64
+        public RangeInt64 RangeInt64 { get; protected set; }
+        #endregion
+        #region RangeUInt8N
+        public RangeUInt8? RangeUInt8N { get; protected set; }
+        #endregion
+        #region RangeUInt8
+        public RangeUInt8 RangeUInt8 { get; protected set; }
+        #endregion
+        #region RangeUInt16N
+        public RangeUInt16? RangeUInt16N { get; protected set; }
+        #endregion
+        #region RangeUInt16
+        public RangeUInt16 RangeUInt16 { get; protected set; }
+        #endregion
+        #region RangeUInt32N
+        public RangeUInt32? RangeUInt32N { get; protected set; }
+        #endregion
+        #region RangeUInt32
+        public RangeUInt32 RangeUInt32 { get; protected set; }
+        #endregion
+        #region RangeUInt64N
+        public RangeUInt64? RangeUInt64N { get; protected set; }
+        #endregion
+        #region RangeUInt64
+        public RangeUInt64 RangeUInt64 { get; protected set; }
         #endregion
         #region String
         public String String { get; protected set; }
@@ -632,8 +674,22 @@ namespace Noggolloquy.Tests
             if (!object.Equals(this.P3Int, rhs.P3Int)) return false;
             if (!object.Equals(this.PercentN, rhs.PercentN)) return false;
             if (!object.Equals(this.Percent, rhs.Percent)) return false;
-            if (!object.Equals(this.RangeIntN, rhs.RangeIntN)) return false;
-            if (!object.Equals(this.RangeInt, rhs.RangeInt)) return false;
+            if (!object.Equals(this.RangeInt8N, rhs.RangeInt8N)) return false;
+            if (!object.Equals(this.RangeInt8, rhs.RangeInt8)) return false;
+            if (!object.Equals(this.RangeInt16N, rhs.RangeInt16N)) return false;
+            if (!object.Equals(this.RangeInt16, rhs.RangeInt16)) return false;
+            if (!object.Equals(this.RangeInt32N, rhs.RangeInt32N)) return false;
+            if (!object.Equals(this.RangeInt32, rhs.RangeInt32)) return false;
+            if (!object.Equals(this.RangeInt64N, rhs.RangeInt64N)) return false;
+            if (!object.Equals(this.RangeInt64, rhs.RangeInt64)) return false;
+            if (!object.Equals(this.RangeUInt8N, rhs.RangeUInt8N)) return false;
+            if (!object.Equals(this.RangeUInt8, rhs.RangeUInt8)) return false;
+            if (!object.Equals(this.RangeUInt16N, rhs.RangeUInt16N)) return false;
+            if (!object.Equals(this.RangeUInt16, rhs.RangeUInt16)) return false;
+            if (!object.Equals(this.RangeUInt32N, rhs.RangeUInt32N)) return false;
+            if (!object.Equals(this.RangeUInt32, rhs.RangeUInt32)) return false;
+            if (!object.Equals(this.RangeUInt64N, rhs.RangeUInt64N)) return false;
+            if (!object.Equals(this.RangeUInt64, rhs.RangeUInt64)) return false;
             if (!object.Equals(this.String, rhs.String)) return false;
             if (!object.Equals(this.UDoubleN, rhs.UDoubleN)) return false;
             if (!object.Equals(this.UDoubleN_Ranged, rhs.UDoubleN_Ranged)) return false;
@@ -716,8 +772,22 @@ namespace Noggolloquy.Tests
             .CombineHashCode(HashHelper.GetHashCode(P3Int))
             .CombineHashCode(HashHelper.GetHashCode(PercentN))
             .CombineHashCode(HashHelper.GetHashCode(Percent))
-            .CombineHashCode(HashHelper.GetHashCode(RangeIntN))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt8N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt8))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt16N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt16))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt32N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt32))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt64N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeInt64))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64N))
+            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64))
             .CombineHashCode(HashHelper.GetHashCode(String))
             .CombineHashCode(HashHelper.GetHashCode(UDoubleN))
             .CombineHashCode(HashHelper.GetHashCode(UDoubleN_Ranged))
@@ -984,8 +1054,22 @@ namespace Noggolloquy.Tests
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -1220,12 +1304,68 @@ namespace Noggolloquy.Tests
         Percent Percent { get; }
 
         #endregion
-        #region RangeIntN
-        RangeInt32? RangeIntN { get; }
+        #region RangeInt8N
+        RangeInt8? RangeInt8N { get; }
 
         #endregion
-        #region RangeInt
-        RangeInt32 RangeInt { get; }
+        #region RangeInt8
+        RangeInt8 RangeInt8 { get; }
+
+        #endregion
+        #region RangeInt16N
+        RangeInt16? RangeInt16N { get; }
+
+        #endregion
+        #region RangeInt16
+        RangeInt16 RangeInt16 { get; }
+
+        #endregion
+        #region RangeInt32N
+        RangeInt32? RangeInt32N { get; }
+
+        #endregion
+        #region RangeInt32
+        RangeInt32 RangeInt32 { get; }
+
+        #endregion
+        #region RangeInt64N
+        RangeInt64? RangeInt64N { get; }
+
+        #endregion
+        #region RangeInt64
+        RangeInt64 RangeInt64 { get; }
+
+        #endregion
+        #region RangeUInt8N
+        RangeUInt8? RangeUInt8N { get; }
+
+        #endregion
+        #region RangeUInt8
+        RangeUInt8 RangeUInt8 { get; }
+
+        #endregion
+        #region RangeUInt16N
+        RangeUInt16? RangeUInt16N { get; }
+
+        #endregion
+        #region RangeUInt16
+        RangeUInt16 RangeUInt16 { get; }
+
+        #endregion
+        #region RangeUInt32N
+        RangeUInt32? RangeUInt32N { get; }
+
+        #endregion
+        #region RangeUInt32
+        RangeUInt32 RangeUInt32 { get; }
+
+        #endregion
+        #region RangeUInt64N
+        RangeUInt64? RangeUInt64N { get; }
+
+        #endregion
+        #region RangeUInt64
+        RangeUInt64 RangeUInt64 { get; }
 
         #endregion
         #region String
@@ -1422,45 +1562,59 @@ namespace Noggolloquy.Tests.Internals
         P3Int = 36,
         PercentN = 37,
         Percent = 38,
-        RangeIntN = 39,
-        RangeInt = 40,
-        String = 41,
-        UDoubleN = 42,
-        UDoubleN_Ranged = 43,
-        UDouble = 44,
-        UDouble_Ranged = 45,
-        UInt16N = 46,
-        UInt16N_Ranged = 47,
-        UInt16 = 48,
-        UInt16_Ranged = 49,
-        UInt32N = 50,
-        UInt32N_Ranged = 51,
-        UInt32 = 52,
-        UInt32_Ranged = 53,
-        UInt64N = 54,
-        UInt64N_Ranged = 55,
-        UInt64 = 56,
-        UInt64_Ranged = 57,
-        UInt8N = 58,
-        UInt8N_Ranged = 59,
-        UInt8 = 60,
-        UInt8_Ranged = 61,
-        Enum = 62,
-        WildCard = 63,
-        Ref = 64,
-        Ref_NotNull = 65,
-        Ref_Singleton = 66,
-        RefGetter = 67,
-        RefGetter_NotNull = 68,
-        RefGetter_Singleton = 69,
-        RefSetter = 70,
-        RefSetter_NotNull = 71,
-        RefSetter_Singleton = 72,
-        List = 73,
-        RefList = 74,
-        Dict = 75,
-        RefDict = 76,
-        DictKeyedValue = 77,
+        RangeInt8N = 39,
+        RangeInt8 = 40,
+        RangeInt16N = 41,
+        RangeInt16 = 42,
+        RangeInt32N = 43,
+        RangeInt32 = 44,
+        RangeInt64N = 45,
+        RangeInt64 = 46,
+        RangeUInt8N = 47,
+        RangeUInt8 = 48,
+        RangeUInt16N = 49,
+        RangeUInt16 = 50,
+        RangeUInt32N = 51,
+        RangeUInt32 = 52,
+        RangeUInt64N = 53,
+        RangeUInt64 = 54,
+        String = 55,
+        UDoubleN = 56,
+        UDoubleN_Ranged = 57,
+        UDouble = 58,
+        UDouble_Ranged = 59,
+        UInt16N = 60,
+        UInt16N_Ranged = 61,
+        UInt16 = 62,
+        UInt16_Ranged = 63,
+        UInt32N = 64,
+        UInt32N_Ranged = 65,
+        UInt32 = 66,
+        UInt32_Ranged = 67,
+        UInt64N = 68,
+        UInt64N_Ranged = 69,
+        UInt64 = 70,
+        UInt64_Ranged = 71,
+        UInt8N = 72,
+        UInt8N_Ranged = 73,
+        UInt8 = 74,
+        UInt8_Ranged = 75,
+        Enum = 76,
+        WildCard = 77,
+        Ref = 78,
+        Ref_NotNull = 79,
+        Ref_Singleton = 80,
+        RefGetter = 81,
+        RefGetter_NotNull = 82,
+        RefGetter_Singleton = 83,
+        RefSetter = 84,
+        RefSetter_NotNull = 85,
+        RefSetter_Singleton = 86,
+        List = 87,
+        RefList = 88,
+        Dict = 89,
+        RefDict = 90,
+        DictKeyedValue = 91,
     }
     #endregion
 
@@ -1478,7 +1632,7 @@ namespace Noggolloquy.Tests.Internals
 
         public const string GUID = "ec188280-ea8c-4490-b011-0940de80033f";
 
-        public const ushort FieldCount = 78;
+        public const ushort FieldCount = 92;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_Mask<>);
 
@@ -1576,10 +1730,38 @@ namespace Noggolloquy.Tests.Internals
                     return (ushort)TestObject_Derivative_FieldIndex.PercentN;
                 case "PERCENT":
                     return (ushort)TestObject_Derivative_FieldIndex.Percent;
-                case "RANGEINTN":
-                    return (ushort)TestObject_Derivative_FieldIndex.RangeIntN;
-                case "RANGEINT":
-                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt;
+                case "RANGEINT8N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt8N;
+                case "RANGEINT8":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt8;
+                case "RANGEINT16N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt16N;
+                case "RANGEINT16":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt16;
+                case "RANGEINT32N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt32N;
+                case "RANGEINT32":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt32;
+                case "RANGEINT64N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt64N;
+                case "RANGEINT64":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeInt64;
+                case "RANGEUINT8N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt8N;
+                case "RANGEUINT8":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt8;
+                case "RANGEUINT16N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt16N;
+                case "RANGEUINT16":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt16;
+                case "RANGEUINT32N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt32N;
+                case "RANGEUINT32":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt32;
+                case "RANGEUINT64N":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt64N;
+                case "RANGEUINT64":
+                    return (ushort)TestObject_Derivative_FieldIndex.RangeUInt64;
                 case "STRING":
                     return (ushort)TestObject_Derivative_FieldIndex.String;
                 case "UDOUBLEN":
@@ -1706,8 +1888,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -1804,8 +2000,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -1887,8 +2097,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2012,10 +2236,38 @@ namespace Noggolloquy.Tests.Internals
                     return "PercentN";
                 case TestObject_Derivative_FieldIndex.Percent:
                     return "Percent";
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                    return "RangeIntN";
-                case TestObject_Derivative_FieldIndex.RangeInt:
-                    return "RangeInt";
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                    return "RangeInt8N";
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                    return "RangeInt8";
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                    return "RangeInt16N";
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                    return "RangeInt16";
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                    return "RangeInt32N";
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                    return "RangeInt32";
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                    return "RangeInt64N";
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                    return "RangeInt64";
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                    return "RangeUInt8N";
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                    return "RangeUInt8";
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                    return "RangeUInt16N";
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                    return "RangeUInt16";
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                    return "RangeUInt32N";
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                    return "RangeUInt32";
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                    return "RangeUInt64N";
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
+                    return "RangeUInt64";
                 case TestObject_Derivative_FieldIndex.String:
                     return "String";
                 case TestObject_Derivative_FieldIndex.UDoubleN:
@@ -2139,8 +2391,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2228,8 +2494,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2356,10 +2636,38 @@ namespace Noggolloquy.Tests.Internals
                     return typeof(Percent?);
                 case TestObject_Derivative_FieldIndex.Percent:
                     return typeof(Percent);
-                case TestObject_Derivative_FieldIndex.RangeIntN:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                    return typeof(RangeInt8?);
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                    return typeof(RangeInt8);
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                    return typeof(RangeInt16?);
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                    return typeof(RangeInt16);
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
                     return typeof(RangeInt32?);
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
                     return typeof(RangeInt32);
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                    return typeof(RangeInt64?);
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                    return typeof(RangeInt64);
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                    return typeof(RangeUInt8?);
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                    return typeof(RangeUInt8);
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                    return typeof(RangeUInt16?);
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                    return typeof(RangeUInt16);
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                    return typeof(RangeUInt32?);
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                    return typeof(RangeUInt32);
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                    return typeof(RangeUInt64?);
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
+                    return typeof(RangeUInt64);
                 case TestObject_Derivative_FieldIndex.String:
                     return typeof(String);
                 case TestObject_Derivative_FieldIndex.UDoubleN:
@@ -2529,8 +2837,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2621,8 +2943,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2712,8 +3048,22 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.P3Int:
                 case TestObject_Derivative_FieldIndex.PercentN:
                 case TestObject_Derivative_FieldIndex.Percent:
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                case TestObject_Derivative_FieldIndex.RangeInt:
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -2842,10 +3192,38 @@ namespace Noggolloquy.Tests.Internals
                     return obj.PercentN;
                 case TestObject_Derivative_FieldIndex.Percent:
                     return obj.Percent;
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                    return obj.RangeIntN;
-                case TestObject_Derivative_FieldIndex.RangeInt:
-                    return obj.RangeInt;
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                    return obj.RangeInt8N;
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                    return obj.RangeInt8;
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                    return obj.RangeInt16N;
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                    return obj.RangeInt16;
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                    return obj.RangeInt32N;
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                    return obj.RangeInt32;
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                    return obj.RangeInt64N;
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                    return obj.RangeInt64;
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                    return obj.RangeUInt8N;
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                    return obj.RangeUInt8;
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                    return obj.RangeUInt16N;
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                    return obj.RangeUInt16;
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                    return obj.RangeUInt32N;
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                    return obj.RangeUInt32;
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                    return obj.RangeUInt64N;
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
+                    return obj.RangeUInt64;
                 case TestObject_Derivative_FieldIndex.String:
                     return obj.String;
                 case TestObject_Derivative_FieldIndex.UDoubleN:
@@ -2977,8 +3355,22 @@ namespace Noggolloquy.Tests.Internals
         public T P3Int;
         public T PercentN;
         public T Percent;
-        public T RangeIntN;
-        public T RangeInt;
+        public T RangeInt8N;
+        public T RangeInt8;
+        public T RangeInt16N;
+        public T RangeInt16;
+        public T RangeInt32N;
+        public T RangeInt32;
+        public T RangeInt64N;
+        public T RangeInt64;
+        public T RangeUInt8N;
+        public T RangeUInt8;
+        public T RangeUInt16N;
+        public T RangeUInt16;
+        public T RangeUInt32N;
+        public T RangeUInt32;
+        public T RangeUInt64N;
+        public T RangeUInt64;
         public T String;
         public T UDoubleN;
         public T UDoubleN_Ranged;
@@ -3072,8 +3464,22 @@ namespace Noggolloquy.Tests.Internals
         public Exception P3Int;
         public Exception PercentN;
         public Exception Percent;
-        public Exception RangeIntN;
-        public Exception RangeInt;
+        public Exception RangeInt8N;
+        public Exception RangeInt8;
+        public Exception RangeInt16N;
+        public Exception RangeInt16;
+        public Exception RangeInt32N;
+        public Exception RangeInt32;
+        public Exception RangeInt64N;
+        public Exception RangeInt64;
+        public Exception RangeUInt8N;
+        public Exception RangeUInt8;
+        public Exception RangeUInt16N;
+        public Exception RangeUInt16;
+        public Exception RangeUInt32N;
+        public Exception RangeUInt32;
+        public Exception RangeUInt64N;
+        public Exception RangeUInt64;
         public Exception String;
         public Exception UDoubleN;
         public Exception UDoubleN_Ranged;
@@ -3234,11 +3640,53 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Percent:
                     this.Percent = ex;
                     break;
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                    this.RangeIntN = ex;
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                    this.RangeInt8N = ex;
                     break;
-                case TestObject_Derivative_FieldIndex.RangeInt:
-                    this.RangeInt = ex;
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                    this.RangeInt8 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                    this.RangeInt16N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                    this.RangeInt16 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                    this.RangeInt32N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                    this.RangeInt32 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                    this.RangeInt64N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                    this.RangeInt64 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                    this.RangeUInt8N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                    this.RangeUInt8 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                    this.RangeUInt16N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                    this.RangeUInt16 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                    this.RangeUInt32N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                    this.RangeUInt32 = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                    this.RangeUInt64N = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
+                    this.RangeUInt64 = ex;
                     break;
                 case TestObject_Derivative_FieldIndex.String:
                     this.String = ex;
@@ -3478,11 +3926,53 @@ namespace Noggolloquy.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Percent:
                     this.Percent = (Exception)obj;
                     break;
-                case TestObject_Derivative_FieldIndex.RangeIntN:
-                    this.RangeIntN = (Exception)obj;
+                case TestObject_Derivative_FieldIndex.RangeInt8N:
+                    this.RangeInt8N = (Exception)obj;
                     break;
-                case TestObject_Derivative_FieldIndex.RangeInt:
-                    this.RangeInt = (Exception)obj;
+                case TestObject_Derivative_FieldIndex.RangeInt8:
+                    this.RangeInt8 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt16N:
+                    this.RangeInt16N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt16:
+                    this.RangeInt16 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt32N:
+                    this.RangeInt32N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt32:
+                    this.RangeInt32 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt64N:
+                    this.RangeInt64N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeInt64:
+                    this.RangeInt64 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt8N:
+                    this.RangeUInt8N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt8:
+                    this.RangeUInt8 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt16N:
+                    this.RangeUInt16N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt16:
+                    this.RangeUInt16 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt32N:
+                    this.RangeUInt32N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt32:
+                    this.RangeUInt32 = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt64N:
+                    this.RangeUInt64N = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.RangeUInt64:
+                    this.RangeUInt64 = (Exception)obj;
                     break;
                 case TestObject_Derivative_FieldIndex.String:
                     this.String = (Exception)obj;
@@ -3642,8 +4132,22 @@ namespace Noggolloquy.Tests.Internals
         public bool P3Int;
         public bool PercentN;
         public bool Percent;
-        public bool RangeIntN;
-        public bool RangeInt;
+        public bool RangeInt8N;
+        public bool RangeInt8;
+        public bool RangeInt16N;
+        public bool RangeInt16;
+        public bool RangeInt32N;
+        public bool RangeInt32;
+        public bool RangeInt64N;
+        public bool RangeInt64;
+        public bool RangeUInt8N;
+        public bool RangeUInt8;
+        public bool RangeUInt16N;
+        public bool RangeUInt16;
+        public bool RangeUInt32N;
+        public bool RangeUInt32;
+        public bool RangeUInt64N;
+        public bool RangeUInt64;
         public bool String;
         public bool UDoubleN;
         public bool UDoubleN_Ranged;
