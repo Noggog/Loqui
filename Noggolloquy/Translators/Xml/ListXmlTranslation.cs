@@ -15,26 +15,18 @@ namespace Noggolloquy.Xml
 {
     public class ListXmlTranslation<T> : ContainerXmlTranslation<T>
     {
-        public readonly static ListXmlTranslation<T> Instance = new ListXmlTranslation<T>();
+        public static readonly ListXmlTranslation<T> Instance = new ListXmlTranslation<T>();
 
         public override string ElementName => "List";
 
-        public override bool WriteSingleItem(XmlWriter writer, T item, bool doMasks, out object maskObj)
+        public override void WriteSingleItem(XmlWriter writer, XmlSubWriteDelegate<T> transl, T item, bool doMasks, out object maskObj)
         {
-            if (translator.Item.Failed)
-            {
-                throw new ArgumentException($"No XML Translator available for {typeof(T)}. {translator.Item.Reason}");
-            }
-            return translator.Item.Value.Write(writer, null, item, doMasks, out maskObj);
+            transl(item, out maskObj);
         }
 
-        public override TryGet<T> ParseSingleItem(XElement root, bool doMasks, out object maskObj)
+        public override TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T> transl, bool doMasks, out object maskObj)
         {
-            if (translator.Item.Failed)
-            {
-                throw new ArgumentException($"No XML Translator available for {typeof(T)}. {translator.Item.Reason}");
-            }
-            return translator.Item.Value.Parse(root, doMasks, out maskObj);
+            return transl.Parse(root, doMasks, out maskObj);
         }
     }
 }

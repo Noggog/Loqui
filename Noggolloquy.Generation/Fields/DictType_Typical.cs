@@ -209,7 +209,7 @@ namespace Noggolloquy.Generation
                                     gen.AppendLine($"key = k;");
                                     gen.AppendLine($"break;");
                                 }
-                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Deep)}:");
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
                                     gen.AppendLine($"key = k.Copy(copyMask: {copyMaskAccessor}?.{this.Name}.Specific.Key.Mask);");
@@ -234,7 +234,7 @@ namespace Noggolloquy.Generation
                                     gen.AppendLine($"val = v;");
                                     gen.AppendLine($"break;");
                                 }
-                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Deep)}:");
+                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
                                     gen.AppendLine($"val = v.Copy({copyMaskAccessor}?.{this.Name}.Specific.Value.Mask, d);");

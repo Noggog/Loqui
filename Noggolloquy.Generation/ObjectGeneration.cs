@@ -116,26 +116,31 @@ namespace Noggolloquy.Generation
             }
             RequiredNamespaces.Add(InternalNamespace);
 
-            foreach (var generic in Node.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)))
+            foreach (var genNode in Node.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)))
             {
-                GenericDefinition gen = new GenericDefinition();
-                var genName = generic.GetAttribute("name");
-                foreach (var where in generic.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace)))
+                var generic = new GenericDefinition();
+                var genName = genNode.GetAttribute("name");
+                var baseClass = genNode.Element(XName.Get("BaseClass", NoggolloquyGenerator.Namespace));
+                if (baseClass != null)
                 {
-                    gen.Wheres.Add(where.Value);
+                    generic.Add(baseClass.Value);
                 }
-                this.Generics[genName] = gen;
+                foreach (var where in genNode.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace)))
+                {
+                    generic.Add(where.Value);
+                }
+                this.Generics[genName] = generic;
             }
 
-            foreach (XElement interfNode in Node.Elements(XName.Get("Interface", NoggolloquyGenerator.Namespace)))
+            foreach (var interfNode in Node.Elements(XName.Get("Interface", NoggolloquyGenerator.Namespace)))
             {
                 Interfaces.Add(interfNode.Value);
             }
 
-            XElement fieldsNode = Node.Element(XName.Get("Fields", NoggolloquyGenerator.Namespace));
+            var fieldsNode = Node.Element(XName.Get("Fields", NoggolloquyGenerator.Namespace));
             if (fieldsNode != null)
             {
-                foreach (XElement fieldNode in fieldsNode.Elements())
+                foreach (var fieldNode in fieldsNode.Elements())
                 {
                     if (LoadField(fieldNode, true, out TypeGeneration typeGen))
                     {
@@ -270,8 +275,6 @@ namespace Noggolloquy.Generation
         {
             using (new RegionWrapper(fg, "Class"))
             {
-                GenerateClassWrappers(fg);
-
                 GenerateClassLine(fg);
 
                 WriteWhereClauses(fg, this.Generics);
@@ -523,6 +526,15 @@ namespace Noggolloquy.Generation
                     {
                         field.GenerateForInterfaceExt(fg);
                     }
+
+                    // Modules might add some content
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        using (new RegionWrapper(fg, mod.RegionString))
+                        {
+                            mod.GenerateInCommonExt(this, fg);
+                        }
+                    }
                 }
             }
         }
@@ -611,7 +623,7 @@ namespace Noggolloquy.Generation
                                     cmdsAccessor: cmdsAccessor,
                                     protectedMembers: false);
                             }
-                            GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, $"{this.EnumName}.{item.Field.Name}");
+                            GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, $"{item.Field.IndexEnumName}");
                         }
                         else
                         {
@@ -654,10 +666,6 @@ namespace Noggolloquy.Generation
         }
 
         protected abstract void GenerateCtor(FileGeneration fg);
-
-        protected virtual void GenerateClassWrappers(FileGeneration fg)
-        {
-        }
 
         protected abstract void GenerateClassLine(FileGeneration fg);
 
@@ -818,7 +826,7 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             item.Field.GenerateGetNth(fg, "obj");
@@ -852,7 +860,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in nonNotifying)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -863,7 +871,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Notifying == NotifyingOption.None) continue;
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
@@ -895,7 +903,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -905,7 +913,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             item.Field.GenerateInterfaceSet(
@@ -945,7 +953,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -955,7 +963,7 @@ namespace Noggolloquy.Generation
                     foreach (var item in IterateFields())
                     {
                         if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             if (!internalUse && item.Field.Protected)
@@ -997,7 +1005,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in derivatives)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1008,7 +1016,7 @@ namespace Noggolloquy.Generation
                     {
                         if (item.Field.Derivative) continue;
 
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             if (item.Field.Protected)
@@ -1067,7 +1075,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1078,7 +1086,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1107,7 +1115,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1118,7 +1126,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1147,7 +1155,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1158,7 +1166,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1183,7 +1191,7 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return typeof({item.Field.TypeName});");
@@ -1207,7 +1215,7 @@ namespace Noggolloquy.Generation
                 {
                     foreach (var item in IterateFields())
                     {
-                        fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return \"{item.Field.Name}\";");
@@ -1240,7 +1248,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1251,7 +1259,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1660,6 +1668,7 @@ namespace Noggolloquy.Generation
                     }
                 }
             }
+            fg.AppendLine();
         }
 
         private void GenerateClear(FileGeneration fg, string accessor, string cmdAccessor)
@@ -1703,7 +1712,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in trues)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1714,7 +1723,7 @@ namespace Noggolloquy.Generation
                     {
                         foreach (var item in falses)
                         {
-                            fg.AppendLine($"case {this.EnumName}.{item.Field.Name}:");
+                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
                         {
@@ -1733,16 +1742,8 @@ namespace Noggolloquy.Generation
             fg.AppendLine("catch (Exception ex)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({doErrMaskAccessor})");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{errorMaskAccessor}().SetNthException((ushort){enumAccessor}, ex);");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("throw ex;");
-                }
+                fg.AppendLine($"if ({doErrMaskAccessor}) throw;");
+                fg.AppendLine($"{errorMaskAccessor}().SetNthException((ushort){enumAccessor}, ex);");
             }
         }
         #endregion
@@ -1810,38 +1811,39 @@ namespace Noggolloquy.Generation
                 foreach (var baseGen in this.BaseClass.Generics)
                 {
                     this.Generics.Add(baseGen.Key, baseGen.Value.Copy());
+                    this.BaseGenerics[baseGen.Key] = baseGen.Key;
                 }
-            }
 
-            foreach (XElement baseGeneric in Node.Elements(XName.Get("BaseGeneric", NoggolloquyGenerator.Namespace)))
-            {
-                var genName = baseGeneric.GetAttribute("name");
-                var whereElem = baseGeneric.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace));
-                var definedElem = baseGeneric.Element(XName.Get("Defined", NoggolloquyGenerator.Namespace));
-                if (whereElem.Any()
-                    && definedElem != null)
+                foreach (var baseGeneric in Node.Elements(XName.Get("BaseGeneric", NoggolloquyGenerator.Namespace)))
                 {
-                    throw new ArgumentException("Cannot define both Where and Defined nodes.");
+                    var genName = baseGeneric.GetAttribute("name");
+                    var whereElem = baseGeneric.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace)).ToArray();
+                    var definedElem = baseGeneric.Element(XName.Get("Defined", NoggolloquyGenerator.Namespace));
+                    if (whereElem.Any()
+                        && definedElem != null)
+                    {
+                        throw new ArgumentException("Cannot define both Where and Defined nodes.");
+                    }
+                    if (whereElem.Any())
+                    {
+                        this.BaseGenerics[genName] = genName;
+                        this.Generics[genName].Add(whereElem.Select((w) => w.Value));
+                    }
+                    else if (definedElem != null)
+                    {
+                        this.BaseGenerics[genName] = definedElem.Value;
+                        this.Generics.Remove(genName);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Need to define Where or Defined node.");
+                    }
                 }
-                if (whereElem.Any())
-                {
-                    this.BaseGenerics[genName] = genName;
-                    this.Generics[genName].Wheres.Add(whereElem.Select((w) => w.Value));
-                }
-                else if (definedElem != null)
-                {
-                    this.BaseGenerics[genName] = definedElem.Value;
-                    this.Generics.Remove(genName);
-                }
-                else
-                {
-                    throw new ArgumentException("Need to define Where or Defined node.");
-                }
-            }
 
-            if (this.BaseGenerics.Count > 0)
-            {
-                this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
+                if (this.BaseGenerics.Count > 0)
+                {
+                    this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
+                }
             }
         }
 
@@ -1879,7 +1881,7 @@ namespace Noggolloquy.Generation
 
             if (!modified) return;
 
-            using (XmlTextWriter writer = new XmlTextWriter(
+            using (var writer = new XmlTextWriter(
                 new FileStream(this.SourceXMLFile.FullName, FileMode.Create), Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
@@ -1899,13 +1901,11 @@ namespace Noggolloquy.Generation
 
         public IEnumerable<ObjectGeneration> BaseClassTrail()
         {
-            if (this.HasBaseObject)
+            if (!this.HasBaseObject) yield break;
+            yield return this.BaseClass;
+            foreach (var ret in this.BaseClass.BaseClassTrail())
             {
-                yield return this.BaseClass;
-                foreach (var ret in this.BaseClass.BaseClassTrail())
-                {
-                    yield return ret;
-                }
+                yield return ret;
             }
         }
     }

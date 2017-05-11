@@ -38,7 +38,7 @@ namespace Noggolloquy.Generation
             if (typical)
             {
                 this.AddTypicalTypeAssociations();
-                this.Add(new XmlTranslationGeneration());
+                this.Add(new XmlTranslationModule());
                 this.Add(new MaskModule());
                 this.AddSearchableFolder(this.CommonGenerationFolder);
             }

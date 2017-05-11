@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class EnumXmlTranslation<E> : TypicalXmlTranslation<E>
+    public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
         where E : struct, IComparable, IConvertible
     {
         public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();

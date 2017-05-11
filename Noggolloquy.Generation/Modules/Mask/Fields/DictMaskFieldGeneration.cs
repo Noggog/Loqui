@@ -64,7 +64,7 @@ namespace Noggolloquy.Generation
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {valueNoggType.RefGen.Obj.CopyMask}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueNoggType.RefGen.Obj.CopyMask}> {field.Name};");
                     break;
                 default:
                     break;

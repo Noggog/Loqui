@@ -11,14 +11,11 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
-    public delegate void NoggXmlCopyInFunction(XElement root, object item, NotifyingFireParameters? cmds, bool doMasks, out object mask);
-    public delegate void NoggXmlWriteFunction(XmlWriter writer, string name, object item, bool doMasks, out object mask);
-
     public class NoggXmlTranslation<T, M> : IXmlTranslation<T>
         where T : INoggolloquyObjectGetter
         where M : IErrorMask, new()
     {
-        public readonly static NoggXmlTranslation<T, M> Instance = new NoggXmlTranslation<T, M>();
+        public static readonly NoggXmlTranslation<T, M> Instance = new NoggXmlTranslation<T, M>();
         private static readonly string _elementName = NoggolloquyRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
 
@@ -29,7 +26,7 @@ namespace Noggolloquy.Xml
             bool doMasks,
             Func<IErrorMask> mask)
         {
-            List<KeyValuePair<ushort, object>> ret = new List<KeyValuePair<ushort, object>>();
+            var ret = new List<KeyValuePair<ushort, object>>();
             try
             {
                 foreach (var elem in root.Elements())
@@ -52,9 +49,8 @@ namespace Noggolloquy.Xml
                         }
                         continue;
                     }
-
-                    var @protected = registration.IsProtected(i.Value);
-                    if (@protected && skipProtected) continue;
+                    
+                    if (registration.IsProtected(i.Value) && skipProtected) continue;
 
                     try
                     {
@@ -169,7 +165,7 @@ namespace Noggolloquy.Xml
             return TryGet<T>.Succeed(ret);
         }
 
-        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
             using (new ElementWrapper(writer, item.Registration.Name))
             {
@@ -188,12 +184,11 @@ namespace Noggolloquy.Xml
                             if (!item.GetNthObjectHasBeenSet(i)) continue;
 
                             var type = item.Registration.GetNthType(i);
-                            object subMaskObj;
                             if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
                             {
                                 throw new ArgumentException($"No XML Translator found for {type}");
                             }
-                            translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out subMaskObj);
+                            translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out var subMaskObj);
 
                             if (subMaskObj != null)
                             {
@@ -237,18 +232,12 @@ namespace Noggolloquy.Xml
                     }
                 }
             }
-            return mask == null;
         }
         
-        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
         {
-            if (this.Write(writer, name, item, doMasks, out M mask))
-            {
-                maskObj = mask;
-                return true;
-            }
-            maskObj = null;
-            return false;
+            this.Write(writer, name, item, doMasks, out M mask);
+            maskObj = mask;
         }
     }
 }

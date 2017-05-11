@@ -34,7 +34,13 @@ namespace Noggolloquy.Xml
             return TryGet<string>.Succeed(null);
         }
 
-        public bool Write(XmlWriter writer, string name, string item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, string item, bool doMasks, out object maskObj)
+        {
+            maskObj = null;
+            Write(writer, name, item);
+        }
+
+        public void Write(XmlWriter writer, string name, string item)
         {
             using (new ElementWrapper(writer, "String"))
             {
@@ -48,8 +54,6 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, item);
                 }
             }
-            maskObj = null;
-            return true;
         }
     }
 }

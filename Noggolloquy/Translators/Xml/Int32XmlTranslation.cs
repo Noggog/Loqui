@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class Int32XmlTranslation : TypicalXmlTranslation<int>
+    public class Int32XmlTranslation : PrimitiveXmlTranslation<int>
     {
         public readonly static Int32XmlTranslation Instance = new Int32XmlTranslation();
 

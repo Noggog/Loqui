@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
-    public abstract class TypicalXmlTranslation<T> : IXmlTranslation<T>, IXmlTranslation<Nullable<T>>
+    public abstract class PrimitiveXmlTranslation<T> : IXmlTranslation<T>, IXmlTranslation<T?>
         where T : struct
     {
         string IXmlTranslation<T?>.ElementName => NullableName;
@@ -44,34 +44,22 @@ namespace Noggolloquy.Xml
             if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
             {
                 var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
-                if (doMasks)
-                {
-                    maskObj = ex;
-                    return TryGet<T?>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                if (!doMasks) throw ex;
+                maskObj = ex;
+                return TryGet<T?>.Failure;
             }
             return ParseValue(root, nullable, doMasks, out maskObj);
         }
 
-        protected virtual bool WriteValue(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
+        protected virtual bool WriteValue(XmlWriter writer, string name, T? item)
         {
-            maskObj = null;
-            if (item.HasValue)
-            {
-                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, GetItemStr(item.Value));
-            }
-            else
-            {
-                writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, string.Empty);
-            }
+            writer.WriteAttributeString(
+                XmlConstants.VALUE_ATTRIBUTE,
+                item.HasValue ? GetItemStr(item.Value) : string.Empty);
             return true;
         }
 
-        public bool Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
+        public bool Write(XmlWriter writer, string name, T? item)
         {
             using (new ElementWrapper(writer, NullableName))
             {
@@ -80,11 +68,11 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
                 }
 
-                return WriteValue(writer, name, item, doMasks, out maskObj);
+                return WriteValue(writer, name, item);
             }
         }
 
-        public bool Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        public bool Write(XmlWriter writer, string name, T item)
         {
             using (new ElementWrapper(writer, ElementName))
             {
@@ -93,7 +81,7 @@ namespace Noggolloquy.Xml
                     writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
                 }
 
-                return WriteValue(writer, name, item, doMasks, out maskObj);
+                return WriteValue(writer, name, item);
             }
         }
 
@@ -112,6 +100,18 @@ namespace Noggolloquy.Xml
             {
                 throw ex;
             }
+        }
+
+        public void Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
+        {
+            maskObj = null;
+            Write(writer, name, item);
+        }
+
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        {
+            maskObj = null;
+            Write(writer, name, item);
         }
     }
 }

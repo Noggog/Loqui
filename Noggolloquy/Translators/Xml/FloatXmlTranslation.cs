@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class FloatXmlTranslation : TypicalXmlTranslation<float>
+    public class FloatXmlTranslation : PrimitiveXmlTranslation<float>
     {
         public readonly static FloatXmlTranslation Instance = new FloatXmlTranslation();
         public override string NullableName => "FloatN";

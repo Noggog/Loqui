@@ -58,7 +58,7 @@ namespace Noggolloquy.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("OnPropertyChanged(nameof({ this.Name}));"))
+            if (str.Equals("if (copyMask?.Ref != CopyOption.Skip)"))
             {
                 int wer = 23;
                 wer++;

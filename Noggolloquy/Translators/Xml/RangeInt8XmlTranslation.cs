@@ -5,15 +5,14 @@ using System.Xml.Linq;
 
 namespace Noggolloquy.Xml
 {
-    public class RangeInt8XmlTranslation : TypicalXmlTranslation<RangeInt8>
+    public class RangeInt8XmlTranslation : PrimitiveXmlTranslation<RangeInt8>
     {
         public readonly static RangeInt8XmlTranslation Instance = new RangeInt8XmlTranslation();
         public const string MIN = "Min";
         public const string MAX = "Max";
 
-        protected override bool WriteValue(XmlWriter writer, string name, RangeInt8? item, bool doMasks, out object maskObj)
+        protected override bool WriteValue(XmlWriter writer, string name, RangeInt8? item)
         {
-            maskObj = null;
             if (!item.HasValue) return true;
             writer.WriteAttributeString(MIN, item.Value.Min.ToString());
             writer.WriteAttributeString(MAX, item.Value.Max.ToString());

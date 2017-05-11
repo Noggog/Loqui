@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class UDoubleXmlTranslation : TypicalXmlTranslation<UDouble>
+    public class UDoubleXmlTranslation : PrimitiveXmlTranslation<UDouble>
     {
         public readonly static UDoubleXmlTranslation Instance = new UDoubleXmlTranslation();
 

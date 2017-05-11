@@ -43,7 +43,7 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetRegistration_Generic_ByType()
         {
-            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<,>));
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<,,>));
             Assert.NotNull(registration);
         }
 
@@ -64,14 +64,14 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetRegistration_GenericTyped_ByType()
         {
-            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<bool, ObjectToRef>));
+            var registration = NoggolloquyRegistration.GetRegister(typeof(TestGenericObject<bool, ObjectToRef, ObjectToRef>));
             Assert.NotNull(registration);
         }
 
         [Fact]
         public void GetRegistration_GenericTyped_FullName()
         {
-            var registration = NoggolloquyRegistration.GetRegisterByFullName("Noggolloquy.Tests.TestGenericObject<System.Boolean, Noggolloquy.Tests.ObjectToRef>");
+            var registration = NoggolloquyRegistration.GetRegisterByFullName("Noggolloquy.Tests.TestGenericObject<System.Boolean, Noggolloquy.Tests.ObjectToRef, Noggolloquy.Tests.ObjectToRef>");
             Assert.NotNull(registration);
         }
 
@@ -86,9 +86,9 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetCreateFunc_Generic()
         {
-            var func = NoggolloquyRegistration.GetCreateFunc<TestGenericObject<bool, ObjectToRef>>();
+            var func = NoggolloquyRegistration.GetCreateFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef>>), func);
+            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
         }
 
         [Fact]
@@ -102,9 +102,9 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetCopyInFunc_Generic()
         {
-            var func = NoggolloquyRegistration.GetCopyInFunc<TestGenericObject<bool, ObjectToRef>>();
+            var func = NoggolloquyRegistration.GetCopyInFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef>>), func);
+            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
         }
 
         [Fact]
@@ -118,9 +118,9 @@ namespace Noggolloquy.Tests
         [Fact]
         public void GetCopyFunc_Generic()
         {
-            var func = NoggolloquyRegistration.GetCopyFunc<TestGenericObject<bool, ObjectToRef>>();
+            var func = NoggolloquyRegistration.GetCopyFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Func<TestGenericObject<bool, ObjectToRef>, object, object, TestGenericObject<bool, ObjectToRef>>), func);
+            Assert.IsType(typeof(Func<TestGenericObject<bool, ObjectToRef, ObjectToRef>, object, object, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
         }
     }
 }

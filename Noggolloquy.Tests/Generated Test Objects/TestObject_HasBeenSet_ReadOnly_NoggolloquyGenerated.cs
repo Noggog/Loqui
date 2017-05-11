@@ -1391,52 +1391,37 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer);
-            }
+            TestObject_HasBeenSet_ReadOnlyCommon.Write_XML(
+                this,
+                stream);
         }
 
         public void Write_XML(Stream stream, out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            TestObject_HasBeenSet_ReadOnlyCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_HasBeenSet_ReadOnly, TestObject_HasBeenSet_ReadOnly_ErrorMask>.Instance.Write(
+            TestObject_HasBeenSet_ReadOnlyCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
-        public void Write_XML(XmlWriter writer, string name)
+        public void Write_XML(XmlWriter writer, string name = null)
         {
-            NoggXmlTranslation<TestObject_HasBeenSet_ReadOnly, TestObject_HasBeenSet_ReadOnly_ErrorMask>.Instance.Write(
+            TestObject_HasBeenSet_ReadOnlyCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer)
-        {
-            NoggXmlTranslation<TestObject_HasBeenSet_ReadOnly, TestObject_HasBeenSet_ReadOnly_ErrorMask>.Instance.Write(
-                writer: writer,
-                name: null,
-                item: this,
-                doMasks: false,
-                mask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
+                errorMask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
         }
 
         #endregion
@@ -1818,6 +1803,7 @@ namespace Noggolloquy.Tests
             CallClearPartial_Internal(cmds);
             TestObject_HasBeenSet_ReadOnlyCommon.Clear(this, cmds);
         }
+
 
         public static TestObject_HasBeenSet_ReadOnly Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
@@ -4361,6 +4347,1620 @@ namespace Noggolloquy.Tests.Internals
             NotifyingUnsetParameters? cmds = null)
         {
         }
+
+        #region XML Translation
+        public static void Write_XML(
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            Stream stream)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            Stream stream,
+            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            XmlWriter writer,
+            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            XmlWriter writer,
+            string name)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            XmlWriter writer)
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            XmlWriter writer,
+            string name,
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            bool doMasks,
+            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask)
+        {
+            TestObject_HasBeenSet_ReadOnly_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_ReadOnly_ErrorMask()) : default(Func<TestObject_HasBeenSet_ReadOnly_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal(
+            XmlWriter writer,
+            string name,
+            ITestObject_HasBeenSet_ReadOnlyGetter item,
+            bool doMasks,
+            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> errorMask)
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(TestObject_HasBeenSet_ReadOnly)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                    try
+                    {
+                        if (item.BoolN_Property.HasBeenSet)
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.BoolN),
+                                item.BoolN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.BoolN, ex);
+                    }
+                    try
+                    {
+                        if (item.Bool_Property.HasBeenSet)
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Bool),
+                                item.Bool);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Bool, ex);
+                    }
+                    try
+                    {
+                        if (item.CharN_Property.HasBeenSet)
+                        {
+                            CharXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.CharN),
+                                item.CharN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.CharN, ex);
+                    }
+                    try
+                    {
+                        if (item.Char_Property.HasBeenSet)
+                        {
+                            CharXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Char),
+                                item.Char);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Char, ex);
+                    }
+                    try
+                    {
+                        if (item.DateTimeNull_Property.HasBeenSet)
+                        {
+                            DateTimeXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.DateTimeNull),
+                                item.DateTimeNull);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DateTimeNull, ex);
+                    }
+                    try
+                    {
+                        if (item.DateTime_Property.HasBeenSet)
+                        {
+                            DateTimeXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.DateTime),
+                                item.DateTime);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DateTime, ex);
+                    }
+                    try
+                    {
+                        if (item.DoubleN_Property.HasBeenSet)
+                        {
+                            DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.DoubleN),
+                                item.DoubleN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DoubleN, ex);
+                    }
+                    try
+                    {
+                        if (item.DoubleN_Ranged_Property.HasBeenSet)
+                        {
+                            DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.DoubleN_Ranged),
+                                item.DoubleN_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DoubleN_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Double_Property.HasBeenSet)
+                        {
+                            DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Double),
+                                item.Double);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Double, ex);
+                    }
+                    try
+                    {
+                        if (item.Double_Ranged_Property.HasBeenSet)
+                        {
+                            DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Double_Ranged),
+                                item.Double_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Double_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.FloatN_Property.HasBeenSet)
+                        {
+                            FloatXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.FloatN),
+                                item.FloatN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.FloatN, ex);
+                    }
+                    try
+                    {
+                        if (item.FloatN_Ranged_Property.HasBeenSet)
+                        {
+                            FloatXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.FloatN_Ranged),
+                                item.FloatN_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.FloatN_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Float_Property.HasBeenSet)
+                        {
+                            FloatXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Float),
+                                item.Float);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Float, ex);
+                    }
+                    try
+                    {
+                        if (item.Float_Ranged_Property.HasBeenSet)
+                        {
+                            FloatXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Float_Ranged),
+                                item.Float_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Float_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int16N_Property.HasBeenSet)
+                        {
+                            Int16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int16N),
+                                item.Int16N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int16N, ex);
+                    }
+                    try
+                    {
+                        if (item.Int16N_Ranged_Property.HasBeenSet)
+                        {
+                            Int16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int16N_Ranged),
+                                item.Int16N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int16N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int16_Property.HasBeenSet)
+                        {
+                            Int16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int16),
+                                item.Int16);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int16, ex);
+                    }
+                    try
+                    {
+                        if (item.Int16_Ranged_Property.HasBeenSet)
+                        {
+                            Int16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int16_Ranged),
+                                item.Int16_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int16_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int32N_Property.HasBeenSet)
+                        {
+                            Int32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int32N),
+                                item.Int32N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int32N, ex);
+                    }
+                    try
+                    {
+                        if (item.Int32N_Ranged_Property.HasBeenSet)
+                        {
+                            Int32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int32N_Ranged),
+                                item.Int32N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int32N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int32_Property.HasBeenSet)
+                        {
+                            Int32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int32),
+                                item.Int32);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int32, ex);
+                    }
+                    try
+                    {
+                        if (item.Int32_Ranged_Property.HasBeenSet)
+                        {
+                            Int32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int32_Ranged),
+                                item.Int32_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int32_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int64N_Property.HasBeenSet)
+                        {
+                            Int64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int64N),
+                                item.Int64N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int64N, ex);
+                    }
+                    try
+                    {
+                        if (item.Int64N_Ranged_Property.HasBeenSet)
+                        {
+                            Int64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int64N_Ranged),
+                                item.Int64N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int64N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int64_Property.HasBeenSet)
+                        {
+                            Int64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int64),
+                                item.Int64);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int64, ex);
+                    }
+                    try
+                    {
+                        if (item.Int64_Ranged_Property.HasBeenSet)
+                        {
+                            Int64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int64_Ranged),
+                                item.Int64_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int64_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int8N_Property.HasBeenSet)
+                        {
+                            Int8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int8N),
+                                item.Int8N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int8N, ex);
+                    }
+                    try
+                    {
+                        if (item.Int8N_Ranged_Property.HasBeenSet)
+                        {
+                            Int8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int8N_Ranged),
+                                item.Int8N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int8N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Int8_Property.HasBeenSet)
+                        {
+                            Int8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int8),
+                                item.Int8);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int8, ex);
+                    }
+                    try
+                    {
+                        if (item.Int8_Ranged_Property.HasBeenSet)
+                        {
+                            Int8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Int8_Ranged),
+                                item.Int8_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Int8_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Unsafe_Property.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.Unsafe == null ? null : item.Unsafe.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.Unsafe),
+                                item.Unsafe,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Unsafe, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Unsafe, ex);
+                    }
+                    try
+                    {
+                        if (item.P2IntN_Property.HasBeenSet)
+                        {
+                            P2IntXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P2IntN),
+                                item.P2IntN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P2IntN, ex);
+                    }
+                    try
+                    {
+                        if (item.P2Int_Property.HasBeenSet)
+                        {
+                            P2IntXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P2Int),
+                                item.P2Int);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P2Int, ex);
+                    }
+                    try
+                    {
+                        if (item.P3DoubleN_Property.HasBeenSet)
+                        {
+                            P3DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P3DoubleN),
+                                item.P3DoubleN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P3DoubleN, ex);
+                    }
+                    try
+                    {
+                        if (item.P3Double_Property.HasBeenSet)
+                        {
+                            P3DoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P3Double),
+                                item.P3Double);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P3Double, ex);
+                    }
+                    try
+                    {
+                        if (item.P3IntN_Property.HasBeenSet)
+                        {
+                            P3IntXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P3IntN),
+                                item.P3IntN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P3IntN, ex);
+                    }
+                    try
+                    {
+                        if (item.P3Int_Property.HasBeenSet)
+                        {
+                            P3IntXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.P3Int),
+                                item.P3Int);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.P3Int, ex);
+                    }
+                    try
+                    {
+                        if (item.PercentN_Property.HasBeenSet)
+                        {
+                            PercentXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.PercentN),
+                                item.PercentN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.PercentN, ex);
+                    }
+                    try
+                    {
+                        if (item.Percent_Property.HasBeenSet)
+                        {
+                            PercentXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.Percent),
+                                item.Percent);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Percent, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt8N_Property.HasBeenSet)
+                        {
+                            RangeInt8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt8N),
+                                item.RangeInt8N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt8N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt8_Property.HasBeenSet)
+                        {
+                            RangeInt8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt8),
+                                item.RangeInt8);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt8, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt16N_Property.HasBeenSet)
+                        {
+                            RangeInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt16N),
+                                item.RangeInt16N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt16N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt16_Property.HasBeenSet)
+                        {
+                            RangeInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt16),
+                                item.RangeInt16);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt16, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt32N_Property.HasBeenSet)
+                        {
+                            RangeInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt32N),
+                                item.RangeInt32N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt32N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt32_Property.HasBeenSet)
+                        {
+                            RangeInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt32),
+                                item.RangeInt32);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt32, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt64N_Property.HasBeenSet)
+                        {
+                            RangeInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt64N),
+                                item.RangeInt64N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt64N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeInt64_Property.HasBeenSet)
+                        {
+                            RangeInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeInt64),
+                                item.RangeInt64);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeInt64, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt8N_Property.HasBeenSet)
+                        {
+                            RangeUInt8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt8N),
+                                item.RangeUInt8N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt8N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt8_Property.HasBeenSet)
+                        {
+                            RangeUInt8XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt8),
+                                item.RangeUInt8);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt8, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt16N_Property.HasBeenSet)
+                        {
+                            RangeUInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt16N),
+                                item.RangeUInt16N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt16N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt16_Property.HasBeenSet)
+                        {
+                            RangeUInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt16),
+                                item.RangeUInt16);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt16, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt32N_Property.HasBeenSet)
+                        {
+                            RangeUInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt32N),
+                                item.RangeUInt32N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt32N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt32_Property.HasBeenSet)
+                        {
+                            RangeUInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt32),
+                                item.RangeUInt32);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt32, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt64N_Property.HasBeenSet)
+                        {
+                            RangeUInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt64N),
+                                item.RangeUInt64N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt64N, ex);
+                    }
+                    try
+                    {
+                        if (item.RangeUInt64_Property.HasBeenSet)
+                        {
+                            RangeUInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.RangeUInt64),
+                                item.RangeUInt64);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RangeUInt64, ex);
+                    }
+                    try
+                    {
+                        if (item.String_Property.HasBeenSet)
+                        {
+                            StringXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.String),
+                                item.String);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.String, ex);
+                    }
+                    try
+                    {
+                        if (item.UDoubleN_Property.HasBeenSet)
+                        {
+                            UDoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UDoubleN),
+                                item.UDoubleN);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UDoubleN, ex);
+                    }
+                    try
+                    {
+                        if (item.UDoubleN_Ranged_Property.HasBeenSet)
+                        {
+                            UDoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UDoubleN_Ranged),
+                                item.UDoubleN_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UDoubleN_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UDouble_Property.HasBeenSet)
+                        {
+                            UDoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UDouble),
+                                item.UDouble);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UDouble, ex);
+                    }
+                    try
+                    {
+                        if (item.UDouble_Ranged_Property.HasBeenSet)
+                        {
+                            UDoubleXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UDouble_Ranged),
+                                item.UDouble_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UDouble_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt16N_Property.HasBeenSet)
+                        {
+                            UInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt16N),
+                                item.UInt16N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt16N, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt16N_Ranged_Property.HasBeenSet)
+                        {
+                            UInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt16N_Ranged),
+                                item.UInt16N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt16N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt16_Property.HasBeenSet)
+                        {
+                            UInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt16),
+                                item.UInt16);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt16, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt16_Ranged_Property.HasBeenSet)
+                        {
+                            UInt16XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt16_Ranged),
+                                item.UInt16_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt16_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt32N_Property.HasBeenSet)
+                        {
+                            UInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt32N),
+                                item.UInt32N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt32N, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt32N_Ranged_Property.HasBeenSet)
+                        {
+                            UInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt32N_Ranged),
+                                item.UInt32N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt32N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt32_Property.HasBeenSet)
+                        {
+                            UInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt32),
+                                item.UInt32);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt32, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt32_Ranged_Property.HasBeenSet)
+                        {
+                            UInt32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt32_Ranged),
+                                item.UInt32_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt32_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt64N_Property.HasBeenSet)
+                        {
+                            UInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt64N),
+                                item.UInt64N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt64N, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt64N_Ranged_Property.HasBeenSet)
+                        {
+                            UInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt64N_Ranged),
+                                item.UInt64N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt64N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt64_Property.HasBeenSet)
+                        {
+                            UInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt64),
+                                item.UInt64);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt64, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt64_Ranged_Property.HasBeenSet)
+                        {
+                            UInt64XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt64_Ranged),
+                                item.UInt64_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt64_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt8N_Property.HasBeenSet)
+                        {
+                            ByteXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt8N),
+                                item.UInt8N);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt8N, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt8N_Ranged_Property.HasBeenSet)
+                        {
+                            ByteXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt8N_Ranged),
+                                item.UInt8N_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt8N_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt8_Property.HasBeenSet)
+                        {
+                            ByteXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt8),
+                                item.UInt8);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt8, ex);
+                    }
+                    try
+                    {
+                        if (item.UInt8_Ranged_Property.HasBeenSet)
+                        {
+                            ByteXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.UInt8_Ranged),
+                                item.UInt8_Ranged);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.UInt8_Ranged, ex);
+                    }
+                    try
+                    {
+                        if (item.Enum_Property.HasBeenSet)
+                        {
+                            EnumXmlTranslation<TestEnum>.Instance.Write(
+                                writer,
+                                nameof(item.Enum),
+                                item.Enum);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Enum, ex);
+                    }
+                    try
+                    {
+                        if (item.WildCard_Property.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.WildCard == null ? null : item.WildCard.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.WildCard),
+                                item.WildCard,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.WildCard, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.WildCard, ex);
+                    }
+                    try
+                    {
+                        if (item.Ref_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.Ref,
+                                name: nameof(item.Ref),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref, ex);
+                    }
+                    try
+                    {
+                        if (item.Ref_NotNull_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.Ref_NotNull,
+                                name: nameof(item.Ref_NotNull),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref_NotNull, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref_NotNull, ex);
+                    }
+                    try
+                    {
+                        if (item.Ref_Singleton_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.Ref_Singleton,
+                                name: nameof(item.Ref_Singleton),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref_Singleton, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Ref_Singleton, ex);
+                    }
+                    try
+                    {
+                        if (item.RefGetter_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefGetter,
+                                name: nameof(item.RefGetter),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter, ex);
+                    }
+                    try
+                    {
+                        if (item.RefGetter_NotNull_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefGetter_NotNull,
+                                name: nameof(item.RefGetter_NotNull),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter_NotNull, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter_NotNull, ex);
+                    }
+                    try
+                    {
+                        if (item.RefGetter_Singleton_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefGetter_Singleton,
+                                name: nameof(item.RefGetter_Singleton),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter_Singleton, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefGetter_Singleton, ex);
+                    }
+                    try
+                    {
+                        if (item.RefSetter_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefSetter,
+                                name: nameof(item.RefSetter),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter, ex);
+                    }
+                    try
+                    {
+                        if (item.RefSetter_NotNull_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefSetter_NotNull,
+                                name: nameof(item.RefSetter_NotNull),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter_NotNull, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter_NotNull, ex);
+                    }
+                    try
+                    {
+                        if (item.RefSetter_Singleton_Property.HasBeenSet)
+                        {
+                            ObjectToRefCommon.Write_XML(
+                                writer: writer,
+                                item: item.RefSetter_Singleton,
+                                name: nameof(item.RefSetter_Singleton),
+                                doMasks: doMasks,
+                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter_Singleton, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefSetter_Singleton, ex);
+                    }
+                    try
+                    {
+                        if (item.List.HasBeenSet)
+                        {
+                            ListXmlTranslation<Boolean>.Instance.Write(
+                                writer: writer,
+                                name: nameof(item.List),
+                                item: item.List,
+                                doMasks: doMasks,
+                                maskObj: out object errorMaskObj,
+                                transl: (Boolean subitem, out object suberrorMask) =>
+                                {
+                                    BooleanXmlTranslation.Instance.Write(
+                                        writer,
+                                        null,
+                                        subitem);
+                                    suberrorMask = null;
+                                }
+                                );
+                            if (errorMaskObj != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.List, errorMaskObj);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.List, ex);
+                    }
+                    try
+                    {
+                        if (item.RefList.HasBeenSet)
+                        {
+                            ListXmlTranslation<ObjectToRef>.Instance.Write(
+                                writer: writer,
+                                name: nameof(item.RefList),
+                                item: item.RefList,
+                                doMasks: doMasks,
+                                maskObj: out object errorMaskObj,
+                                transl: (ObjectToRef subitem, out object suberrorMask) =>
+                                {
+                                    ObjectToRefCommon.Write_XML(
+                                        writer: writer,
+                                        item: subitem,
+                                        name: null,
+                                        doMasks: doMasks,
+                                        errorMask: out ObjectToRef_ErrorMask subsuberrorMask);
+                                    suberrorMask = subsuberrorMask;
+                                }
+                                );
+                            if (errorMaskObj != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefList, errorMaskObj);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefList, ex);
+                    }
+                    try
+                    {
+                        if (item.Dict.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.Dict == null ? null : item.Dict.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.Dict),
+                                item.Dict,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Dict, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.Dict, ex);
+                    }
+                    try
+                    {
+                        if (item.RefDict.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.RefDict == null ? null : item.RefDict.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.RefDict),
+                                item.RefDict,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefDict, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.RefDict, ex);
+                    }
+                    try
+                    {
+                        if (item.DictKeyedValue.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.DictKeyedValue),
+                                item.DictKeyedValue,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DictKeyedValue, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_FieldIndex.DictKeyedValue, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 
@@ -5224,19 +6824,19 @@ namespace Noggolloquy.Tests.Internals
         public bool UInt8_Ranged;
         public bool Enum;
         public bool WildCard;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter_NotNull;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefGetter_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefSetter;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefSetter_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> RefSetter_Singleton;
-        public CopyType List;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
+        public CopyOption List;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefList;
         public bool Dict;
         public MaskItem<bool, KeyValuePair<(RefCopyType Type, ObjectToRef_CopyMask Mask), (RefCopyType Type, ObjectToRef_CopyMask Mask)>> RefDict;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> DictKeyedValue;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> DictKeyedValue;
 
     }
     #endregion

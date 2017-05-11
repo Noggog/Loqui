@@ -112,6 +112,12 @@
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
+    <Compile Include="Modules\Xml\EnumXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\ListXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\UnsafeXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\NoggXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\PrimitiveXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
     <Compile Include="NoggolloquyGenerator.cs" />
     <Compile Include="FileGeneration\LineWrapper.cs" />
     <Compile Include="Modules\GenerationModule.cs" />
@@ -122,7 +128,7 @@
     <Compile Include="Modules\Mask\Fields\TypicalMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\MaskModule.cs" />
     <Compile Include="Modules\Xml\XmlReadGenerationParameters.cs" />
-    <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\XmlTranslationModule.cs" />
     <Compile Include="Modules\Xml\XmlWriteGenerationParameters.cs" />
     <Compile Include="FileGeneration\NamespaceWrapper.cs" />
     <Compile Include="NotifyingOption.cs" />

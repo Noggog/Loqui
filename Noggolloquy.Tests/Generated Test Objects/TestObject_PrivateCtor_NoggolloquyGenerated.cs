@@ -190,52 +190,37 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer);
-            }
+            TestObject_PrivateCtorCommon.Write_XML(
+                this,
+                stream);
         }
 
         public void Write_XML(Stream stream, out TestObject_PrivateCtor_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            TestObject_PrivateCtorCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out TestObject_PrivateCtor_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.Write(
+            TestObject_PrivateCtorCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
-        public void Write_XML(XmlWriter writer, string name)
+        public void Write_XML(XmlWriter writer, string name = null)
         {
-            NoggXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.Write(
+            TestObject_PrivateCtorCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_PrivateCtor_ErrorMask errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer)
-        {
-            NoggXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.Write(
-                writer: writer,
-                name: null,
-                item: this,
-                doMasks: false,
-                mask: out TestObject_PrivateCtor_ErrorMask errorMask);
+                errorMask: out TestObject_PrivateCtor_ErrorMask errorMask);
         }
 
         #endregion
@@ -335,6 +320,7 @@ namespace Noggolloquy.Tests
             CallClearPartial_Internal(cmds);
             TestObject_PrivateCtorCommon.Clear(this, cmds);
         }
+
 
         public static TestObject_PrivateCtor Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
@@ -617,6 +603,136 @@ namespace Noggolloquy.Tests.Internals
         {
             item.BoolN = default(Boolean?);
         }
+
+        #region XML Translation
+        public static void Write_XML(
+            ITestObject_PrivateCtorGetter item,
+            Stream stream)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestObject_PrivateCtor_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_PrivateCtorGetter item,
+            Stream stream,
+            out TestObject_PrivateCtor_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_PrivateCtorGetter item,
+            XmlWriter writer,
+            out TestObject_PrivateCtor_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_PrivateCtorGetter item,
+            XmlWriter writer,
+            string name)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_PrivateCtor_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_PrivateCtorGetter item,
+            XmlWriter writer)
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_PrivateCtor_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            XmlWriter writer,
+            string name,
+            ITestObject_PrivateCtorGetter item,
+            bool doMasks,
+            out TestObject_PrivateCtor_ErrorMask errorMask)
+        {
+            TestObject_PrivateCtor_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal(
+            XmlWriter writer,
+            string name,
+            ITestObject_PrivateCtorGetter item,
+            bool doMasks,
+            Func<TestObject_PrivateCtor_ErrorMask> errorMask)
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(TestObject_PrivateCtor)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                    try
+                    {
+                        BooleanXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.BoolN),
+                            item.BoolN);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 

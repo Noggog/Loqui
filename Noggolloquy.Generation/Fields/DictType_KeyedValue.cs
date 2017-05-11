@@ -16,7 +16,7 @@ namespace Noggolloquy.Generation
 
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
-        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyType)}.{nameof(CopyType.Skip)}";
+        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
 
         public override bool Imports
         {
@@ -165,15 +165,15 @@ namespace Noggolloquy.Generation
                     gen.AppendLine("(r, d) =>");
                     using (new BraceWrapper(gen))
                     {
-                        gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyType)}.{nameof(CopyType.Reference)})");
+                        gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
                         using (new BraceWrapper(gen))
                         {
-                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.Reference)}:");
+                            gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine("return r;");
                             }
-                            gen.AppendLine($"case {nameof(CopyType)}.{nameof(CopyType.MakeCopy)}:");
+                            gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
@@ -181,7 +181,7 @@ namespace Noggolloquy.Generation
                             gen.AppendLine($"default:");
                             using (new DepthWrapper(gen))
                             {
-                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
                             }
                         }
                     }

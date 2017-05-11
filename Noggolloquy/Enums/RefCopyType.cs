@@ -9,6 +9,6 @@ namespace Noggolloquy
     public enum RefCopyType
     {
         Reference,
-        Deep
+        MakeCopy
     }
 }

@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Noggolloquy
 {
-    public enum CopyType
+    public enum GetterCopyOption
     {
         Reference,
         Skip,
-        CopyIn,
         MakeCopy
     }
 }

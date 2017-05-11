@@ -201,22 +201,20 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream, out TestObject_Notifying_SubClass_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            TestObject_Notifying_SubClassCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out TestObject_Notifying_SubClass_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.Write(
+            TestObject_Notifying_SubClassCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
         #endregion
@@ -311,6 +309,7 @@ namespace Noggolloquy.Tests
             CallClearPartial_Internal(cmds);
             TestObject_Notifying_SubClassCommon.Clear(this, cmds);
         }
+
 
         public new static TestObject_Notifying_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
@@ -540,14 +539,8 @@ namespace Noggolloquy.Tests.Internals
                 }
                 catch (Exception ex)
                 {
-                    if (doErrorMask)
-                    {
-                        errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
+                    if (doErrorMask) throw;
+                    errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
                 }
             }
         }
@@ -623,6 +616,122 @@ namespace Noggolloquy.Tests.Internals
         {
             item.NewField_Property.Unset(cmds.ToUnsetParams());
         }
+
+        #region XML Translation
+        public static void Write_XML(
+            ITestObject_Notifying_SubClassGetter item,
+            Stream stream,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_Notifying_SubClassGetter item,
+            XmlWriter writer,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_Notifying_SubClassGetter item,
+            XmlWriter writer,
+            string name)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_Notifying_SubClassGetter item,
+            XmlWriter writer)
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            XmlWriter writer,
+            string name,
+            ITestObject_Notifying_SubClassGetter item,
+            bool doMasks,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask)
+        {
+            TestObject_Notifying_SubClass_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_SubClass_ErrorMask()) : default(Func<TestObject_Notifying_SubClass_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal(
+            XmlWriter writer,
+            string name,
+            ITestObject_Notifying_SubClassGetter item,
+            bool doMasks,
+            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(TestObject_Notifying_SubClass)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                    try
+                    {
+                        if (item.NewField_Property.HasBeenSet)
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.NewField),
+                                item.NewField);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 

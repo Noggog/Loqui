@@ -82,13 +82,12 @@ namespace Noggolloquy.Tests.XML
             var name = "AName";
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var ret = transl.Write(
+            transl.Write(
                 writer: writer.Writer,
                 name: name,
                 item: GetDefault(),
                 doMasks: false,
                 maskObj: out object maskObj);
-            Assert.True(ret);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));

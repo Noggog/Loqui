@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class BooleanXmlTranslation : TypicalXmlTranslation<bool>
+    public class BooleanXmlTranslation : PrimitiveXmlTranslation<bool>
     {
         public readonly static BooleanXmlTranslation Instance = new BooleanXmlTranslation();
 

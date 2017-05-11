@@ -53,14 +53,22 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.WriteSingleItem(
+            transl.WriteSingleItem(
+                transl: (bool item, out object subErrorMask) =>
+                {
+                    BooleanXmlTranslation.Instance.Write(
+                        writer.Writer,
+                        null,
+                        item);
+                    subErrorMask = null;
+                },
                 writer: writer.Writer,
                 item: true,
                 doMasks: false,
                 maskObj: out object maskObj);
-            Assert.True(writeResp);
             var readResp = transl.ParseSingleItem(
                 writer.Resolve(),
+                BooleanXmlTranslation.Instance,
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
@@ -195,13 +203,12 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var ret = transl.Write(
+            transl.Write(
                 writer: writer.Writer,
                 name: null,
                 item: GetTypicalContents(),
                 doMasks: false,
                 maskObj: out object maskObj);
-            Assert.True(ret);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
@@ -213,13 +220,12 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var ret = transl.Write(
+            transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
                 item: GetTypicalContents(),
                 doMasks: true,
                 maskObj: out object maskObj);
-            Assert.True(ret);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
@@ -233,13 +239,12 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
+            transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
                 item: GetTypicalContents(),
                 doMasks: false,
                 maskObj: out object maskObj);
-            Assert.True(writeResp);
             var readResp = transl.Parse(
                 writer.Resolve(),
                 doMasks: false,
@@ -253,13 +258,12 @@ namespace Noggolloquy.Tests.XML
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
-            var writeResp = transl.Write(
+            transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
                 item: new bool[] { },
                 doMasks: false,
                 maskObj: out object maskObj);
-            Assert.True(writeResp);
             var readResp = transl.Parse(
                 writer.Resolve(),
                 doMasks: false,

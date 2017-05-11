@@ -1689,52 +1689,37 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer);
-            }
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
+                this,
+                stream);
         }
 
         public void Write_XML(Stream stream, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.Write(
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
-        public void Write_XML(XmlWriter writer, string name)
+        public void Write_XML(XmlWriter writer, string name = null)
         {
-            NoggXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.Write(
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer)
-        {
-            NoggXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.Write(
-                writer: writer,
-                name: null,
-                item: this,
-                doMasks: false,
-                mask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
+                errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
         }
 
         #endregion
@@ -1924,6 +1909,7 @@ namespace Noggolloquy.Tests
             CallClearPartial_Internal(cmds);
             TestObject_HasBeenSet_Derivative_RPCCommon.Clear(this, cmds);
         }
+
 
         public static TestObject_HasBeenSet_Derivative_RPC Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
@@ -4285,6 +4271,124 @@ namespace Noggolloquy.Tests.Internals
             NotifyingUnsetParameters? cmds = null)
         {
         }
+
+        #region XML Translation
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            Stream stream)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            Stream stream,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            XmlWriter writer,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            XmlWriter writer,
+            string name)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            XmlWriter writer)
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            XmlWriter writer,
+            string name,
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            bool doMasks,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal(
+            XmlWriter writer,
+            string name,
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            bool doMasks,
+            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(TestObject_HasBeenSet_Derivative_RPC)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 
@@ -5148,19 +5252,19 @@ namespace Noggolloquy.Tests.Internals
         public bool UInt8_Ranged;
         public bool Enum;
         public bool WildCard;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> Ref_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefGetter_NotNull;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefSetter_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefGetter;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefGetter_NotNull;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefSetter;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefSetter_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> RefSetter_Singleton;
-        public CopyType List;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> RefList;
+        public CopyOption List;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefList;
         public bool Dict;
         public MaskItem<bool, KeyValuePair<(RefCopyType Type, ObjectToRef_CopyMask Mask), (RefCopyType Type, ObjectToRef_CopyMask Mask)>> RefDict;
-        public MaskItem<CopyType, ObjectToRef_CopyMask> DictKeyedValue;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> DictKeyedValue;
 
     }
     #endregion

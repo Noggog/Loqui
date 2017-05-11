@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class UInt64XmlTranslation : TypicalXmlTranslation<ulong>
+    public class UInt64XmlTranslation : PrimitiveXmlTranslation<ulong>
     {
         public readonly static UInt64XmlTranslation Instance = new UInt64XmlTranslation();
 

@@ -24,11 +24,11 @@ namespace Noggolloquy.Generation
             this.Name = node.GetAttribute("name", throwException: true);
             foreach (var generic in node.Elements(XName.Get("Generic", NoggolloquyGenerator.Namespace)))
             {
-                GenericDefinition gen = new GenericDefinition();
+                var gen = new GenericDefinition();
                 var genName = generic.GetAttribute("name");
                 foreach (var where in generic.Elements(XName.Get("Where", NoggolloquyGenerator.Namespace)))
                 {
-                    gen.Wheres.Add(where.Value);
+                    gen.Add(where.Value);
                 }
                 this.Generics[genName] = gen;
             }

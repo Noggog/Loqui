@@ -14,19 +14,19 @@ namespace Noggolloquy.Generation
         public override void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {
             NoggType nogg = field as NoggType;
-            fg.AppendLine($"public MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}> {field.Name};");
+            fg.AppendLine($"public MaskItem<Exception, {nogg.ErrorMaskItemString}> {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
             NoggType nogg = field as NoggType;
-            fg.AppendLine($"this.{field.Name} = new MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}>(ex, null);");
+            fg.AppendLine($"this.{field.Name} = new MaskItem<Exception, {nogg.ErrorMaskItemString}>(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
             NoggType nogg = field as NoggType;
-            fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {nogg.GenerateErrorMaskItemString()}>)obj;");
+            fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {nogg.ErrorMaskItemString}>)obj;");
         }
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
@@ -41,12 +41,19 @@ namespace Noggolloquy.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"public MaskItem<{nameof(CopyType)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {nogg.RefGen.Obj.CopyMask}> {field.Name};");
                 }
             }
             else
             {
-                fg.AppendLine($"public {nameof(CopyType)} {field.Name};");
+                if (nogg.ObjectGeneration == null)
+                {
+                    fg.AppendLine($"public {nameof(GetterCopyOption)} {field.Name};");
+                }
+                else
+                {
+                    fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
+                }
             }
         }
     }

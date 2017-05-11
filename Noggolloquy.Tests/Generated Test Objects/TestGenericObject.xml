@@ -3,10 +3,17 @@
   <Protocol ProtocolID="1" />
   <Object name="TestGenericObject" notifyingDefault="Notifying" GUID="c0c6b45b-906e-4a34-8e26-13ac0f04e3f8" ID="1">
     <Generic name="T" />
-    <Generic name="R" >
+    <Generic name="RBase" >
       <Where>ObjectToRef</Where>
+      <Where>INoggolloquyObject</Where>
+    </Generic>
+    <Generic name="R" >
+      <Where>INoggolloquyObject</Where>
     </Generic>
     <Fields>
+      <Ref name="RefBase">
+        <Generic>RBase</Generic>
+      </Ref>
       <Ref name="Ref">
         <Generic>R</Generic>
       </Ref>

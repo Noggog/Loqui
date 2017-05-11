@@ -211,52 +211,37 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer);
-            }
+            ObjectToRefCommon.Write_XML(
+                this,
+                stream);
         }
 
         public void Write_XML(Stream stream, out ObjectToRef_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            ObjectToRefCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out ObjectToRef_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+            ObjectToRefCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
-        public void Write_XML(XmlWriter writer, string name)
+        public void Write_XML(XmlWriter writer, string name = null)
         {
-            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+            ObjectToRefCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: false,
-                mask: out ObjectToRef_ErrorMask errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer)
-        {
-            NoggXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
-                writer: writer,
-                name: null,
-                item: this,
-                doMasks: false,
-                mask: out ObjectToRef_ErrorMask errorMask);
+                errorMask: out ObjectToRef_ErrorMask errorMask);
         }
 
         #endregion
@@ -363,6 +348,7 @@ namespace Noggolloquy.Tests
             CallClearPartial_Internal(cmds);
             ObjectToRefCommon.Clear(this, cmds);
         }
+
 
         public static ObjectToRef Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
@@ -604,14 +590,8 @@ namespace Noggolloquy.Tests.Internals
                 }
                 catch (Exception ex)
                 {
-                    if (doErrorMask)
-                    {
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
+                    if (doErrorMask) throw;
+                    errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
                 }
             }
             if (copyMask?.SomeField ?? true)
@@ -625,14 +605,8 @@ namespace Noggolloquy.Tests.Internals
                 }
                 catch (Exception ex)
                 {
-                    if (doErrorMask)
-                    {
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
+                    if (doErrorMask) throw;
+                    errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
                 }
             }
         }
@@ -717,6 +691,154 @@ namespace Noggolloquy.Tests.Internals
             item.KeyField_Property.Unset(cmds.ToUnsetParams());
             item.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
+
+        #region XML Translation
+        public static void Write_XML(
+            IObjectToRefGetter item,
+            Stream stream)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out ObjectToRef_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            IObjectToRefGetter item,
+            Stream stream,
+            out ObjectToRef_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            IObjectToRefGetter item,
+            XmlWriter writer,
+            out ObjectToRef_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML(
+            IObjectToRefGetter item,
+            XmlWriter writer,
+            string name)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out ObjectToRef_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            IObjectToRefGetter item,
+            XmlWriter writer)
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out ObjectToRef_ErrorMask errorMask);
+        }
+
+        public static void Write_XML(
+            XmlWriter writer,
+            string name,
+            IObjectToRefGetter item,
+            bool doMasks,
+            out ObjectToRef_ErrorMask errorMask)
+        {
+            ObjectToRef_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new ObjectToRef_ErrorMask()) : default(Func<ObjectToRef_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal(
+            XmlWriter writer,
+            string name,
+            IObjectToRefGetter item,
+            bool doMasks,
+            Func<ObjectToRef_ErrorMask> errorMask)
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(ObjectToRef)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                    try
+                    {
+                        if (item.KeyField_Property.HasBeenSet)
+                        {
+                            Int32XmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.KeyField),
+                                item.KeyField);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
+                    }
+                    try
+                    {
+                        if (item.SomeField_Property.HasBeenSet)
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                nameof(item.SomeField),
+                                item.SomeField);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 

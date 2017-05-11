@@ -16,6 +16,7 @@ namespace Noggolloquy.Generation
         public abstract void Modify(ObjectGeneration obj);
         public abstract void Modify(NoggolloquyGenerator gen);
         public abstract void GenerateInClass(ObjectGeneration obj, FileGeneration fg);
+        public abstract void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg);
         public abstract void Generate(ObjectGeneration obj, FileGeneration fg);
         public abstract void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg);
     }

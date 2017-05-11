@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class PercentXmlTranslation : TypicalXmlTranslation<Percent>
+    public class PercentXmlTranslation : PrimitiveXmlTranslation<Percent>
     {
         public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
 

@@ -21,7 +21,8 @@ using Noggolloquy.Xml;
 namespace Noggolloquy.Tests
 {
     #region Class
-    public partial class TestGenericObject_SubClass_Defined : TestGenericObject<long, ObjectToRef>, ITestGenericObject_SubClass_Defined, INoggolloquyObjectSetter, IEquatable<TestGenericObject_SubClass_Defined>
+    public partial class TestGenericObject_SubClass_Defined<RBase> : TestGenericObject<long, RBase, ObjectToRef>, ITestGenericObject_SubClass_Defined<RBase>, INoggolloquyObjectSetter, IEquatable<TestGenericObject_SubClass_Defined<RBase>>
+        where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
     {
         INoggolloquyRegistration INoggolloquyObject.Registration => TestGenericObject_SubClass_Defined_Registration.Instance;
         public new static TestGenericObject_SubClass_Defined_Registration Registration => TestGenericObject_SubClass_Defined_Registration.Instance;
@@ -34,27 +35,27 @@ namespace Noggolloquy.Tests
 
         #region Noggolloquy Getter Interface
 
-        protected override object GetNthObject(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObject(index, this);
+        protected override object GetNthObject(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObject<RBase>(index, this);
 
-        protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObjectHasBeenSet(index, this);
+        protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClass_DefinedCommon.GetNthObjectHasBeenSet<RBase>(index, this);
 
-        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClass_DefinedCommon.UnsetNthObject(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClass_DefinedCommon.UnsetNthObject<RBase>(index, this, cmds);
 
         #endregion
 
         #region Noggolloquy Interface
         protected override void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestGenericObject_SubClass_DefinedCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestGenericObject_SubClass_DefinedCommon.SetNthObjectHasBeenSet<RBase>(index, on, this);
         }
 
         public void CopyFieldsFrom(
-            ITestGenericObject_SubClass_DefinedGetter rhs,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(
+            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom<RBase>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -65,10 +66,10 @@ namespace Noggolloquy.Tests
         }
 
         public void CopyFieldsFrom(
-            ITestGenericObject_SubClass_DefinedGetter rhs,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
             out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null,
             NotifyingFireParameters? cmds = null)
         {
             TestGenericObject_SubClass_Defined_ErrorMask retErrorMask = null;
@@ -80,7 +81,7 @@ namespace Noggolloquy.Tests
                 }
                 return retErrorMask;
             };
-            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom(
+            TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom<RBase>(
                 item: this,
                 rhs: rhs,
                 def: def,
@@ -104,11 +105,11 @@ namespace Noggolloquy.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestGenericObject_SubClass_Defined rhs)) return false;
+            if (!(obj is TestGenericObject_SubClass_Defined<RBase> rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestGenericObject_SubClass_Defined rhs)
+        public bool Equals(TestGenericObject_SubClass_Defined<RBase> rhs)
         {
             return base.Equals(rhs);
         }
@@ -124,7 +125,7 @@ namespace Noggolloquy.Tests
 
 
         #region XML Translation
-        public new static TestGenericObject_SubClass_Defined Create_XML(Stream stream)
+        public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(Stream stream)
         {
             using (var reader = new StreamReader(stream))
             {
@@ -132,10 +133,10 @@ namespace Noggolloquy.Tests
             }
         }
 
-        public new static TestGenericObject_SubClass_Defined Create_XML(XElement root)
+        public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(XElement root)
         {
-            var ret = new TestGenericObject_SubClass_Defined();
-            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+            var ret = new TestGenericObject_SubClass_Defined<RBase>();
+            NoggXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipProtected: false,
@@ -145,10 +146,10 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestGenericObject_SubClass_Defined Create_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
-            var ret = new TestGenericObject_SubClass_Defined();
-            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+            var ret = new TestGenericObject_SubClass_Defined<RBase>();
+            NoggXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: ret,
                 skipProtected: false,
@@ -160,7 +161,7 @@ namespace Noggolloquy.Tests
 
         public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -171,7 +172,7 @@ namespace Noggolloquy.Tests
 
         public virtual void CopyIn_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
         {
-            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+            NoggXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -188,49 +189,47 @@ namespace Noggolloquy.Tests
 
         public void Write_XML(Stream stream, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(writer, out errorMask);
-            }
+            TestGenericObject_SubClass_DefinedCommon.Write_XML(
+                this,
+                stream,
+                out errorMask);
         }
 
         public void Write_XML(XmlWriter writer, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, string name = null)
         {
-            NoggXmlTranslation<TestGenericObject_SubClass_Defined, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.Write(
+            TestGenericObject_SubClass_DefinedCommon.Write_XML(
                 writer: writer,
                 name: name,
                 item: this,
                 doMasks: true,
-                mask: out errorMask);
+                errorMask: out errorMask);
         }
 
         #endregion
 
-        public TestGenericObject_SubClass_Defined Copy(
+        public TestGenericObject_SubClass_Defined<RBase> Copy(
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null)
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null)
         {
-            return TestGenericObject_SubClass_Defined.Copy(
+            return TestGenericObject_SubClass_Defined<RBase>.Copy(
                 this,
                 copyMask: copyMask,
                 def: def);
         }
 
-        public static TestGenericObject_SubClass_Defined Copy(
-            ITestGenericObject_SubClass_Defined item,
+        public static TestGenericObject_SubClass_Defined<RBase> Copy(
+            ITestGenericObject_SubClass_Defined<RBase> item,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null)
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null)
         {
-            TestGenericObject_SubClass_Defined ret;
-            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined)))
+            TestGenericObject_SubClass_Defined<RBase> ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined<RBase>)))
             {
-                ret = new TestGenericObject_SubClass_Defined();
+                ret = new TestGenericObject_SubClass_Defined<RBase>();
             }
             else
             {
-                ret = (TestGenericObject_SubClass_Defined)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject_SubClass_Defined<RBase>)Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -242,13 +241,13 @@ namespace Noggolloquy.Tests
         public static CopyType Copy<CopyType>(
             CopyType item,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null)
-            where CopyType : class, ITestGenericObject_SubClass_Defined
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null)
+            where CopyType : class, ITestGenericObject_SubClass_Defined<RBase>
         {
             CopyType ret;
-            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined)))
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass_Defined<RBase>)))
             {
-                ret = new TestGenericObject_SubClass_Defined() as CopyType;
+                ret = new TestGenericObject_SubClass_Defined<RBase>() as CopyType;
             }
             else
             {
@@ -264,12 +263,12 @@ namespace Noggolloquy.Tests
             return ret;
         }
 
-        public static TestGenericObject_SubClass_Defined Copy_ToNoggolloquy(
-            ITestGenericObject_SubClass_DefinedGetter item,
+        public static TestGenericObject_SubClass_Defined<RBase> Copy_ToNoggolloquy(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
-            ITestGenericObject_SubClass_DefinedGetter def = null)
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def = null)
         {
-            var ret = new TestGenericObject_SubClass_Defined();
+            var ret = new TestGenericObject_SubClass_Defined<RBase>();
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -294,14 +293,15 @@ namespace Noggolloquy.Tests
             TestGenericObject_SubClass_DefinedCommon.Clear(this, cmds);
         }
 
-        public new static TestGenericObject_SubClass_Defined Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+
+        public new static TestGenericObject_SubClass_Defined<RBase> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestGenericObject_SubClass_Defined();
+            var ret = new TestGenericObject_SubClass_Defined<RBase>();
             INoggolloquyObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
             return ret;
         }
 
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericObject_SubClass_Defined obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericObject_SubClass_Defined<RBase> obj)
         {
             INoggolloquyObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
@@ -310,11 +310,13 @@ namespace Noggolloquy.Tests
     #endregion
 
     #region Interface
-    public interface ITestGenericObject_SubClass_Defined : ITestGenericObject_SubClass_DefinedGetter, ITestGenericObject<long, ObjectToRef>, INoggolloquyClass<ITestGenericObject_SubClass_Defined, ITestGenericObject_SubClass_DefinedGetter>, INoggolloquyClass<TestGenericObject_SubClass_Defined, ITestGenericObject_SubClass_DefinedGetter>
+    public interface ITestGenericObject_SubClass_Defined<RBase> : ITestGenericObject_SubClass_DefinedGetter<RBase>, ITestGenericObject<long, RBase, ObjectToRef>, INoggolloquyClass<ITestGenericObject_SubClass_Defined<RBase>, ITestGenericObject_SubClass_DefinedGetter<RBase>>, INoggolloquyClass<TestGenericObject_SubClass_Defined<RBase>, ITestGenericObject_SubClass_DefinedGetter<RBase>>
+        where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
     {
     }
 
-    public interface ITestGenericObject_SubClass_DefinedGetter : ITestGenericObjectGetter<long, ObjectToRef>
+    public interface ITestGenericObject_SubClass_DefinedGetter<RBase> : ITestGenericObjectGetter<long, RBase, ObjectToRef>
+        where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
     {
 
     }
@@ -351,15 +353,15 @@ namespace Noggolloquy.Tests.Internals
 
         public static readonly Type ErrorMaskType = typeof(TestGenericObject_SubClass_Defined_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestGenericObject_SubClass_Defined);
+        public static readonly Type ClassType = typeof(TestGenericObject_SubClass_Defined<>);
 
         public const string FullName = "Noggolloquy.Tests.TestGenericObject_SubClass_Defined";
 
         public const string Name = "TestGenericObject_SubClass_Defined";
 
-        public const byte GenericCount = 0;
+        public const byte GenericCount = 1;
 
-        public static readonly Type GenericRegistrationType = null;
+        public static readonly Type GenericRegistrationType = typeof(TestGenericObject_SubClass_Defined_Registration<>);
 
         public static ushort? GetNameIndex(StringCaseAgnostic str)
         {
@@ -430,15 +432,7 @@ namespace Noggolloquy.Tests.Internals
             }
         }
 
-        public static Type GetNthType(ushort index)
-        {
-            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
-            switch (enu)
-            {
-                default:
-                    return TestGenericObject_Registration.GetNthType(index);
-            }
-        }
+        public static Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
 
         #region Interface
         ProtocolDefinition INoggolloquyRegistration.ProtocolDefinition => ProtocolDefinition;
@@ -463,22 +457,40 @@ namespace Noggolloquy.Tests.Internals
         #endregion
 
     }
+
+    public class TestGenericObject_SubClass_Defined_Registration<RBase> : TestGenericObject_SubClass_Defined_Registration
+        where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+    {
+        public static readonly TestGenericObject_SubClass_Defined_Registration<RBase> GenericInstance = new TestGenericObject_SubClass_Defined_Registration<RBase>();
+
+        public new static Type GetNthType(ushort index)
+        {
+            TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
+            switch (enu)
+            {
+                default:
+                    return TestGenericObject_Registration.GetNthType(index);
+            }
+        }
+
+    }
     #endregion
 
     #region Extensions
     public static class TestGenericObject_SubClass_DefinedCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(
-            this ITestGenericObject_SubClass_Defined item,
-            ITestGenericObject_SubClass_DefinedGetter rhs,
-            ITestGenericObject_SubClass_DefinedGetter def,
+        public static void CopyFieldsFrom<RBase>(
+            this ITestGenericObject_SubClass_Defined<RBase> item,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def,
             bool doErrorMask,
             Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask,
             TestGenericObject_SubClass_Defined_CopyMask copyMask,
             NotifyingFireParameters? cmds)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
-            TestGenericObjectCommon.CopyFieldsFrom<long, ObjectToRef>(
+            TestGenericObjectCommon.CopyFieldsFrom<long, RBase, ObjectToRef>(
                 item,
                 rhs,
                 def,
@@ -490,64 +502,176 @@ namespace Noggolloquy.Tests.Internals
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(
+        public static void SetNthObjectHasBeenSet<RBase>(
             ushort index,
             bool on,
-            ITestGenericObject_SubClass_Defined obj,
+            ITestGenericObject_SubClass_Defined<RBase> obj,
             NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
             {
                 default:
-                    TestGenericObjectCommon.SetNthObjectHasBeenSet<long, ObjectToRef>(index, on, obj);
+                    TestGenericObjectCommon.SetNthObjectHasBeenSet<long, RBase, ObjectToRef>(index, on, obj);
                     break;
             }
         }
 
-        public static void UnsetNthObject(
+        public static void UnsetNthObject<RBase>(
             ushort index,
-            ITestGenericObject_SubClass_Defined obj,
+            ITestGenericObject_SubClass_Defined<RBase> obj,
             NotifyingUnsetParameters? cmds = null)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
             {
                 default:
-                    TestGenericObjectCommon.UnsetNthObject<long, ObjectToRef>(index, obj);
+                    TestGenericObjectCommon.UnsetNthObject<long, RBase, ObjectToRef>(index, obj);
                     break;
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(
+        public static bool GetNthObjectHasBeenSet<RBase>(
             ushort index,
-            ITestGenericObject_SubClass_Defined obj)
+            ITestGenericObject_SubClass_Defined<RBase> obj)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
             {
                 default:
-                    return TestGenericObjectCommon.GetNthObjectHasBeenSet<long, ObjectToRef>(index, obj);
+                    return TestGenericObjectCommon.GetNthObjectHasBeenSet<long, RBase, ObjectToRef>(index, obj);
             }
         }
 
-        public static object GetNthObject(
+        public static object GetNthObject<RBase>(
             ushort index,
-            ITestGenericObject_SubClass_DefinedGetter obj)
+            ITestGenericObject_SubClass_DefinedGetter<RBase> obj)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
             {
                 default:
-                    return TestGenericObjectCommon.GetNthObject<long, ObjectToRef>(index, obj);
+                    return TestGenericObjectCommon.GetNthObject<long, RBase, ObjectToRef>(index, obj);
             }
         }
 
-        public static void Clear(
-            ITestGenericObject_SubClass_Defined item,
+        public static void Clear<RBase>(
+            ITestGenericObject_SubClass_Defined<RBase> item,
             NotifyingUnsetParameters? cmds = null)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
         {
         }
+
+        #region XML Translation
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            Stream stream,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            XmlWriter writer,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            string name = null)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            XmlWriter writer,
+            string name)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: false,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
+        }
+
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            XmlWriter writer)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            Write_XML(
+                writer: writer,
+                name: null,
+                item: item,
+                doMasks: false,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
+        }
+
+        public static void Write_XML<RBase>(
+            XmlWriter writer,
+            string name,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            bool doMasks,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            TestGenericObject_SubClass_Defined_ErrorMask errMaskRet = null;
+            Write_XML_Internal(
+                writer: writer,
+                name: name,
+                item: item,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_Defined_ErrorMask()) : default(Func<TestGenericObject_SubClass_Defined_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void Write_XML_Internal<RBase>(
+            XmlWriter writer,
+            string name,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+            where RBase : ObjectToRef, INoggolloquyObject, INoggolloquyObjectGetter
+        {
+            try
+            {
+                using (new ElementWrapper(writer, nameof(TestGenericObject_SubClass_Defined<RBase>)))
+                {
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        writer.WriteAttributeString("name", name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
     }
     #endregion
 

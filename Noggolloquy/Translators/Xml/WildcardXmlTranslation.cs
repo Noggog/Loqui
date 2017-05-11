@@ -9,7 +9,7 @@ namespace Noggolloquy.Xml
 {
     public class WildcardXmlTranslation : IXmlTranslation<Object>
     {
-        public readonly static WildcardXmlTranslation Instance = new WildcardXmlTranslation();
+        public static readonly WildcardXmlTranslation Instance = new WildcardXmlTranslation();
 
         public string ElementName => null;
 
@@ -42,10 +42,10 @@ namespace Noggolloquy.Xml
             return xml.Parse(root, doMasks, out maskObj);
         }
 
-        public bool Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
             var xml = GetTranslator(item.GetType());
-            return xml.Write(writer, name, item, doMasks, out maskObj);
+            xml.Write(writer, name, item, doMasks, out maskObj);
         }
     }
 }

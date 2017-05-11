@@ -76,15 +76,10 @@ namespace Noggolloquy.Generation
             {
                 fg.Append($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {Name}{this.GenericTypes} : ");
 
-                List<string> list = new List<string>();
+                var list = new List<string>();
                 if (HasBaseObject)
                 {
-                    var baseStr = this.BaseClass.Name;
-                    if (this.BaseClass.Generics.Count > 0)
-                    {
-                        baseStr += this.BaseGenericTypes;
-                    }
-                    list.Add(baseStr);
+                    list.Add(BaseClassName);
                 }
                 list.Add(this.InterfaceStr);
                 list.AddRange(

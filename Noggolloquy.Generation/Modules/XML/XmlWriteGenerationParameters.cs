@@ -4,7 +4,7 @@ namespace Noggolloquy.Generation
 {
     public class XmlWriteGenerationParameters
     {
-        public XmlTranslationGeneration XmlGen;
+        public XmlTranslationModule XmlGen;
         public ObjectGeneration Object;
         public FileGeneration FG;
         public object Field;

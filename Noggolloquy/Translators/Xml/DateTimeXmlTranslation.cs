@@ -3,7 +3,7 @@ using System;
 
 namespace Noggolloquy.Xml
 {
-    public class DateTimeXmlTranslation : TypicalXmlTranslation<DateTime>
+    public class DateTimeXmlTranslation : PrimitiveXmlTranslation<DateTime>
     {
         public readonly static DateTimeXmlTranslation Instance = new DateTimeXmlTranslation();
 

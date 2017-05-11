@@ -26,6 +26,7 @@ namespace Noggolloquy.Generation
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
+        public string IndexEnumName => $"{this.ObjectGen.EnumName}.{this.Name}";
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
         protected bool _derivative;

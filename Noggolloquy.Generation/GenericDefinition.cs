@@ -1,12 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Noggolloquy.Generation
 {
     public class GenericDefinition
     {
         public bool MustBeClass;
-        public HashSet<string> Wheres = new HashSet<string>();
+        public ObjectGeneration BaseObjectGeneration;
+        private readonly HashSet<string> _whereSet = new HashSet<string>();
+        private readonly List<string> _whereList = new List<string>();
+        public IEnumerable<string> Wheres => _whereList;
+
+        public void Add(string where)
+        {
+            if (_whereSet.Add(where))
+            {
+                _whereList.Add(where);
+            }
+        }
+
+        public void Add(IEnumerable<string> wheres)
+        {
+            foreach (var where in wheres)
+            {
+                Add(where);
+            }
+        }
 
         public GenericDefinition Copy()
         {
@@ -14,7 +34,8 @@ namespace Noggolloquy.Generation
             {
                 MustBeClass = this.MustBeClass
             };
-            ret.Wheres.Add(this.Wheres);
+            ret._whereSet.Add(this._whereSet);
+            ret._whereList.AddRange(this._whereList);
             return ret;
         }
     }

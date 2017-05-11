@@ -189,5 +189,9 @@ namespace Noggolloquy.Generation
                 }
             }
         }
+
+        public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
     }
 }
