@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
-  <Protocol ProtocolID="1" />
-  <Object name="TestObject_HasBeenSet_Derivative" notifyingDefault="HasBeenSet" derivativeDefault="true" GUID="ba1e258f-950b-45ac-86e1-c07e69d7d85b" ID="14">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Noggolloquy>

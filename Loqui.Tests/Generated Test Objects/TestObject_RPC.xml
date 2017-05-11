@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
+  <Protocol ProtocolID="1" />
+  <Object name="TestObject_RPC" notifyingDefault="None" raisePropertyChangedDefault="true" GUID="fa89d04c-a303-4fd2-880b-3ef3bc6883b8" ID="16">
+    <Fields>
+      <FieldBatch name="TypicalFields" />
+    </Fields>
+  </Object>
+</Loqui>

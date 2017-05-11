@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Noggolloquy xmlns="http://tempuri.org/NoggolloquySource.xsd">
-  <Protocol ProtocolID="1" />
-  <Object name="TestObject_ReadOnly" notifyingDefault="None" protectedDefault="true" GUID="10250077-4ed4-4a77-a6c9-f59d9f563858" ID="9">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Noggolloquy>
