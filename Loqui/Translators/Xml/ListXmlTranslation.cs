@@ -19,7 +19,7 @@ namespace Loqui.Xml
 
         public override string ElementName => "List";
 
-        public override void WriteSingleItem(XmlWriter writer, XmlSubWriteDelegate<T> transl, T item, bool doMasks, out object maskObj)
+        public override void WriteSingleItem<ErrMask>(XmlWriter writer, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj)
         {
             transl(item, out maskObj);
         }

@@ -9,21 +9,21 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class ListXmlTranslation_Tests
+    public class DictXmlTranslation_Tests
     {
-        public string ExpectedName => "List";
+        public string ExpectedName => "Dict";
 
-        public IEnumerable<bool> GetTypicalContents()
+        public IEnumerable<KeyValuePair<string, bool>> GetTypicalContents()
         {
-            yield return true;
-            yield return false;
-            yield return false;
-            yield return true;
+            yield return new KeyValuePair<string, bool>("Hello", true);
+            yield return new KeyValuePair<string, bool>("Test", false);
+            yield return new KeyValuePair<string, bool>("Test2", false);
+            yield return new KeyValuePair<string, bool>("Test3", true);
         }
 
-        public ListXmlTranslation<bool> GetTranslation()
+        public DictXmlTranslation<string, bool> GetTranslation()
         {
-            return new ListXmlTranslation<bool>();
+            return new DictXmlTranslation<string, bool>();
         }
 
         public virtual XElement GetTypicalElement(string name = null)
@@ -31,8 +31,17 @@ namespace Loqui.Tests.XML
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             foreach (var item in GetTypicalContents())
             {
-                var itemElem = new XElement("Boolean");
-                itemElem.SetAttributeValue("value", item);
+                var itemElem = new XElement("Item");
+                var keyElem = new XElement("Key");
+                var stringElem = new XElement("String");
+                stringElem.SetAttributeValue("value", item.Key);
+                keyElem.Add(stringElem);
+                itemElem.Add(keyElem);
+                var valElem = new XElement("Value");
+                var boolElem = new XElement("Boolean");
+                boolElem.SetAttributeValue("value", item.Value);
+                valElem.Add(boolElem);
+                itemElem.Add(valElem);
                 elem.Add(itemElem);
             }
             return elem;
@@ -51,10 +60,19 @@ namespace Loqui.Tests.XML
         [Fact]
         public void ReimportSingleItem()
         {
+            var val = new KeyValuePair<string, bool>("Hello", true);
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             transl.WriteSingleItem(
-                transl: (bool item, out object subErrorMask) =>
+                keyTransl: (string item, out object subErrorMask) =>
+                {
+                    StringXmlTranslation.Instance.Write(
+                        writer.Writer,
+                        null,
+                        item);
+                    subErrorMask = null;
+                },
+                valTransl: (bool item, out object subErrorMask) =>
                 {
                     BooleanXmlTranslation.Instance.Write(
                         writer.Writer,
@@ -63,16 +81,18 @@ namespace Loqui.Tests.XML
                     subErrorMask = null;
                 },
                 writer: writer.Writer,
-                item: true,
+                item: val,
                 doMasks: false,
-                maskObj: out object maskObj);
+                keymaskItem: out MaskItem<Exception, object> keyMaskObj,
+                valmaskItem: out MaskItem<Exception, object> valMaskObj);
             var readResp = transl.ParseSingleItem(
                 writer.Resolve(),
-                BooleanXmlTranslation.Instance,
+                keyTranl: StringXmlTranslation.Instance,
+                valTranl: BooleanXmlTranslation.Instance,
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(true, readResp.Value);
+            Assert.Equal(val, readResp.Value);
         }
         #endregion
 
@@ -261,7 +281,7 @@ namespace Loqui.Tests.XML
             transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: new bool[] { },
+                item: new KeyValuePair<string, bool>[] { },
                 doMasks: false,
                 maskObj: out object maskObj);
             var readResp = transl.Parse(

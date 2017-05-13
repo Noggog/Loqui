@@ -73,7 +73,7 @@ namespace Loqui.Generation
             this.TypeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration(this);
-            this.TypeGenerations[typeof(DictType)] = new UnsafeXmlTranslationGeneration();
+            this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration(this);
         }
 
         public override IEnumerable<string> RequiredUsingStatements()

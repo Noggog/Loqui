@@ -12,7 +12,7 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public delegate void XmlSubWriteDelegate<in T>(T item, out object maskObj);
+    public delegate void XmlSubWriteDelegate<in T, ErrMask>(T item, out ErrMask maskObj);
     public abstract class ContainerXmlTranslation<T> : IXmlTranslation<IEnumerable<T>>
     {
         public abstract string ElementName { get; }
@@ -32,15 +32,9 @@ namespace Loqui.Xml
             if (!root.Name.LocalName.Equals(ElementName))
             {
                 var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                if (doMasks)
-                {
-                    maskObj = ex;
-                    return TryGet<IEnumerable<T>>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                if (!doMasks) throw ex;
+                maskObj = ex;
+                return TryGet<IEnumerable<T>>.Failure;
             }
             return TryGet<IEnumerable<T>>.Succeed(Parse_Internal(transl, root, doMasks, out maskObj));
         }
@@ -73,18 +67,12 @@ namespace Loqui.Xml
                 }
                 catch (Exception ex)
                 {
-                    if (!doMasks)
+                    if (!doMasks) throw;
+                    if (maskList == null)
                     {
-                        throw;
+                        maskList = new List<MaskItem<Exception, object>>();
                     }
-                    else
-                    {
-                        if (maskList == null)
-                        {
-                            maskList = new List<MaskItem<Exception, object>>();
-                        }
-                        maskList.Add(new MaskItem<Exception, object>(ex, null));
-                    }
+                    maskList.Add(new MaskItem<Exception, object>(ex, null));
                 }
             }
             maskObj = maskList;
@@ -105,7 +93,7 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Item.Reason}");
             }
-            this.Write(
+            this.Write<object>(
                 writer: writer, 
                 name: name, 
                 item: item, 
@@ -114,15 +102,15 @@ namespace Loqui.Xml
                 transl: (T item1, out object obj) => transl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj));
         }
 
-        public void Write(
+        public void Write<ErrMask>(
             XmlWriter writer,
             string name, 
             IEnumerable<T> item, 
             bool doMasks, 
             out object maskObj,
-            XmlSubWriteDelegate<T> transl)
+            XmlSubWriteDelegate<T, ErrMask> transl)
         {
-            List<MaskItem<Exception, object>> maskList = null;
+            List<MaskItem<Exception, ErrMask>> maskList = null;
             using (new ElementWrapper(writer, ElementName))
             {
                 if (name != null)
@@ -133,14 +121,14 @@ namespace Loqui.Xml
                 {
                     try
                     {
-                        WriteSingleItem(writer, transl, listObj, doMasks, out object subMaskObj);
+                        WriteSingleItem(writer, transl, listObj, doMasks, out ErrMask subMaskObj);
                         if (subMaskObj != null)
                         {
                             if (maskList == null)
                             {
-                                maskList = new List<MaskItem<Exception, object>>();
+                                maskList = new List<MaskItem<Exception, ErrMask>>();
                             }
-                            maskList.Add(new MaskItem<Exception, object>(null, subMaskObj));
+                            maskList.Add(new MaskItem<Exception, ErrMask>(null, subMaskObj));
                         }
                     }
                     catch (Exception ex)
@@ -151,15 +139,15 @@ namespace Loqui.Xml
                         }
                         if (maskList == null)
                         {
-                            maskList = new List<MaskItem<Exception, object>>();
+                            maskList = new List<MaskItem<Exception, ErrMask>>();
                         }
-                        maskList.Add(new MaskItem<Exception, object>(ex, null));
+                        maskList.Add(new MaskItem<Exception, ErrMask>(ex, default(ErrMask)));
                     }
                 }
             }
             maskObj = maskList;
         }
 
-        public abstract void WriteSingleItem(XmlWriter writer, XmlSubWriteDelegate<T> transl, T item, bool doMasks, out object maskObj);
+        public abstract void WriteSingleItem<ErrMask>(XmlWriter writer, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj);
     }
 }

@@ -63,6 +63,7 @@
     <Compile Include="ProtocolKey.cs" />
     <Compile Include="Registration\LoquiRegistration.cs" />
     <Compile Include="Translators\Xml\DateTimeXmlTranslation.cs" />
+    <Compile Include="Translators\Xml\DictXmlTranslation.cs" />
     <Compile Include="Translators\Xml\P3DoubleXmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeInt64XmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeUInt64XmlTranslation.cs" />
