@@ -141,6 +141,7 @@
     <Compile Include="XML\CharNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\CharXmlTranslation_Test.cs" />
     <Compile Include="XML\DoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\DateTimeXmlTranslation_Test.cs" />
     <Compile Include="XML\DoubleXmlTranslation_Test.cs" />
     <Compile Include="XML\EnumNullableXmlTranslation_Tests.cs" />
     <Compile Include="XML\EnumXmlTranslation_Tests.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="XML\Int32XmlTranslation_Test.cs" />
     <Compile Include="XML\Int64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int64XmlTranslation_Test.cs" />
+    <Compile Include="XML\DateTimeNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8XmlTranslation_Test.cs" />
     <Compile Include="XML\DictXmlTranslation_Tests.cs" />

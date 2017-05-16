@@ -1,5 +1,6 @@
 ﻿using Noggog;
 using System;
+using System.Xml;
 
 namespace Loqui.Xml
 {
@@ -14,6 +15,11 @@ namespace Loqui.Xml
                 return parsed;
             }
             throw new ArgumentException($"Could not convert to {NullableName}");
+        }
+
+        protected override string GetItemStr(DateTime item)
+        {
+            return item.ToString(@"MM/dd/yyyy HH:mm:ss.fffffff");
         }
     }
 }
