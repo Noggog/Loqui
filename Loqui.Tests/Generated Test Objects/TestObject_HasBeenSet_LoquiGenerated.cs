@@ -1037,11 +1037,11 @@ namespace Loqui.Tests
 
         #endregion
         #region Dict
-        private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
-        public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
+        private readonly INotifyingDictionary<String, Boolean> _Dict = new NotifyingDictionary<String, Boolean>();
+        public INotifyingDictionary<String, Boolean> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionary<Boolean, String> ITestObject_HasBeenSet.Dict => _Dict;
-        INotifyingDictionaryGetter<Boolean, String> ITestObject_HasBeenSetGetter.Dict => _Dict;
+        INotifyingDictionary<String, Boolean> ITestObject_HasBeenSet.Dict => _Dict;
+        INotifyingDictionaryGetter<String, Boolean> ITestObject_HasBeenSetGetter.Dict => _Dict;
         #endregion
 
         #endregion
@@ -1051,6 +1051,24 @@ namespace Loqui.Tests
         #region Interface Members
         INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_HasBeenSet.RefDict => _RefDict;
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_HasBeenSetGetter.RefDict => _RefDict;
+        #endregion
+
+        #endregion
+        #region KeyRefDict
+        private readonly INotifyingDictionary<ObjectToRef, Boolean> _KeyRefDict = new NotifyingDictionary<ObjectToRef, Boolean>();
+        public INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get { return _KeyRefDict; } }
+        #region Interface Members
+        INotifyingDictionary<ObjectToRef, Boolean> ITestObject_HasBeenSet.KeyRefDict => _KeyRefDict;
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_HasBeenSetGetter.KeyRefDict => _KeyRefDict;
+        #endregion
+
+        #endregion
+        #region ValRefDict
+        private readonly INotifyingDictionary<String, ObjectToRef> _ValRefDict = new NotifyingDictionary<String, ObjectToRef>();
+        public INotifyingDictionary<String, ObjectToRef> ValRefDict { get { return _ValRefDict; } }
+        #region Interface Members
+        INotifyingDictionary<String, ObjectToRef> ITestObject_HasBeenSet.ValRefDict => _ValRefDict;
+        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_HasBeenSetGetter.ValRefDict => _ValRefDict;
         #endregion
 
         #endregion
@@ -1237,6 +1255,8 @@ namespace Loqui.Tests
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
             if (!object.Equals(this.Dict, rhs.Dict)) return false;
             if (!object.Equals(this.RefDict, rhs.RefDict)) return false;
+            if (!object.Equals(this.KeyRefDict, rhs.KeyRefDict)) return false;
+            if (!object.Equals(this.ValRefDict, rhs.ValRefDict)) return false;
             if (!object.Equals(this.DictKeyedValue, rhs.DictKeyedValue)) return false;
             return true;
         }
@@ -1335,6 +1355,8 @@ namespace Loqui.Tests
             .CombineHashCode(HashHelper.GetHashCode(RefList))
             .CombineHashCode(HashHelper.GetHashCode(Dict))
             .CombineHashCode(HashHelper.GetHashCode(RefDict))
+            .CombineHashCode(HashHelper.GetHashCode(KeyRefDict))
+            .CombineHashCode(HashHelper.GetHashCode(ValRefDict))
             .CombineHashCode(HashHelper.GetHashCode(DictKeyedValue))
             ;
         }
@@ -1777,8 +1799,8 @@ namespace Loqui.Tests
                     break;
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                     this.Dict.SetTo(
-                        ((NotifyingDictionary<Boolean, String>)obj).Select(
-                            (i) => new KeyValuePair<Boolean, String>(
+                        ((NotifyingDictionary<String, Boolean>)obj).Select(
+                            (i) => new KeyValuePair<String, Boolean>(
                                 i.Key,
                                 i.Value)),
                         cmds);
@@ -1788,6 +1810,22 @@ namespace Loqui.Tests
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
                                 i.Key.Copy(),
+                                i.Value.Copy())),
+                        cmds);
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    this.KeyRefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, Boolean>)obj).Select(
+                            (i) => new KeyValuePair<ObjectToRef, Boolean>(
+                                i.Key.Copy(),
+                                i.Value)),
+                        cmds);
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    this.ValRefDict.SetTo(
+                        ((NotifyingDictionary<String, ObjectToRef>)obj).Select(
+                            (i) => new KeyValuePair<String, ObjectToRef>(
+                                i.Key,
                                 i.Value.Copy())),
                         cmds);
                     break;
@@ -2087,8 +2125,10 @@ namespace Loqui.Tests
 
         new INotifyingList<Boolean> List { get; }
         new INotifyingList<ObjectToRef> RefList { get; }
-        new INotifyingDictionary<Boolean, String> Dict { get; }
+        new INotifyingDictionary<String, Boolean> Dict { get; }
         new INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get; }
+        new INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get; }
+        new INotifyingDictionary<String, ObjectToRef> ValRefDict { get; }
         new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
@@ -2536,10 +2576,16 @@ namespace Loqui.Tests
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
         #region Dict
-        INotifyingDictionaryGetter<Boolean, String> Dict { get; }
+        INotifyingDictionaryGetter<String, Boolean> Dict { get; }
         #endregion
         #region RefDict
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
+        #endregion
+        #region KeyRefDict
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> KeyRefDict { get; }
+        #endregion
+        #region ValRefDict
+        INotifyingDictionaryGetter<String, ObjectToRef> ValRefDict { get; }
         #endregion
         #region DictKeyedValue
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
@@ -2647,7 +2693,9 @@ namespace Loqui.Tests.Internals
         RefList = 88,
         Dict = 89,
         RefDict = 90,
-        DictKeyedValue = 91,
+        KeyRefDict = 91,
+        ValRefDict = 92,
+        DictKeyedValue = 93,
     }
     #endregion
 
@@ -2665,7 +2713,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "8dd2de32-392f-409f-b0bb-410a8d687c92";
 
-        public const ushort FieldCount = 92;
+        public const ushort FieldCount = 94;
 
         public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Mask<>);
 
@@ -2867,6 +2915,10 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_HasBeenSet_FieldIndex.Dict;
                 case "REFDICT":
                     return (ushort)TestObject_HasBeenSet_FieldIndex.RefDict;
+                case "KEYREFDICT":
+                    return (ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict;
+                case "VALREFDICT":
+                    return (ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict;
                 case "DICTKEYEDVALUE":
                     return (ushort)TestObject_HasBeenSet_FieldIndex.DictKeyedValue;
                 default:
@@ -2971,6 +3023,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -3075,6 +3129,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.List:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -3179,6 +3235,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefList:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -3373,6 +3431,10 @@ namespace Loqui.Tests.Internals
                     return "Dict";
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     return "RefDict";
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    return "KeyRefDict";
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    return "ValRefDict";
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
@@ -3476,6 +3538,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefList:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -3579,6 +3643,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefList:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -3770,9 +3836,13 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
                 case TestObject_HasBeenSet_FieldIndex.Dict:
-                    return typeof(NotifyingDictionary<Boolean, String>);
+                    return typeof(NotifyingDictionary<String, Boolean>);
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    return typeof(NotifyingDictionary<ObjectToRef, Boolean>);
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    return typeof(NotifyingDictionary<String, ObjectToRef>);
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
@@ -4708,6 +4778,70 @@ namespace Loqui.Tests.Internals
                     errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.RefDict, ex);
                 }
             }
+            if (copyMask?.KeyRefDict.Overall ?? true)
+            {
+                try
+                {
+                    item.KeyRefDict.SetToWithDefault(
+                        rhs.KeyRefDict,
+                        def?.KeyRefDict,
+                        cmds,
+                        (k, v, d) =>
+                        {
+                            ObjectToRef key;
+                            switch (copyMask?.KeyRefDict.Specific.Type ?? RefCopyType.Reference)
+                            {
+                                case RefCopyType.Reference:
+                                    key = k;
+                                    break;
+                                case RefCopyType.MakeCopy:
+                                    key = k.Copy(copyMask: copyMask?.KeyRefDict.Specific.Mask);
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Unknown RefCopyType {copyMask?.KeyRefDict.Overall}. Cannot execute copy.");
+                            }
+                            return new KeyValuePair<ObjectToRef, Boolean>(key, v);
+                        }
+                        );
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask) throw;
+                    errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict, ex);
+                }
+            }
+            if (copyMask?.ValRefDict.Overall ?? true)
+            {
+                try
+                {
+                    item.ValRefDict.SetToWithDefault(
+                        rhs.ValRefDict,
+                        def?.ValRefDict,
+                        cmds,
+                        (k, v, d) =>
+                        {
+                            ObjectToRef val;
+                            switch (copyMask?.ValRefDict.Specific.Type ?? RefCopyType.Reference)
+                            {
+                                case RefCopyType.Reference:
+                                    val = v;
+                                    break;
+                                case RefCopyType.MakeCopy:
+                                    val = v.Copy(copyMask?.ValRefDict.Specific.Mask, d);
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Unknown RefCopyType {copyMask?.ValRefDict.Overall}. Cannot execute copy.");
+                            }
+                            return new KeyValuePair<String, ObjectToRef>(k, val);
+                        }
+                        );
+                }
+                catch (Exception ex)
+                {
+                    if (doErrorMask) throw;
+                    errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict, ex);
+                }
+            }
             if (copyMask?.DictKeyedValue.Overall != CopyOption.Skip)
             {
                 try
@@ -5019,6 +5153,12 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     obj.RefDict.HasBeenSet = on;
                     break;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    obj.KeyRefDict.HasBeenSet = on;
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    obj.ValRefDict.HasBeenSet = on;
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.HasBeenSet = on;
                     break;
@@ -5307,6 +5447,12 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     obj.RefDict.Unset(cmds);
                     break;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    obj.KeyRefDict.Unset(cmds);
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    obj.ValRefDict.Unset(cmds);
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.Unset(cmds);
                     break;
@@ -5504,6 +5650,10 @@ namespace Loqui.Tests.Internals
                     return obj.Dict.HasBeenSet;
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     return obj.RefDict.HasBeenSet;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    return obj.KeyRefDict.HasBeenSet;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    return obj.ValRefDict.HasBeenSet;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
@@ -5700,6 +5850,10 @@ namespace Loqui.Tests.Internals
                     return obj.Dict;
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     return obj.RefDict;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    return obj.KeyRefDict;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    return obj.ValRefDict;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
@@ -5799,6 +5953,8 @@ namespace Loqui.Tests.Internals
             item.RefList.Unset(cmds.ToUnsetParams());
             item.Dict.Unset(cmds.ToUnsetParams());
             item.RefDict.Unset(cmds.ToUnsetParams());
+            item.KeyRefDict.Unset(cmds.ToUnsetParams());
+            item.ValRefDict.Unset(cmds.ToUnsetParams());
             item.DictKeyedValue.Unset(cmds.ToUnsetParams());
         }
 
@@ -7386,6 +7542,48 @@ namespace Loqui.Tests.Internals
                     }
                     try
                     {
+                        if (item.KeyRefDict.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.KeyRefDict == null ? null : item.KeyRefDict.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.KeyRefDict),
+                                item.KeyRefDict,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict, ex);
+                    }
+                    try
+                    {
+                        if (item.ValRefDict.HasBeenSet)
+                        {
+                            XmlTranslator.GetTranslator(item.ValRefDict == null ? null : item.ValRefDict.GetType()).Item.Value.Write(
+                                writer,
+                                nameof(item.ValRefDict),
+                                item.ValRefDict,
+                                doMasks,
+                                out object suberrorMask);
+                            if (suberrorMask != null)
+                            {
+                                errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict, suberrorMask);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict, ex);
+                    }
+                    try
+                    {
                         if (item.DictKeyedValue.HasBeenSet)
                         {
                             XmlTranslator.GetTranslator(item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType()).Item.Value.Write(
@@ -7514,6 +7712,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<T, IEnumerable<KeyValuePair<T, T>>> Dict;
         public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, MaskItem<T, ObjectToRef_Mask<T>>>>> RefDict;
+        public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>> KeyRefDict;
+        public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
@@ -7623,6 +7823,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> Dict;
         public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>> RefDict;
+        public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>> KeyRefDict;
+        public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>> ValRefDict;
         public MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>> DictKeyedValue;
 
         public void SetNthException(ushort index, Exception ex)
@@ -7902,6 +8104,12 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    this.KeyRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>>(ex, null);
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    this.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
                     break;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
@@ -8189,6 +8397,12 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
                     break;
+                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                    this.KeyRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>>)obj;
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                    this.ValRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
@@ -8290,6 +8504,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<CopyOption, ObjectToRef_CopyMask> RefList;
         public bool Dict;
         public MaskItem<bool, KeyValuePair<(RefCopyType Type, ObjectToRef_CopyMask Mask), (RefCopyType Type, ObjectToRef_CopyMask Mask)>> RefDict;
+        public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> KeyRefDict;
+        public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> ValRefDict;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> DictKeyedValue;
 
     }

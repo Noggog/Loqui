@@ -851,10 +851,10 @@ namespace Loqui.Tests
 
         #endregion
         #region Dict
-        private readonly INotifyingDictionary<Boolean, String> _Dict = new NotifyingDictionary<Boolean, String>();
-        public INotifyingDictionary<Boolean, String> Dict { get { return _Dict; } }
+        private readonly INotifyingDictionary<String, Boolean> _Dict = new NotifyingDictionary<String, Boolean>();
+        public INotifyingDictionary<String, Boolean> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<Boolean, String> ITestObject_Derivative_RPCGetter.Dict => _Dict;
+        INotifyingDictionaryGetter<String, Boolean> ITestObject_Derivative_RPCGetter.Dict => _Dict;
         #endregion
 
         #endregion
@@ -863,6 +863,22 @@ namespace Loqui.Tests
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Derivative_RPCGetter.RefDict => _RefDict;
+        #endregion
+
+        #endregion
+        #region KeyRefDict
+        private readonly INotifyingDictionary<ObjectToRef, Boolean> _KeyRefDict = new NotifyingDictionary<ObjectToRef, Boolean>();
+        public INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get { return _KeyRefDict; } }
+        #region Interface Members
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_Derivative_RPCGetter.KeyRefDict => _KeyRefDict;
+        #endregion
+
+        #endregion
+        #region ValRefDict
+        private readonly INotifyingDictionary<String, ObjectToRef> _ValRefDict = new NotifyingDictionary<String, ObjectToRef>();
+        public INotifyingDictionary<String, ObjectToRef> ValRefDict { get { return _ValRefDict; } }
+        #region Interface Members
+        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_Derivative_RPCGetter.ValRefDict => _ValRefDict;
         #endregion
 
         #endregion
@@ -1048,6 +1064,8 @@ namespace Loqui.Tests
             if (!object.Equals(this.RefList, rhs.RefList)) return false;
             if (!object.Equals(this.Dict, rhs.Dict)) return false;
             if (!object.Equals(this.RefDict, rhs.RefDict)) return false;
+            if (!object.Equals(this.KeyRefDict, rhs.KeyRefDict)) return false;
+            if (!object.Equals(this.ValRefDict, rhs.ValRefDict)) return false;
             if (!object.Equals(this.DictKeyedValue, rhs.DictKeyedValue)) return false;
             return true;
         }
@@ -1146,6 +1164,8 @@ namespace Loqui.Tests
             .CombineHashCode(HashHelper.GetHashCode(RefList))
             .CombineHashCode(HashHelper.GetHashCode(Dict))
             .CombineHashCode(HashHelper.GetHashCode(RefDict))
+            .CombineHashCode(HashHelper.GetHashCode(KeyRefDict))
+            .CombineHashCode(HashHelper.GetHashCode(ValRefDict))
             .CombineHashCode(HashHelper.GetHashCode(DictKeyedValue))
             ;
         }
@@ -1413,6 +1433,8 @@ namespace Loqui.Tests
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     throw new ArgumentException($"Tried to set at a derivative index {index}");
                 default:
@@ -1811,10 +1833,16 @@ namespace Loqui.Tests
         INotifyingListGetter<ObjectToRef> RefList { get; }
         #endregion
         #region Dict
-        INotifyingDictionaryGetter<Boolean, String> Dict { get; }
+        INotifyingDictionaryGetter<String, Boolean> Dict { get; }
         #endregion
         #region RefDict
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> RefDict { get; }
+        #endregion
+        #region KeyRefDict
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> KeyRefDict { get; }
+        #endregion
+        #region ValRefDict
+        INotifyingDictionaryGetter<String, ObjectToRef> ValRefDict { get; }
         #endregion
         #region DictKeyedValue
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> DictKeyedValue { get; }
@@ -1922,7 +1950,9 @@ namespace Loqui.Tests.Internals
         RefList = 88,
         Dict = 89,
         RefDict = 90,
-        DictKeyedValue = 91,
+        KeyRefDict = 91,
+        ValRefDict = 92,
+        DictKeyedValue = 93,
     }
     #endregion
 
@@ -1940,7 +1970,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "adc609a9-7f4d-4b13-ad2d-1c05c05f7508";
 
-        public const ushort FieldCount = 92;
+        public const ushort FieldCount = 94;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_RPC_Mask<>);
 
@@ -2142,6 +2172,10 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_Derivative_RPC_FieldIndex.Dict;
                 case "REFDICT":
                     return (ushort)TestObject_Derivative_RPC_FieldIndex.RefDict;
+                case "KEYREFDICT":
+                    return (ushort)TestObject_Derivative_RPC_FieldIndex.KeyRefDict;
+                case "VALREFDICT":
+                    return (ushort)TestObject_Derivative_RPC_FieldIndex.ValRefDict;
                 case "DICTKEYEDVALUE":
                     return (ushort)TestObject_Derivative_RPC_FieldIndex.DictKeyedValue;
                 default:
@@ -2246,6 +2280,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefSetter_Singleton:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -2350,6 +2386,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.List:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -2454,6 +2492,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
@@ -2648,6 +2688,10 @@ namespace Loqui.Tests.Internals
                     return "Dict";
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
                     return "RefDict";
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                    return "KeyRefDict";
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
+                    return "ValRefDict";
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
@@ -2751,6 +2795,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return true;
                 default:
@@ -2854,6 +2900,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return true;
                 default:
@@ -3045,9 +3093,13 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
-                    return typeof(NotifyingDictionary<Boolean, String>);
+                    return typeof(NotifyingDictionary<String, Boolean>);
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                    return typeof(NotifyingDictionary<ObjectToRef, Boolean>);
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
+                    return typeof(NotifyingDictionary<String, ObjectToRef>);
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
@@ -3197,6 +3249,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     throw new ArgumentException($"Tried to set at a derivative index {index}");
                 default:
@@ -3303,6 +3357,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     throw new ArgumentException($"Tried to unset at a derivative index {index}");
                 default:
@@ -3408,6 +3464,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                 case TestObject_Derivative_RPC_FieldIndex.Dict:
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return true;
                 default:
@@ -3604,6 +3662,10 @@ namespace Loqui.Tests.Internals
                     return obj.Dict;
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
                     return obj.RefDict;
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                    return obj.KeyRefDict;
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
+                    return obj.ValRefDict;
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
@@ -3833,6 +3895,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<T, IEnumerable<KeyValuePair<T, T>>> Dict;
         public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, MaskItem<T, ObjectToRef_Mask<T>>>>> RefDict;
+        public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>> KeyRefDict;
+        public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
     }
 
@@ -3942,6 +4006,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<Exception, IEnumerable<ObjectToRef_ErrorMask>> RefList;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> Dict;
         public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>> RefDict;
+        public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>> KeyRefDict;
+        public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>> ValRefDict;
         public MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>> DictKeyedValue;
 
         public void SetNthException(ushort index, Exception ex)
@@ -4221,6 +4287,12 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                    this.KeyRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>>(ex, null);
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
+                    this.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>(ex, null);
                     break;
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>(ex, null);
@@ -4508,6 +4580,12 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
                     break;
+                case TestObject_Derivative_RPC_FieldIndex.KeyRefDict:
+                    this.KeyRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_Mask<Exception>>, Exception>>>)obj;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ValRefDict:
+                    this.ValRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_Mask<Exception>>>>>)obj;
+                    break;
                 case TestObject_Derivative_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_Mask<Exception>>>>)obj;
                     break;
@@ -4609,6 +4687,8 @@ namespace Loqui.Tests.Internals
         public MaskItem<CopyOption, ObjectToRef_CopyMask> RefList;
         public bool Dict;
         public MaskItem<bool, KeyValuePair<(RefCopyType Type, ObjectToRef_CopyMask Mask), (RefCopyType Type, ObjectToRef_CopyMask Mask)>> RefDict;
+        public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> KeyRefDict;
+        public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> ValRefDict;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> DictKeyedValue;
 
     }

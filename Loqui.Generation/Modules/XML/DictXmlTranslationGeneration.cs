@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Loqui.Generation
 {
     public class DictXmlTranslationGeneration : XmlTranslationGeneration
-    {
+    { 
         public override bool OutputsErrorMask => true;
         private readonly XmlTranslationModule _mod;
 

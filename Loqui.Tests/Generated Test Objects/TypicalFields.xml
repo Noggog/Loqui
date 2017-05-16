@@ -120,10 +120,10 @@
       </List>
       <Dict name="Dict">
         <Key>
-          <Bool />
+          <String />
         </Key>
         <Value>
-          <String />
+          <Bool />
         </Value>
       </Dict>
       <Dict name="RefDict">
@@ -131,6 +131,26 @@
           <Ref>
             <Direct refName="ObjectToRef" />
           </Ref>
+        </Key>
+        <Value>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </Value>
+      </Dict>
+      <Dict name="KeyRefDict">
+        <Key>
+          <Ref>
+            <Direct refName="ObjectToRef" />
+          </Ref>
+        </Key>
+        <Value>
+          <Bool />
+        </Value>
+      </Dict>
+      <Dict name="ValRefDict">
+        <Key>
+          <String />
         </Key>
         <Value>
           <Ref>

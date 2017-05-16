@@ -57,7 +57,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.RefGen.Obj.CopyMask} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.RefGen.Obj.CopyMask} Mask)>> {field.Name};");
                     }
-                    else
+                    else 
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
                         fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.RefGen.Obj.CopyMask} Mask)> {field.Name};");
