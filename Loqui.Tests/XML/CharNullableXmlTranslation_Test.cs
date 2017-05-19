@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class CharNullableXmlTranslation_Test : TypicalXmlTranslation_Test<char?>
+    public class CharNullableXmlTranslation_Test : TypicalXmlTranslation_Test<char?, CharNullableXmlTranslation_Test>
     {
         public const char TYPICAL_VALUE = 'i';
+        public override char? TypicalValue => TYPICAL_VALUE;
 
         public override string ExpectedName => "CharN";
 

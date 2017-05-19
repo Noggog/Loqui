@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class BoolNullableXmlTranslation_Test : TypicalXmlTranslation_Test<bool?>
+    public class BoolNullableXmlTranslation_Test : TypicalXmlTranslation_Test<bool?, BoolNullableXmlTranslation_Test>
     {
         public static readonly bool? TYPICAL_VALUE = true;
+        public override bool? TypicalValue => TYPICAL_VALUE;
 
         public override string ExpectedName => "BooleanN";
 

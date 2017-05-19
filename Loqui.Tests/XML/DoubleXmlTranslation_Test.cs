@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double>
+    public class DoubleXmlTranslation_Test : TypicalXmlTranslation_Test<double, DoubleXmlTranslation_Test>
     {
         public const double TYPICAL_VALUE = 4;
+        public override double TypicalValue => TYPICAL_VALUE;
         public const double NEGATIVE_VALUE = -4;
         public const double MIN_VALUE = double.MinValue;
         public const double MAX_VALUE = double.MaxValue;

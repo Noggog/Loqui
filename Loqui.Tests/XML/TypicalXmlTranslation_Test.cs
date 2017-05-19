@@ -9,16 +9,24 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public abstract class TypicalXmlTranslation_Test<T>
+    public abstract class TypicalXmlTranslation_Test<T, S>
+        where S : new()
     {
         public abstract string ExpectedName { get; }
         public abstract IXmlTranslation<T> GetTranslation();
+        public static readonly S Instance = new S();
+        public abstract T TypicalValue { get; }
 
         public virtual XElement GetTypicalElement(T value, string name = null)
         {
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), StringConverter(value));
             return elem;
+        }
+
+        public virtual XElement GetTypicalElement(string name = null)
+        {
+            return GetTypicalElement(TypicalValue, name);
         }
 
         public virtual XElement GetBadElement(string name = null)

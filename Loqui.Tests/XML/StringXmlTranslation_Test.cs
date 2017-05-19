@@ -9,9 +9,10 @@ using System.Xml.Linq;
 
 namespace Loqui.Tests.XML
 {
-    public class StringXmlTranslation_Test : TypicalXmlTranslation_Test<string>
+    public class StringXmlTranslation_Test : TypicalXmlTranslation_Test<string, StringXmlTranslation_Test>
     {
         public const string TYPICAL_VALUE = "Noggog";
+        public override string TypicalValue => TYPICAL_VALUE;
         public const string EMPTY_VALUE = "";
 
         public override string ExpectedName => "String";

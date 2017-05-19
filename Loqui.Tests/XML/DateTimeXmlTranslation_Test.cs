@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class DateTimeXmlTranslation_Test : TypicalXmlTranslation_Test<DateTime>
+    public class DateTimeXmlTranslation_Test : TypicalXmlTranslation_Test<DateTime, DateTimeXmlTranslation_Test>
     {
         public static readonly DateTime TYPICAL_VALUE = new DateTime(2017, 5, 15, 8, 50, 41);
+        public override DateTime TypicalValue => TYPICAL_VALUE;
         public static readonly DateTime MIN_VALUE = DateTime.MinValue;
         public static readonly DateTime MAX_VALUE = DateTime.MaxValue;
 

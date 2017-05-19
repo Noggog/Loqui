@@ -157,6 +157,7 @@
     <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8XmlTranslation_Test.cs" />
     <Compile Include="XML\DictXmlTranslation_Tests.cs" />
+    <Compile Include="XML\LoquiXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeUInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeUInt32NullableXmlTranslation_Test.cs" />

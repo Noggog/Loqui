@@ -11,9 +11,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class RangeUInt16XmlTranslation_Test : TypicalXmlTranslation_Test<RangeUInt16>
+    public class RangeUInt16XmlTranslation_Test : TypicalXmlTranslation_Test<RangeUInt16, RangeUInt16XmlTranslation_Test>
     {
         public static readonly RangeUInt16 TYPICAL_VALUE = new RangeUInt16(5, 567);
+        public override RangeUInt16 TypicalValue => TYPICAL_VALUE;
         public static readonly RangeUInt16 ZERO_VALUE = new RangeUInt16(0, 0);
         public const string MIN = "Min";
         public const string MAX = "Max";

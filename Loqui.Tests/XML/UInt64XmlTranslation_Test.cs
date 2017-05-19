@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class UInt64XmlTranslation_Test : TypicalXmlTranslation_Test<UInt64>
+    public class UInt64XmlTranslation_Test : TypicalXmlTranslation_Test<UInt64, UInt64XmlTranslation_Test>
     {
         public const UInt64 TYPICAL_VALUE = 4;
+        public override UInt64 TypicalValue => TYPICAL_VALUE;
         public const UInt64 MIN_VALUE = UInt64.MinValue;
         public const UInt64 MAX_VALUE = UInt64.MaxValue;
 

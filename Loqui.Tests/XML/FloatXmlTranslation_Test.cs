@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class FloatXmlTranslation_Test : TypicalXmlTranslation_Test<float>
+    public class FloatXmlTranslation_Test : TypicalXmlTranslation_Test<float, FloatXmlTranslation_Test>
     {
         public const float TYPICAL_VALUE = 4.79930019f;
+        public override float TypicalValue => TYPICAL_VALUE;
         public const float NEGATIVE_VALUE = -4.7993f;
         public const float MIN_VALUE = float.MinValue;
         public const float MAX_VALUE = float.MaxValue;

@@ -11,9 +11,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class RangeInt32XmlTranslation_Test : TypicalXmlTranslation_Test<RangeInt32>
+    public class RangeInt32XmlTranslation_Test : TypicalXmlTranslation_Test<RangeInt32, RangeInt32XmlTranslation_Test>
     {
         public static readonly RangeInt32 TYPICAL_VALUE = new RangeInt32(5, 7994);
+        public override RangeInt32 TypicalValue => TYPICAL_VALUE;
         public static readonly RangeInt32 ZERO_VALUE = new RangeInt32(0, 0);
         public static readonly RangeInt32 NEGATIVE_VALUE = new RangeInt32(-67, -6);
         public const string MIN = "Min";

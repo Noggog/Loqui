@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class Int64XmlTranslation_Test : TypicalXmlTranslation_Test<Int64>
+    public class Int64XmlTranslation_Test : TypicalXmlTranslation_Test<Int64, Int64XmlTranslation_Test>
     {
         public const Int64 TYPICAL_VALUE = 4;
+        public override Int64 TypicalValue => TYPICAL_VALUE;
         public const Int64 NEGATIVE_VALUE = -4;
         public const Int64 MIN_VALUE = Int64.MinValue;
         public const Int64 MAX_VALUE = Int64.MaxValue;

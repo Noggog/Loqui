@@ -11,9 +11,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class UDoubleNullableXmlTranslation_Test : TypicalXmlTranslation_Test<UDouble?>
+    public class UDoubleNullableXmlTranslation_Test : TypicalXmlTranslation_Test<UDouble?, UDoubleNullableXmlTranslation_Test>
     {
         public static readonly UDouble TYPICAL_VALUE = 4;
+        public override UDouble? TypicalValue => TYPICAL_VALUE;
         public static readonly UDouble MAX_VALUE = double.MaxValue;
 
         public override string ExpectedName => "UDoubleN";

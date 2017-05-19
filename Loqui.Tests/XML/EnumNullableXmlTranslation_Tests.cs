@@ -9,9 +9,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class EnumNullableXmlTranslation_Tests : TypicalXmlTranslation_Test<TestEnum?>
+    public class EnumNullableXmlTranslation_Tests : TypicalXmlTranslation_Test<TestEnum?, EnumNullableXmlTranslation_Tests>
     {
         public const TestEnum TYPICAL_VALUE = TestEnum.ValueTwo;
+        public override TestEnum? TypicalValue => TYPICAL_VALUE;
 
         public override string ExpectedName => nameof(TestEnum) + "N";
 

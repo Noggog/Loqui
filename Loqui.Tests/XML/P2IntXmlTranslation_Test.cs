@@ -11,9 +11,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class P2IntXmlTranslation_Test : TypicalXmlTranslation_Test<P2Int>
+    public class P2IntXmlTranslation_Test : TypicalXmlTranslation_Test<P2Int, P2IntXmlTranslation_Test>
     {
         public static readonly P2Int TYPICAL_VALUE = new P2Int(4, 5);
+        public override P2Int TypicalValue => TYPICAL_VALUE;
         public static readonly P2Int NEGATIVE_VALUE = new P2Int(-7, -9);
         public static readonly P2Int ZERO_VALUE = new P2Int(0, 0);
         public static readonly P2Int MIN_VALUE = new P2Int(int.MinValue, int.MinValue);

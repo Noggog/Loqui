@@ -11,9 +11,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class PercentXmlTranslation_Test : TypicalXmlTranslation_Test<Percent>
+    public class PercentXmlTranslation_Test : TypicalXmlTranslation_Test<Percent, PercentXmlTranslation_Test>
     {
         public static readonly Percent TYPICAL_VALUE = new Percent(0.456);
+        public override Percent TypicalValue => TYPICAL_VALUE;
         public static readonly Percent ZERO_VALUE = new Percent(0);
         public static readonly Percent ONE_VALUE = new Percent(1);
 

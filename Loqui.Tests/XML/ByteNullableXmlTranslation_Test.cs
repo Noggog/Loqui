@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class ByteNullableXmlTranslation_Test : TypicalXmlTranslation_Test<byte?>
+    public class ByteNullableXmlTranslation_Test : TypicalXmlTranslation_Test<byte?, ByteNullableXmlTranslation_Test>
     {
         public const byte TYPICAL_VALUE = 4;
+        public override byte? TypicalValue => TYPICAL_VALUE;
 
         public override string ExpectedName => "ByteN";
 
