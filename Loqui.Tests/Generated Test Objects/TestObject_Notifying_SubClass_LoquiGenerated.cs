@@ -707,20 +707,23 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("name", name);
                     }
-                    try
+                    if (item.NewField_Property.HasBeenSet)
                     {
-                        if (item.NewField_Property.HasBeenSet)
+                        try
                         {
-                            BooleanXmlTranslation.Instance.Write(
-                                writer,
-                                nameof(item.NewField),
-                                item.NewField);
+                            if (item.NewField_Property.HasBeenSet)
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    nameof(item.NewField),
+                                    item.NewField);
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                        }
                     }
                 }
             }

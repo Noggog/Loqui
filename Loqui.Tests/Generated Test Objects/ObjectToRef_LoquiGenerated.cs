@@ -799,35 +799,41 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("name", name);
                     }
-                    try
+                    if (item.KeyField_Property.HasBeenSet)
                     {
-                        if (item.KeyField_Property.HasBeenSet)
+                        try
                         {
-                            Int32XmlTranslation.Instance.Write(
-                                writer,
-                                nameof(item.KeyField),
-                                item.KeyField);
+                            if (item.KeyField_Property.HasBeenSet)
+                            {
+                                Int32XmlTranslation.Instance.Write(
+                                    writer,
+                                    nameof(item.KeyField),
+                                    item.KeyField);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
                         }
                     }
-                    catch (Exception ex)
+                    if (item.SomeField_Property.HasBeenSet)
                     {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
-                    }
-                    try
-                    {
-                        if (item.SomeField_Property.HasBeenSet)
+                        try
                         {
-                            BooleanXmlTranslation.Instance.Write(
-                                writer,
-                                nameof(item.SomeField),
-                                item.SomeField);
+                            if (item.SomeField_Property.HasBeenSet)
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    nameof(item.SomeField),
+                                    item.SomeField);
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                        }
                     }
                 }
             }

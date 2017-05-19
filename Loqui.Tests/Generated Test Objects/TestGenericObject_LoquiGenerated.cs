@@ -873,47 +873,53 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("name", name);
                     }
-                    try
+                    if (item.RefBase_Property.HasBeenSet)
                     {
-                        if (item.RefBase_Property.HasBeenSet)
+                        try
                         {
-                            ObjectToRefCommon.Write_XML(
-                                writer: writer,
-                                item: item.RefBase,
-                                name: nameof(item.RefBase),
-                                doMasks: doMasks,
-                                errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                            if (suberrorMask != null)
+                            if (item.RefBase_Property.HasBeenSet)
                             {
-                                errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, suberrorMask);
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: item.RefBase,
+                                    name: nameof(item.RefBase),
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                                if (suberrorMask != null)
+                                {
+                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, suberrorMask);
+                                }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefBase, ex);
-                    }
-                    try
-                    {
-                        if (item.Ref_Property.HasBeenSet)
+                        catch (Exception ex)
                         {
-                            XmlTranslator.GetTranslator(item.Ref == null ? null : item.Ref.GetType()).Item.Value.Write(
-                                writer,
-                                nameof(item.Ref),
-                                item.Ref,
-                                doMasks,
-                                out object suberrorMask);
-                            if (suberrorMask != null)
-                            {
-                                errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
-                            }
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefBase, ex);
                         }
                     }
-                    catch (Exception ex)
+                    if (item.Ref_Property.HasBeenSet)
                     {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
+                        try
+                        {
+                            if (item.Ref_Property.HasBeenSet)
+                            {
+                                XmlTranslator.GetTranslator(item.Ref == null ? null : item.Ref.GetType()).Item.Value.Write(
+                                    writer,
+                                    nameof(item.Ref),
+                                    item.Ref,
+                                    doMasks,
+                                    out object suberrorMask);
+                                if (suberrorMask != null)
+                                {
+                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
+                        }
                     }
                 }
             }

@@ -484,31 +484,38 @@ namespace Loqui.Generation
                                 throw new ArgumentException("Unsupported type generator: " + field.Field);
                             }
 
-                            fg.AppendLine("try");
-                            using (new BraceWrapper(fg))
+                            if (field.Field.Notifying != NotifyingOption.None)
                             {
-                                switch (field.Field.Notifying)
-                                {
-                                    case NotifyingOption.None:
-                                        generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
-                                        break;
-                                    case NotifyingOption.HasBeenSet:
-                                    case NotifyingOption.Notifying:
-                                        fg.AppendLine($"if (item.{field.Field.Property}.HasBeenSet)");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
-                                        }
-                                        break;
-                                    default:
-                                        throw new NotImplementedException();
-                                }
+                                fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
                             }
-                            fg.AppendLine("catch (Exception ex)");
-                            using (new BraceWrapper(fg))
+                            using (new BraceWrapper(fg, doIt: field.Field.Notifying != NotifyingOption.None))
                             {
-                                fg.AppendLine("if (!doMasks) throw;");
-                                fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                fg.AppendLine("try");
+                                using (new BraceWrapper(fg))
+                                {
+                                    switch (field.Field.Notifying)
+                                    {
+                                        case NotifyingOption.None:
+                                            generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
+                                            break;
+                                        case NotifyingOption.HasBeenSet:
+                                        case NotifyingOption.Notifying:
+                                            fg.AppendLine($"if (item.{field.Field.Property}.HasBeenSet)");
+                                            using (new BraceWrapper(fg))
+                                            {
+                                                generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
+                                            }
+                                            break;
+                                        default:
+                                            throw new NotImplementedException();
+                                    }
+                                }
+                                fg.AppendLine("catch (Exception ex)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("if (!doMasks) throw;");
+                                    fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                }
                             }
                         }
                     }
