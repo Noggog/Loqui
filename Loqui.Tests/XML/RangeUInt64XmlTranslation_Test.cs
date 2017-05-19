@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class RangeUIntXml64Translation_Test : TypicalXmlTranslation_Test<RangeUInt64, RangeUIntXml64Translation_Test>
+    public class RangeUInt64XmlTranslation_Test : TypicalXmlTranslation_Test<RangeUInt64, RangeUInt64XmlTranslation_Test>
     {
         public static readonly RangeUInt64 TYPICAL_VALUE = new RangeUInt64(5, 3_147_483_647);
         public override RangeUInt64 TypicalValue => TYPICAL_VALUE;

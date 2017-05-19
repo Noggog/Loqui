@@ -7477,7 +7477,7 @@ namespace Loqui.Tests.Internals
                         }
                         catch (Exception ex)
                         {
-                            if (!doMasks) throw;
+                            if (!doMasks) throw ex;
                             errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.WildCard, ex);
                         }
                     }
@@ -7889,7 +7889,7 @@ namespace Loqui.Tests.Internals
             }
             catch (Exception ex)
             {
-                if (!doMasks) throw;
+                if (!doMasks) throw ex;
                 errorMask().Overall = ex;
             }
         }
