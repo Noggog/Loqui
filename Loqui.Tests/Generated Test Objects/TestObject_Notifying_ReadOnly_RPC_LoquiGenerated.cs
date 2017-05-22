@@ -5165,12 +5165,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.Unsafe_Property.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.Unsafe == null ? null : item.Unsafe.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.Unsafe == null ? null : item.Unsafe.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.Unsafe),
                                     item.Unsafe,
@@ -6022,12 +6023,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.WildCard_Property.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.WildCard == null ? null : item.WildCard.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.WildCard == null ? null : item.WildCard.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.WildCard),
                                     item.WildCard,
@@ -6335,12 +6337,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.Dict.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.Dict == null ? null : item.Dict.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.Dict == null ? null : item.Dict.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.Dict),
                                     item.Dict,
@@ -6364,12 +6367,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.RefDict.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.RefDict == null ? null : item.RefDict.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.RefDict == null ? null : item.RefDict.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.RefDict),
                                     item.RefDict,
@@ -6393,12 +6397,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.KeyRefDict.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.KeyRefDict == null ? null : item.KeyRefDict.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.KeyRefDict == null ? null : item.KeyRefDict.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.KeyRefDict),
                                     item.KeyRefDict,
@@ -6422,12 +6427,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.ValRefDict.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.ValRefDict == null ? null : item.ValRefDict.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.ValRefDict == null ? null : item.ValRefDict.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.ValRefDict),
                                     item.ValRefDict,
@@ -6451,12 +6457,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.DictKeyedValue.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.DictKeyedValue),
                                     item.DictKeyedValue,

@@ -92,5 +92,10 @@ namespace Loqui
         {
             return string.Join("\n", Strings);
         }
+
+        public override string ToString()
+        {
+            return GetString();
+        }
     }
 }

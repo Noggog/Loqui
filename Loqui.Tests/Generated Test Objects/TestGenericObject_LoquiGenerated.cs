@@ -903,12 +903,13 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.Ref_Property.HasBeenSet)
                             {
-                                var transl = XmlTranslator.GetTranslator(item.Ref == null ? null : item.Ref.GetType()).Item;
-                                if (transl.Failed)
+                                var wildType = item.Ref == null ? null : item.Ref.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
                                 {
-                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                                 }
-                                transl.Value.Write(
+                                transl.Item.Value.Write(
                                     writer,
                                     nameof(item.Ref),
                                     item.Ref,

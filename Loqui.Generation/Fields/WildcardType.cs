@@ -40,7 +40,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"get => this._{ this.Name};");
+                            fg.AppendLine($"get => this._{ this.Name}.Item;");
                             fg.AppendLine($"set => this._{this.Name}.Item = WildcardLink.Validate(value);");
                         }
                     }
