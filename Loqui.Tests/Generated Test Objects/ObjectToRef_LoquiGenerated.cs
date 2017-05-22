@@ -907,6 +907,42 @@ namespace Loqui.Tests.Internals
             }
         }
 
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("ObjectToRef_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (KeyField != null)
+                {
+                    fg.AppendLine("KeyField =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(KeyField.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (SomeField != null)
+                {
+                    fg.AppendLine("SomeField =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(SomeField.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+            }
+            fg.AppendLine("]");
+        }
     }
     public class ObjectToRef_CopyMask
     {

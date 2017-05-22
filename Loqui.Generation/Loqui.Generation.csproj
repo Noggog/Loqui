@@ -53,7 +53,6 @@
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />
-    <Compile Include="FileGeneration\DepthWrapper.cs" />
     <Compile Include="Fields\Array2DType.cs" />
     <Compile Include="Fields\ContainerType.cs" />
     <Compile Include="Fields\DictType.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="Fields\TypicalTypeGeneration\UInt8Type.cs" />
     <Compile Include="Fields\TypicalWholeNumberTypeGeneration.cs" />
     <Compile Include="Fields\WildcardType.cs" />
-    <Compile Include="FileGeneration\FileGeneration.cs" />
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
@@ -120,7 +118,6 @@
     <Compile Include="Modules\Xml\LoquiXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\PrimitiveXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
-    <Compile Include="FileGeneration\LineWrapper.cs" />
     <Compile Include="Modules\GenerationModule.cs" />
     <Compile Include="Modules\Mask\Fields\ContainerMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\Fields\DictMaskFieldGeneration.cs" />

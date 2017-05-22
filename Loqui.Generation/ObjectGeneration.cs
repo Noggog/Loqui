@@ -1787,10 +1787,17 @@ namespace Loqui.Generation
 
         public string GetMaskString(string t)
         {
-            var str = this.Name;
-            str += "_Mask";
-            str += $"<{t}>";
-            return str;
+            if (t.Equals("Exception"))
+            {
+                return this.ErrorMask;
+            }
+            else
+            {
+                var str = this.Name;
+                str += "_Mask";
+                str += $"<{t}>";
+                return str;
+            }
         }
 
         public virtual void Resolve()

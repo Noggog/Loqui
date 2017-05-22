@@ -787,6 +787,32 @@ namespace Loqui.Tests.Internals
             }
         }
 
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestObject_PrivateCtor_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (BoolN != null)
+                {
+                    fg.AppendLine("BoolN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(BoolN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+            }
+            fg.AppendLine("]");
+        }
     }
     public class TestObject_PrivateCtor_CopyMask
     {

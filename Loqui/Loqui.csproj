@@ -49,6 +49,10 @@
     <Compile Include="Enums\GetterCopyOption.cs" />
     <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyOption.cs" />
+    <Compile Include="FileGeneration\BraceWrapper.cs" />
+    <Compile Include="FileGeneration\DepthWrapper.cs" />
+    <Compile Include="FileGeneration\FileGeneration.cs" />
+    <Compile Include="FileGeneration\LineWrapper.cs" />
     <Compile Include="Interfaces\ILoquiObject.cs" />
     <Compile Include="Interfaces\ILoquiRegistration.cs" />
     <Compile Include="Masks\IErrorMask.cs" />

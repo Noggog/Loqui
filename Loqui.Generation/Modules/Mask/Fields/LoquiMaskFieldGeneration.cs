@@ -56,5 +56,28 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
+        {
+            LoquiType loqui = field as LoquiType;
+            fg.AppendLine($"if ({accessor}.Overall != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
+            }
+            fg.AppendLine($"if ({accessor}.Specific != null)");
+            using (new BraceWrapper(fg))
+            {
+                if (loqui.RefType == LoquiRefType.Direct
+                    || loqui.ObjectGeneration != null)
+                {
+                    fg.AppendLine($"{accessor}.Specific.ToString(fg);");
+                }
+                else
+                {
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Specific.ToString());");
+                }
+            }
+        }
     }
 }

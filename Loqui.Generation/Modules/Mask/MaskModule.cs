@@ -20,16 +20,17 @@ namespace Loqui.Generation
 
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
+            foreach (var item in FieldMapping.Values)
+            {
+                item.Module = this;
+            }
+
             fg.AppendLine($"public class {obj.Name}_Mask<T> {(obj.HasBaseObject ? $" : {obj.BaseClass.GetMaskString("T")}" : string.Empty)}");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in obj.Fields)
                 {
-                    if (!FieldMapping.TryGetValue(field.GetType(), out MaskModuleField fieldGen))
-                    {
-                        fieldGen = TypicalField;
-                    }
-                    fieldGen.GenerateForField(fg, field, "T");
+                    GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
                 }
             }
             fg.AppendLine();
@@ -58,11 +59,7 @@ namespace Loqui.Generation
                 }
                 foreach (var field in obj.Fields)
                 {
-                    if (!FieldMapping.TryGetValue(field.GetType(), out MaskModuleField fieldGen))
-                    {
-                        fieldGen = TypicalField;
-                    }
-                    fieldGen.GenerateForErrorMask(fg, field);
+                    GetMaskModule(field.GetType()).GenerateForErrorMask(fg, field);
                 }
                 fg.AppendLine();
 
@@ -78,11 +75,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
                             using (new DepthWrapper(fg))
                             {
-                                if (!FieldMapping.TryGetValue(item.Field.GetType(), out MaskModuleField fieldGen))
-                                {
-                                    fieldGen = TypicalField;
-                                }
-                                fieldGen.GenerateSetException(fg, item.Field);
+                                GetMaskModule(item.Field.GetType()).GenerateSetException(fg, item.Field);
                                 fg.AppendLine("break;");
                             }
                         }
@@ -104,11 +97,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
                             using (new DepthWrapper(fg))
                             {
-                                if (!FieldMapping.TryGetValue(item.Field.GetType(), out MaskModuleField fieldGen))
-                                {
-                                    fieldGen = TypicalField;
-                                }
-                                fieldGen.GenerateSetMask(fg, item.Field);
+                                GetMaskModule(item.Field.GetType()).GenerateSetMask(fg, item.Field);
                                 fg.AppendLine("break;");
                             }
                         }
@@ -117,6 +106,42 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine();
+
+                fg.AppendLine($"public override string ToString()");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
+                    fg.AppendLine($"ToString(fg);");
+                    fg.AppendLine("return fg.ToString();");
+                }
+                fg.AppendLine();
+
+                fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
+                    fg.AppendLine($"fg.AppendLine(\"[\");");
+                    fg.AppendLine($"using (new DepthWrapper(fg))");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var item in obj.IterateFields())
+                        {
+                            fg.AppendLine($"if ({item.Field.Name} != null)");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                                fg.AppendLine($"using (new DepthWrapper(fg))");
+                                using (new BraceWrapper(fg))
+                                {
+                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                }
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                            }
+                        }
+                    }
+                    fg.AppendLine($"fg.AppendLine(\"]\");");
+                }
             }
 
             fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");
@@ -124,11 +149,7 @@ namespace Loqui.Generation
             {
                 foreach (var field in obj.Fields)
                 {
-                    if (!FieldMapping.TryGetValue(field.GetType(), out MaskModuleField fieldGen))
-                    {
-                        fieldGen = TypicalField;
-                    }
-                    fieldGen.GenerateForCopyMask(fg, field);
+                    GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
                 }
                 fg.AppendLine();
             }
@@ -192,6 +213,15 @@ namespace Loqui.Generation
 
         public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
+        }
+
+        public MaskModuleField GetMaskModule(Type t)
+        {
+            if (!this.FieldMapping.TryGetValue(t, out var fieldGen))
+            {
+                fieldGen = this.TypicalField;
+            }
+            return fieldGen;
         }
     }
 }

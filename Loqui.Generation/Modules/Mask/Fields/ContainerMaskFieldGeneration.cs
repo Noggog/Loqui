@@ -14,7 +14,7 @@ namespace Loqui.Generation
             }
             else
             {
-                listStr = $"IEnumerable<{loquiType.RefGen.Obj.ErrorMask}>";
+                listStr = $"IEnumerable<MaskItem<{valueStr}, {loquiType.RefGen.Obj.GetMaskString(valueStr)}>>";
             }
             return listStr;
         }
@@ -49,6 +49,50 @@ namespace Loqui.Generation
             else
             {
                 fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
+            }
+        }
+
+        public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
+        {
+            ContainerType listType = field as ContainerType;
+            if (topLevel)
+            {
+                fg.AppendLine($"if ({accessor}.Overall != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
+                }
+                fg.AppendLine($"if ({accessor}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var subItem in {accessor}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                        using (new BraceWrapper(fg))
+                        {
+                            fieldGen.GenerateForErrorMaskToString(fg, listType.SubTypeGeneration, "subItem", false);
+                        }
+                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                    }
+                }
+            }
+            else
+            {
+                fg.AppendLine($"foreach (var subItem in {accessor})");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                    var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                    fg.AppendLine($"using (new DepthWrapper(fg))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fieldGen.GenerateForErrorMaskToString(fg, listType.SubTypeGeneration, "subItem", false);
+                    }
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                }
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Loqui.Generation
+namespace Loqui
 {
     public class FileGeneration
     {
@@ -58,7 +58,7 @@ namespace Loqui.Generation
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("if (copyMask?.Ref != CopyOption.Skip)"))
+            if (str.Equals("subItem.Key.ToString(fg);"))
             {
                 int wer = 23;
                 wer++;

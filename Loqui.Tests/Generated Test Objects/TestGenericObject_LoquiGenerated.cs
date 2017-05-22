@@ -903,7 +903,12 @@ namespace Loqui.Tests.Internals
                         {
                             if (item.Ref_Property.HasBeenSet)
                             {
-                                XmlTranslator.GetTranslator(item.Ref == null ? null : item.Ref.GetType()).Item.Value.Write(
+                                var transl = XmlTranslator.GetTranslator(item.Ref == null ? null : item.Ref.GetType()).Item;
+                                if (transl.Failed)
+                                {
+                                    throw new ArgumentException("Failed to get translator: " + transl.Reason);
+                                }
+                                transl.Value.Write(
                                     writer,
                                     nameof(item.Ref),
                                     item.Ref,
@@ -993,6 +998,56 @@ namespace Loqui.Tests.Internals
             }
         }
 
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestGenericObject_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (RefBase != null)
+                {
+                    fg.AppendLine("RefBase =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefBase.Overall != null)
+                        {
+                            fg.AppendLine(RefBase.Overall.ToString());
+                        }
+                        if (RefBase.Specific != null)
+                        {
+                            RefBase.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Ref != null)
+                {
+                    fg.AppendLine("Ref =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Ref.Overall != null)
+                        {
+                            fg.AppendLine(Ref.Overall.ToString());
+                        }
+                        if (Ref.Specific != null)
+                        {
+                            fg.AppendLine(Ref.Specific.ToString());
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+            }
+            fg.AppendLine("]");
+        }
     }
     public class TestGenericObject_CopyMask
     {

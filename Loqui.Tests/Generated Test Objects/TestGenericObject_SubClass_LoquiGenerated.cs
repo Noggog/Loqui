@@ -755,6 +755,22 @@ namespace Loqui.Tests.Internals
             }
         }
 
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestGenericObject_SubClass_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+            }
+            fg.AppendLine("]");
+        }
     }
     public class TestGenericObject_SubClass_CopyMask : TestGenericObject_CopyMask
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loqui.Generation
+namespace Loqui
 {
     public class DepthWrapper : IDisposable
     {

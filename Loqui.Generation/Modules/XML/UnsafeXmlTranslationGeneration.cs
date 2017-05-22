@@ -17,8 +17,14 @@ namespace Loqui.Generation
             string maskAccessor,
             string nameAccessor)
         {
+            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(item.{typeGen.Name} == null ? null : item.{typeGen.Name}.GetType()).Item;");
+            fg.AppendLine($"if (transl.Failed)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"throw new ArgumentException(\"Failed to get translator: \" + transl.Reason);");
+            }
             using (var args = new ArgsWrapper(fg,
-                $"XmlTranslator.GetTranslator(item.{typeGen.Name} == null ? null : item.{typeGen.Name}.GetType()).Item.Value.Write"))
+                $"transl.Value.Write"))
             {
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
