@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public class LoquiType : TypicalGeneration
+    public class LoquiType : PrimitiveGeneration
     {
         public Ref RefGen { get; protected set; }
         public override string TypeName
@@ -54,8 +54,8 @@ namespace Loqui.Generation
         private string _generic;
         private ObjectGeneration _genericBaseObject;
         public GenericDefinition Generics;
-        public string ErrorMaskItemString => this.ObjectGeneration?.ErrorMask ?? "object";
-        public ObjectGeneration ObjectGeneration
+        public string ErrorMaskItemString => this.TargetObjectGeneration?.ErrorMask ?? "object";
+        public ObjectGeneration TargetObjectGeneration
         {
             get
             {
@@ -82,7 +82,7 @@ namespace Loqui.Generation
                 case LoquiRefType.Direct:
                     return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
                 case LoquiRefType.Generic:
-                    if (this.ObjectGeneration == null)
+                    if (this.TargetObjectGeneration == null)
                     {
                         return $"{copyMaskAccessor}?.{this.Name} != {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Skip)}";
                     }
@@ -664,11 +664,37 @@ namespace Loqui.Generation
             switch (this.RefType)
             {
                 case LoquiRefType.Direct:
-                    return this.RefGen.Obj.GetMaskString(type);
+                    return this.TargetObjectGeneration.GetMaskString(type);
                 case LoquiRefType.Generic:
-                    return "object";
+                    if (this.TargetObjectGeneration != null)
+                    {
+                        return this.TargetObjectGeneration.GetMaskString(type);
+                    }
+                    else
+                    {
+                        return "object";
+                    }
                 default:
                     throw new NotImplementedException();
+            }
+        }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            fg.AppendLine($"if (object.Equals({this.Name}, {rhsAccessor}.{this.Name})) return false;");
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            if (this.TargetObjectGeneration == null)
+            {
+                fg.AppendLine($"{retAccessor}.Overall = object.Equals({accessor}, {rhsAccessor});");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool?, {this.TargetObjectGeneration.GetMaskString("bool?")}>();");
+                fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor}, {rhsAccessor});");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual(true);");
             }
         }
     }

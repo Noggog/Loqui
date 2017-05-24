@@ -83,7 +83,7 @@ namespace Loqui.Generation
         public abstract string SkipCheck(string copyMaskAccessor);
 
         public abstract void GenerateForCopy(
-            FileGeneration fg, 
+            FileGeneration fg,
             string accessorPrefix,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
@@ -103,10 +103,13 @@ namespace Loqui.Generation
 
         public abstract void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor);
 
-        public virtual void GenerateForInterfaceExt(FileGeneration fg)
-        {
+        public abstract void GenerateForEquals(FileGeneration fg, string rhsAccessor);
 
-        }
+        public abstract void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
+
+        public abstract void GenerateForHash(FileGeneration fg, string hashResultAccessor);
+
+        public virtual void GenerateForInterfaceExt(FileGeneration fg) { }
 
         public virtual string GetName(bool internalUse, bool property)
         {

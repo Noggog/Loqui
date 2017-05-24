@@ -117,15 +117,15 @@ namespace Loqui.Tests
 
         public bool Equals(TestObject_PrivateCtor rhs)
         {
-            if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
+            if (BoolN != rhs.BoolN) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(BoolN)
-            ;
+            int ret = 0;
+            ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
+            return ret;
         }
 
         #endregion
@@ -604,6 +604,23 @@ namespace Loqui.Tests.Internals
             item.BoolN = default(Boolean?);
         }
 
+        public static TestObject_PrivateCtor_Mask<bool?> GetEqualsMask(
+            this ITestObject_PrivateCtorGetter item,
+            ITestObject_PrivateCtorGetter rhs)
+        {
+            var ret = new TestObject_PrivateCtor_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask(
+            this ITestObject_PrivateCtorGetter item,
+            ITestObject_PrivateCtorGetter rhs,
+            TestObject_PrivateCtor_Mask<bool?> ret)
+        {
+            ret.BoolN = item.BoolN != rhs.BoolN;
+        }
+
         #region XML Translation
         public static void Write_XML(
             ITestObject_PrivateCtorGetter item,
@@ -739,9 +756,15 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_PrivateCtor_Mask<T> 
+    public class TestObject_PrivateCtor_Mask<T> : IMask<T>
     {
         public T BoolN;
+
+        public bool AllEqual(T t)
+        {
+            if (!object.Equals(this.BoolN, t)) return false;
+            return true;
+        }
     }
 
     public class TestObject_PrivateCtor_ErrorMask : IErrorMask

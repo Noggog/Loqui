@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>4609eb9f916285abe21c396bdd0e0df16a0bf1d4</Sha>
-      <Description>NotifyingKeyedCollection API adjustments</Description>
+      <Sha>12f3bc86da32b0c487a0e96f0955eac27d76c56c</Sha>
+      <Description>EnumerableExt.SelectAgainst</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>05-06-2017 23:57:09</CommitDate>
+      <CommitDate>05-25-2017 23:02:48</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

@@ -121,16 +121,23 @@ namespace Loqui.Tests
 
         public bool Equals(TestObject_Notifying_SubClass rhs)
         {
-            if (!object.Equals(this.NewField, rhs.NewField)) return false;
+            if (NewField_Property.HasBeenSet != rhs.NewField_Property.HasBeenSet) return false;
+            if (NewField_Property.HasBeenSet)
+            {
+                if (NewField != rhs.NewField) return false;
+            }
             return base.Equals(rhs);
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(NewField)
-            .CombineHashCode(base.GetHashCode())
-            ;
+            int ret = 0;
+            if (NewField_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(NewField).CombineHashCode(ret);
+            }
+            ret = ret.CombineHashCode(base.GetHashCode());
+            return ret;
         }
 
         #endregion
@@ -617,6 +624,30 @@ namespace Loqui.Tests.Internals
             item.NewField_Property.Unset(cmds.ToUnsetParams());
         }
 
+        public static TestObject_Notifying_SubClass_Mask<bool?> GetEqualsMask(
+            this ITestObject_Notifying_SubClassGetter item,
+            ITestObject_Notifying_SubClassGetter rhs)
+        {
+            var ret = new TestObject_Notifying_SubClass_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask(
+            this ITestObject_Notifying_SubClassGetter item,
+            ITestObject_Notifying_SubClassGetter rhs,
+            TestObject_Notifying_SubClass_Mask<bool?> ret)
+        {
+            if (item.NewField_Property.HasBeenSet == rhs.NewField_Property.HasBeenSet)
+            {
+                if (item.NewField_Property.HasBeenSet)
+                {
+                    ret.NewField = item.NewField != rhs.NewField;
+                }
+            }
+            TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
+        }
+
         #region XML Translation
         public static void Write_XML(
             ITestObject_Notifying_SubClassGetter item,
@@ -741,9 +772,15 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_Notifying_SubClass_Mask<T>  : TestObject_Notifying_Mask<T>
+    public class TestObject_Notifying_SubClass_Mask<T> : TestObject_Notifying_Mask<T>, IMask<T>
     {
         public T NewField;
+
+        public bool AllEqual(T t)
+        {
+            if (!object.Equals(this.NewField, t)) return false;
+            return true;
+        }
     }
 
     public class TestObject_Notifying_SubClass_ErrorMask : TestObject_Notifying_ErrorMask

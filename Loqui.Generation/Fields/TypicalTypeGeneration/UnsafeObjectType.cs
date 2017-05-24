@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public class UnsafeType : TypicalGeneration
+    public class UnsafeType : PrimitiveGeneration
     {
         private string _typeName;
         public override string TypeName => _typeName;

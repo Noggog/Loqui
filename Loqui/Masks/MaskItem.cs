@@ -4,8 +4,12 @@ namespace Loqui
 {
     public class MaskItem<T, V> : IEquatable<MaskItem<V, T>>
     {
-        public readonly T Overall;
-        public readonly V Specific;
+        public T Overall;
+        public V Specific;
+
+        public MaskItem()
+        {
+        }
         
         public MaskItem(
             T overall,

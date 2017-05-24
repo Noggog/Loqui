@@ -46,7 +46,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (loqui.ObjectGeneration == null)
+                if (loqui.TargetObjectGeneration == null)
                 {
                     fg.AppendLine($"public {nameof(GetterCopyOption)} {field.Name};");
                 }
@@ -69,13 +69,33 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 if (loqui.RefType == LoquiRefType.Direct
-                    || loqui.ObjectGeneration != null)
+                    || loqui.TargetObjectGeneration != null)
                 {
                     fg.AppendLine($"{accessor}.Specific.ToString(fg);");
                 }
                 else
                 {
                     fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Specific.ToString());");
+                }
+            }
+        }
+
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        {
+            LoquiType loqui = field as LoquiType;
+
+            fg.AppendLine($"if ({field.Name} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                if (loqui.RefType == LoquiRefType.Direct
+                    || loqui.TargetObjectGeneration != null)
+                {
+                    fg.AppendLine($"if ({field.Name}.Specific != null && !{field.Name}.Specific.AllEqual(t)) return false;");
+                }
+                else
+                {
+                    fg.AppendLine($"throw new {nameof(NotImplementedException)}();");
                 }
             }
         }

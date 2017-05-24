@@ -86,6 +86,17 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
+
+            if (KeyTypeGen is ContainerType
+                || KeyTypeGen is DictType)
+            {
+                throw new NotImplementedException();
+            }
+            if (ValueTypeGen is ContainerType
+                || ValueTypeGen is DictType)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
@@ -224,7 +235,7 @@ namespace Loqui.Generation
                             }
                         }
                         if (this.ValueIsLoqui)
-                        { 
+                        {
                             gen.AppendLine($"{this.ValueTypeGen.TypeName} val;");
                             gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
                             using (new BraceWrapper(gen))
@@ -307,6 +318,75 @@ namespace Loqui.Generation
         public override string GenerateACopy(string rhsAccessor)
         {
             throw new NotImplementedException();
+        }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            fg.AppendLine($"if ({this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            LoquiType keyLoqui = KeyTypeGen as LoquiType;
+            LoquiType valLoqui = ValueTypeGen as LoquiType;
+            if (keyLoqui != null
+                && valLoqui != null)
+            {
+                var keyMaskStr = $"MaskItem<bool?, {keyLoqui.TargetObjectGeneration.GetMaskString("bool?")}>";
+                var valMaskStr = $"MaskItem<bool?, {valLoqui.TargetObjectGeneration.GetMaskString("bool?")}>";
+                var maskStr = $"KeyValuePair<{keyMaskStr}, {valMaskStr}>";
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{keyMaskStr} keyItemRet;");
+                    fg.AppendLine($"{valMaskStr} valItemRet;");
+                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
+                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
+                }
+                fg.AppendLine($"), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value.Overall ?? false));");
+            }
+            else if (keyLoqui != null)
+            {
+                var keyMaskStr = $"MaskItem<bool?, {keyLoqui.TargetObjectGeneration.GetMaskString("bool?")}>";
+                var maskStr = $"KeyValuePair<{keyMaskStr}, bool?>";
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{keyMaskStr} keyItemRet;");
+                    fg.AppendLine($"bool? valItemRet = object.Equals(l.Value, r.Value);");
+                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
+                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
+                }
+                fg.AppendLine($"), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value ?? false));");
+            }
+            else if (valLoqui != null)
+            {
+                var valMaskStr = $"MaskItem<bool?, {valLoqui.TargetObjectGeneration.GetMaskString("bool?")}>";
+                var maskStr = $"KeyValuePair<bool?, {valMaskStr}>";
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"bool? keyItemRet = object.Equals(l.Key, r.Key);");
+                    fg.AppendLine($"{valMaskStr} valItemRet;");
+                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
+                }
+                fg.AppendLine($"), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => (b.Key ?? false) && (b.Value.Overall ?? false));");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, KeyValuePair<bool?, bool?>>({rhsAccessor}, ((l, r) => new KeyValuePair<bool?, bool?>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => (b.Key ?? false) && (b.Value ?? false));");
+            }
+        }
+
+        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        {
+            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
     }
 }

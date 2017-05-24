@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class TypicalGeneration : TypeGeneration
+    public abstract class PrimitiveGeneration : TypeGeneration
     {
         public string DefaultValue;
         public bool HasDefault;
@@ -304,6 +304,21 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine("break;");
+        }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            fg.AppendLine($"if ({this.Name} != {rhsAccessor}.{this.Name}) return false;");
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            fg.AppendLine($"{retAccessor} = {accessor} != {rhsAccessor};");
+        }
+
+        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        {
+            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
     }
 }

@@ -134,5 +134,20 @@ namespace Loqui.Generation
         {
             subGenerator.Resolve();
         }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            subGenerator.GenerateForEquals(fg, rhsAccessor);
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
+        }
+
+        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        {
+            subGenerator.GenerateForHash(fg, hashResultAccessor);
+        }
     }
 }

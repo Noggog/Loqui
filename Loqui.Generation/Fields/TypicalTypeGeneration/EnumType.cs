@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public class EnumType : TypicalGeneration
+    public class EnumType : PrimitiveGeneration
     {
         public string EnumName;
         public string NameSpace;

@@ -23,5 +23,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"public bool {field.Name};");
         }
+
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        {
+            fg.AppendLine($"if (!object.Equals(this.{field.Name}, t)) return false;");
+        }
     }
 }

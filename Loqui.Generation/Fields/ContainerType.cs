@@ -62,8 +62,14 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
+
+            if (SingleTypeGen is ContainerType
+                || SingleTypeGen is DictType)
+            {
+                throw new NotImplementedException();
+            }
         }
-        
+
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({exception});");
@@ -102,6 +108,38 @@ namespace Loqui.Generation
         public override string GenerateACopy(string rhsAccessor)
         {
             throw new NotImplementedException();
+        }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            fg.AppendLine($"if ({this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            if (isLoquiSingle)
+            {
+                var maskStr = $"MaskItem<bool?, {LoquiTypeSingleton.TargetObjectGeneration.GetMaskString("bool?")}>";
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{maskStr} itemRet;");
+                    LoquiTypeSingleton.GenerateForEqualsMask(fg, "l", "r", "itemRet");
+                    fg.AppendLine("return itemRet;");
+                }
+                fg.AppendLine($"), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => b.Overall ?? false);");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, bool?>({rhsAccessor}, ((l, r) => object.Equals(l, r)), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => b ?? false);");
+            }
+        }
+
+        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        {
+            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
     }
 }

@@ -17,5 +17,6 @@ namespace Loqui.Generation
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
+        public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field);
     }
 }

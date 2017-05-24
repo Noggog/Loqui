@@ -116,9 +116,9 @@ namespace Loqui.Tests
 
         public override int GetHashCode()
         {
-            return 
-            base.GetHashCode()
-            ;
+            int ret = 0;
+            ret = ret.CombineHashCode(base.GetHashCode());
+            return ret;
         }
 
         #endregion
@@ -566,6 +566,25 @@ namespace Loqui.Tests.Internals
         {
         }
 
+        public static TestGenericObject_SubClass_Defined_Mask<bool?> GetEqualsMask<RBase>(
+            this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            var ret = new TestGenericObject_SubClass_Defined_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask<RBase>(
+            this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
+            TestGenericObject_SubClass_Defined_Mask<bool?> ret)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);
+        }
+
         #region XML Translation
         public static void Write_XML<RBase>(
             ITestGenericObject_SubClass_DefinedGetter<RBase> item,
@@ -678,8 +697,13 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestGenericObject_SubClass_Defined_Mask<T>  : TestGenericObject_Mask<T>
+    public class TestGenericObject_SubClass_Defined_Mask<T> : TestGenericObject_Mask<T>, IMask<T>
     {
+
+        public bool AllEqual(T t)
+        {
+            return true;
+        }
     }
 
     public class TestGenericObject_SubClass_Defined_ErrorMask : TestGenericObject_ErrorMask

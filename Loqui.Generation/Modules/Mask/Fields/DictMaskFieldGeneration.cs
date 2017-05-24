@@ -127,5 +127,61 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        {
+            DictType dictType = field as DictType;
+
+            fg.AppendLine($"if ({field.Name} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                fg.AppendLine($"if ({field.Name}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        switch (dictType.Mode)
+                        {
+                            case DictMode.KeyValue:
+                                if (dictType.KeyTypeGen is LoquiType loquiKey)
+                                {
+                                    fg.AppendLine($"if (item.Key != null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"if (!object.Equals(item.Key.Overall, t)) return false;");
+                                        fg.AppendLine($"if (!item.Key.Specific?.AllEqual(t) ?? false) return false;");
+                                    }
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"if (!object.Equals(item.Key, t)) return false;");
+                                }
+                                if (dictType.ValueTypeGen is LoquiType loquiVal)
+                                {
+                                    fg.AppendLine($"if (item.Value != null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"if (!object.Equals(item.Value.Overall, t)) return false;");
+                                        fg.AppendLine($"if (!item.Value.Specific?.AllEqual(t) ?? false) return false;");
+                                    }
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"if (!object.Equals(item.Value, t)) return false;");
+                                }
+                                break;
+                            case DictMode.KeyedValue:
+                                fg.AppendLine($"if (!object.Equals(item.Overall, t)) return false;");
+                                fg.AppendLine($"if (!item.Specific?.AllEqual(t) ?? false) return false;");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

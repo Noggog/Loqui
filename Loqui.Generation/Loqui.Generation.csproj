@@ -64,7 +64,7 @@
     <Compile Include="Fields\TypeGeneration.cs" />
     <Compile Include="Fields\TypicalDoubleNumberTypeGeneration.cs" />
     <Compile Include="Fields\TypicalFloatNumberTypeGeneration.cs" />
-    <Compile Include="Fields\TypicalGeneration.cs" />
+    <Compile Include="Fields\PrimitiveGeneration.cs" />
     <Compile Include="Fields\TypicalRangedTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\BoolNullType.cs" />

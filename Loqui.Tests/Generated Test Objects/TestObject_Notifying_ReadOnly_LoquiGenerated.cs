@@ -1066,201 +1066,859 @@ namespace Loqui.Tests
 
         public bool Equals(TestObject_Notifying_ReadOnly rhs)
         {
-            if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
-            if (!object.Equals(this.Bool, rhs.Bool)) return false;
-            if (!object.Equals(this.CharN, rhs.CharN)) return false;
-            if (!object.Equals(this.Char, rhs.Char)) return false;
-            if (!object.Equals(this.DateTimeNull, rhs.DateTimeNull)) return false;
-            if (!object.Equals(this.DateTime, rhs.DateTime)) return false;
-            if (!object.Equals(this.DoubleN, rhs.DoubleN)) return false;
-            if (!object.Equals(this.DoubleN_Ranged, rhs.DoubleN_Ranged)) return false;
-            if (!object.Equals(this.Double, rhs.Double)) return false;
-            if (!object.Equals(this.Double_Ranged, rhs.Double_Ranged)) return false;
-            if (!object.Equals(this.FloatN, rhs.FloatN)) return false;
-            if (!object.Equals(this.FloatN_Ranged, rhs.FloatN_Ranged)) return false;
-            if (!object.Equals(this.Float, rhs.Float)) return false;
-            if (!object.Equals(this.Float_Ranged, rhs.Float_Ranged)) return false;
-            if (!object.Equals(this.Int16N, rhs.Int16N)) return false;
-            if (!object.Equals(this.Int16N_Ranged, rhs.Int16N_Ranged)) return false;
-            if (!object.Equals(this.Int16, rhs.Int16)) return false;
-            if (!object.Equals(this.Int16_Ranged, rhs.Int16_Ranged)) return false;
-            if (!object.Equals(this.Int32N, rhs.Int32N)) return false;
-            if (!object.Equals(this.Int32N_Ranged, rhs.Int32N_Ranged)) return false;
-            if (!object.Equals(this.Int32, rhs.Int32)) return false;
-            if (!object.Equals(this.Int32_Ranged, rhs.Int32_Ranged)) return false;
-            if (!object.Equals(this.Int64N, rhs.Int64N)) return false;
-            if (!object.Equals(this.Int64N_Ranged, rhs.Int64N_Ranged)) return false;
-            if (!object.Equals(this.Int64, rhs.Int64)) return false;
-            if (!object.Equals(this.Int64_Ranged, rhs.Int64_Ranged)) return false;
-            if (!object.Equals(this.Int8N, rhs.Int8N)) return false;
-            if (!object.Equals(this.Int8N_Ranged, rhs.Int8N_Ranged)) return false;
-            if (!object.Equals(this.Int8, rhs.Int8)) return false;
-            if (!object.Equals(this.Int8_Ranged, rhs.Int8_Ranged)) return false;
-            if (!object.Equals(this.Unsafe, rhs.Unsafe)) return false;
-            if (!object.Equals(this.P2IntN, rhs.P2IntN)) return false;
-            if (!object.Equals(this.P2Int, rhs.P2Int)) return false;
-            if (!object.Equals(this.P3DoubleN, rhs.P3DoubleN)) return false;
-            if (!object.Equals(this.P3Double, rhs.P3Double)) return false;
-            if (!object.Equals(this.P3IntN, rhs.P3IntN)) return false;
-            if (!object.Equals(this.P3Int, rhs.P3Int)) return false;
-            if (!object.Equals(this.PercentN, rhs.PercentN)) return false;
-            if (!object.Equals(this.Percent, rhs.Percent)) return false;
-            if (!object.Equals(this.RangeInt8N, rhs.RangeInt8N)) return false;
-            if (!object.Equals(this.RangeInt8, rhs.RangeInt8)) return false;
-            if (!object.Equals(this.RangeInt16N, rhs.RangeInt16N)) return false;
-            if (!object.Equals(this.RangeInt16, rhs.RangeInt16)) return false;
-            if (!object.Equals(this.RangeInt32N, rhs.RangeInt32N)) return false;
-            if (!object.Equals(this.RangeInt32, rhs.RangeInt32)) return false;
-            if (!object.Equals(this.RangeInt64N, rhs.RangeInt64N)) return false;
-            if (!object.Equals(this.RangeInt64, rhs.RangeInt64)) return false;
-            if (!object.Equals(this.RangeUInt8N, rhs.RangeUInt8N)) return false;
-            if (!object.Equals(this.RangeUInt8, rhs.RangeUInt8)) return false;
-            if (!object.Equals(this.RangeUInt16N, rhs.RangeUInt16N)) return false;
-            if (!object.Equals(this.RangeUInt16, rhs.RangeUInt16)) return false;
-            if (!object.Equals(this.RangeUInt32N, rhs.RangeUInt32N)) return false;
-            if (!object.Equals(this.RangeUInt32, rhs.RangeUInt32)) return false;
-            if (!object.Equals(this.RangeUInt64N, rhs.RangeUInt64N)) return false;
-            if (!object.Equals(this.RangeUInt64, rhs.RangeUInt64)) return false;
-            if (!object.Equals(this.String, rhs.String)) return false;
-            if (!object.Equals(this.UDoubleN, rhs.UDoubleN)) return false;
-            if (!object.Equals(this.UDoubleN_Ranged, rhs.UDoubleN_Ranged)) return false;
-            if (!object.Equals(this.UDouble, rhs.UDouble)) return false;
-            if (!object.Equals(this.UDouble_Ranged, rhs.UDouble_Ranged)) return false;
-            if (!object.Equals(this.UInt16N, rhs.UInt16N)) return false;
-            if (!object.Equals(this.UInt16N_Ranged, rhs.UInt16N_Ranged)) return false;
-            if (!object.Equals(this.UInt16, rhs.UInt16)) return false;
-            if (!object.Equals(this.UInt16_Ranged, rhs.UInt16_Ranged)) return false;
-            if (!object.Equals(this.UInt32N, rhs.UInt32N)) return false;
-            if (!object.Equals(this.UInt32N_Ranged, rhs.UInt32N_Ranged)) return false;
-            if (!object.Equals(this.UInt32, rhs.UInt32)) return false;
-            if (!object.Equals(this.UInt32_Ranged, rhs.UInt32_Ranged)) return false;
-            if (!object.Equals(this.UInt64N, rhs.UInt64N)) return false;
-            if (!object.Equals(this.UInt64N_Ranged, rhs.UInt64N_Ranged)) return false;
-            if (!object.Equals(this.UInt64, rhs.UInt64)) return false;
-            if (!object.Equals(this.UInt64_Ranged, rhs.UInt64_Ranged)) return false;
-            if (!object.Equals(this.UInt8N, rhs.UInt8N)) return false;
-            if (!object.Equals(this.UInt8N_Ranged, rhs.UInt8N_Ranged)) return false;
-            if (!object.Equals(this.UInt8, rhs.UInt8)) return false;
-            if (!object.Equals(this.UInt8_Ranged, rhs.UInt8_Ranged)) return false;
-            if (!object.Equals(this.Enum, rhs.Enum)) return false;
-            if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
-            if (!object.Equals(this.Ref, rhs.Ref)) return false;
-            if (!object.Equals(this.Ref_NotNull, rhs.Ref_NotNull)) return false;
-            if (!object.Equals(this.Ref_Singleton, rhs.Ref_Singleton)) return false;
-            if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
-            if (!object.Equals(this.RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
-            if (!object.Equals(this.RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
-            if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
-            if (!object.Equals(this.RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
-            if (!object.Equals(this.RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
-            if (!object.Equals(this.List, rhs.List)) return false;
-            if (!object.Equals(this.RefList, rhs.RefList)) return false;
-            if (!object.Equals(this.Dict, rhs.Dict)) return false;
-            if (!object.Equals(this.RefDict, rhs.RefDict)) return false;
-            if (!object.Equals(this.KeyRefDict, rhs.KeyRefDict)) return false;
-            if (!object.Equals(this.ValRefDict, rhs.ValRefDict)) return false;
-            if (!object.Equals(this.DictKeyedValue, rhs.DictKeyedValue)) return false;
+            if (BoolN_Property.HasBeenSet != rhs.BoolN_Property.HasBeenSet) return false;
+            if (BoolN_Property.HasBeenSet)
+            {
+                if (BoolN != rhs.BoolN) return false;
+            }
+            if (Bool_Property.HasBeenSet != rhs.Bool_Property.HasBeenSet) return false;
+            if (Bool_Property.HasBeenSet)
+            {
+                if (Bool != rhs.Bool) return false;
+            }
+            if (CharN_Property.HasBeenSet != rhs.CharN_Property.HasBeenSet) return false;
+            if (CharN_Property.HasBeenSet)
+            {
+                if (CharN != rhs.CharN) return false;
+            }
+            if (Char_Property.HasBeenSet != rhs.Char_Property.HasBeenSet) return false;
+            if (Char_Property.HasBeenSet)
+            {
+                if (Char != rhs.Char) return false;
+            }
+            if (DateTimeNull_Property.HasBeenSet != rhs.DateTimeNull_Property.HasBeenSet) return false;
+            if (DateTimeNull_Property.HasBeenSet)
+            {
+                if (DateTimeNull != rhs.DateTimeNull) return false;
+            }
+            if (DateTime_Property.HasBeenSet != rhs.DateTime_Property.HasBeenSet) return false;
+            if (DateTime_Property.HasBeenSet)
+            {
+                if (DateTime != rhs.DateTime) return false;
+            }
+            if (DoubleN_Property.HasBeenSet != rhs.DoubleN_Property.HasBeenSet) return false;
+            if (DoubleN_Property.HasBeenSet)
+            {
+                if (DoubleN != rhs.DoubleN) return false;
+            }
+            if (DoubleN_Ranged_Property.HasBeenSet != rhs.DoubleN_Ranged_Property.HasBeenSet) return false;
+            if (DoubleN_Ranged_Property.HasBeenSet)
+            {
+                if (DoubleN_Ranged != rhs.DoubleN_Ranged) return false;
+            }
+            if (Double_Property.HasBeenSet != rhs.Double_Property.HasBeenSet) return false;
+            if (Double_Property.HasBeenSet)
+            {
+                if (Double != rhs.Double) return false;
+            }
+            if (Double_Ranged_Property.HasBeenSet != rhs.Double_Ranged_Property.HasBeenSet) return false;
+            if (Double_Ranged_Property.HasBeenSet)
+            {
+                if (Double_Ranged != rhs.Double_Ranged) return false;
+            }
+            if (FloatN_Property.HasBeenSet != rhs.FloatN_Property.HasBeenSet) return false;
+            if (FloatN_Property.HasBeenSet)
+            {
+                if (FloatN != rhs.FloatN) return false;
+            }
+            if (FloatN_Ranged_Property.HasBeenSet != rhs.FloatN_Ranged_Property.HasBeenSet) return false;
+            if (FloatN_Ranged_Property.HasBeenSet)
+            {
+                if (FloatN_Ranged != rhs.FloatN_Ranged) return false;
+            }
+            if (Float_Property.HasBeenSet != rhs.Float_Property.HasBeenSet) return false;
+            if (Float_Property.HasBeenSet)
+            {
+                if (Float != rhs.Float) return false;
+            }
+            if (Float_Ranged_Property.HasBeenSet != rhs.Float_Ranged_Property.HasBeenSet) return false;
+            if (Float_Ranged_Property.HasBeenSet)
+            {
+                if (Float_Ranged != rhs.Float_Ranged) return false;
+            }
+            if (Int16N_Property.HasBeenSet != rhs.Int16N_Property.HasBeenSet) return false;
+            if (Int16N_Property.HasBeenSet)
+            {
+                if (Int16N != rhs.Int16N) return false;
+            }
+            if (Int16N_Ranged_Property.HasBeenSet != rhs.Int16N_Ranged_Property.HasBeenSet) return false;
+            if (Int16N_Ranged_Property.HasBeenSet)
+            {
+                if (Int16N_Ranged != rhs.Int16N_Ranged) return false;
+            }
+            if (Int16_Property.HasBeenSet != rhs.Int16_Property.HasBeenSet) return false;
+            if (Int16_Property.HasBeenSet)
+            {
+                if (Int16 != rhs.Int16) return false;
+            }
+            if (Int16_Ranged_Property.HasBeenSet != rhs.Int16_Ranged_Property.HasBeenSet) return false;
+            if (Int16_Ranged_Property.HasBeenSet)
+            {
+                if (Int16_Ranged != rhs.Int16_Ranged) return false;
+            }
+            if (Int32N_Property.HasBeenSet != rhs.Int32N_Property.HasBeenSet) return false;
+            if (Int32N_Property.HasBeenSet)
+            {
+                if (Int32N != rhs.Int32N) return false;
+            }
+            if (Int32N_Ranged_Property.HasBeenSet != rhs.Int32N_Ranged_Property.HasBeenSet) return false;
+            if (Int32N_Ranged_Property.HasBeenSet)
+            {
+                if (Int32N_Ranged != rhs.Int32N_Ranged) return false;
+            }
+            if (Int32_Property.HasBeenSet != rhs.Int32_Property.HasBeenSet) return false;
+            if (Int32_Property.HasBeenSet)
+            {
+                if (Int32 != rhs.Int32) return false;
+            }
+            if (Int32_Ranged_Property.HasBeenSet != rhs.Int32_Ranged_Property.HasBeenSet) return false;
+            if (Int32_Ranged_Property.HasBeenSet)
+            {
+                if (Int32_Ranged != rhs.Int32_Ranged) return false;
+            }
+            if (Int64N_Property.HasBeenSet != rhs.Int64N_Property.HasBeenSet) return false;
+            if (Int64N_Property.HasBeenSet)
+            {
+                if (Int64N != rhs.Int64N) return false;
+            }
+            if (Int64N_Ranged_Property.HasBeenSet != rhs.Int64N_Ranged_Property.HasBeenSet) return false;
+            if (Int64N_Ranged_Property.HasBeenSet)
+            {
+                if (Int64N_Ranged != rhs.Int64N_Ranged) return false;
+            }
+            if (Int64_Property.HasBeenSet != rhs.Int64_Property.HasBeenSet) return false;
+            if (Int64_Property.HasBeenSet)
+            {
+                if (Int64 != rhs.Int64) return false;
+            }
+            if (Int64_Ranged_Property.HasBeenSet != rhs.Int64_Ranged_Property.HasBeenSet) return false;
+            if (Int64_Ranged_Property.HasBeenSet)
+            {
+                if (Int64_Ranged != rhs.Int64_Ranged) return false;
+            }
+            if (Int8N_Property.HasBeenSet != rhs.Int8N_Property.HasBeenSet) return false;
+            if (Int8N_Property.HasBeenSet)
+            {
+                if (Int8N != rhs.Int8N) return false;
+            }
+            if (Int8N_Ranged_Property.HasBeenSet != rhs.Int8N_Ranged_Property.HasBeenSet) return false;
+            if (Int8N_Ranged_Property.HasBeenSet)
+            {
+                if (Int8N_Ranged != rhs.Int8N_Ranged) return false;
+            }
+            if (Int8_Property.HasBeenSet != rhs.Int8_Property.HasBeenSet) return false;
+            if (Int8_Property.HasBeenSet)
+            {
+                if (Int8 != rhs.Int8) return false;
+            }
+            if (Int8_Ranged_Property.HasBeenSet != rhs.Int8_Ranged_Property.HasBeenSet) return false;
+            if (Int8_Ranged_Property.HasBeenSet)
+            {
+                if (Int8_Ranged != rhs.Int8_Ranged) return false;
+            }
+            if (Unsafe_Property.HasBeenSet != rhs.Unsafe_Property.HasBeenSet) return false;
+            if (Unsafe_Property.HasBeenSet)
+            {
+                if (Unsafe != rhs.Unsafe) return false;
+            }
+            if (P2IntN_Property.HasBeenSet != rhs.P2IntN_Property.HasBeenSet) return false;
+            if (P2IntN_Property.HasBeenSet)
+            {
+                if (P2IntN != rhs.P2IntN) return false;
+            }
+            if (P2Int_Property.HasBeenSet != rhs.P2Int_Property.HasBeenSet) return false;
+            if (P2Int_Property.HasBeenSet)
+            {
+                if (P2Int != rhs.P2Int) return false;
+            }
+            if (P3DoubleN_Property.HasBeenSet != rhs.P3DoubleN_Property.HasBeenSet) return false;
+            if (P3DoubleN_Property.HasBeenSet)
+            {
+                if (P3DoubleN != rhs.P3DoubleN) return false;
+            }
+            if (P3Double_Property.HasBeenSet != rhs.P3Double_Property.HasBeenSet) return false;
+            if (P3Double_Property.HasBeenSet)
+            {
+                if (P3Double != rhs.P3Double) return false;
+            }
+            if (P3IntN_Property.HasBeenSet != rhs.P3IntN_Property.HasBeenSet) return false;
+            if (P3IntN_Property.HasBeenSet)
+            {
+                if (P3IntN != rhs.P3IntN) return false;
+            }
+            if (P3Int_Property.HasBeenSet != rhs.P3Int_Property.HasBeenSet) return false;
+            if (P3Int_Property.HasBeenSet)
+            {
+                if (P3Int != rhs.P3Int) return false;
+            }
+            if (PercentN_Property.HasBeenSet != rhs.PercentN_Property.HasBeenSet) return false;
+            if (PercentN_Property.HasBeenSet)
+            {
+                if (PercentN != rhs.PercentN) return false;
+            }
+            if (Percent_Property.HasBeenSet != rhs.Percent_Property.HasBeenSet) return false;
+            if (Percent_Property.HasBeenSet)
+            {
+                if (Percent != rhs.Percent) return false;
+            }
+            if (RangeInt8N_Property.HasBeenSet != rhs.RangeInt8N_Property.HasBeenSet) return false;
+            if (RangeInt8N_Property.HasBeenSet)
+            {
+                if (RangeInt8N != rhs.RangeInt8N) return false;
+            }
+            if (RangeInt8_Property.HasBeenSet != rhs.RangeInt8_Property.HasBeenSet) return false;
+            if (RangeInt8_Property.HasBeenSet)
+            {
+                if (RangeInt8 != rhs.RangeInt8) return false;
+            }
+            if (RangeInt16N_Property.HasBeenSet != rhs.RangeInt16N_Property.HasBeenSet) return false;
+            if (RangeInt16N_Property.HasBeenSet)
+            {
+                if (RangeInt16N != rhs.RangeInt16N) return false;
+            }
+            if (RangeInt16_Property.HasBeenSet != rhs.RangeInt16_Property.HasBeenSet) return false;
+            if (RangeInt16_Property.HasBeenSet)
+            {
+                if (RangeInt16 != rhs.RangeInt16) return false;
+            }
+            if (RangeInt32N_Property.HasBeenSet != rhs.RangeInt32N_Property.HasBeenSet) return false;
+            if (RangeInt32N_Property.HasBeenSet)
+            {
+                if (RangeInt32N != rhs.RangeInt32N) return false;
+            }
+            if (RangeInt32_Property.HasBeenSet != rhs.RangeInt32_Property.HasBeenSet) return false;
+            if (RangeInt32_Property.HasBeenSet)
+            {
+                if (RangeInt32 != rhs.RangeInt32) return false;
+            }
+            if (RangeInt64N_Property.HasBeenSet != rhs.RangeInt64N_Property.HasBeenSet) return false;
+            if (RangeInt64N_Property.HasBeenSet)
+            {
+                if (RangeInt64N != rhs.RangeInt64N) return false;
+            }
+            if (RangeInt64_Property.HasBeenSet != rhs.RangeInt64_Property.HasBeenSet) return false;
+            if (RangeInt64_Property.HasBeenSet)
+            {
+                if (RangeInt64 != rhs.RangeInt64) return false;
+            }
+            if (RangeUInt8N_Property.HasBeenSet != rhs.RangeUInt8N_Property.HasBeenSet) return false;
+            if (RangeUInt8N_Property.HasBeenSet)
+            {
+                if (RangeUInt8N != rhs.RangeUInt8N) return false;
+            }
+            if (RangeUInt8_Property.HasBeenSet != rhs.RangeUInt8_Property.HasBeenSet) return false;
+            if (RangeUInt8_Property.HasBeenSet)
+            {
+                if (RangeUInt8 != rhs.RangeUInt8) return false;
+            }
+            if (RangeUInt16N_Property.HasBeenSet != rhs.RangeUInt16N_Property.HasBeenSet) return false;
+            if (RangeUInt16N_Property.HasBeenSet)
+            {
+                if (RangeUInt16N != rhs.RangeUInt16N) return false;
+            }
+            if (RangeUInt16_Property.HasBeenSet != rhs.RangeUInt16_Property.HasBeenSet) return false;
+            if (RangeUInt16_Property.HasBeenSet)
+            {
+                if (RangeUInt16 != rhs.RangeUInt16) return false;
+            }
+            if (RangeUInt32N_Property.HasBeenSet != rhs.RangeUInt32N_Property.HasBeenSet) return false;
+            if (RangeUInt32N_Property.HasBeenSet)
+            {
+                if (RangeUInt32N != rhs.RangeUInt32N) return false;
+            }
+            if (RangeUInt32_Property.HasBeenSet != rhs.RangeUInt32_Property.HasBeenSet) return false;
+            if (RangeUInt32_Property.HasBeenSet)
+            {
+                if (RangeUInt32 != rhs.RangeUInt32) return false;
+            }
+            if (RangeUInt64N_Property.HasBeenSet != rhs.RangeUInt64N_Property.HasBeenSet) return false;
+            if (RangeUInt64N_Property.HasBeenSet)
+            {
+                if (RangeUInt64N != rhs.RangeUInt64N) return false;
+            }
+            if (RangeUInt64_Property.HasBeenSet != rhs.RangeUInt64_Property.HasBeenSet) return false;
+            if (RangeUInt64_Property.HasBeenSet)
+            {
+                if (RangeUInt64 != rhs.RangeUInt64) return false;
+            }
+            if (String_Property.HasBeenSet != rhs.String_Property.HasBeenSet) return false;
+            if (String_Property.HasBeenSet)
+            {
+                if (String != rhs.String) return false;
+            }
+            if (UDoubleN_Property.HasBeenSet != rhs.UDoubleN_Property.HasBeenSet) return false;
+            if (UDoubleN_Property.HasBeenSet)
+            {
+                if (UDoubleN != rhs.UDoubleN) return false;
+            }
+            if (UDoubleN_Ranged_Property.HasBeenSet != rhs.UDoubleN_Ranged_Property.HasBeenSet) return false;
+            if (UDoubleN_Ranged_Property.HasBeenSet)
+            {
+                if (UDoubleN_Ranged != rhs.UDoubleN_Ranged) return false;
+            }
+            if (UDouble_Property.HasBeenSet != rhs.UDouble_Property.HasBeenSet) return false;
+            if (UDouble_Property.HasBeenSet)
+            {
+                if (UDouble != rhs.UDouble) return false;
+            }
+            if (UDouble_Ranged_Property.HasBeenSet != rhs.UDouble_Ranged_Property.HasBeenSet) return false;
+            if (UDouble_Ranged_Property.HasBeenSet)
+            {
+                if (UDouble_Ranged != rhs.UDouble_Ranged) return false;
+            }
+            if (UInt16N_Property.HasBeenSet != rhs.UInt16N_Property.HasBeenSet) return false;
+            if (UInt16N_Property.HasBeenSet)
+            {
+                if (UInt16N != rhs.UInt16N) return false;
+            }
+            if (UInt16N_Ranged_Property.HasBeenSet != rhs.UInt16N_Ranged_Property.HasBeenSet) return false;
+            if (UInt16N_Ranged_Property.HasBeenSet)
+            {
+                if (UInt16N_Ranged != rhs.UInt16N_Ranged) return false;
+            }
+            if (UInt16_Property.HasBeenSet != rhs.UInt16_Property.HasBeenSet) return false;
+            if (UInt16_Property.HasBeenSet)
+            {
+                if (UInt16 != rhs.UInt16) return false;
+            }
+            if (UInt16_Ranged_Property.HasBeenSet != rhs.UInt16_Ranged_Property.HasBeenSet) return false;
+            if (UInt16_Ranged_Property.HasBeenSet)
+            {
+                if (UInt16_Ranged != rhs.UInt16_Ranged) return false;
+            }
+            if (UInt32N_Property.HasBeenSet != rhs.UInt32N_Property.HasBeenSet) return false;
+            if (UInt32N_Property.HasBeenSet)
+            {
+                if (UInt32N != rhs.UInt32N) return false;
+            }
+            if (UInt32N_Ranged_Property.HasBeenSet != rhs.UInt32N_Ranged_Property.HasBeenSet) return false;
+            if (UInt32N_Ranged_Property.HasBeenSet)
+            {
+                if (UInt32N_Ranged != rhs.UInt32N_Ranged) return false;
+            }
+            if (UInt32_Property.HasBeenSet != rhs.UInt32_Property.HasBeenSet) return false;
+            if (UInt32_Property.HasBeenSet)
+            {
+                if (UInt32 != rhs.UInt32) return false;
+            }
+            if (UInt32_Ranged_Property.HasBeenSet != rhs.UInt32_Ranged_Property.HasBeenSet) return false;
+            if (UInt32_Ranged_Property.HasBeenSet)
+            {
+                if (UInt32_Ranged != rhs.UInt32_Ranged) return false;
+            }
+            if (UInt64N_Property.HasBeenSet != rhs.UInt64N_Property.HasBeenSet) return false;
+            if (UInt64N_Property.HasBeenSet)
+            {
+                if (UInt64N != rhs.UInt64N) return false;
+            }
+            if (UInt64N_Ranged_Property.HasBeenSet != rhs.UInt64N_Ranged_Property.HasBeenSet) return false;
+            if (UInt64N_Ranged_Property.HasBeenSet)
+            {
+                if (UInt64N_Ranged != rhs.UInt64N_Ranged) return false;
+            }
+            if (UInt64_Property.HasBeenSet != rhs.UInt64_Property.HasBeenSet) return false;
+            if (UInt64_Property.HasBeenSet)
+            {
+                if (UInt64 != rhs.UInt64) return false;
+            }
+            if (UInt64_Ranged_Property.HasBeenSet != rhs.UInt64_Ranged_Property.HasBeenSet) return false;
+            if (UInt64_Ranged_Property.HasBeenSet)
+            {
+                if (UInt64_Ranged != rhs.UInt64_Ranged) return false;
+            }
+            if (UInt8N_Property.HasBeenSet != rhs.UInt8N_Property.HasBeenSet) return false;
+            if (UInt8N_Property.HasBeenSet)
+            {
+                if (UInt8N != rhs.UInt8N) return false;
+            }
+            if (UInt8N_Ranged_Property.HasBeenSet != rhs.UInt8N_Ranged_Property.HasBeenSet) return false;
+            if (UInt8N_Ranged_Property.HasBeenSet)
+            {
+                if (UInt8N_Ranged != rhs.UInt8N_Ranged) return false;
+            }
+            if (UInt8_Property.HasBeenSet != rhs.UInt8_Property.HasBeenSet) return false;
+            if (UInt8_Property.HasBeenSet)
+            {
+                if (UInt8 != rhs.UInt8) return false;
+            }
+            if (UInt8_Ranged_Property.HasBeenSet != rhs.UInt8_Ranged_Property.HasBeenSet) return false;
+            if (UInt8_Ranged_Property.HasBeenSet)
+            {
+                if (UInt8_Ranged != rhs.UInt8_Ranged) return false;
+            }
+            if (Enum_Property.HasBeenSet != rhs.Enum_Property.HasBeenSet) return false;
+            if (Enum_Property.HasBeenSet)
+            {
+                if (Enum != rhs.Enum) return false;
+            }
+            if (WildCard_Property.HasBeenSet != rhs.WildCard_Property.HasBeenSet) return false;
+            if (WildCard_Property.HasBeenSet)
+            {
+                if (WildCard != rhs.WildCard) return false;
+            }
+            if (Ref_Property.HasBeenSet != rhs.Ref_Property.HasBeenSet) return false;
+            if (Ref_Property.HasBeenSet)
+            {
+                if (object.Equals(Ref, rhs.Ref)) return false;
+            }
+            if (Ref_NotNull_Property.HasBeenSet != rhs.Ref_NotNull_Property.HasBeenSet) return false;
+            if (Ref_NotNull_Property.HasBeenSet)
+            {
+                if (object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
+            }
+            if (Ref_Singleton_Property.HasBeenSet != rhs.Ref_Singleton_Property.HasBeenSet) return false;
+            if (Ref_Singleton_Property.HasBeenSet)
+            {
+                if (object.Equals(Ref_Singleton, rhs.Ref_Singleton)) return false;
+            }
+            if (RefGetter_Property.HasBeenSet != rhs.RefGetter_Property.HasBeenSet) return false;
+            if (RefGetter_Property.HasBeenSet)
+            {
+                if (object.Equals(RefGetter, rhs.RefGetter)) return false;
+            }
+            if (RefGetter_NotNull_Property.HasBeenSet != rhs.RefGetter_NotNull_Property.HasBeenSet) return false;
+            if (RefGetter_NotNull_Property.HasBeenSet)
+            {
+                if (object.Equals(RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
+            }
+            if (RefGetter_Singleton_Property.HasBeenSet != rhs.RefGetter_Singleton_Property.HasBeenSet) return false;
+            if (RefGetter_Singleton_Property.HasBeenSet)
+            {
+                if (object.Equals(RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
+            }
+            if (RefSetter_Property.HasBeenSet != rhs.RefSetter_Property.HasBeenSet) return false;
+            if (RefSetter_Property.HasBeenSet)
+            {
+                if (object.Equals(RefSetter, rhs.RefSetter)) return false;
+            }
+            if (RefSetter_NotNull_Property.HasBeenSet != rhs.RefSetter_NotNull_Property.HasBeenSet) return false;
+            if (RefSetter_NotNull_Property.HasBeenSet)
+            {
+                if (object.Equals(RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
+            }
+            if (RefSetter_Singleton_Property.HasBeenSet != rhs.RefSetter_Singleton_Property.HasBeenSet) return false;
+            if (RefSetter_Singleton_Property.HasBeenSet)
+            {
+                if (object.Equals(RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
+            }
+            if (List.HasBeenSet != rhs.List.HasBeenSet) return false;
+            if (List.HasBeenSet)
+            {
+                if (List.SequenceEqual(rhs.List)) return false;
+            }
+            if (RefList.HasBeenSet != rhs.RefList.HasBeenSet) return false;
+            if (RefList.HasBeenSet)
+            {
+                if (RefList.SequenceEqual(rhs.RefList)) return false;
+            }
+            if (Dict.HasBeenSet != rhs.Dict.HasBeenSet) return false;
+            if (Dict.HasBeenSet)
+            {
+                if (Dict.SequenceEqual(rhs.Dict)) return false;
+            }
+            if (RefDict.HasBeenSet != rhs.RefDict.HasBeenSet) return false;
+            if (RefDict.HasBeenSet)
+            {
+                if (RefDict.SequenceEqual(rhs.RefDict)) return false;
+            }
+            if (KeyRefDict.HasBeenSet != rhs.KeyRefDict.HasBeenSet) return false;
+            if (KeyRefDict.HasBeenSet)
+            {
+                if (KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
+            }
+            if (ValRefDict.HasBeenSet != rhs.ValRefDict.HasBeenSet) return false;
+            if (ValRefDict.HasBeenSet)
+            {
+                if (ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
+            }
+            if (DictKeyedValue.HasBeenSet != rhs.DictKeyedValue.HasBeenSet) return false;
+            if (DictKeyedValue.HasBeenSet)
+            {
+                if (DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
+            }
             return true;
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(BoolN)
-            .CombineHashCode(HashHelper.GetHashCode(Bool))
-            .CombineHashCode(HashHelper.GetHashCode(CharN))
-            .CombineHashCode(HashHelper.GetHashCode(Char))
-            .CombineHashCode(HashHelper.GetHashCode(DateTimeNull))
-            .CombineHashCode(HashHelper.GetHashCode(DateTime))
-            .CombineHashCode(HashHelper.GetHashCode(DoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(DoubleN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Double))
-            .CombineHashCode(HashHelper.GetHashCode(Double_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(FloatN))
-            .CombineHashCode(HashHelper.GetHashCode(FloatN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Float))
-            .CombineHashCode(HashHelper.GetHashCode(Float_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int16N))
-            .CombineHashCode(HashHelper.GetHashCode(Int16N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int16))
-            .CombineHashCode(HashHelper.GetHashCode(Int16_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int32N))
-            .CombineHashCode(HashHelper.GetHashCode(Int32N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int32))
-            .CombineHashCode(HashHelper.GetHashCode(Int32_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int64N))
-            .CombineHashCode(HashHelper.GetHashCode(Int64N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int64))
-            .CombineHashCode(HashHelper.GetHashCode(Int64_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int8N))
-            .CombineHashCode(HashHelper.GetHashCode(Int8N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int8))
-            .CombineHashCode(HashHelper.GetHashCode(Int8_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Unsafe))
-            .CombineHashCode(HashHelper.GetHashCode(P2IntN))
-            .CombineHashCode(HashHelper.GetHashCode(P2Int))
-            .CombineHashCode(HashHelper.GetHashCode(P3DoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(P3Double))
-            .CombineHashCode(HashHelper.GetHashCode(P3IntN))
-            .CombineHashCode(HashHelper.GetHashCode(P3Int))
-            .CombineHashCode(HashHelper.GetHashCode(PercentN))
-            .CombineHashCode(HashHelper.GetHashCode(Percent))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt8))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt16))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt32))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt64))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64))
-            .CombineHashCode(HashHelper.GetHashCode(String))
-            .CombineHashCode(HashHelper.GetHashCode(UDoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(UDoubleN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UDouble))
-            .CombineHashCode(HashHelper.GetHashCode(UDouble_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Enum))
-            .CombineHashCode(HashHelper.GetHashCode(WildCard))
-            .CombineHashCode(HashHelper.GetHashCode(Ref))
-            .CombineHashCode(HashHelper.GetHashCode(Ref_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(Ref_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(List))
-            .CombineHashCode(HashHelper.GetHashCode(RefList))
-            .CombineHashCode(HashHelper.GetHashCode(Dict))
-            .CombineHashCode(HashHelper.GetHashCode(RefDict))
-            .CombineHashCode(HashHelper.GetHashCode(KeyRefDict))
-            .CombineHashCode(HashHelper.GetHashCode(ValRefDict))
-            .CombineHashCode(HashHelper.GetHashCode(DictKeyedValue))
-            ;
+            int ret = 0;
+            if (BoolN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
+            }
+            if (Bool_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
+            }
+            if (CharN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
+            }
+            if (Char_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Char).CombineHashCode(ret);
+            }
+            if (DateTimeNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(DateTimeNull).CombineHashCode(ret);
+            }
+            if (DateTime_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(DateTime).CombineHashCode(ret);
+            }
+            if (DoubleN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(DoubleN).CombineHashCode(ret);
+            }
+            if (DoubleN_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(DoubleN_Ranged).CombineHashCode(ret);
+            }
+            if (Double_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Double).CombineHashCode(ret);
+            }
+            if (Double_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Double_Ranged).CombineHashCode(ret);
+            }
+            if (FloatN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(FloatN).CombineHashCode(ret);
+            }
+            if (FloatN_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(FloatN_Ranged).CombineHashCode(ret);
+            }
+            if (Float_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Float).CombineHashCode(ret);
+            }
+            if (Float_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Float_Ranged).CombineHashCode(ret);
+            }
+            if (Int16N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int16N).CombineHashCode(ret);
+            }
+            if (Int16N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int16N_Ranged).CombineHashCode(ret);
+            }
+            if (Int16_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int16).CombineHashCode(ret);
+            }
+            if (Int16_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int16_Ranged).CombineHashCode(ret);
+            }
+            if (Int32N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int32N).CombineHashCode(ret);
+            }
+            if (Int32N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int32N_Ranged).CombineHashCode(ret);
+            }
+            if (Int32_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int32).CombineHashCode(ret);
+            }
+            if (Int32_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int32_Ranged).CombineHashCode(ret);
+            }
+            if (Int64N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int64N).CombineHashCode(ret);
+            }
+            if (Int64N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int64N_Ranged).CombineHashCode(ret);
+            }
+            if (Int64_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int64).CombineHashCode(ret);
+            }
+            if (Int64_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int64_Ranged).CombineHashCode(ret);
+            }
+            if (Int8N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int8N).CombineHashCode(ret);
+            }
+            if (Int8N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int8N_Ranged).CombineHashCode(ret);
+            }
+            if (Int8_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int8).CombineHashCode(ret);
+            }
+            if (Int8_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Int8_Ranged).CombineHashCode(ret);
+            }
+            if (Unsafe_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Unsafe).CombineHashCode(ret);
+            }
+            if (P2IntN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P2IntN).CombineHashCode(ret);
+            }
+            if (P2Int_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P2Int).CombineHashCode(ret);
+            }
+            if (P3DoubleN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P3DoubleN).CombineHashCode(ret);
+            }
+            if (P3Double_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P3Double).CombineHashCode(ret);
+            }
+            if (P3IntN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P3IntN).CombineHashCode(ret);
+            }
+            if (P3Int_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(P3Int).CombineHashCode(ret);
+            }
+            if (PercentN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(PercentN).CombineHashCode(ret);
+            }
+            if (Percent_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Percent).CombineHashCode(ret);
+            }
+            if (RangeInt8N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt8N).CombineHashCode(ret);
+            }
+            if (RangeInt8_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt8).CombineHashCode(ret);
+            }
+            if (RangeInt16N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt16N).CombineHashCode(ret);
+            }
+            if (RangeInt16_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt16).CombineHashCode(ret);
+            }
+            if (RangeInt32N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt32N).CombineHashCode(ret);
+            }
+            if (RangeInt32_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt32).CombineHashCode(ret);
+            }
+            if (RangeInt64N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt64N).CombineHashCode(ret);
+            }
+            if (RangeInt64_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeInt64).CombineHashCode(ret);
+            }
+            if (RangeUInt8N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt8N).CombineHashCode(ret);
+            }
+            if (RangeUInt8_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt8).CombineHashCode(ret);
+            }
+            if (RangeUInt16N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt16N).CombineHashCode(ret);
+            }
+            if (RangeUInt16_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt16).CombineHashCode(ret);
+            }
+            if (RangeUInt32N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt32N).CombineHashCode(ret);
+            }
+            if (RangeUInt32_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt32).CombineHashCode(ret);
+            }
+            if (RangeUInt64N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt64N).CombineHashCode(ret);
+            }
+            if (RangeUInt64_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RangeUInt64).CombineHashCode(ret);
+            }
+            if (String_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(String).CombineHashCode(ret);
+            }
+            if (UDoubleN_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UDoubleN).CombineHashCode(ret);
+            }
+            if (UDoubleN_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UDoubleN_Ranged).CombineHashCode(ret);
+            }
+            if (UDouble_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UDouble).CombineHashCode(ret);
+            }
+            if (UDouble_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UDouble_Ranged).CombineHashCode(ret);
+            }
+            if (UInt16N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt16N).CombineHashCode(ret);
+            }
+            if (UInt16N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt16N_Ranged).CombineHashCode(ret);
+            }
+            if (UInt16_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt16).CombineHashCode(ret);
+            }
+            if (UInt16_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt16_Ranged).CombineHashCode(ret);
+            }
+            if (UInt32N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt32N).CombineHashCode(ret);
+            }
+            if (UInt32N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt32N_Ranged).CombineHashCode(ret);
+            }
+            if (UInt32_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt32).CombineHashCode(ret);
+            }
+            if (UInt32_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt32_Ranged).CombineHashCode(ret);
+            }
+            if (UInt64N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt64N).CombineHashCode(ret);
+            }
+            if (UInt64N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt64N_Ranged).CombineHashCode(ret);
+            }
+            if (UInt64_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt64).CombineHashCode(ret);
+            }
+            if (UInt64_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt64_Ranged).CombineHashCode(ret);
+            }
+            if (UInt8N_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt8N).CombineHashCode(ret);
+            }
+            if (UInt8N_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt8N_Ranged).CombineHashCode(ret);
+            }
+            if (UInt8_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt8).CombineHashCode(ret);
+            }
+            if (UInt8_Ranged_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(UInt8_Ranged).CombineHashCode(ret);
+            }
+            if (Enum_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
+            }
+            if (WildCard_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
+            }
+            if (Ref_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
+            }
+            if (Ref_NotNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
+            }
+            if (Ref_Singleton_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Ref_Singleton).CombineHashCode(ret);
+            }
+            if (RefGetter_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefGetter).CombineHashCode(ret);
+            }
+            if (RefGetter_NotNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefGetter_NotNull).CombineHashCode(ret);
+            }
+            if (RefGetter_Singleton_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefGetter_Singleton).CombineHashCode(ret);
+            }
+            if (RefSetter_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefSetter).CombineHashCode(ret);
+            }
+            if (RefSetter_NotNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefSetter_NotNull).CombineHashCode(ret);
+            }
+            if (RefSetter_Singleton_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefSetter_Singleton).CombineHashCode(ret);
+            }
+            if (List.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(List).CombineHashCode(ret);
+            }
+            if (RefList.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefList).CombineHashCode(ret);
+            }
+            if (Dict.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Dict).CombineHashCode(ret);
+            }
+            if (RefDict.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefDict).CombineHashCode(ret);
+            }
+            if (KeyRefDict.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(KeyRefDict).CombineHashCode(ret);
+            }
+            if (ValRefDict.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(ValRefDict).CombineHashCode(ret);
+            }
+            if (DictKeyedValue.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(DictKeyedValue).CombineHashCode(ret);
+            }
+            return ret;
         }
 
         #endregion
@@ -4512,6 +5170,751 @@ namespace Loqui.Tests.Internals
         {
         }
 
+        public static TestObject_Notifying_ReadOnly_Mask<bool?> GetEqualsMask(
+            this ITestObject_Notifying_ReadOnlyGetter item,
+            ITestObject_Notifying_ReadOnlyGetter rhs)
+        {
+            var ret = new TestObject_Notifying_ReadOnly_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask(
+            this ITestObject_Notifying_ReadOnlyGetter item,
+            ITestObject_Notifying_ReadOnlyGetter rhs,
+            TestObject_Notifying_ReadOnly_Mask<bool?> ret)
+        {
+            if (item.BoolN_Property.HasBeenSet == rhs.BoolN_Property.HasBeenSet)
+            {
+                if (item.BoolN_Property.HasBeenSet)
+                {
+                    ret.BoolN = item.BoolN != rhs.BoolN;
+                }
+            }
+            if (item.Bool_Property.HasBeenSet == rhs.Bool_Property.HasBeenSet)
+            {
+                if (item.Bool_Property.HasBeenSet)
+                {
+                    ret.Bool = item.Bool != rhs.Bool;
+                }
+            }
+            if (item.CharN_Property.HasBeenSet == rhs.CharN_Property.HasBeenSet)
+            {
+                if (item.CharN_Property.HasBeenSet)
+                {
+                    ret.CharN = item.CharN != rhs.CharN;
+                }
+            }
+            if (item.Char_Property.HasBeenSet == rhs.Char_Property.HasBeenSet)
+            {
+                if (item.Char_Property.HasBeenSet)
+                {
+                    ret.Char = item.Char != rhs.Char;
+                }
+            }
+            if (item.DateTimeNull_Property.HasBeenSet == rhs.DateTimeNull_Property.HasBeenSet)
+            {
+                if (item.DateTimeNull_Property.HasBeenSet)
+                {
+                    ret.DateTimeNull = item.DateTimeNull != rhs.DateTimeNull;
+                }
+            }
+            if (item.DateTime_Property.HasBeenSet == rhs.DateTime_Property.HasBeenSet)
+            {
+                if (item.DateTime_Property.HasBeenSet)
+                {
+                    ret.DateTime = item.DateTime != rhs.DateTime;
+                }
+            }
+            if (item.DoubleN_Property.HasBeenSet == rhs.DoubleN_Property.HasBeenSet)
+            {
+                if (item.DoubleN_Property.HasBeenSet)
+                {
+                    ret.DoubleN = item.DoubleN != rhs.DoubleN;
+                }
+            }
+            if (item.DoubleN_Ranged_Property.HasBeenSet == rhs.DoubleN_Ranged_Property.HasBeenSet)
+            {
+                if (item.DoubleN_Ranged_Property.HasBeenSet)
+                {
+                    ret.DoubleN_Ranged = item.DoubleN_Ranged != rhs.DoubleN_Ranged;
+                }
+            }
+            if (item.Double_Property.HasBeenSet == rhs.Double_Property.HasBeenSet)
+            {
+                if (item.Double_Property.HasBeenSet)
+                {
+                    ret.Double = item.Double != rhs.Double;
+                }
+            }
+            if (item.Double_Ranged_Property.HasBeenSet == rhs.Double_Ranged_Property.HasBeenSet)
+            {
+                if (item.Double_Ranged_Property.HasBeenSet)
+                {
+                    ret.Double_Ranged = item.Double_Ranged != rhs.Double_Ranged;
+                }
+            }
+            if (item.FloatN_Property.HasBeenSet == rhs.FloatN_Property.HasBeenSet)
+            {
+                if (item.FloatN_Property.HasBeenSet)
+                {
+                    ret.FloatN = item.FloatN != rhs.FloatN;
+                }
+            }
+            if (item.FloatN_Ranged_Property.HasBeenSet == rhs.FloatN_Ranged_Property.HasBeenSet)
+            {
+                if (item.FloatN_Ranged_Property.HasBeenSet)
+                {
+                    ret.FloatN_Ranged = item.FloatN_Ranged != rhs.FloatN_Ranged;
+                }
+            }
+            if (item.Float_Property.HasBeenSet == rhs.Float_Property.HasBeenSet)
+            {
+                if (item.Float_Property.HasBeenSet)
+                {
+                    ret.Float = item.Float != rhs.Float;
+                }
+            }
+            if (item.Float_Ranged_Property.HasBeenSet == rhs.Float_Ranged_Property.HasBeenSet)
+            {
+                if (item.Float_Ranged_Property.HasBeenSet)
+                {
+                    ret.Float_Ranged = item.Float_Ranged != rhs.Float_Ranged;
+                }
+            }
+            if (item.Int16N_Property.HasBeenSet == rhs.Int16N_Property.HasBeenSet)
+            {
+                if (item.Int16N_Property.HasBeenSet)
+                {
+                    ret.Int16N = item.Int16N != rhs.Int16N;
+                }
+            }
+            if (item.Int16N_Ranged_Property.HasBeenSet == rhs.Int16N_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int16N_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int16N_Ranged = item.Int16N_Ranged != rhs.Int16N_Ranged;
+                }
+            }
+            if (item.Int16_Property.HasBeenSet == rhs.Int16_Property.HasBeenSet)
+            {
+                if (item.Int16_Property.HasBeenSet)
+                {
+                    ret.Int16 = item.Int16 != rhs.Int16;
+                }
+            }
+            if (item.Int16_Ranged_Property.HasBeenSet == rhs.Int16_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int16_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int16_Ranged = item.Int16_Ranged != rhs.Int16_Ranged;
+                }
+            }
+            if (item.Int32N_Property.HasBeenSet == rhs.Int32N_Property.HasBeenSet)
+            {
+                if (item.Int32N_Property.HasBeenSet)
+                {
+                    ret.Int32N = item.Int32N != rhs.Int32N;
+                }
+            }
+            if (item.Int32N_Ranged_Property.HasBeenSet == rhs.Int32N_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int32N_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int32N_Ranged = item.Int32N_Ranged != rhs.Int32N_Ranged;
+                }
+            }
+            if (item.Int32_Property.HasBeenSet == rhs.Int32_Property.HasBeenSet)
+            {
+                if (item.Int32_Property.HasBeenSet)
+                {
+                    ret.Int32 = item.Int32 != rhs.Int32;
+                }
+            }
+            if (item.Int32_Ranged_Property.HasBeenSet == rhs.Int32_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int32_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int32_Ranged = item.Int32_Ranged != rhs.Int32_Ranged;
+                }
+            }
+            if (item.Int64N_Property.HasBeenSet == rhs.Int64N_Property.HasBeenSet)
+            {
+                if (item.Int64N_Property.HasBeenSet)
+                {
+                    ret.Int64N = item.Int64N != rhs.Int64N;
+                }
+            }
+            if (item.Int64N_Ranged_Property.HasBeenSet == rhs.Int64N_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int64N_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int64N_Ranged = item.Int64N_Ranged != rhs.Int64N_Ranged;
+                }
+            }
+            if (item.Int64_Property.HasBeenSet == rhs.Int64_Property.HasBeenSet)
+            {
+                if (item.Int64_Property.HasBeenSet)
+                {
+                    ret.Int64 = item.Int64 != rhs.Int64;
+                }
+            }
+            if (item.Int64_Ranged_Property.HasBeenSet == rhs.Int64_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int64_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int64_Ranged = item.Int64_Ranged != rhs.Int64_Ranged;
+                }
+            }
+            if (item.Int8N_Property.HasBeenSet == rhs.Int8N_Property.HasBeenSet)
+            {
+                if (item.Int8N_Property.HasBeenSet)
+                {
+                    ret.Int8N = item.Int8N != rhs.Int8N;
+                }
+            }
+            if (item.Int8N_Ranged_Property.HasBeenSet == rhs.Int8N_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int8N_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int8N_Ranged = item.Int8N_Ranged != rhs.Int8N_Ranged;
+                }
+            }
+            if (item.Int8_Property.HasBeenSet == rhs.Int8_Property.HasBeenSet)
+            {
+                if (item.Int8_Property.HasBeenSet)
+                {
+                    ret.Int8 = item.Int8 != rhs.Int8;
+                }
+            }
+            if (item.Int8_Ranged_Property.HasBeenSet == rhs.Int8_Ranged_Property.HasBeenSet)
+            {
+                if (item.Int8_Ranged_Property.HasBeenSet)
+                {
+                    ret.Int8_Ranged = item.Int8_Ranged != rhs.Int8_Ranged;
+                }
+            }
+            if (item.Unsafe_Property.HasBeenSet == rhs.Unsafe_Property.HasBeenSet)
+            {
+                if (item.Unsafe_Property.HasBeenSet)
+                {
+                    ret.Unsafe = item.Unsafe != rhs.Unsafe;
+                }
+            }
+            if (item.P2IntN_Property.HasBeenSet == rhs.P2IntN_Property.HasBeenSet)
+            {
+                if (item.P2IntN_Property.HasBeenSet)
+                {
+                    ret.P2IntN = item.P2IntN != rhs.P2IntN;
+                }
+            }
+            if (item.P2Int_Property.HasBeenSet == rhs.P2Int_Property.HasBeenSet)
+            {
+                if (item.P2Int_Property.HasBeenSet)
+                {
+                    ret.P2Int = item.P2Int != rhs.P2Int;
+                }
+            }
+            if (item.P3DoubleN_Property.HasBeenSet == rhs.P3DoubleN_Property.HasBeenSet)
+            {
+                if (item.P3DoubleN_Property.HasBeenSet)
+                {
+                    ret.P3DoubleN = item.P3DoubleN != rhs.P3DoubleN;
+                }
+            }
+            if (item.P3Double_Property.HasBeenSet == rhs.P3Double_Property.HasBeenSet)
+            {
+                if (item.P3Double_Property.HasBeenSet)
+                {
+                    ret.P3Double = item.P3Double != rhs.P3Double;
+                }
+            }
+            if (item.P3IntN_Property.HasBeenSet == rhs.P3IntN_Property.HasBeenSet)
+            {
+                if (item.P3IntN_Property.HasBeenSet)
+                {
+                    ret.P3IntN = item.P3IntN != rhs.P3IntN;
+                }
+            }
+            if (item.P3Int_Property.HasBeenSet == rhs.P3Int_Property.HasBeenSet)
+            {
+                if (item.P3Int_Property.HasBeenSet)
+                {
+                    ret.P3Int = item.P3Int != rhs.P3Int;
+                }
+            }
+            if (item.PercentN_Property.HasBeenSet == rhs.PercentN_Property.HasBeenSet)
+            {
+                if (item.PercentN_Property.HasBeenSet)
+                {
+                    ret.PercentN = item.PercentN != rhs.PercentN;
+                }
+            }
+            if (item.Percent_Property.HasBeenSet == rhs.Percent_Property.HasBeenSet)
+            {
+                if (item.Percent_Property.HasBeenSet)
+                {
+                    ret.Percent = item.Percent != rhs.Percent;
+                }
+            }
+            if (item.RangeInt8N_Property.HasBeenSet == rhs.RangeInt8N_Property.HasBeenSet)
+            {
+                if (item.RangeInt8N_Property.HasBeenSet)
+                {
+                    ret.RangeInt8N = item.RangeInt8N != rhs.RangeInt8N;
+                }
+            }
+            if (item.RangeInt8_Property.HasBeenSet == rhs.RangeInt8_Property.HasBeenSet)
+            {
+                if (item.RangeInt8_Property.HasBeenSet)
+                {
+                    ret.RangeInt8 = item.RangeInt8 != rhs.RangeInt8;
+                }
+            }
+            if (item.RangeInt16N_Property.HasBeenSet == rhs.RangeInt16N_Property.HasBeenSet)
+            {
+                if (item.RangeInt16N_Property.HasBeenSet)
+                {
+                    ret.RangeInt16N = item.RangeInt16N != rhs.RangeInt16N;
+                }
+            }
+            if (item.RangeInt16_Property.HasBeenSet == rhs.RangeInt16_Property.HasBeenSet)
+            {
+                if (item.RangeInt16_Property.HasBeenSet)
+                {
+                    ret.RangeInt16 = item.RangeInt16 != rhs.RangeInt16;
+                }
+            }
+            if (item.RangeInt32N_Property.HasBeenSet == rhs.RangeInt32N_Property.HasBeenSet)
+            {
+                if (item.RangeInt32N_Property.HasBeenSet)
+                {
+                    ret.RangeInt32N = item.RangeInt32N != rhs.RangeInt32N;
+                }
+            }
+            if (item.RangeInt32_Property.HasBeenSet == rhs.RangeInt32_Property.HasBeenSet)
+            {
+                if (item.RangeInt32_Property.HasBeenSet)
+                {
+                    ret.RangeInt32 = item.RangeInt32 != rhs.RangeInt32;
+                }
+            }
+            if (item.RangeInt64N_Property.HasBeenSet == rhs.RangeInt64N_Property.HasBeenSet)
+            {
+                if (item.RangeInt64N_Property.HasBeenSet)
+                {
+                    ret.RangeInt64N = item.RangeInt64N != rhs.RangeInt64N;
+                }
+            }
+            if (item.RangeInt64_Property.HasBeenSet == rhs.RangeInt64_Property.HasBeenSet)
+            {
+                if (item.RangeInt64_Property.HasBeenSet)
+                {
+                    ret.RangeInt64 = item.RangeInt64 != rhs.RangeInt64;
+                }
+            }
+            if (item.RangeUInt8N_Property.HasBeenSet == rhs.RangeUInt8N_Property.HasBeenSet)
+            {
+                if (item.RangeUInt8N_Property.HasBeenSet)
+                {
+                    ret.RangeUInt8N = item.RangeUInt8N != rhs.RangeUInt8N;
+                }
+            }
+            if (item.RangeUInt8_Property.HasBeenSet == rhs.RangeUInt8_Property.HasBeenSet)
+            {
+                if (item.RangeUInt8_Property.HasBeenSet)
+                {
+                    ret.RangeUInt8 = item.RangeUInt8 != rhs.RangeUInt8;
+                }
+            }
+            if (item.RangeUInt16N_Property.HasBeenSet == rhs.RangeUInt16N_Property.HasBeenSet)
+            {
+                if (item.RangeUInt16N_Property.HasBeenSet)
+                {
+                    ret.RangeUInt16N = item.RangeUInt16N != rhs.RangeUInt16N;
+                }
+            }
+            if (item.RangeUInt16_Property.HasBeenSet == rhs.RangeUInt16_Property.HasBeenSet)
+            {
+                if (item.RangeUInt16_Property.HasBeenSet)
+                {
+                    ret.RangeUInt16 = item.RangeUInt16 != rhs.RangeUInt16;
+                }
+            }
+            if (item.RangeUInt32N_Property.HasBeenSet == rhs.RangeUInt32N_Property.HasBeenSet)
+            {
+                if (item.RangeUInt32N_Property.HasBeenSet)
+                {
+                    ret.RangeUInt32N = item.RangeUInt32N != rhs.RangeUInt32N;
+                }
+            }
+            if (item.RangeUInt32_Property.HasBeenSet == rhs.RangeUInt32_Property.HasBeenSet)
+            {
+                if (item.RangeUInt32_Property.HasBeenSet)
+                {
+                    ret.RangeUInt32 = item.RangeUInt32 != rhs.RangeUInt32;
+                }
+            }
+            if (item.RangeUInt64N_Property.HasBeenSet == rhs.RangeUInt64N_Property.HasBeenSet)
+            {
+                if (item.RangeUInt64N_Property.HasBeenSet)
+                {
+                    ret.RangeUInt64N = item.RangeUInt64N != rhs.RangeUInt64N;
+                }
+            }
+            if (item.RangeUInt64_Property.HasBeenSet == rhs.RangeUInt64_Property.HasBeenSet)
+            {
+                if (item.RangeUInt64_Property.HasBeenSet)
+                {
+                    ret.RangeUInt64 = item.RangeUInt64 != rhs.RangeUInt64;
+                }
+            }
+            if (item.String_Property.HasBeenSet == rhs.String_Property.HasBeenSet)
+            {
+                if (item.String_Property.HasBeenSet)
+                {
+                    ret.String = item.String != rhs.String;
+                }
+            }
+            if (item.UDoubleN_Property.HasBeenSet == rhs.UDoubleN_Property.HasBeenSet)
+            {
+                if (item.UDoubleN_Property.HasBeenSet)
+                {
+                    ret.UDoubleN = item.UDoubleN != rhs.UDoubleN;
+                }
+            }
+            if (item.UDoubleN_Ranged_Property.HasBeenSet == rhs.UDoubleN_Ranged_Property.HasBeenSet)
+            {
+                if (item.UDoubleN_Ranged_Property.HasBeenSet)
+                {
+                    ret.UDoubleN_Ranged = item.UDoubleN_Ranged != rhs.UDoubleN_Ranged;
+                }
+            }
+            if (item.UDouble_Property.HasBeenSet == rhs.UDouble_Property.HasBeenSet)
+            {
+                if (item.UDouble_Property.HasBeenSet)
+                {
+                    ret.UDouble = item.UDouble != rhs.UDouble;
+                }
+            }
+            if (item.UDouble_Ranged_Property.HasBeenSet == rhs.UDouble_Ranged_Property.HasBeenSet)
+            {
+                if (item.UDouble_Ranged_Property.HasBeenSet)
+                {
+                    ret.UDouble_Ranged = item.UDouble_Ranged != rhs.UDouble_Ranged;
+                }
+            }
+            if (item.UInt16N_Property.HasBeenSet == rhs.UInt16N_Property.HasBeenSet)
+            {
+                if (item.UInt16N_Property.HasBeenSet)
+                {
+                    ret.UInt16N = item.UInt16N != rhs.UInt16N;
+                }
+            }
+            if (item.UInt16N_Ranged_Property.HasBeenSet == rhs.UInt16N_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt16N_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt16N_Ranged = item.UInt16N_Ranged != rhs.UInt16N_Ranged;
+                }
+            }
+            if (item.UInt16_Property.HasBeenSet == rhs.UInt16_Property.HasBeenSet)
+            {
+                if (item.UInt16_Property.HasBeenSet)
+                {
+                    ret.UInt16 = item.UInt16 != rhs.UInt16;
+                }
+            }
+            if (item.UInt16_Ranged_Property.HasBeenSet == rhs.UInt16_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt16_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt16_Ranged = item.UInt16_Ranged != rhs.UInt16_Ranged;
+                }
+            }
+            if (item.UInt32N_Property.HasBeenSet == rhs.UInt32N_Property.HasBeenSet)
+            {
+                if (item.UInt32N_Property.HasBeenSet)
+                {
+                    ret.UInt32N = item.UInt32N != rhs.UInt32N;
+                }
+            }
+            if (item.UInt32N_Ranged_Property.HasBeenSet == rhs.UInt32N_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt32N_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt32N_Ranged = item.UInt32N_Ranged != rhs.UInt32N_Ranged;
+                }
+            }
+            if (item.UInt32_Property.HasBeenSet == rhs.UInt32_Property.HasBeenSet)
+            {
+                if (item.UInt32_Property.HasBeenSet)
+                {
+                    ret.UInt32 = item.UInt32 != rhs.UInt32;
+                }
+            }
+            if (item.UInt32_Ranged_Property.HasBeenSet == rhs.UInt32_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt32_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt32_Ranged = item.UInt32_Ranged != rhs.UInt32_Ranged;
+                }
+            }
+            if (item.UInt64N_Property.HasBeenSet == rhs.UInt64N_Property.HasBeenSet)
+            {
+                if (item.UInt64N_Property.HasBeenSet)
+                {
+                    ret.UInt64N = item.UInt64N != rhs.UInt64N;
+                }
+            }
+            if (item.UInt64N_Ranged_Property.HasBeenSet == rhs.UInt64N_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt64N_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt64N_Ranged = item.UInt64N_Ranged != rhs.UInt64N_Ranged;
+                }
+            }
+            if (item.UInt64_Property.HasBeenSet == rhs.UInt64_Property.HasBeenSet)
+            {
+                if (item.UInt64_Property.HasBeenSet)
+                {
+                    ret.UInt64 = item.UInt64 != rhs.UInt64;
+                }
+            }
+            if (item.UInt64_Ranged_Property.HasBeenSet == rhs.UInt64_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt64_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt64_Ranged = item.UInt64_Ranged != rhs.UInt64_Ranged;
+                }
+            }
+            if (item.UInt8N_Property.HasBeenSet == rhs.UInt8N_Property.HasBeenSet)
+            {
+                if (item.UInt8N_Property.HasBeenSet)
+                {
+                    ret.UInt8N = item.UInt8N != rhs.UInt8N;
+                }
+            }
+            if (item.UInt8N_Ranged_Property.HasBeenSet == rhs.UInt8N_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt8N_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt8N_Ranged = item.UInt8N_Ranged != rhs.UInt8N_Ranged;
+                }
+            }
+            if (item.UInt8_Property.HasBeenSet == rhs.UInt8_Property.HasBeenSet)
+            {
+                if (item.UInt8_Property.HasBeenSet)
+                {
+                    ret.UInt8 = item.UInt8 != rhs.UInt8;
+                }
+            }
+            if (item.UInt8_Ranged_Property.HasBeenSet == rhs.UInt8_Ranged_Property.HasBeenSet)
+            {
+                if (item.UInt8_Ranged_Property.HasBeenSet)
+                {
+                    ret.UInt8_Ranged = item.UInt8_Ranged != rhs.UInt8_Ranged;
+                }
+            }
+            if (item.Enum_Property.HasBeenSet == rhs.Enum_Property.HasBeenSet)
+            {
+                if (item.Enum_Property.HasBeenSet)
+                {
+                    ret.Enum = item.Enum != rhs.Enum;
+                }
+            }
+            if (item.WildCard_Property.HasBeenSet == rhs.WildCard_Property.HasBeenSet)
+            {
+                if (item.WildCard_Property.HasBeenSet)
+                {
+                    ret.WildCard = item.WildCard != rhs.WildCard;
+                }
+            }
+            if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
+            {
+                if (item.Ref_Property.HasBeenSet)
+                {
+                    ret.Ref = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
+                    ret.Ref.Overall = ret.Ref.Specific.AllEqual(true);
+                }
+            }
+            if (item.Ref_NotNull_Property.HasBeenSet == rhs.Ref_NotNull_Property.HasBeenSet)
+            {
+                if (item.Ref_NotNull_Property.HasBeenSet)
+                {
+                    ret.Ref_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
+                    ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual(true);
+                }
+            }
+            if (item.Ref_Singleton_Property.HasBeenSet == rhs.Ref_Singleton_Property.HasBeenSet)
+            {
+                if (item.Ref_Singleton_Property.HasBeenSet)
+                {
+                    ret.Ref_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
+                    ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefGetter_Property.HasBeenSet == rhs.RefGetter_Property.HasBeenSet)
+            {
+                if (item.RefGetter_Property.HasBeenSet)
+                {
+                    ret.RefGetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
+                    ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefGetter_NotNull_Property.HasBeenSet == rhs.RefGetter_NotNull_Property.HasBeenSet)
+            {
+                if (item.RefGetter_NotNull_Property.HasBeenSet)
+                {
+                    ret.RefGetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
+                    ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefGetter_Singleton_Property.HasBeenSet == rhs.RefGetter_Singleton_Property.HasBeenSet)
+            {
+                if (item.RefGetter_Singleton_Property.HasBeenSet)
+                {
+                    ret.RefGetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
+                    ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefSetter_Property.HasBeenSet == rhs.RefSetter_Property.HasBeenSet)
+            {
+                if (item.RefSetter_Property.HasBeenSet)
+                {
+                    ret.RefSetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
+                    ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefSetter_NotNull_Property.HasBeenSet == rhs.RefSetter_NotNull_Property.HasBeenSet)
+            {
+                if (item.RefSetter_NotNull_Property.HasBeenSet)
+                {
+                    ret.RefSetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
+                    ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual(true);
+                }
+            }
+            if (item.RefSetter_Singleton_Property.HasBeenSet == rhs.RefSetter_Singleton_Property.HasBeenSet)
+            {
+                if (item.RefSetter_Singleton_Property.HasBeenSet)
+                {
+                    ret.RefSetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
+                    ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual(true);
+                }
+            }
+            if (item.List.HasBeenSet == rhs.List.HasBeenSet)
+            {
+                if (item.List.HasBeenSet)
+                {
+                    ret.List.Specific = item.List.SelectAgainst<Boolean, bool?>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
+                    ret.List.Overall = ret.List.Overall.Value && ret.List.Specific.All((b) => b ?? false);
+                }
+            }
+            if (item.RefList.HasBeenSet == rhs.RefList.HasBeenSet)
+            {
+                if (item.RefList.HasBeenSet)
+                {
+                    ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.RefList, ((l, r) =>
+                    {
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
+                        itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual(true);
+                        return itemRet;
+                    }
+                    ), out ret.RefList.Overall);
+                    ret.RefList.Overall = ret.RefList.Overall.Value && ret.RefList.Specific.All((b) => b.Overall ?? false);
+                }
+            }
+            if (item.Dict.HasBeenSet == rhs.Dict.HasBeenSet)
+            {
+                if (item.Dict.HasBeenSet)
+                {
+                    ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool?, bool?>>(rhs.Dict, ((l, r) => new KeyValuePair<bool?, bool?>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
+                    ret.Dict.Overall = ret.Dict.Overall.Value && ret.Dict.Specific.All((b) => (b.Key ?? false) && (b.Value ?? false));
+                }
+            }
+            if (item.RefDict.HasBeenSet == rhs.RefDict.HasBeenSet)
+            {
+                if (item.RefDict.HasBeenSet)
+                {
+                    ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.RefDict, ((l, r) =>
+                    {
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
+                        keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                        valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                        return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+                    }
+                    ), out ret.RefDict.Overall);
+                    ret.RefDict.Overall = ret.RefDict.Overall.Value && ret.RefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value.Overall ?? false));
+                }
+            }
+            if (item.KeyRefDict.HasBeenSet == rhs.KeyRefDict.HasBeenSet)
+            {
+                if (item.KeyRefDict.HasBeenSet)
+                {
+                    ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>>(rhs.KeyRefDict, ((l, r) =>
+                    {
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
+                        bool? valItemRet = object.Equals(l.Value, r.Value);
+                        keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                        return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>(keyItemRet, valItemRet);
+                    }
+                    ), out ret.KeyRefDict.Overall);
+                    ret.KeyRefDict.Overall = ret.KeyRefDict.Overall.Value && ret.KeyRefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value ?? false));
+                }
+            }
+            if (item.ValRefDict.HasBeenSet == rhs.ValRefDict.HasBeenSet)
+            {
+                if (item.ValRefDict.HasBeenSet)
+                {
+                    ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.ValRefDict, ((l, r) =>
+                    {
+                        bool? keyItemRet = object.Equals(l.Key, r.Key);
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
+                        valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                        return new KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+                    }
+                    ), out ret.ValRefDict.Overall);
+                    ret.ValRefDict.Overall = ret.ValRefDict.Overall.Value && ret.ValRefDict.Specific.All((b) => (b.Key ?? false) && (b.Value.Overall ?? false));
+                }
+            }
+            if (item.DictKeyedValue.HasBeenSet == rhs.DictKeyedValue.HasBeenSet)
+            {
+                if (item.DictKeyedValue.HasBeenSet)
+                {
+                    ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.DictKeyedValue.Values, ((l, r) =>
+                    {
+                        MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
+                        itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual(true);
+                        return itemRet;
+                    }
+                    ), out ret.DictKeyedValue.Overall);
+                    ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall.Value && ret.DictKeyedValue.Specific.All((b) => b.Overall ?? false);
+                }
+            }
+        }
+
         #region XML Translation
         public static void Write_XML(
             ITestObject_Notifying_ReadOnlyGetter item,
@@ -6497,7 +7900,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_Notifying_ReadOnly_Mask<T> 
+    public class TestObject_Notifying_ReadOnly_Mask<T> : IMask<T>
     {
         public T BoolN;
         public T Bool;
@@ -6593,6 +7996,233 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>> KeyRefDict;
         public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
+
+        public bool AllEqual(T t)
+        {
+            if (!object.Equals(this.BoolN, t)) return false;
+            if (!object.Equals(this.Bool, t)) return false;
+            if (!object.Equals(this.CharN, t)) return false;
+            if (!object.Equals(this.Char, t)) return false;
+            if (!object.Equals(this.DateTimeNull, t)) return false;
+            if (!object.Equals(this.DateTime, t)) return false;
+            if (!object.Equals(this.DoubleN, t)) return false;
+            if (!object.Equals(this.DoubleN_Ranged, t)) return false;
+            if (!object.Equals(this.Double, t)) return false;
+            if (!object.Equals(this.Double_Ranged, t)) return false;
+            if (!object.Equals(this.FloatN, t)) return false;
+            if (!object.Equals(this.FloatN_Ranged, t)) return false;
+            if (!object.Equals(this.Float, t)) return false;
+            if (!object.Equals(this.Float_Ranged, t)) return false;
+            if (!object.Equals(this.Int16N, t)) return false;
+            if (!object.Equals(this.Int16N_Ranged, t)) return false;
+            if (!object.Equals(this.Int16, t)) return false;
+            if (!object.Equals(this.Int16_Ranged, t)) return false;
+            if (!object.Equals(this.Int32N, t)) return false;
+            if (!object.Equals(this.Int32N_Ranged, t)) return false;
+            if (!object.Equals(this.Int32, t)) return false;
+            if (!object.Equals(this.Int32_Ranged, t)) return false;
+            if (!object.Equals(this.Int64N, t)) return false;
+            if (!object.Equals(this.Int64N_Ranged, t)) return false;
+            if (!object.Equals(this.Int64, t)) return false;
+            if (!object.Equals(this.Int64_Ranged, t)) return false;
+            if (!object.Equals(this.Int8N, t)) return false;
+            if (!object.Equals(this.Int8N_Ranged, t)) return false;
+            if (!object.Equals(this.Int8, t)) return false;
+            if (!object.Equals(this.Int8_Ranged, t)) return false;
+            if (!object.Equals(this.Unsafe, t)) return false;
+            if (!object.Equals(this.P2IntN, t)) return false;
+            if (!object.Equals(this.P2Int, t)) return false;
+            if (!object.Equals(this.P3DoubleN, t)) return false;
+            if (!object.Equals(this.P3Double, t)) return false;
+            if (!object.Equals(this.P3IntN, t)) return false;
+            if (!object.Equals(this.P3Int, t)) return false;
+            if (!object.Equals(this.PercentN, t)) return false;
+            if (!object.Equals(this.Percent, t)) return false;
+            if (!object.Equals(this.RangeInt8N, t)) return false;
+            if (!object.Equals(this.RangeInt8, t)) return false;
+            if (!object.Equals(this.RangeInt16N, t)) return false;
+            if (!object.Equals(this.RangeInt16, t)) return false;
+            if (!object.Equals(this.RangeInt32N, t)) return false;
+            if (!object.Equals(this.RangeInt32, t)) return false;
+            if (!object.Equals(this.RangeInt64N, t)) return false;
+            if (!object.Equals(this.RangeInt64, t)) return false;
+            if (!object.Equals(this.RangeUInt8N, t)) return false;
+            if (!object.Equals(this.RangeUInt8, t)) return false;
+            if (!object.Equals(this.RangeUInt16N, t)) return false;
+            if (!object.Equals(this.RangeUInt16, t)) return false;
+            if (!object.Equals(this.RangeUInt32N, t)) return false;
+            if (!object.Equals(this.RangeUInt32, t)) return false;
+            if (!object.Equals(this.RangeUInt64N, t)) return false;
+            if (!object.Equals(this.RangeUInt64, t)) return false;
+            if (!object.Equals(this.String, t)) return false;
+            if (!object.Equals(this.UDoubleN, t)) return false;
+            if (!object.Equals(this.UDoubleN_Ranged, t)) return false;
+            if (!object.Equals(this.UDouble, t)) return false;
+            if (!object.Equals(this.UDouble_Ranged, t)) return false;
+            if (!object.Equals(this.UInt16N, t)) return false;
+            if (!object.Equals(this.UInt16N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt16, t)) return false;
+            if (!object.Equals(this.UInt16_Ranged, t)) return false;
+            if (!object.Equals(this.UInt32N, t)) return false;
+            if (!object.Equals(this.UInt32N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt32, t)) return false;
+            if (!object.Equals(this.UInt32_Ranged, t)) return false;
+            if (!object.Equals(this.UInt64N, t)) return false;
+            if (!object.Equals(this.UInt64N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt64, t)) return false;
+            if (!object.Equals(this.UInt64_Ranged, t)) return false;
+            if (!object.Equals(this.UInt8N, t)) return false;
+            if (!object.Equals(this.UInt8N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt8, t)) return false;
+            if (!object.Equals(this.UInt8_Ranged, t)) return false;
+            if (!object.Equals(this.Enum, t)) return false;
+            if (!object.Equals(this.WildCard, t)) return false;
+            if (Ref != null)
+            {
+                if (!object.Equals(this.Ref.Overall, t)) return false;
+                if (Ref.Specific != null && !Ref.Specific.AllEqual(t)) return false;
+            }
+            if (Ref_NotNull != null)
+            {
+                if (!object.Equals(this.Ref_NotNull.Overall, t)) return false;
+                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (Ref_Singleton != null)
+            {
+                if (!object.Equals(this.Ref_Singleton.Overall, t)) return false;
+                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter != null)
+            {
+                if (!object.Equals(this.RefGetter.Overall, t)) return false;
+                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter_NotNull != null)
+            {
+                if (!object.Equals(this.RefGetter_NotNull.Overall, t)) return false;
+                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter_Singleton != null)
+            {
+                if (!object.Equals(this.RefGetter_Singleton.Overall, t)) return false;
+                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter != null)
+            {
+                if (!object.Equals(this.RefSetter.Overall, t)) return false;
+                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter_NotNull != null)
+            {
+                if (!object.Equals(this.RefSetter_NotNull.Overall, t)) return false;
+                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter_Singleton != null)
+            {
+                if (!object.Equals(this.RefSetter_Singleton.Overall, t)) return false;
+                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (List != null)
+            {
+                if (!object.Equals(this.List.Overall, t)) return false;
+                if (List.Specific != null)
+                {
+                    foreach (var item in List.Specific)
+                    {
+                        if (!object.Equals(item, t)) return false;
+                    }
+                }
+            }
+            if (RefList != null)
+            {
+                if (!object.Equals(this.RefList.Overall, t)) return false;
+                if (RefList.Specific != null)
+                {
+                    foreach (var item in RefList.Specific)
+                    {
+                        if (!object.Equals(item.Overall, t)) return false;
+                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                    }
+                }
+            }
+            if (Dict != null)
+            {
+                if (!object.Equals(this.Dict.Overall, t)) return false;
+                if (Dict.Specific != null)
+                {
+                    foreach (var item in Dict.Specific)
+                    {
+                        if (!object.Equals(item.Key, t)) return false;
+                        if (!object.Equals(item.Value, t)) return false;
+                    }
+                }
+            }
+            if (RefDict != null)
+            {
+                if (!object.Equals(this.RefDict.Overall, t)) return false;
+                if (RefDict.Specific != null)
+                {
+                    foreach (var item in RefDict.Specific)
+                    {
+                        if (item.Key != null)
+                        {
+                            if (!object.Equals(item.Key.Overall, t)) return false;
+                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                        if (item.Value != null)
+                        {
+                            if (!object.Equals(item.Value.Overall, t)) return false;
+                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                    }
+                }
+            }
+            if (KeyRefDict != null)
+            {
+                if (!object.Equals(this.KeyRefDict.Overall, t)) return false;
+                if (KeyRefDict.Specific != null)
+                {
+                    foreach (var item in KeyRefDict.Specific)
+                    {
+                        if (item.Key != null)
+                        {
+                            if (!object.Equals(item.Key.Overall, t)) return false;
+                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                        if (!object.Equals(item.Value, t)) return false;
+                    }
+                }
+            }
+            if (ValRefDict != null)
+            {
+                if (!object.Equals(this.ValRefDict.Overall, t)) return false;
+                if (ValRefDict.Specific != null)
+                {
+                    foreach (var item in ValRefDict.Specific)
+                    {
+                        if (!object.Equals(item.Key, t)) return false;
+                        if (item.Value != null)
+                        {
+                            if (!object.Equals(item.Value.Overall, t)) return false;
+                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                    }
+                }
+            }
+            if (DictKeyedValue != null)
+            {
+                if (!object.Equals(this.DictKeyedValue.Overall, t)) return false;
+                if (DictKeyedValue.Specific != null)
+                {
+                    foreach (var item in DictKeyedValue.Specific)
+                    {
+                        if (!object.Equals(item.Overall, t)) return false;
+                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     public class TestObject_Notifying_ReadOnly_ErrorMask : IErrorMask

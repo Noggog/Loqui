@@ -132,17 +132,31 @@ namespace Loqui.Tests
 
         public bool Equals(TestGenericObject<T, RBase, R> rhs)
         {
-            if (!object.Equals(this.RefBase, rhs.RefBase)) return false;
-            if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (RefBase_Property.HasBeenSet != rhs.RefBase_Property.HasBeenSet) return false;
+            if (RefBase_Property.HasBeenSet)
+            {
+                if (object.Equals(RefBase, rhs.RefBase)) return false;
+            }
+            if (Ref_Property.HasBeenSet != rhs.Ref_Property.HasBeenSet) return false;
+            if (Ref_Property.HasBeenSet)
+            {
+                if (object.Equals(Ref, rhs.Ref)) return false;
+            }
             return true;
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(RefBase)
-            .CombineHashCode(HashHelper.GetHashCode(Ref))
-            ;
+            int ret = 0;
+            if (RefBase_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefBase).CombineHashCode(ret);
+            }
+            if (Ref_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
+            }
+            return ret;
         }
 
         #endregion
@@ -752,6 +766,42 @@ namespace Loqui.Tests.Internals
             item.Ref_Property.Unset(cmds.ToUnsetParams());
         }
 
+        public static TestGenericObject_Mask<bool?> GetEqualsMask<T, RBase, R>(
+            this ITestGenericObjectGetter<T, RBase, R> item,
+            ITestGenericObjectGetter<T, RBase, R> rhs)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            var ret = new TestGenericObject_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask<T, RBase, R>(
+            this ITestGenericObjectGetter<T, RBase, R> item,
+            ITestGenericObjectGetter<T, RBase, R> rhs,
+            TestGenericObject_Mask<bool?> ret)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            if (item.RefBase_Property.HasBeenSet == rhs.RefBase_Property.HasBeenSet)
+            {
+                if (item.RefBase_Property.HasBeenSet)
+                {
+                    ret.RefBase = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefBase.Specific = ObjectToRefCommon.GetEqualsMask(item.RefBase, rhs.RefBase);
+                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual(true);
+                }
+            }
+            if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
+            {
+                if (item.Ref_Property.HasBeenSet)
+                {
+                    ret.Ref.Overall = object.Equals(item.Ref, rhs.Ref);
+                }
+            }
+        }
+
         #region XML Translation
         public static void Write_XML<T, RBase, R>(
             ITestGenericObjectGetter<T, RBase, R> item,
@@ -943,10 +993,25 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestGenericObject_Mask<T> 
+    public class TestGenericObject_Mask<T> : IMask<T>
     {
-        public MaskItem<T, object> RefBase { get; set; }
+        public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }
+
+        public bool AllEqual(T t)
+        {
+            if (RefBase != null)
+            {
+                if (!object.Equals(this.RefBase.Overall, t)) return false;
+                if (RefBase.Specific != null && !RefBase.Specific.AllEqual(t)) return false;
+            }
+            if (Ref != null)
+            {
+                if (!object.Equals(this.Ref.Overall, t)) return false;
+                throw new NotImplementedException();
+            }
+            return true;
+        }
     }
 
     public class TestGenericObject_ErrorMask : IErrorMask

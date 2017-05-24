@@ -119,9 +119,9 @@ namespace Loqui.Tests
 
         public override int GetHashCode()
         {
-            return 
-            base.GetHashCode()
-            ;
+            int ret = 0;
+            ret = ret.CombineHashCode(base.GetHashCode());
+            return ret;
         }
 
         #endregion
@@ -596,6 +596,31 @@ namespace Loqui.Tests.Internals
         {
         }
 
+        public static TestGenericObject_SubClass_Mask<bool?> GetEqualsMask<S, T, RBase, R>(
+            this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            ITestGenericObject_SubClassGetter<S, T, RBase, R> rhs)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            var ret = new TestGenericObject_SubClass_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask<S, T, RBase, R>(
+            this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            ITestGenericObject_SubClassGetter<S, T, RBase, R> rhs,
+            TestGenericObject_SubClass_Mask<bool?> ret)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);
+        }
+
         #region XML Translation
         public static void Write_XML<S, T, RBase, R>(
             ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
@@ -726,8 +751,13 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestGenericObject_SubClass_Mask<T>  : TestGenericObject_Mask<T>
+    public class TestGenericObject_SubClass_Mask<T> : TestGenericObject_Mask<T>, IMask<T>
     {
+
+        public bool AllEqual(T t)
+        {
+            return true;
+        }
     }
 
     public class TestGenericObject_SubClass_ErrorMask : TestGenericObject_ErrorMask

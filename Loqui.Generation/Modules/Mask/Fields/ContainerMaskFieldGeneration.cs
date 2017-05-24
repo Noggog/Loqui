@@ -95,5 +95,33 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        {
+            ListType listType = field as ListType;
+
+            fg.AppendLine($"if ({field.Name} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                fg.AppendLine($"if ({field.Name}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (listType.SubTypeGeneration is LoquiType loqui)
+                        {
+                            fg.AppendLine($"if (!object.Equals(item.Overall, t)) return false;");
+                            fg.AppendLine($"if (!item.Specific?.AllEqual(t) ?? false) return false;");
+                        }
+                        else
+                        {
+                            fg.AppendLine($"if (!object.Equals(item, t)) return false;");
+                        }
+                    }
+                }
+            }
+        }
     }
 }

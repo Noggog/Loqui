@@ -20,7 +20,7 @@ namespace Loqui.Generation
             string nameAccessor)
         {
             var loquiGen = typeGen as LoquiType;
-            var refObjGen = loquiGen.ObjectGeneration;
+            var refObjGen = loquiGen.TargetObjectGeneration;
             if (refObjGen != null)
             {
                 using (var args = new ArgsWrapper(fg,

@@ -651,201 +651,201 @@ namespace Loqui.Tests
 
         public bool Equals(TestObject_ReadOnly rhs)
         {
-            if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
-            if (!object.Equals(this.Bool, rhs.Bool)) return false;
-            if (!object.Equals(this.CharN, rhs.CharN)) return false;
-            if (!object.Equals(this.Char, rhs.Char)) return false;
-            if (!object.Equals(this.DateTimeNull, rhs.DateTimeNull)) return false;
-            if (!object.Equals(this.DateTime, rhs.DateTime)) return false;
-            if (!object.Equals(this.DoubleN, rhs.DoubleN)) return false;
-            if (!object.Equals(this.DoubleN_Ranged, rhs.DoubleN_Ranged)) return false;
-            if (!object.Equals(this.Double, rhs.Double)) return false;
-            if (!object.Equals(this.Double_Ranged, rhs.Double_Ranged)) return false;
-            if (!object.Equals(this.FloatN, rhs.FloatN)) return false;
-            if (!object.Equals(this.FloatN_Ranged, rhs.FloatN_Ranged)) return false;
-            if (!object.Equals(this.Float, rhs.Float)) return false;
-            if (!object.Equals(this.Float_Ranged, rhs.Float_Ranged)) return false;
-            if (!object.Equals(this.Int16N, rhs.Int16N)) return false;
-            if (!object.Equals(this.Int16N_Ranged, rhs.Int16N_Ranged)) return false;
-            if (!object.Equals(this.Int16, rhs.Int16)) return false;
-            if (!object.Equals(this.Int16_Ranged, rhs.Int16_Ranged)) return false;
-            if (!object.Equals(this.Int32N, rhs.Int32N)) return false;
-            if (!object.Equals(this.Int32N_Ranged, rhs.Int32N_Ranged)) return false;
-            if (!object.Equals(this.Int32, rhs.Int32)) return false;
-            if (!object.Equals(this.Int32_Ranged, rhs.Int32_Ranged)) return false;
-            if (!object.Equals(this.Int64N, rhs.Int64N)) return false;
-            if (!object.Equals(this.Int64N_Ranged, rhs.Int64N_Ranged)) return false;
-            if (!object.Equals(this.Int64, rhs.Int64)) return false;
-            if (!object.Equals(this.Int64_Ranged, rhs.Int64_Ranged)) return false;
-            if (!object.Equals(this.Int8N, rhs.Int8N)) return false;
-            if (!object.Equals(this.Int8N_Ranged, rhs.Int8N_Ranged)) return false;
-            if (!object.Equals(this.Int8, rhs.Int8)) return false;
-            if (!object.Equals(this.Int8_Ranged, rhs.Int8_Ranged)) return false;
-            if (!object.Equals(this.Unsafe, rhs.Unsafe)) return false;
-            if (!object.Equals(this.P2IntN, rhs.P2IntN)) return false;
-            if (!object.Equals(this.P2Int, rhs.P2Int)) return false;
-            if (!object.Equals(this.P3DoubleN, rhs.P3DoubleN)) return false;
-            if (!object.Equals(this.P3Double, rhs.P3Double)) return false;
-            if (!object.Equals(this.P3IntN, rhs.P3IntN)) return false;
-            if (!object.Equals(this.P3Int, rhs.P3Int)) return false;
-            if (!object.Equals(this.PercentN, rhs.PercentN)) return false;
-            if (!object.Equals(this.Percent, rhs.Percent)) return false;
-            if (!object.Equals(this.RangeInt8N, rhs.RangeInt8N)) return false;
-            if (!object.Equals(this.RangeInt8, rhs.RangeInt8)) return false;
-            if (!object.Equals(this.RangeInt16N, rhs.RangeInt16N)) return false;
-            if (!object.Equals(this.RangeInt16, rhs.RangeInt16)) return false;
-            if (!object.Equals(this.RangeInt32N, rhs.RangeInt32N)) return false;
-            if (!object.Equals(this.RangeInt32, rhs.RangeInt32)) return false;
-            if (!object.Equals(this.RangeInt64N, rhs.RangeInt64N)) return false;
-            if (!object.Equals(this.RangeInt64, rhs.RangeInt64)) return false;
-            if (!object.Equals(this.RangeUInt8N, rhs.RangeUInt8N)) return false;
-            if (!object.Equals(this.RangeUInt8, rhs.RangeUInt8)) return false;
-            if (!object.Equals(this.RangeUInt16N, rhs.RangeUInt16N)) return false;
-            if (!object.Equals(this.RangeUInt16, rhs.RangeUInt16)) return false;
-            if (!object.Equals(this.RangeUInt32N, rhs.RangeUInt32N)) return false;
-            if (!object.Equals(this.RangeUInt32, rhs.RangeUInt32)) return false;
-            if (!object.Equals(this.RangeUInt64N, rhs.RangeUInt64N)) return false;
-            if (!object.Equals(this.RangeUInt64, rhs.RangeUInt64)) return false;
-            if (!object.Equals(this.String, rhs.String)) return false;
-            if (!object.Equals(this.UDoubleN, rhs.UDoubleN)) return false;
-            if (!object.Equals(this.UDoubleN_Ranged, rhs.UDoubleN_Ranged)) return false;
-            if (!object.Equals(this.UDouble, rhs.UDouble)) return false;
-            if (!object.Equals(this.UDouble_Ranged, rhs.UDouble_Ranged)) return false;
-            if (!object.Equals(this.UInt16N, rhs.UInt16N)) return false;
-            if (!object.Equals(this.UInt16N_Ranged, rhs.UInt16N_Ranged)) return false;
-            if (!object.Equals(this.UInt16, rhs.UInt16)) return false;
-            if (!object.Equals(this.UInt16_Ranged, rhs.UInt16_Ranged)) return false;
-            if (!object.Equals(this.UInt32N, rhs.UInt32N)) return false;
-            if (!object.Equals(this.UInt32N_Ranged, rhs.UInt32N_Ranged)) return false;
-            if (!object.Equals(this.UInt32, rhs.UInt32)) return false;
-            if (!object.Equals(this.UInt32_Ranged, rhs.UInt32_Ranged)) return false;
-            if (!object.Equals(this.UInt64N, rhs.UInt64N)) return false;
-            if (!object.Equals(this.UInt64N_Ranged, rhs.UInt64N_Ranged)) return false;
-            if (!object.Equals(this.UInt64, rhs.UInt64)) return false;
-            if (!object.Equals(this.UInt64_Ranged, rhs.UInt64_Ranged)) return false;
-            if (!object.Equals(this.UInt8N, rhs.UInt8N)) return false;
-            if (!object.Equals(this.UInt8N_Ranged, rhs.UInt8N_Ranged)) return false;
-            if (!object.Equals(this.UInt8, rhs.UInt8)) return false;
-            if (!object.Equals(this.UInt8_Ranged, rhs.UInt8_Ranged)) return false;
-            if (!object.Equals(this.Enum, rhs.Enum)) return false;
-            if (!object.Equals(this.WildCard, rhs.WildCard)) return false;
-            if (!object.Equals(this.Ref, rhs.Ref)) return false;
-            if (!object.Equals(this.Ref_NotNull, rhs.Ref_NotNull)) return false;
-            if (!object.Equals(this.Ref_Singleton, rhs.Ref_Singleton)) return false;
-            if (!object.Equals(this.RefGetter, rhs.RefGetter)) return false;
-            if (!object.Equals(this.RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
-            if (!object.Equals(this.RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
-            if (!object.Equals(this.RefSetter, rhs.RefSetter)) return false;
-            if (!object.Equals(this.RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
-            if (!object.Equals(this.RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
-            if (!object.Equals(this.List, rhs.List)) return false;
-            if (!object.Equals(this.RefList, rhs.RefList)) return false;
-            if (!object.Equals(this.Dict, rhs.Dict)) return false;
-            if (!object.Equals(this.RefDict, rhs.RefDict)) return false;
-            if (!object.Equals(this.KeyRefDict, rhs.KeyRefDict)) return false;
-            if (!object.Equals(this.ValRefDict, rhs.ValRefDict)) return false;
-            if (!object.Equals(this.DictKeyedValue, rhs.DictKeyedValue)) return false;
+            if (BoolN != rhs.BoolN) return false;
+            if (Bool != rhs.Bool) return false;
+            if (CharN != rhs.CharN) return false;
+            if (Char != rhs.Char) return false;
+            if (DateTimeNull != rhs.DateTimeNull) return false;
+            if (DateTime != rhs.DateTime) return false;
+            if (DoubleN != rhs.DoubleN) return false;
+            if (DoubleN_Ranged != rhs.DoubleN_Ranged) return false;
+            if (Double != rhs.Double) return false;
+            if (Double_Ranged != rhs.Double_Ranged) return false;
+            if (FloatN != rhs.FloatN) return false;
+            if (FloatN_Ranged != rhs.FloatN_Ranged) return false;
+            if (Float != rhs.Float) return false;
+            if (Float_Ranged != rhs.Float_Ranged) return false;
+            if (Int16N != rhs.Int16N) return false;
+            if (Int16N_Ranged != rhs.Int16N_Ranged) return false;
+            if (Int16 != rhs.Int16) return false;
+            if (Int16_Ranged != rhs.Int16_Ranged) return false;
+            if (Int32N != rhs.Int32N) return false;
+            if (Int32N_Ranged != rhs.Int32N_Ranged) return false;
+            if (Int32 != rhs.Int32) return false;
+            if (Int32_Ranged != rhs.Int32_Ranged) return false;
+            if (Int64N != rhs.Int64N) return false;
+            if (Int64N_Ranged != rhs.Int64N_Ranged) return false;
+            if (Int64 != rhs.Int64) return false;
+            if (Int64_Ranged != rhs.Int64_Ranged) return false;
+            if (Int8N != rhs.Int8N) return false;
+            if (Int8N_Ranged != rhs.Int8N_Ranged) return false;
+            if (Int8 != rhs.Int8) return false;
+            if (Int8_Ranged != rhs.Int8_Ranged) return false;
+            if (Unsafe != rhs.Unsafe) return false;
+            if (P2IntN != rhs.P2IntN) return false;
+            if (P2Int != rhs.P2Int) return false;
+            if (P3DoubleN != rhs.P3DoubleN) return false;
+            if (P3Double != rhs.P3Double) return false;
+            if (P3IntN != rhs.P3IntN) return false;
+            if (P3Int != rhs.P3Int) return false;
+            if (PercentN != rhs.PercentN) return false;
+            if (Percent != rhs.Percent) return false;
+            if (RangeInt8N != rhs.RangeInt8N) return false;
+            if (RangeInt8 != rhs.RangeInt8) return false;
+            if (RangeInt16N != rhs.RangeInt16N) return false;
+            if (RangeInt16 != rhs.RangeInt16) return false;
+            if (RangeInt32N != rhs.RangeInt32N) return false;
+            if (RangeInt32 != rhs.RangeInt32) return false;
+            if (RangeInt64N != rhs.RangeInt64N) return false;
+            if (RangeInt64 != rhs.RangeInt64) return false;
+            if (RangeUInt8N != rhs.RangeUInt8N) return false;
+            if (RangeUInt8 != rhs.RangeUInt8) return false;
+            if (RangeUInt16N != rhs.RangeUInt16N) return false;
+            if (RangeUInt16 != rhs.RangeUInt16) return false;
+            if (RangeUInt32N != rhs.RangeUInt32N) return false;
+            if (RangeUInt32 != rhs.RangeUInt32) return false;
+            if (RangeUInt64N != rhs.RangeUInt64N) return false;
+            if (RangeUInt64 != rhs.RangeUInt64) return false;
+            if (String != rhs.String) return false;
+            if (UDoubleN != rhs.UDoubleN) return false;
+            if (UDoubleN_Ranged != rhs.UDoubleN_Ranged) return false;
+            if (UDouble != rhs.UDouble) return false;
+            if (UDouble_Ranged != rhs.UDouble_Ranged) return false;
+            if (UInt16N != rhs.UInt16N) return false;
+            if (UInt16N_Ranged != rhs.UInt16N_Ranged) return false;
+            if (UInt16 != rhs.UInt16) return false;
+            if (UInt16_Ranged != rhs.UInt16_Ranged) return false;
+            if (UInt32N != rhs.UInt32N) return false;
+            if (UInt32N_Ranged != rhs.UInt32N_Ranged) return false;
+            if (UInt32 != rhs.UInt32) return false;
+            if (UInt32_Ranged != rhs.UInt32_Ranged) return false;
+            if (UInt64N != rhs.UInt64N) return false;
+            if (UInt64N_Ranged != rhs.UInt64N_Ranged) return false;
+            if (UInt64 != rhs.UInt64) return false;
+            if (UInt64_Ranged != rhs.UInt64_Ranged) return false;
+            if (UInt8N != rhs.UInt8N) return false;
+            if (UInt8N_Ranged != rhs.UInt8N_Ranged) return false;
+            if (UInt8 != rhs.UInt8) return false;
+            if (UInt8_Ranged != rhs.UInt8_Ranged) return false;
+            if (Enum != rhs.Enum) return false;
+            if (WildCard != rhs.WildCard) return false;
+            if (object.Equals(Ref, rhs.Ref)) return false;
+            if (object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
+            if (object.Equals(Ref_Singleton, rhs.Ref_Singleton)) return false;
+            if (object.Equals(RefGetter, rhs.RefGetter)) return false;
+            if (object.Equals(RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
+            if (object.Equals(RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
+            if (object.Equals(RefSetter, rhs.RefSetter)) return false;
+            if (object.Equals(RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
+            if (object.Equals(RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
+            if (List.SequenceEqual(rhs.List)) return false;
+            if (RefList.SequenceEqual(rhs.RefList)) return false;
+            if (Dict.SequenceEqual(rhs.Dict)) return false;
+            if (RefDict.SequenceEqual(rhs.RefDict)) return false;
+            if (KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
+            if (ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
+            if (DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(BoolN)
-            .CombineHashCode(HashHelper.GetHashCode(Bool))
-            .CombineHashCode(HashHelper.GetHashCode(CharN))
-            .CombineHashCode(HashHelper.GetHashCode(Char))
-            .CombineHashCode(HashHelper.GetHashCode(DateTimeNull))
-            .CombineHashCode(HashHelper.GetHashCode(DateTime))
-            .CombineHashCode(HashHelper.GetHashCode(DoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(DoubleN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Double))
-            .CombineHashCode(HashHelper.GetHashCode(Double_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(FloatN))
-            .CombineHashCode(HashHelper.GetHashCode(FloatN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Float))
-            .CombineHashCode(HashHelper.GetHashCode(Float_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int16N))
-            .CombineHashCode(HashHelper.GetHashCode(Int16N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int16))
-            .CombineHashCode(HashHelper.GetHashCode(Int16_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int32N))
-            .CombineHashCode(HashHelper.GetHashCode(Int32N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int32))
-            .CombineHashCode(HashHelper.GetHashCode(Int32_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int64N))
-            .CombineHashCode(HashHelper.GetHashCode(Int64N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int64))
-            .CombineHashCode(HashHelper.GetHashCode(Int64_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int8N))
-            .CombineHashCode(HashHelper.GetHashCode(Int8N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Int8))
-            .CombineHashCode(HashHelper.GetHashCode(Int8_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Unsafe))
-            .CombineHashCode(HashHelper.GetHashCode(P2IntN))
-            .CombineHashCode(HashHelper.GetHashCode(P2Int))
-            .CombineHashCode(HashHelper.GetHashCode(P3DoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(P3Double))
-            .CombineHashCode(HashHelper.GetHashCode(P3IntN))
-            .CombineHashCode(HashHelper.GetHashCode(P3Int))
-            .CombineHashCode(HashHelper.GetHashCode(PercentN))
-            .CombineHashCode(HashHelper.GetHashCode(Percent))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt8))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt16))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt32))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeInt64))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt8))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt16))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt32))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(RangeUInt64))
-            .CombineHashCode(HashHelper.GetHashCode(String))
-            .CombineHashCode(HashHelper.GetHashCode(UDoubleN))
-            .CombineHashCode(HashHelper.GetHashCode(UDoubleN_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UDouble))
-            .CombineHashCode(HashHelper.GetHashCode(UDouble_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16))
-            .CombineHashCode(HashHelper.GetHashCode(UInt16_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32))
-            .CombineHashCode(HashHelper.GetHashCode(UInt32_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64))
-            .CombineHashCode(HashHelper.GetHashCode(UInt64_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8N))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8N_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8))
-            .CombineHashCode(HashHelper.GetHashCode(UInt8_Ranged))
-            .CombineHashCode(HashHelper.GetHashCode(Enum))
-            .CombineHashCode(HashHelper.GetHashCode(WildCard))
-            .CombineHashCode(HashHelper.GetHashCode(Ref))
-            .CombineHashCode(HashHelper.GetHashCode(Ref_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(Ref_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(RefGetter_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter_NotNull))
-            .CombineHashCode(HashHelper.GetHashCode(RefSetter_Singleton))
-            .CombineHashCode(HashHelper.GetHashCode(List))
-            .CombineHashCode(HashHelper.GetHashCode(RefList))
-            .CombineHashCode(HashHelper.GetHashCode(Dict))
-            .CombineHashCode(HashHelper.GetHashCode(RefDict))
-            .CombineHashCode(HashHelper.GetHashCode(KeyRefDict))
-            .CombineHashCode(HashHelper.GetHashCode(ValRefDict))
-            .CombineHashCode(HashHelper.GetHashCode(DictKeyedValue))
-            ;
+            int ret = 0;
+            ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Char).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DateTimeNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DateTime).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DoubleN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Double).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Double_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FloatN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FloatN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Float).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Float_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Unsafe).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P2IntN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P2Int).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3DoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3Double).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3IntN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3Int).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(PercentN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Percent).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(String).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDoubleN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDouble).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDouble_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(List).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefList).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Dict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(KeyRefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ValRefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DictKeyedValue).CombineHashCode(ret);
+            return ret;
         }
 
         #endregion
@@ -3749,6 +3749,187 @@ namespace Loqui.Tests.Internals
         {
         }
 
+        public static TestObject_ReadOnly_Mask<bool?> GetEqualsMask(
+            this ITestObject_ReadOnlyGetter item,
+            ITestObject_ReadOnlyGetter rhs)
+        {
+            var ret = new TestObject_ReadOnly_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask(
+            this ITestObject_ReadOnlyGetter item,
+            ITestObject_ReadOnlyGetter rhs,
+            TestObject_ReadOnly_Mask<bool?> ret)
+        {
+            ret.BoolN = item.BoolN != rhs.BoolN;
+            ret.Bool = item.Bool != rhs.Bool;
+            ret.CharN = item.CharN != rhs.CharN;
+            ret.Char = item.Char != rhs.Char;
+            ret.DateTimeNull = item.DateTimeNull != rhs.DateTimeNull;
+            ret.DateTime = item.DateTime != rhs.DateTime;
+            ret.DoubleN = item.DoubleN != rhs.DoubleN;
+            ret.DoubleN_Ranged = item.DoubleN_Ranged != rhs.DoubleN_Ranged;
+            ret.Double = item.Double != rhs.Double;
+            ret.Double_Ranged = item.Double_Ranged != rhs.Double_Ranged;
+            ret.FloatN = item.FloatN != rhs.FloatN;
+            ret.FloatN_Ranged = item.FloatN_Ranged != rhs.FloatN_Ranged;
+            ret.Float = item.Float != rhs.Float;
+            ret.Float_Ranged = item.Float_Ranged != rhs.Float_Ranged;
+            ret.Int16N = item.Int16N != rhs.Int16N;
+            ret.Int16N_Ranged = item.Int16N_Ranged != rhs.Int16N_Ranged;
+            ret.Int16 = item.Int16 != rhs.Int16;
+            ret.Int16_Ranged = item.Int16_Ranged != rhs.Int16_Ranged;
+            ret.Int32N = item.Int32N != rhs.Int32N;
+            ret.Int32N_Ranged = item.Int32N_Ranged != rhs.Int32N_Ranged;
+            ret.Int32 = item.Int32 != rhs.Int32;
+            ret.Int32_Ranged = item.Int32_Ranged != rhs.Int32_Ranged;
+            ret.Int64N = item.Int64N != rhs.Int64N;
+            ret.Int64N_Ranged = item.Int64N_Ranged != rhs.Int64N_Ranged;
+            ret.Int64 = item.Int64 != rhs.Int64;
+            ret.Int64_Ranged = item.Int64_Ranged != rhs.Int64_Ranged;
+            ret.Int8N = item.Int8N != rhs.Int8N;
+            ret.Int8N_Ranged = item.Int8N_Ranged != rhs.Int8N_Ranged;
+            ret.Int8 = item.Int8 != rhs.Int8;
+            ret.Int8_Ranged = item.Int8_Ranged != rhs.Int8_Ranged;
+            ret.Unsafe = item.Unsafe != rhs.Unsafe;
+            ret.P2IntN = item.P2IntN != rhs.P2IntN;
+            ret.P2Int = item.P2Int != rhs.P2Int;
+            ret.P3DoubleN = item.P3DoubleN != rhs.P3DoubleN;
+            ret.P3Double = item.P3Double != rhs.P3Double;
+            ret.P3IntN = item.P3IntN != rhs.P3IntN;
+            ret.P3Int = item.P3Int != rhs.P3Int;
+            ret.PercentN = item.PercentN != rhs.PercentN;
+            ret.Percent = item.Percent != rhs.Percent;
+            ret.RangeInt8N = item.RangeInt8N != rhs.RangeInt8N;
+            ret.RangeInt8 = item.RangeInt8 != rhs.RangeInt8;
+            ret.RangeInt16N = item.RangeInt16N != rhs.RangeInt16N;
+            ret.RangeInt16 = item.RangeInt16 != rhs.RangeInt16;
+            ret.RangeInt32N = item.RangeInt32N != rhs.RangeInt32N;
+            ret.RangeInt32 = item.RangeInt32 != rhs.RangeInt32;
+            ret.RangeInt64N = item.RangeInt64N != rhs.RangeInt64N;
+            ret.RangeInt64 = item.RangeInt64 != rhs.RangeInt64;
+            ret.RangeUInt8N = item.RangeUInt8N != rhs.RangeUInt8N;
+            ret.RangeUInt8 = item.RangeUInt8 != rhs.RangeUInt8;
+            ret.RangeUInt16N = item.RangeUInt16N != rhs.RangeUInt16N;
+            ret.RangeUInt16 = item.RangeUInt16 != rhs.RangeUInt16;
+            ret.RangeUInt32N = item.RangeUInt32N != rhs.RangeUInt32N;
+            ret.RangeUInt32 = item.RangeUInt32 != rhs.RangeUInt32;
+            ret.RangeUInt64N = item.RangeUInt64N != rhs.RangeUInt64N;
+            ret.RangeUInt64 = item.RangeUInt64 != rhs.RangeUInt64;
+            ret.String = item.String != rhs.String;
+            ret.UDoubleN = item.UDoubleN != rhs.UDoubleN;
+            ret.UDoubleN_Ranged = item.UDoubleN_Ranged != rhs.UDoubleN_Ranged;
+            ret.UDouble = item.UDouble != rhs.UDouble;
+            ret.UDouble_Ranged = item.UDouble_Ranged != rhs.UDouble_Ranged;
+            ret.UInt16N = item.UInt16N != rhs.UInt16N;
+            ret.UInt16N_Ranged = item.UInt16N_Ranged != rhs.UInt16N_Ranged;
+            ret.UInt16 = item.UInt16 != rhs.UInt16;
+            ret.UInt16_Ranged = item.UInt16_Ranged != rhs.UInt16_Ranged;
+            ret.UInt32N = item.UInt32N != rhs.UInt32N;
+            ret.UInt32N_Ranged = item.UInt32N_Ranged != rhs.UInt32N_Ranged;
+            ret.UInt32 = item.UInt32 != rhs.UInt32;
+            ret.UInt32_Ranged = item.UInt32_Ranged != rhs.UInt32_Ranged;
+            ret.UInt64N = item.UInt64N != rhs.UInt64N;
+            ret.UInt64N_Ranged = item.UInt64N_Ranged != rhs.UInt64N_Ranged;
+            ret.UInt64 = item.UInt64 != rhs.UInt64;
+            ret.UInt64_Ranged = item.UInt64_Ranged != rhs.UInt64_Ranged;
+            ret.UInt8N = item.UInt8N != rhs.UInt8N;
+            ret.UInt8N_Ranged = item.UInt8N_Ranged != rhs.UInt8N_Ranged;
+            ret.UInt8 = item.UInt8 != rhs.UInt8;
+            ret.UInt8_Ranged = item.UInt8_Ranged != rhs.UInt8_Ranged;
+            ret.Enum = item.Enum != rhs.Enum;
+            ret.WildCard = item.WildCard != rhs.WildCard;
+            ret.Ref = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
+            ret.Ref.Overall = ret.Ref.Specific.AllEqual(true);
+            ret.Ref_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
+            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual(true);
+            ret.Ref_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
+            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual(true);
+            ret.RefGetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
+            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual(true);
+            ret.RefGetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
+            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual(true);
+            ret.RefGetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
+            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual(true);
+            ret.RefSetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
+            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual(true);
+            ret.RefSetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
+            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual(true);
+            ret.RefSetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
+            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual(true);
+            ret.List.Specific = item.List.SelectAgainst<Boolean, bool?>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
+            ret.List.Overall = ret.List.Overall.Value && ret.List.Specific.All((b) => b ?? false);
+            ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.RefList, ((l, r) =>
+            {
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
+                itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                itemRet.Overall = itemRet.Specific.AllEqual(true);
+                return itemRet;
+            }
+            ), out ret.RefList.Overall);
+            ret.RefList.Overall = ret.RefList.Overall.Value && ret.RefList.Specific.All((b) => b.Overall ?? false);
+            ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool?, bool?>>(rhs.Dict, ((l, r) => new KeyValuePair<bool?, bool?>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
+            ret.Dict.Overall = ret.Dict.Overall.Value && ret.Dict.Specific.All((b) => (b.Key ?? false) && (b.Value ?? false));
+            ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.RefDict, ((l, r) =>
+            {
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
+                keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+            }
+            ), out ret.RefDict.Overall);
+            ret.RefDict.Overall = ret.RefDict.Overall.Value && ret.RefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value.Overall ?? false));
+            ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>>(rhs.KeyRefDict, ((l, r) =>
+            {
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
+                bool? valItemRet = object.Equals(l.Value, r.Value);
+                keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>(keyItemRet, valItemRet);
+            }
+            ), out ret.KeyRefDict.Overall);
+            ret.KeyRefDict.Overall = ret.KeyRefDict.Overall.Value && ret.KeyRefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value ?? false));
+            ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.ValRefDict, ((l, r) =>
+            {
+                bool? keyItemRet = object.Equals(l.Key, r.Key);
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
+                valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                return new KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+            }
+            ), out ret.ValRefDict.Overall);
+            ret.ValRefDict.Overall = ret.ValRefDict.Overall.Value && ret.ValRefDict.Specific.All((b) => (b.Key ?? false) && (b.Value.Overall ?? false));
+            ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.DictKeyedValue.Values, ((l, r) =>
+            {
+                MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
+                itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                itemRet.Overall = itemRet.Specific.AllEqual(true);
+                return itemRet;
+            }
+            ), out ret.DictKeyedValue.Overall);
+            ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall.Value && ret.DictKeyedValue.Specific.All((b) => b.Overall ?? false);
+        }
+
         #region XML Translation
         public static void Write_XML(
             ITestObject_ReadOnlyGetter item,
@@ -5170,7 +5351,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_ReadOnly_Mask<T> 
+    public class TestObject_ReadOnly_Mask<T> : IMask<T>
     {
         public T BoolN;
         public T Bool;
@@ -5266,6 +5447,233 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>> KeyRefDict;
         public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
+
+        public bool AllEqual(T t)
+        {
+            if (!object.Equals(this.BoolN, t)) return false;
+            if (!object.Equals(this.Bool, t)) return false;
+            if (!object.Equals(this.CharN, t)) return false;
+            if (!object.Equals(this.Char, t)) return false;
+            if (!object.Equals(this.DateTimeNull, t)) return false;
+            if (!object.Equals(this.DateTime, t)) return false;
+            if (!object.Equals(this.DoubleN, t)) return false;
+            if (!object.Equals(this.DoubleN_Ranged, t)) return false;
+            if (!object.Equals(this.Double, t)) return false;
+            if (!object.Equals(this.Double_Ranged, t)) return false;
+            if (!object.Equals(this.FloatN, t)) return false;
+            if (!object.Equals(this.FloatN_Ranged, t)) return false;
+            if (!object.Equals(this.Float, t)) return false;
+            if (!object.Equals(this.Float_Ranged, t)) return false;
+            if (!object.Equals(this.Int16N, t)) return false;
+            if (!object.Equals(this.Int16N_Ranged, t)) return false;
+            if (!object.Equals(this.Int16, t)) return false;
+            if (!object.Equals(this.Int16_Ranged, t)) return false;
+            if (!object.Equals(this.Int32N, t)) return false;
+            if (!object.Equals(this.Int32N_Ranged, t)) return false;
+            if (!object.Equals(this.Int32, t)) return false;
+            if (!object.Equals(this.Int32_Ranged, t)) return false;
+            if (!object.Equals(this.Int64N, t)) return false;
+            if (!object.Equals(this.Int64N_Ranged, t)) return false;
+            if (!object.Equals(this.Int64, t)) return false;
+            if (!object.Equals(this.Int64_Ranged, t)) return false;
+            if (!object.Equals(this.Int8N, t)) return false;
+            if (!object.Equals(this.Int8N_Ranged, t)) return false;
+            if (!object.Equals(this.Int8, t)) return false;
+            if (!object.Equals(this.Int8_Ranged, t)) return false;
+            if (!object.Equals(this.Unsafe, t)) return false;
+            if (!object.Equals(this.P2IntN, t)) return false;
+            if (!object.Equals(this.P2Int, t)) return false;
+            if (!object.Equals(this.P3DoubleN, t)) return false;
+            if (!object.Equals(this.P3Double, t)) return false;
+            if (!object.Equals(this.P3IntN, t)) return false;
+            if (!object.Equals(this.P3Int, t)) return false;
+            if (!object.Equals(this.PercentN, t)) return false;
+            if (!object.Equals(this.Percent, t)) return false;
+            if (!object.Equals(this.RangeInt8N, t)) return false;
+            if (!object.Equals(this.RangeInt8, t)) return false;
+            if (!object.Equals(this.RangeInt16N, t)) return false;
+            if (!object.Equals(this.RangeInt16, t)) return false;
+            if (!object.Equals(this.RangeInt32N, t)) return false;
+            if (!object.Equals(this.RangeInt32, t)) return false;
+            if (!object.Equals(this.RangeInt64N, t)) return false;
+            if (!object.Equals(this.RangeInt64, t)) return false;
+            if (!object.Equals(this.RangeUInt8N, t)) return false;
+            if (!object.Equals(this.RangeUInt8, t)) return false;
+            if (!object.Equals(this.RangeUInt16N, t)) return false;
+            if (!object.Equals(this.RangeUInt16, t)) return false;
+            if (!object.Equals(this.RangeUInt32N, t)) return false;
+            if (!object.Equals(this.RangeUInt32, t)) return false;
+            if (!object.Equals(this.RangeUInt64N, t)) return false;
+            if (!object.Equals(this.RangeUInt64, t)) return false;
+            if (!object.Equals(this.String, t)) return false;
+            if (!object.Equals(this.UDoubleN, t)) return false;
+            if (!object.Equals(this.UDoubleN_Ranged, t)) return false;
+            if (!object.Equals(this.UDouble, t)) return false;
+            if (!object.Equals(this.UDouble_Ranged, t)) return false;
+            if (!object.Equals(this.UInt16N, t)) return false;
+            if (!object.Equals(this.UInt16N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt16, t)) return false;
+            if (!object.Equals(this.UInt16_Ranged, t)) return false;
+            if (!object.Equals(this.UInt32N, t)) return false;
+            if (!object.Equals(this.UInt32N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt32, t)) return false;
+            if (!object.Equals(this.UInt32_Ranged, t)) return false;
+            if (!object.Equals(this.UInt64N, t)) return false;
+            if (!object.Equals(this.UInt64N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt64, t)) return false;
+            if (!object.Equals(this.UInt64_Ranged, t)) return false;
+            if (!object.Equals(this.UInt8N, t)) return false;
+            if (!object.Equals(this.UInt8N_Ranged, t)) return false;
+            if (!object.Equals(this.UInt8, t)) return false;
+            if (!object.Equals(this.UInt8_Ranged, t)) return false;
+            if (!object.Equals(this.Enum, t)) return false;
+            if (!object.Equals(this.WildCard, t)) return false;
+            if (Ref != null)
+            {
+                if (!object.Equals(this.Ref.Overall, t)) return false;
+                if (Ref.Specific != null && !Ref.Specific.AllEqual(t)) return false;
+            }
+            if (Ref_NotNull != null)
+            {
+                if (!object.Equals(this.Ref_NotNull.Overall, t)) return false;
+                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (Ref_Singleton != null)
+            {
+                if (!object.Equals(this.Ref_Singleton.Overall, t)) return false;
+                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter != null)
+            {
+                if (!object.Equals(this.RefGetter.Overall, t)) return false;
+                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter_NotNull != null)
+            {
+                if (!object.Equals(this.RefGetter_NotNull.Overall, t)) return false;
+                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (RefGetter_Singleton != null)
+            {
+                if (!object.Equals(this.RefGetter_Singleton.Overall, t)) return false;
+                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter != null)
+            {
+                if (!object.Equals(this.RefSetter.Overall, t)) return false;
+                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter_NotNull != null)
+            {
+                if (!object.Equals(this.RefSetter_NotNull.Overall, t)) return false;
+                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(t)) return false;
+            }
+            if (RefSetter_Singleton != null)
+            {
+                if (!object.Equals(this.RefSetter_Singleton.Overall, t)) return false;
+                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(t)) return false;
+            }
+            if (List != null)
+            {
+                if (!object.Equals(this.List.Overall, t)) return false;
+                if (List.Specific != null)
+                {
+                    foreach (var item in List.Specific)
+                    {
+                        if (!object.Equals(item, t)) return false;
+                    }
+                }
+            }
+            if (RefList != null)
+            {
+                if (!object.Equals(this.RefList.Overall, t)) return false;
+                if (RefList.Specific != null)
+                {
+                    foreach (var item in RefList.Specific)
+                    {
+                        if (!object.Equals(item.Overall, t)) return false;
+                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                    }
+                }
+            }
+            if (Dict != null)
+            {
+                if (!object.Equals(this.Dict.Overall, t)) return false;
+                if (Dict.Specific != null)
+                {
+                    foreach (var item in Dict.Specific)
+                    {
+                        if (!object.Equals(item.Key, t)) return false;
+                        if (!object.Equals(item.Value, t)) return false;
+                    }
+                }
+            }
+            if (RefDict != null)
+            {
+                if (!object.Equals(this.RefDict.Overall, t)) return false;
+                if (RefDict.Specific != null)
+                {
+                    foreach (var item in RefDict.Specific)
+                    {
+                        if (item.Key != null)
+                        {
+                            if (!object.Equals(item.Key.Overall, t)) return false;
+                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                        if (item.Value != null)
+                        {
+                            if (!object.Equals(item.Value.Overall, t)) return false;
+                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                    }
+                }
+            }
+            if (KeyRefDict != null)
+            {
+                if (!object.Equals(this.KeyRefDict.Overall, t)) return false;
+                if (KeyRefDict.Specific != null)
+                {
+                    foreach (var item in KeyRefDict.Specific)
+                    {
+                        if (item.Key != null)
+                        {
+                            if (!object.Equals(item.Key.Overall, t)) return false;
+                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                        if (!object.Equals(item.Value, t)) return false;
+                    }
+                }
+            }
+            if (ValRefDict != null)
+            {
+                if (!object.Equals(this.ValRefDict.Overall, t)) return false;
+                if (ValRefDict.Specific != null)
+                {
+                    foreach (var item in ValRefDict.Specific)
+                    {
+                        if (!object.Equals(item.Key, t)) return false;
+                        if (item.Value != null)
+                        {
+                            if (!object.Equals(item.Value.Overall, t)) return false;
+                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                        }
+                    }
+                }
+            }
+            if (DictKeyedValue != null)
+            {
+                if (!object.Equals(this.DictKeyedValue.Overall, t)) return false;
+                if (DictKeyedValue.Specific != null)
+                {
+                    foreach (var item in DictKeyedValue.Specific)
+                    {
+                        if (!object.Equals(item.Overall, t)) return false;
+                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     public class TestObject_ReadOnly_ErrorMask : IErrorMask

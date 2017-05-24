@@ -136,17 +136,31 @@ namespace Loqui.Tests
 
         public bool Equals(ObjectToRef rhs)
         {
-            if (!object.Equals(this.KeyField, rhs.KeyField)) return false;
-            if (!object.Equals(this.SomeField, rhs.SomeField)) return false;
+            if (KeyField_Property.HasBeenSet != rhs.KeyField_Property.HasBeenSet) return false;
+            if (KeyField_Property.HasBeenSet)
+            {
+                if (KeyField != rhs.KeyField) return false;
+            }
+            if (SomeField_Property.HasBeenSet != rhs.SomeField_Property.HasBeenSet) return false;
+            if (SomeField_Property.HasBeenSet)
+            {
+                if (SomeField != rhs.SomeField) return false;
+            }
             return true;
         }
 
         public override int GetHashCode()
         {
-            return 
-            HashHelper.GetHashCode(KeyField)
-            .CombineHashCode(HashHelper.GetHashCode(SomeField))
-            ;
+            int ret = 0;
+            if (KeyField_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(KeyField).CombineHashCode(ret);
+            }
+            if (SomeField_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(SomeField).CombineHashCode(ret);
+            }
+            return ret;
         }
 
         #endregion
@@ -692,6 +706,36 @@ namespace Loqui.Tests.Internals
             item.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
 
+        public static ObjectToRef_Mask<bool?> GetEqualsMask(
+            this IObjectToRefGetter item,
+            IObjectToRefGetter rhs)
+        {
+            var ret = new ObjectToRef_Mask<bool?>();
+            FillEqualsMask(item, rhs, ret);
+            return ret;
+        }
+
+        public static void FillEqualsMask(
+            this IObjectToRefGetter item,
+            IObjectToRefGetter rhs,
+            ObjectToRef_Mask<bool?> ret)
+        {
+            if (item.KeyField_Property.HasBeenSet == rhs.KeyField_Property.HasBeenSet)
+            {
+                if (item.KeyField_Property.HasBeenSet)
+                {
+                    ret.KeyField = item.KeyField != rhs.KeyField;
+                }
+            }
+            if (item.SomeField_Property.HasBeenSet == rhs.SomeField_Property.HasBeenSet)
+            {
+                if (item.SomeField_Property.HasBeenSet)
+                {
+                    ret.SomeField = item.SomeField != rhs.SomeField;
+                }
+            }
+        }
+
         #region XML Translation
         public static void Write_XML(
             IObjectToRefGetter item,
@@ -851,10 +895,17 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class ObjectToRef_Mask<T> 
+    public class ObjectToRef_Mask<T> : IMask<T>
     {
         public T KeyField;
         public T SomeField;
+
+        public bool AllEqual(T t)
+        {
+            if (!object.Equals(this.KeyField, t)) return false;
+            if (!object.Equals(this.SomeField, t)) return false;
+            return true;
+        }
     }
 
     public class ObjectToRef_ErrorMask : IErrorMask

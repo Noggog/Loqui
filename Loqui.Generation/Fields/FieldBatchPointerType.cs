@@ -115,5 +115,20 @@ namespace Loqui.Generation
                 throw new ArgumentException("Could not remove self from object's field list.");
             }
         }
+
+        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

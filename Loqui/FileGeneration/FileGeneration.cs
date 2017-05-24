@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("subItem.Key.ToString(fg);"))
+            if (str.Equals("public MaskItem<T, IMask<T>> RefBase { get; set; }"))
             {
                 int wer = 23;
                 wer++;

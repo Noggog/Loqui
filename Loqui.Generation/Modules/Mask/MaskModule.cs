@@ -25,12 +25,23 @@ namespace Loqui.Generation
                 item.Module = this;
             }
 
-            fg.AppendLine($"public class {obj.Name}_Mask<T> {(obj.HasBaseObject ? $" : {obj.BaseClass.GetMaskString("T")}" : string.Empty)}");
+            fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in obj.Fields)
                 {
                     GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
+                }
+                fg.AppendLine();
+
+                fg.AppendLine("public bool AllEqual(T t)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var field in obj.Fields)
+                    {
+                        GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field);
+                    }
+                    fg.AppendLine("return true;");
                 }
             }
             fg.AppendLine();
