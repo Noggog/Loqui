@@ -754,7 +754,7 @@ namespace Loqui.Tests.Internals
     public class TestGenericObject_SubClass_Mask<T> : TestGenericObject_Mask<T>, IMask<T>
     {
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
             return true;
         }

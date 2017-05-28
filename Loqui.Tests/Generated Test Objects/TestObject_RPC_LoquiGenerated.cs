@@ -5370,31 +5370,31 @@ namespace Loqui.Tests.Internals
             ret.WildCard = item.WildCard != rhs.WildCard;
             ret.Ref = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
-            ret.Ref.Overall = ret.Ref.Specific.AllEqual(true);
+            ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b ?? true);
             ret.Ref_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
-            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual(true);
+            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b ?? true);
             ret.Ref_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
-            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual(true);
+            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b ?? true);
             ret.RefGetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
-            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual(true);
+            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b ?? true);
             ret.RefGetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
-            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual(true);
+            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b ?? true);
             ret.RefGetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
-            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual(true);
+            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b ?? true);
             ret.RefSetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
-            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual(true);
+            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b ?? true);
             ret.RefSetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
-            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual(true);
+            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b ?? true);
             ret.RefSetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
             ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
-            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual(true);
+            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b ?? true);
             ret.List.Specific = item.List.SelectAgainst<Boolean, bool?>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
             ret.List.Overall = ret.List.Overall.Value && ret.List.Specific.All((b) => b ?? false);
             ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.RefList, ((l, r) =>
@@ -5402,7 +5402,7 @@ namespace Loqui.Tests.Internals
                 MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
                 itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
-                itemRet.Overall = itemRet.Specific.AllEqual(true);
+                itemRet.Overall = itemRet.Specific.AllEqual((b) => b ?? true);
                 return itemRet;
             }
             ), out ret.RefList.Overall);
@@ -5415,10 +5415,10 @@ namespace Loqui.Tests.Internals
                 MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
                 keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
-                keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b ?? true);
                 valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
-                valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b ?? true);
                 return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
             }
             ), out ret.RefDict.Overall);
@@ -5429,7 +5429,7 @@ namespace Loqui.Tests.Internals
                 bool? valItemRet = object.Equals(l.Value, r.Value);
                 keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
-                keyItemRet.Overall = keyItemRet.Specific.AllEqual(true);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b ?? true);
                 return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>(keyItemRet, valItemRet);
             }
             ), out ret.KeyRefDict.Overall);
@@ -5440,7 +5440,7 @@ namespace Loqui.Tests.Internals
                 MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
                 valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
-                valItemRet.Overall = valItemRet.Specific.AllEqual(true);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b ?? true);
                 return new KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
             }
             ), out ret.ValRefDict.Overall);
@@ -5450,7 +5450,7 @@ namespace Loqui.Tests.Internals
                 MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
                 itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                 itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
-                itemRet.Overall = itemRet.Specific.AllEqual(true);
+                itemRet.Overall = itemRet.Specific.AllEqual((b) => b ?? true);
                 return itemRet;
             }
             ), out ret.DictKeyedValue.Overall);
@@ -6975,227 +6975,227 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
-            if (!object.Equals(this.BoolN, t)) return false;
-            if (!object.Equals(this.Bool, t)) return false;
-            if (!object.Equals(this.CharN, t)) return false;
-            if (!object.Equals(this.Char, t)) return false;
-            if (!object.Equals(this.DateTimeNull, t)) return false;
-            if (!object.Equals(this.DateTime, t)) return false;
-            if (!object.Equals(this.DoubleN, t)) return false;
-            if (!object.Equals(this.DoubleN_Ranged, t)) return false;
-            if (!object.Equals(this.Double, t)) return false;
-            if (!object.Equals(this.Double_Ranged, t)) return false;
-            if (!object.Equals(this.FloatN, t)) return false;
-            if (!object.Equals(this.FloatN_Ranged, t)) return false;
-            if (!object.Equals(this.Float, t)) return false;
-            if (!object.Equals(this.Float_Ranged, t)) return false;
-            if (!object.Equals(this.Int16N, t)) return false;
-            if (!object.Equals(this.Int16N_Ranged, t)) return false;
-            if (!object.Equals(this.Int16, t)) return false;
-            if (!object.Equals(this.Int16_Ranged, t)) return false;
-            if (!object.Equals(this.Int32N, t)) return false;
-            if (!object.Equals(this.Int32N_Ranged, t)) return false;
-            if (!object.Equals(this.Int32, t)) return false;
-            if (!object.Equals(this.Int32_Ranged, t)) return false;
-            if (!object.Equals(this.Int64N, t)) return false;
-            if (!object.Equals(this.Int64N_Ranged, t)) return false;
-            if (!object.Equals(this.Int64, t)) return false;
-            if (!object.Equals(this.Int64_Ranged, t)) return false;
-            if (!object.Equals(this.Int8N, t)) return false;
-            if (!object.Equals(this.Int8N_Ranged, t)) return false;
-            if (!object.Equals(this.Int8, t)) return false;
-            if (!object.Equals(this.Int8_Ranged, t)) return false;
-            if (!object.Equals(this.Unsafe, t)) return false;
-            if (!object.Equals(this.P2IntN, t)) return false;
-            if (!object.Equals(this.P2Int, t)) return false;
-            if (!object.Equals(this.P3DoubleN, t)) return false;
-            if (!object.Equals(this.P3Double, t)) return false;
-            if (!object.Equals(this.P3IntN, t)) return false;
-            if (!object.Equals(this.P3Int, t)) return false;
-            if (!object.Equals(this.PercentN, t)) return false;
-            if (!object.Equals(this.Percent, t)) return false;
-            if (!object.Equals(this.RangeInt8N, t)) return false;
-            if (!object.Equals(this.RangeInt8, t)) return false;
-            if (!object.Equals(this.RangeInt16N, t)) return false;
-            if (!object.Equals(this.RangeInt16, t)) return false;
-            if (!object.Equals(this.RangeInt32N, t)) return false;
-            if (!object.Equals(this.RangeInt32, t)) return false;
-            if (!object.Equals(this.RangeInt64N, t)) return false;
-            if (!object.Equals(this.RangeInt64, t)) return false;
-            if (!object.Equals(this.RangeUInt8N, t)) return false;
-            if (!object.Equals(this.RangeUInt8, t)) return false;
-            if (!object.Equals(this.RangeUInt16N, t)) return false;
-            if (!object.Equals(this.RangeUInt16, t)) return false;
-            if (!object.Equals(this.RangeUInt32N, t)) return false;
-            if (!object.Equals(this.RangeUInt32, t)) return false;
-            if (!object.Equals(this.RangeUInt64N, t)) return false;
-            if (!object.Equals(this.RangeUInt64, t)) return false;
-            if (!object.Equals(this.String, t)) return false;
-            if (!object.Equals(this.UDoubleN, t)) return false;
-            if (!object.Equals(this.UDoubleN_Ranged, t)) return false;
-            if (!object.Equals(this.UDouble, t)) return false;
-            if (!object.Equals(this.UDouble_Ranged, t)) return false;
-            if (!object.Equals(this.UInt16N, t)) return false;
-            if (!object.Equals(this.UInt16N_Ranged, t)) return false;
-            if (!object.Equals(this.UInt16, t)) return false;
-            if (!object.Equals(this.UInt16_Ranged, t)) return false;
-            if (!object.Equals(this.UInt32N, t)) return false;
-            if (!object.Equals(this.UInt32N_Ranged, t)) return false;
-            if (!object.Equals(this.UInt32, t)) return false;
-            if (!object.Equals(this.UInt32_Ranged, t)) return false;
-            if (!object.Equals(this.UInt64N, t)) return false;
-            if (!object.Equals(this.UInt64N_Ranged, t)) return false;
-            if (!object.Equals(this.UInt64, t)) return false;
-            if (!object.Equals(this.UInt64_Ranged, t)) return false;
-            if (!object.Equals(this.UInt8N, t)) return false;
-            if (!object.Equals(this.UInt8N_Ranged, t)) return false;
-            if (!object.Equals(this.UInt8, t)) return false;
-            if (!object.Equals(this.UInt8_Ranged, t)) return false;
-            if (!object.Equals(this.Enum, t)) return false;
-            if (!object.Equals(this.WildCard, t)) return false;
+            if (!eval(this.BoolN)) return false;
+            if (!eval(this.Bool)) return false;
+            if (!eval(this.CharN)) return false;
+            if (!eval(this.Char)) return false;
+            if (!eval(this.DateTimeNull)) return false;
+            if (!eval(this.DateTime)) return false;
+            if (!eval(this.DoubleN)) return false;
+            if (!eval(this.DoubleN_Ranged)) return false;
+            if (!eval(this.Double)) return false;
+            if (!eval(this.Double_Ranged)) return false;
+            if (!eval(this.FloatN)) return false;
+            if (!eval(this.FloatN_Ranged)) return false;
+            if (!eval(this.Float)) return false;
+            if (!eval(this.Float_Ranged)) return false;
+            if (!eval(this.Int16N)) return false;
+            if (!eval(this.Int16N_Ranged)) return false;
+            if (!eval(this.Int16)) return false;
+            if (!eval(this.Int16_Ranged)) return false;
+            if (!eval(this.Int32N)) return false;
+            if (!eval(this.Int32N_Ranged)) return false;
+            if (!eval(this.Int32)) return false;
+            if (!eval(this.Int32_Ranged)) return false;
+            if (!eval(this.Int64N)) return false;
+            if (!eval(this.Int64N_Ranged)) return false;
+            if (!eval(this.Int64)) return false;
+            if (!eval(this.Int64_Ranged)) return false;
+            if (!eval(this.Int8N)) return false;
+            if (!eval(this.Int8N_Ranged)) return false;
+            if (!eval(this.Int8)) return false;
+            if (!eval(this.Int8_Ranged)) return false;
+            if (!eval(this.Unsafe)) return false;
+            if (!eval(this.P2IntN)) return false;
+            if (!eval(this.P2Int)) return false;
+            if (!eval(this.P3DoubleN)) return false;
+            if (!eval(this.P3Double)) return false;
+            if (!eval(this.P3IntN)) return false;
+            if (!eval(this.P3Int)) return false;
+            if (!eval(this.PercentN)) return false;
+            if (!eval(this.Percent)) return false;
+            if (!eval(this.RangeInt8N)) return false;
+            if (!eval(this.RangeInt8)) return false;
+            if (!eval(this.RangeInt16N)) return false;
+            if (!eval(this.RangeInt16)) return false;
+            if (!eval(this.RangeInt32N)) return false;
+            if (!eval(this.RangeInt32)) return false;
+            if (!eval(this.RangeInt64N)) return false;
+            if (!eval(this.RangeInt64)) return false;
+            if (!eval(this.RangeUInt8N)) return false;
+            if (!eval(this.RangeUInt8)) return false;
+            if (!eval(this.RangeUInt16N)) return false;
+            if (!eval(this.RangeUInt16)) return false;
+            if (!eval(this.RangeUInt32N)) return false;
+            if (!eval(this.RangeUInt32)) return false;
+            if (!eval(this.RangeUInt64N)) return false;
+            if (!eval(this.RangeUInt64)) return false;
+            if (!eval(this.String)) return false;
+            if (!eval(this.UDoubleN)) return false;
+            if (!eval(this.UDoubleN_Ranged)) return false;
+            if (!eval(this.UDouble)) return false;
+            if (!eval(this.UDouble_Ranged)) return false;
+            if (!eval(this.UInt16N)) return false;
+            if (!eval(this.UInt16N_Ranged)) return false;
+            if (!eval(this.UInt16)) return false;
+            if (!eval(this.UInt16_Ranged)) return false;
+            if (!eval(this.UInt32N)) return false;
+            if (!eval(this.UInt32N_Ranged)) return false;
+            if (!eval(this.UInt32)) return false;
+            if (!eval(this.UInt32_Ranged)) return false;
+            if (!eval(this.UInt64N)) return false;
+            if (!eval(this.UInt64N_Ranged)) return false;
+            if (!eval(this.UInt64)) return false;
+            if (!eval(this.UInt64_Ranged)) return false;
+            if (!eval(this.UInt8N)) return false;
+            if (!eval(this.UInt8N_Ranged)) return false;
+            if (!eval(this.UInt8)) return false;
+            if (!eval(this.UInt8_Ranged)) return false;
+            if (!eval(this.Enum)) return false;
+            if (!eval(this.WildCard)) return false;
             if (Ref != null)
             {
-                if (!object.Equals(this.Ref.Overall, t)) return false;
-                if (Ref.Specific != null && !Ref.Specific.AllEqual(t)) return false;
+                if (!eval(this.Ref.Overall)) return false;
+                if (Ref.Specific != null && !Ref.Specific.AllEqual(eval)) return false;
             }
             if (Ref_NotNull != null)
             {
-                if (!object.Equals(this.Ref_NotNull.Overall, t)) return false;
-                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(t)) return false;
+                if (!eval(this.Ref_NotNull.Overall)) return false;
+                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (Ref_Singleton != null)
             {
-                if (!object.Equals(this.Ref_Singleton.Overall, t)) return false;
-                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(t)) return false;
+                if (!eval(this.Ref_Singleton.Overall)) return false;
+                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter != null)
             {
-                if (!object.Equals(this.RefGetter.Overall, t)) return false;
-                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefGetter.Overall)) return false;
+                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_NotNull != null)
             {
-                if (!object.Equals(this.RefGetter_NotNull.Overall, t)) return false;
-                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefGetter_NotNull.Overall)) return false;
+                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_Singleton != null)
             {
-                if (!object.Equals(this.RefGetter_Singleton.Overall, t)) return false;
-                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefGetter_Singleton.Overall)) return false;
+                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter != null)
             {
-                if (!object.Equals(this.RefSetter.Overall, t)) return false;
-                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefSetter.Overall)) return false;
+                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_NotNull != null)
             {
-                if (!object.Equals(this.RefSetter_NotNull.Overall, t)) return false;
-                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefSetter_NotNull.Overall)) return false;
+                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_Singleton != null)
             {
-                if (!object.Equals(this.RefSetter_Singleton.Overall, t)) return false;
-                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefSetter_Singleton.Overall)) return false;
+                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (List != null)
             {
-                if (!object.Equals(this.List.Overall, t)) return false;
+                if (!eval(this.List.Overall)) return false;
                 if (List.Specific != null)
                 {
                     foreach (var item in List.Specific)
                     {
-                        if (!object.Equals(item, t)) return false;
+                        if (!eval(item)) return false;
                     }
                 }
             }
             if (RefList != null)
             {
-                if (!object.Equals(this.RefList.Overall, t)) return false;
+                if (!eval(this.RefList.Overall)) return false;
                 if (RefList.Specific != null)
                 {
                     foreach (var item in RefList.Specific)
                     {
-                        if (!object.Equals(item.Overall, t)) return false;
-                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                        if (!eval(item.Overall)) return false;
+                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
                     }
                 }
             }
             if (Dict != null)
             {
-                if (!object.Equals(this.Dict.Overall, t)) return false;
+                if (!eval(this.Dict.Overall)) return false;
                 if (Dict.Specific != null)
                 {
                     foreach (var item in Dict.Specific)
                     {
-                        if (!object.Equals(item.Key, t)) return false;
-                        if (!object.Equals(item.Value, t)) return false;
+                        if (!eval(item.Key)) return false;
+                        if (!eval(item.Value)) return false;
                     }
                 }
             }
             if (RefDict != null)
             {
-                if (!object.Equals(this.RefDict.Overall, t)) return false;
+                if (!eval(this.RefDict.Overall)) return false;
                 if (RefDict.Specific != null)
                 {
                     foreach (var item in RefDict.Specific)
                     {
                         if (item.Key != null)
                         {
-                            if (!object.Equals(item.Key.Overall, t)) return false;
-                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                            if (!eval(item.Key.Overall)) return false;
+                            if (!item.Key.Specific?.AllEqual(eval) ?? false) return false;
                         }
                         if (item.Value != null)
                         {
-                            if (!object.Equals(item.Value.Overall, t)) return false;
-                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                            if (!eval(item.Value.Overall)) return false;
+                            if (!item.Value.Specific?.AllEqual(eval) ?? false) return false;
                         }
                     }
                 }
             }
             if (KeyRefDict != null)
             {
-                if (!object.Equals(this.KeyRefDict.Overall, t)) return false;
+                if (!eval(this.KeyRefDict.Overall)) return false;
                 if (KeyRefDict.Specific != null)
                 {
                     foreach (var item in KeyRefDict.Specific)
                     {
                         if (item.Key != null)
                         {
-                            if (!object.Equals(item.Key.Overall, t)) return false;
-                            if (!item.Key.Specific?.AllEqual(t) ?? false) return false;
+                            if (!eval(item.Key.Overall)) return false;
+                            if (!item.Key.Specific?.AllEqual(eval) ?? false) return false;
                         }
-                        if (!object.Equals(item.Value, t)) return false;
+                        if (!eval(item.Value)) return false;
                     }
                 }
             }
             if (ValRefDict != null)
             {
-                if (!object.Equals(this.ValRefDict.Overall, t)) return false;
+                if (!eval(this.ValRefDict.Overall)) return false;
                 if (ValRefDict.Specific != null)
                 {
                     foreach (var item in ValRefDict.Specific)
                     {
-                        if (!object.Equals(item.Key, t)) return false;
+                        if (!eval(item.Key)) return false;
                         if (item.Value != null)
                         {
-                            if (!object.Equals(item.Value.Overall, t)) return false;
-                            if (!item.Value.Specific?.AllEqual(t) ?? false) return false;
+                            if (!eval(item.Value.Overall)) return false;
+                            if (!item.Value.Specific?.AllEqual(eval) ?? false) return false;
                         }
                     }
                 }
             }
             if (DictKeyedValue != null)
             {
-                if (!object.Equals(this.DictKeyedValue.Overall, t)) return false;
+                if (!eval(this.DictKeyedValue.Overall)) return false;
                 if (DictKeyedValue.Specific != null)
                 {
                     foreach (var item in DictKeyedValue.Specific)
                     {
-                        if (!object.Equals(item.Overall, t)) return false;
-                        if (!item.Specific?.AllEqual(t) ?? false) return false;
+                        if (!eval(item.Overall)) return false;
+                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
                     }
                 }
             }

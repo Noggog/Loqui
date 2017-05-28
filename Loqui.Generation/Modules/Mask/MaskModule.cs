@@ -34,7 +34,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine("public bool AllEqual(T t)");
+                fg.AppendLine("public bool AllEqual(Func<T, bool> eval)");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in obj.Fields)

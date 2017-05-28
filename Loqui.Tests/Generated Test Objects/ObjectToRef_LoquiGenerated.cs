@@ -900,10 +900,10 @@ namespace Loqui.Tests.Internals
         public T KeyField;
         public T SomeField;
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
-            if (!object.Equals(this.KeyField, t)) return false;
-            if (!object.Equals(this.SomeField, t)) return false;
+            if (!eval(this.KeyField)) return false;
+            if (!eval(this.SomeField)) return false;
             return true;
         }
     }

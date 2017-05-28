@@ -103,7 +103,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({field.Name} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
                 fg.AppendLine($"if ({field.Name}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
@@ -112,12 +112,12 @@ namespace Loqui.Generation
                     {
                         if (listType.SubTypeGeneration is LoquiType loqui)
                         {
-                            fg.AppendLine($"if (!object.Equals(item.Overall, t)) return false;");
-                            fg.AppendLine($"if (!item.Specific?.AllEqual(t) ?? false) return false;");
+                            fg.AppendLine($"if (!eval(item.Overall)) return false;");
+                            fg.AppendLine($"if (!item.Specific?.AllEqual(eval) ?? false) return false;");
                         }
                         else
                         {
-                            fg.AppendLine($"if (!object.Equals(item, t)) return false;");
+                            fg.AppendLine($"if (!eval(item)) return false;");
                         }
                     }
                 }

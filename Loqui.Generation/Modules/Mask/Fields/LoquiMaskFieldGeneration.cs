@@ -87,11 +87,11 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({field.Name} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
                 if (loqui.RefType == LoquiRefType.Direct
                     || loqui.TargetObjectGeneration != null)
                 {
-                    fg.AppendLine($"if ({field.Name}.Specific != null && !{field.Name}.Specific.AllEqual(t)) return false;");
+                    fg.AppendLine($"if ({field.Name}.Specific != null && !{field.Name}.Specific.AllEqual(eval)) return false;");
                 }
                 else
                 {

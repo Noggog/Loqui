@@ -135,7 +135,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({field.Name} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!object.Equals(this.{field.Name}.Overall, t)) return false;");
+                fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
                 fg.AppendLine($"if ({field.Name}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
@@ -150,31 +150,31 @@ namespace Loqui.Generation
                                     fg.AppendLine($"if (item.Key != null)");
                                     using (new BraceWrapper(fg))
                                     {
-                                        fg.AppendLine($"if (!object.Equals(item.Key.Overall, t)) return false;");
-                                        fg.AppendLine($"if (!item.Key.Specific?.AllEqual(t) ?? false) return false;");
+                                        fg.AppendLine($"if (!eval(item.Key.Overall)) return false;");
+                                        fg.AppendLine($"if (!item.Key.Specific?.AllEqual(eval) ?? false) return false;");
                                     }
                                 }
                                 else
                                 {
-                                    fg.AppendLine($"if (!object.Equals(item.Key, t)) return false;");
+                                    fg.AppendLine($"if (!eval(item.Key)) return false;");
                                 }
                                 if (dictType.ValueTypeGen is LoquiType loquiVal)
                                 {
                                     fg.AppendLine($"if (item.Value != null)");
                                     using (new BraceWrapper(fg))
                                     {
-                                        fg.AppendLine($"if (!object.Equals(item.Value.Overall, t)) return false;");
-                                        fg.AppendLine($"if (!item.Value.Specific?.AllEqual(t) ?? false) return false;");
+                                        fg.AppendLine($"if (!eval(item.Value.Overall)) return false;");
+                                        fg.AppendLine($"if (!item.Value.Specific?.AllEqual(eval) ?? false) return false;");
                                     }
                                 }
                                 else
                                 {
-                                    fg.AppendLine($"if (!object.Equals(item.Value, t)) return false;");
+                                    fg.AppendLine($"if (!eval(item.Value)) return false;");
                                 }
                                 break;
                             case DictMode.KeyedValue:
-                                fg.AppendLine($"if (!object.Equals(item.Overall, t)) return false;");
-                                fg.AppendLine($"if (!item.Specific?.AllEqual(t) ?? false) return false;");
+                                fg.AppendLine($"if (!eval(item.Overall)) return false;");
+                                fg.AppendLine($"if (!item.Specific?.AllEqual(eval) ?? false) return false;");
                                 break;
                             default:
                                 break;

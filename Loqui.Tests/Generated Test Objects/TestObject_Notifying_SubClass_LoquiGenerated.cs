@@ -776,9 +776,9 @@ namespace Loqui.Tests.Internals
     {
         public T NewField;
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
-            if (!object.Equals(this.NewField, t)) return false;
+            if (!eval(this.NewField)) return false;
             return true;
         }
     }

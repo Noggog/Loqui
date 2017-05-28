@@ -760,9 +760,9 @@ namespace Loqui.Tests.Internals
     {
         public T BoolN;
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
-            if (!object.Equals(this.BoolN, t)) return false;
+            if (!eval(this.BoolN)) return false;
             return true;
         }
     }

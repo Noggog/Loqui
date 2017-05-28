@@ -790,7 +790,7 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RefBase = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
                     ret.RefBase.Specific = ObjectToRefCommon.GetEqualsMask(item.RefBase, rhs.RefBase);
-                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual(true);
+                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual((b) => b ?? true);
                 }
             }
             if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
@@ -998,16 +998,16 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }
 
-        public bool AllEqual(T t)
+        public bool AllEqual(Func<T, bool> eval)
         {
             if (RefBase != null)
             {
-                if (!object.Equals(this.RefBase.Overall, t)) return false;
-                if (RefBase.Specific != null && !RefBase.Specific.AllEqual(t)) return false;
+                if (!eval(this.RefBase.Overall)) return false;
+                if (RefBase.Specific != null && !RefBase.Specific.AllEqual(eval)) return false;
             }
             if (Ref != null)
             {
-                if (!object.Equals(this.Ref.Overall, t)) return false;
+                if (!eval(this.Ref.Overall)) return false;
                 throw new NotImplementedException();
             }
             return true;
