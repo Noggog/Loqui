@@ -311,19 +311,21 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({this.Name} != {rhsAccessor}.{this.Name}) return false;");
         }
 
-        public override void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            fg.AppendLine($"{retAccessor} = {accessor} != {rhsAccessor};");
+            if (this.Notifying == NotifyingOption.None)
+            {
+                fg.AppendLine($"{retAccessor} = {accessor} != {rhsAccessor};");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => l != r);");
+            }
         }
 
         public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
         {
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
-        }
-
-        public override void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
-        {
-            fg.AppendLine($"{retAccessor} = {(on ? "true" : "false")};");
         }
     }
 }

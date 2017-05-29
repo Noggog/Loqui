@@ -26,6 +26,7 @@ namespace Loqui.Generation
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
+        public virtual string PropertyOrName => $"{this.Name}{(this.Notifying == NotifyingOption.None ? string.Empty : "_Property")}";
         public string IndexEnumName => $"{this.ObjectGen.EnumName}.{this.Name}";
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
@@ -105,9 +106,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForEquals(FileGeneration fg, string rhsAccessor);
 
-        public abstract void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
-
-        public abstract void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on);
+        public abstract void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
 
         public abstract void GenerateForHash(FileGeneration fg, string hashResultAccessor);
 

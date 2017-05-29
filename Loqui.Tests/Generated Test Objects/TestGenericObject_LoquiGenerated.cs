@@ -784,43 +784,9 @@ namespace Loqui.Tests.Internals
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
-            if (item.RefBase_Property.HasBeenSet == rhs.RefBase_Property.HasBeenSet)
-            {
-                if (item.RefBase_Property.HasBeenSet)
-                {
-                    ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
-                    ret.RefBase.Specific = ObjectToRefCommon.GetEqualsMask(item.RefBase, rhs.RefBase);
-                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual((b) => b);
-                }
-                else
-                {
-                    ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
-                    ret.RefBase.Overall = true;
-                }
-            }
-            else
-            {
-                ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
-                ret.RefBase.Overall = false;
-            }
-            if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
-            {
-                if (item.Ref_Property.HasBeenSet)
-                {
-                    ret.Ref = new MaskItem<bool, object>();
-                    ret.Ref.Overall = object.Equals(item.Ref, rhs.Ref);
-                }
-                else
-                {
-                    ret.Ref = new MaskItem<bool, object>();
-                    ret.Ref.Overall = true;
-                }
-            }
-            else
-            {
-                ret.Ref = new MaskItem<bool, object>();
-                ret.Ref.Overall = false;
-            }
+            ret.RefBase = item.RefBase_Property.LoquiEqualsHelper(rhs.RefBase_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref = new MaskItem<bool, object>();
+            ret.Ref.Overall = item.Ref_Property.Equals(rhs.Ref_Property, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
         }
 
         #region XML Translation

@@ -638,21 +638,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_SubClassGetter rhs,
             TestObject_Notifying_SubClass_Mask<bool> ret)
         {
-            if (item.NewField_Property.HasBeenSet == rhs.NewField_Property.HasBeenSet)
-            {
-                if (item.NewField_Property.HasBeenSet)
-                {
-                    ret.NewField = item.NewField != rhs.NewField;
-                }
-                else
-                {
-                    ret.NewField = true;
-                }
-            }
-            else
-            {
-                ret.NewField = false;
-            }
+            ret.NewField = item.NewField_Property.Equals(rhs.NewField_Property, (l, r) => l != r);
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }
 

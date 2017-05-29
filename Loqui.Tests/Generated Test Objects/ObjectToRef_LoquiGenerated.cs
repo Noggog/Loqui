@@ -720,36 +720,8 @@ namespace Loqui.Tests.Internals
             IObjectToRefGetter rhs,
             ObjectToRef_Mask<bool> ret)
         {
-            if (item.KeyField_Property.HasBeenSet == rhs.KeyField_Property.HasBeenSet)
-            {
-                if (item.KeyField_Property.HasBeenSet)
-                {
-                    ret.KeyField = item.KeyField != rhs.KeyField;
-                }
-                else
-                {
-                    ret.KeyField = true;
-                }
-            }
-            else
-            {
-                ret.KeyField = false;
-            }
-            if (item.SomeField_Property.HasBeenSet == rhs.SomeField_Property.HasBeenSet)
-            {
-                if (item.SomeField_Property.HasBeenSet)
-                {
-                    ret.SomeField = item.SomeField != rhs.SomeField;
-                }
-                else
-                {
-                    ret.SomeField = true;
-                }
-            }
-            else
-            {
-                ret.SomeField = false;
-            }
+            ret.KeyField = item.KeyField_Property.Equals(rhs.KeyField_Property, (l, r) => l != r);
+            ret.SomeField = item.SomeField_Property.Equals(rhs.SomeField_Property, (l, r) => l != r);
         }
 
         #region XML Translation

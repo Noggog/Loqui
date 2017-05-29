@@ -1305,32 +1305,7 @@ namespace Loqui.Generation
                 {
                     if (!HasKeyField() || field.KeyField)
                     {
-                        if (field.Notifying == NotifyingOption.None)
-                        {
-                            field.GenerateForEqualsMaskCheck(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"if (item.{field.HasBeenSetAccessor} == rhs.{field.HasBeenSetAccessor})");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"if (item.{field.HasBeenSetAccessor})");
-                                using (new BraceWrapper(fg))
-                                {
-                                    field.GenerateForEqualsMaskCheck(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
-                                }
-                                fg.AppendLine($"else");
-                                using (new BraceWrapper(fg))
-                                {
-                                    field.GenerateForEqualsMask(fg, $"ret.{field.Name}", true);
-                                }
-                            }
-                            fg.AppendLine($"else");
-                            using (new BraceWrapper(fg))
-                            {
-                                field.GenerateForEqualsMask(fg, $"ret.{field.Name}", false);
-                            }
-                        }
+                        field.GenerateForEqualsMask(fg, $"item.{field.PropertyOrName}", $"rhs.{field.PropertyOrName}", $"ret.{field.Name}");
                     }
                 }
                 if (this.HasBaseObject)

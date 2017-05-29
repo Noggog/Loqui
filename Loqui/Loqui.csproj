@@ -50,6 +50,7 @@
     <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyOption.cs" />
     <Compile Include="Extensions\EnumerableExt.cs" />
+    <Compile Include="Extensions\IHasBeenSetExt.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="FileGeneration\DepthWrapper.cs" />
     <Compile Include="FileGeneration\FileGeneration.cs" />

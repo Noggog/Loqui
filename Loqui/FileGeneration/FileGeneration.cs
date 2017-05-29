@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("ret.RefSetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool>>();"))
+            if (str.Equals("if (item.UInt8N_Ranged_Property.HasBeenSet == rhs.UInt8N_Ranged_Property.HasBeenSet)"))
             {
                 int wer = 23;
                 wer++;

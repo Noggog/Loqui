@@ -126,12 +126,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
             throw new NotImplementedException();
         }

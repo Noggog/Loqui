@@ -37,6 +37,14 @@ namespace Loqui.Tests.XML
             return ret;
         }
 
+        public override void Parse_BadElement_Mask()
+        {
+        }
+
+        public override void Parse_BadElement_NoMask()
+        {
+        }
+
         public override void Write_NodeName()
         {
             var name = "AName";
