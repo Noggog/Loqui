@@ -174,6 +174,7 @@
       <xs:element name="Dict" type="Dict" />
       <xs:element name="Array2D" type="List" />
       <xs:element name="Enum" type="Enum" />
+      <xs:element name="EnumNull" type="Enum" />
       <xs:element name="String" type="String" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
@@ -261,6 +262,7 @@
       <xs:element name="Dict" type="NDict" />
       <xs:element name="Array2D" type="NList" />
       <xs:element name="Enum" type="NEnum" />
+      <xs:element name="EnumNull" type="NEnum" />
       <xs:element name="String" type="NString" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>

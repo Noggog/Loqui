@@ -82,6 +82,7 @@
       <UInt8 name="UInt8" />
       <UInt8 name="UInt8_Ranged" min="3" max="6" />
       <Enum name="Enum" enumName="TestEnum" />
+      <EnumNull name="EnumNull" enumName="TestEnum" />
       <Wildcard name="WildCard" />
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />

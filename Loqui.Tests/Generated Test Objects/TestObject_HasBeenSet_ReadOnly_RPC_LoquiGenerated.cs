@@ -270,6 +270,9 @@ namespace Loqui.Tests
             _Enum = HasBeenSetItem.Factory<TestEnum>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Enum)),
                 markAsSet: false);
+            _EnumNull = HasBeenSetItem.Factory<TestEnum?>(
+                onSet: (i) => this.OnPropertyChanged(nameof(EnumNull)),
+                markAsSet: false);
             _WildCard = HasBeenSetItem.Factory<Object>(
                 onSet: (i) => this.OnPropertyChanged(nameof(WildCard)),
                 markAsSet: false);
@@ -1209,6 +1212,17 @@ namespace Loqui.Tests
         TestEnum ITestObject_HasBeenSet_ReadOnly_RPCGetter.Enum => this.Enum;
         IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSet_ReadOnly_RPCGetter.Enum_Property => this.Enum_Property;
         #endregion
+        #region EnumNull
+        protected readonly IHasBeenSetItem<TestEnum?> _EnumNull;
+        public IHasBeenSetItem<TestEnum?> EnumNull_Property => _EnumNull;
+        public TestEnum? EnumNull
+        {
+            get => this._EnumNull.Item;
+            protected set => this._EnumNull.Set(value);
+        }
+        TestEnum? ITestObject_HasBeenSet_ReadOnly_RPCGetter.EnumNull => this.EnumNull;
+        IHasBeenSetItemGetter<TestEnum?> ITestObject_HasBeenSet_ReadOnly_RPCGetter.EnumNull_Property => this.EnumNull_Property;
+        #endregion
         #region WildCard
         protected readonly IHasBeenSetItem<Object> _WildCard;
         public IHasBeenSetItemGetter<Object> WildCard_Property => _WildCard;
@@ -1835,6 +1849,11 @@ namespace Loqui.Tests
             {
                 if (Enum != rhs.Enum) return false;
             }
+            if (EnumNull_Property.HasBeenSet != rhs.EnumNull_Property.HasBeenSet) return false;
+            if (EnumNull_Property.HasBeenSet)
+            {
+                if (EnumNull != rhs.EnumNull) return false;
+            }
             if (WildCard_Property.HasBeenSet != rhs.WildCard_Property.HasBeenSet) return false;
             if (WildCard_Property.HasBeenSet)
             {
@@ -2233,6 +2252,10 @@ namespace Loqui.Tests
             if (Enum_Property.HasBeenSet)
             {
                 ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
+            }
+            if (EnumNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(EnumNull).CombineHashCode(ret);
             }
             if (WildCard_Property.HasBeenSet)
             {
@@ -2707,6 +2730,9 @@ namespace Loqui.Tests
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     this._Enum.Set((TestEnum)obj);
+                    break;
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    this._EnumNull.Set((TestEnum?)obj);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     this._WildCard.Set((Object)obj);
@@ -3204,6 +3230,11 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
+        #region EnumNull
+        TestEnum? EnumNull { get; }
+        IHasBeenSetItemGetter<TestEnum?> EnumNull_Property { get; }
+
+        #endregion
         #region WildCard
         Object WildCard { get; }
         IHasBeenSetItemGetter<Object> WildCard_Property { get; }
@@ -3364,23 +3395,24 @@ namespace Loqui.Tests.Internals
         UInt8 = 74,
         UInt8_Ranged = 75,
         Enum = 76,
-        WildCard = 77,
-        Ref = 78,
-        Ref_NotNull = 79,
-        Ref_Singleton = 80,
-        RefGetter = 81,
-        RefGetter_NotNull = 82,
-        RefGetter_Singleton = 83,
-        RefSetter = 84,
-        RefSetter_NotNull = 85,
-        RefSetter_Singleton = 86,
-        List = 87,
-        RefList = 88,
-        Dict = 89,
-        RefDict = 90,
-        KeyRefDict = 91,
-        ValRefDict = 92,
-        DictKeyedValue = 93,
+        EnumNull = 77,
+        WildCard = 78,
+        Ref = 79,
+        Ref_NotNull = 80,
+        Ref_Singleton = 81,
+        RefGetter = 82,
+        RefGetter_NotNull = 83,
+        RefGetter_Singleton = 84,
+        RefSetter = 85,
+        RefSetter_NotNull = 86,
+        RefSetter_Singleton = 87,
+        List = 88,
+        RefList = 89,
+        Dict = 90,
+        RefDict = 91,
+        KeyRefDict = 92,
+        ValRefDict = 93,
+        DictKeyedValue = 94,
     }
     #endregion
 
@@ -3398,7 +3430,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "beb6e641-ce31-473c-83f6-c6b8939e1ffb";
 
-        public const ushort FieldCount = 94;
+        public const ushort FieldCount = 95;
 
         public static readonly Type MaskType = typeof(TestObject_HasBeenSet_ReadOnly_RPC_Mask<>);
 
@@ -3572,6 +3604,8 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged;
                 case "ENUM":
                     return (ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum;
+                case "ENUMNULL":
+                    return (ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull;
                 case "WILDCARD":
                     return (ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard;
                 case "REF":
@@ -3696,6 +3730,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
@@ -3810,6 +3845,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
@@ -3909,6 +3945,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
@@ -4088,6 +4125,8 @@ namespace Loqui.Tests.Internals
                     return "UInt8_Ranged";
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return "Enum";
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    return "EnumNull";
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return "WildCard";
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -4209,6 +4248,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
@@ -4314,6 +4354,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
@@ -4496,6 +4537,8 @@ namespace Loqui.Tests.Internals
                     return typeof(Byte);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return typeof(TestEnum);
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    return typeof(TestEnum?);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return typeof(Object);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -4740,6 +4783,8 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -4941,6 +4986,8 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -5141,6 +5188,8 @@ namespace Loqui.Tests.Internals
                     return obj.UInt8_Ranged_Property.HasBeenSet;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    return obj.EnumNull_Property.HasBeenSet;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -5341,6 +5390,8 @@ namespace Loqui.Tests.Internals
                     return obj.UInt8_Ranged;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum;
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    return obj.EnumNull;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
@@ -5477,6 +5528,7 @@ namespace Loqui.Tests.Internals
             ret.UInt8 = item.UInt8_Property.Equals(rhs.UInt8_Property, (l, r) => l != r);
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l != r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l != r);
+            ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l != r);
             ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => l != r);
             ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
@@ -7161,6 +7213,24 @@ namespace Loqui.Tests.Internals
                             errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum, ex);
                         }
                     }
+                    if (item.EnumNull_Property.HasBeenSet)
+                    {
+                        try
+                        {
+                            if (item.EnumNull_Property.HasBeenSet)
+                            {
+                                EnumXmlTranslation<TestEnum>.Instance.Write(
+                                    writer,
+                                    nameof(item.EnumNull),
+                                    item.EnumNull);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull, ex);
+                        }
+                    }
                     if (item.WildCard_Property.HasBeenSet)
                     {
                         try
@@ -7721,6 +7791,7 @@ namespace Loqui.Tests.Internals
         public T UInt8;
         public T UInt8_Ranged;
         public T Enum;
+        public T EnumNull;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
@@ -7820,6 +7891,7 @@ namespace Loqui.Tests.Internals
             if (!eval(this.UInt8)) return false;
             if (!eval(this.UInt8_Ranged)) return false;
             if (!eval(this.Enum)) return false;
+            if (!eval(this.EnumNull)) return false;
             if (!eval(this.WildCard)) return false;
             if (Ref != null)
             {
@@ -8050,6 +8122,7 @@ namespace Loqui.Tests.Internals
             ret.UInt8 = eval(this.UInt8);
             ret.UInt8_Ranged = eval(this.UInt8_Ranged);
             ret.Enum = eval(this.Enum);
+            ret.EnumNull = eval(this.EnumNull);
             ret.WildCard = eval(this.WildCard);
             if (this.Ref != null)
             {
@@ -9079,6 +9152,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (EnumNull != null)
+                {
+                    fg.AppendLine("EnumNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(EnumNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (WildCard != null)
                 {
                     fg.AppendLine("WildCard =>");
@@ -9596,6 +9679,7 @@ namespace Loqui.Tests.Internals
         public Exception UInt8;
         public Exception UInt8_Ranged;
         public Exception Enum;
+        public Exception EnumNull;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
@@ -9851,6 +9935,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = ex;
+                    break;
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    this.EnumNull = ex;
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = ex;
@@ -10143,6 +10230,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
+                    break;
+                case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    this.EnumNull = (Exception)obj;
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
@@ -10985,6 +11075,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (EnumNull != null)
+                {
+                    fg.AppendLine("EnumNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(EnumNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (WildCard != null)
                 {
                     fg.AppendLine("WildCard =>");
@@ -11488,6 +11588,7 @@ namespace Loqui.Tests.Internals
         public bool UInt8;
         public bool UInt8_Ranged;
         public bool Enum;
+        public bool EnumNull;
         public bool WildCard;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;

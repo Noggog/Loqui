@@ -10,9 +10,12 @@ namespace Loqui.Generation
     {
         public override bool OutputsErrorMask => false;
         private string typeName;
-
-        public PrimitiveXmlTranslationGeneration(string typeName = null)
+        private bool? nullable;
+        public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
+        
+        public PrimitiveXmlTranslationGeneration(string typeName = null, bool? nullable = null)
         {
+            this.nullable = nullable;
             this.typeName = typeName ?? typeof(T).GetName().Replace("?", string.Empty);
         }
 

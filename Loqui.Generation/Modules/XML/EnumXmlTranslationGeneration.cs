@@ -20,7 +20,7 @@ namespace Loqui.Generation
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
-                $"EnumXmlTranslation<{eType.TypeName}>.Instance.Write"))
+                $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Write"))
             {
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);

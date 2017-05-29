@@ -8,8 +8,19 @@ namespace Loqui.Generation
     {
         public string EnumName;
         public string NameSpace;
+        public bool Nullable;
 
-        public override string TypeName => EnumName;
+        public override string TypeName => $"{EnumName}{(Nullable ? "?" : string.Empty)}";
+        public string NoNullTypeName => $"{EnumName}";
+
+        public EnumType()
+        {
+        }
+
+        public EnumType(bool nullable)
+        {
+            this.Nullable = nullable;
+        }
 
         public override void Load(XElement node, bool requireName = true)
         {

@@ -461,6 +461,9 @@ namespace Loqui.Tests
         #region Enum
         public TestEnum Enum { get; set; }
         #endregion
+        #region EnumNull
+        public TestEnum? EnumNull { get; set; }
+        #endregion
         #region WildCard
         protected Object _WildCard;
         public Object WildCard
@@ -735,6 +738,7 @@ namespace Loqui.Tests
             if (UInt8 != rhs.UInt8) return false;
             if (UInt8_Ranged != rhs.UInt8_Ranged) return false;
             if (Enum != rhs.Enum) return false;
+            if (EnumNull != rhs.EnumNull) return false;
             if (WildCard != rhs.WildCard) return false;
             if (object.Equals(Ref, rhs.Ref)) return false;
             if (object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
@@ -835,6 +839,7 @@ namespace Loqui.Tests
             ret = HashHelper.GetHashCode(UInt8).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(UInt8_Ranged).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(EnumNull).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
@@ -1258,6 +1263,9 @@ namespace Loqui.Tests
                 case TestObject_FieldIndex.Enum:
                     this.Enum = (TestEnum)obj;
                     break;
+                case TestObject_FieldIndex.EnumNull:
+                    this.EnumNull = (TestEnum?)obj;
+                    break;
                 case TestObject_FieldIndex.WildCard:
                     this.WildCard = (Object)obj;
                     break;
@@ -1518,6 +1526,8 @@ namespace Loqui.Tests
         new Byte UInt8_Ranged { get; set; }
 
         new TestEnum Enum { get; set; }
+
+        new TestEnum? EnumNull { get; set; }
 
         new Object WildCard { get; set; }
 
@@ -1852,6 +1862,10 @@ namespace Loqui.Tests
         TestEnum Enum { get; }
 
         #endregion
+        #region EnumNull
+        TestEnum? EnumNull { get; }
+
+        #endregion
         #region WildCard
         Object WildCard { get; }
 
@@ -2002,23 +2016,24 @@ namespace Loqui.Tests.Internals
         UInt8 = 74,
         UInt8_Ranged = 75,
         Enum = 76,
-        WildCard = 77,
-        Ref = 78,
-        Ref_NotNull = 79,
-        Ref_Singleton = 80,
-        RefGetter = 81,
-        RefGetter_NotNull = 82,
-        RefGetter_Singleton = 83,
-        RefSetter = 84,
-        RefSetter_NotNull = 85,
-        RefSetter_Singleton = 86,
-        List = 87,
-        RefList = 88,
-        Dict = 89,
-        RefDict = 90,
-        KeyRefDict = 91,
-        ValRefDict = 92,
-        DictKeyedValue = 93,
+        EnumNull = 77,
+        WildCard = 78,
+        Ref = 79,
+        Ref_NotNull = 80,
+        Ref_Singleton = 81,
+        RefGetter = 82,
+        RefGetter_NotNull = 83,
+        RefGetter_Singleton = 84,
+        RefSetter = 85,
+        RefSetter_NotNull = 86,
+        RefSetter_Singleton = 87,
+        List = 88,
+        RefList = 89,
+        Dict = 90,
+        RefDict = 91,
+        KeyRefDict = 92,
+        ValRefDict = 93,
+        DictKeyedValue = 94,
     }
     #endregion
 
@@ -2036,7 +2051,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7";
 
-        public const ushort FieldCount = 94;
+        public const ushort FieldCount = 95;
 
         public static readonly Type MaskType = typeof(TestObject_Mask<>);
 
@@ -2210,6 +2225,8 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_FieldIndex.UInt8_Ranged;
                 case "ENUM":
                     return (ushort)TestObject_FieldIndex.Enum;
+                case "ENUMNULL":
+                    return (ushort)TestObject_FieldIndex.EnumNull;
                 case "WILDCARD":
                     return (ushort)TestObject_FieldIndex.WildCard;
                 case "REF":
@@ -2334,6 +2351,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.Ref:
                 case TestObject_FieldIndex.Ref_NotNull:
@@ -2448,6 +2466,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.List:
                 case TestObject_FieldIndex.Dict:
@@ -2547,6 +2566,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.Ref:
                 case TestObject_FieldIndex.Ref_NotNull:
@@ -2726,6 +2746,8 @@ namespace Loqui.Tests.Internals
                     return "UInt8_Ranged";
                 case TestObject_FieldIndex.Enum:
                     return "Enum";
+                case TestObject_FieldIndex.EnumNull:
+                    return "EnumNull";
                 case TestObject_FieldIndex.WildCard:
                     return "WildCard";
                 case TestObject_FieldIndex.Ref:
@@ -2847,6 +2869,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.Ref:
                 case TestObject_FieldIndex.Ref_NotNull:
@@ -2952,6 +2975,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.Ref:
                 case TestObject_FieldIndex.Ref_NotNull:
@@ -3134,6 +3158,8 @@ namespace Loqui.Tests.Internals
                     return typeof(Byte);
                 case TestObject_FieldIndex.Enum:
                     return typeof(TestEnum);
+                case TestObject_FieldIndex.EnumNull:
+                    return typeof(TestEnum?);
                 case TestObject_FieldIndex.WildCard:
                     return typeof(Object);
                 case TestObject_FieldIndex.Ref:
@@ -3518,6 +3544,10 @@ namespace Loqui.Tests.Internals
             if (copyMask?.Enum ?? true)
             {
                 item.Enum = rhs.Enum;
+            }
+            if (copyMask?.EnumNull ?? true)
+            {
+                item.EnumNull = rhs.EnumNull;
             }
             if (copyMask?.WildCard ?? true)
             {
@@ -4210,6 +4240,8 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_FieldIndex.Enum:
                     break;
+                case TestObject_FieldIndex.EnumNull:
+                    break;
                 case TestObject_FieldIndex.WildCard:
                     break;
                 case TestObject_FieldIndex.Ref:
@@ -4495,6 +4527,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.Enum:
                     obj.Enum = default(TestEnum);
                     break;
+                case TestObject_FieldIndex.EnumNull:
+                    obj.EnumNull = default(TestEnum?);
+                    break;
                 case TestObject_FieldIndex.WildCard:
                     obj.WildCard = default(Object);
                     break;
@@ -4634,6 +4669,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_FieldIndex.UInt8:
                 case TestObject_FieldIndex.UInt8_Ranged:
                 case TestObject_FieldIndex.Enum:
+                case TestObject_FieldIndex.EnumNull:
                 case TestObject_FieldIndex.WildCard:
                 case TestObject_FieldIndex.Ref:
                 case TestObject_FieldIndex.Ref_NotNull:
@@ -4818,6 +4854,8 @@ namespace Loqui.Tests.Internals
                     return obj.UInt8_Ranged;
                 case TestObject_FieldIndex.Enum:
                     return obj.Enum;
+                case TestObject_FieldIndex.EnumNull:
+                    return obj.EnumNull;
                 case TestObject_FieldIndex.WildCard:
                     return obj.WildCard;
                 case TestObject_FieldIndex.Ref:
@@ -4938,6 +4976,7 @@ namespace Loqui.Tests.Internals
             item.UInt8 = default(Byte);
             item.UInt8_Ranged = default(Byte);
             item.Enum = default(TestEnum);
+            item.EnumNull = default(TestEnum?);
             item.WildCard = default(Object);
             item.Ref = default(ObjectToRef);
             item.Ref_NotNull = default(ObjectToRef);
@@ -5045,6 +5084,7 @@ namespace Loqui.Tests.Internals
             ret.UInt8 = item.UInt8 != rhs.UInt8;
             ret.UInt8_Ranged = item.UInt8_Ranged != rhs.UInt8_Ranged;
             ret.Enum = item.Enum != rhs.Enum;
+            ret.EnumNull = item.EnumNull != rhs.EnumNull;
             ret.WildCard = item.WildCard != rhs.WildCard;
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
@@ -6187,6 +6227,18 @@ namespace Loqui.Tests.Internals
                     }
                     try
                     {
+                        EnumXmlTranslation<TestEnum>.Instance.Write(
+                            writer,
+                            nameof(item.EnumNull),
+                            item.EnumNull);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_FieldIndex.EnumNull, ex);
+                    }
+                    try
+                    {
                         var wildType = item.WildCard == null ? null : item.WildCard.GetType();
                         var transl = XmlTranslator.GetTranslator(wildType);
                         if (transl?.Item.Failed ?? true)
@@ -6643,6 +6695,7 @@ namespace Loqui.Tests.Internals
         public T UInt8;
         public T UInt8_Ranged;
         public T Enum;
+        public T EnumNull;
         public T WildCard;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
@@ -6742,6 +6795,7 @@ namespace Loqui.Tests.Internals
             if (!eval(this.UInt8)) return false;
             if (!eval(this.UInt8_Ranged)) return false;
             if (!eval(this.Enum)) return false;
+            if (!eval(this.EnumNull)) return false;
             if (!eval(this.WildCard)) return false;
             if (Ref != null)
             {
@@ -6972,6 +7026,7 @@ namespace Loqui.Tests.Internals
             ret.UInt8 = eval(this.UInt8);
             ret.UInt8_Ranged = eval(this.UInt8_Ranged);
             ret.Enum = eval(this.Enum);
+            ret.EnumNull = eval(this.EnumNull);
             ret.WildCard = eval(this.WildCard);
             if (this.Ref != null)
             {
@@ -8001,6 +8056,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (EnumNull != null)
+                {
+                    fg.AppendLine("EnumNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(EnumNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (WildCard != null)
                 {
                     fg.AppendLine("WildCard =>");
@@ -8518,6 +8583,7 @@ namespace Loqui.Tests.Internals
         public Exception UInt8;
         public Exception UInt8_Ranged;
         public Exception Enum;
+        public Exception EnumNull;
         public Exception WildCard;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
@@ -8773,6 +8839,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_FieldIndex.Enum:
                     this.Enum = ex;
+                    break;
+                case TestObject_FieldIndex.EnumNull:
+                    this.EnumNull = ex;
                     break;
                 case TestObject_FieldIndex.WildCard:
                     this.WildCard = ex;
@@ -9065,6 +9134,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
+                    break;
+                case TestObject_FieldIndex.EnumNull:
+                    this.EnumNull = (Exception)obj;
                     break;
                 case TestObject_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
@@ -9907,6 +9979,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (EnumNull != null)
+                {
+                    fg.AppendLine("EnumNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(EnumNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (WildCard != null)
                 {
                     fg.AppendLine("WildCard =>");
@@ -10410,6 +10492,7 @@ namespace Loqui.Tests.Internals
         public bool UInt8;
         public bool UInt8_Ranged;
         public bool Enum;
+        public bool EnumNull;
         public bool WildCard;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;

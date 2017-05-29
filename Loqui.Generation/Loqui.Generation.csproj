@@ -49,6 +49,7 @@
     <Compile Include="Fields\FieldBatchPointerType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\TypicalRangedIntType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
