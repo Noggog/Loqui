@@ -28,20 +28,25 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>");
             using (new BraceWrapper(fg))
             {
-                foreach (var field in obj.Fields)
-                {
-                    GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
-                }
-                fg.AppendLine();
-
-                fg.AppendLine("public bool AllEqual(Func<T, bool> eval)");
-                using (new BraceWrapper(fg))
+                using (new RegionWrapper(fg, "Members"))
                 {
                     foreach (var field in obj.Fields)
                     {
-                        GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field);
+                        GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
                     }
-                    fg.AppendLine("return true;");
+                }
+
+                using (new RegionWrapper(fg, "All Equal"))
+                {
+                    fg.AppendLine("public bool AllEqual(Func<T, bool> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.Fields)
+                        {
+                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field);
+                        }
+                        fg.AppendLine("return true;");
+                    }
                 }
             }
             fg.AppendLine();
@@ -49,120 +54,129 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.ErrorMask} : {(obj.HasBaseObject ? $"{obj.BaseClass.ErrorMask}" : "IErrorMask")}");
             using (new BraceWrapper(fg))
             {
-                if (!obj.HasBaseObject)
+                using (new RegionWrapper(fg, "Members"))
                 {
-                    fg.AppendLine("public Exception Overall { get; set; }");
-                    fg.AppendLine("private List<string> _warnings;");
-                    fg.AppendLine("public List<string> Warnings");
-                    using (new BraceWrapper(fg))
+                    if (!obj.HasBaseObject)
                     {
-                        fg.AppendLine("get");
+                        fg.AppendLine("public Exception Overall { get; set; }");
+                        fg.AppendLine("private List<string> _warnings;");
+                        fg.AppendLine("public List<string> Warnings");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine("if (_warnings == null)");
+                            fg.AppendLine("get");
                             using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine("_warnings = new List<string>();");
-                            }
-                            fg.AppendLine("return _warnings;");
-                        }
-                    }
-                }
-                foreach (var field in obj.Fields)
-                {
-                    GetMaskModule(field.GetType()).GenerateForErrorMask(fg, field);
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(ushort index, Exception ex)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
-                    fg.AppendLine("switch (enu)");
-                    using (new BraceWrapper(fg))
-                    {
-                        foreach (var item in obj.IterateFields())
-                        {
-                            fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
-                            using (new DepthWrapper(fg))
-                            {
-                                GetMaskModule(item.Field.GetType()).GenerateSetException(fg, item.Field);
-                                fg.AppendLine("break;");
-                            }
-                        }
-
-                        GenerateStandardDefault(fg, obj, "SetNthException", "index", false, "ex");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(ushort index, object obj)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
-                    fg.AppendLine("switch (enu)");
-                    using (new BraceWrapper(fg))
-                    {
-                        foreach (var item in obj.IterateFields())
-                        {
-                            fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
-                            using (new DepthWrapper(fg))
-                            {
-                                GetMaskModule(item.Field.GetType()).GenerateSetMask(fg, item.Field);
-                                fg.AppendLine("break;");
-                            }
-                        }
-
-                        GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public override string ToString()");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
-                    fg.AppendLine($"ToString(fg);");
-                    fg.AppendLine("return fg.ToString();");
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
-                    fg.AppendLine($"fg.AppendLine(\"[\");");
-                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                    using (new BraceWrapper(fg))
-                    {
-                        foreach (var item in obj.IterateFields())
-                        {
-                            fg.AppendLine($"if ({item.Field.Name} != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
-                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                                fg.AppendLine($"using (new DepthWrapper(fg))");
+                                fg.AppendLine("if (_warnings == null)");
                                 using (new BraceWrapper(fg))
                                 {
-                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                    fg.AppendLine("_warnings = new List<string>();");
                                 }
-                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                fg.AppendLine("return _warnings;");
                             }
                         }
                     }
-                    fg.AppendLine($"fg.AppendLine(\"]\");");
+                    foreach (var field in obj.Fields)
+                    {
+                        GetMaskModule(field.GetType()).GenerateForErrorMask(fg, field);
+                    }
+                }
+
+                using (new RegionWrapper(fg, "IErrorMask"))
+                {
+                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(ushort index, Exception ex)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
+                        fg.AppendLine("switch (enu)");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
+                                using (new DepthWrapper(fg))
+                                {
+                                    GetMaskModule(item.Field.GetType()).GenerateSetException(fg, item.Field);
+                                    fg.AppendLine("break;");
+                                }
+                            }
+
+                            GenerateStandardDefault(fg, obj, "SetNthException", "index", false, "ex");
+                        }
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(ushort index, object obj)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
+                        fg.AppendLine("switch (enu)");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
+                                using (new DepthWrapper(fg))
+                                {
+                                    GetMaskModule(item.Field.GetType()).GenerateSetMask(fg, item.Field);
+                                    fg.AppendLine("break;");
+                                }
+                            }
+
+                            GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
+                        }
+                    }
+                }
+
+                using (new RegionWrapper(fg, "To String"))
+                {
+                    fg.AppendLine($"public override string ToString()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
+                        fg.AppendLine($"ToString(fg);");
+                        fg.AppendLine("return fg.ToString();");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
+                        fg.AppendLine($"fg.AppendLine(\"[\");");
+                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                fg.AppendLine($"if ({item.Field.Name} != null)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                                    fg.AppendLine($"using (new DepthWrapper(fg))");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                    }
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                }
+                            }
+                        }
+                        fg.AppendLine($"fg.AppendLine(\"]\");");
+                    }
                 }
             }
 
             fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");
             using (new BraceWrapper(fg))
             {
-                foreach (var field in obj.Fields)
+                using (new RegionWrapper(fg, "Members"))
                 {
-                    GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
+                    foreach (var field in obj.Fields)
+                    {
+                        GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
+                    }
                 }
-                fg.AppendLine();
             }
         }
 

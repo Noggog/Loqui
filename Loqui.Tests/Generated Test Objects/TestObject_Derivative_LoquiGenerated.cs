@@ -3670,6 +3670,7 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_Derivative_Mask<T> : IMask<T>
     {
+        #region Members
         public T BoolN;
         public T Bool;
         public T CharN;
@@ -3764,7 +3765,9 @@ namespace Loqui.Tests.Internals
         public MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>> KeyRefDict;
         public MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>> ValRefDict;
         public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> DictKeyedValue;
+        #endregion
 
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.BoolN)) return false;
@@ -3991,10 +3994,13 @@ namespace Loqui.Tests.Internals
             }
             return true;
         }
+        #endregion
+
     }
 
     public class TestObject_Derivative_ErrorMask : IErrorMask
     {
+        #region Members
         public Exception Overall { get; set; }
         private List<string> _warnings;
         public List<string> Warnings
@@ -4102,7 +4108,9 @@ namespace Loqui.Tests.Internals
         public MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> KeyRefDict;
         public MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> ValRefDict;
         public MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> DictKeyedValue;
+        #endregion
 
+        #region IErrorMask
         public void SetNthException(ushort index, Exception ex)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
@@ -4686,7 +4694,9 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -5890,9 +5900,12 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class TestObject_Derivative_CopyMask
     {
+        #region Members
         public bool BoolN;
         public bool Bool;
         public bool CharN;
@@ -5986,6 +5999,7 @@ namespace Loqui.Tests.Internals
         public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> KeyRefDict;
         public MaskItem<bool, (RefCopyType Type, ObjectToRef_CopyMask Mask)> ValRefDict;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> DictKeyedValue;
+        #endregion
 
     }
     #endregion

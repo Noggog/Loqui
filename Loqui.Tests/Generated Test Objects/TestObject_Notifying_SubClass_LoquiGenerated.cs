@@ -782,19 +782,27 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_Notifying_SubClass_Mask<T> : TestObject_Notifying_Mask<T>, IMask<T>
     {
+        #region Members
         public T NewField;
+        #endregion
 
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.NewField)) return false;
             return true;
         }
+        #endregion
+
     }
 
     public class TestObject_Notifying_SubClass_ErrorMask : TestObject_Notifying_ErrorMask
     {
+        #region Members
         public Exception NewField;
+        #endregion
 
+        #region IErrorMask
         public override void SetNthException(ushort index, Exception ex)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
@@ -822,7 +830,9 @@ namespace Loqui.Tests.Internals
                     break;
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -849,10 +859,14 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class TestObject_Notifying_SubClass_CopyMask : TestObject_Notifying_CopyMask
     {
+        #region Members
         public bool NewField;
+        #endregion
 
     }
     #endregion

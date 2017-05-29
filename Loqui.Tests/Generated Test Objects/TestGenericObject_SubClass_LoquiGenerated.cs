@@ -753,16 +753,18 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestGenericObject_SubClass_Mask<T> : TestGenericObject_Mask<T>, IMask<T>
     {
-
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             return true;
         }
+        #endregion
+
     }
 
     public class TestGenericObject_SubClass_ErrorMask : TestGenericObject_ErrorMask
     {
-
+        #region IErrorMask
         public override void SetNthException(ushort index, Exception ex)
         {
             TestGenericObject_SubClass_FieldIndex enu = (TestGenericObject_SubClass_FieldIndex)index;
@@ -784,7 +786,9 @@ namespace Loqui.Tests.Internals
                     break;
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -801,10 +805,11 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class TestGenericObject_SubClass_CopyMask : TestGenericObject_CopyMask
     {
-
     }
     #endregion
 

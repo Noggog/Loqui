@@ -913,19 +913,25 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class ObjectToRef_Mask<T> : IMask<T>
     {
+        #region Members
         public T KeyField;
         public T SomeField;
+        #endregion
 
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.KeyField)) return false;
             if (!eval(this.SomeField)) return false;
             return true;
         }
+        #endregion
+
     }
 
     public class ObjectToRef_ErrorMask : IErrorMask
     {
+        #region Members
         public Exception Overall { get; set; }
         private List<string> _warnings;
         public List<string> Warnings
@@ -941,7 +947,9 @@ namespace Loqui.Tests.Internals
         }
         public Exception KeyField;
         public Exception SomeField;
+        #endregion
 
+        #region IErrorMask
         public void SetNthException(ushort index, Exception ex)
         {
             ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
@@ -973,7 +981,9 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -1010,11 +1020,15 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class ObjectToRef_CopyMask
     {
+        #region Members
         public bool KeyField;
         public bool SomeField;
+        #endregion
 
     }
     #endregion

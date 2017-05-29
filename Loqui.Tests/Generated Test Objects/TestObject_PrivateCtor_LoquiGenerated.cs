@@ -758,17 +758,23 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_PrivateCtor_Mask<T> : IMask<T>
     {
+        #region Members
         public T BoolN;
+        #endregion
 
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.BoolN)) return false;
             return true;
         }
+        #endregion
+
     }
 
     public class TestObject_PrivateCtor_ErrorMask : IErrorMask
     {
+        #region Members
         public Exception Overall { get; set; }
         private List<string> _warnings;
         public List<string> Warnings
@@ -783,7 +789,9 @@ namespace Loqui.Tests.Internals
             }
         }
         public Exception BoolN;
+        #endregion
 
+        #region IErrorMask
         public void SetNthException(ushort index, Exception ex)
         {
             TestObject_PrivateCtor_FieldIndex enu = (TestObject_PrivateCtor_FieldIndex)index;
@@ -809,7 +817,9 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -836,10 +846,14 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class TestObject_PrivateCtor_CopyMask
     {
+        #region Members
         public bool BoolN;
+        #endregion
 
     }
     #endregion

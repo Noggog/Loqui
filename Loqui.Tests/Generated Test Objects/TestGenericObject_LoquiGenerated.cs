@@ -1016,9 +1016,12 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestGenericObject_Mask<T> : IMask<T>
     {
+        #region Members
         public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }
+        #endregion
 
+        #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
             if (RefBase != null)
@@ -1033,10 +1036,13 @@ namespace Loqui.Tests.Internals
             }
             return true;
         }
+        #endregion
+
     }
 
     public class TestGenericObject_ErrorMask : IErrorMask
     {
+        #region Members
         public Exception Overall { get; set; }
         private List<string> _warnings;
         public List<string> Warnings
@@ -1052,7 +1058,9 @@ namespace Loqui.Tests.Internals
         }
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefBase;
         public MaskItem<Exception, object> Ref;
+        #endregion
 
+        #region IErrorMask
         public virtual void SetNthException(ushort index, Exception ex)
         {
             TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
@@ -1084,7 +1092,9 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+        #endregion
 
+        #region To String
         public override string ToString()
         {
             var fg = new FileGeneration();
@@ -1135,11 +1145,15 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+        #endregion
+
     }
     public class TestGenericObject_CopyMask
     {
+        #region Members
         public CopyOption RefBase;
         public GetterCopyOption Ref;
+        #endregion
 
     }
     #endregion
