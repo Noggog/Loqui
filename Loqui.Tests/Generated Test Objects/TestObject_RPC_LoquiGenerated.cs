@@ -5276,11 +5276,11 @@ namespace Loqui.Tests.Internals
             item.DictKeyedValue.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject_RPC_Mask<bool?> GetEqualsMask(
+        public static TestObject_RPC_Mask<bool> GetEqualsMask(
             this ITestObject_RPCGetter item,
             ITestObject_RPCGetter rhs)
         {
-            var ret = new TestObject_RPC_Mask<bool?>();
+            var ret = new TestObject_RPC_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -5288,7 +5288,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask(
             this ITestObject_RPCGetter item,
             ITestObject_RPCGetter rhs,
-            TestObject_RPC_Mask<bool?> ret)
+            TestObject_RPC_Mask<bool> ret)
         {
             ret.BoolN = item.BoolN != rhs.BoolN;
             ret.Bool = item.Bool != rhs.Bool;
@@ -5368,93 +5368,93 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged != rhs.UInt8_Ranged;
             ret.Enum = item.Enum != rhs.Enum;
             ret.WildCard = item.WildCard != rhs.WildCard;
-            ret.Ref = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
-            ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b ?? true);
-            ret.Ref_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
-            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b ?? true);
-            ret.Ref_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b);
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
-            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b ?? true);
-            ret.RefGetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b);
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
-            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b ?? true);
-            ret.RefGetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b);
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
-            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b ?? true);
-            ret.RefGetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
-            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b ?? true);
-            ret.RefSetter = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b);
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
-            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b ?? true);
-            ret.RefSetter_NotNull = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b);
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
-            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b ?? true);
-            ret.RefSetter_Singleton = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
-            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b ?? true);
-            ret.List.Specific = item.List.SelectAgainst<Boolean, bool?>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
-            ret.List.Overall = ret.List.Overall.Value && ret.List.Specific.All((b) => b ?? false);
-            ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.RefList, ((l, r) =>
+            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b);
+            ret.List.Specific = item.List.SelectAgainst<Boolean, bool>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
+            ret.List.Overall = ret.List.Overall && ret.List.Specific.All((b) => b);
+            ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
             {
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
-                itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
+                itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
-                itemRet.Overall = itemRet.Specific.AllEqual((b) => b ?? true);
+                itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                 return itemRet;
             }
             ), out ret.RefList.Overall);
-            ret.RefList.Overall = ret.RefList.Overall.Value && ret.RefList.Specific.All((b) => b.Overall ?? false);
-            ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool?, bool?>>(rhs.Dict, ((l, r) => new KeyValuePair<bool?, bool?>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
-            ret.Dict.Overall = ret.Dict.Overall.Value && ret.Dict.Specific.All((b) => (b.Key ?? false) && (b.Value ?? false));
-            ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.RefDict, ((l, r) =>
+            ret.RefList.Overall = ret.RefList.Overall && ret.RefList.Specific.All((b) => b.Overall);
+            ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool, bool>>(rhs.Dict, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
+            ret.Dict.Overall = ret.Dict.Overall && ret.Dict.Specific.All((b) => b.Key && b.Value);
+            ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.RefDict, ((l, r) =>
             {
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
-                keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
+                MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
+                keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
-                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b ?? true);
-                valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
-                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b ?? true);
-                return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
             }
             ), out ret.RefDict.Overall);
-            ret.RefDict.Overall = ret.RefDict.Overall.Value && ret.RefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value.Overall ?? false));
-            ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>>(rhs.KeyRefDict, ((l, r) =>
+            ret.RefDict.Overall = ret.RefDict.Overall && ret.RefDict.Specific.All((b) => b.Key.Overall && b.Value.Overall );
+            ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>(rhs.KeyRefDict, ((l, r) =>
             {
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> keyItemRet;
-                bool? valItemRet = object.Equals(l.Value, r.Value);
-                keyItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
+                bool valItemRet = object.Equals(l.Value, r.Value);
+                keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
-                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b ?? true);
-                return new KeyValuePair<MaskItem<bool?, ObjectToRef_Mask<bool?>>, bool?>(keyItemRet, valItemRet);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(keyItemRet, valItemRet);
             }
             ), out ret.KeyRefDict.Overall);
-            ret.KeyRefDict.Overall = ret.KeyRefDict.Overall.Value && ret.KeyRefDict.Specific.All((b) => (b.Key.Overall ?? false) && (b.Value ?? false));
-            ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>>(rhs.ValRefDict, ((l, r) =>
+            ret.KeyRefDict.Overall = ret.KeyRefDict.Overall && ret.KeyRefDict.Specific.All((b) => b.Key.Overall && b.Value);
+            ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.ValRefDict, ((l, r) =>
             {
-                bool? keyItemRet = object.Equals(l.Key, r.Key);
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> valItemRet;
-                valItemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                bool keyItemRet = object.Equals(l.Key, r.Key);
+                MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
+                valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
-                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b ?? true);
-                return new KeyValuePair<bool?, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(keyItemRet, valItemRet);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
             }
             ), out ret.ValRefDict.Overall);
-            ret.ValRefDict.Overall = ret.ValRefDict.Overall.Value && ret.ValRefDict.Specific.All((b) => (b.Key ?? false) && (b.Value.Overall ?? false));
-            ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool?, ObjectToRef_Mask<bool?>>>(rhs.DictKeyedValue.Values, ((l, r) =>
+            ret.ValRefDict.Overall = ret.ValRefDict.Overall && ret.ValRefDict.Specific.All((b) => b.Key && b.Value.Overall);
+            ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
             {
-                MaskItem<bool?, ObjectToRef_Mask<bool?>> itemRet;
-                itemRet = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
+                itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                 itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
-                itemRet.Overall = itemRet.Specific.AllEqual((b) => b ?? true);
+                itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                 return itemRet;
             }
             ), out ret.DictKeyedValue.Overall);
-            ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall.Value && ret.DictKeyedValue.Specific.All((b) => b.Overall ?? false);
+            ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall && ret.DictKeyedValue.Specific.All((b) => b.Overall);
         }
 
         #region XML Translation

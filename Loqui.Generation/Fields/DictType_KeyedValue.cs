@@ -239,7 +239,7 @@ namespace Loqui.Generation
         public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
-            var maskStr = $"MaskItem<bool?, {valueLoquiType.TargetObjectGeneration.GetMaskString("bool?")}>";
+            var maskStr = $"MaskItem<bool, {valueLoquiType.TargetObjectGeneration.GetMaskString("bool")}>";
             fg.AppendLine($"{retAccessor}.Specific = {accessor}.Values.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Values, ((l, r) =>");
             using (new BraceWrapper(fg))
             {
@@ -248,7 +248,7 @@ namespace Loqui.Generation
                 fg.AppendLine("return itemRet;");
             }
             fg.AppendLine($"), out {retAccessor}.Overall);");
-            fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => b.Overall ?? false);");
+            fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Overall);");
         }
 
         public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)

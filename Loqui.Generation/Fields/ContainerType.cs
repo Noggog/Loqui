@@ -119,7 +119,7 @@ namespace Loqui.Generation
         {
             if (isLoquiSingle)
             {
-                var maskStr = $"MaskItem<bool?, {LoquiTypeSingleton.TargetObjectGeneration.GetMaskString("bool?")}>";
+                var maskStr = $"MaskItem<bool, {LoquiTypeSingleton.TargetObjectGeneration.GetMaskString("bool")}>";
                 fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, {maskStr}>({rhsAccessor}, ((l, r) =>");
                 using (new BraceWrapper(fg))
                 {
@@ -128,12 +128,12 @@ namespace Loqui.Generation
                     fg.AppendLine("return itemRet;");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => b.Overall ?? false);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Overall);");
             }
             else
             {
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, bool?>({rhsAccessor}, ((l, r) => object.Equals(l, r)), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall.Value && {retAccessor}.Specific.All((b) => b ?? false);");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, bool>({rhsAccessor}, ((l, r) => object.Equals(l, r)), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b);");
             }
         }
 

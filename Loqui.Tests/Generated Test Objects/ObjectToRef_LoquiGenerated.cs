@@ -706,11 +706,11 @@ namespace Loqui.Tests.Internals
             item.SomeField_Property.Unset(cmds.ToUnsetParams());
         }
 
-        public static ObjectToRef_Mask<bool?> GetEqualsMask(
+        public static ObjectToRef_Mask<bool> GetEqualsMask(
             this IObjectToRefGetter item,
             IObjectToRefGetter rhs)
         {
-            var ret = new ObjectToRef_Mask<bool?>();
+            var ret = new ObjectToRef_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -718,7 +718,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask(
             this IObjectToRefGetter item,
             IObjectToRefGetter rhs,
-            ObjectToRef_Mask<bool?> ret)
+            ObjectToRef_Mask<bool> ret)
         {
             if (item.KeyField_Property.HasBeenSet == rhs.KeyField_Property.HasBeenSet)
             {

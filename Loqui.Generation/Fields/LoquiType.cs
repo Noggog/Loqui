@@ -692,9 +692,9 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool?, {this.TargetObjectGeneration.GetMaskString("bool?")}>();");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.TargetObjectGeneration.GetMaskString("bool")}>();");
                 fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor}, {rhsAccessor});");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual((b) => b ?? true);");
+                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual((b) => b);");
             }
         }
     }

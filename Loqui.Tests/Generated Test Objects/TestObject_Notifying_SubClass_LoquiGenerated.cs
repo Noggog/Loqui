@@ -624,11 +624,11 @@ namespace Loqui.Tests.Internals
             item.NewField_Property.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject_Notifying_SubClass_Mask<bool?> GetEqualsMask(
+        public static TestObject_Notifying_SubClass_Mask<bool> GetEqualsMask(
             this ITestObject_Notifying_SubClassGetter item,
             ITestObject_Notifying_SubClassGetter rhs)
         {
-            var ret = new TestObject_Notifying_SubClass_Mask<bool?>();
+            var ret = new TestObject_Notifying_SubClass_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -636,7 +636,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask(
             this ITestObject_Notifying_SubClassGetter item,
             ITestObject_Notifying_SubClassGetter rhs,
-            TestObject_Notifying_SubClass_Mask<bool?> ret)
+            TestObject_Notifying_SubClass_Mask<bool> ret)
         {
             if (item.NewField_Property.HasBeenSet == rhs.NewField_Property.HasBeenSet)
             {

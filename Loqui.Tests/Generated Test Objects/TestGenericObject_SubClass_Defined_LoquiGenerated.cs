@@ -566,12 +566,12 @@ namespace Loqui.Tests.Internals
         {
         }
 
-        public static TestGenericObject_SubClass_Defined_Mask<bool?> GetEqualsMask<RBase>(
+        public static TestGenericObject_SubClass_Defined_Mask<bool> GetEqualsMask<RBase>(
             this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
-            var ret = new TestGenericObject_SubClass_Defined_Mask<bool?>();
+            var ret = new TestGenericObject_SubClass_Defined_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -579,7 +579,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask<RBase>(
             this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
-            TestGenericObject_SubClass_Defined_Mask<bool?> ret)
+            TestGenericObject_SubClass_Defined_Mask<bool> ret)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
             TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);

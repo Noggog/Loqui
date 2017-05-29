@@ -604,11 +604,11 @@ namespace Loqui.Tests.Internals
             item.BoolN = default(Boolean?);
         }
 
-        public static TestObject_PrivateCtor_Mask<bool?> GetEqualsMask(
+        public static TestObject_PrivateCtor_Mask<bool> GetEqualsMask(
             this ITestObject_PrivateCtorGetter item,
             ITestObject_PrivateCtorGetter rhs)
         {
-            var ret = new TestObject_PrivateCtor_Mask<bool?>();
+            var ret = new TestObject_PrivateCtor_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -616,7 +616,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask(
             this ITestObject_PrivateCtorGetter item,
             ITestObject_PrivateCtorGetter rhs,
-            TestObject_PrivateCtor_Mask<bool?> ret)
+            TestObject_PrivateCtor_Mask<bool> ret)
         {
             ret.BoolN = item.BoolN != rhs.BoolN;
         }

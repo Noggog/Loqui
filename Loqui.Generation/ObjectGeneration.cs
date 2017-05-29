@@ -1278,7 +1278,7 @@ namespace Loqui.Generation
         private void GenerateGetEqualsMask(FileGeneration fg)
         {
 
-            using (var args = new FunctionWrapper(fg, $"public static {this.GetMaskString("bool?")} GetEqualsMask{this.GenericTypes}",
+            using (var args = new FunctionWrapper(fg, $"public static {this.GetMaskString("bool")} GetEqualsMask{this.GenericTypes}",
                 GenerateWhereClauses().ToArray()))
             {
                 args.Add($"this {this.Getter_InterfaceStr} item");
@@ -1286,7 +1286,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"var ret = new {this.GetMaskString("bool?")}();");
+                fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 fg.AppendLine($"FillEqualsMask(item, rhs, ret);");
                 fg.AppendLine("return ret;");
             }
@@ -1297,7 +1297,7 @@ namespace Loqui.Generation
             {
                 args.Add($"this {this.Getter_InterfaceStr} item");
                 args.Add($"{this.Getter_InterfaceStr} rhs");
-                args.Add($"{this.GetMaskString("bool?")} ret");
+                args.Add($"{this.GetMaskString("bool")} ret");
             }
             using (new BraceWrapper(fg))
             {

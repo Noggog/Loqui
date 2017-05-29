@@ -766,13 +766,13 @@ namespace Loqui.Tests.Internals
             item.Ref_Property.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestGenericObject_Mask<bool?> GetEqualsMask<T, RBase, R>(
+        public static TestGenericObject_Mask<bool> GetEqualsMask<T, RBase, R>(
             this ITestGenericObjectGetter<T, RBase, R> item,
             ITestGenericObjectGetter<T, RBase, R> rhs)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
-            var ret = new TestGenericObject_Mask<bool?>();
+            var ret = new TestGenericObject_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
@@ -780,7 +780,7 @@ namespace Loqui.Tests.Internals
         public static void FillEqualsMask<T, RBase, R>(
             this ITestGenericObjectGetter<T, RBase, R> item,
             ITestGenericObjectGetter<T, RBase, R> rhs,
-            TestGenericObject_Mask<bool?> ret)
+            TestGenericObject_Mask<bool> ret)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
@@ -788,9 +788,9 @@ namespace Loqui.Tests.Internals
             {
                 if (item.RefBase_Property.HasBeenSet)
                 {
-                    ret.RefBase = new MaskItem<bool?, ObjectToRef_Mask<bool?>>();
+                    ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
                     ret.RefBase.Specific = ObjectToRefCommon.GetEqualsMask(item.RefBase, rhs.RefBase);
-                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual((b) => b ?? true);
+                    ret.RefBase.Overall = ret.RefBase.Specific.AllEqual((b) => b);
                 }
             }
             if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
