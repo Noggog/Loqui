@@ -227,8 +227,7 @@ namespace Loqui.Tests.XML
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
-            var equals = ret.Value.GetEqualsMask(TYPICAL_VALUE);
-            Assert.True(equals.AllEqual((b) => b));
+            Assert.Equal(TYPICAL_VALUE, ret.Value);
         }
         #endregion
 

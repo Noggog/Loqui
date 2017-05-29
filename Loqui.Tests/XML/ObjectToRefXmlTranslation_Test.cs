@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Loqui.Xml;
 using Loqui.Tests.Internals;
+using Xunit;
 
 namespace Loqui.Tests.XML
 {
@@ -34,6 +35,21 @@ namespace Loqui.Tests.XML
             ret.Add(
                 BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.SomeField)));
             return ret;
+        }
+
+        public override void Write_NodeName()
+        {
+            var name = "AName";
+            var transl = GetTranslation();
+            var writer = XmlUtility.GetWriteBundle();
+            var def = new ObjectToRef();
+            def.Write_XML(
+                writer: writer.Writer,
+                name: name);
+            XElement elem = writer.Resolve();
+            var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));
+            Assert.NotNull(nameAttr);
+            Assert.Equal(name, nameAttr.Value);
         }
     }
 }

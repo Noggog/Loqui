@@ -15,6 +15,7 @@ namespace Loqui.Tests.XML
     {
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
+        public static int NUM_FIELDS = 82;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -307,7 +308,7 @@ namespace Loqui.Tests.XML
                 name: null);
             XElement elem = writer.Resolve();
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
-            Assert.Equal(9, elem.Elements().Count());
+            Assert.Equal(NUM_FIELDS, elem.Elements().Count());
         }
 
         [Fact]
@@ -321,7 +322,7 @@ namespace Loqui.Tests.XML
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
-            Assert.Equal(9, elem.Elements().Count());
+            Assert.Equal(NUM_FIELDS, elem.Elements().Count());
         }
         #endregion
 

@@ -85,7 +85,7 @@ namespace Loqui.Tests.XML
         }
 
         [Fact]
-        public void Write_NodeName()
+        public virtual void Write_NodeName()
         {
             var name = "AName";
             var transl = GetTranslation();
