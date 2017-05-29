@@ -52,6 +52,19 @@ namespace Loqui.Generation
             }
         }
 
+        public static string GetSubMaskString(TypeGeneration field, string maskStr)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is LoquiType loqui)
+            {
+                return $"MaskItem<{maskStr}, {loqui.RefGen.Obj.GetMaskString(maskStr)}>";
+            }
+            else
+            {
+                return maskStr;
+            }
+        }
+
         public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
             ContainerType listType = field as ContainerType;
@@ -119,6 +132,32 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"if (!eval(item)) return false;");
                         }
+                    }
+                }
+            }
+        }
+
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        {
+            ListType listType = field as ListType;
+
+            fg.AppendLine($"if ({field.Name} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(listType, "R")}();");
+                fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
+                fg.AppendLine($"if ({field.Name}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"List<{GetSubMaskString(listType, "R")}> l = new List<{GetSubMaskString(listType, "R")}>();");
+                    fg.AppendLine($"{retAccessor}.Specific = l;");
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{GetSubMaskString(listType, "R")} mask = default({GetSubMaskString(listType, "R")});");
+                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration, "mask", "item");
+                        fg.AppendLine($"l.Add(mask);");
                     }
                 }
             }

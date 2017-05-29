@@ -3996,6 +3996,332 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public TestObject_Derivative_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new TestObject_Derivative_Mask<R>();
+            ret.BoolN = eval(this.BoolN);
+            ret.Bool = eval(this.Bool);
+            ret.CharN = eval(this.CharN);
+            ret.Char = eval(this.Char);
+            ret.DateTimeNull = eval(this.DateTimeNull);
+            ret.DateTime = eval(this.DateTime);
+            ret.DoubleN = eval(this.DoubleN);
+            ret.DoubleN_Ranged = eval(this.DoubleN_Ranged);
+            ret.Double = eval(this.Double);
+            ret.Double_Ranged = eval(this.Double_Ranged);
+            ret.FloatN = eval(this.FloatN);
+            ret.FloatN_Ranged = eval(this.FloatN_Ranged);
+            ret.Float = eval(this.Float);
+            ret.Float_Ranged = eval(this.Float_Ranged);
+            ret.Int16N = eval(this.Int16N);
+            ret.Int16N_Ranged = eval(this.Int16N_Ranged);
+            ret.Int16 = eval(this.Int16);
+            ret.Int16_Ranged = eval(this.Int16_Ranged);
+            ret.Int32N = eval(this.Int32N);
+            ret.Int32N_Ranged = eval(this.Int32N_Ranged);
+            ret.Int32 = eval(this.Int32);
+            ret.Int32_Ranged = eval(this.Int32_Ranged);
+            ret.Int64N = eval(this.Int64N);
+            ret.Int64N_Ranged = eval(this.Int64N_Ranged);
+            ret.Int64 = eval(this.Int64);
+            ret.Int64_Ranged = eval(this.Int64_Ranged);
+            ret.Int8N = eval(this.Int8N);
+            ret.Int8N_Ranged = eval(this.Int8N_Ranged);
+            ret.Int8 = eval(this.Int8);
+            ret.Int8_Ranged = eval(this.Int8_Ranged);
+            ret.Unsafe = eval(this.Unsafe);
+            ret.P2IntN = eval(this.P2IntN);
+            ret.P2Int = eval(this.P2Int);
+            ret.P3DoubleN = eval(this.P3DoubleN);
+            ret.P3Double = eval(this.P3Double);
+            ret.P3IntN = eval(this.P3IntN);
+            ret.P3Int = eval(this.P3Int);
+            ret.PercentN = eval(this.PercentN);
+            ret.Percent = eval(this.Percent);
+            ret.RangeInt8N = eval(this.RangeInt8N);
+            ret.RangeInt8 = eval(this.RangeInt8);
+            ret.RangeInt16N = eval(this.RangeInt16N);
+            ret.RangeInt16 = eval(this.RangeInt16);
+            ret.RangeInt32N = eval(this.RangeInt32N);
+            ret.RangeInt32 = eval(this.RangeInt32);
+            ret.RangeInt64N = eval(this.RangeInt64N);
+            ret.RangeInt64 = eval(this.RangeInt64);
+            ret.RangeUInt8N = eval(this.RangeUInt8N);
+            ret.RangeUInt8 = eval(this.RangeUInt8);
+            ret.RangeUInt16N = eval(this.RangeUInt16N);
+            ret.RangeUInt16 = eval(this.RangeUInt16);
+            ret.RangeUInt32N = eval(this.RangeUInt32N);
+            ret.RangeUInt32 = eval(this.RangeUInt32);
+            ret.RangeUInt64N = eval(this.RangeUInt64N);
+            ret.RangeUInt64 = eval(this.RangeUInt64);
+            ret.String = eval(this.String);
+            ret.UDoubleN = eval(this.UDoubleN);
+            ret.UDoubleN_Ranged = eval(this.UDoubleN_Ranged);
+            ret.UDouble = eval(this.UDouble);
+            ret.UDouble_Ranged = eval(this.UDouble_Ranged);
+            ret.UInt16N = eval(this.UInt16N);
+            ret.UInt16N_Ranged = eval(this.UInt16N_Ranged);
+            ret.UInt16 = eval(this.UInt16);
+            ret.UInt16_Ranged = eval(this.UInt16_Ranged);
+            ret.UInt32N = eval(this.UInt32N);
+            ret.UInt32N_Ranged = eval(this.UInt32N_Ranged);
+            ret.UInt32 = eval(this.UInt32);
+            ret.UInt32_Ranged = eval(this.UInt32_Ranged);
+            ret.UInt64N = eval(this.UInt64N);
+            ret.UInt64N_Ranged = eval(this.UInt64N_Ranged);
+            ret.UInt64 = eval(this.UInt64);
+            ret.UInt64_Ranged = eval(this.UInt64_Ranged);
+            ret.UInt8N = eval(this.UInt8N);
+            ret.UInt8N_Ranged = eval(this.UInt8N_Ranged);
+            ret.UInt8 = eval(this.UInt8);
+            ret.UInt8_Ranged = eval(this.UInt8_Ranged);
+            ret.Enum = eval(this.Enum);
+            ret.WildCard = eval(this.WildCard);
+            if (this.Ref != null)
+            {
+                ret.Ref = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.Ref.Overall = eval(this.Ref.Overall);
+                if (this.Ref.Specific != null)
+                {
+                    ret.Ref.Specific = this.Ref.Specific.Translate(eval);
+                }
+            }
+            if (this.Ref_NotNull != null)
+            {
+                ret.Ref_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.Ref_NotNull.Overall = eval(this.Ref_NotNull.Overall);
+                if (this.Ref_NotNull.Specific != null)
+                {
+                    ret.Ref_NotNull.Specific = this.Ref_NotNull.Specific.Translate(eval);
+                }
+            }
+            if (this.Ref_Singleton != null)
+            {
+                ret.Ref_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.Ref_Singleton.Overall = eval(this.Ref_Singleton.Overall);
+                if (this.Ref_Singleton.Specific != null)
+                {
+                    ret.Ref_Singleton.Specific = this.Ref_Singleton.Specific.Translate(eval);
+                }
+            }
+            if (this.RefGetter != null)
+            {
+                ret.RefGetter = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefGetter.Overall = eval(this.RefGetter.Overall);
+                if (this.RefGetter.Specific != null)
+                {
+                    ret.RefGetter.Specific = this.RefGetter.Specific.Translate(eval);
+                }
+            }
+            if (this.RefGetter_NotNull != null)
+            {
+                ret.RefGetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefGetter_NotNull.Overall = eval(this.RefGetter_NotNull.Overall);
+                if (this.RefGetter_NotNull.Specific != null)
+                {
+                    ret.RefGetter_NotNull.Specific = this.RefGetter_NotNull.Specific.Translate(eval);
+                }
+            }
+            if (this.RefGetter_Singleton != null)
+            {
+                ret.RefGetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefGetter_Singleton.Overall = eval(this.RefGetter_Singleton.Overall);
+                if (this.RefGetter_Singleton.Specific != null)
+                {
+                    ret.RefGetter_Singleton.Specific = this.RefGetter_Singleton.Specific.Translate(eval);
+                }
+            }
+            if (this.RefSetter != null)
+            {
+                ret.RefSetter = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefSetter.Overall = eval(this.RefSetter.Overall);
+                if (this.RefSetter.Specific != null)
+                {
+                    ret.RefSetter.Specific = this.RefSetter.Specific.Translate(eval);
+                }
+            }
+            if (this.RefSetter_NotNull != null)
+            {
+                ret.RefSetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefSetter_NotNull.Overall = eval(this.RefSetter_NotNull.Overall);
+                if (this.RefSetter_NotNull.Specific != null)
+                {
+                    ret.RefSetter_NotNull.Specific = this.RefSetter_NotNull.Specific.Translate(eval);
+                }
+            }
+            if (this.RefSetter_Singleton != null)
+            {
+                ret.RefSetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefSetter_Singleton.Overall = eval(this.RefSetter_Singleton.Overall);
+                if (this.RefSetter_Singleton.Specific != null)
+                {
+                    ret.RefSetter_Singleton.Specific = this.RefSetter_Singleton.Specific.Translate(eval);
+                }
+            }
+            if (List != null)
+            {
+                ret.List = new MaskItem<R, IEnumerable<R>>();
+                ret.List.Overall = eval(this.List.Overall);
+                if (List.Specific != null)
+                {
+                    List<R> l = new List<R>();
+                    ret.List.Specific = l;
+                    foreach (var item in List.Specific)
+                    {
+                        R mask = default(R);
+                        mask = eval(item);
+                        l.Add(mask);
+                    }
+                }
+            }
+            if (RefList != null)
+            {
+                ret.RefList = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                ret.RefList.Overall = eval(this.RefList.Overall);
+                if (RefList.Specific != null)
+                {
+                    List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
+                    ret.RefList.Specific = l;
+                    foreach (var item in RefList.Specific)
+                    {
+                        MaskItem<R, ObjectToRef_Mask<R>> mask = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item != null)
+                        {
+                            mask = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            mask.Overall = eval(item.Overall);
+                            if (item.Specific != null)
+                            {
+                                mask.Specific = item.Specific.Translate(eval);
+                            }
+                        }
+                        l.Add(mask);
+                    }
+                }
+            }
+            if (Dict != null)
+            {
+                ret.Dict = new MaskItem<R, IEnumerable<KeyValuePair<R, R>>>();
+                if (Dict.Specific != null)
+                {
+                    List<KeyValuePair<R, R>> l = new List<KeyValuePair<R, R>>();
+                    ret.Dict.Specific = l;
+                    foreach (var item in Dict.Specific)
+                    {
+                        R keyVal = eval(item.Key);
+                        R valVal = eval(item.Value);
+                        l.Add(new KeyValuePair<R, R>(keyVal, valVal));
+                    }
+                }
+            }
+            if (RefDict != null)
+            {
+                ret.RefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                if (RefDict.Specific != null)
+                {
+                    List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>();
+                    ret.RefDict.Specific = l;
+                    foreach (var item in RefDict.Specific)
+                    {
+                        MaskItem<R, ObjectToRef_Mask<R>> keyVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item.Key != null)
+                        {
+                            keyVal = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            keyVal.Overall = eval(item.Key.Overall);
+                            if (item.Key.Specific != null)
+                            {
+                                keyVal.Specific = item.Key.Specific.Translate(eval);
+                            }
+                        }
+                        MaskItem<R, ObjectToRef_Mask<R>> valVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item.Value != null)
+                        {
+                            valVal = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            valVal.Overall = eval(item.Value.Overall);
+                            if (item.Value.Specific != null)
+                            {
+                                valVal.Specific = item.Value.Specific.Translate(eval);
+                            }
+                        }
+                        l.Add(new KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>(keyVal, valVal));
+                    }
+                }
+            }
+            if (KeyRefDict != null)
+            {
+                ret.KeyRefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>>();
+                if (KeyRefDict.Specific != null)
+                {
+                    List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>();
+                    ret.KeyRefDict.Specific = l;
+                    foreach (var item in KeyRefDict.Specific)
+                    {
+                        MaskItem<R, ObjectToRef_Mask<R>> keyVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item.Key != null)
+                        {
+                            keyVal = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            keyVal.Overall = eval(item.Key.Overall);
+                            if (item.Key.Specific != null)
+                            {
+                                keyVal.Specific = item.Key.Specific.Translate(eval);
+                            }
+                        }
+                        R valVal = eval(item.Value);
+                        l.Add(new KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>(keyVal, valVal));
+                    }
+                }
+            }
+            if (ValRefDict != null)
+            {
+                ret.ValRefDict = new MaskItem<R, IEnumerable<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                if (ValRefDict.Specific != null)
+                {
+                    List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>();
+                    ret.ValRefDict.Specific = l;
+                    foreach (var item in ValRefDict.Specific)
+                    {
+                        R keyVal = eval(item.Key);
+                        MaskItem<R, ObjectToRef_Mask<R>> valVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item.Value != null)
+                        {
+                            valVal = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            valVal.Overall = eval(item.Value.Overall);
+                            if (item.Value.Specific != null)
+                            {
+                                valVal.Specific = item.Value.Specific.Translate(eval);
+                            }
+                        }
+                        l.Add(new KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>(keyVal, valVal));
+                    }
+                }
+            }
+            if (DictKeyedValue != null)
+            {
+                ret.DictKeyedValue = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                if (DictKeyedValue.Specific != null)
+                {
+                    List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
+                    ret.DictKeyedValue.Specific = l;
+                    foreach (var item in DictKeyedValue.Specific)
+                    {
+                        MaskItem<R, ObjectToRef_Mask<R>> mask = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item != null)
+                        {
+                            mask = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            mask.Overall = eval(item.Overall);
+                            if (item.Specific != null)
+                            {
+                                mask.Specific = item.Specific.Translate(eval);
+                            }
+                        }
+                        l.Add(mask);
+                    }
+                }
+            }
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

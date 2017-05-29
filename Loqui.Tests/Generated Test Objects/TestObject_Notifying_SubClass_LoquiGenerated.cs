@@ -794,6 +794,15 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public TestObject_Notifying_SubClass_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new TestObject_Notifying_SubClass_Mask<R>();
+            ret.NewField = eval(this.NewField);
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

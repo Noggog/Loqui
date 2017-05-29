@@ -927,6 +927,16 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public ObjectToRef_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new ObjectToRef_Mask<R>();
+            ret.KeyField = eval(this.KeyField);
+            ret.SomeField = eval(this.SomeField);
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

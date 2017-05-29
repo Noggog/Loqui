@@ -706,6 +706,14 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public TestGenericObject_SubClass_Defined_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new TestGenericObject_SubClass_Defined_Mask<R>();
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

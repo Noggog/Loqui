@@ -18,5 +18,6 @@ namespace Loqui.Generation
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field);
+        public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
     }
 }

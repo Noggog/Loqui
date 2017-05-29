@@ -6,6 +6,11 @@ namespace Loqui.Generation
     {
         public static string GetMaskString(IDictType dictType, string typeStr)
         {
+            return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr)}>>";
+        }
+
+        public static string GetSubMaskString(IDictType dictType, string typeStr)
+        {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
             string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.RefGen.Obj.GetMaskString(typeStr)}>")}";
@@ -23,7 +28,7 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
-            return $"MaskItem<{typeStr}, IEnumerable<{itemStr}>>";
+            return itemStr;
         }
 
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
@@ -175,6 +180,60 @@ namespace Loqui.Generation
                             case DictMode.KeyedValue:
                                 fg.AppendLine($"if (!eval(item.Overall)) return false;");
                                 fg.AppendLine($"if (!item.Specific?.AllEqual(eval) ?? false) return false;");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        {
+            DictType dictType = field as DictType;
+
+            fg.AppendLine($"if ({field.Name} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(dictType, "R")}();");
+                fg.AppendLine($"if ({field.Name}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"List<{GetSubMaskString(dictType, "R")}> l = new List<{GetSubMaskString(dictType, "R")}>();");
+                    fg.AppendLine($"{retAccessor}.Specific = l;");
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        switch (dictType.Mode)
+                        {
+                            case DictMode.KeyValue:
+                                if (dictType.KeyTypeGen is LoquiType loquiKey)
+                                {
+                                    fg.AppendLine($"MaskItem<R, {loquiKey.GenerateMaskString("R")}> keyVal = default(MaskItem<R, {loquiKey.GenerateMaskString("R")}>);");
+                                    this.Module.GetMaskModule(loquiKey.GetType()).GenerateForTranslate(fg, loquiKey, "keyVal", "item.Key");
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"R keyVal = eval(item.Key);");
+                                }
+                                if (dictType.ValueTypeGen is LoquiType loquiVal)
+                                {
+                                    fg.AppendLine($"MaskItem<R, {loquiVal.GenerateMaskString("R")}> valVal = default(MaskItem<R, {loquiVal.GenerateMaskString("R")}>);");
+                                    this.Module.GetMaskModule(loquiVal.GetType()).GenerateForTranslate(fg, loquiVal, "valVal", "item.Value");
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"R valVal = eval(item.Value);");
+                                }
+                                fg.AppendLine($"l.Add(new {GetSubMaskString(dictType, "R")}(keyVal, valVal));");
+                                break;
+                            case DictMode.KeyedValue:
+                                var loquiType = dictType.ValueTypeGen as LoquiType;
+                                fg.AppendLine($"MaskItem<R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItem<R, {loquiType.GenerateMaskString("R")}>);");
+                                var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
+                                fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item");
+                                fg.AppendLine($"l.Add(mask);");
                                 break;
                             default:
                                 break;

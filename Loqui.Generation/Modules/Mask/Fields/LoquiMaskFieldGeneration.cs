@@ -99,5 +99,30 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        {
+            LoquiType loqui = field as LoquiType;
+
+            fg.AppendLine($"if ({rhsAccessor} != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<R, {loqui.GenerateMaskString("R")}>();");
+                fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
+                if (loqui.RefType == LoquiRefType.Direct
+                    || loqui.TargetObjectGeneration != null)
+                {
+                    fg.AppendLine($"if ({rhsAccessor}.Specific != null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{retAccessor}.Specific = {rhsAccessor}.Specific.Translate(eval);");
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"throw new {nameof(NotImplementedException)}();");
+                }
+            }
+        }
     }
 }

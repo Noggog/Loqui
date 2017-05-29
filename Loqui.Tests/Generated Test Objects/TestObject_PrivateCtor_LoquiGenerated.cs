@@ -770,6 +770,15 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public TestObject_PrivateCtor_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new TestObject_PrivateCtor_Mask<R>();
+            ret.BoolN = eval(this.BoolN);
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

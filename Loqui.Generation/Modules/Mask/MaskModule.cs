@@ -49,6 +49,20 @@ namespace Loqui.Generation
                     }
                 }
 
+                using (new RegionWrapper(fg, "Translate"))
+                {
+                    fg.AppendLine($"public {obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
+                        foreach (var field in obj.Fields)
+                        {
+                            GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"ret.{field.Name}", $"this.{field.Name}");
+                        }
+                        fg.AppendLine("return ret;");
+                    }
+                }
+
                 using (new RegionWrapper(fg, "To String"))
                 {
                     fg.AppendLine($"public override string ToString()");

@@ -28,5 +28,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"if (!eval(this.{field.Name})) return false;");
         }
+
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        {
+            fg.AppendLine($"{retAccessor} = eval({rhsAccessor});");
+        }
     }
 }

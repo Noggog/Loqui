@@ -1038,6 +1038,29 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Translate
+        public TestGenericObject_Mask<R> Translate<R>(Func<T, R> eval)
+        {
+            var ret = new TestGenericObject_Mask<R>();
+            if (this.RefBase != null)
+            {
+                ret.RefBase = new MaskItem<R, ObjectToRef_Mask<R>>();
+                ret.RefBase.Overall = eval(this.RefBase.Overall);
+                if (this.RefBase.Specific != null)
+                {
+                    ret.RefBase.Specific = this.RefBase.Specific.Translate(eval);
+                }
+            }
+            if (this.Ref != null)
+            {
+                ret.Ref = new MaskItem<R, object>();
+                ret.Ref.Overall = eval(this.Ref.Overall);
+                throw new NotImplementedException();
+            }
+            return ret;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {
