@@ -706,6 +706,25 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region To String
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestGenericObject_SubClass_Defined_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+            }
+            fg.AppendLine("]");
+        }
+        #endregion
+
     }
 
     public class TestGenericObject_SubClass_Defined_ErrorMask : TestGenericObject_ErrorMask

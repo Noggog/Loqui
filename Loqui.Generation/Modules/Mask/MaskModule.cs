@@ -48,6 +48,45 @@ namespace Loqui.Generation
                         fg.AppendLine("return true;");
                     }
                 }
+
+                using (new RegionWrapper(fg, "To String"))
+                {
+                    fg.AppendLine($"public override string ToString()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
+                        fg.AppendLine($"ToString(fg);");
+                        fg.AppendLine("return fg.ToString();");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
+                        fg.AppendLine($"fg.AppendLine(\"[\");");
+                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                fg.AppendLine($"if ({item.Field.Name} != null)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                                    fg.AppendLine($"using (new DepthWrapper(fg))");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                    }
+                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                }
+                            }
+                        }
+                        fg.AppendLine($"fg.AppendLine(\"]\");");
+                    }
+                }
             }
             fg.AppendLine();
 

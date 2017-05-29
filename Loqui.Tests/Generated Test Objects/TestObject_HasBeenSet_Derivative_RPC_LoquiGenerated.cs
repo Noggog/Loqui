@@ -6981,6 +6981,1212 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region To String
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestObject_HasBeenSet_Derivative_RPC_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (BoolN != null)
+                {
+                    fg.AppendLine("BoolN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(BoolN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Bool != null)
+                {
+                    fg.AppendLine("Bool =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Bool.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (CharN != null)
+                {
+                    fg.AppendLine("CharN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(CharN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Char != null)
+                {
+                    fg.AppendLine("Char =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Char.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (DateTimeNull != null)
+                {
+                    fg.AppendLine("DateTimeNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(DateTimeNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (DateTime != null)
+                {
+                    fg.AppendLine("DateTime =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(DateTime.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (DoubleN != null)
+                {
+                    fg.AppendLine("DoubleN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(DoubleN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (DoubleN_Ranged != null)
+                {
+                    fg.AppendLine("DoubleN_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(DoubleN_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Double != null)
+                {
+                    fg.AppendLine("Double =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Double.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Double_Ranged != null)
+                {
+                    fg.AppendLine("Double_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Double_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (FloatN != null)
+                {
+                    fg.AppendLine("FloatN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(FloatN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (FloatN_Ranged != null)
+                {
+                    fg.AppendLine("FloatN_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(FloatN_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Float != null)
+                {
+                    fg.AppendLine("Float =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Float.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Float_Ranged != null)
+                {
+                    fg.AppendLine("Float_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Float_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int16N != null)
+                {
+                    fg.AppendLine("Int16N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int16N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int16N_Ranged != null)
+                {
+                    fg.AppendLine("Int16N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int16N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int16 != null)
+                {
+                    fg.AppendLine("Int16 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int16.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int16_Ranged != null)
+                {
+                    fg.AppendLine("Int16_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int16_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int32N != null)
+                {
+                    fg.AppendLine("Int32N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int32N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int32N_Ranged != null)
+                {
+                    fg.AppendLine("Int32N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int32N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int32 != null)
+                {
+                    fg.AppendLine("Int32 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int32.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int32_Ranged != null)
+                {
+                    fg.AppendLine("Int32_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int32_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int64N != null)
+                {
+                    fg.AppendLine("Int64N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int64N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int64N_Ranged != null)
+                {
+                    fg.AppendLine("Int64N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int64N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int64 != null)
+                {
+                    fg.AppendLine("Int64 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int64.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int64_Ranged != null)
+                {
+                    fg.AppendLine("Int64_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int64_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int8N != null)
+                {
+                    fg.AppendLine("Int8N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int8N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int8N_Ranged != null)
+                {
+                    fg.AppendLine("Int8N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int8N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int8 != null)
+                {
+                    fg.AppendLine("Int8 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int8.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Int8_Ranged != null)
+                {
+                    fg.AppendLine("Int8_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Int8_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Unsafe != null)
+                {
+                    fg.AppendLine("Unsafe =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Unsafe.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P2IntN != null)
+                {
+                    fg.AppendLine("P2IntN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P2IntN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P2Int != null)
+                {
+                    fg.AppendLine("P2Int =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P2Int.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P3DoubleN != null)
+                {
+                    fg.AppendLine("P3DoubleN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P3DoubleN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P3Double != null)
+                {
+                    fg.AppendLine("P3Double =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P3Double.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P3IntN != null)
+                {
+                    fg.AppendLine("P3IntN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P3IntN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (P3Int != null)
+                {
+                    fg.AppendLine("P3Int =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(P3Int.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (PercentN != null)
+                {
+                    fg.AppendLine("PercentN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(PercentN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Percent != null)
+                {
+                    fg.AppendLine("Percent =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Percent.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt8N != null)
+                {
+                    fg.AppendLine("RangeInt8N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt8N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt8 != null)
+                {
+                    fg.AppendLine("RangeInt8 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt8.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt16N != null)
+                {
+                    fg.AppendLine("RangeInt16N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt16N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt16 != null)
+                {
+                    fg.AppendLine("RangeInt16 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt16.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt32N != null)
+                {
+                    fg.AppendLine("RangeInt32N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt32N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt32 != null)
+                {
+                    fg.AppendLine("RangeInt32 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt32.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt64N != null)
+                {
+                    fg.AppendLine("RangeInt64N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt64N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeInt64 != null)
+                {
+                    fg.AppendLine("RangeInt64 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeInt64.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt8N != null)
+                {
+                    fg.AppendLine("RangeUInt8N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt8N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt8 != null)
+                {
+                    fg.AppendLine("RangeUInt8 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt8.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt16N != null)
+                {
+                    fg.AppendLine("RangeUInt16N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt16N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt16 != null)
+                {
+                    fg.AppendLine("RangeUInt16 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt16.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt32N != null)
+                {
+                    fg.AppendLine("RangeUInt32N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt32N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt32 != null)
+                {
+                    fg.AppendLine("RangeUInt32 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt32.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt64N != null)
+                {
+                    fg.AppendLine("RangeUInt64N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt64N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RangeUInt64 != null)
+                {
+                    fg.AppendLine("RangeUInt64 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(RangeUInt64.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (String != null)
+                {
+                    fg.AppendLine("String =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(String.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UDoubleN != null)
+                {
+                    fg.AppendLine("UDoubleN =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UDoubleN.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UDoubleN_Ranged != null)
+                {
+                    fg.AppendLine("UDoubleN_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UDoubleN_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UDouble != null)
+                {
+                    fg.AppendLine("UDouble =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UDouble.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UDouble_Ranged != null)
+                {
+                    fg.AppendLine("UDouble_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UDouble_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt16N != null)
+                {
+                    fg.AppendLine("UInt16N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt16N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt16N_Ranged != null)
+                {
+                    fg.AppendLine("UInt16N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt16N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt16 != null)
+                {
+                    fg.AppendLine("UInt16 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt16.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt16_Ranged != null)
+                {
+                    fg.AppendLine("UInt16_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt16_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt32N != null)
+                {
+                    fg.AppendLine("UInt32N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt32N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt32N_Ranged != null)
+                {
+                    fg.AppendLine("UInt32N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt32N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt32 != null)
+                {
+                    fg.AppendLine("UInt32 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt32.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt32_Ranged != null)
+                {
+                    fg.AppendLine("UInt32_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt32_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt64N != null)
+                {
+                    fg.AppendLine("UInt64N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt64N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt64N_Ranged != null)
+                {
+                    fg.AppendLine("UInt64N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt64N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt64 != null)
+                {
+                    fg.AppendLine("UInt64 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt64.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt64_Ranged != null)
+                {
+                    fg.AppendLine("UInt64_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt64_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt8N != null)
+                {
+                    fg.AppendLine("UInt8N =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt8N.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt8N_Ranged != null)
+                {
+                    fg.AppendLine("UInt8N_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt8N_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt8 != null)
+                {
+                    fg.AppendLine("UInt8 =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt8.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (UInt8_Ranged != null)
+                {
+                    fg.AppendLine("UInt8_Ranged =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(UInt8_Ranged.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Enum != null)
+                {
+                    fg.AppendLine("Enum =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(Enum.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (WildCard != null)
+                {
+                    fg.AppendLine("WildCard =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(WildCard.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Ref != null)
+                {
+                    fg.AppendLine("Ref =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Ref.Overall != null)
+                        {
+                            fg.AppendLine(Ref.Overall.ToString());
+                        }
+                        if (Ref.Specific != null)
+                        {
+                            Ref.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Ref_NotNull != null)
+                {
+                    fg.AppendLine("Ref_NotNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Ref_NotNull.Overall != null)
+                        {
+                            fg.AppendLine(Ref_NotNull.Overall.ToString());
+                        }
+                        if (Ref_NotNull.Specific != null)
+                        {
+                            Ref_NotNull.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Ref_Singleton != null)
+                {
+                    fg.AppendLine("Ref_Singleton =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Ref_Singleton.Overall != null)
+                        {
+                            fg.AppendLine(Ref_Singleton.Overall.ToString());
+                        }
+                        if (Ref_Singleton.Specific != null)
+                        {
+                            Ref_Singleton.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefGetter != null)
+                {
+                    fg.AppendLine("RefGetter =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefGetter.Overall != null)
+                        {
+                            fg.AppendLine(RefGetter.Overall.ToString());
+                        }
+                        if (RefGetter.Specific != null)
+                        {
+                            RefGetter.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefGetter_NotNull != null)
+                {
+                    fg.AppendLine("RefGetter_NotNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefGetter_NotNull.Overall != null)
+                        {
+                            fg.AppendLine(RefGetter_NotNull.Overall.ToString());
+                        }
+                        if (RefGetter_NotNull.Specific != null)
+                        {
+                            RefGetter_NotNull.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefGetter_Singleton != null)
+                {
+                    fg.AppendLine("RefGetter_Singleton =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefGetter_Singleton.Overall != null)
+                        {
+                            fg.AppendLine(RefGetter_Singleton.Overall.ToString());
+                        }
+                        if (RefGetter_Singleton.Specific != null)
+                        {
+                            RefGetter_Singleton.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefSetter != null)
+                {
+                    fg.AppendLine("RefSetter =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefSetter.Overall != null)
+                        {
+                            fg.AppendLine(RefSetter.Overall.ToString());
+                        }
+                        if (RefSetter.Specific != null)
+                        {
+                            RefSetter.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefSetter_NotNull != null)
+                {
+                    fg.AppendLine("RefSetter_NotNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefSetter_NotNull.Overall != null)
+                        {
+                            fg.AppendLine(RefSetter_NotNull.Overall.ToString());
+                        }
+                        if (RefSetter_NotNull.Specific != null)
+                        {
+                            RefSetter_NotNull.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefSetter_Singleton != null)
+                {
+                    fg.AppendLine("RefSetter_Singleton =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefSetter_Singleton.Overall != null)
+                        {
+                            fg.AppendLine(RefSetter_Singleton.Overall.ToString());
+                        }
+                        if (RefSetter_Singleton.Specific != null)
+                        {
+                            RefSetter_Singleton.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (List != null)
+                {
+                    fg.AppendLine("List =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (List.Overall != null)
+                        {
+                            fg.AppendLine(List.Overall.ToString());
+                        }
+                        if (List.Specific != null)
+                        {
+                            foreach (var subItem in List.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine(subItem.ToString());
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefList != null)
+                {
+                    fg.AppendLine("RefList =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefList.Overall != null)
+                        {
+                            fg.AppendLine(RefList.Overall.ToString());
+                        }
+                        if (RefList.Specific != null)
+                        {
+                            foreach (var subItem in RefList.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    if (subItem.Overall != null)
+                                    {
+                                        fg.AppendLine(subItem.Overall.ToString());
+                                    }
+                                    if (subItem.Specific != null)
+                                    {
+                                        subItem.Specific.ToString(fg);
+                                    }
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Dict != null)
+                {
+                    fg.AppendLine("Dict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Dict.Overall != null)
+                        {
+                            fg.AppendLine(Dict.Overall.ToString());
+                        }
+                        if (Dict.Specific != null)
+                        {
+                            foreach (var subItem in Dict.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine("Key => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine(subItem.Key.ToString());
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine(subItem.Value.ToString());
+                                    }
+                                    fg.AppendLine("]");
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (RefDict != null)
+                {
+                    fg.AppendLine("RefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefDict.Overall != null)
+                        {
+                            fg.AppendLine(RefDict.Overall.ToString());
+                        }
+                        if (RefDict.Specific != null)
+                        {
+                            foreach (var subItem in RefDict.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine("Key => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        if (subItem.Key.Overall != null)
+                                        {
+                                            fg.AppendLine(subItem.Key.Overall.ToString());
+                                        }
+                                        if (subItem.Key.Specific != null)
+                                        {
+                                            subItem.Key.Specific.ToString(fg);
+                                        }
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        if (subItem.Value.Overall != null)
+                                        {
+                                            fg.AppendLine(subItem.Value.Overall.ToString());
+                                        }
+                                        if (subItem.Value.Specific != null)
+                                        {
+                                            subItem.Value.Specific.ToString(fg);
+                                        }
+                                    }
+                                    fg.AppendLine("]");
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (KeyRefDict != null)
+                {
+                    fg.AppendLine("KeyRefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (KeyRefDict.Overall != null)
+                        {
+                            fg.AppendLine(KeyRefDict.Overall.ToString());
+                        }
+                        if (KeyRefDict.Specific != null)
+                        {
+                            foreach (var subItem in KeyRefDict.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine("Key => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        if (subItem.Key.Overall != null)
+                                        {
+                                            fg.AppendLine(subItem.Key.Overall.ToString());
+                                        }
+                                        if (subItem.Key.Specific != null)
+                                        {
+                                            subItem.Key.Specific.ToString(fg);
+                                        }
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine(subItem.Value.ToString());
+                                    }
+                                    fg.AppendLine("]");
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (ValRefDict != null)
+                {
+                    fg.AppendLine("ValRefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (ValRefDict.Overall != null)
+                        {
+                            fg.AppendLine(ValRefDict.Overall.ToString());
+                        }
+                        if (ValRefDict.Specific != null)
+                        {
+                            foreach (var subItem in ValRefDict.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine("Key => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine(subItem.Key.ToString());
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        if (subItem.Value.Overall != null)
+                                        {
+                                            fg.AppendLine(subItem.Value.Overall.ToString());
+                                        }
+                                        if (subItem.Value.Specific != null)
+                                        {
+                                            subItem.Value.Specific.ToString(fg);
+                                        }
+                                    }
+                                    fg.AppendLine("]");
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (DictKeyedValue != null)
+                {
+                    fg.AppendLine("DictKeyedValue =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (DictKeyedValue.Overall != null)
+                        {
+                            fg.AppendLine(DictKeyedValue.Overall.ToString());
+                        }
+                        if (DictKeyedValue.Specific != null)
+                        {
+                            foreach (var subItem in DictKeyedValue.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine(subItem.ToString());
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+            }
+            fg.AppendLine("]");
+        }
+        #endregion
+
     }
 
     public class TestObject_HasBeenSet_Derivative_RPC_ErrorMask : IErrorMask

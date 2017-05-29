@@ -1038,6 +1038,59 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region To String
+        public override string ToString()
+        {
+            var fg = new FileGeneration();
+            ToString(fg);
+            return fg.ToString();
+        }
+
+        public void ToString(FileGeneration fg)
+        {
+            fg.AppendLine("TestGenericObject_ErrorMask =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (RefBase != null)
+                {
+                    fg.AppendLine("RefBase =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefBase.Overall != null)
+                        {
+                            fg.AppendLine(RefBase.Overall.ToString());
+                        }
+                        if (RefBase.Specific != null)
+                        {
+                            RefBase.Specific.ToString(fg);
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+                if (Ref != null)
+                {
+                    fg.AppendLine("Ref =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (Ref.Overall != null)
+                        {
+                            fg.AppendLine(Ref.Overall.ToString());
+                        }
+                        if (Ref.Specific != null)
+                        {
+                            fg.AppendLine(Ref.Specific.ToString());
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
+            }
+            fg.AppendLine("]");
+        }
+        #endregion
+
     }
 
     public class TestGenericObject_ErrorMask : IErrorMask
