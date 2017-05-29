@@ -35,24 +35,24 @@ namespace Loqui.Generation
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor}.{typeGen.Name}");
+                args.Add($"item: {itemAccessor}");
                 args.Add($"doMasks: doMasks");
                 args.Add("maskObj: out object errorMaskObj");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} sub{itemAccessor}, out object sub{maskAccessor}) =>");
+                    gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} subItem, out object subMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
                             fg: gen, 
                             typeGen: list.SubTypeGeneration, 
                             writerAccessor: "writer", 
-                            itemAccessor: $"sub{itemAccessor}", 
-                            maskAccessor: $"sub{maskAccessor}",
+                            itemAccessor: $"subItem", 
+                            maskAccessor: $"subMask",
                             nameAccessor: "null");
                         if (!subTransl.OutputsErrorMask)
                         {
-                            gen.AppendLine($"sub{maskAccessor} = null;");
+                            gen.AppendLine($"subMask = null;");
                         }
                     }
                 });
@@ -63,6 +63,11 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, errorMaskObj);");
             }
+        }
+
+        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        {
+            fg.AppendLine($"throw new NotImplementedException();");
         }
     }
 }

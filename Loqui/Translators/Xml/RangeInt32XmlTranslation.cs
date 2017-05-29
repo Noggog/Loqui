@@ -29,9 +29,8 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override TryGet<RangeInt32?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        protected override TryGet<RangeInt32?> ParseValue(XElement root, bool nullable)
         {
-            maskObj = null;
             int? min, max;
             if (root.TryGetAttribute(MIN, out XAttribute val))
             {

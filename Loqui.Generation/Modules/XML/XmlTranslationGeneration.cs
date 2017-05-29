@@ -10,11 +10,17 @@ namespace Loqui.Generation
     {
         public abstract bool OutputsErrorMask { get; }
         public abstract void GenerateWrite(
-            FileGeneration fg, 
-            TypeGeneration typeGen, 
-            string writerAccessor, 
-            string itemAccessor, 
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string writerAccessor,
+            string itemAccessor,
             string maskAccessor,
             string nameAccessor);
+        public abstract void GenerateCopyIn(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string itemAccessor,
+            string maskAccessor);
     }
 }

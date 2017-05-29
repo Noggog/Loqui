@@ -5313,6 +5313,7 @@ namespace Loqui.Tests.Internals
         }
 
         #region XML Translation
+        #region XML Write
         public static void Write_XML(
             ITestObject_HasBeenSet_Derivative_RPCGetter item,
             Stream stream)
@@ -5346,45 +5347,6 @@ namespace Loqui.Tests.Internals
                     doMasks: true,
                     errorMask: out errorMask);
             }
-        }
-
-        public static void Write_XML(
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            XmlWriter writer,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-            string name = null)
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
-        public static void Write_XML(
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            XmlWriter writer,
-            string name)
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: false,
-                errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
-        }
-
-        public static void Write_XML(
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            XmlWriter writer)
-        {
-            Write_XML(
-                writer: writer,
-                name: null,
-                item: item,
-                doMasks: false,
-                errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
         }
 
         public static void Write_XML(
@@ -5427,6 +5389,88 @@ namespace Loqui.Tests.Internals
                 errorMask().Overall = ex;
             }
         }
+        #endregion
+
+        #region XML Copy In
+        public static void CopyIn_XML(
+            ITestObject_HasBeenSet_Derivative_RPC item,
+            Stream stream,
+            bool unsetMissing = false)
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: false,
+                errorMask: out var errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML(
+            ITestObject_HasBeenSet_Derivative_RPC item,
+            Stream stream,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            bool unsetMissing = false)
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML(
+            ITestObject_HasBeenSet_Derivative_RPC item,
+            XElement root,
+            bool doMasks,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            bool unsetMissing = false)
+        {
+            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
+            CopyIn_XML_Internal(
+                item: item,
+                root: root,
+                unsetMissing: unsetMissing,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void CopyIn_XML_Internal(
+            ITestObject_HasBeenSet_Derivative_RPC item,
+            XElement root,
+            bool unsetMissing,
+            bool doMasks,
+            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
+        {
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    switch (name.Value)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
         #endregion
 
     }

@@ -24,7 +24,23 @@ namespace Loqui.Generation
             {
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
-                args.Add($"{itemAccessor}.{typeGen.Name}");
+                args.Add($"{itemAccessor}");
+            }
+        }
+
+        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        {
+            var eType = typeGen as EnumType;
+            using (var args = new ArgsWrapper(fg,
+                $"var tryGet = EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
+            {
+                args.Add(nodeAccessor);
+                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
+            }
+            fg.AppendLine("if (tryGet.Succeeded)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{itemAccessor} = tryGet.Value{(eType.Nullable ? null : ".Value")};");
             }
         }
     }

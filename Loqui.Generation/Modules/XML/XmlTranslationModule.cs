@@ -44,7 +44,7 @@ namespace Loqui.Generation
             this.TypeGenerations[typeof(PercentType)] = new PrimitiveXmlTranslationGeneration<Percent>();
             this.TypeGenerations[typeof(RangeDoubleNullType)] = new PrimitiveXmlTranslationGeneration<RangeDouble?>();
             this.TypeGenerations[typeof(RangeDoubleType)] = new PrimitiveXmlTranslationGeneration<RangeDouble>();
-            this.TypeGenerations[typeof(StringType)] = new PrimitiveXmlTranslationGeneration<string>(nullable: true);
+            this.TypeGenerations[typeof(StringType)] = new PrimitiveXmlTranslationGeneration<string>(nullable: true) { CanBeNotNullable = false };
             this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt8?>)] = new PrimitiveXmlTranslationGeneration<RangeInt8?>();
             this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt8>)] = new PrimitiveXmlTranslationGeneration<RangeInt8>();
             this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt16?>)] = new PrimitiveXmlTranslationGeneration<RangeInt16?>();
@@ -302,35 +302,44 @@ namespace Loqui.Generation
 
         public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
-            if (obj.IsTopClass)
+            using (new RegionWrapper(fg, "XML Write"))
             {
-                using (var args = new FunctionWrapper(fg,
-                    $"public static void Write_XML{obj.GenericTypes}",
-                    obj.GenerateWhereClauses().ToArray()))
-                {
-                    args.Add($"{obj.Getter_InterfaceStr} item");
-                    args.Add($"Stream stream");
-                }
+                CommonXmlWrite(obj, fg);
+            }
+            using (new RegionWrapper(fg, "XML Copy In"))
+            {
+                CommonXmlCopyIn(obj, fg);
+            }
+        }
+
+        private void CommonXmlWrite(ObjectGeneration obj, FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg,
+                $"public static void Write_XML{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.Getter_InterfaceStr} item");
+                args.Add($"Stream stream");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
+                    fg.AppendLine("writer.Indentation = 3;");
+                    fg.AppendLine($"Write_XML(");
+                    using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("writer.Formatting = Formatting.Indented;");
-                        fg.AppendLine("writer.Indentation = 3;");
-                        fg.AppendLine($"Write_XML(");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"writer: writer,");
-                            fg.AppendLine($"name: null,");
-                            fg.AppendLine($"item: item,");
-                            fg.AppendLine($"doMasks: false,");
-                            fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
-                        }
+                        fg.AppendLine($"writer: writer,");
+                        fg.AppendLine($"name: null,");
+                        fg.AppendLine($"item: item,");
+                        fg.AppendLine($"doMasks: false,");
+                        fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
                     }
                 }
-                fg.AppendLine();
             }
+            fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
                 $"public static void Write_XML{obj.GenericTypes}",
@@ -356,72 +365,6 @@ namespace Loqui.Generation
                         fg.AppendLine($"doMasks: true,");
                         fg.AppendLine($"errorMask: out errorMask);");
                     }
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"XmlWriter writer");
-                args.Add($"out {obj.ErrorMask} errorMask");
-                args.Add($"string name = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"Write_XML(");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine($"writer: writer,");
-                    fg.AppendLine($"name: name,");
-                    fg.AppendLine($"item: item,");
-                    fg.AppendLine($"doMasks: true,");
-                    fg.AppendLine($"errorMask: out errorMask);");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"XmlWriter writer");
-                args.Add($"string name");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"Write_XML(");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine($"writer: writer,");
-                    fg.AppendLine($"name: name,");
-                    fg.AppendLine($"item: item,");
-                    fg.AppendLine($"doMasks: false,");
-                    fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"XmlWriter writer");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"Write_XML(");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine($"writer: writer,");
-                    fg.AppendLine($"name: null,");
-                    fg.AppendLine($"item: item,");
-                    fg.AppendLine($"doMasks: false,");
-                    fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
                 }
             }
             fg.AppendLine();
@@ -497,14 +440,14 @@ namespace Loqui.Generation
                                     switch (field.Field.Notifying)
                                     {
                                         case NotifyingOption.None:
-                                            generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
+                                            generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", "errorMask", $"nameof(item.{field.Field.Name})");
                                             break;
                                         case NotifyingOption.HasBeenSet:
                                         case NotifyingOption.Notifying:
                                             fg.AppendLine($"if (item.{field.Field.Property}.HasBeenSet)");
                                             using (new BraceWrapper(fg))
                                             {
-                                                generator.GenerateWrite(fg, field.Field, "writer", "item", "errorMask", $"nameof(item.{field.Field.Name})");
+                                                generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", "errorMask", $"nameof(item.{field.Field.Name})");
                                             }
                                             break;
                                         default:
@@ -516,6 +459,152 @@ namespace Loqui.Generation
                                 {
                                     fg.AppendLine("if (!doMasks) throw;");
                                     fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                }
+                            }
+                        }
+                    }
+                }
+                fg.AppendLine("catch (Exception ex)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("if (!doMasks) throw;");
+                    fg.AppendLine("errorMask().Overall = ex;");
+                }
+            }
+        }
+
+        private void CommonXmlCopyIn(ObjectGeneration obj, FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg,
+                $"public static void CopyIn_XML{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.InterfaceStr} item");
+                args.Add($"Stream stream");
+                args.Add($"bool unsetMissing = false");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("XElement root;");
+                fg.AppendLine($"using (var reader = new StreamReader(stream))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("root = XElement.Parse(reader.ReadToEnd());");
+                }
+                using (var args = new ArgsWrapper(fg,
+                    "CopyIn_XML"))
+                {
+                    args.Add("item: item");
+                    args.Add("root: root");
+                    args.Add("doMasks: false");
+                    args.Add("errorMask: out var errorMask");
+                    args.Add("unsetMissing: unsetMissing");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void CopyIn_XML{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.InterfaceStr} item");
+                args.Add($"Stream stream");
+                args.Add($"out {obj.ErrorMask} errorMask");
+                args.Add($"bool unsetMissing = false");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("XElement root;");
+                fg.AppendLine($"using (var reader = new StreamReader(stream))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("root = XElement.Parse(reader.ReadToEnd());");
+                }
+                using (var args = new ArgsWrapper(fg,
+                    "CopyIn_XML"))
+                {
+                    args.Add("item: item");
+                    args.Add("root: root");
+                    args.Add("doMasks: true");
+                    args.Add("errorMask: out errorMask");
+                    args.Add("unsetMissing: unsetMissing");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void CopyIn_XML{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.InterfaceStr} item");
+                args.Add($"XElement root");
+                args.Add($"bool doMasks");
+                args.Add($"out {obj.ErrorMask} errorMask");
+                args.Add($"bool unsetMissing = false");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
+                using (var args = new ArgsWrapper(fg,
+                    $"CopyIn_XML_Internal"))
+                {
+                    args.Add("item: item");
+                    args.Add("root: root");
+                    args.Add("unsetMissing: unsetMissing");
+                    args.Add("doMasks: doMasks");
+                    args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
+                }
+                fg.AppendLine($"errorMask = errMaskRet;");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"private static void CopyIn_XML_Internal{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.InterfaceStr} item");
+                args.Add($"XElement root");
+                args.Add($"bool unsetMissing");
+                args.Add($"bool doMasks");
+                args.Add($"Func<{obj.ErrorMask}> errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("foreach (var elem in root.Elements())");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (!elem.TryGetAttribute(\"name\", out XAttribute name)) continue;");
+                        fg.AppendLine("switch (name.Value)");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var field in obj.IterateFields())
+                            {
+                                if (field.Field.Protected) continue;
+                                if (field.Field is LoquiType loquiType && loquiType.SingletonType == LoquiType.SingletonLevel.Singleton) continue;
+
+                                if (!this.TypeGenerations.TryGetValue(field.Field.GetType(), out var generator))
+                                {
+                                    throw new ArgumentException("Unsupported type generator: " + field.Field);
+                                }
+
+                                fg.AppendLine($"case \"{field.Field.Name}\":");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine("try");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        generator.GenerateCopyIn(fg, field.Field, "elem", $"item.{field.Field.Name}", "errorMask");
+                                    }
+                                    fg.AppendLine("catch (Exception ex)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine("if (!doMasks) throw;");
+                                        fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                    }
+                                    fg.AppendLine("break;");
                                 }
                             }
                         }

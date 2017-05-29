@@ -25,30 +25,39 @@ namespace Loqui.Xml
 
         public TryGet<T?> Parse(XElement root, bool doMasks, out object maskObj)
         {
-            return Parse_Internal(root, nullable: true, doMasks: doMasks, maskObj: out maskObj);
+            maskObj = null;
+            return Parse_Internal(root, nullable: true);
         }
 
-        protected virtual TryGet<T?> ParseValue(XElement root, bool nullable, bool doMasks, out object maskObj)
+        public TryGet<T?> Parse(XElement root, bool nullable)
         {
-            maskObj = null;
+            return Parse_Internal(root, nullable: nullable);
+        }
+
+        protected virtual TryGet<T?> ParseValue(XElement root, bool nullable)
+        {
             if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
-                return TryGet<T?>.Succeed(null);
+                if (nullable)
+                {
+                    return TryGet<T?>.Succeed(null);
+                }
+                else
+                {
+                    return TryGet<T?>.Failure;
+                }
             }
             return TryGet<T?>.Succeed(ParseNonNullString(val.Value));
         }
 
-        private TryGet<T?> Parse_Internal(XElement root, bool nullable, bool doMasks, out object maskObj)
+        private TryGet<T?> Parse_Internal(XElement root, bool nullable)
         {
             if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
             {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
-                if (!doMasks) throw ex;
-                maskObj = ex;
-                return TryGet<T?>.Failure;
+                throw new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
             }
-            return ParseValue(root, nullable, doMasks, out maskObj);
+            return ParseValue(root, nullable);
         }
 
         protected virtual bool WriteValue(XmlWriter writer, string name, T? item)
@@ -87,19 +96,11 @@ namespace Loqui.Xml
 
         TryGet<T> IXmlTranslation<T>.Parse(XElement root, bool doMasks, out object maskObj)
         {
-            var parse = this.Parse_Internal(root, nullable: false, doMasks: doMasks, maskObj: out maskObj);
+            maskObj = null;
+            var parse = this.Parse_Internal(root, nullable: false);
             if (parse.Failed) return parse.BubbleFailure<T>();
             if (parse.Value.HasValue) return TryGet<T>.Succeed(parse.Value.Value);
-            var ex = new ArgumentException("Value was unexpectedly null.");
-            if (doMasks)
-            {
-                maskObj = ex;
-                return TryGet<T>.Failure;
-            }
-            else
-            {
-                throw ex;
-            }
+            throw new ArgumentException("Value was unexpectedly null.");
         }
 
         public void Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)

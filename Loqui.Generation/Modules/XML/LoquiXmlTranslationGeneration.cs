@@ -20,14 +20,13 @@ namespace Loqui.Generation
             string nameAccessor)
         {
             var loquiGen = typeGen as LoquiType;
-            var refObjGen = loquiGen.TargetObjectGeneration;
-            if (refObjGen != null)
+            if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{refObjGen.ExtCommonName}.Write_XML"))
+                    $"{loquiGen.TargetObjectGeneration.ExtCommonName}.Write_XML"))
                 {
                     args.Add($"writer: {writerAccessor}");
-                    args.Add($"item: {(typeGen.Name != null ? $"{itemAccessor}.{typeGen.Name}" : $"{itemAccessor}")}");
+                    args.Add($"item: {itemAccessor}");
                     args.Add($"name: {nameAccessor}");
                     args.Add($"doMasks: doMasks");
                     args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
@@ -55,6 +54,63 @@ namespace Loqui.Generation
                     itemAccessor: itemAccessor,
                     maskAccessor: maskAccessor,
                     nameAccessor: nameAccessor);
+            }
+        }
+
+        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        {
+            var loquiGen = typeGen as LoquiType;
+            if (loquiGen.TargetObjectGeneration != null)
+            {
+                if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter)
+                {
+                    if (loquiGen.SingletonType == LoquiType.SingletonLevel.Singleton)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{itemAccessor} = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
+                        {
+                            args.Add($"root: {nodeAccessor}");
+                            args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
+                        }
+                    }
+                }
+                else
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyIn_XML"))
+                    {
+                        args.Add($"root: {nodeAccessor}");
+                        args.Add($"item: {itemAccessor}");
+                        args.Add($"doMasks: doMasks");
+                        args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
+                    }
+                }
+
+                if (typeGen.Name != null)
+                {
+                    fg.AppendLine($"if (sub{maskAccessor} != null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, sub{maskAccessor});");
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"{maskAccessor} = sub{maskAccessor};");
+                }
+            }
+            else
+            {
+                unsafeXml.GenerateCopyIn(
+                    fg: fg,
+                    typeGen: typeGen,
+                    nodeAccessor: nodeAccessor,
+                    itemAccessor: itemAccessor,
+                    maskAccessor: maskAccessor);
             }
         }
     }

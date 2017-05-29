@@ -586,6 +586,25 @@ namespace Loqui.Tests.Internals
         }
 
         #region XML Translation
+        #region XML Write
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            Stream stream)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
+            }
+        }
+
         public static void Write_XML<RBase>(
             ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             Stream stream,
@@ -603,48 +622,6 @@ namespace Loqui.Tests.Internals
                     doMasks: true,
                     errorMask: out errorMask);
             }
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            XmlWriter writer,
-            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
-            string name = null)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            XmlWriter writer,
-            string name)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: false,
-                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            XmlWriter writer)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            Write_XML(
-                writer: writer,
-                name: null,
-                item: item,
-                doMasks: false,
-                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
         }
 
         public static void Write_XML<RBase>(
@@ -689,6 +666,92 @@ namespace Loqui.Tests.Internals
                 errorMask().Overall = ex;
             }
         }
+        #endregion
+
+        #region XML Copy In
+        public static void CopyIn_XML<RBase>(
+            ITestGenericObject_SubClass_Defined<RBase> item,
+            Stream stream,
+            bool unsetMissing = false)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: false,
+                errorMask: out var errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML<RBase>(
+            ITestGenericObject_SubClass_Defined<RBase> item,
+            Stream stream,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            bool unsetMissing = false)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML<RBase>(
+            ITestGenericObject_SubClass_Defined<RBase> item,
+            XElement root,
+            bool doMasks,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            bool unsetMissing = false)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObject_SubClass_Defined_ErrorMask errMaskRet = null;
+            CopyIn_XML_Internal(
+                item: item,
+                root: root,
+                unsetMissing: unsetMissing,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_Defined_ErrorMask()) : default(Func<TestGenericObject_SubClass_Defined_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void CopyIn_XML_Internal<RBase>(
+            ITestGenericObject_SubClass_Defined<RBase> item,
+            XElement root,
+            bool unsetMissing,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    switch (name.Value)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
         #endregion
 
     }

@@ -12,13 +12,16 @@ namespace Loqui.Generation
         List<string[]> args = new List<string[]>(); 
         public bool SemiColon = true;
         string initialLine;
+        string suffixLine;
 
         public ArgsWrapper(
             FileGeneration fg,
-            string initialLine = null)
+            string initialLine = null,
+            string suffixLine = null)
         {
             this.fg = fg;
             this.initialLine = initialLine;
+            this.suffixLine = suffixLine;
         }
 
         public void Add(params string[] lines)
@@ -39,13 +42,13 @@ namespace Loqui.Generation
             {
                 if (args.Count == 0)
                 {
-                    fg.AppendLine($"{initialLine}();");
+                    fg.AppendLine($"{initialLine}(){suffixLine};");
                     return;
                 }
                 else if (args.Count == 1
                     && args[0].Length == 1)
                 {
-                    fg.AppendLine($"{initialLine}({args[0][0]});");
+                    fg.AppendLine($"{initialLine}({args[0][0]}){suffixLine};");
                     return;
                 }
                 else
@@ -68,7 +71,7 @@ namespace Loqui.Generation
                     arg.Last(
                         each: (item, last) =>
                         {
-                            fg.AppendLine($"{item}{(last ? $"){(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
+                            fg.AppendLine($"{item}{(last ? $"){suffixLine}{(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
                         });
                 });
             this.fg.Depth--;

@@ -12,7 +12,8 @@ namespace Loqui.Generation
         private string typeName;
         private bool? nullable;
         public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
-        
+        public bool CanBeNotNullable = true;
+
         public PrimitiveXmlTranslationGeneration(string typeName = null, bool? nullable = null)
         {
             this.nullable = nullable;
@@ -32,7 +33,25 @@ namespace Loqui.Generation
             {
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
-                args.Add($"{itemAccessor}{(typeGen.Name == null ? string.Empty : $".{typeGen.Name}")}");
+                args.Add(itemAccessor);
+            }
+        }
+
+        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        {
+            using (var args = new ArgsWrapper(fg,
+                $"var tryGet = {this.typeName}XmlTranslation.Instance.Parse"))
+            {
+                args.Add(nodeAccessor);
+                if (CanBeNotNullable)
+                {
+                    args.Add($"nullable: {Nullable.ToString().ToLower()}");
+                }
+            }
+            fg.AppendLine("if (tryGet.Succeeded)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{itemAccessor} = tryGet.Value{(Nullable ? null : ".Value")};");
             }
         }
     }

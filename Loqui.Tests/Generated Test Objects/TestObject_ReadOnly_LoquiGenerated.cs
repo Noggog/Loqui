@@ -3970,6 +3970,7 @@ namespace Loqui.Tests.Internals
         }
 
         #region XML Translation
+        #region XML Write
         public static void Write_XML(
             ITestObject_ReadOnlyGetter item,
             Stream stream)
@@ -4003,45 +4004,6 @@ namespace Loqui.Tests.Internals
                     doMasks: true,
                     errorMask: out errorMask);
             }
-        }
-
-        public static void Write_XML(
-            ITestObject_ReadOnlyGetter item,
-            XmlWriter writer,
-            out TestObject_ReadOnly_ErrorMask errorMask,
-            string name = null)
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
-        public static void Write_XML(
-            ITestObject_ReadOnlyGetter item,
-            XmlWriter writer,
-            string name)
-        {
-            Write_XML(
-                writer: writer,
-                name: name,
-                item: item,
-                doMasks: false,
-                errorMask: out TestObject_ReadOnly_ErrorMask errorMask);
-        }
-
-        public static void Write_XML(
-            ITestObject_ReadOnlyGetter item,
-            XmlWriter writer)
-        {
-            Write_XML(
-                writer: writer,
-                name: null,
-                item: item,
-                doMasks: false,
-                errorMask: out TestObject_ReadOnly_ErrorMask errorMask);
         }
 
         public static void Write_XML(
@@ -5218,13 +5180,13 @@ namespace Loqui.Tests.Internals
                             item: item.List,
                             doMasks: doMasks,
                             maskObj: out object errorMaskObj,
-                            transl: (Boolean subitem, out object suberrorMask) =>
+                            transl: (Boolean subItem, out object subMask) =>
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
                                     null,
-                                    subitem);
-                                suberrorMask = null;
+                                    subItem);
+                                subMask = null;
                             }
                             );
                         if (errorMaskObj != null)
@@ -5245,15 +5207,15 @@ namespace Loqui.Tests.Internals
                             item: item.RefList,
                             doMasks: doMasks,
                             maskObj: out object errorMaskObj,
-                            transl: (ObjectToRef subitem, out object suberrorMask) =>
+                            transl: (ObjectToRef subItem, out object subMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
-                                    item: subitem,
+                                    item: subItem,
                                     name: null,
                                     doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask subsuberrorMask);
-                                suberrorMask = subsuberrorMask;
+                                    errorMask: out ObjectToRef_ErrorMask subsubMask);
+                                subMask = subsubMask;
                             }
                             );
                         if (errorMaskObj != null)
@@ -5394,6 +5356,88 @@ namespace Loqui.Tests.Internals
                 errorMask().Overall = ex;
             }
         }
+        #endregion
+
+        #region XML Copy In
+        public static void CopyIn_XML(
+            ITestObject_ReadOnly item,
+            Stream stream,
+            bool unsetMissing = false)
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: false,
+                errorMask: out var errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML(
+            ITestObject_ReadOnly item,
+            Stream stream,
+            out TestObject_ReadOnly_ErrorMask errorMask,
+            bool unsetMissing = false)
+        {
+            XElement root;
+            using (var reader = new StreamReader(stream))
+            {
+                root = XElement.Parse(reader.ReadToEnd());
+            }
+            CopyIn_XML(
+                item: item,
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask,
+                unsetMissing: unsetMissing);
+        }
+
+        public static void CopyIn_XML(
+            ITestObject_ReadOnly item,
+            XElement root,
+            bool doMasks,
+            out TestObject_ReadOnly_ErrorMask errorMask,
+            bool unsetMissing = false)
+        {
+            TestObject_ReadOnly_ErrorMask errMaskRet = null;
+            CopyIn_XML_Internal(
+                item: item,
+                root: root,
+                unsetMissing: unsetMissing,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_ReadOnly_ErrorMask()) : default(Func<TestObject_ReadOnly_ErrorMask>));
+            errorMask = errMaskRet;
+        }
+
+        private static void CopyIn_XML_Internal(
+            ITestObject_ReadOnly item,
+            XElement root,
+            bool unsetMissing,
+            bool doMasks,
+            Func<TestObject_ReadOnly_ErrorMask> errorMask)
+        {
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    switch (name.Value)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
+        }
+        #endregion
+
         #endregion
 
     }

@@ -9,6 +9,7 @@ namespace Loqui.Generation
     public class UnsafeXmlTranslationGeneration : XmlTranslationGeneration
     {
         public override bool OutputsErrorMask => true;
+
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
@@ -29,7 +30,7 @@ namespace Loqui.Generation
             {
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
-                args.Add($"{itemAccessor}.{typeGen.Name}");
+                args.Add($"{itemAccessor}");
                 args.Add($"doMasks");
                 args.Add($"out object sub{maskAccessor}");
             }
@@ -45,6 +46,11 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{maskAccessor} = sub{maskAccessor};");
             }
+        }
+
+        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        {
+            fg.AppendLine($"throw new NotImplementedException();");
         }
     }
 }
