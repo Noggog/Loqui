@@ -644,6 +644,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.NewField = item.NewField != rhs.NewField;
                 }
+                else
+                {
+                    ret.NewField = true;
+                }
+            }
+            else
+            {
+                ret.NewField = false;
             }
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }

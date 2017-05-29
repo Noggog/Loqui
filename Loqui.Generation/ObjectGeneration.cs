@@ -1307,7 +1307,7 @@ namespace Loqui.Generation
                     {
                         if (field.Notifying == NotifyingOption.None)
                         {
-                            field.GenerateForEqualsMask(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
+                            field.GenerateForEqualsMaskCheck(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
                         }
                         else
                         {
@@ -1317,8 +1317,18 @@ namespace Loqui.Generation
                                 fg.AppendLine($"if (item.{field.HasBeenSetAccessor})");
                                 using (new BraceWrapper(fg))
                                 {
-                                    field.GenerateForEqualsMask(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
+                                    field.GenerateForEqualsMaskCheck(fg, $"item.{field.Name}", $"rhs.{field.Name}", $"ret.{field.Name}");
                                 }
+                                fg.AppendLine($"else");
+                                using (new BraceWrapper(fg))
+                                {
+                                    field.GenerateForEqualsMask(fg, $"ret.{field.Name}", true);
+                                }
+                            }
+                            fg.AppendLine($"else");
+                            using (new BraceWrapper(fg))
+                            {
+                                field.GenerateForEqualsMask(fg, $"ret.{field.Name}", false);
                             }
                         }
                     }

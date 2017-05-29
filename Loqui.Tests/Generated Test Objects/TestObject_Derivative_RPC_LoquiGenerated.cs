@@ -3798,8 +3798,10 @@ namespace Loqui.Tests.Internals
             ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
             ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b);
+            ret.List = new MaskItem<bool, IEnumerable<bool>>();
             ret.List.Specific = item.List.SelectAgainst<Boolean, bool>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
             ret.List.Overall = ret.List.Overall && ret.List.Specific.All((b) => b);
+            ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
             ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
             {
                 MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
@@ -3810,8 +3812,10 @@ namespace Loqui.Tests.Internals
             }
             ), out ret.RefList.Overall);
             ret.RefList.Overall = ret.RefList.Overall && ret.RefList.Specific.All((b) => b.Overall);
+            ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
             ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool, bool>>(rhs.Dict, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
             ret.Dict.Overall = ret.Dict.Overall && ret.Dict.Specific.All((b) => b.Key && b.Value);
+            ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
             ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.RefDict, ((l, r) =>
             {
                 MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
@@ -3826,6 +3830,7 @@ namespace Loqui.Tests.Internals
             }
             ), out ret.RefDict.Overall);
             ret.RefDict.Overall = ret.RefDict.Overall && ret.RefDict.Specific.All((b) => b.Key.Overall && b.Value.Overall );
+            ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
             ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>(rhs.KeyRefDict, ((l, r) =>
             {
                 MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
@@ -3837,6 +3842,7 @@ namespace Loqui.Tests.Internals
             }
             ), out ret.KeyRefDict.Overall);
             ret.KeyRefDict.Overall = ret.KeyRefDict.Overall && ret.KeyRefDict.Specific.All((b) => b.Key.Overall && b.Value);
+            ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
             ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.ValRefDict, ((l, r) =>
             {
                 bool keyItemRet = object.Equals(l.Key, r.Key);
@@ -3848,6 +3854,7 @@ namespace Loqui.Tests.Internals
             }
             ), out ret.ValRefDict.Overall);
             ret.ValRefDict.Overall = ret.ValRefDict.Overall && ret.ValRefDict.Specific.All((b) => b.Key && b.Value.Overall);
+            ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
             ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
             {
                 MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;

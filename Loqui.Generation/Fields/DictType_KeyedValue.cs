@@ -236,19 +236,26 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
             var maskStr = $"MaskItem<bool, {valueLoquiType.TargetObjectGeneration.GetMaskString("bool")}>";
             fg.AppendLine($"{retAccessor}.Specific = {accessor}.Values.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Values, ((l, r) =>");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{maskStr} itemRet;");
-                valueLoquiType.GenerateForEqualsMask(fg, "l", "r", "itemRet");
+                valueLoquiType.GenerateForEqualsMaskCheck(fg, "l", "r", "itemRet");
                 fg.AppendLine("return itemRet;");
             }
             fg.AppendLine($"), out {retAccessor}.Overall);");
             fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Overall);");
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+        {
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 
         public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)

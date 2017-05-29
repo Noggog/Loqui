@@ -792,13 +792,34 @@ namespace Loqui.Tests.Internals
                     ret.RefBase.Specific = ObjectToRefCommon.GetEqualsMask(item.RefBase, rhs.RefBase);
                     ret.RefBase.Overall = ret.RefBase.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefBase.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefBase.Overall = false;
             }
             if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
             {
                 if (item.Ref_Property.HasBeenSet)
                 {
+                    ret.Ref = new MaskItem<bool, object>();
                     ret.Ref.Overall = object.Equals(item.Ref, rhs.Ref);
                 }
+                else
+                {
+                    ret.Ref = new MaskItem<bool, object>();
+                    ret.Ref.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Ref = new MaskItem<bool, object>();
+                ret.Ref.Overall = false;
             }
         }
 

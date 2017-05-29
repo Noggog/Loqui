@@ -4,7 +4,7 @@ namespace Loqui.Generation
 {
     public class DictMaskFieldGeneration : MaskModuleField
     {
-        private string GetMaskString(IDictType dictType, string typeStr)
+        public static string GetMaskString(IDictType dictType, string typeStr)
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;

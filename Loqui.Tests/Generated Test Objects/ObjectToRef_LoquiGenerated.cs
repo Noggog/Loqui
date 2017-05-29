@@ -726,6 +726,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.KeyField = item.KeyField != rhs.KeyField;
                 }
+                else
+                {
+                    ret.KeyField = true;
+                }
+            }
+            else
+            {
+                ret.KeyField = false;
             }
             if (item.SomeField_Property.HasBeenSet == rhs.SomeField_Property.HasBeenSet)
             {
@@ -733,6 +741,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.SomeField = item.SomeField != rhs.SomeField;
                 }
+                else
+                {
+                    ret.SomeField = true;
+                }
+            }
+            else
+            {
+                ret.SomeField = false;
             }
         }
 

@@ -325,8 +325,9 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
             LoquiType keyLoqui = KeyTypeGen as LoquiType;
             LoquiType valLoqui = ValueTypeGen as LoquiType;
             if (keyLoqui != null
@@ -340,8 +341,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
                     fg.AppendLine($"{valMaskStr} valItemRet;");
-                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
-                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    keyLoqui.GenerateForEqualsMaskCheck(fg, "l.Key", "r.Key", "keyItemRet");
+                    valLoqui.GenerateForEqualsMaskCheck(fg, "l.Value", "r.Value", "valItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
@@ -356,7 +357,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
                     fg.AppendLine($"bool valItemRet = object.Equals(l.Value, r.Value);");
-                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
+                    keyLoqui.GenerateForEqualsMaskCheck(fg, "l.Key", "r.Key", "keyItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
@@ -371,7 +372,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"bool keyItemRet = object.Equals(l.Key, r.Key);");
                     fg.AppendLine($"{valMaskStr} valItemRet;");
-                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    valLoqui.GenerateForEqualsMaskCheck(fg, "l.Value", "r.Value", "valItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
@@ -382,6 +383,12 @@ namespace Loqui.Generation
                 fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, KeyValuePair<bool, bool>>({rhsAccessor}, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out {retAccessor}.Overall);");
                 fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Key && b.Value);");
             }
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+        {
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 
         public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)

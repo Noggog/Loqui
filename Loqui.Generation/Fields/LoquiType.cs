@@ -684,18 +684,24 @@ namespace Loqui.Generation
             fg.AppendLine($"if (object.Equals({this.Name}, {rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
+            fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
             if (this.TargetObjectGeneration == null)
             {
                 fg.AppendLine($"{retAccessor}.Overall = object.Equals({accessor}, {rhsAccessor});");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.TargetObjectGeneration.GetMaskString("bool")}>();");
                 fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor}, {rhsAccessor});");
                 fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual((b) => b);");
             }
+        }
+
+        public override void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+        {
+            fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
+            fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
     }
 }

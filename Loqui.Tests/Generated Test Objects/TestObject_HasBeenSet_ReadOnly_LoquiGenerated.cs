@@ -5108,6 +5108,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.BoolN = item.BoolN != rhs.BoolN;
                 }
+                else
+                {
+                    ret.BoolN = true;
+                }
+            }
+            else
+            {
+                ret.BoolN = false;
             }
             if (item.Bool_Property.HasBeenSet == rhs.Bool_Property.HasBeenSet)
             {
@@ -5115,6 +5123,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Bool = item.Bool != rhs.Bool;
                 }
+                else
+                {
+                    ret.Bool = true;
+                }
+            }
+            else
+            {
+                ret.Bool = false;
             }
             if (item.CharN_Property.HasBeenSet == rhs.CharN_Property.HasBeenSet)
             {
@@ -5122,6 +5138,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.CharN = item.CharN != rhs.CharN;
                 }
+                else
+                {
+                    ret.CharN = true;
+                }
+            }
+            else
+            {
+                ret.CharN = false;
             }
             if (item.Char_Property.HasBeenSet == rhs.Char_Property.HasBeenSet)
             {
@@ -5129,6 +5153,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Char = item.Char != rhs.Char;
                 }
+                else
+                {
+                    ret.Char = true;
+                }
+            }
+            else
+            {
+                ret.Char = false;
             }
             if (item.DateTimeNull_Property.HasBeenSet == rhs.DateTimeNull_Property.HasBeenSet)
             {
@@ -5136,6 +5168,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.DateTimeNull = item.DateTimeNull != rhs.DateTimeNull;
                 }
+                else
+                {
+                    ret.DateTimeNull = true;
+                }
+            }
+            else
+            {
+                ret.DateTimeNull = false;
             }
             if (item.DateTime_Property.HasBeenSet == rhs.DateTime_Property.HasBeenSet)
             {
@@ -5143,6 +5183,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.DateTime = item.DateTime != rhs.DateTime;
                 }
+                else
+                {
+                    ret.DateTime = true;
+                }
+            }
+            else
+            {
+                ret.DateTime = false;
             }
             if (item.DoubleN_Property.HasBeenSet == rhs.DoubleN_Property.HasBeenSet)
             {
@@ -5150,6 +5198,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.DoubleN = item.DoubleN != rhs.DoubleN;
                 }
+                else
+                {
+                    ret.DoubleN = true;
+                }
+            }
+            else
+            {
+                ret.DoubleN = false;
             }
             if (item.DoubleN_Ranged_Property.HasBeenSet == rhs.DoubleN_Ranged_Property.HasBeenSet)
             {
@@ -5157,6 +5213,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.DoubleN_Ranged = item.DoubleN_Ranged != rhs.DoubleN_Ranged;
                 }
+                else
+                {
+                    ret.DoubleN_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.DoubleN_Ranged = false;
             }
             if (item.Double_Property.HasBeenSet == rhs.Double_Property.HasBeenSet)
             {
@@ -5164,6 +5228,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Double = item.Double != rhs.Double;
                 }
+                else
+                {
+                    ret.Double = true;
+                }
+            }
+            else
+            {
+                ret.Double = false;
             }
             if (item.Double_Ranged_Property.HasBeenSet == rhs.Double_Ranged_Property.HasBeenSet)
             {
@@ -5171,6 +5243,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Double_Ranged = item.Double_Ranged != rhs.Double_Ranged;
                 }
+                else
+                {
+                    ret.Double_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Double_Ranged = false;
             }
             if (item.FloatN_Property.HasBeenSet == rhs.FloatN_Property.HasBeenSet)
             {
@@ -5178,6 +5258,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.FloatN = item.FloatN != rhs.FloatN;
                 }
+                else
+                {
+                    ret.FloatN = true;
+                }
+            }
+            else
+            {
+                ret.FloatN = false;
             }
             if (item.FloatN_Ranged_Property.HasBeenSet == rhs.FloatN_Ranged_Property.HasBeenSet)
             {
@@ -5185,6 +5273,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.FloatN_Ranged = item.FloatN_Ranged != rhs.FloatN_Ranged;
                 }
+                else
+                {
+                    ret.FloatN_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.FloatN_Ranged = false;
             }
             if (item.Float_Property.HasBeenSet == rhs.Float_Property.HasBeenSet)
             {
@@ -5192,6 +5288,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Float = item.Float != rhs.Float;
                 }
+                else
+                {
+                    ret.Float = true;
+                }
+            }
+            else
+            {
+                ret.Float = false;
             }
             if (item.Float_Ranged_Property.HasBeenSet == rhs.Float_Ranged_Property.HasBeenSet)
             {
@@ -5199,6 +5303,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Float_Ranged = item.Float_Ranged != rhs.Float_Ranged;
                 }
+                else
+                {
+                    ret.Float_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Float_Ranged = false;
             }
             if (item.Int16N_Property.HasBeenSet == rhs.Int16N_Property.HasBeenSet)
             {
@@ -5206,6 +5318,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int16N = item.Int16N != rhs.Int16N;
                 }
+                else
+                {
+                    ret.Int16N = true;
+                }
+            }
+            else
+            {
+                ret.Int16N = false;
             }
             if (item.Int16N_Ranged_Property.HasBeenSet == rhs.Int16N_Ranged_Property.HasBeenSet)
             {
@@ -5213,6 +5333,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int16N_Ranged = item.Int16N_Ranged != rhs.Int16N_Ranged;
                 }
+                else
+                {
+                    ret.Int16N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int16N_Ranged = false;
             }
             if (item.Int16_Property.HasBeenSet == rhs.Int16_Property.HasBeenSet)
             {
@@ -5220,6 +5348,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int16 = item.Int16 != rhs.Int16;
                 }
+                else
+                {
+                    ret.Int16 = true;
+                }
+            }
+            else
+            {
+                ret.Int16 = false;
             }
             if (item.Int16_Ranged_Property.HasBeenSet == rhs.Int16_Ranged_Property.HasBeenSet)
             {
@@ -5227,6 +5363,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int16_Ranged = item.Int16_Ranged != rhs.Int16_Ranged;
                 }
+                else
+                {
+                    ret.Int16_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int16_Ranged = false;
             }
             if (item.Int32N_Property.HasBeenSet == rhs.Int32N_Property.HasBeenSet)
             {
@@ -5234,6 +5378,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int32N = item.Int32N != rhs.Int32N;
                 }
+                else
+                {
+                    ret.Int32N = true;
+                }
+            }
+            else
+            {
+                ret.Int32N = false;
             }
             if (item.Int32N_Ranged_Property.HasBeenSet == rhs.Int32N_Ranged_Property.HasBeenSet)
             {
@@ -5241,6 +5393,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int32N_Ranged = item.Int32N_Ranged != rhs.Int32N_Ranged;
                 }
+                else
+                {
+                    ret.Int32N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int32N_Ranged = false;
             }
             if (item.Int32_Property.HasBeenSet == rhs.Int32_Property.HasBeenSet)
             {
@@ -5248,6 +5408,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int32 = item.Int32 != rhs.Int32;
                 }
+                else
+                {
+                    ret.Int32 = true;
+                }
+            }
+            else
+            {
+                ret.Int32 = false;
             }
             if (item.Int32_Ranged_Property.HasBeenSet == rhs.Int32_Ranged_Property.HasBeenSet)
             {
@@ -5255,6 +5423,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int32_Ranged = item.Int32_Ranged != rhs.Int32_Ranged;
                 }
+                else
+                {
+                    ret.Int32_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int32_Ranged = false;
             }
             if (item.Int64N_Property.HasBeenSet == rhs.Int64N_Property.HasBeenSet)
             {
@@ -5262,6 +5438,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int64N = item.Int64N != rhs.Int64N;
                 }
+                else
+                {
+                    ret.Int64N = true;
+                }
+            }
+            else
+            {
+                ret.Int64N = false;
             }
             if (item.Int64N_Ranged_Property.HasBeenSet == rhs.Int64N_Ranged_Property.HasBeenSet)
             {
@@ -5269,6 +5453,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int64N_Ranged = item.Int64N_Ranged != rhs.Int64N_Ranged;
                 }
+                else
+                {
+                    ret.Int64N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int64N_Ranged = false;
             }
             if (item.Int64_Property.HasBeenSet == rhs.Int64_Property.HasBeenSet)
             {
@@ -5276,6 +5468,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int64 = item.Int64 != rhs.Int64;
                 }
+                else
+                {
+                    ret.Int64 = true;
+                }
+            }
+            else
+            {
+                ret.Int64 = false;
             }
             if (item.Int64_Ranged_Property.HasBeenSet == rhs.Int64_Ranged_Property.HasBeenSet)
             {
@@ -5283,6 +5483,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int64_Ranged = item.Int64_Ranged != rhs.Int64_Ranged;
                 }
+                else
+                {
+                    ret.Int64_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int64_Ranged = false;
             }
             if (item.Int8N_Property.HasBeenSet == rhs.Int8N_Property.HasBeenSet)
             {
@@ -5290,6 +5498,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int8N = item.Int8N != rhs.Int8N;
                 }
+                else
+                {
+                    ret.Int8N = true;
+                }
+            }
+            else
+            {
+                ret.Int8N = false;
             }
             if (item.Int8N_Ranged_Property.HasBeenSet == rhs.Int8N_Ranged_Property.HasBeenSet)
             {
@@ -5297,6 +5513,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int8N_Ranged = item.Int8N_Ranged != rhs.Int8N_Ranged;
                 }
+                else
+                {
+                    ret.Int8N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int8N_Ranged = false;
             }
             if (item.Int8_Property.HasBeenSet == rhs.Int8_Property.HasBeenSet)
             {
@@ -5304,6 +5528,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int8 = item.Int8 != rhs.Int8;
                 }
+                else
+                {
+                    ret.Int8 = true;
+                }
+            }
+            else
+            {
+                ret.Int8 = false;
             }
             if (item.Int8_Ranged_Property.HasBeenSet == rhs.Int8_Ranged_Property.HasBeenSet)
             {
@@ -5311,6 +5543,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Int8_Ranged = item.Int8_Ranged != rhs.Int8_Ranged;
                 }
+                else
+                {
+                    ret.Int8_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.Int8_Ranged = false;
             }
             if (item.Unsafe_Property.HasBeenSet == rhs.Unsafe_Property.HasBeenSet)
             {
@@ -5318,6 +5558,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Unsafe = item.Unsafe != rhs.Unsafe;
                 }
+                else
+                {
+                    ret.Unsafe = true;
+                }
+            }
+            else
+            {
+                ret.Unsafe = false;
             }
             if (item.P2IntN_Property.HasBeenSet == rhs.P2IntN_Property.HasBeenSet)
             {
@@ -5325,6 +5573,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P2IntN = item.P2IntN != rhs.P2IntN;
                 }
+                else
+                {
+                    ret.P2IntN = true;
+                }
+            }
+            else
+            {
+                ret.P2IntN = false;
             }
             if (item.P2Int_Property.HasBeenSet == rhs.P2Int_Property.HasBeenSet)
             {
@@ -5332,6 +5588,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P2Int = item.P2Int != rhs.P2Int;
                 }
+                else
+                {
+                    ret.P2Int = true;
+                }
+            }
+            else
+            {
+                ret.P2Int = false;
             }
             if (item.P3DoubleN_Property.HasBeenSet == rhs.P3DoubleN_Property.HasBeenSet)
             {
@@ -5339,6 +5603,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P3DoubleN = item.P3DoubleN != rhs.P3DoubleN;
                 }
+                else
+                {
+                    ret.P3DoubleN = true;
+                }
+            }
+            else
+            {
+                ret.P3DoubleN = false;
             }
             if (item.P3Double_Property.HasBeenSet == rhs.P3Double_Property.HasBeenSet)
             {
@@ -5346,6 +5618,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P3Double = item.P3Double != rhs.P3Double;
                 }
+                else
+                {
+                    ret.P3Double = true;
+                }
+            }
+            else
+            {
+                ret.P3Double = false;
             }
             if (item.P3IntN_Property.HasBeenSet == rhs.P3IntN_Property.HasBeenSet)
             {
@@ -5353,6 +5633,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P3IntN = item.P3IntN != rhs.P3IntN;
                 }
+                else
+                {
+                    ret.P3IntN = true;
+                }
+            }
+            else
+            {
+                ret.P3IntN = false;
             }
             if (item.P3Int_Property.HasBeenSet == rhs.P3Int_Property.HasBeenSet)
             {
@@ -5360,6 +5648,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.P3Int = item.P3Int != rhs.P3Int;
                 }
+                else
+                {
+                    ret.P3Int = true;
+                }
+            }
+            else
+            {
+                ret.P3Int = false;
             }
             if (item.PercentN_Property.HasBeenSet == rhs.PercentN_Property.HasBeenSet)
             {
@@ -5367,6 +5663,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.PercentN = item.PercentN != rhs.PercentN;
                 }
+                else
+                {
+                    ret.PercentN = true;
+                }
+            }
+            else
+            {
+                ret.PercentN = false;
             }
             if (item.Percent_Property.HasBeenSet == rhs.Percent_Property.HasBeenSet)
             {
@@ -5374,6 +5678,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Percent = item.Percent != rhs.Percent;
                 }
+                else
+                {
+                    ret.Percent = true;
+                }
+            }
+            else
+            {
+                ret.Percent = false;
             }
             if (item.RangeInt8N_Property.HasBeenSet == rhs.RangeInt8N_Property.HasBeenSet)
             {
@@ -5381,6 +5693,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt8N = item.RangeInt8N != rhs.RangeInt8N;
                 }
+                else
+                {
+                    ret.RangeInt8N = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt8N = false;
             }
             if (item.RangeInt8_Property.HasBeenSet == rhs.RangeInt8_Property.HasBeenSet)
             {
@@ -5388,6 +5708,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt8 = item.RangeInt8 != rhs.RangeInt8;
                 }
+                else
+                {
+                    ret.RangeInt8 = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt8 = false;
             }
             if (item.RangeInt16N_Property.HasBeenSet == rhs.RangeInt16N_Property.HasBeenSet)
             {
@@ -5395,6 +5723,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt16N = item.RangeInt16N != rhs.RangeInt16N;
                 }
+                else
+                {
+                    ret.RangeInt16N = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt16N = false;
             }
             if (item.RangeInt16_Property.HasBeenSet == rhs.RangeInt16_Property.HasBeenSet)
             {
@@ -5402,6 +5738,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt16 = item.RangeInt16 != rhs.RangeInt16;
                 }
+                else
+                {
+                    ret.RangeInt16 = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt16 = false;
             }
             if (item.RangeInt32N_Property.HasBeenSet == rhs.RangeInt32N_Property.HasBeenSet)
             {
@@ -5409,6 +5753,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt32N = item.RangeInt32N != rhs.RangeInt32N;
                 }
+                else
+                {
+                    ret.RangeInt32N = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt32N = false;
             }
             if (item.RangeInt32_Property.HasBeenSet == rhs.RangeInt32_Property.HasBeenSet)
             {
@@ -5416,6 +5768,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt32 = item.RangeInt32 != rhs.RangeInt32;
                 }
+                else
+                {
+                    ret.RangeInt32 = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt32 = false;
             }
             if (item.RangeInt64N_Property.HasBeenSet == rhs.RangeInt64N_Property.HasBeenSet)
             {
@@ -5423,6 +5783,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt64N = item.RangeInt64N != rhs.RangeInt64N;
                 }
+                else
+                {
+                    ret.RangeInt64N = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt64N = false;
             }
             if (item.RangeInt64_Property.HasBeenSet == rhs.RangeInt64_Property.HasBeenSet)
             {
@@ -5430,6 +5798,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeInt64 = item.RangeInt64 != rhs.RangeInt64;
                 }
+                else
+                {
+                    ret.RangeInt64 = true;
+                }
+            }
+            else
+            {
+                ret.RangeInt64 = false;
             }
             if (item.RangeUInt8N_Property.HasBeenSet == rhs.RangeUInt8N_Property.HasBeenSet)
             {
@@ -5437,6 +5813,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt8N = item.RangeUInt8N != rhs.RangeUInt8N;
                 }
+                else
+                {
+                    ret.RangeUInt8N = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt8N = false;
             }
             if (item.RangeUInt8_Property.HasBeenSet == rhs.RangeUInt8_Property.HasBeenSet)
             {
@@ -5444,6 +5828,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt8 = item.RangeUInt8 != rhs.RangeUInt8;
                 }
+                else
+                {
+                    ret.RangeUInt8 = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt8 = false;
             }
             if (item.RangeUInt16N_Property.HasBeenSet == rhs.RangeUInt16N_Property.HasBeenSet)
             {
@@ -5451,6 +5843,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt16N = item.RangeUInt16N != rhs.RangeUInt16N;
                 }
+                else
+                {
+                    ret.RangeUInt16N = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt16N = false;
             }
             if (item.RangeUInt16_Property.HasBeenSet == rhs.RangeUInt16_Property.HasBeenSet)
             {
@@ -5458,6 +5858,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt16 = item.RangeUInt16 != rhs.RangeUInt16;
                 }
+                else
+                {
+                    ret.RangeUInt16 = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt16 = false;
             }
             if (item.RangeUInt32N_Property.HasBeenSet == rhs.RangeUInt32N_Property.HasBeenSet)
             {
@@ -5465,6 +5873,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt32N = item.RangeUInt32N != rhs.RangeUInt32N;
                 }
+                else
+                {
+                    ret.RangeUInt32N = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt32N = false;
             }
             if (item.RangeUInt32_Property.HasBeenSet == rhs.RangeUInt32_Property.HasBeenSet)
             {
@@ -5472,6 +5888,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt32 = item.RangeUInt32 != rhs.RangeUInt32;
                 }
+                else
+                {
+                    ret.RangeUInt32 = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt32 = false;
             }
             if (item.RangeUInt64N_Property.HasBeenSet == rhs.RangeUInt64N_Property.HasBeenSet)
             {
@@ -5479,6 +5903,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt64N = item.RangeUInt64N != rhs.RangeUInt64N;
                 }
+                else
+                {
+                    ret.RangeUInt64N = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt64N = false;
             }
             if (item.RangeUInt64_Property.HasBeenSet == rhs.RangeUInt64_Property.HasBeenSet)
             {
@@ -5486,6 +5918,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.RangeUInt64 = item.RangeUInt64 != rhs.RangeUInt64;
                 }
+                else
+                {
+                    ret.RangeUInt64 = true;
+                }
+            }
+            else
+            {
+                ret.RangeUInt64 = false;
             }
             if (item.String_Property.HasBeenSet == rhs.String_Property.HasBeenSet)
             {
@@ -5493,6 +5933,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.String = item.String != rhs.String;
                 }
+                else
+                {
+                    ret.String = true;
+                }
+            }
+            else
+            {
+                ret.String = false;
             }
             if (item.UDoubleN_Property.HasBeenSet == rhs.UDoubleN_Property.HasBeenSet)
             {
@@ -5500,6 +5948,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UDoubleN = item.UDoubleN != rhs.UDoubleN;
                 }
+                else
+                {
+                    ret.UDoubleN = true;
+                }
+            }
+            else
+            {
+                ret.UDoubleN = false;
             }
             if (item.UDoubleN_Ranged_Property.HasBeenSet == rhs.UDoubleN_Ranged_Property.HasBeenSet)
             {
@@ -5507,6 +5963,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UDoubleN_Ranged = item.UDoubleN_Ranged != rhs.UDoubleN_Ranged;
                 }
+                else
+                {
+                    ret.UDoubleN_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UDoubleN_Ranged = false;
             }
             if (item.UDouble_Property.HasBeenSet == rhs.UDouble_Property.HasBeenSet)
             {
@@ -5514,6 +5978,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UDouble = item.UDouble != rhs.UDouble;
                 }
+                else
+                {
+                    ret.UDouble = true;
+                }
+            }
+            else
+            {
+                ret.UDouble = false;
             }
             if (item.UDouble_Ranged_Property.HasBeenSet == rhs.UDouble_Ranged_Property.HasBeenSet)
             {
@@ -5521,6 +5993,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UDouble_Ranged = item.UDouble_Ranged != rhs.UDouble_Ranged;
                 }
+                else
+                {
+                    ret.UDouble_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UDouble_Ranged = false;
             }
             if (item.UInt16N_Property.HasBeenSet == rhs.UInt16N_Property.HasBeenSet)
             {
@@ -5528,6 +6008,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt16N = item.UInt16N != rhs.UInt16N;
                 }
+                else
+                {
+                    ret.UInt16N = true;
+                }
+            }
+            else
+            {
+                ret.UInt16N = false;
             }
             if (item.UInt16N_Ranged_Property.HasBeenSet == rhs.UInt16N_Ranged_Property.HasBeenSet)
             {
@@ -5535,6 +6023,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt16N_Ranged = item.UInt16N_Ranged != rhs.UInt16N_Ranged;
                 }
+                else
+                {
+                    ret.UInt16N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt16N_Ranged = false;
             }
             if (item.UInt16_Property.HasBeenSet == rhs.UInt16_Property.HasBeenSet)
             {
@@ -5542,6 +6038,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt16 = item.UInt16 != rhs.UInt16;
                 }
+                else
+                {
+                    ret.UInt16 = true;
+                }
+            }
+            else
+            {
+                ret.UInt16 = false;
             }
             if (item.UInt16_Ranged_Property.HasBeenSet == rhs.UInt16_Ranged_Property.HasBeenSet)
             {
@@ -5549,6 +6053,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt16_Ranged = item.UInt16_Ranged != rhs.UInt16_Ranged;
                 }
+                else
+                {
+                    ret.UInt16_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt16_Ranged = false;
             }
             if (item.UInt32N_Property.HasBeenSet == rhs.UInt32N_Property.HasBeenSet)
             {
@@ -5556,6 +6068,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt32N = item.UInt32N != rhs.UInt32N;
                 }
+                else
+                {
+                    ret.UInt32N = true;
+                }
+            }
+            else
+            {
+                ret.UInt32N = false;
             }
             if (item.UInt32N_Ranged_Property.HasBeenSet == rhs.UInt32N_Ranged_Property.HasBeenSet)
             {
@@ -5563,6 +6083,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt32N_Ranged = item.UInt32N_Ranged != rhs.UInt32N_Ranged;
                 }
+                else
+                {
+                    ret.UInt32N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt32N_Ranged = false;
             }
             if (item.UInt32_Property.HasBeenSet == rhs.UInt32_Property.HasBeenSet)
             {
@@ -5570,6 +6098,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt32 = item.UInt32 != rhs.UInt32;
                 }
+                else
+                {
+                    ret.UInt32 = true;
+                }
+            }
+            else
+            {
+                ret.UInt32 = false;
             }
             if (item.UInt32_Ranged_Property.HasBeenSet == rhs.UInt32_Ranged_Property.HasBeenSet)
             {
@@ -5577,6 +6113,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt32_Ranged = item.UInt32_Ranged != rhs.UInt32_Ranged;
                 }
+                else
+                {
+                    ret.UInt32_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt32_Ranged = false;
             }
             if (item.UInt64N_Property.HasBeenSet == rhs.UInt64N_Property.HasBeenSet)
             {
@@ -5584,6 +6128,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt64N = item.UInt64N != rhs.UInt64N;
                 }
+                else
+                {
+                    ret.UInt64N = true;
+                }
+            }
+            else
+            {
+                ret.UInt64N = false;
             }
             if (item.UInt64N_Ranged_Property.HasBeenSet == rhs.UInt64N_Ranged_Property.HasBeenSet)
             {
@@ -5591,6 +6143,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt64N_Ranged = item.UInt64N_Ranged != rhs.UInt64N_Ranged;
                 }
+                else
+                {
+                    ret.UInt64N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt64N_Ranged = false;
             }
             if (item.UInt64_Property.HasBeenSet == rhs.UInt64_Property.HasBeenSet)
             {
@@ -5598,6 +6158,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt64 = item.UInt64 != rhs.UInt64;
                 }
+                else
+                {
+                    ret.UInt64 = true;
+                }
+            }
+            else
+            {
+                ret.UInt64 = false;
             }
             if (item.UInt64_Ranged_Property.HasBeenSet == rhs.UInt64_Ranged_Property.HasBeenSet)
             {
@@ -5605,6 +6173,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt64_Ranged = item.UInt64_Ranged != rhs.UInt64_Ranged;
                 }
+                else
+                {
+                    ret.UInt64_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt64_Ranged = false;
             }
             if (item.UInt8N_Property.HasBeenSet == rhs.UInt8N_Property.HasBeenSet)
             {
@@ -5612,6 +6188,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt8N = item.UInt8N != rhs.UInt8N;
                 }
+                else
+                {
+                    ret.UInt8N = true;
+                }
+            }
+            else
+            {
+                ret.UInt8N = false;
             }
             if (item.UInt8N_Ranged_Property.HasBeenSet == rhs.UInt8N_Ranged_Property.HasBeenSet)
             {
@@ -5619,6 +6203,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt8N_Ranged = item.UInt8N_Ranged != rhs.UInt8N_Ranged;
                 }
+                else
+                {
+                    ret.UInt8N_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt8N_Ranged = false;
             }
             if (item.UInt8_Property.HasBeenSet == rhs.UInt8_Property.HasBeenSet)
             {
@@ -5626,6 +6218,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt8 = item.UInt8 != rhs.UInt8;
                 }
+                else
+                {
+                    ret.UInt8 = true;
+                }
+            }
+            else
+            {
+                ret.UInt8 = false;
             }
             if (item.UInt8_Ranged_Property.HasBeenSet == rhs.UInt8_Ranged_Property.HasBeenSet)
             {
@@ -5633,6 +6233,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.UInt8_Ranged = item.UInt8_Ranged != rhs.UInt8_Ranged;
                 }
+                else
+                {
+                    ret.UInt8_Ranged = true;
+                }
+            }
+            else
+            {
+                ret.UInt8_Ranged = false;
             }
             if (item.Enum_Property.HasBeenSet == rhs.Enum_Property.HasBeenSet)
             {
@@ -5640,6 +6248,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.Enum = item.Enum != rhs.Enum;
                 }
+                else
+                {
+                    ret.Enum = true;
+                }
+            }
+            else
+            {
+                ret.Enum = false;
             }
             if (item.WildCard_Property.HasBeenSet == rhs.WildCard_Property.HasBeenSet)
             {
@@ -5647,6 +6263,14 @@ namespace Loqui.Tests.Internals
                 {
                     ret.WildCard = item.WildCard != rhs.WildCard;
                 }
+                else
+                {
+                    ret.WildCard = true;
+                }
+            }
+            else
+            {
+                ret.WildCard = false;
             }
             if (item.Ref_Property.HasBeenSet == rhs.Ref_Property.HasBeenSet)
             {
@@ -5656,6 +6280,16 @@ namespace Loqui.Tests.Internals
                     ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
                     ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.Ref.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.Ref.Overall = false;
             }
             if (item.Ref_NotNull_Property.HasBeenSet == rhs.Ref_NotNull_Property.HasBeenSet)
             {
@@ -5665,6 +6299,16 @@ namespace Loqui.Tests.Internals
                     ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
                     ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.Ref_NotNull.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.Ref_NotNull.Overall = false;
             }
             if (item.Ref_Singleton_Property.HasBeenSet == rhs.Ref_Singleton_Property.HasBeenSet)
             {
@@ -5674,6 +6318,16 @@ namespace Loqui.Tests.Internals
                     ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
                     ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.Ref_Singleton.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.Ref_Singleton.Overall = false;
             }
             if (item.RefGetter_Property.HasBeenSet == rhs.RefGetter_Property.HasBeenSet)
             {
@@ -5683,6 +6337,16 @@ namespace Loqui.Tests.Internals
                     ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
                     ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefGetter.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefGetter.Overall = false;
             }
             if (item.RefGetter_NotNull_Property.HasBeenSet == rhs.RefGetter_NotNull_Property.HasBeenSet)
             {
@@ -5692,6 +6356,16 @@ namespace Loqui.Tests.Internals
                     ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
                     ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefGetter_NotNull.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefGetter_NotNull.Overall = false;
             }
             if (item.RefGetter_Singleton_Property.HasBeenSet == rhs.RefGetter_Singleton_Property.HasBeenSet)
             {
@@ -5701,6 +6375,16 @@ namespace Loqui.Tests.Internals
                     ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
                     ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefGetter_Singleton.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefGetter_Singleton.Overall = false;
             }
             if (item.RefSetter_Property.HasBeenSet == rhs.RefSetter_Property.HasBeenSet)
             {
@@ -5710,6 +6394,16 @@ namespace Loqui.Tests.Internals
                     ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
                     ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefSetter.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefSetter.Overall = false;
             }
             if (item.RefSetter_NotNull_Property.HasBeenSet == rhs.RefSetter_NotNull_Property.HasBeenSet)
             {
@@ -5719,6 +6413,16 @@ namespace Loqui.Tests.Internals
                     ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
                     ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefSetter_NotNull.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefSetter_NotNull.Overall = false;
             }
             if (item.RefSetter_Singleton_Property.HasBeenSet == rhs.RefSetter_Singleton_Property.HasBeenSet)
             {
@@ -5728,19 +6432,41 @@ namespace Loqui.Tests.Internals
                     ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
                     ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b);
                 }
+                else
+                {
+                    ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                    ret.RefSetter_Singleton.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                ret.RefSetter_Singleton.Overall = false;
             }
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)
                 {
+                    ret.List = new MaskItem<bool, IEnumerable<bool>>();
                     ret.List.Specific = item.List.SelectAgainst<Boolean, bool>(rhs.List, ((l, r) => object.Equals(l, r)), out ret.List.Overall);
                     ret.List.Overall = ret.List.Overall && ret.List.Specific.All((b) => b);
                 }
+                else
+                {
+                    ret.List = new MaskItem<bool, IEnumerable<bool>>();
+                    ret.List.Overall = true;
+                }
+            }
+            else
+            {
+                ret.List = new MaskItem<bool, IEnumerable<bool>>();
+                ret.List.Overall = false;
             }
             if (item.RefList.HasBeenSet == rhs.RefList.HasBeenSet)
             {
                 if (item.RefList.HasBeenSet)
                 {
+                    ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
                     ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
@@ -5752,19 +6478,41 @@ namespace Loqui.Tests.Internals
                     ), out ret.RefList.Overall);
                     ret.RefList.Overall = ret.RefList.Overall && ret.RefList.Specific.All((b) => b.Overall);
                 }
+                else
+                {
+                    ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                    ret.RefList.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                ret.RefList.Overall = false;
             }
             if (item.Dict.HasBeenSet == rhs.Dict.HasBeenSet)
             {
                 if (item.Dict.HasBeenSet)
                 {
+                    ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
                     ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool, bool>>(rhs.Dict, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
                     ret.Dict.Overall = ret.Dict.Overall && ret.Dict.Specific.All((b) => b.Key && b.Value);
                 }
+                else
+                {
+                    ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
+                    ret.Dict.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
+                ret.Dict.Overall = false;
             }
             if (item.RefDict.HasBeenSet == rhs.RefDict.HasBeenSet)
             {
                 if (item.RefDict.HasBeenSet)
                 {
+                    ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
                     ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.RefDict, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
@@ -5780,11 +6528,22 @@ namespace Loqui.Tests.Internals
                     ), out ret.RefDict.Overall);
                     ret.RefDict.Overall = ret.RefDict.Overall && ret.RefDict.Specific.All((b) => b.Key.Overall && b.Value.Overall );
                 }
+                else
+                {
+                    ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+                    ret.RefDict.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+                ret.RefDict.Overall = false;
             }
             if (item.KeyRefDict.HasBeenSet == rhs.KeyRefDict.HasBeenSet)
             {
                 if (item.KeyRefDict.HasBeenSet)
                 {
+                    ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
                     ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>(rhs.KeyRefDict, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
@@ -5797,11 +6556,22 @@ namespace Loqui.Tests.Internals
                     ), out ret.KeyRefDict.Overall);
                     ret.KeyRefDict.Overall = ret.KeyRefDict.Overall && ret.KeyRefDict.Specific.All((b) => b.Key.Overall && b.Value);
                 }
+                else
+                {
+                    ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
+                    ret.KeyRefDict.Overall = true;
+                }
+            }
+            else
+            {
+                ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
+                ret.KeyRefDict.Overall = false;
             }
             if (item.ValRefDict.HasBeenSet == rhs.ValRefDict.HasBeenSet)
             {
                 if (item.ValRefDict.HasBeenSet)
                 {
+                    ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
                     ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.ValRefDict, ((l, r) =>
                     {
                         bool keyItemRet = object.Equals(l.Key, r.Key);
@@ -5814,11 +6584,22 @@ namespace Loqui.Tests.Internals
                     ), out ret.ValRefDict.Overall);
                     ret.ValRefDict.Overall = ret.ValRefDict.Overall && ret.ValRefDict.Specific.All((b) => b.Key && b.Value.Overall);
                 }
+                else
+                {
+                    ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+                    ret.ValRefDict.Overall = true;
+                }
+            }
+            else
+            {
+                ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+                ret.ValRefDict.Overall = false;
             }
             if (item.DictKeyedValue.HasBeenSet == rhs.DictKeyedValue.HasBeenSet)
             {
                 if (item.DictKeyedValue.HasBeenSet)
                 {
+                    ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
                     ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
@@ -5830,6 +6611,16 @@ namespace Loqui.Tests.Internals
                     ), out ret.DictKeyedValue.Overall);
                     ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall && ret.DictKeyedValue.Specific.All((b) => b.Overall);
                 }
+                else
+                {
+                    ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                    ret.DictKeyedValue.Overall = true;
+                }
+            }
+            else
+            {
+                ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                ret.DictKeyedValue.Overall = false;
             }
         }
 

@@ -105,7 +105,9 @@ namespace Loqui.Generation
 
         public abstract void GenerateForEquals(FileGeneration fg, string rhsAccessor);
 
-        public abstract void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
+        public abstract void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
+
+        public abstract void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on);
 
         public abstract void GenerateForHash(FileGeneration fg, string hashResultAccessor);
 
