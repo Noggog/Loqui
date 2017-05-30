@@ -6146,7 +6146,7 @@ namespace Loqui.Tests.Internals
 
         public void ToString(FileGeneration fg)
         {
-            fg.AppendLine("TestObject_HasBeenSet_Derivative_RPC_ErrorMask =>");
+            fg.AppendLine($"{nameof(TestObject_HasBeenSet_Derivative_RPC_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {

@@ -77,7 +77,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
+                        fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString("T")})}} =>\");");
                         fg.AppendLine($"fg.AppendLine(\"[\");");
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))

@@ -847,7 +847,7 @@ namespace Loqui.Tests.Internals
 
         public void ToString(FileGeneration fg)
         {
-            fg.AppendLine("TestGenericObject_SubClass_ErrorMask =>");
+            fg.AppendLine($"{nameof(TestGenericObject_SubClass_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
