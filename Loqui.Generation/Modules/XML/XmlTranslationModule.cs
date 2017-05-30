@@ -167,66 +167,9 @@ namespace Loqui.Generation
 
         private void GenerateRead(ObjectGeneration obj, FileGeneration fg)
         {
-            var param = new XmlReadGenerationParameters()
-            {
-                Obj = obj,
-                Accessor = "this",
-                FG = fg,
-                Field = null,
-                Name = "Root",
-                XmlNodeName = "root",
-                XmlGen = this,
-                MaskAccessor = "mask"
-            };
-
             if (!obj.Abstract)
             {
-                fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(Stream stream)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"using (var reader = new StreamReader(stream))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine("return Create_XML(XElement.Parse(reader.ReadToEnd()));");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(XElement root)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var ret = new {obj.ObjectName}();");
-                    fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"root: root,");
-                        fg.AppendLine($"item: ret,");
-                        fg.AppendLine($"skipProtected: false,");
-                        fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
-                        fg.AppendLine($"cmds: null);");
-                    }
-                    fg.AppendLine("return ret;");
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public static {obj.ObjectName} Create_XML(XElement root, out {obj.ErrorMask} errorMask)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var ret = new {obj.ObjectName}();");
-                    fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"root: root,");
-                        fg.AppendLine($"item: ret,");
-                        fg.AppendLine($"skipProtected: false,");
-                        fg.AppendLine($"doMasks: true,");
-                        fg.AppendLine($"mask: out errorMask,");
-                        fg.AppendLine($"cmds: null);");
-                    }
-                    fg.AppendLine("return ret;");
-                }
-                fg.AppendLine();
+                GenerateXmlCreate(obj, fg);
             }
 
             if (obj is StructGeneration) return;
@@ -308,7 +251,171 @@ namespace Loqui.Generation
             }
             using (new RegionWrapper(fg, "XML Copy In"))
             {
-                CommonXmlCopyIn(obj, fg);
+                //CommonXmlCopyIn(obj, fg);
+            }
+        }
+
+        private void GenerateXmlCreate(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(Stream stream)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"using (var reader = new StreamReader(stream))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("return Create_XML(XElement.Parse(reader.ReadToEnd()));");
+                }
+            }
+            fg.AppendLine();
+
+            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(XElement root)");
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    "return Create_XML"))
+                {
+                    args.Add("root: root");
+                    args.Add("doMasks: false");
+                    args.Add("errorMask: out var errorMask");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {obj.ObjectName} Create_XML"))
+            {
+                args.Add("XElement root");
+                args.Add($"out {obj.ErrorMask} errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    "return Create_XML"))
+                {
+                    args.Add("root: root");
+                    args.Add("doMasks: true");
+                    args.Add("errorMask: out errorMask");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {obj.ObjectName} Create_XML"))
+            {
+                args.Add("XElement root");
+                args.Add("bool doMasks");
+                args.Add($"out {obj.ErrorMask} errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
+                using (var args = new ArgsWrapper(fg,
+                    $"var ret = Create_XML_Internal"))
+                {
+                    args.Add("root: root");
+                    args.Add("doMasks: doMasks");
+                    args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
+                }
+                fg.AppendLine($"errorMask = errMaskRet;");
+                fg.AppendLine($"return ret;");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"private static {obj.ObjectName} Create_XML_Internal"))
+            {
+                args.Add("XElement root");
+                args.Add("bool doMasks");
+                args.Add($"Func<{obj.ErrorMask}> errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("foreach (var elem in root.Elements())");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (!elem.TryGetAttribute(\"name\", out XAttribute name)) continue;");
+                        using (var args = new ArgsWrapper(fg,
+                            "Fill_XML_Internal"))
+                        {
+                            args.Add("item: ret");
+                            args.Add("root: elem");
+                            args.Add("name: name.Value");
+                            args.Add("doMasks: doMasks");
+                            args.Add("errorMask: errorMask");
+                        }
+                    }
+                }
+                fg.AppendLine("catch (Exception ex)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("if (!doMasks) throw;");
+                    fg.AppendLine("errorMask().Overall = ex;");
+                }
+                fg.AppendLine("return ret;");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"protected static void Fill_XML_Internal"))
+            {
+                args.Add($"{obj.ObjectName} item");
+                args.Add("XElement root");
+                args.Add("string name");
+                args.Add("bool doMasks");
+                args.Add($"Func<{obj.ErrorMask}> errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("switch (name)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var field in obj.IterateFields())
+                    {
+                        if (!this.TypeGenerations.TryGetValue(field.Field.GetType(), out var generator))
+                        {
+                            throw new ArgumentException("Unsupported type generator: " + field.Field);
+                        }
+
+                        fg.AppendLine($"case \"{field.Field.Name}\":");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("try");
+                            using (new BraceWrapper(fg))
+                            {
+                                generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", "errorMask");
+                            }
+                            fg.AppendLine("catch (Exception ex)");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine("if (!doMasks) throw;");
+                                fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                            }
+                            fg.AppendLine("break;");
+                        }
+                    }
+
+                    fg.AppendLine("default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            using (var args = new ArgsWrapper(fg,
+                                $"{obj.BaseClass.ObjectName}.Fill_XML_Internal"))
+                            {
+                                args.Add("item: item");
+                                args.Add("root: root");
+                                args.Add("name: name");
+                                args.Add("doMasks: doMasks");
+                                args.Add("errorMask: errorMask");
+                            }
+                        }
+                        fg.AppendLine("break;");
+                    }
+                }
             }
         }
 

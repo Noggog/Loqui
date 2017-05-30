@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class PrimitiveGeneration : TypeGeneration
+    public abstract class PrimitiveType : TypeGeneration
     {
         public string DefaultValue;
         public bool HasDefault;
@@ -17,9 +17,8 @@ namespace Loqui.Generation
                     case NotifyingOption.None:
                         return $"{this.Name}";
                     case NotifyingOption.HasBeenSet:
-                        return $"{this.ProtectedProperty}.Item";
                     case NotifyingOption.Notifying:
-                        return $"{this.ProtectedProperty}.Value";
+                        return $"{this.ProtectedProperty}.Item";
                     default:
                         throw new NotImplementedException();
                 }

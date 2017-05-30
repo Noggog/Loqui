@@ -88,11 +88,39 @@ namespace Loqui.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doErrorMask: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
             errorMask = retErrorMask;
+        }
+
+        public void CopyFieldsFrom(
+            ITestGenericObject_SubClassGetter<S, T, RBase, R> rhs,
+            bool doErrorMask,
+            out TestGenericObject_SubClass_ErrorMask errorMask,
+            TestGenericObject_SubClass_CopyMask copyMask = null,
+            ITestGenericObject_SubClassGetter<S, T, RBase, R> def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (doErrorMask)
+            {
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    errorMask: out errorMask,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
+            else
+            {
+                errorMask = null;
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
         }
 
         #endregion
@@ -138,30 +166,82 @@ namespace Loqui.Tests
 
         public new static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(XElement root)
         {
-            var ret = new TestGenericObject_SubClass<S, T, RBase, R>();
-            LoquiXmlTranslation<TestGenericObject_SubClass<S, T, RBase, R>, TestGenericObject_SubClass_ErrorMask>.Instance.CopyIn(
+            return Create_XML(
                 root: root,
-                item: ret,
-                skipProtected: false,
                 doMasks: false,
-                mask: out TestGenericObject_SubClass_ErrorMask errorMask,
-                cmds: null);
+                errorMask: out var errorMask);
+        }
+
+        public static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(
+            XElement root,
+            out TestGenericObject_SubClass_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(
+            XElement root,
+            bool doMasks,
+            out TestGenericObject_SubClass_ErrorMask errorMask)
+        {
+            TestGenericObject_SubClass_ErrorMask errMaskRet = null;
+            var ret = Create_XML_Internal(
+                root: root,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_ErrorMask()) : default(Func<TestGenericObject_SubClass_ErrorMask>));
+            errorMask = errMaskRet;
             return ret;
         }
 
-        public static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(XElement root, out TestGenericObject_SubClass_ErrorMask errorMask)
+        private static TestGenericObject_SubClass<S, T, RBase, R> Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_ErrorMask> errorMask)
         {
             var ret = new TestGenericObject_SubClass<S, T, RBase, R>();
-            LoquiXmlTranslation<TestGenericObject_SubClass<S, T, RBase, R>, TestGenericObject_SubClass_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: ret,
-                skipProtected: false,
-                doMasks: true,
-                mask: out errorMask,
-                cmds: null);
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: name.Value,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
             return ret;
         }
 
+        protected static void Fill_XML_Internal(
+            TestGenericObject_SubClass<S, T, RBase, R> item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                default:
+                    TestGenericObject<T, RBase, R>.Fill_XML_Internal(
+                        item: item,
+                        root: root,
+                        name: name,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                    break;
+            }
+        }
         public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject_SubClass<S, T, RBase, R>, TestGenericObject_SubClass_ErrorMask>.Instance.CopyIn(
@@ -705,102 +785,6 @@ namespace Loqui.Tests.Internals
                     if (!string.IsNullOrEmpty(name))
                     {
                         writer.WriteAttributeString("name", name);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (!doMasks) throw;
-                errorMask().Overall = ex;
-            }
-        }
-        #endregion
-
-        #region XML Copy In
-        public static void CopyIn_XML<S, T, RBase, R>(
-            ITestGenericObject_SubClass<S, T, RBase, R> item,
-            Stream stream,
-            bool unsetMissing = false)
-            where S : ObjectToRef
-            where T : ILoquiObject
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: false,
-                errorMask: out var errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML<S, T, RBase, R>(
-            ITestGenericObject_SubClass<S, T, RBase, R> item,
-            Stream stream,
-            out TestGenericObject_SubClass_ErrorMask errorMask,
-            bool unsetMissing = false)
-            where S : ObjectToRef
-            where T : ILoquiObject
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: true,
-                errorMask: out errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML<S, T, RBase, R>(
-            ITestGenericObject_SubClass<S, T, RBase, R> item,
-            XElement root,
-            bool doMasks,
-            out TestGenericObject_SubClass_ErrorMask errorMask,
-            bool unsetMissing = false)
-            where S : ObjectToRef
-            where T : ILoquiObject
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
-        {
-            TestGenericObject_SubClass_ErrorMask errMaskRet = null;
-            CopyIn_XML_Internal(
-                item: item,
-                root: root,
-                unsetMissing: unsetMissing,
-                doMasks: doMasks,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_ErrorMask()) : default(Func<TestGenericObject_SubClass_ErrorMask>));
-            errorMask = errMaskRet;
-        }
-
-        private static void CopyIn_XML_Internal<S, T, RBase, R>(
-            ITestGenericObject_SubClass<S, T, RBase, R> item,
-            XElement root,
-            bool unsetMissing,
-            bool doMasks,
-            Func<TestGenericObject_SubClass_ErrorMask> errorMask)
-            where S : ObjectToRef
-            where T : ILoquiObject
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
-        {
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
-                    switch (name.Value)
-                    {
                     }
                 }
             }

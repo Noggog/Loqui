@@ -62,29 +62,30 @@ namespace Loqui.Generation
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.TargetObjectGeneration != null)
             {
-                if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter)
+                if (loquiGen.SingletonType == LoquiType.SingletonLevel.Singleton)
                 {
-                    if (loquiGen.SingletonType == LoquiType.SingletonLevel.Singleton)
+                    using (var args = new ArgsWrapper(fg,
+                        $"var tmp = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
                     {
-                        return;
+                        args.Add($"root: {nodeAccessor}");
+                        args.Add($"doMasks: doMasks");
+                        args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} createMask");
                     }
-                    else
+                    using (var args = new ArgsWrapper(fg,
+                        $"{itemAccessor}.CopyFieldsFrom"))
                     {
-                        using (var args = new ArgsWrapper(fg,
-                            $"{itemAccessor} = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
-                        {
-                            args.Add($"root: {nodeAccessor}");
-                            args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
-                        }
+                        args.Add("rhs: tmp");
+                        args.Add("def: null");
+                        args.Add("doErrorMask: doMasks");
+                        args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} copyMask");
                     }
                 }
                 else
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyIn_XML"))
+                        $"{itemAccessor} = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
                     {
                         args.Add($"root: {nodeAccessor}");
-                        args.Add($"item: {itemAccessor}");
                         args.Add($"doMasks: doMasks");
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
                     }

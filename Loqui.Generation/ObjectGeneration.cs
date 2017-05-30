@@ -751,7 +751,6 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                // Generic version with default
                 using (var args = new FunctionWrapper(fg,
                     $"public void CopyFieldsFrom"))
                 {
@@ -780,12 +779,53 @@ namespace Loqui.Generation
                         args.Add("item: this");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
-                        args.Add("doErrorMask: false");
+                        args.Add("doErrorMask: true");
                         args.Add("errorMask: maskGetter");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
                     }
                     fg.AppendLine("errorMask = retErrorMask;");
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public void CopyFieldsFrom"))
+                {
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"bool doErrorMask");
+                    args.Add($"out {this.ErrorMask} errorMask");
+                    args.Add($"{this.CopyMask} copyMask = null");
+                    args.Add($"{this.Getter_InterfaceStr} def = null");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("if (doErrorMask)");
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            "CopyFieldsFrom"))
+                        {
+                            args.Add("rhs: rhs");
+                            args.Add("errorMask: out errorMask");
+                            args.Add("copyMask: copyMask");
+                            args.Add("def: def");
+                            args.Add("cmds: cmds");
+                        }
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("errorMask = null;");
+                        using (var args = new ArgsWrapper(fg,
+                            "CopyFieldsFrom"))
+                        {
+                            args.Add("rhs: rhs");
+                            args.Add("copyMask: copyMask");
+                            args.Add("def: def");
+                            args.Add("cmds: cmds");
+                        }
+                    }
                 }
                 fg.AppendLine();
             }

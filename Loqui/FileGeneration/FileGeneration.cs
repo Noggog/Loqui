@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("if (item.UInt8N_Ranged_Property.HasBeenSet == rhs.UInt8N_Ranged_Property.HasBeenSet)"))
+            if (str.Equals("item._RefGetter_Singleton = ObjectToRef.Create_XML("))
             {
                 int wer = 23;
                 wer++;

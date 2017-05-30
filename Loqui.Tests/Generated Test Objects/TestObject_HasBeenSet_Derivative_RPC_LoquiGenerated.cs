@@ -1438,11 +1438,39 @@ namespace Loqui.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doErrorMask: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
             errorMask = retErrorMask;
+        }
+
+        public void CopyFieldsFrom(
+            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
+            bool doErrorMask,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
+            ITestObject_HasBeenSet_Derivative_RPCGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (doErrorMask)
+            {
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    errorMask: out errorMask,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
+            else
+            {
+                errorMask = null;
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
         }
 
         #endregion
@@ -2342,30 +2370,1659 @@ namespace Loqui.Tests
 
         public static TestObject_HasBeenSet_Derivative_RPC Create_XML(XElement root)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC();
-            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
+            return Create_XML(
                 root: root,
-                item: ret,
-                skipProtected: false,
                 doMasks: false,
-                mask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-                cmds: null);
+                errorMask: out var errorMask);
+        }
+
+        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+            XElement root,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+            XElement root,
+            bool doMasks,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
+            var ret = Create_XML_Internal(
+                root: root,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
+            errorMask = errMaskRet;
             return ret;
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(XElement root, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        private static TestObject_HasBeenSet_Derivative_RPC Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
         {
             var ret = new TestObject_HasBeenSet_Derivative_RPC();
-            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: ret,
-                skipProtected: false,
-                doMasks: true,
-                mask: out errorMask,
-                cmds: null);
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: name.Value,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
             return ret;
         }
 
+        protected static void Fill_XML_Internal(
+            TestObject_HasBeenSet_Derivative_RPC item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                case "BoolN":
+                    try
+                    {
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._BoolN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN, ex);
+                    }
+                    break;
+                case "Bool":
+                    try
+                    {
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Bool.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool, ex);
+                    }
+                    break;
+                case "CharN":
+                    try
+                    {
+                        var tryGet = CharXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._CharN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN, ex);
+                    }
+                    break;
+                case "Char":
+                    try
+                    {
+                        var tryGet = CharXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Char.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char, ex);
+                    }
+                    break;
+                case "DateTimeNull":
+                    try
+                    {
+                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._DateTimeNull.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull, ex);
+                    }
+                    break;
+                case "DateTime":
+                    try
+                    {
+                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._DateTime.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime, ex);
+                    }
+                    break;
+                case "DoubleN":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._DoubleN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN, ex);
+                    }
+                    break;
+                case "DoubleN_Ranged":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._DoubleN_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged, ex);
+                    }
+                    break;
+                case "Double":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Double.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double, ex);
+                    }
+                    break;
+                case "Double_Ranged":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Double_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged, ex);
+                    }
+                    break;
+                case "FloatN":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._FloatN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN, ex);
+                    }
+                    break;
+                case "FloatN_Ranged":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._FloatN_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged, ex);
+                    }
+                    break;
+                case "Float":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Float.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float, ex);
+                    }
+                    break;
+                case "Float_Ranged":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Float_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged, ex);
+                    }
+                    break;
+                case "Int16N":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int16N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N, ex);
+                    }
+                    break;
+                case "Int16N_Ranged":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int16N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged, ex);
+                    }
+                    break;
+                case "Int16":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int16.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16, ex);
+                    }
+                    break;
+                case "Int16_Ranged":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int16_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged, ex);
+                    }
+                    break;
+                case "Int32N":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int32N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N, ex);
+                    }
+                    break;
+                case "Int32N_Ranged":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int32N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged, ex);
+                    }
+                    break;
+                case "Int32":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int32.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32, ex);
+                    }
+                    break;
+                case "Int32_Ranged":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int32_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged, ex);
+                    }
+                    break;
+                case "Int64N":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int64N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N, ex);
+                    }
+                    break;
+                case "Int64N_Ranged":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int64N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged, ex);
+                    }
+                    break;
+                case "Int64":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int64.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64, ex);
+                    }
+                    break;
+                case "Int64_Ranged":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int64_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged, ex);
+                    }
+                    break;
+                case "Int8N":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int8N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N, ex);
+                    }
+                    break;
+                case "Int8N_Ranged":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int8N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged, ex);
+                    }
+                    break;
+                case "Int8":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int8.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8, ex);
+                    }
+                    break;
+                case "Int8_Ranged":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Int8_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged, ex);
+                    }
+                    break;
+                case "Unsafe":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe, ex);
+                    }
+                    break;
+                case "P2IntN":
+                    try
+                    {
+                        var tryGet = P2IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P2IntN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN, ex);
+                    }
+                    break;
+                case "P2Int":
+                    try
+                    {
+                        var tryGet = P2IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P2Int.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int, ex);
+                    }
+                    break;
+                case "P3DoubleN":
+                    try
+                    {
+                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P3DoubleN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN, ex);
+                    }
+                    break;
+                case "P3Double":
+                    try
+                    {
+                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P3Double.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double, ex);
+                    }
+                    break;
+                case "P3IntN":
+                    try
+                    {
+                        var tryGet = P3IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P3IntN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN, ex);
+                    }
+                    break;
+                case "P3Int":
+                    try
+                    {
+                        var tryGet = P3IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._P3Int.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int, ex);
+                    }
+                    break;
+                case "PercentN":
+                    try
+                    {
+                        var tryGet = PercentXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._PercentN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN, ex);
+                    }
+                    break;
+                case "Percent":
+                    try
+                    {
+                        var tryGet = PercentXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Percent.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent, ex);
+                    }
+                    break;
+                case "RangeInt8N":
+                    try
+                    {
+                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt8N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N, ex);
+                    }
+                    break;
+                case "RangeInt8":
+                    try
+                    {
+                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt8.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8, ex);
+                    }
+                    break;
+                case "RangeInt16N":
+                    try
+                    {
+                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt16N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N, ex);
+                    }
+                    break;
+                case "RangeInt16":
+                    try
+                    {
+                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt16.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16, ex);
+                    }
+                    break;
+                case "RangeInt32N":
+                    try
+                    {
+                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt32N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N, ex);
+                    }
+                    break;
+                case "RangeInt32":
+                    try
+                    {
+                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt32.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32, ex);
+                    }
+                    break;
+                case "RangeInt64N":
+                    try
+                    {
+                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt64N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N, ex);
+                    }
+                    break;
+                case "RangeInt64":
+                    try
+                    {
+                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeInt64.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64, ex);
+                    }
+                    break;
+                case "RangeUInt8N":
+                    try
+                    {
+                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt8N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N, ex);
+                    }
+                    break;
+                case "RangeUInt8":
+                    try
+                    {
+                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt8.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8, ex);
+                    }
+                    break;
+                case "RangeUInt16N":
+                    try
+                    {
+                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt16N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N, ex);
+                    }
+                    break;
+                case "RangeUInt16":
+                    try
+                    {
+                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt16.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16, ex);
+                    }
+                    break;
+                case "RangeUInt32N":
+                    try
+                    {
+                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt32N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N, ex);
+                    }
+                    break;
+                case "RangeUInt32":
+                    try
+                    {
+                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt32.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32, ex);
+                    }
+                    break;
+                case "RangeUInt64N":
+                    try
+                    {
+                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt64N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N, ex);
+                    }
+                    break;
+                case "RangeUInt64":
+                    try
+                    {
+                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._RangeUInt64.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64, ex);
+                    }
+                    break;
+                case "String":
+                    try
+                    {
+                        var tryGet = StringXmlTranslation.Instance.Parse(root);
+                        if (tryGet.Succeeded)
+                        {
+                            item._String.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String, ex);
+                    }
+                    break;
+                case "UDoubleN":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UDoubleN.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN, ex);
+                    }
+                    break;
+                case "UDoubleN_Ranged":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UDoubleN_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged, ex);
+                    }
+                    break;
+                case "UDouble":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UDouble.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble, ex);
+                    }
+                    break;
+                case "UDouble_Ranged":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UDouble_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged, ex);
+                    }
+                    break;
+                case "UInt16N":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt16N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N, ex);
+                    }
+                    break;
+                case "UInt16N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt16N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged, ex);
+                    }
+                    break;
+                case "UInt16":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt16.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16, ex);
+                    }
+                    break;
+                case "UInt16_Ranged":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt16_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged, ex);
+                    }
+                    break;
+                case "UInt32N":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt32N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N, ex);
+                    }
+                    break;
+                case "UInt32N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt32N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged, ex);
+                    }
+                    break;
+                case "UInt32":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt32.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32, ex);
+                    }
+                    break;
+                case "UInt32_Ranged":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt32_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged, ex);
+                    }
+                    break;
+                case "UInt64N":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt64N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N, ex);
+                    }
+                    break;
+                case "UInt64N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt64N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged, ex);
+                    }
+                    break;
+                case "UInt64":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt64.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64, ex);
+                    }
+                    break;
+                case "UInt64_Ranged":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt64_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged, ex);
+                    }
+                    break;
+                case "UInt8N":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt8N.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N, ex);
+                    }
+                    break;
+                case "UInt8N_Ranged":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt8N_Ranged.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged, ex);
+                    }
+                    break;
+                case "UInt8":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt8.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8, ex);
+                    }
+                    break;
+                case "UInt8_Ranged":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._UInt8_Ranged.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged, ex);
+                    }
+                    break;
+                case "Enum":
+                    try
+                    {
+                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item._Enum.Item = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum, ex);
+                    }
+                    break;
+                case "EnumNull":
+                    try
+                    {
+                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item._EnumNull.Item = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull, ex);
+                    }
+                    break;
+                case "WildCard":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard, ex);
+                    }
+                    break;
+                case "Ref":
+                    try
+                    {
+                        item._Ref.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref, ex);
+                    }
+                    break;
+                case "Ref_NotNull":
+                    try
+                    {
+                        item._Ref_NotNull.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull, ex);
+                    }
+                    break;
+                case "Ref_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._Ref_Singleton.Item.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton, ex);
+                    }
+                    break;
+                case "RefGetter":
+                    try
+                    {
+                        item._RefGetter.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter, ex);
+                    }
+                    break;
+                case "RefGetter_NotNull":
+                    try
+                    {
+                        item._RefGetter_NotNull.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull, ex);
+                    }
+                    break;
+                case "RefGetter_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._RefGetter_Singleton.Item.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton, ex);
+                    }
+                    break;
+                case "RefSetter":
+                    try
+                    {
+                        item._RefSetter.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter, ex);
+                    }
+                    break;
+                case "RefSetter_NotNull":
+                    try
+                    {
+                        item._RefSetter_NotNull.Item = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull, ex);
+                    }
+                    break;
+                case "RefSetter_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._RefSetter_Singleton.Item.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton, ex);
+                    }
+                    break;
+                case "List":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List, ex);
+                    }
+                    break;
+                case "RefList":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList, ex);
+                    }
+                    break;
+                case "Dict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict, ex);
+                    }
+                    break;
+                case "RefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict, ex);
+                    }
+                    break;
+                case "KeyRefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict, ex);
+                    }
+                    break;
+                case "ValRefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict, ex);
+                    }
+                    break;
+                case "DictKeyedValue":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue, ex);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
@@ -5380,86 +7037,6 @@ namespace Loqui.Tests.Internals
                     if (!string.IsNullOrEmpty(name))
                     {
                         writer.WriteAttributeString("name", name);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (!doMasks) throw;
-                errorMask().Overall = ex;
-            }
-        }
-        #endregion
-
-        #region XML Copy In
-        public static void CopyIn_XML(
-            ITestObject_HasBeenSet_Derivative_RPC item,
-            Stream stream,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: false,
-                errorMask: out var errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_HasBeenSet_Derivative_RPC item,
-            Stream stream,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: true,
-                errorMask: out errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_HasBeenSet_Derivative_RPC item,
-            XElement root,
-            bool doMasks,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
-            CopyIn_XML_Internal(
-                item: item,
-                root: root,
-                unsetMissing: unsetMissing,
-                doMasks: doMasks,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
-            errorMask = errMaskRet;
-        }
-
-        private static void CopyIn_XML_Internal(
-            ITestObject_HasBeenSet_Derivative_RPC item,
-            XElement root,
-            bool unsetMissing,
-            bool doMasks,
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
-        {
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
-                    switch (name.Value)
-                    {
                     }
                 }
             }

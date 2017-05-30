@@ -962,11 +962,39 @@ namespace Loqui.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doErrorMask: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
             errorMask = retErrorMask;
+        }
+
+        public void CopyFieldsFrom(
+            ITestObject_RPCGetter rhs,
+            bool doErrorMask,
+            out TestObject_RPC_ErrorMask errorMask,
+            TestObject_RPC_CopyMask copyMask = null,
+            ITestObject_RPCGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (doErrorMask)
+            {
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    errorMask: out errorMask,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
+            else
+            {
+                errorMask = null;
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
         }
 
         #endregion
@@ -1201,30 +1229,1659 @@ namespace Loqui.Tests
 
         public static TestObject_RPC Create_XML(XElement root)
         {
-            var ret = new TestObject_RPC();
-            LoquiXmlTranslation<TestObject_RPC, TestObject_RPC_ErrorMask>.Instance.CopyIn(
+            return Create_XML(
                 root: root,
-                item: ret,
-                skipProtected: false,
                 doMasks: false,
-                mask: out TestObject_RPC_ErrorMask errorMask,
-                cmds: null);
+                errorMask: out var errorMask);
+        }
+
+        public static TestObject_RPC Create_XML(
+            XElement root,
+            out TestObject_RPC_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static TestObject_RPC Create_XML(
+            XElement root,
+            bool doMasks,
+            out TestObject_RPC_ErrorMask errorMask)
+        {
+            TestObject_RPC_ErrorMask errMaskRet = null;
+            var ret = Create_XML_Internal(
+                root: root,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_RPC_ErrorMask()) : default(Func<TestObject_RPC_ErrorMask>));
+            errorMask = errMaskRet;
             return ret;
         }
 
-        public static TestObject_RPC Create_XML(XElement root, out TestObject_RPC_ErrorMask errorMask)
+        private static TestObject_RPC Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestObject_RPC_ErrorMask> errorMask)
         {
             var ret = new TestObject_RPC();
-            LoquiXmlTranslation<TestObject_RPC, TestObject_RPC_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: ret,
-                skipProtected: false,
-                doMasks: true,
-                mask: out errorMask,
-                cmds: null);
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: name.Value,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
             return ret;
         }
 
+        protected static void Fill_XML_Internal(
+            TestObject_RPC item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestObject_RPC_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                case "BoolN":
+                    try
+                    {
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.BoolN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.BoolN, ex);
+                    }
+                    break;
+                case "Bool":
+                    try
+                    {
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Bool = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Bool, ex);
+                    }
+                    break;
+                case "CharN":
+                    try
+                    {
+                        var tryGet = CharXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.CharN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.CharN, ex);
+                    }
+                    break;
+                case "Char":
+                    try
+                    {
+                        var tryGet = CharXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Char = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Char, ex);
+                    }
+                    break;
+                case "DateTimeNull":
+                    try
+                    {
+                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DateTimeNull = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DateTimeNull, ex);
+                    }
+                    break;
+                case "DateTime":
+                    try
+                    {
+                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DateTime = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DateTime, ex);
+                    }
+                    break;
+                case "DoubleN":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DoubleN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DoubleN, ex);
+                    }
+                    break;
+                case "DoubleN_Ranged":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DoubleN_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DoubleN_Ranged, ex);
+                    }
+                    break;
+                case "Double":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Double = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Double, ex);
+                    }
+                    break;
+                case "Double_Ranged":
+                    try
+                    {
+                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Double_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Double_Ranged, ex);
+                    }
+                    break;
+                case "FloatN":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.FloatN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.FloatN, ex);
+                    }
+                    break;
+                case "FloatN_Ranged":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.FloatN_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.FloatN_Ranged, ex);
+                    }
+                    break;
+                case "Float":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Float = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Float, ex);
+                    }
+                    break;
+                case "Float_Ranged":
+                    try
+                    {
+                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Float_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Float_Ranged, ex);
+                    }
+                    break;
+                case "Int16N":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int16N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16N, ex);
+                    }
+                    break;
+                case "Int16N_Ranged":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int16N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16N_Ranged, ex);
+                    }
+                    break;
+                case "Int16":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int16 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16, ex);
+                    }
+                    break;
+                case "Int16_Ranged":
+                    try
+                    {
+                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int16_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16_Ranged, ex);
+                    }
+                    break;
+                case "Int32N":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int32N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32N, ex);
+                    }
+                    break;
+                case "Int32N_Ranged":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int32N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32N_Ranged, ex);
+                    }
+                    break;
+                case "Int32":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int32 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32, ex);
+                    }
+                    break;
+                case "Int32_Ranged":
+                    try
+                    {
+                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int32_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32_Ranged, ex);
+                    }
+                    break;
+                case "Int64N":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int64N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64N, ex);
+                    }
+                    break;
+                case "Int64N_Ranged":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int64N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64N_Ranged, ex);
+                    }
+                    break;
+                case "Int64":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int64 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64, ex);
+                    }
+                    break;
+                case "Int64_Ranged":
+                    try
+                    {
+                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int64_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64_Ranged, ex);
+                    }
+                    break;
+                case "Int8N":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int8N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8N, ex);
+                    }
+                    break;
+                case "Int8N_Ranged":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int8N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8N_Ranged, ex);
+                    }
+                    break;
+                case "Int8":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int8 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8, ex);
+                    }
+                    break;
+                case "Int8_Ranged":
+                    try
+                    {
+                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Int8_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8_Ranged, ex);
+                    }
+                    break;
+                case "Unsafe":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Unsafe, ex);
+                    }
+                    break;
+                case "P2IntN":
+                    try
+                    {
+                        var tryGet = P2IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P2IntN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P2IntN, ex);
+                    }
+                    break;
+                case "P2Int":
+                    try
+                    {
+                        var tryGet = P2IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P2Int = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P2Int, ex);
+                    }
+                    break;
+                case "P3DoubleN":
+                    try
+                    {
+                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P3DoubleN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3DoubleN, ex);
+                    }
+                    break;
+                case "P3Double":
+                    try
+                    {
+                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P3Double = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3Double, ex);
+                    }
+                    break;
+                case "P3IntN":
+                    try
+                    {
+                        var tryGet = P3IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P3IntN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3IntN, ex);
+                    }
+                    break;
+                case "P3Int":
+                    try
+                    {
+                        var tryGet = P3IntXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.P3Int = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3Int, ex);
+                    }
+                    break;
+                case "PercentN":
+                    try
+                    {
+                        var tryGet = PercentXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.PercentN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.PercentN, ex);
+                    }
+                    break;
+                case "Percent":
+                    try
+                    {
+                        var tryGet = PercentXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Percent = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Percent, ex);
+                    }
+                    break;
+                case "RangeInt8N":
+                    try
+                    {
+                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt8N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt8N, ex);
+                    }
+                    break;
+                case "RangeInt8":
+                    try
+                    {
+                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt8 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt8, ex);
+                    }
+                    break;
+                case "RangeInt16N":
+                    try
+                    {
+                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt16N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt16N, ex);
+                    }
+                    break;
+                case "RangeInt16":
+                    try
+                    {
+                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt16 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt16, ex);
+                    }
+                    break;
+                case "RangeInt32N":
+                    try
+                    {
+                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt32N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt32N, ex);
+                    }
+                    break;
+                case "RangeInt32":
+                    try
+                    {
+                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt32 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt32, ex);
+                    }
+                    break;
+                case "RangeInt64N":
+                    try
+                    {
+                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt64N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt64N, ex);
+                    }
+                    break;
+                case "RangeInt64":
+                    try
+                    {
+                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeInt64 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt64, ex);
+                    }
+                    break;
+                case "RangeUInt8N":
+                    try
+                    {
+                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt8N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt8N, ex);
+                    }
+                    break;
+                case "RangeUInt8":
+                    try
+                    {
+                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt8 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt8, ex);
+                    }
+                    break;
+                case "RangeUInt16N":
+                    try
+                    {
+                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt16N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt16N, ex);
+                    }
+                    break;
+                case "RangeUInt16":
+                    try
+                    {
+                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt16 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt16, ex);
+                    }
+                    break;
+                case "RangeUInt32N":
+                    try
+                    {
+                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt32N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt32N, ex);
+                    }
+                    break;
+                case "RangeUInt32":
+                    try
+                    {
+                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt32 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt32, ex);
+                    }
+                    break;
+                case "RangeUInt64N":
+                    try
+                    {
+                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt64N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt64N, ex);
+                    }
+                    break;
+                case "RangeUInt64":
+                    try
+                    {
+                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.RangeUInt64 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt64, ex);
+                    }
+                    break;
+                case "String":
+                    try
+                    {
+                        var tryGet = StringXmlTranslation.Instance.Parse(root);
+                        if (tryGet.Succeeded)
+                        {
+                            item.String = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.String, ex);
+                    }
+                    break;
+                case "UDoubleN":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UDoubleN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDoubleN, ex);
+                    }
+                    break;
+                case "UDoubleN_Ranged":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UDoubleN_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDoubleN_Ranged, ex);
+                    }
+                    break;
+                case "UDouble":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UDouble = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDouble, ex);
+                    }
+                    break;
+                case "UDouble_Ranged":
+                    try
+                    {
+                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UDouble_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDouble_Ranged, ex);
+                    }
+                    break;
+                case "UInt16N":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt16N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16N, ex);
+                    }
+                    break;
+                case "UInt16N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt16N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16N_Ranged, ex);
+                    }
+                    break;
+                case "UInt16":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt16 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16, ex);
+                    }
+                    break;
+                case "UInt16_Ranged":
+                    try
+                    {
+                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt16_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16_Ranged, ex);
+                    }
+                    break;
+                case "UInt32N":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt32N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32N, ex);
+                    }
+                    break;
+                case "UInt32N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt32N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32N_Ranged, ex);
+                    }
+                    break;
+                case "UInt32":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt32 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32, ex);
+                    }
+                    break;
+                case "UInt32_Ranged":
+                    try
+                    {
+                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt32_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32_Ranged, ex);
+                    }
+                    break;
+                case "UInt64N":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt64N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64N, ex);
+                    }
+                    break;
+                case "UInt64N_Ranged":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt64N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64N_Ranged, ex);
+                    }
+                    break;
+                case "UInt64":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt64 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64, ex);
+                    }
+                    break;
+                case "UInt64_Ranged":
+                    try
+                    {
+                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt64_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64_Ranged, ex);
+                    }
+                    break;
+                case "UInt8N":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt8N = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8N, ex);
+                    }
+                    break;
+                case "UInt8N_Ranged":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt8N_Ranged = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8N_Ranged, ex);
+                    }
+                    break;
+                case "UInt8":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt8 = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8, ex);
+                    }
+                    break;
+                case "UInt8_Ranged":
+                    try
+                    {
+                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.UInt8_Ranged = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8_Ranged, ex);
+                    }
+                    break;
+                case "Enum":
+                    try
+                    {
+                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                            root,
+                            nullable: false);
+                        if (tryGet.Succeeded)
+                        {
+                            item.Enum = tryGet.Value.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Enum, ex);
+                    }
+                    break;
+                case "EnumNull":
+                    try
+                    {
+                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.EnumNull = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.EnumNull, ex);
+                    }
+                    break;
+                case "WildCard":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.WildCard, ex);
+                    }
+                    break;
+                case "Ref":
+                    try
+                    {
+                        item.Ref = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.Ref, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Ref, ex);
+                    }
+                    break;
+                case "Ref_NotNull":
+                    try
+                    {
+                        item.Ref_NotNull = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.Ref_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Ref_NotNull, ex);
+                    }
+                    break;
+                case "Ref_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._Ref_Singleton.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.Ref_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Ref_Singleton, ex);
+                    }
+                    break;
+                case "RefGetter":
+                    try
+                    {
+                        item.RefGetter = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefGetter, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefGetter, ex);
+                    }
+                    break;
+                case "RefGetter_NotNull":
+                    try
+                    {
+                        item.RefGetter_NotNull = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefGetter_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefGetter_NotNull, ex);
+                    }
+                    break;
+                case "RefGetter_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._RefGetter_Singleton.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefGetter_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefGetter_Singleton, ex);
+                    }
+                    break;
+                case "RefSetter":
+                    try
+                    {
+                        item.RefSetter = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefSetter, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefSetter, ex);
+                    }
+                    break;
+                case "RefSetter_NotNull":
+                    try
+                    {
+                        item.RefSetter_NotNull = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefSetter_NotNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefSetter_NotNull, ex);
+                    }
+                    break;
+                case "RefSetter_Singleton":
+                    try
+                    {
+                        var tmp = ObjectToRef.Create_XML(
+                            root: root,
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask createMask);
+                        item._RefSetter_Singleton.CopyFieldsFrom(
+                            rhs: tmp,
+                            def: null,
+                            doErrorMask: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask copyMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefSetter_Singleton, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefSetter_Singleton, ex);
+                    }
+                    break;
+                case "List":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.List, ex);
+                    }
+                    break;
+                case "RefList":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefList, ex);
+                    }
+                    break;
+                case "Dict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Dict, ex);
+                    }
+                    break;
+                case "RefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefDict, ex);
+                    }
+                    break;
+                case "KeyRefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.KeyRefDict, ex);
+                    }
+                    break;
+                case "ValRefDict":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.ValRefDict, ex);
+                    }
+                    break;
+                case "DictKeyedValue":
+                    try
+                    {
+                        throw new NotImplementedException();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DictKeyedValue, ex);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_RPC, TestObject_RPC_ErrorMask>.Instance.CopyIn(
@@ -6887,1602 +8544,6 @@ namespace Loqui.Tests.Internals
                     {
                         if (!doMasks) throw;
                         errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DictKeyedValue, ex);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (!doMasks) throw;
-                errorMask().Overall = ex;
-            }
-        }
-        #endregion
-
-        #region XML Copy In
-        public static void CopyIn_XML(
-            ITestObject_RPC item,
-            Stream stream,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: false,
-                errorMask: out var errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_RPC item,
-            Stream stream,
-            out TestObject_RPC_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: true,
-                errorMask: out errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_RPC item,
-            XElement root,
-            bool doMasks,
-            out TestObject_RPC_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            TestObject_RPC_ErrorMask errMaskRet = null;
-            CopyIn_XML_Internal(
-                item: item,
-                root: root,
-                unsetMissing: unsetMissing,
-                doMasks: doMasks,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_RPC_ErrorMask()) : default(Func<TestObject_RPC_ErrorMask>));
-            errorMask = errMaskRet;
-        }
-
-        private static void CopyIn_XML_Internal(
-            ITestObject_RPC item,
-            XElement root,
-            bool unsetMissing,
-            bool doMasks,
-            Func<TestObject_RPC_ErrorMask> errorMask)
-        {
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
-                    switch (name.Value)
-                    {
-                        case "BoolN":
-                            try
-                            {
-                                var tryGet = BooleanXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.BoolN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.BoolN, ex);
-                            }
-                            break;
-                        case "Bool":
-                            try
-                            {
-                                var tryGet = BooleanXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Bool = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Bool, ex);
-                            }
-                            break;
-                        case "CharN":
-                            try
-                            {
-                                var tryGet = CharXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.CharN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.CharN, ex);
-                            }
-                            break;
-                        case "Char":
-                            try
-                            {
-                                var tryGet = CharXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Char = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Char, ex);
-                            }
-                            break;
-                        case "DateTimeNull":
-                            try
-                            {
-                                var tryGet = DateTimeXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.DateTimeNull = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DateTimeNull, ex);
-                            }
-                            break;
-                        case "DateTime":
-                            try
-                            {
-                                var tryGet = DateTimeXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.DateTime = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DateTime, ex);
-                            }
-                            break;
-                        case "DoubleN":
-                            try
-                            {
-                                var tryGet = DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.DoubleN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DoubleN, ex);
-                            }
-                            break;
-                        case "DoubleN_Ranged":
-                            try
-                            {
-                                var tryGet = DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.DoubleN_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DoubleN_Ranged, ex);
-                            }
-                            break;
-                        case "Double":
-                            try
-                            {
-                                var tryGet = DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Double = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Double, ex);
-                            }
-                            break;
-                        case "Double_Ranged":
-                            try
-                            {
-                                var tryGet = DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Double_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Double_Ranged, ex);
-                            }
-                            break;
-                        case "FloatN":
-                            try
-                            {
-                                var tryGet = FloatXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.FloatN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.FloatN, ex);
-                            }
-                            break;
-                        case "FloatN_Ranged":
-                            try
-                            {
-                                var tryGet = FloatXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.FloatN_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.FloatN_Ranged, ex);
-                            }
-                            break;
-                        case "Float":
-                            try
-                            {
-                                var tryGet = FloatXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Float = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Float, ex);
-                            }
-                            break;
-                        case "Float_Ranged":
-                            try
-                            {
-                                var tryGet = FloatXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Float_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Float_Ranged, ex);
-                            }
-                            break;
-                        case "Int16N":
-                            try
-                            {
-                                var tryGet = Int16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int16N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16N, ex);
-                            }
-                            break;
-                        case "Int16N_Ranged":
-                            try
-                            {
-                                var tryGet = Int16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int16N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16N_Ranged, ex);
-                            }
-                            break;
-                        case "Int16":
-                            try
-                            {
-                                var tryGet = Int16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int16 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16, ex);
-                            }
-                            break;
-                        case "Int16_Ranged":
-                            try
-                            {
-                                var tryGet = Int16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int16_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int16_Ranged, ex);
-                            }
-                            break;
-                        case "Int32N":
-                            try
-                            {
-                                var tryGet = Int32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int32N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32N, ex);
-                            }
-                            break;
-                        case "Int32N_Ranged":
-                            try
-                            {
-                                var tryGet = Int32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int32N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32N_Ranged, ex);
-                            }
-                            break;
-                        case "Int32":
-                            try
-                            {
-                                var tryGet = Int32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int32 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32, ex);
-                            }
-                            break;
-                        case "Int32_Ranged":
-                            try
-                            {
-                                var tryGet = Int32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int32_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int32_Ranged, ex);
-                            }
-                            break;
-                        case "Int64N":
-                            try
-                            {
-                                var tryGet = Int64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int64N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64N, ex);
-                            }
-                            break;
-                        case "Int64N_Ranged":
-                            try
-                            {
-                                var tryGet = Int64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int64N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64N_Ranged, ex);
-                            }
-                            break;
-                        case "Int64":
-                            try
-                            {
-                                var tryGet = Int64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int64 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64, ex);
-                            }
-                            break;
-                        case "Int64_Ranged":
-                            try
-                            {
-                                var tryGet = Int64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int64_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int64_Ranged, ex);
-                            }
-                            break;
-                        case "Int8N":
-                            try
-                            {
-                                var tryGet = Int8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int8N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8N, ex);
-                            }
-                            break;
-                        case "Int8N_Ranged":
-                            try
-                            {
-                                var tryGet = Int8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int8N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8N_Ranged, ex);
-                            }
-                            break;
-                        case "Int8":
-                            try
-                            {
-                                var tryGet = Int8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int8 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8, ex);
-                            }
-                            break;
-                        case "Int8_Ranged":
-                            try
-                            {
-                                var tryGet = Int8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Int8_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Int8_Ranged, ex);
-                            }
-                            break;
-                        case "Unsafe":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Unsafe, ex);
-                            }
-                            break;
-                        case "P2IntN":
-                            try
-                            {
-                                var tryGet = P2IntXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P2IntN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P2IntN, ex);
-                            }
-                            break;
-                        case "P2Int":
-                            try
-                            {
-                                var tryGet = P2IntXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P2Int = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P2Int, ex);
-                            }
-                            break;
-                        case "P3DoubleN":
-                            try
-                            {
-                                var tryGet = P3DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P3DoubleN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3DoubleN, ex);
-                            }
-                            break;
-                        case "P3Double":
-                            try
-                            {
-                                var tryGet = P3DoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P3Double = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3Double, ex);
-                            }
-                            break;
-                        case "P3IntN":
-                            try
-                            {
-                                var tryGet = P3IntXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P3IntN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3IntN, ex);
-                            }
-                            break;
-                        case "P3Int":
-                            try
-                            {
-                                var tryGet = P3IntXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.P3Int = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.P3Int, ex);
-                            }
-                            break;
-                        case "PercentN":
-                            try
-                            {
-                                var tryGet = PercentXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.PercentN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.PercentN, ex);
-                            }
-                            break;
-                        case "Percent":
-                            try
-                            {
-                                var tryGet = PercentXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Percent = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Percent, ex);
-                            }
-                            break;
-                        case "RangeInt8N":
-                            try
-                            {
-                                var tryGet = RangeInt8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt8N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt8N, ex);
-                            }
-                            break;
-                        case "RangeInt8":
-                            try
-                            {
-                                var tryGet = RangeInt8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt8 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt8, ex);
-                            }
-                            break;
-                        case "RangeInt16N":
-                            try
-                            {
-                                var tryGet = RangeInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt16N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt16N, ex);
-                            }
-                            break;
-                        case "RangeInt16":
-                            try
-                            {
-                                var tryGet = RangeInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt16 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt16, ex);
-                            }
-                            break;
-                        case "RangeInt32N":
-                            try
-                            {
-                                var tryGet = RangeInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt32N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt32N, ex);
-                            }
-                            break;
-                        case "RangeInt32":
-                            try
-                            {
-                                var tryGet = RangeInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt32 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt32, ex);
-                            }
-                            break;
-                        case "RangeInt64N":
-                            try
-                            {
-                                var tryGet = RangeInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt64N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt64N, ex);
-                            }
-                            break;
-                        case "RangeInt64":
-                            try
-                            {
-                                var tryGet = RangeInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeInt64 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeInt64, ex);
-                            }
-                            break;
-                        case "RangeUInt8N":
-                            try
-                            {
-                                var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt8N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt8N, ex);
-                            }
-                            break;
-                        case "RangeUInt8":
-                            try
-                            {
-                                var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt8 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt8, ex);
-                            }
-                            break;
-                        case "RangeUInt16N":
-                            try
-                            {
-                                var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt16N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt16N, ex);
-                            }
-                            break;
-                        case "RangeUInt16":
-                            try
-                            {
-                                var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt16 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt16, ex);
-                            }
-                            break;
-                        case "RangeUInt32N":
-                            try
-                            {
-                                var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt32N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt32N, ex);
-                            }
-                            break;
-                        case "RangeUInt32":
-                            try
-                            {
-                                var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt32 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt32, ex);
-                            }
-                            break;
-                        case "RangeUInt64N":
-                            try
-                            {
-                                var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt64N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt64N, ex);
-                            }
-                            break;
-                        case "RangeUInt64":
-                            try
-                            {
-                                var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.RangeUInt64 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RangeUInt64, ex);
-                            }
-                            break;
-                        case "String":
-                            try
-                            {
-                                var tryGet = StringXmlTranslation.Instance.Parse(elem);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.String = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.String, ex);
-                            }
-                            break;
-                        case "UDoubleN":
-                            try
-                            {
-                                var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UDoubleN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDoubleN, ex);
-                            }
-                            break;
-                        case "UDoubleN_Ranged":
-                            try
-                            {
-                                var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UDoubleN_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDoubleN_Ranged, ex);
-                            }
-                            break;
-                        case "UDouble":
-                            try
-                            {
-                                var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UDouble = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDouble, ex);
-                            }
-                            break;
-                        case "UDouble_Ranged":
-                            try
-                            {
-                                var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UDouble_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UDouble_Ranged, ex);
-                            }
-                            break;
-                        case "UInt16N":
-                            try
-                            {
-                                var tryGet = UInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt16N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16N, ex);
-                            }
-                            break;
-                        case "UInt16N_Ranged":
-                            try
-                            {
-                                var tryGet = UInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt16N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16N_Ranged, ex);
-                            }
-                            break;
-                        case "UInt16":
-                            try
-                            {
-                                var tryGet = UInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt16 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16, ex);
-                            }
-                            break;
-                        case "UInt16_Ranged":
-                            try
-                            {
-                                var tryGet = UInt16XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt16_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt16_Ranged, ex);
-                            }
-                            break;
-                        case "UInt32N":
-                            try
-                            {
-                                var tryGet = UInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt32N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32N, ex);
-                            }
-                            break;
-                        case "UInt32N_Ranged":
-                            try
-                            {
-                                var tryGet = UInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt32N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32N_Ranged, ex);
-                            }
-                            break;
-                        case "UInt32":
-                            try
-                            {
-                                var tryGet = UInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt32 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32, ex);
-                            }
-                            break;
-                        case "UInt32_Ranged":
-                            try
-                            {
-                                var tryGet = UInt32XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt32_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt32_Ranged, ex);
-                            }
-                            break;
-                        case "UInt64N":
-                            try
-                            {
-                                var tryGet = UInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt64N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64N, ex);
-                            }
-                            break;
-                        case "UInt64N_Ranged":
-                            try
-                            {
-                                var tryGet = UInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt64N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64N_Ranged, ex);
-                            }
-                            break;
-                        case "UInt64":
-                            try
-                            {
-                                var tryGet = UInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt64 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64, ex);
-                            }
-                            break;
-                        case "UInt64_Ranged":
-                            try
-                            {
-                                var tryGet = UInt64XmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt64_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt64_Ranged, ex);
-                            }
-                            break;
-                        case "UInt8N":
-                            try
-                            {
-                                var tryGet = ByteXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt8N = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8N, ex);
-                            }
-                            break;
-                        case "UInt8N_Ranged":
-                            try
-                            {
-                                var tryGet = ByteXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt8N_Ranged = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8N_Ranged, ex);
-                            }
-                            break;
-                        case "UInt8":
-                            try
-                            {
-                                var tryGet = ByteXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt8 = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8, ex);
-                            }
-                            break;
-                        case "UInt8_Ranged":
-                            try
-                            {
-                                var tryGet = ByteXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.UInt8_Ranged = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.UInt8_Ranged, ex);
-                            }
-                            break;
-                        case "Enum":
-                            try
-                            {
-                                var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
-                                    elem,
-                                    nullable: false);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.Enum = tryGet.Value.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Enum, ex);
-                            }
-                            break;
-                        case "EnumNull":
-                            try
-                            {
-                                var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.EnumNull = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.EnumNull, ex);
-                            }
-                            break;
-                        case "WildCard":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.WildCard, ex);
-                            }
-                            break;
-                        case "Ref":
-                            try
-                            {
-                                ObjectToRefCommon.CopyIn_XML(
-                                    root: elem,
-                                    item: item.Ref,
-                                    doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.Ref, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Ref, ex);
-                            }
-                            break;
-                        case "Ref_NotNull":
-                            try
-                            {
-                                ObjectToRefCommon.CopyIn_XML(
-                                    root: elem,
-                                    item: item.Ref_NotNull,
-                                    doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.Ref_NotNull, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Ref_NotNull, ex);
-                            }
-                            break;
-                        case "RefGetter":
-                            try
-                            {
-                                item.RefGetter = ObjectToRef.Create_XML(
-                                    root: elem,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefGetter, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefGetter, ex);
-                            }
-                            break;
-                        case "RefGetter_NotNull":
-                            try
-                            {
-                                item.RefGetter_NotNull = ObjectToRef.Create_XML(
-                                    root: elem,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefGetter_NotNull, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefGetter_NotNull, ex);
-                            }
-                            break;
-                        case "RefSetter":
-                            try
-                            {
-                                ObjectToRefCommon.CopyIn_XML(
-                                    root: elem,
-                                    item: item.RefSetter,
-                                    doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefSetter, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefSetter, ex);
-                            }
-                            break;
-                        case "RefSetter_NotNull":
-                            try
-                            {
-                                ObjectToRefCommon.CopyIn_XML(
-                                    root: elem,
-                                    item: item.RefSetter_NotNull,
-                                    doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestObject_RPC_FieldIndex.RefSetter_NotNull, suberrorMask);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefSetter_NotNull, ex);
-                            }
-                            break;
-                        case "List":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.List, ex);
-                            }
-                            break;
-                        case "RefList":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefList, ex);
-                            }
-                            break;
-                        case "Dict":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.Dict, ex);
-                            }
-                            break;
-                        case "RefDict":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.RefDict, ex);
-                            }
-                            break;
-                        case "KeyRefDict":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.KeyRefDict, ex);
-                            }
-                            break;
-                        case "ValRefDict":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.ValRefDict, ex);
-                            }
-                            break;
-                        case "DictKeyedValue":
-                            try
-                            {
-                                throw new NotImplementedException();
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_RPC_FieldIndex.DictKeyedValue, ex);
-                            }
-                            break;
                     }
                 }
             }

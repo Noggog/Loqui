@@ -91,11 +91,39 @@ namespace Loqui.Tests
                 item: this,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doErrorMask: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
             errorMask = retErrorMask;
+        }
+
+        public void CopyFieldsFrom(
+            ITestObject_PrivateCtorGetter rhs,
+            bool doErrorMask,
+            out TestObject_PrivateCtor_ErrorMask errorMask,
+            TestObject_PrivateCtor_CopyMask copyMask = null,
+            ITestObject_PrivateCtorGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            if (doErrorMask)
+            {
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    errorMask: out errorMask,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
+            else
+            {
+                errorMask = null;
+                CopyFieldsFrom(
+                    rhs: rhs,
+                    copyMask: copyMask,
+                    def: def,
+                    cmds: cmds);
+            }
         }
 
         #endregion
@@ -142,30 +170,93 @@ namespace Loqui.Tests
 
         public static TestObject_PrivateCtor Create_XML(XElement root)
         {
-            var ret = new TestObject_PrivateCtor();
-            LoquiXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.CopyIn(
+            return Create_XML(
                 root: root,
-                item: ret,
-                skipProtected: false,
                 doMasks: false,
-                mask: out TestObject_PrivateCtor_ErrorMask errorMask,
-                cmds: null);
+                errorMask: out var errorMask);
+        }
+
+        public static TestObject_PrivateCtor Create_XML(
+            XElement root,
+            out TestObject_PrivateCtor_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public static TestObject_PrivateCtor Create_XML(
+            XElement root,
+            bool doMasks,
+            out TestObject_PrivateCtor_ErrorMask errorMask)
+        {
+            TestObject_PrivateCtor_ErrorMask errMaskRet = null;
+            var ret = Create_XML_Internal(
+                root: root,
+                doMasks: doMasks,
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
+            errorMask = errMaskRet;
             return ret;
         }
 
-        public static TestObject_PrivateCtor Create_XML(XElement root, out TestObject_PrivateCtor_ErrorMask errorMask)
+        private static TestObject_PrivateCtor Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestObject_PrivateCtor_ErrorMask> errorMask)
         {
             var ret = new TestObject_PrivateCtor();
-            LoquiXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: ret,
-                skipProtected: false,
-                doMasks: true,
-                mask: out errorMask,
-                cmds: null);
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: name.Value,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask().Overall = ex;
+            }
             return ret;
         }
 
+        protected static void Fill_XML_Internal(
+            TestObject_PrivateCtor item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestObject_PrivateCtor_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                case "BoolN":
+                    try
+                    {
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true);
+                        if (tryGet.Succeeded)
+                        {
+                            item.BoolN = tryGet.Value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.CopyIn(
@@ -701,103 +792,6 @@ namespace Loqui.Tests.Internals
                     {
                         if (!doMasks) throw;
                         errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (!doMasks) throw;
-                errorMask().Overall = ex;
-            }
-        }
-        #endregion
-
-        #region XML Copy In
-        public static void CopyIn_XML(
-            ITestObject_PrivateCtor item,
-            Stream stream,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: false,
-                errorMask: out var errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_PrivateCtor item,
-            Stream stream,
-            out TestObject_PrivateCtor_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            XElement root;
-            using (var reader = new StreamReader(stream))
-            {
-                root = XElement.Parse(reader.ReadToEnd());
-            }
-            CopyIn_XML(
-                item: item,
-                root: root,
-                doMasks: true,
-                errorMask: out errorMask,
-                unsetMissing: unsetMissing);
-        }
-
-        public static void CopyIn_XML(
-            ITestObject_PrivateCtor item,
-            XElement root,
-            bool doMasks,
-            out TestObject_PrivateCtor_ErrorMask errorMask,
-            bool unsetMissing = false)
-        {
-            TestObject_PrivateCtor_ErrorMask errMaskRet = null;
-            CopyIn_XML_Internal(
-                item: item,
-                root: root,
-                unsetMissing: unsetMissing,
-                doMasks: doMasks,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
-            errorMask = errMaskRet;
-        }
-
-        private static void CopyIn_XML_Internal(
-            ITestObject_PrivateCtor item,
-            XElement root,
-            bool unsetMissing,
-            bool doMasks,
-            Func<TestObject_PrivateCtor_ErrorMask> errorMask)
-        {
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
-                    switch (name.Value)
-                    {
-                        case "BoolN":
-                            try
-                            {
-                                var tryGet = BooleanXmlTranslation.Instance.Parse(
-                                    elem,
-                                    nullable: true);
-                                if (tryGet.Succeeded)
-                                {
-                                    item.BoolN = tryGet.Value;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                if (!doMasks) throw;
-                                errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
-                            }
-                            break;
                     }
                 }
             }

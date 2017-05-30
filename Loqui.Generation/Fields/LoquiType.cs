@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public class LoquiType : PrimitiveGeneration
+    public class LoquiType : PrimitiveType
     {
         public Ref RefGen { get; protected set; }
         public override string TypeName
@@ -30,6 +30,21 @@ namespace Loqui.Generation
                         return _generic;
                     default:
                         throw new NotImplementedException();
+                }
+            }
+        }
+        public override string ProtectedName
+        {
+            get
+            {
+                if (this.SingletonType == SingletonLevel.Singleton
+                    && this.Notifying == NotifyingOption.None)
+                {
+                    return $"_{this.Name}";
+                }
+                else
+                {
+                    return base.ProtectedName;
                 }
             }
         }
