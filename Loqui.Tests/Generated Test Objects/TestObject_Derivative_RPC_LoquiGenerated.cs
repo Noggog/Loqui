@@ -9440,6 +9440,109 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public TestObject_Derivative_RPC_ErrorMask Combine(TestObject_Derivative_RPC_ErrorMask rhs)
+        {
+            var ret = new TestObject_Derivative_RPC_ErrorMask();
+            ret.BoolN = this.BoolN.Combine(rhs.BoolN);
+            ret.Bool = this.Bool.Combine(rhs.Bool);
+            ret.CharN = this.CharN.Combine(rhs.CharN);
+            ret.Char = this.Char.Combine(rhs.Char);
+            ret.DateTimeNull = this.DateTimeNull.Combine(rhs.DateTimeNull);
+            ret.DateTime = this.DateTime.Combine(rhs.DateTime);
+            ret.DoubleN = this.DoubleN.Combine(rhs.DoubleN);
+            ret.DoubleN_Ranged = this.DoubleN_Ranged.Combine(rhs.DoubleN_Ranged);
+            ret.Double = this.Double.Combine(rhs.Double);
+            ret.Double_Ranged = this.Double_Ranged.Combine(rhs.Double_Ranged);
+            ret.FloatN = this.FloatN.Combine(rhs.FloatN);
+            ret.FloatN_Ranged = this.FloatN_Ranged.Combine(rhs.FloatN_Ranged);
+            ret.Float = this.Float.Combine(rhs.Float);
+            ret.Float_Ranged = this.Float_Ranged.Combine(rhs.Float_Ranged);
+            ret.Int16N = this.Int16N.Combine(rhs.Int16N);
+            ret.Int16N_Ranged = this.Int16N_Ranged.Combine(rhs.Int16N_Ranged);
+            ret.Int16 = this.Int16.Combine(rhs.Int16);
+            ret.Int16_Ranged = this.Int16_Ranged.Combine(rhs.Int16_Ranged);
+            ret.Int32N = this.Int32N.Combine(rhs.Int32N);
+            ret.Int32N_Ranged = this.Int32N_Ranged.Combine(rhs.Int32N_Ranged);
+            ret.Int32 = this.Int32.Combine(rhs.Int32);
+            ret.Int32_Ranged = this.Int32_Ranged.Combine(rhs.Int32_Ranged);
+            ret.Int64N = this.Int64N.Combine(rhs.Int64N);
+            ret.Int64N_Ranged = this.Int64N_Ranged.Combine(rhs.Int64N_Ranged);
+            ret.Int64 = this.Int64.Combine(rhs.Int64);
+            ret.Int64_Ranged = this.Int64_Ranged.Combine(rhs.Int64_Ranged);
+            ret.Int8N = this.Int8N.Combine(rhs.Int8N);
+            ret.Int8N_Ranged = this.Int8N_Ranged.Combine(rhs.Int8N_Ranged);
+            ret.Int8 = this.Int8.Combine(rhs.Int8);
+            ret.Int8_Ranged = this.Int8_Ranged.Combine(rhs.Int8_Ranged);
+            ret.Unsafe = this.Unsafe.Combine(rhs.Unsafe);
+            ret.P2IntN = this.P2IntN.Combine(rhs.P2IntN);
+            ret.P2Int = this.P2Int.Combine(rhs.P2Int);
+            ret.P3DoubleN = this.P3DoubleN.Combine(rhs.P3DoubleN);
+            ret.P3Double = this.P3Double.Combine(rhs.P3Double);
+            ret.P3IntN = this.P3IntN.Combine(rhs.P3IntN);
+            ret.P3Int = this.P3Int.Combine(rhs.P3Int);
+            ret.PercentN = this.PercentN.Combine(rhs.PercentN);
+            ret.Percent = this.Percent.Combine(rhs.Percent);
+            ret.RangeInt8N = this.RangeInt8N.Combine(rhs.RangeInt8N);
+            ret.RangeInt8 = this.RangeInt8.Combine(rhs.RangeInt8);
+            ret.RangeInt16N = this.RangeInt16N.Combine(rhs.RangeInt16N);
+            ret.RangeInt16 = this.RangeInt16.Combine(rhs.RangeInt16);
+            ret.RangeInt32N = this.RangeInt32N.Combine(rhs.RangeInt32N);
+            ret.RangeInt32 = this.RangeInt32.Combine(rhs.RangeInt32);
+            ret.RangeInt64N = this.RangeInt64N.Combine(rhs.RangeInt64N);
+            ret.RangeInt64 = this.RangeInt64.Combine(rhs.RangeInt64);
+            ret.RangeUInt8N = this.RangeUInt8N.Combine(rhs.RangeUInt8N);
+            ret.RangeUInt8 = this.RangeUInt8.Combine(rhs.RangeUInt8);
+            ret.RangeUInt16N = this.RangeUInt16N.Combine(rhs.RangeUInt16N);
+            ret.RangeUInt16 = this.RangeUInt16.Combine(rhs.RangeUInt16);
+            ret.RangeUInt32N = this.RangeUInt32N.Combine(rhs.RangeUInt32N);
+            ret.RangeUInt32 = this.RangeUInt32.Combine(rhs.RangeUInt32);
+            ret.RangeUInt64N = this.RangeUInt64N.Combine(rhs.RangeUInt64N);
+            ret.RangeUInt64 = this.RangeUInt64.Combine(rhs.RangeUInt64);
+            ret.String = this.String.Combine(rhs.String);
+            ret.UDoubleN = this.UDoubleN.Combine(rhs.UDoubleN);
+            ret.UDoubleN_Ranged = this.UDoubleN_Ranged.Combine(rhs.UDoubleN_Ranged);
+            ret.UDouble = this.UDouble.Combine(rhs.UDouble);
+            ret.UDouble_Ranged = this.UDouble_Ranged.Combine(rhs.UDouble_Ranged);
+            ret.UInt16N = this.UInt16N.Combine(rhs.UInt16N);
+            ret.UInt16N_Ranged = this.UInt16N_Ranged.Combine(rhs.UInt16N_Ranged);
+            ret.UInt16 = this.UInt16.Combine(rhs.UInt16);
+            ret.UInt16_Ranged = this.UInt16_Ranged.Combine(rhs.UInt16_Ranged);
+            ret.UInt32N = this.UInt32N.Combine(rhs.UInt32N);
+            ret.UInt32N_Ranged = this.UInt32N_Ranged.Combine(rhs.UInt32N_Ranged);
+            ret.UInt32 = this.UInt32.Combine(rhs.UInt32);
+            ret.UInt32_Ranged = this.UInt32_Ranged.Combine(rhs.UInt32_Ranged);
+            ret.UInt64N = this.UInt64N.Combine(rhs.UInt64N);
+            ret.UInt64N_Ranged = this.UInt64N_Ranged.Combine(rhs.UInt64N_Ranged);
+            ret.UInt64 = this.UInt64.Combine(rhs.UInt64);
+            ret.UInt64_Ranged = this.UInt64_Ranged.Combine(rhs.UInt64_Ranged);
+            ret.UInt8N = this.UInt8N.Combine(rhs.UInt8N);
+            ret.UInt8N_Ranged = this.UInt8N_Ranged.Combine(rhs.UInt8N_Ranged);
+            ret.UInt8 = this.UInt8.Combine(rhs.UInt8);
+            ret.UInt8_Ranged = this.UInt8_Ranged.Combine(rhs.UInt8_Ranged);
+            ret.Enum = this.Enum.Combine(rhs.Enum);
+            ret.EnumNull = this.EnumNull.Combine(rhs.EnumNull);
+            ret.WildCard = this.WildCard.Combine(rhs.WildCard);
+            ret.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
+            ret.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_NotNull.Overall.Combine(rhs.Ref_NotNull.Overall), this.Ref_NotNull.Specific.Combine(rhs.Ref_NotNull.Specific));
+            ret.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_Singleton.Overall.Combine(rhs.Ref_Singleton.Overall), this.Ref_Singleton.Specific.Combine(rhs.Ref_Singleton.Specific));
+            ret.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter.Overall.Combine(rhs.RefGetter.Overall), this.RefGetter.Specific.Combine(rhs.RefGetter.Specific));
+            ret.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_NotNull.Overall.Combine(rhs.RefGetter_NotNull.Overall), this.RefGetter_NotNull.Specific.Combine(rhs.RefGetter_NotNull.Specific));
+            ret.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_Singleton.Overall.Combine(rhs.RefGetter_Singleton.Overall), this.RefGetter_Singleton.Specific.Combine(rhs.RefGetter_Singleton.Specific));
+            ret.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter.Overall.Combine(rhs.RefSetter.Overall), this.RefSetter.Specific.Combine(rhs.RefSetter.Specific));
+            ret.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_NotNull.Overall.Combine(rhs.RefSetter_NotNull.Overall), this.RefSetter_NotNull.Specific.Combine(rhs.RefSetter_NotNull.Specific));
+            ret.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_Singleton.Overall.Combine(rhs.RefSetter_Singleton.Overall), this.RefSetter_Singleton.Specific.Combine(rhs.RefSetter_Singleton.Specific));
+            ret.List = new MaskItem<Exception, IEnumerable<Exception>>(this.List.Overall.Combine(rhs.List.Overall), new List<Exception>(this.List.Specific.And(rhs.List.Specific)));
+            ret.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.RefList.Overall.Combine(rhs.RefList.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.RefList.Specific.And(rhs.RefList.Specific)));
+            ret.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(this.Dict.Overall.Combine(rhs.Dict.Overall), new List<KeyValuePair<Exception, Exception>>(this.Dict.Specific.And(rhs.Dict.Specific)));
+            ret.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(this.RefDict.Overall.Combine(rhs.RefDict.Overall), new List<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.RefDict.Specific.And(rhs.RefDict.Specific)));
+            ret.KeyRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>>(this.KeyRefDict.Overall.Combine(rhs.KeyRefDict.Overall), new List<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>(this.KeyRefDict.Specific.And(rhs.KeyRefDict.Specific)));
+            ret.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(this.ValRefDict.Overall.Combine(rhs.ValRefDict.Overall), new List<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.ValRefDict.Specific.And(rhs.ValRefDict.Specific)));
+            ret.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.DictKeyedValue.Overall.Combine(rhs.DictKeyedValue.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.DictKeyedValue.Specific.And(rhs.DictKeyedValue.Specific)));
+            return ret;
+        }
+        #endregion
+
     }
     public class TestObject_Derivative_RPC_CopyMask
     {

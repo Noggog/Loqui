@@ -887,6 +887,14 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public TestGenericObject_SubClass_ErrorMask Combine(TestGenericObject_SubClass_ErrorMask rhs)
+        {
+            var ret = new TestGenericObject_SubClass_ErrorMask();
+            return ret;
+        }
+        #endregion
+
     }
     public class TestGenericObject_SubClass_CopyMask : TestGenericObject_CopyMask
     {

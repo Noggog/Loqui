@@ -1250,6 +1250,16 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public TestGenericObject_ErrorMask Combine(TestGenericObject_ErrorMask rhs)
+        {
+            var ret = new TestGenericObject_ErrorMask();
+            ret.RefBase = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefBase.Overall.Combine(rhs.RefBase.Overall), this.RefBase.Specific.Combine(rhs.RefBase.Specific));
+            ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
+            return ret;
+        }
+        #endregion
+
     }
     public class TestGenericObject_CopyMask
     {

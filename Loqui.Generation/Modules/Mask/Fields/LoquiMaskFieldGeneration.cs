@@ -124,5 +124,11 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+        {
+            LoquiType loqui = field as LoquiType;
+            fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.ErrorMaskItemString}>({accessor}.Overall.Combine({rhsAccessor}.Overall), {accessor}.Specific.Combine({rhsAccessor}.Specific));");
+        }
     }
 }

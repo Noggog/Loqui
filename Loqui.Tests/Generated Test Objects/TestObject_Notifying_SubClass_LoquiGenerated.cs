@@ -963,6 +963,15 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public TestObject_Notifying_SubClass_ErrorMask Combine(TestObject_Notifying_SubClass_ErrorMask rhs)
+        {
+            var ret = new TestObject_Notifying_SubClass_ErrorMask();
+            ret.NewField = this.NewField.Combine(rhs.NewField);
+            return ret;
+        }
+        #endregion
+
     }
     public class TestObject_Notifying_SubClass_CopyMask : TestObject_Notifying_CopyMask
     {

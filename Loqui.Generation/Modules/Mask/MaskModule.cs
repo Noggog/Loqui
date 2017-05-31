@@ -218,6 +218,20 @@ namespace Loqui.Generation
                         fg.AppendLine($"fg.AppendLine(\"]\");");
                     }
                 }
+
+                using (new RegionWrapper(fg, "Combine"))
+                {
+                    fg.AppendLine($"public {obj.ErrorMask} Combine({obj.ErrorMask} rhs)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var ret = new {obj.ErrorMask}();");
+                        foreach (var field in obj.Fields)
+                        {
+                            GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
+                        }
+                        fg.AppendLine("return ret;");
+                    }
+                }
             }
 
             fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");

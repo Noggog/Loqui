@@ -33,5 +33,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{retAccessor} = eval({rhsAccessor});");
         }
+
+        public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+        {
+            fg.AppendLine($"{retAccessor} = {accessor}.Combine({rhsAccessor});");
+        }
     }
 }

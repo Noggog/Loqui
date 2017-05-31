@@ -1115,6 +1115,16 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public ObjectToRef_ErrorMask Combine(ObjectToRef_ErrorMask rhs)
+        {
+            var ret = new ObjectToRef_ErrorMask();
+            ret.KeyField = this.KeyField.Combine(rhs.KeyField);
+            ret.SomeField = this.SomeField.Combine(rhs.SomeField);
+            return ret;
+        }
+        #endregion
+
     }
     public class ObjectToRef_CopyMask
     {

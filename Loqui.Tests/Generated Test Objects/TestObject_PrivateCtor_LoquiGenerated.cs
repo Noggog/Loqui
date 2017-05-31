@@ -941,6 +941,15 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Combine
+        public TestObject_PrivateCtor_ErrorMask Combine(TestObject_PrivateCtor_ErrorMask rhs)
+        {
+            var ret = new TestObject_PrivateCtor_ErrorMask();
+            ret.BoolN = this.BoolN.Combine(rhs.BoolN);
+            return ret;
+        }
+        #endregion
+
     }
     public class TestObject_PrivateCtor_CopyMask
     {

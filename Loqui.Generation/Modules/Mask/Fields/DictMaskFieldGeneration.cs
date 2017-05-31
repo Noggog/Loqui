@@ -242,5 +242,32 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+        {
+            DictType dictType = field as DictType;
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    string keyStr = "Exception", valStr = "Exception";
+                    if (dictType.KeyTypeGen is LoquiType keyLoqui)
+                    {
+                        keyStr = $"MaskItem<Exception, {keyLoqui.GenerateMaskString("Exception")}>";
+                    }
+                    if (dictType.ValueTypeGen is LoquiType valLoqui)
+                    {
+                        valStr = $"MaskItem<Exception, {valLoqui.GenerateMaskString("Exception")}>";
+                    }
+                    var keyValStr = $"KeyValuePair<{keyStr}, {valStr}>";
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<{keyValStr}>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{keyValStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    break;
+                case DictMode.KeyedValue:
+                    var loqui = dictType.ValueTypeGen as LoquiType;
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<MaskItem<Exception, {loqui.GenerateMaskString("Exception")}>>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<MaskItem<Exception, {loqui.GenerateMaskString("Exception")}>>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

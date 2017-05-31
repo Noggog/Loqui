@@ -4,19 +4,22 @@ namespace Loqui.Generation
 {
     public class ContainerMaskFieldGeneration : MaskModuleField
     {
-        public static string GetListString(ContainerType listType, string valueStr)
+        public static string GetItemString(ContainerType listType, string valueStr)
         {
             LoquiType loquiType = listType.SubTypeGeneration as LoquiType;
-            string listStr;
             if (loquiType == null)
             {
-                listStr = $"IEnumerable<{valueStr}>";
+                return valueStr;
             }
             else
             {
-                listStr = $"IEnumerable<MaskItem<{valueStr}, {loquiType.RefGen.Obj.GetMaskString(valueStr)}>>";
+                return $"MaskItem<{valueStr}, {loquiType.RefGen.Obj.GetMaskString(valueStr)}>";
             }
-            return listStr;
+        }
+
+        public static string GetListString(ContainerType listType, string valueStr)
+        {
+            return $"IEnumerable<{GetItemString(listType, valueStr)}>";
         }
 
         public static string GetMaskString(ContainerType listType, string valueStr)
@@ -161,6 +164,12 @@ namespace Loqui.Generation
                     }
                 }
             }
+        }
+
+        public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+        {
+            ContainerType cont = field as ContainerType;
+            fg.AppendLine($"{retAccessor} = new {GetMaskString(cont, "Exception")}({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{GetItemString(cont, "Exception")}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
         }
     }
 }

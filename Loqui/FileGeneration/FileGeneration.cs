@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("item._RefGetter_Singleton = ObjectToRef.Create_XML("))
+            if (str.Equals("ret = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Overall.Combine(rhs.Overall), this.Specific.Combine(rhs.Specific));"))
             {
                 int wer = 23;
                 wer++;
