@@ -942,24 +942,14 @@ namespace Loqui.Tests
             ITestObject_Derivative_RPCGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_Derivative_RPC_ErrorMask retErrorMask = null;
-            Func<TestObject_Derivative_RPC_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestObject_Derivative_RPC_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestObject_Derivative_RPCCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -2660,9 +2650,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item.Ref_Singleton.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item.Ref_Singleton,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -2758,9 +2751,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item.RefSetter_Singleton.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item.RefSetter_Singleton,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -2856,6 +2852,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_Derivative_RPC, TestObject_Derivative_RPC_ErrorMask>.Instance.CopyIn(
@@ -4801,6 +4798,35 @@ namespace Loqui.Tests.Internals
     public static class TestObject_Derivative_RPCCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_Derivative_RPC item,
+            ITestObject_Derivative_RPCGetter rhs,
+            ITestObject_Derivative_RPCGetter def,
+            bool doErrorMask,
+            out TestObject_Derivative_RPC_ErrorMask errorMask,
+            TestObject_Derivative_RPC_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            TestObject_Derivative_RPC_ErrorMask retErrorMask = null;
+            Func<TestObject_Derivative_RPC_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_Derivative_RPC_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_Derivative_RPC item,
             ITestObject_Derivative_RPCGetter rhs,

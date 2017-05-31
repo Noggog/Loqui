@@ -420,6 +420,7 @@ namespace Loqui.Generation
                     }
                 }
             }
+            fg.AppendLine();
         }
 
         private void CommonXmlWrite(ObjectGeneration obj, FileGeneration fg)

@@ -72,24 +72,14 @@ namespace Loqui.Tests
             ITestGenericObject_SubClass_DefinedGetter<RBase> def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestGenericObject_SubClass_Defined_ErrorMask retErrorMask = null;
-            Func<TestGenericObject_SubClass_Defined_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestGenericObject_SubClass_DefinedCommon.CopyFieldsFrom<RBase>(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -239,6 +229,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
@@ -560,6 +551,36 @@ namespace Loqui.Tests.Internals
     public static class TestGenericObject_SubClass_DefinedCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom<RBase>(
+            this ITestGenericObject_SubClass_Defined<RBase> item,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> def,
+            bool doErrorMask,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            TestGenericObject_SubClass_Defined_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObject_SubClass_Defined_ErrorMask retErrorMask = null;
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestGenericObject_SubClass_Defined_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom<RBase>(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom<RBase>(
             this ITestGenericObject_SubClass_Defined<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,

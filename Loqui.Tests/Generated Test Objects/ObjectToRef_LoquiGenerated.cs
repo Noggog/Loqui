@@ -97,24 +97,14 @@ namespace Loqui.Tests
             IObjectToRefGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            ObjectToRef_ErrorMask retErrorMask = null;
-            Func<ObjectToRef_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new ObjectToRef_ErrorMask();
-                }
-                return retErrorMask;
-            };
             ObjectToRefCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -309,6 +299,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.CopyIn(
@@ -692,6 +683,35 @@ namespace Loqui.Tests.Internals
     public static class ObjectToRefCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this IObjectToRef item,
+            IObjectToRefGetter rhs,
+            IObjectToRefGetter def,
+            bool doErrorMask,
+            out ObjectToRef_ErrorMask errorMask,
+            ObjectToRef_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            ObjectToRef_ErrorMask retErrorMask = null;
+            Func<ObjectToRef_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new ObjectToRef_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this IObjectToRef item,
             IObjectToRefGetter rhs,

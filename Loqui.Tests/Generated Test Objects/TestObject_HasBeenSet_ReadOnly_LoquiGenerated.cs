@@ -1124,24 +1124,14 @@ namespace Loqui.Tests
             ITestObject_HasBeenSet_ReadOnlyGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_ReadOnly_ErrorMask retErrorMask = null;
-            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestObject_HasBeenSet_ReadOnly_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestObject_HasBeenSet_ReadOnlyCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -3507,9 +3497,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item._Ref_Singleton.Item.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item._Ref_Singleton.Item,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -3605,9 +3598,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item._RefSetter_Singleton.Item.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item._RefSetter_Singleton.Item,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -3703,6 +3699,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet_ReadOnly, TestObject_HasBeenSet_ReadOnly_ErrorMask>.Instance.CopyIn(
@@ -5944,6 +5941,35 @@ namespace Loqui.Tests.Internals
     public static class TestObject_HasBeenSet_ReadOnlyCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_HasBeenSet_ReadOnly item,
+            ITestObject_HasBeenSet_ReadOnlyGetter rhs,
+            ITestObject_HasBeenSet_ReadOnlyGetter def,
+            bool doErrorMask,
+            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask,
+            TestObject_HasBeenSet_ReadOnly_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            TestObject_HasBeenSet_ReadOnly_ErrorMask retErrorMask = null;
+            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_HasBeenSet_ReadOnly_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_HasBeenSet_ReadOnly item,
             ITestObject_HasBeenSet_ReadOnlyGetter rhs,

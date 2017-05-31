@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("item._Ref_Singleton.CopyFieldsFrom("))
+            if (str.Equals("var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);"))
             {
                 int wer = 23;
                 wer++;

@@ -82,24 +82,14 @@ namespace Loqui.Tests
             ITestObject_Notifying_SubClassGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_Notifying_SubClass_ErrorMask retErrorMask = null;
-            Func<TestObject_Notifying_SubClass_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -275,6 +265,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
@@ -615,6 +606,35 @@ namespace Loqui.Tests.Internals
     public static class TestObject_Notifying_SubClassCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_Notifying_SubClass item,
+            ITestObject_Notifying_SubClassGetter rhs,
+            ITestObject_Notifying_SubClassGetter def,
+            bool doErrorMask,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            TestObject_Notifying_SubClass_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            TestObject_Notifying_SubClass_ErrorMask retErrorMask = null;
+            Func<TestObject_Notifying_SubClass_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_Notifying_SubClass_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_Notifying_SubClass item,
             ITestObject_Notifying_SubClassGetter rhs,

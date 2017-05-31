@@ -79,10 +79,13 @@ namespace Loqui.Generation
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} createMask");
                     }
                     using (var args = new ArgsWrapper(fg,
-                        $"{itemAccessor}.CopyFieldsFrom"))
+                        $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyFieldsFrom"))
                     {
+                        args.Add($"item: {itemAccessor}");
                         args.Add("rhs: tmp");
                         args.Add("def: null");
+                        args.Add("cmds: null");
+                        args.Add("copyMask: null");
                         args.Add("doErrorMask: doMasks");
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} copyMask");
                     }

@@ -550,7 +550,46 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
-                // Specific HasSet version with default
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void CopyFieldsFrom{this.GenericTypes}",
+                    GenerateWhereClauses().ToArray()))
+                {
+                    args.Add($"this {this.InterfaceStr} item");
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"{this.Getter_InterfaceStr} def");
+                    args.Add($"bool doErrorMask");
+                    args.Add($"out {this.ErrorMask} errorMask");
+                    args.Add($"{this.CopyMask} copyMask");
+                    args.Add($"NotifyingFireParameters? cmds");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{this.ErrorMask} retErrorMask = null;");
+                    fg.AppendLine($"Func<{this.ErrorMask}> maskGetter = () =>");
+                    using (new BraceWrapper(fg) { AppendSemicolon = true })
+                    {
+                        fg.AppendLine($"if (retErrorMask == null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"retErrorMask = new {this.ErrorMask}();");
+                        }
+                        fg.AppendLine("return retErrorMask;");
+                    }
+                    using (var args = new ArgsWrapper(fg,
+                        $"CopyFieldsFrom{this.GenericTypes}"))
+                    {
+                        args.Add("item: item");
+                        args.Add("rhs: rhs");
+                        args.Add("def: def");
+                        args.Add("doErrorMask: true");
+                        args.Add("errorMask: maskGetter");
+                        args.Add("copyMask: copyMask");
+                        args.Add("cmds: cmds");
+                    }
+                    fg.AppendLine("errorMask = retErrorMask;");
+                }
+                fg.AppendLine();
+
                 using (var args = new FunctionWrapper(fg,
                     $"public static void CopyFieldsFrom{this.GenericTypes}",
                     GenerateWhereClauses().ToArray()))
@@ -762,17 +801,6 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{this.ErrorMask} retErrorMask = null;");
-                    fg.AppendLine($"Func<{this.ErrorMask}> maskGetter = () =>");
-                    using (new BraceWrapper(fg) { AppendSemicolon = true })
-                    {
-                        fg.AppendLine($"if (retErrorMask == null)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"retErrorMask = new {this.ErrorMask}();");
-                        }
-                        fg.AppendLine("return retErrorMask;");
-                    }
                     using (var args = new ArgsWrapper(fg,
                         $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
                     {
@@ -780,11 +808,10 @@ namespace Loqui.Generation
                         args.Add("rhs: rhs");
                         args.Add("def: def");
                         args.Add("doErrorMask: true");
-                        args.Add("errorMask: maskGetter");
+                        args.Add("errorMask: out errorMask");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
                     }
-                    fg.AppendLine("errorMask = retErrorMask;");
                 }
                 fg.AppendLine();
 

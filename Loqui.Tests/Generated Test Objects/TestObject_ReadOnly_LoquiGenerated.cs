@@ -615,24 +615,14 @@ namespace Loqui.Tests
             ITestObject_ReadOnlyGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_ReadOnly_ErrorMask retErrorMask = null;
-            Func<TestObject_ReadOnly_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestObject_ReadOnly_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestObject_ReadOnlyCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -2333,9 +2323,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item.Ref_Singleton.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item.Ref_Singleton,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -2431,9 +2424,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
-                        item.RefSetter_Singleton.CopyFieldsFrom(
+                        ObjectToRefCommon.CopyFieldsFrom(
+                            item: item.RefSetter_Singleton,
                             rhs: tmp,
                             def: null,
+                            cmds: null,
+                            copyMask: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
@@ -2529,6 +2525,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_ReadOnly, TestObject_ReadOnly_ErrorMask>.Instance.CopyIn(
@@ -4682,6 +4679,35 @@ namespace Loqui.Tests.Internals
     public static class TestObject_ReadOnlyCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_ReadOnly item,
+            ITestObject_ReadOnlyGetter rhs,
+            ITestObject_ReadOnlyGetter def,
+            bool doErrorMask,
+            out TestObject_ReadOnly_ErrorMask errorMask,
+            TestObject_ReadOnly_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            TestObject_ReadOnly_ErrorMask retErrorMask = null;
+            Func<TestObject_ReadOnly_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_ReadOnly_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_ReadOnly item,
             ITestObject_ReadOnlyGetter rhs,

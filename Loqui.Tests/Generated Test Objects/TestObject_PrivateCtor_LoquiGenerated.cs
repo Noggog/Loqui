@@ -78,24 +78,14 @@ namespace Loqui.Tests
             ITestObject_PrivateCtorGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_PrivateCtor_ErrorMask retErrorMask = null;
-            Func<TestObject_PrivateCtor_ErrorMask> maskGetter = () =>
-            {
-                if (retErrorMask == null)
-                {
-                    retErrorMask = new TestObject_PrivateCtor_ErrorMask();
-                }
-                return retErrorMask;
-            };
             TestObject_PrivateCtorCommon.CopyFieldsFrom(
                 item: this,
                 rhs: rhs,
                 def: def,
                 doErrorMask: true,
-                errorMask: maskGetter,
+                errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
-            errorMask = retErrorMask;
         }
 
         public void CopyFieldsFrom(
@@ -257,6 +247,7 @@ namespace Loqui.Tests
                     break;
             }
         }
+
         public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_PrivateCtor, TestObject_PrivateCtor_ErrorMask>.Instance.CopyIn(
@@ -611,6 +602,35 @@ namespace Loqui.Tests.Internals
     public static class TestObject_PrivateCtorCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_PrivateCtor item,
+            ITestObject_PrivateCtorGetter rhs,
+            ITestObject_PrivateCtorGetter def,
+            bool doErrorMask,
+            out TestObject_PrivateCtor_ErrorMask errorMask,
+            TestObject_PrivateCtor_CopyMask copyMask,
+            NotifyingFireParameters? cmds)
+        {
+            TestObject_PrivateCtor_ErrorMask retErrorMask = null;
+            Func<TestObject_PrivateCtor_ErrorMask> maskGetter = () =>
+            {
+                if (retErrorMask == null)
+                {
+                    retErrorMask = new TestObject_PrivateCtor_ErrorMask();
+                }
+                return retErrorMask;
+            };
+            CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: maskGetter,
+                copyMask: copyMask,
+                cmds: cmds);
+            errorMask = retErrorMask;
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_PrivateCtor item,
             ITestObject_PrivateCtorGetter rhs,
