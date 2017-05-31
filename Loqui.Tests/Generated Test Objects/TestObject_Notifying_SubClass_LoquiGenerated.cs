@@ -970,6 +970,11 @@ namespace Loqui.Tests.Internals
             ret.NewField = this.NewField.Combine(rhs.NewField);
             return ret;
         }
+        public static TestObject_Notifying_SubClass_ErrorMask Combine(TestObject_Notifying_SubClass_ErrorMask lhs, TestObject_Notifying_SubClass_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
+        }
         #endregion
 
     }

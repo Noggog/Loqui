@@ -1258,6 +1258,11 @@ namespace Loqui.Tests.Internals
             ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
             return ret;
         }
+        public static TestGenericObject_ErrorMask Combine(TestGenericObject_ErrorMask lhs, TestGenericObject_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
+        }
         #endregion
 
     }

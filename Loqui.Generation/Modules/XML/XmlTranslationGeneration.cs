@@ -16,6 +16,8 @@ namespace Loqui.Generation
             string itemAccessor,
             string maskAccessor,
             string nameAccessor);
+
+        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => true;
         public abstract void GenerateCopyIn(
             FileGeneration fg,
             TypeGeneration typeGen,

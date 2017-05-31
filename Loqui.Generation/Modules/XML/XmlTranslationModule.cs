@@ -383,16 +383,19 @@ namespace Loqui.Generation
                         fg.AppendLine($"case \"{field.Field.Name}\":");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("try");
-                            using (new BraceWrapper(fg))
+                            if (generator.ShouldGenerateCopyIn(field.Field))
                             {
-                                generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", "errorMask");
-                            }
-                            fg.AppendLine("catch (Exception ex)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine("if (!doMasks) throw;");
-                                fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                fg.AppendLine("try");
+                                using (new BraceWrapper(fg))
+                                {
+                                    generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", "errorMask");
+                                }
+                                fg.AppendLine("catch (Exception ex)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("if (!doMasks) throw;");
+                                    fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                }
                             }
                             fg.AppendLine("break;");
                         }
@@ -700,16 +703,19 @@ namespace Loqui.Generation
                                 fg.AppendLine($"case \"{field.Field.Name}\":");
                                 using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("try");
-                                    using (new BraceWrapper(fg))
+                                    if (generator.ShouldGenerateCopyIn(field.Field))
                                     {
-                                        generator.GenerateCopyIn(fg, field.Field, "elem", $"item.{field.Field.Name}", "errorMask");
-                                    }
-                                    fg.AppendLine("catch (Exception ex)");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        fg.AppendLine("if (!doMasks) throw;");
-                                        fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                        fg.AppendLine("try");
+                                        using (new BraceWrapper(fg))
+                                        {
+                                            generator.GenerateCopyIn(fg, field.Field, "elem", $"item.{field.Field.Name}", "errorMask");
+                                        }
+                                        fg.AppendLine("catch (Exception ex)");
+                                        using (new BraceWrapper(fg))
+                                        {
+                                            fg.AppendLine("if (!doMasks) throw;");
+                                            fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                        }
                                     }
                                     fg.AppendLine("break;");
                                 }

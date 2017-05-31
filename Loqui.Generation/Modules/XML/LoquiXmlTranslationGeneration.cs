@@ -57,6 +57,12 @@ namespace Loqui.Generation
             }
         }
 
+        public override bool ShouldGenerateCopyIn(TypeGeneration typeGen)
+        {
+            var loquiGen = typeGen as LoquiType;
+            return loquiGen.SingletonType != LoquiType.SingletonLevel.Singleton || loquiGen.InterfaceType != LoquiInterfaceType.IGetter;
+        }
+
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
@@ -64,6 +70,7 @@ namespace Loqui.Generation
             {
                 if (loquiGen.SingletonType == LoquiType.SingletonLevel.Singleton)
                 {
+                    if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
                     using (var args = new ArgsWrapper(fg,
                         $"var tmp = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
                     {
@@ -79,6 +86,7 @@ namespace Loqui.Generation
                         args.Add("doErrorMask: doMasks");
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} copyMask");
                     }
+                    fg.AppendLine($"var sub{maskAccessor} = {loquiGen.ErrorMaskItemString}.Combine(createMask, copyMask);");
                 }
                 else
                 {

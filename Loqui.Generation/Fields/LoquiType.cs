@@ -40,7 +40,7 @@ namespace Loqui.Generation
                 if (this.SingletonType == SingletonLevel.Singleton
                     && this.Notifying == NotifyingOption.None)
                 {
-                    return $"_{this.Name}";
+                    return $"{this.Name}";
                 }
                 else
                 {
@@ -198,7 +198,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => this.{ this.ProtectedName};");
+                        fg.AppendLine($"get => this.{this.ProtectedName};");
                         if (this.SingletonType != SingletonLevel.Singleton)
                         {
                             fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");

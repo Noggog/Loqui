@@ -1123,6 +1123,11 @@ namespace Loqui.Tests.Internals
             ret.SomeField = this.SomeField.Combine(rhs.SomeField);
             return ret;
         }
+        public static ObjectToRef_ErrorMask Combine(ObjectToRef_ErrorMask lhs, ObjectToRef_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
+        }
         #endregion
 
     }

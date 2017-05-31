@@ -948,6 +948,11 @@ namespace Loqui.Tests.Internals
             ret.BoolN = this.BoolN.Combine(rhs.BoolN);
             return ret;
         }
+        public static TestObject_PrivateCtor_ErrorMask Combine(TestObject_PrivateCtor_ErrorMask lhs, TestObject_PrivateCtor_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
+        }
         #endregion
 
     }

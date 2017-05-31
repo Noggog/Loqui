@@ -3517,6 +3517,7 @@ namespace Loqui.Tests
                             def: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
+                        var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_Notifying_FieldIndex.Ref_Singleton, suberrorMask);
@@ -3565,27 +3566,6 @@ namespace Loqui.Tests
                     }
                     break;
                 case "RefGetter_Singleton":
-                    try
-                    {
-                        var tmp = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask createMask);
-                        item._RefGetter_Singleton.Item.CopyFieldsFrom(
-                            rhs: tmp,
-                            def: null,
-                            doErrorMask: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask copyMask);
-                        if (suberrorMask != null)
-                        {
-                            errorMask().SetNthMask((ushort)TestObject_Notifying_FieldIndex.RefGetter_Singleton, suberrorMask);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestObject_Notifying_FieldIndex.RefGetter_Singleton, ex);
-                    }
                     break;
                 case "RefSetter":
                     try
@@ -3635,6 +3615,7 @@ namespace Loqui.Tests
                             def: null,
                             doErrorMask: doMasks,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
+                        var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_Notifying_FieldIndex.RefSetter_Singleton, suberrorMask);
@@ -15347,6 +15328,11 @@ namespace Loqui.Tests.Internals
             ret.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(this.ValRefDict.Overall.Combine(rhs.ValRefDict.Overall), new List<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.ValRefDict.Specific.And(rhs.ValRefDict.Specific)));
             ret.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.DictKeyedValue.Overall.Combine(rhs.DictKeyedValue.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.DictKeyedValue.Specific.And(rhs.DictKeyedValue.Specific)));
             return ret;
+        }
+        public static TestObject_Notifying_ErrorMask Combine(TestObject_Notifying_ErrorMask lhs, TestObject_Notifying_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
         }
         #endregion
 

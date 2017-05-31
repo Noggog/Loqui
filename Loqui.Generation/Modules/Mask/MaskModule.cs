@@ -231,6 +231,13 @@ namespace Loqui.Generation
                         }
                         fg.AppendLine("return ret;");
                     }
+
+                    fg.AppendLine($"public static {obj.ErrorMask} Combine({obj.ErrorMask} lhs, {obj.ErrorMask} rhs)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (lhs != null && rhs != null) return lhs.Combine(rhs);");
+                        fg.AppendLine($"return lhs ?? rhs;");
+                    }
                 }
             }
 

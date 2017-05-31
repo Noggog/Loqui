@@ -893,6 +893,11 @@ namespace Loqui.Tests.Internals
             var ret = new TestGenericObject_SubClass_ErrorMask();
             return ret;
         }
+        public static TestGenericObject_SubClass_ErrorMask Combine(TestGenericObject_SubClass_ErrorMask lhs, TestGenericObject_SubClass_ErrorMask rhs)
+        {
+            if (lhs != null && rhs != null) return lhs.Combine(rhs);
+            return lhs ?? rhs;
+        }
         #endregion
 
     }
