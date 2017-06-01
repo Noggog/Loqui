@@ -360,7 +360,8 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"protected static void Fill_XML_Internal"))
+                $"protected static void Fill_XML_Internal{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");
@@ -407,7 +408,7 @@ namespace Loqui.Generation
                         if (obj.HasBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClass.ObjectName}.Fill_XML_Internal"))
+                                $"{obj.BaseClassName}.Fill_XML_Internal"))
                             {
                                 args.Add("item: item");
                                 args.Add("root: root");

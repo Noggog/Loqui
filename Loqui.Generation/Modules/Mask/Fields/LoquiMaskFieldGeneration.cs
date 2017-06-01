@@ -57,6 +57,12 @@ namespace Loqui.Generation
             }
         }
 
+        public bool IsUnknownGeneric(LoquiType type)
+        {
+            return type.RefType != LoquiRefType.Direct
+                && type.TargetObjectGeneration == null;
+        }
+
         public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
             LoquiType loqui = field as LoquiType;
@@ -68,8 +74,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({accessor}.Specific != null)");
             using (new BraceWrapper(fg))
             {
-                if (loqui.RefType == LoquiRefType.Direct
-                    || loqui.TargetObjectGeneration != null)
+                if (!IsUnknownGeneric(loqui))
                 {
                     fg.AppendLine($"{accessor}.Specific.ToString(fg);");
                 }
@@ -88,8 +93,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
-                if (loqui.RefType == LoquiRefType.Direct
-                    || loqui.TargetObjectGeneration != null)
+                if (!IsUnknownGeneric(loqui))
                 {
                     fg.AppendLine($"if ({field.Name}.Specific != null && !{field.Name}.Specific.AllEqual(eval)) return false;");
                 }
@@ -109,8 +113,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<R, {loqui.GenerateMaskString("R")}>();");
                 fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
-                if (loqui.RefType == LoquiRefType.Direct
-                    || loqui.TargetObjectGeneration != null)
+                if (!IsUnknownGeneric(loqui))
                 {
                     fg.AppendLine($"if ({rhsAccessor}.Specific != null)");
                     using (new BraceWrapper(fg))
@@ -128,7 +131,14 @@ namespace Loqui.Generation
         public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.ErrorMaskItemString}>({accessor}.Overall.Combine({rhsAccessor}.Overall), {accessor}.Specific.Combine({rhsAccessor}.Specific));");
+            if (!IsUnknownGeneric(loqui))
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.ErrorMaskItemString}>({accessor}.Overall.Combine({rhsAccessor}.Overall), {accessor}.Specific.Combine({rhsAccessor}.Specific));");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.ErrorMaskItemString}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.CombineHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
+            }
         }
     }
 }

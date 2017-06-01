@@ -248,12 +248,14 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected static void Fill_XML_Internal(
+        protected static void Fill_XML_Internal<T, RBase, R>(
             TestGenericObject<T, RBase, R> item,
             XElement root,
             string name,
             bool doMasks,
             Func<TestGenericObject_ErrorMask> errorMask)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
         {
             switch (name)
             {
@@ -1277,7 +1279,7 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestGenericObject_ErrorMask();
             ret.RefBase = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefBase.Overall.Combine(rhs.RefBase.Overall), this.RefBase.Specific.Combine(rhs.RefBase.Specific));
-            ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
+            ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), Loqui.Internal.CombineHelper.Combine(this.Ref.Specific, rhs.Ref.Specific));
             return ret;
         }
         public static TestGenericObject_ErrorMask Combine(TestGenericObject_ErrorMask lhs, TestGenericObject_ErrorMask rhs)

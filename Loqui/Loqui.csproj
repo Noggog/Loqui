@@ -49,6 +49,7 @@
     <Compile Include="Enums\GetterCopyOption.cs" />
     <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyOption.cs" />
+    <Compile Include="Extensions\CombineHelper.cs" />
     <Compile Include="Extensions\EnumerableExt.cs" />
     <Compile Include="Extensions\ExceptionExt.cs" />
     <Compile Include="Extensions\IHasBeenSetExt.cs" />

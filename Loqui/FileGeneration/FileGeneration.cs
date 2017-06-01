@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);"))
+            if (str.Equals("ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));"))
             {
                 int wer = 23;
                 wer++;
