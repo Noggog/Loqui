@@ -537,6 +537,8 @@ namespace Loqui.Tests.Internals
 
         public static readonly Type ClassType = typeof(TestGenericObject<,,>);
 
+        public static readonly Type CommonType = typeof(TestGenericObjectCommon);
+
         public const string FullName = "Loqui.Tests.TestGenericObject";
 
         public const string Name = "TestGenericObject";
@@ -647,6 +649,7 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.MaskType => MaskType;
         Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;
         Type ILoquiRegistration.ClassType => ClassType;
+        Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;
         byte ILoquiRegistration.GenericCount => GenericCount;

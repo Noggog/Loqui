@@ -424,6 +424,9 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
                     fg.AppendLine();
 
+                    fg.AppendLine($"public static readonly Type CommonType = typeof({this.ExtCommonName});");
+                    fg.AppendLine();
+
                     fg.AppendLine($"public const string FullName = \"{this.Namespace}.{this.Name}\";");
                     fg.AppendLine();
 
@@ -469,6 +472,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"Type ILoquiRegistration.MaskType => MaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ClassType => ClassType;");
+                        fg.AppendLine($"Type ILoquiRegistration.CommonType => CommonType;");
                         fg.AppendLine($"string ILoquiRegistration.FullName => FullName;");
                         fg.AppendLine($"string ILoquiRegistration.Name => Name;");
                         fg.AppendLine($"byte ILoquiRegistration.GenericCount => GenericCount;");

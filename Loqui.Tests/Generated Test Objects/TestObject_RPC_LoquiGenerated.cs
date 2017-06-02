@@ -4021,6 +4021,8 @@ namespace Loqui.Tests.Internals
 
         public static readonly Type ClassType = typeof(TestObject_RPC);
 
+        public static readonly Type CommonType = typeof(TestObject_RPCCommon);
+
         public const string FullName = "Loqui.Tests.TestObject_RPC";
 
         public const string Name = "TestObject_RPC";
@@ -5169,6 +5171,7 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.MaskType => MaskType;
         Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;
         Type ILoquiRegistration.ClassType => ClassType;
+        Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;
         byte ILoquiRegistration.GenericCount => GenericCount;

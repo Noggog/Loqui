@@ -39,6 +39,8 @@ namespace Loqui
 
         Type ClassType { get; }
 
+        Type CommonType { get; }
+
         string FullName { get; }
 
         string Name { get; }
