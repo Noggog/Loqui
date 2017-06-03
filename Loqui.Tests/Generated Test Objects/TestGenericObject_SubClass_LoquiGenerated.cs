@@ -201,6 +201,7 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
+                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -217,6 +218,7 @@ namespace Loqui.Tests
             TestGenericObject_SubClass<S, T, RBase, R> item,
             XElement root,
             string name,
+            string typeName,
             bool doMasks,
             Func<TestGenericObject_SubClass_ErrorMask> errorMask)
             where S : ObjectToRef
@@ -231,6 +233,7 @@ namespace Loqui.Tests
                         item: item,
                         root: root,
                         name: name,
+                        typeName: typeName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                     break;

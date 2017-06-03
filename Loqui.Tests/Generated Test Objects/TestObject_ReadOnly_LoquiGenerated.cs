@@ -930,6 +930,7 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
+                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -946,6 +947,7 @@ namespace Loqui.Tests
             TestObject_ReadOnly item,
             XElement root,
             string name,
+            string typeName,
             bool doMasks,
             Func<TestObject_ReadOnly_ErrorMask> errorMask)
         {
@@ -2283,10 +2285,23 @@ namespace Loqui.Tests
                 case "Ref":
                     try
                     {
-                        item.Ref = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.Ref = (ObjectToRef)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.Ref, suberrorMask);
@@ -2301,10 +2316,23 @@ namespace Loqui.Tests
                 case "Ref_NotNull":
                     try
                     {
-                        item.Ref_NotNull = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.Ref_NotNull = (ObjectToRef)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.Ref_NotNull, suberrorMask);
@@ -2346,10 +2374,23 @@ namespace Loqui.Tests
                 case "RefGetter":
                     try
                     {
-                        item.RefGetter = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.RefGetter = (IObjectToRefGetter)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.RefGetter, suberrorMask);
@@ -2364,10 +2405,23 @@ namespace Loqui.Tests
                 case "RefGetter_NotNull":
                     try
                     {
-                        item.RefGetter_NotNull = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.RefGetter_NotNull = (IObjectToRefGetter)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull, suberrorMask);
@@ -2384,10 +2438,23 @@ namespace Loqui.Tests
                 case "RefSetter":
                     try
                     {
-                        item.RefSetter = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.RefSetter = (IObjectToRef)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.RefSetter, suberrorMask);
@@ -2402,10 +2469,23 @@ namespace Loqui.Tests
                 case "RefSetter_NotNull":
                     try
                     {
-                        item.RefSetter_NotNull = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item.RefSetter_NotNull = (IObjectToRef)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull, suberrorMask);

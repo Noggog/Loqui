@@ -93,12 +93,31 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{itemAccessor} = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
+                    fg.AppendLine($"{loquiGen.TargetObjectGeneration.ErrorMask} suberrorMask;");
+                    fg.AppendLine($"if (typeName.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
+                    using (new BraceWrapper(fg))
                     {
-                        args.Add($"root: {nodeAccessor}");
-                        args.Add($"doMasks: doMasks");
-                        args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} sub{maskAccessor}");
+                        using (var args = new ArgsWrapper(fg,
+                            $"{itemAccessor} = ({typeGen.TypeName}){loquiGen.TargetObjectGeneration.Name}.Create_XML"))
+                        {
+                            args.Add($"root: {nodeAccessor}");
+                            args.Add($"doMasks: doMasks");
+                            args.Add($"errorMask: out sub{maskAccessor}");
+                        }
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName(typeName);");
+                        using (var args = new ArgsWrapper(fg,
+                            $"XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse"))
+                        {
+                            args.Add("root: root");
+                            args.Add("doMasks: doMasks");
+                            args.Add("maskObj: out var subErrorMaskObj");
+                        }
+                        fg.AppendLine($"suberrorMask = ({loquiGen.TargetObjectGeneration.ErrorMask})subErrorMaskObj;");
+
                     }
                 }
 

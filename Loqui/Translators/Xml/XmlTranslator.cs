@@ -13,74 +13,18 @@ namespace Loqui.Xml
 {
     public class XmlTranslator
     {
-        static Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
-        static Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>>();
-        static HashSet<Type> GenericTypes = new HashSet<Type>();
-
-        static XmlTranslator()
-        {
-            foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<>)))
-            {
-                if (kv.Value.IsAbstract) continue;
-                if (kv.Value.Equals(typeof(XmlTranslationCaster<>))) continue;
-                if (kv.Value.IsGenericTypeDefinition)
-                {
-                    GenericTypes.Add(kv.Value);
-                    continue;
-                }
-                Type transItemType = kv.Key.GetGenericArguments()[0];
-                try
-                {
-                    SetTranslator(
-                        GetCaster(kv.Value, transItemType), 
-                        transItemType);
-                }
-                catch (Exception ex)
-                {
-                    var resp = typeDict.TryCreateValue(
-                        transItemType,
-                        () =>
-                        {
-                            return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                        }).Item = GetResponse<IXmlTranslation<object>>.Fail(ex);
-                }
-            }
-        }
-
-        private static IXmlTranslation<object> GetCaster(Type xmlType, Type targetType)
-        {
-            object xmlTransl = Activator.CreateInstance(xmlType);
-            var xmlConverterGenType = typeof(XmlTranslationCaster<>).MakeGenericType(targetType);
-            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object>;
-        }
+        static Lazy<XmlTranslatorCache> Cache = new Lazy<XmlTranslatorCache>();
 
         public static bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
         {
-            var ret = elementNameTypeDict.TryGetValue(elementName, out NotifyingItem<Type> n);
+            var ret = Cache.Value.elementNameTypeDict.TryGetValue(elementName, out NotifyingItem<Type> n);
             t = n;
             return ret;
         }
 
         public static bool Validate(Type t)
         {
-            return typeDict.ContainsKey(t);
-        }
-
-        internal static void SetTranslator<T>(IXmlTranslation<T> transl)
-        {
-            SetTranslator(transl as IXmlTranslation<Object>, typeof(T));
-        }
-
-        private static void SetTranslator(IXmlTranslation<Object> transl, Type t)
-        {
-            var resp = typeDict.TryCreateValue(
-                t,
-                () =>
-                {
-                    return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                }).Item = GetResponse<IXmlTranslation<object>>.Succeed(transl);
-            if (string.IsNullOrEmpty(transl.ElementName)) return;
-            elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Item = t;
+            return Cache.Value.typeDict.ContainsKey(t);
         }
 
         public static INotifyingItemGetter<GetResponse<IXmlTranslation<Object>>> GetTranslator(Type t)
@@ -91,7 +35,7 @@ namespace Loqui.Xml
 
         public static bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)
         {
-            if (typeDict.TryGetValue(t, out var item))
+            if (Cache.Value.typeDict.TryGetValue(t, out var item))
             {
                 not = item;
                 return true;
@@ -104,10 +48,10 @@ namespace Loqui.Xml
                     LoquiRegistration.GetRegister(t).ErrorMaskType
                 };
                 var xmlConverterGenType = typeof(LoquiXmlTranslation<,>).MakeGenericType(loquiTypes);
-                var xmlCaster = GetCaster(xmlConverterGenType, t);
+                var xmlCaster = Cache.Value.GetCaster(xmlConverterGenType, t);
                 item = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
                     GetResponse<IXmlTranslation<object>>.Succeed(xmlCaster));
-                typeDict[t] = item;
+                Cache.Value.typeDict[t] = item;
                 not = item;
                 return true;
             }
@@ -117,7 +61,7 @@ namespace Loqui.Xml
 
         public static bool TryGetTranslator(Type t, out IXmlTranslation<object> transl)
         {
-            if (!typeDict.TryGetValue(t, out NotifyingItem<GetResponse<IXmlTranslation<object>>> not))
+            if (!Cache.Value.typeDict.TryGetValue(t, out NotifyingItem<GetResponse<IXmlTranslation<object>>> not))
             {
                 transl = null;
                 return false;
@@ -130,12 +74,17 @@ namespace Loqui.Xml
             transl = not.Item.Value;
             return transl != null;
         }
+
+        internal static void SetTranslator<T>(IXmlTranslation<T> transl)
+        {
+            Cache.Value.SetTranslator(transl as IXmlTranslation<Object>, typeof(T));
+        }
     }
 
     public class XmlTranslator<T>
     {
         private static NotifyingItem<GetResponse<IXmlTranslation<T>>> _translator = new NotifyingItem<GetResponse<IXmlTranslation<T>>>();
-        public static INotifyingItemGetter<GetResponse<IXmlTranslation<T>>> Translator { get { return _translator; } }
+        public static INotifyingItemGetter<GetResponse<IXmlTranslation<T>>> Translator => _translator;
 
         static XmlTranslator()
         {

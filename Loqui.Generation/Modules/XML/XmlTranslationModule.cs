@@ -344,6 +344,7 @@ namespace Loqui.Generation
                             args.Add("item: ret");
                             args.Add("root: elem");
                             args.Add("name: name.Value");
+                            args.Add("typeName: elem.Name.LocalName");
                             args.Add("doMasks: doMasks");
                             args.Add("errorMask: errorMask");
                         }
@@ -366,6 +367,7 @@ namespace Loqui.Generation
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");
                 args.Add("string name");
+                args.Add("string typeName");
                 args.Add("bool doMasks");
                 args.Add($"Func<{obj.ErrorMask}> errorMask");
             }
@@ -413,6 +415,7 @@ namespace Loqui.Generation
                                 args.Add("item: item");
                                 args.Add("root: root");
                                 args.Add("name: name");
+                                args.Add("typeName: typeName");
                                 args.Add("doMasks: doMasks");
                                 args.Add("errorMask: errorMask");
                             }

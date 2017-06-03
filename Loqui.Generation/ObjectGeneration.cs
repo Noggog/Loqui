@@ -17,6 +17,7 @@ namespace Loqui.Generation
         public string Name;
         public string Namespace;
         public string InternalNamespace => $"{Namespace}.Internals";
+        public string FullName => $"{Namespace}.{Name}";
         public abstract bool Abstract { get; }
         public DisabledLevel Disabled { get; protected set; }
         public bool GenerateClass { get; protected set; }
@@ -427,7 +428,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly Type CommonType = typeof({this.ExtCommonName});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const string FullName = \"{this.Namespace}.{this.Name}\";");
+                    fg.AppendLine($"public const string FullName = \"{this.FullName}\";");
                     fg.AppendLine();
 
                     fg.AppendLine($"public const string Name = \"{this.Name}\";");

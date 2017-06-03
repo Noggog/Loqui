@@ -236,6 +236,7 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
+                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -252,6 +253,7 @@ namespace Loqui.Tests
             TestGenericObject<T, RBase, R> item,
             XElement root,
             string name,
+            string typeName,
             bool doMasks,
             Func<TestGenericObject_ErrorMask> errorMask)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -262,10 +264,23 @@ namespace Loqui.Tests
                 case "RefBase":
                     try
                     {
-                        item._RefBase.Item = ObjectToRef.Create_XML(
-                            root: root,
-                            doMasks: doMasks,
-                            errorMask: out ObjectToRef_ErrorMask suberrorMask);
+                        ObjectToRef_ErrorMask suberrorMask;
+                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        {
+                            item._RefBase.Item = (RBase)ObjectToRef.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out suberrorMask);
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj);
+                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                        }
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, suberrorMask);
