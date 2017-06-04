@@ -302,7 +302,20 @@ namespace Loqui.Tests
                 case "Ref":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.Ref == null ? null : item.Ref.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {

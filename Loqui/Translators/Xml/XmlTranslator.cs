@@ -35,28 +35,7 @@ namespace Loqui.Xml
 
         public static bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)
         {
-            if (Cache.Value.typeDict.TryGetValue(t, out var item))
-            {
-                not = item;
-                return true;
-            }
-            if (LoquiRegistration.IsLoquiType(t))
-            {
-                var loquiTypes = new Type[]
-                {
-                    t,
-                    LoquiRegistration.GetRegister(t).ErrorMaskType
-                };
-                var xmlConverterGenType = typeof(LoquiXmlTranslation<,>).MakeGenericType(loquiTypes);
-                var xmlCaster = Cache.Value.GetCaster(xmlConverterGenType, t);
-                item = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
-                    GetResponse<IXmlTranslation<object>>.Succeed(xmlCaster));
-                Cache.Value.typeDict[t] = item;
-                not = item;
-                return true;
-            }
-            not = null;
-            return false;
+            return Cache.Value.TryGetTranslator(t, out not);
         }
 
         public static bool TryGetTranslator(Type t, out IXmlTranslation<object> transl)

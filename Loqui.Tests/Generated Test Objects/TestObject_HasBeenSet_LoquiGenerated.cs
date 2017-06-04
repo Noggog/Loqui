@@ -923,6 +923,17 @@ namespace Loqui.Tests
         }
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
         #endregion
+        #region WildCardNull
+        protected readonly IHasBeenSetItem<Object> _WildCardNull = HasBeenSetItem.Factory<Object>(markAsSet: false);
+        public IHasBeenSetItem<Object> WildCardNull_Property => _WildCardNull;
+        Object ITestObject_HasBeenSetGetter.WildCardNull => this.WildCardNull;
+        public Object WildCardNull
+        {
+            get => this._WildCardNull.Item;
+            set => this._WildCardNull.Item = WildcardLink.Validate(value);
+        }
+        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCardNull_Property => this.WildCardNull_Property;
+        #endregion
         #region Ref
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
         public ObjectToRef Ref
@@ -1588,6 +1599,11 @@ namespace Loqui.Tests
             {
                 if (WildCard != rhs.WildCard) return false;
             }
+            if (WildCardNull_Property.HasBeenSet != rhs.WildCardNull_Property.HasBeenSet) return false;
+            if (WildCardNull_Property.HasBeenSet)
+            {
+                if (WildCardNull != rhs.WildCardNull) return false;
+            }
             if (Ref_Property.HasBeenSet != rhs.Ref_Property.HasBeenSet) return false;
             if (Ref_Property.HasBeenSet)
             {
@@ -1989,6 +2005,10 @@ namespace Loqui.Tests
             if (WildCard_Property.HasBeenSet)
             {
                 ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
+            }
+            if (WildCardNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(WildCardNull).CombineHashCode(ret);
             }
             if (Ref_Property.HasBeenSet)
             {
@@ -2659,7 +2679,20 @@ namespace Loqui.Tests
                 case "Unsafe":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.Unsafe == null ? null : item.Unsafe.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Unsafe, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -3467,12 +3500,49 @@ namespace Loqui.Tests
                 case "WildCard":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.WildCard == null ? null : item.WildCard.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.WildCard, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
                         if (!doMasks) throw;
                         errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.WildCard, ex);
+                    }
+                    break;
+                case "WildCardNull":
+                    try
+                    {
+                        var wildType = item.WildCardNull == null ? null : item.WildCardNull.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull, ex);
                     }
                     break;
                 case "Ref":
@@ -3742,7 +3812,20 @@ namespace Loqui.Tests
                 case "Dict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.Dict == null ? null : item.Dict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Dict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -3753,7 +3836,20 @@ namespace Loqui.Tests
                 case "RefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.RefDict == null ? null : item.RefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -3764,7 +3860,20 @@ namespace Loqui.Tests
                 case "KeyRefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.KeyRefDict == null ? null : item.KeyRefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -3775,7 +3884,20 @@ namespace Loqui.Tests
                 case "ValRefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.ValRefDict == null ? null : item.ValRefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -3786,7 +3908,20 @@ namespace Loqui.Tests
                 case "DictKeyedValue":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.DictKeyedValue, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -4170,6 +4305,9 @@ namespace Loqui.Tests
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     this._WildCard.Set((Object)obj);
                     break;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    this._WildCardNull.Set((Object)obj);
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     this._Ref.Set((ObjectToRef)obj);
                     break;
@@ -4510,6 +4648,9 @@ namespace Loqui.Tests
 
         new Object WildCard { get; set; }
         new IHasBeenSetItem<Object> WildCard_Property { get; }
+
+        new Object WildCardNull { get; set; }
+        new IHasBeenSetItem<Object> WildCardNull_Property { get; }
 
         new ObjectToRef Ref { get; set; }
         new IHasBeenSetItem<ObjectToRef> Ref_Property { get; }
@@ -4935,6 +5076,11 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Object> WildCard_Property { get; }
 
         #endregion
+        #region WildCardNull
+        Object WildCardNull { get; }
+        IHasBeenSetItemGetter<Object> WildCardNull_Property { get; }
+
+        #endregion
         #region Ref
         ObjectToRef Ref { get; }
         IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
@@ -5092,22 +5238,23 @@ namespace Loqui.Tests.Internals
         Enum = 76,
         EnumNull = 77,
         WildCard = 78,
-        Ref = 79,
-        Ref_NotNull = 80,
-        Ref_Singleton = 81,
-        RefGetter = 82,
-        RefGetter_NotNull = 83,
-        RefGetter_Singleton = 84,
-        RefSetter = 85,
-        RefSetter_NotNull = 86,
-        RefSetter_Singleton = 87,
-        List = 88,
-        RefList = 89,
-        Dict = 90,
-        RefDict = 91,
-        KeyRefDict = 92,
-        ValRefDict = 93,
-        DictKeyedValue = 94,
+        WildCardNull = 79,
+        Ref = 80,
+        Ref_NotNull = 81,
+        Ref_Singleton = 82,
+        RefGetter = 83,
+        RefGetter_NotNull = 84,
+        RefGetter_Singleton = 85,
+        RefSetter = 86,
+        RefSetter_NotNull = 87,
+        RefSetter_Singleton = 88,
+        List = 89,
+        RefList = 90,
+        Dict = 91,
+        RefDict = 92,
+        KeyRefDict = 93,
+        ValRefDict = 94,
+        DictKeyedValue = 95,
     }
     #endregion
 
@@ -5125,7 +5272,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "8dd2de32-392f-409f-b0bb-410a8d687c92";
 
-        public const ushort FieldCount = 95;
+        public const ushort FieldCount = 96;
 
         public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Mask<>);
 
@@ -5305,6 +5452,8 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_HasBeenSet_FieldIndex.EnumNull;
                 case "WILDCARD":
                     return (ushort)TestObject_HasBeenSet_FieldIndex.WildCard;
+                case "WILDCARDNULL":
+                    return (ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull;
                 case "REF":
                     return (ushort)TestObject_HasBeenSet_FieldIndex.Ref;
                 case "REF_NOTNULL":
@@ -5429,6 +5578,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.Enum:
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
@@ -5544,6 +5694,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.Enum:
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_FieldIndex.List:
                 case TestObject_HasBeenSet_FieldIndex.Dict:
                 case TestObject_HasBeenSet_FieldIndex.RefDict:
@@ -5644,6 +5795,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.Enum:
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
                 case TestObject_HasBeenSet_FieldIndex.RefGetter:
@@ -5826,6 +5978,8 @@ namespace Loqui.Tests.Internals
                     return "EnumNull";
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     return "WildCard";
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    return "WildCardNull";
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     return "Ref";
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
@@ -5947,6 +6101,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.Enum:
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
@@ -6053,6 +6208,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.Enum:
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
                 case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
@@ -6237,6 +6393,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.EnumNull:
                     return typeof(TestEnum?);
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
+                    return typeof(Object);
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
                     return typeof(Object);
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     return typeof(ObjectToRef);
@@ -6816,6 +6974,12 @@ namespace Loqui.Tests.Internals
                 item.WildCard_Property.SetToWithDefault(
                     rhs.WildCard_Property,
                     def?.WildCard_Property);
+            }
+            if (copyMask?.WildCardNull ?? true)
+            {
+                item.WildCardNull_Property.SetToWithDefault(
+                    rhs.WildCardNull_Property,
+                    def?.WildCardNull_Property);
             }
             if (copyMask?.Ref.Overall != CopyOption.Skip)
             {
@@ -7581,6 +7745,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     obj.WildCard_Property.HasBeenSet = on;
                     break;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    obj.WildCardNull_Property.HasBeenSet = on;
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
                     break;
@@ -7876,6 +8043,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     obj.WildCard_Property.Unset();
                     break;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    obj.WildCardNull_Property.Unset();
+                    break;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     obj.Ref_Property.Unset();
                     break;
@@ -8093,6 +8263,8 @@ namespace Loqui.Tests.Internals
                     return obj.EnumNull_Property.HasBeenSet;
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    return obj.WildCardNull_Property.HasBeenSet;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
@@ -8295,6 +8467,8 @@ namespace Loqui.Tests.Internals
                     return obj.EnumNull;
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     return obj.WildCard;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    return obj.WildCardNull;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     return obj.Ref;
                 case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
@@ -8415,6 +8589,7 @@ namespace Loqui.Tests.Internals
             item.Enum = default(TestEnum);
             item.EnumNull = default(TestEnum?);
             item.WildCard = default(Object);
+            item.WildCardNull = default(Object);
             item.Ref = default(ObjectToRef);
             item.Ref_NotNull = default(ObjectToRef);
             item.RefGetter = default(IObjectToRefGetter);
@@ -8523,6 +8698,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l != r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l != r);
             ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => l != r);
+            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => l != r);
             ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
@@ -10216,6 +10392,36 @@ namespace Loqui.Tests.Internals
                             errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.WildCard, ex);
                         }
                     }
+                    if (item.WildCardNull_Property.HasBeenSet)
+                    {
+                        try
+                        {
+                            if (item.WildCardNull_Property.HasBeenSet)
+                            {
+                                var wildType = item.WildCardNull == null ? null : item.WildCardNull.GetType();
+                                var transl = XmlTranslator.GetTranslator(wildType);
+                                if (transl?.Item.Failed ?? true)
+                                {
+                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                                }
+                                transl.Item.Value.Write(
+                                    writer,
+                                    nameof(item.WildCardNull),
+                                    item.WildCardNull,
+                                    doMasks,
+                                    out object suberrorMask);
+                                if (suberrorMask != null)
+                                {
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull, suberrorMask);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (!doMasks) throw;
+                            errorMask().SetNthException((ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull, ex);
+                        }
+                    }
                     if (item.Ref_Property.HasBeenSet)
                     {
                         try
@@ -10750,6 +10956,7 @@ namespace Loqui.Tests.Internals
         public T Enum;
         public T EnumNull;
         public T WildCard;
+        public T WildCardNull;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_Singleton { get; set; }
@@ -10850,6 +11057,7 @@ namespace Loqui.Tests.Internals
             if (!eval(this.Enum)) return false;
             if (!eval(this.EnumNull)) return false;
             if (!eval(this.WildCard)) return false;
+            if (!eval(this.WildCardNull)) return false;
             if (Ref != null)
             {
                 if (!eval(this.Ref.Overall)) return false;
@@ -11081,6 +11289,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = eval(this.Enum);
             ret.EnumNull = eval(this.EnumNull);
             ret.WildCard = eval(this.WildCard);
+            ret.WildCardNull = eval(this.WildCardNull);
             if (this.Ref != null)
             {
                 ret.Ref = new MaskItem<R, ObjectToRef_Mask<R>>();
@@ -12129,6 +12338,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (WildCardNull != null)
+                {
+                    fg.AppendLine("WildCardNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(WildCardNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (Ref != null)
                 {
                     fg.AppendLine("Ref =>");
@@ -12638,6 +12857,7 @@ namespace Loqui.Tests.Internals
         public Exception Enum;
         public Exception EnumNull;
         public Exception WildCard;
+        public Exception WildCardNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_Singleton;
@@ -12898,6 +13118,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     this.WildCard = ex;
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    this.WildCardNull = ex;
                     break;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
@@ -13193,6 +13416,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_HasBeenSet_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
+                    break;
+                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                    this.WildCardNull = (Exception)obj;
                     break;
                 case TestObject_HasBeenSet_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
@@ -14052,6 +14278,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (WildCardNull != null)
+                {
+                    fg.AppendLine("WildCardNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(WildCardNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (Ref != null)
                 {
                     fg.AppendLine("Ref =>");
@@ -14547,6 +14783,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = this.Enum.Combine(rhs.Enum);
             ret.EnumNull = this.EnumNull.Combine(rhs.EnumNull);
             ret.WildCard = this.WildCard.Combine(rhs.WildCard);
+            ret.WildCardNull = this.WildCardNull.Combine(rhs.WildCardNull);
             ret.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
             ret.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_NotNull.Overall.Combine(rhs.Ref_NotNull.Overall), this.Ref_NotNull.Specific.Combine(rhs.Ref_NotNull.Specific));
             ret.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_Singleton.Overall.Combine(rhs.Ref_Singleton.Overall), this.Ref_Singleton.Specific.Combine(rhs.Ref_Singleton.Specific));
@@ -14655,6 +14892,7 @@ namespace Loqui.Tests.Internals
         public bool Enum;
         public bool EnumNull;
         public bool WildCard;
+        public bool WildCardNull;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;

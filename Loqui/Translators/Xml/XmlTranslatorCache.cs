@@ -10,6 +10,9 @@ namespace Loqui.Xml
 {
     class XmlTranslatorCache
     {
+        public NotifyingItem<GetResponse<IXmlTranslation<object>>> NullTranslation = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
+            defaultVal: GetResponse<IXmlTranslation<object>>.Succeed(new NullXmlTranslation()),
+            markAsSet: true);
         public Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
         public Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
@@ -42,6 +45,37 @@ namespace Loqui.Xml
                         }).Item = GetResponse<IXmlTranslation<object>>.Fail(ex);
                 }
             }
+        }
+
+        public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)
+        {
+            if (t == null)
+            {
+                not = NullTranslation;
+                return true;
+            }
+            if (typeDict.TryGetValue(t, out var item))
+            {
+                not = item;
+                return true;
+            }
+            if (LoquiRegistration.IsLoquiType(t))
+            {
+                var loquiTypes = new Type[]
+                {
+                    t,
+                    LoquiRegistration.GetRegister(t).ErrorMaskType
+                };
+                var xmlConverterGenType = typeof(LoquiXmlTranslation<,>).MakeGenericType(loquiTypes);
+                var xmlCaster = GetCaster(xmlConverterGenType, t);
+                item = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
+                    GetResponse<IXmlTranslation<object>>.Succeed(xmlCaster));
+                typeDict[t] = item;
+                not = item;
+                return true;
+            }
+            not = null;
+            return false;
         }
 
         public IXmlTranslation<object> GetCaster(Type xmlType, Type targetType)

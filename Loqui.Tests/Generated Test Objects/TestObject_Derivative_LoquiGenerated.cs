@@ -473,6 +473,15 @@ namespace Loqui.Tests
         }
         Object ITestObject_DerivativeGetter.WildCard => this.WildCard;
         #endregion
+        #region WildCardNull
+        protected Object _WildCardNull;
+        public Object WildCardNull
+        {
+            get => this._WildCardNull;
+            protected set => this._WildCardNull = WildcardLink.Validate(value);
+        }
+        Object ITestObject_DerivativeGetter.WildCardNull => this.WildCardNull;
+        #endregion
         #region Ref
         public ObjectToRef Ref { get; protected set; }
         #endregion
@@ -751,6 +760,7 @@ namespace Loqui.Tests
             if (Enum != rhs.Enum) return false;
             if (EnumNull != rhs.EnumNull) return false;
             if (WildCard != rhs.WildCard) return false;
+            if (WildCardNull != rhs.WildCardNull) return false;
             if (object.Equals(Ref, rhs.Ref)) return false;
             if (object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
             if (object.Equals(Ref_Singleton, rhs.Ref_Singleton)) return false;
@@ -852,6 +862,7 @@ namespace Loqui.Tests
             ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(EnumNull).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(WildCardNull).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Ref_Singleton).CombineHashCode(ret);
@@ -1473,7 +1484,20 @@ namespace Loqui.Tests
                 case "Unsafe":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.Unsafe == null ? null : item.Unsafe.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.Unsafe, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2281,12 +2305,49 @@ namespace Loqui.Tests
                 case "WildCard":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.WildCard == null ? null : item.WildCard.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.WildCard, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
                         if (!doMasks) throw;
                         errorMask().SetNthException((ushort)TestObject_Derivative_FieldIndex.WildCard, ex);
+                    }
+                    break;
+                case "WildCardNull":
+                    try
+                    {
+                        var wildType = item.WildCardNull == null ? null : item.WildCardNull.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.WildCardNull, suberrorMask);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!doMasks) throw;
+                        errorMask().SetNthException((ushort)TestObject_Derivative_FieldIndex.WildCardNull, ex);
                     }
                     break;
                 case "Ref":
@@ -2556,7 +2617,20 @@ namespace Loqui.Tests
                 case "Dict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.Dict == null ? null : item.Dict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.Dict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2567,7 +2641,20 @@ namespace Loqui.Tests
                 case "RefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.RefDict == null ? null : item.RefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.RefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2578,7 +2665,20 @@ namespace Loqui.Tests
                 case "KeyRefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.KeyRefDict == null ? null : item.KeyRefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.KeyRefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2589,7 +2689,20 @@ namespace Loqui.Tests
                 case "ValRefDict":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.ValRefDict == null ? null : item.ValRefDict.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.ValRefDict, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2600,7 +2713,20 @@ namespace Loqui.Tests
                 case "DictKeyedValue":
                     try
                     {
-                        throw new NotImplementedException();
+                        var wildType = item.DictKeyedValue == null ? null : item.DictKeyedValue.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
+                        {
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                        }
+                        transl.Item.Value.Parse(
+                            root,
+                            doMasks,
+                            out object suberrorMask);
+                        if (suberrorMask != null)
+                        {
+                            errorMask().SetNthMask((ushort)TestObject_Derivative_FieldIndex.DictKeyedValue, suberrorMask);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2826,6 +2952,7 @@ namespace Loqui.Tests
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -3200,6 +3327,10 @@ namespace Loqui.Tests
         Object WildCard { get; }
 
         #endregion
+        #region WildCardNull
+        Object WildCardNull { get; }
+
+        #endregion
         #region Ref
         ObjectToRef Ref { get; }
 
@@ -3348,22 +3479,23 @@ namespace Loqui.Tests.Internals
         Enum = 76,
         EnumNull = 77,
         WildCard = 78,
-        Ref = 79,
-        Ref_NotNull = 80,
-        Ref_Singleton = 81,
-        RefGetter = 82,
-        RefGetter_NotNull = 83,
-        RefGetter_Singleton = 84,
-        RefSetter = 85,
-        RefSetter_NotNull = 86,
-        RefSetter_Singleton = 87,
-        List = 88,
-        RefList = 89,
-        Dict = 90,
-        RefDict = 91,
-        KeyRefDict = 92,
-        ValRefDict = 93,
-        DictKeyedValue = 94,
+        WildCardNull = 79,
+        Ref = 80,
+        Ref_NotNull = 81,
+        Ref_Singleton = 82,
+        RefGetter = 83,
+        RefGetter_NotNull = 84,
+        RefGetter_Singleton = 85,
+        RefSetter = 86,
+        RefSetter_NotNull = 87,
+        RefSetter_Singleton = 88,
+        List = 89,
+        RefList = 90,
+        Dict = 91,
+        RefDict = 92,
+        KeyRefDict = 93,
+        ValRefDict = 94,
+        DictKeyedValue = 95,
     }
     #endregion
 
@@ -3381,7 +3513,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "ec188280-ea8c-4490-b011-0940de80033f";
 
-        public const ushort FieldCount = 95;
+        public const ushort FieldCount = 96;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_Mask<>);
 
@@ -3561,6 +3693,8 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_Derivative_FieldIndex.EnumNull;
                 case "WILDCARD":
                     return (ushort)TestObject_Derivative_FieldIndex.WildCard;
+                case "WILDCARDNULL":
+                    return (ushort)TestObject_Derivative_FieldIndex.WildCardNull;
                 case "REF":
                     return (ushort)TestObject_Derivative_FieldIndex.Ref;
                 case "REF_NOTNULL":
@@ -3685,6 +3819,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -3800,6 +3935,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.List:
                 case TestObject_Derivative_FieldIndex.Dict:
                 case TestObject_Derivative_FieldIndex.RefDict:
@@ -3900,6 +4036,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.RefGetter:
@@ -4082,6 +4219,8 @@ namespace Loqui.Tests.Internals
                     return "EnumNull";
                 case TestObject_Derivative_FieldIndex.WildCard:
                     return "WildCard";
+                case TestObject_Derivative_FieldIndex.WildCardNull:
+                    return "WildCardNull";
                 case TestObject_Derivative_FieldIndex.Ref:
                     return "Ref";
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
@@ -4203,6 +4342,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -4309,6 +4449,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -4493,6 +4634,8 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.EnumNull:
                     return typeof(TestEnum?);
                 case TestObject_Derivative_FieldIndex.WildCard:
+                    return typeof(Object);
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                     return typeof(Object);
                 case TestObject_Derivative_FieldIndex.Ref:
                     return typeof(ObjectToRef);
@@ -4691,6 +4834,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -4800,6 +4944,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -4908,6 +5053,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.Enum:
                 case TestObject_Derivative_FieldIndex.EnumNull:
                 case TestObject_Derivative_FieldIndex.WildCard:
+                case TestObject_Derivative_FieldIndex.WildCardNull:
                 case TestObject_Derivative_FieldIndex.Ref:
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
                 case TestObject_Derivative_FieldIndex.Ref_Singleton:
@@ -5095,6 +5241,8 @@ namespace Loqui.Tests.Internals
                     return obj.EnumNull;
                 case TestObject_Derivative_FieldIndex.WildCard:
                     return obj.WildCard;
+                case TestObject_Derivative_FieldIndex.WildCardNull:
+                    return obj.WildCardNull;
                 case TestObject_Derivative_FieldIndex.Ref:
                     return obj.Ref;
                 case TestObject_Derivative_FieldIndex.Ref_NotNull:
@@ -5231,6 +5379,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = item.Enum != rhs.Enum;
             ret.EnumNull = item.EnumNull != rhs.EnumNull;
             ret.WildCard = item.WildCard != rhs.WildCard;
+            ret.WildCardNull = item.WildCardNull != rhs.WildCardNull;
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
             ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
@@ -5496,6 +5645,7 @@ namespace Loqui.Tests.Internals
         public T Enum;
         public T EnumNull;
         public T WildCard;
+        public T WildCardNull;
         public MaskItem<T, ObjectToRef_Mask<T>> Ref { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_NotNull { get; set; }
         public MaskItem<T, ObjectToRef_Mask<T>> Ref_Singleton { get; set; }
@@ -5596,6 +5746,7 @@ namespace Loqui.Tests.Internals
             if (!eval(this.Enum)) return false;
             if (!eval(this.EnumNull)) return false;
             if (!eval(this.WildCard)) return false;
+            if (!eval(this.WildCardNull)) return false;
             if (Ref != null)
             {
                 if (!eval(this.Ref.Overall)) return false;
@@ -5827,6 +5978,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = eval(this.Enum);
             ret.EnumNull = eval(this.EnumNull);
             ret.WildCard = eval(this.WildCard);
+            ret.WildCardNull = eval(this.WildCardNull);
             if (this.Ref != null)
             {
                 ret.Ref = new MaskItem<R, ObjectToRef_Mask<R>>();
@@ -6875,6 +7027,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (WildCardNull != null)
+                {
+                    fg.AppendLine("WildCardNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(WildCardNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (Ref != null)
                 {
                     fg.AppendLine("Ref =>");
@@ -7384,6 +7546,7 @@ namespace Loqui.Tests.Internals
         public Exception Enum;
         public Exception EnumNull;
         public Exception WildCard;
+        public Exception WildCardNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_NotNull;
         public MaskItem<Exception, ObjectToRef_ErrorMask> Ref_Singleton;
@@ -7644,6 +7807,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_Derivative_FieldIndex.WildCard:
                     this.WildCard = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.WildCardNull:
+                    this.WildCardNull = ex;
                     break;
                 case TestObject_Derivative_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
@@ -7939,6 +8105,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_Derivative_FieldIndex.WildCard:
                     this.WildCard = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.WildCardNull:
+                    this.WildCardNull = (Exception)obj;
                     break;
                 case TestObject_Derivative_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
@@ -8798,6 +8967,16 @@ namespace Loqui.Tests.Internals
                     }
                     fg.AppendLine("]");
                 }
+                if (WildCardNull != null)
+                {
+                    fg.AppendLine("WildCardNull =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine(WildCardNull.ToString());
+                    }
+                    fg.AppendLine("]");
+                }
                 if (Ref != null)
                 {
                     fg.AppendLine("Ref =>");
@@ -9293,6 +9472,7 @@ namespace Loqui.Tests.Internals
             ret.Enum = this.Enum.Combine(rhs.Enum);
             ret.EnumNull = this.EnumNull.Combine(rhs.EnumNull);
             ret.WildCard = this.WildCard.Combine(rhs.WildCard);
+            ret.WildCardNull = this.WildCardNull.Combine(rhs.WildCardNull);
             ret.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
             ret.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_NotNull.Overall.Combine(rhs.Ref_NotNull.Overall), this.Ref_NotNull.Specific.Combine(rhs.Ref_NotNull.Specific));
             ret.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_Singleton.Overall.Combine(rhs.Ref_Singleton.Overall), this.Ref_Singleton.Specific.Combine(rhs.Ref_Singleton.Specific));
@@ -9401,6 +9581,7 @@ namespace Loqui.Tests.Internals
         public bool Enum;
         public bool EnumNull;
         public bool WildCard;
+        public bool WildCardNull;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref;
         public MaskItem<CopyOption, ObjectToRef_CopyMask> Ref_NotNull;
         public MaskItem<bool, ObjectToRef_CopyMask> Ref_Singleton;

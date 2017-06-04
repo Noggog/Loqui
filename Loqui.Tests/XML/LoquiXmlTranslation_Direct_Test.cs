@@ -193,7 +193,6 @@ namespace Loqui.Tests.XML
             elem.Add(ByteNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8N)));
             elem.Add(ByteXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8_Ranged)));
             elem.Add(BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Unsafe)));
-            elem.Add(BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCard)));
             return elem;
         }
 

@@ -84,6 +84,7 @@
       <Enum name="Enum" enumName="TestEnum" />
       <EnumNull name="EnumNull" enumName="TestEnum" />
       <Wildcard name="WildCard" />
+      <Wildcard name="WildCardNull" />
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />
       </Ref>
