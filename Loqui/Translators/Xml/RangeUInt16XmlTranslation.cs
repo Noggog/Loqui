@@ -29,7 +29,7 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override TryGet<RangeUInt16?> ParseValue(XElement root, bool nullable)
+        protected override RangeUInt16? ParseValue(XElement root)
         {
             ushort? min, max;
             if (root.TryGetAttribute(MIN, out XAttribute val))
@@ -62,9 +62,8 @@ namespace Loqui.Xml
             {
                 max = null;
             }
-            if (!min.HasValue && !max.HasValue) return TryGet<RangeUInt16?>.Succeed(null);
-            return TryGet<RangeUInt16?>.Succeed(
-                new RangeUInt16(min, max));
+            if (!min.HasValue && !max.HasValue) return null;
+            return new RangeUInt16(min, max);
         }
     }
 }

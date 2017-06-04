@@ -30,7 +30,7 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override TryGet<RangeDouble?> ParseValue(XElement root, bool nullable)
+        protected override RangeDouble? ParseValue(XElement root)
         {
             double? min, max;
             if (root.TryGetAttribute(MIN, out XAttribute val))
@@ -63,9 +63,8 @@ namespace Loqui.Xml
             {
                 max = null;
             }
-            if (!min.HasValue && !max.HasValue) return TryGet<RangeDouble?>.Succeed(null);
-            return TryGet<RangeDouble?>.Succeed(
-                new RangeDouble(min, max));
+            if (!min.HasValue && !max.HasValue) return null;
+            return new RangeDouble(min, max);
         }
     }
 }
