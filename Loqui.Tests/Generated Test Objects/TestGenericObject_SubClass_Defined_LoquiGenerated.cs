@@ -188,6 +188,13 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
         {
+            if (!root.Name.LocalName.Equals("Loqui.Tests.TestGenericObject_SubClass_Defined"))
+            {
+                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestGenericObject_SubClass_Defined.");
+                if (!doMasks) throw ex;
+                errorMask().Overall = ex;
+                return null;
+            }
             var ret = new TestGenericObject_SubClass_Defined<RBase>();
             try
             {

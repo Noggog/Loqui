@@ -14,6 +14,7 @@ namespace Loqui.Tests.XML
     public class LoquiXmlTranslation_Direct_Test
     {
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
+        public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
         public static int NUM_FIELDS = 82;
 
@@ -107,7 +108,7 @@ namespace Loqui.Tests.XML
 
         }
 
-        public string ExpectedName => "Loqui.Tests.TestObject";
+        public string ExpectedName => "Loqui.Tests.TestObject_HasBeenSet";
 
         public XElement GetTypicalElement(TestObject_HasBeenSet value, string name = null)
         {
@@ -146,7 +147,7 @@ namespace Loqui.Tests.XML
             elem.Add(P2IntXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P2Int)));
             elem.Add(P2IntNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P2IntN)));
             elem.Add(P3IntXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3Int)));
-            elem.Add(P2IntNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3IntN)));
+            elem.Add(P3IntNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3IntN)));
             elem.Add(PercentXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Percent)));
             elem.Add(PercentNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.PercentN)));
             elem.Add(RangeInt16XmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeInt16)));
@@ -164,7 +165,6 @@ namespace Loqui.Tests.XML
             elem.Add(RangeUInt64XmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeUInt64)));
             elem.Add(RangeUInt64NullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeUInt64N)));
             elem.Add(RangeUInt8XmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeUInt8)));
-            elem.Add(RangeUInt8NullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeUInt8N)));
             elem.Add(RangeUInt8NullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeUInt8N)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Ref)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefGetter)));
@@ -234,7 +234,7 @@ namespace Loqui.Tests.XML
                 errorMask: out var maskObj);
             Assert.Null(ret);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType(typeof(Loqui.Tests.Internals.TestObject_HasBeenSet_ErrorMask), maskObj);
         }
 
         [Fact]
@@ -247,54 +247,28 @@ namespace Loqui.Tests.XML
                     elem));
         }
         #endregion
-
-        #region Parse - No Value
-        [Fact]
-        public void Parse_NoValue_NoMask()
-        {
-            var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => TestObject_HasBeenSet.Create_XML(
-                    elem));
-        }
-
-        [Fact]
-        public void Parse_NoValue_Mask()
-        {
-            var elem = GetElementNoValue();
-            var ret = TestObject_HasBeenSet.Create_XML(
-                elem,
-                errorMask: out var maskObj);
-            Assert.Equal(TYPICAL_VALUE, ret);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-        #endregion
-
+        
         #region Parse - Empty Value
         [Fact]
         public void Parse_EmptyValue_NoMask()
         {
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => TestObject_HasBeenSet.Create_XML(
-                    elem));
+            var ret = TestObject_HasBeenSet.Create_XML(
+                elem);
+            Assert.NotNull(ret);
+            Assert.Equal(EMPTY_VALUE, ret);
         }
 
         [Fact]
         public void Parse_EmptyValue_Mask()
         {
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
             var ret = TestObject_HasBeenSet.Create_XML(
                 elem,
                 errorMask: out var maskObj);
-            Assert.Null(ret);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.NotNull(ret);
+            Assert.Equal(EMPTY_VALUE, ret);
+            Assert.Null(maskObj);
         }
         #endregion
 

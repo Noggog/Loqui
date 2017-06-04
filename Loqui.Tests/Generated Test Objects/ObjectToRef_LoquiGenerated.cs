@@ -230,6 +230,13 @@ namespace Loqui.Tests
             bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask)
         {
+            if (!root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+            {
+                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.ObjectToRef.");
+                if (!doMasks) throw ex;
+                errorMask().Overall = ex;
+                return null;
+            }
             var ret = new ObjectToRef();
             try
             {

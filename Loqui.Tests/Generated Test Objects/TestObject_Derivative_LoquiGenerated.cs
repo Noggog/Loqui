@@ -920,6 +920,13 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestObject_Derivative_ErrorMask> errorMask)
         {
+            if (!root.Name.LocalName.Equals("Loqui.Tests.TestObject_Derivative"))
+            {
+                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestObject_Derivative.");
+                if (!doMasks) throw ex;
+                errorMask().Overall = ex;
+                return null;
+            }
             var ret = new TestObject_Derivative();
             try
             {

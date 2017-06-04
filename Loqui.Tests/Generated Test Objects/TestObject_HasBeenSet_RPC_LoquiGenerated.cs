@@ -2407,6 +2407,13 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestObject_HasBeenSet_RPC_ErrorMask> errorMask)
         {
+            if (!root.Name.LocalName.Equals("Loqui.Tests.TestObject_HasBeenSet_RPC"))
+            {
+                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestObject_HasBeenSet_RPC.");
+                if (!doMasks) throw ex;
+                errorMask().Overall = ex;
+                return null;
+            }
             var ret = new TestObject_HasBeenSet_RPC();
             try
             {

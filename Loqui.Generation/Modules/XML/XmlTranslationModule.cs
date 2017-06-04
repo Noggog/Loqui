@@ -330,6 +330,14 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                fg.AppendLine($"if (!root.Name.LocalName.Equals(\"{obj.FullName}\"))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"var ex = new ArgumentException($\"Skipping field that did not match proper type. Type: {{root.Name.LocalName}}, expected: {obj.FullName}.\");");
+                    fg.AppendLine("if (!doMasks) throw ex;");
+                    fg.AppendLine("errorMask().Overall = ex;");
+                    fg.AppendLine($"return null;");
+                }
                 fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
