@@ -3567,7 +3567,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3598,7 +3598,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_NotNull, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3625,7 +3625,7 @@ namespace Loqui.Tests
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_Singleton, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_Singleton, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3656,7 +3656,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3687,7 +3687,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3720,7 +3720,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3751,7 +3751,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -3778,7 +3778,7 @@ namespace Loqui.Tests
                         var suberrorMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -8615,7 +8615,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask(
-            this ITestObject_HasBeenSetGetter item,
+            ITestObject_HasBeenSetGetter item,
             ITestObject_HasBeenSetGetter rhs,
             TestObject_HasBeenSet_Mask<bool> ret)
         {
@@ -10436,7 +10436,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10460,7 +10460,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_NotNull, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10484,7 +10484,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_Singleton, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.Ref_Singleton, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10508,7 +10508,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10532,7 +10532,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10556,7 +10556,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10580,7 +10580,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10604,7 +10604,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }
@@ -10628,7 +10628,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }

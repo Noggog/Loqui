@@ -692,7 +692,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask<RBase>(
-            this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
             TestGenericObject_SubClass_Defined_Mask<bool> ret)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter

@@ -856,7 +856,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask(
-            this IObjectToRefGetter item,
+            IObjectToRefGetter item,
             IObjectToRefGetter rhs,
             ObjectToRef_Mask<bool> ret)
         {

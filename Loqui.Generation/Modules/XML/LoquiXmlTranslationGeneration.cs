@@ -37,7 +37,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"if (sub{maskAccessor} != null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, sub{maskAccessor});");
+                        fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, new MaskItem<Exception, {loquiGen.TargetObjectGeneration.ErrorMask}>(null, sub{maskAccessor}));");
                     }
                 }
                 else
@@ -126,7 +126,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"if (sub{maskAccessor} != null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, sub{maskAccessor});");
+                        fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, {LoquiMaskFieldGeneration.GetObjectErrorMask(loquiGen, $"sub{maskAccessor}")});");
                     }
                 }
                 else

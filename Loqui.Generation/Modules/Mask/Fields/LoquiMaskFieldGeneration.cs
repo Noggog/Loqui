@@ -5,6 +5,11 @@ namespace Loqui.Generation
 {
     public class LoquiMaskFieldGeneration : MaskModuleField
     {
+        public static string GetObjectErrorMask(LoquiType loqui, string accessor)
+        {
+            return $"new MaskItem<Exception, {loqui.ErrorMaskItemString}>(null, {accessor})";
+        }
+
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
             LoquiType loqui = field as LoquiType;

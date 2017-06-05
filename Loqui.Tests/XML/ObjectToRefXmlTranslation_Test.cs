@@ -31,7 +31,7 @@ namespace Loqui.Tests.XML
         {
             var ret = XmlUtility.GetElementNoValue(ExpectedName, name);
             ret.Add(
-                Int16XmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.KeyField)));
+                Int32XmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.KeyField)));
             ret.Add(
                 BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.SomeField)));
             return ret;

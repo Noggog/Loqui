@@ -31,6 +31,7 @@ namespace Loqui.Generation
         public bool ProtectedDefault;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
+        public MaskModule MaskModule = new MaskModule();
 
         public LoquiGenerator(DirectoryInfo commonGenerationFolder, bool typical = true)
         {
@@ -39,7 +40,7 @@ namespace Loqui.Generation
             {
                 this.AddTypicalTypeAssociations();
                 this.Add(new XmlTranslationModule());
-                this.Add(new MaskModule());
+                this.Add(MaskModule);
                 this.AddSearchableFolder(this.CommonGenerationFolder);
             }
         }

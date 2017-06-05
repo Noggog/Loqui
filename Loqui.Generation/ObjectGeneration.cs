@@ -1367,7 +1367,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg, $"public static void FillEqualsMask{this.GenericTypes}",
                 GenerateWhereClauses().ToArray()))
             {
-                args.Add($"this {this.Getter_InterfaceStr} item");
+                args.Add($"{this.Getter_InterfaceStr} item");
                 args.Add($"{this.Getter_InterfaceStr} rhs");
                 args.Add($"{this.GetMaskString("bool")} ret");
             }

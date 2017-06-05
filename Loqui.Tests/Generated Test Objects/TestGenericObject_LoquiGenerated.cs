@@ -290,7 +290,7 @@ namespace Loqui.Tests
                         }
                         if (suberrorMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, suberrorMask);
+                            errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                         }
                     }
                     catch (Exception ex)
@@ -943,7 +943,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask<T, RBase, R>(
-            this ITestGenericObjectGetter<T, RBase, R> item,
+            ITestGenericObjectGetter<T, RBase, R> item,
             ITestGenericObjectGetter<T, RBase, R> rhs,
             TestGenericObject_Mask<bool> ret)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -1045,7 +1045,7 @@ namespace Loqui.Tests.Internals
                                     errorMask: out ObjectToRef_ErrorMask suberrorMask);
                                 if (suberrorMask != null)
                                 {
-                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, suberrorMask);
+                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
                                 }
                             }
                         }

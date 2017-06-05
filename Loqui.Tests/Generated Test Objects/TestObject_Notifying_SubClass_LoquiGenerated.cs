@@ -764,7 +764,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask(
-            this ITestObject_Notifying_SubClassGetter item,
+            ITestObject_Notifying_SubClassGetter item,
             ITestObject_Notifying_SubClassGetter rhs,
             TestObject_Notifying_SubClass_Mask<bool> ret)
         {

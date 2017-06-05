@@ -737,7 +737,7 @@ namespace Loqui.Tests.Internals
         }
 
         public static void FillEqualsMask(
-            this ITestObject_PrivateCtorGetter item,
+            ITestObject_PrivateCtorGetter item,
             ITestObject_PrivateCtorGetter rhs,
             TestObject_PrivateCtor_Mask<bool> ret)
         {
