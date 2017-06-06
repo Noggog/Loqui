@@ -38,5 +38,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{retAccessor} = {accessor}.Combine({rhsAccessor});");
         }
+
+        public override string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor)
+        {
+             return $"{maskAccessor}?.{field.Name} ?? true";
+        }
     }
 }

@@ -162,5 +162,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
+
+        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        {
+            fg.AppendLine("throw new NotImplementedException();");
+        }
     }
 }

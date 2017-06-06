@@ -121,10 +121,15 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return ILoquiObjectExt.PrintPretty(this);
+            return TestObject_PrivateCtorCommon.ToString(this, printMask: null);
         }
-        #endregion
 
+        public void ToString(FileGeneration fg)
+        {
+            TestObject_PrivateCtorCommon.ToString(this, fg, printMask: null);
+        }
+
+        #endregion
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -744,6 +749,31 @@ namespace Loqui.Tests.Internals
             ret.BoolN = item.BoolN != rhs.BoolN;
         }
 
+        public static string ToString(
+            this ITestObject_PrivateCtorGetter item,
+            TestObject_PrivateCtor_Mask<bool> printMask = null)
+        {
+            var fg = new FileGeneration();
+            item.ToString(fg, printMask);
+            return fg.ToString();
+        }
+
+        public static void ToString(
+            this ITestObject_PrivateCtorGetter item,
+            FileGeneration fg,
+            TestObject_PrivateCtor_Mask<bool> printMask = null)
+        {
+            fg.AppendLine($"{nameof(TestObject_PrivateCtor)} =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (printMask?.BoolN ?? true)
+                {
+                    fg.AppendLine($"BoolN => {item.BoolN}");
+                }
+            }
+            fg.AppendLine("]");
+        }
         #region XML Translation
         #region XML Write
         public static void Write_XML(
@@ -869,24 +899,29 @@ namespace Loqui.Tests.Internals
         #region To String
         public override string ToString()
         {
+            return ToString(printMask: null);
+        }
+
+        public string ToString(TestObject_PrivateCtor_Mask<bool> printMask = null)
+        {
             var fg = new FileGeneration();
-            ToString(fg);
+            ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, TestObject_PrivateCtor_Mask<bool> printMask = null)
         {
             fg.AppendLine($"{nameof(TestObject_PrivateCtor_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (BoolN != null)
+                if (printMask?.BoolN ?? true)
                 {
                     fg.AppendLine("BoolN =>");
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(BoolN.ToString());
+                        fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
                     }
                     fg.AppendLine("]");
                 }
@@ -960,13 +995,7 @@ namespace Loqui.Tests.Internals
             {
                 if (BoolN != null)
                 {
-                    fg.AppendLine("BoolN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine(BoolN.ToString());
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

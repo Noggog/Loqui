@@ -71,23 +71,7 @@ namespace Loqui.Generation
         public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"if ({accessor}.Overall != null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
-            }
-            fg.AppendLine($"if ({accessor}.Specific != null)");
-            using (new BraceWrapper(fg))
-            {
-                if (!IsUnknownGeneric(loqui))
-                {
-                    fg.AppendLine($"{accessor}.Specific.ToString(fg);");
-                }
-                else
-                {
-                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Specific.ToString());");
-                }
-            }
+            fg.AppendLine($"{accessor}.ToString(fg);");
         }
 
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
@@ -144,6 +128,11 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.ErrorMaskItemString}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.CombineHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
             }
+        }
+
+        public override string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor)
+        {
+            return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
     }
 }

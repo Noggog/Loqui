@@ -12,7 +12,7 @@ namespace Loqui.Generation
         }
         public virtual void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.ToString());");
+            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}.ToStringSafe()}}\");");
         }
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
@@ -20,5 +20,6 @@ namespace Loqui.Generation
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
+        public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
     }
 }

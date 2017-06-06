@@ -115,10 +115,15 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return ILoquiObjectExt.PrintPretty(this);
+            return TestGenericObject_SubClass_DefinedCommon.ToString(this, printMask: null);
         }
-        #endregion
 
+        public void ToString(FileGeneration fg)
+        {
+            TestGenericObject_SubClass_DefinedCommon.ToString(this, fg, printMask: null);
+        }
+
+        #endregion
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -700,6 +705,29 @@ namespace Loqui.Tests.Internals
             TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);
         }
 
+        public static string ToString<RBase>(
+            this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            var fg = new FileGeneration();
+            item.ToString(fg, printMask);
+            return fg.ToString();
+        }
+
+        public static void ToString<RBase>(
+            this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            FileGeneration fg,
+            TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            fg.AppendLine($"{nameof(TestGenericObject_SubClass_Defined<RBase>)} =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+            }
+            fg.AppendLine("]");
+        }
         #region XML Translation
         #region XML Write
         public static void Write_XML<RBase>(
@@ -811,12 +839,17 @@ namespace Loqui.Tests.Internals
         #region To String
         public override string ToString()
         {
+            return ToString(printMask: null);
+        }
+
+        public string ToString(TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
+        {
             var fg = new FileGeneration();
-            ToString(fg);
+            ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
         {
             fg.AppendLine($"{nameof(TestGenericObject_SubClass_Defined_Mask<T>)} =>");
             fg.AppendLine("[");

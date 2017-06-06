@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));"))
+            if (str.Equals("fg.AppendLine(RangeUInt16N.ToString());"))
             {
                 int wer = 23;
                 wer++;

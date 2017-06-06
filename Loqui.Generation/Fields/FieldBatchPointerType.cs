@@ -130,5 +130,10 @@ namespace Loqui.Generation
         {
             throw new NotImplementedException();
         }
+
+        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

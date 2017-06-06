@@ -125,10 +125,15 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return ILoquiObjectExt.PrintPretty(this);
+            return TestObject_Notifying_SubClassCommon.ToString(this, printMask: null);
         }
-        #endregion
 
+        public void ToString(FileGeneration fg)
+        {
+            TestObject_Notifying_SubClassCommon.ToString(this, fg, printMask: null);
+        }
+
+        #endregion
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -772,6 +777,31 @@ namespace Loqui.Tests.Internals
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }
 
+        public static string ToString(
+            this ITestObject_Notifying_SubClassGetter item,
+            TestObject_Notifying_SubClass_Mask<bool> printMask = null)
+        {
+            var fg = new FileGeneration();
+            item.ToString(fg, printMask);
+            return fg.ToString();
+        }
+
+        public static void ToString(
+            this ITestObject_Notifying_SubClassGetter item,
+            FileGeneration fg,
+            TestObject_Notifying_SubClass_Mask<bool> printMask = null)
+        {
+            fg.AppendLine($"{nameof(TestObject_Notifying_SubClass)} =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (printMask?.NewField ?? true)
+                {
+                    fg.AppendLine($"NewField => {item.NewField}");
+                }
+            }
+            fg.AppendLine("]");
+        }
         #region XML Translation
         #region XML Write
         public static void Write_XML(
@@ -903,24 +933,29 @@ namespace Loqui.Tests.Internals
         #region To String
         public override string ToString()
         {
+            return ToString(printMask: null);
+        }
+
+        public string ToString(TestObject_Notifying_SubClass_Mask<bool> printMask = null)
+        {
             var fg = new FileGeneration();
-            ToString(fg);
+            ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, TestObject_Notifying_SubClass_Mask<bool> printMask = null)
         {
             fg.AppendLine($"{nameof(TestObject_Notifying_SubClass_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (NewField != null)
+                if (printMask?.NewField ?? true)
                 {
                     fg.AppendLine("NewField =>");
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(NewField.ToString());
+                        fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
                     }
                     fg.AppendLine("]");
                 }
@@ -983,13 +1018,7 @@ namespace Loqui.Tests.Internals
             {
                 if (NewField != null)
                 {
-                    fg.AppendLine("NewField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine(NewField.ToString());
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

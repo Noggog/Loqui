@@ -85,5 +85,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"return {identifier}.{this.GetName(false, true)};");
         }
+
+        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        {
+            fg.AppendLine("throw new NotImplementedException();");
+        }
     }
 }

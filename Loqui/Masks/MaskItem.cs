@@ -37,4 +37,20 @@ namespace Loqui
                 .CombineHashCode(this.Specific);
         }
     }
+
+    public static class MaskItemExt
+    {
+        public static void ToString<T, V>(this MaskItem<T, V> maskItem, FileGeneration fg)
+        {
+            if (maskItem == null) return;
+            if (maskItem.Overall != null)
+            {
+                fg.AppendLine(maskItem.Overall.ToString());
+            }
+            if (maskItem.Specific != null)
+            {
+                fg.AppendLine(maskItem.Specific.ToString());
+            }
+        }
+    }
 }

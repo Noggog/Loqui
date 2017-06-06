@@ -68,13 +68,20 @@ namespace Loqui.Generation
                     fg.AppendLine($"public override string ToString()");
                     using (new BraceWrapper(fg))
                     {
+                        fg.AppendLine($"return ToString(printMask: null);");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public string ToString({obj.GetMaskString("bool")} printMask = null)");
+                    using (new BraceWrapper(fg))
+                    {
                         fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
-                        fg.AppendLine($"ToString(fg);");
+                        fg.AppendLine($"ToString(fg, printMask);");
                         fg.AppendLine("return fg.ToString();");
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
+                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg, {obj.GetMaskString("bool")} printMask = null)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString("T")})}} =>\");");
@@ -84,7 +91,7 @@ namespace Loqui.Generation
                         {
                             foreach (var item in obj.IterateFields())
                             {
-                                fg.AppendLine($"if ({item.Field.Name} != null)");
+                                fg.AppendLine($"if ({GetMaskModule(item.Field.GetType()).GenerateBoolMaskCheck(item.Field, "printMask")})");
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
@@ -204,14 +211,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"if ({item.Field.Name} != null)");
                                 using (new BraceWrapper(fg))
                                 {
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
-                                    }
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
                                 }
                             }
                         }

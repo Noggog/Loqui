@@ -140,10 +140,15 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return ILoquiObjectExt.PrintPretty(this);
+            return ObjectToRefCommon.ToString(this, printMask: null);
         }
-        #endregion
 
+        public void ToString(FileGeneration fg)
+        {
+            ObjectToRefCommon.ToString(this, fg, printMask: null);
+        }
+
+        #endregion
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -864,6 +869,35 @@ namespace Loqui.Tests.Internals
             ret.SomeField = item.SomeField_Property.Equals(rhs.SomeField_Property, (l, r) => l != r);
         }
 
+        public static string ToString(
+            this IObjectToRefGetter item,
+            ObjectToRef_Mask<bool> printMask = null)
+        {
+            var fg = new FileGeneration();
+            item.ToString(fg, printMask);
+            return fg.ToString();
+        }
+
+        public static void ToString(
+            this IObjectToRefGetter item,
+            FileGeneration fg,
+            ObjectToRef_Mask<bool> printMask = null)
+        {
+            fg.AppendLine($"{nameof(ObjectToRef)} =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+                if (printMask?.KeyField ?? true)
+                {
+                    fg.AppendLine($"KeyField => {item.KeyField}");
+                }
+                if (printMask?.SomeField ?? true)
+                {
+                    fg.AppendLine($"SomeField => {item.SomeField}");
+                }
+            }
+            fg.AppendLine("]");
+        }
         #region XML Translation
         #region XML Write
         public static void Write_XML(
@@ -1016,34 +1050,39 @@ namespace Loqui.Tests.Internals
         #region To String
         public override string ToString()
         {
+            return ToString(printMask: null);
+        }
+
+        public string ToString(ObjectToRef_Mask<bool> printMask = null)
+        {
             var fg = new FileGeneration();
-            ToString(fg);
+            ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, ObjectToRef_Mask<bool> printMask = null)
         {
             fg.AppendLine($"{nameof(ObjectToRef_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (KeyField != null)
+                if (printMask?.KeyField ?? true)
                 {
                     fg.AppendLine("KeyField =>");
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(KeyField.ToString());
+                        fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
                     }
                     fg.AppendLine("]");
                 }
-                if (SomeField != null)
+                if (printMask?.SomeField ?? true)
                 {
                     fg.AppendLine("SomeField =>");
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine(SomeField.ToString());
+                        fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
                     }
                     fg.AppendLine("]");
                 }
@@ -1124,23 +1163,11 @@ namespace Loqui.Tests.Internals
             {
                 if (KeyField != null)
                 {
-                    fg.AppendLine("KeyField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine(KeyField.ToString());
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
                 }
                 if (SomeField != null)
                 {
-                    fg.AppendLine("SomeField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine(SomeField.ToString());
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

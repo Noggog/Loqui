@@ -118,10 +118,15 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return ILoquiObjectExt.PrintPretty(this);
+            return TestGenericObject_SubClassCommon.ToString(this, printMask: null);
         }
-        #endregion
 
+        public void ToString(FileGeneration fg)
+        {
+            TestGenericObject_SubClassCommon.ToString(this, fg, printMask: null);
+        }
+
+        #endregion
 
         #region Equals and Hash
         public override bool Equals(object obj)
@@ -742,6 +747,35 @@ namespace Loqui.Tests.Internals
             TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);
         }
 
+        public static string ToString<S, T, RBase, R>(
+            this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            TestGenericObject_SubClass_Mask<bool> printMask = null)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            var fg = new FileGeneration();
+            item.ToString(fg, printMask);
+            return fg.ToString();
+        }
+
+        public static void ToString<S, T, RBase, R>(
+            this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            FileGeneration fg,
+            TestGenericObject_SubClass_Mask<bool> printMask = null)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            fg.AppendLine($"{nameof(TestGenericObject_SubClass<S, T, RBase, R>)} =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
+            {
+            }
+            fg.AppendLine("]");
+        }
         #region XML Translation
         #region XML Write
         public static void Write_XML<S, T, RBase, R>(
@@ -865,12 +899,17 @@ namespace Loqui.Tests.Internals
         #region To String
         public override string ToString()
         {
+            return ToString(printMask: null);
+        }
+
+        public string ToString(TestGenericObject_SubClass_Mask<bool> printMask = null)
+        {
             var fg = new FileGeneration();
-            ToString(fg);
+            ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, TestGenericObject_SubClass_Mask<bool> printMask = null)
         {
             fg.AppendLine($"{nameof(TestGenericObject_SubClass_Mask<T>)} =>");
             fg.AppendLine("[");
