@@ -1497,9 +1497,18 @@ namespace Loqui.Tests
             return TestObject_HasBeenSet_RPCCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestObject_HasBeenSet_RPC_Mask<bool> printMask = null)
         {
-            TestObject_HasBeenSet_RPCCommon.ToString(this, fg, printMask: null);
+            return TestObject_HasBeenSet_RPCCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestObject_HasBeenSet_RPCCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -9188,19 +9197,28 @@ namespace Loqui.Tests.Internals
 
         public static string ToString(
             this ITestObject_HasBeenSet_RPCGetter item,
+            string name = null,
             TestObject_HasBeenSet_RPC_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString(
             this ITestObject_HasBeenSet_RPCGetter item,
             FileGeneration fg,
+            string name = null,
             TestObject_HasBeenSet_RPC_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(TestObject_HasBeenSet_RPC)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestObject_HasBeenSet_RPC)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestObject_HasBeenSet_RPC)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -9526,67 +9544,169 @@ namespace Loqui.Tests.Internals
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    item.Ref.ToString(fg);
+                    item.Ref.ToString(fg, "Ref");
                 }
                 if (printMask?.Ref_NotNull?.Overall ?? true)
                 {
-                    item.Ref_NotNull.ToString(fg);
+                    item.Ref_NotNull.ToString(fg, "Ref_NotNull");
                 }
                 if (printMask?.Ref_Singleton?.Overall ?? true)
                 {
-                    item.Ref_Singleton.ToString(fg);
+                    item.Ref_Singleton.ToString(fg, "Ref_Singleton");
                 }
                 if (printMask?.RefGetter?.Overall ?? true)
                 {
-                    item.RefGetter.ToString(fg);
+                    item.RefGetter.ToString(fg, "RefGetter");
                 }
                 if (printMask?.RefGetter_NotNull?.Overall ?? true)
                 {
-                    item.RefGetter_NotNull.ToString(fg);
+                    item.RefGetter_NotNull.ToString(fg, "RefGetter_NotNull");
                 }
                 if (printMask?.RefGetter_Singleton?.Overall ?? true)
                 {
-                    item.RefGetter_Singleton.ToString(fg);
+                    item.RefGetter_Singleton.ToString(fg, "RefGetter_Singleton");
                 }
                 if (printMask?.RefSetter?.Overall ?? true)
                 {
-                    item.RefSetter.ToString(fg);
+                    item.RefSetter.ToString(fg, "RefSetter");
                 }
                 if (printMask?.RefSetter_NotNull?.Overall ?? true)
                 {
-                    item.RefSetter_NotNull.ToString(fg);
+                    item.RefSetter_NotNull.ToString(fg, "RefSetter_NotNull");
                 }
                 if (printMask?.RefSetter_Singleton?.Overall ?? true)
                 {
-                    item.RefSetter_Singleton.ToString(fg);
+                    item.RefSetter_Singleton.ToString(fg, "RefSetter_Singleton");
                 }
                 if (printMask?.List?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("List =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.List)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"Item => {subItem}");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.RefList?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("RefList =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.RefList)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.ToString(fg, "Item");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.Dict?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("Dict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.Dict)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"Key => {subItem.Key}");
+                                fg.AppendLine($"Value => {subItem.Value}");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.RefDict?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("RefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.RefDict)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.Key.ToString(fg, "Key");
+                                subItem.Value.ToString(fg, "Value");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.KeyRefDict?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("KeyRefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.KeyRefDict)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.Key.ToString(fg, "Key");
+                                fg.AppendLine($"Value => {subItem.Value}");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.ValRefDict?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("ValRefDict =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.ValRefDict)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"Key => {subItem.Key}");
+                                subItem.Value.ToString(fg, "Value");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
                 if (printMask?.DictKeyedValue?.Overall ?? true)
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine("DictKeyedValue =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.DictKeyedValue.Values)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.ToString(fg, "Item");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
                 }
             }
             fg.AppendLine("]");
@@ -12269,893 +12389,359 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.BoolN ?? true)
                 {
-                    fg.AppendLine("BoolN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
                 }
                 if (printMask?.Bool ?? true)
                 {
-                    fg.AppendLine("Bool =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Bool => {Bool.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Bool => {Bool.ToStringSafe()}");
                 }
                 if (printMask?.CharN ?? true)
                 {
-                    fg.AppendLine("CharN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"CharN => {CharN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"CharN => {CharN.ToStringSafe()}");
                 }
                 if (printMask?.Char ?? true)
                 {
-                    fg.AppendLine("Char =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Char => {Char.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Char => {Char.ToStringSafe()}");
                 }
                 if (printMask?.DateTimeNull ?? true)
                 {
-                    fg.AppendLine("DateTimeNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"DateTimeNull => {DateTimeNull.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"DateTimeNull => {DateTimeNull.ToStringSafe()}");
                 }
                 if (printMask?.DateTime ?? true)
                 {
-                    fg.AppendLine("DateTime =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"DateTime => {DateTime.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"DateTime => {DateTime.ToStringSafe()}");
                 }
                 if (printMask?.DoubleN ?? true)
                 {
-                    fg.AppendLine("DoubleN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"DoubleN => {DoubleN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"DoubleN => {DoubleN.ToStringSafe()}");
                 }
                 if (printMask?.DoubleN_Ranged ?? true)
                 {
-                    fg.AppendLine("DoubleN_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"DoubleN_Ranged => {DoubleN_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"DoubleN_Ranged => {DoubleN_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Double ?? true)
                 {
-                    fg.AppendLine("Double =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Double => {Double.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Double => {Double.ToStringSafe()}");
                 }
                 if (printMask?.Double_Ranged ?? true)
                 {
-                    fg.AppendLine("Double_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Double_Ranged => {Double_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Double_Ranged => {Double_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.FloatN ?? true)
                 {
-                    fg.AppendLine("FloatN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"FloatN => {FloatN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"FloatN => {FloatN.ToStringSafe()}");
                 }
                 if (printMask?.FloatN_Ranged ?? true)
                 {
-                    fg.AppendLine("FloatN_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"FloatN_Ranged => {FloatN_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"FloatN_Ranged => {FloatN_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Float ?? true)
                 {
-                    fg.AppendLine("Float =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Float => {Float.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Float => {Float.ToStringSafe()}");
                 }
                 if (printMask?.Float_Ranged ?? true)
                 {
-                    fg.AppendLine("Float_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Float_Ranged => {Float_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Float_Ranged => {Float_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int16N ?? true)
                 {
-                    fg.AppendLine("Int16N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int16N => {Int16N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int16N => {Int16N.ToStringSafe()}");
                 }
                 if (printMask?.Int16N_Ranged ?? true)
                 {
-                    fg.AppendLine("Int16N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int16N_Ranged => {Int16N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int16N_Ranged => {Int16N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int16 ?? true)
                 {
-                    fg.AppendLine("Int16 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int16 => {Int16.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int16 => {Int16.ToStringSafe()}");
                 }
                 if (printMask?.Int16_Ranged ?? true)
                 {
-                    fg.AppendLine("Int16_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int16_Ranged => {Int16_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int16_Ranged => {Int16_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int32N ?? true)
                 {
-                    fg.AppendLine("Int32N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int32N => {Int32N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int32N => {Int32N.ToStringSafe()}");
                 }
                 if (printMask?.Int32N_Ranged ?? true)
                 {
-                    fg.AppendLine("Int32N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int32N_Ranged => {Int32N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int32N_Ranged => {Int32N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int32 ?? true)
                 {
-                    fg.AppendLine("Int32 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int32 => {Int32.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int32 => {Int32.ToStringSafe()}");
                 }
                 if (printMask?.Int32_Ranged ?? true)
                 {
-                    fg.AppendLine("Int32_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int32_Ranged => {Int32_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int32_Ranged => {Int32_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int64N ?? true)
                 {
-                    fg.AppendLine("Int64N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int64N => {Int64N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int64N => {Int64N.ToStringSafe()}");
                 }
                 if (printMask?.Int64N_Ranged ?? true)
                 {
-                    fg.AppendLine("Int64N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int64N_Ranged => {Int64N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int64N_Ranged => {Int64N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int64 ?? true)
                 {
-                    fg.AppendLine("Int64 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int64 => {Int64.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int64 => {Int64.ToStringSafe()}");
                 }
                 if (printMask?.Int64_Ranged ?? true)
                 {
-                    fg.AppendLine("Int64_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int64_Ranged => {Int64_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int64_Ranged => {Int64_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int8N ?? true)
                 {
-                    fg.AppendLine("Int8N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int8N => {Int8N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int8N => {Int8N.ToStringSafe()}");
                 }
                 if (printMask?.Int8N_Ranged ?? true)
                 {
-                    fg.AppendLine("Int8N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int8N_Ranged => {Int8N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int8N_Ranged => {Int8N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Int8 ?? true)
                 {
-                    fg.AppendLine("Int8 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int8 => {Int8.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int8 => {Int8.ToStringSafe()}");
                 }
                 if (printMask?.Int8_Ranged ?? true)
                 {
-                    fg.AppendLine("Int8_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Int8_Ranged => {Int8_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Int8_Ranged => {Int8_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Unsafe ?? true)
                 {
-                    fg.AppendLine("Unsafe =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Unsafe => {Unsafe.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Unsafe => {Unsafe.ToStringSafe()}");
                 }
                 if (printMask?.P2IntN ?? true)
                 {
-                    fg.AppendLine("P2IntN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P2IntN => {P2IntN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P2IntN => {P2IntN.ToStringSafe()}");
                 }
                 if (printMask?.P2Int ?? true)
                 {
-                    fg.AppendLine("P2Int =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P2Int => {P2Int.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P2Int => {P2Int.ToStringSafe()}");
                 }
                 if (printMask?.P3DoubleN ?? true)
                 {
-                    fg.AppendLine("P3DoubleN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P3DoubleN => {P3DoubleN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P3DoubleN => {P3DoubleN.ToStringSafe()}");
                 }
                 if (printMask?.P3Double ?? true)
                 {
-                    fg.AppendLine("P3Double =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P3Double => {P3Double.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P3Double => {P3Double.ToStringSafe()}");
                 }
                 if (printMask?.P3IntN ?? true)
                 {
-                    fg.AppendLine("P3IntN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P3IntN => {P3IntN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P3IntN => {P3IntN.ToStringSafe()}");
                 }
                 if (printMask?.P3Int ?? true)
                 {
-                    fg.AppendLine("P3Int =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"P3Int => {P3Int.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"P3Int => {P3Int.ToStringSafe()}");
                 }
                 if (printMask?.PercentN ?? true)
                 {
-                    fg.AppendLine("PercentN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"PercentN => {PercentN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"PercentN => {PercentN.ToStringSafe()}");
                 }
                 if (printMask?.Percent ?? true)
                 {
-                    fg.AppendLine("Percent =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Percent => {Percent.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Percent => {Percent.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt8N ?? true)
                 {
-                    fg.AppendLine("RangeInt8N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt8N => {RangeInt8N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt8N => {RangeInt8N.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt8 ?? true)
                 {
-                    fg.AppendLine("RangeInt8 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt8 => {RangeInt8.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt8 => {RangeInt8.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt16N ?? true)
                 {
-                    fg.AppendLine("RangeInt16N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt16N => {RangeInt16N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt16N => {RangeInt16N.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt16 ?? true)
                 {
-                    fg.AppendLine("RangeInt16 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt16 => {RangeInt16.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt16 => {RangeInt16.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt32N ?? true)
                 {
-                    fg.AppendLine("RangeInt32N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt32N => {RangeInt32N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt32N => {RangeInt32N.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt32 ?? true)
                 {
-                    fg.AppendLine("RangeInt32 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt32 => {RangeInt32.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt32 => {RangeInt32.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt64N ?? true)
                 {
-                    fg.AppendLine("RangeInt64N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt64N => {RangeInt64N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt64N => {RangeInt64N.ToStringSafe()}");
                 }
                 if (printMask?.RangeInt64 ?? true)
                 {
-                    fg.AppendLine("RangeInt64 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeInt64 => {RangeInt64.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeInt64 => {RangeInt64.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt8N ?? true)
                 {
-                    fg.AppendLine("RangeUInt8N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt8N => {RangeUInt8N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt8N => {RangeUInt8N.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt8 ?? true)
                 {
-                    fg.AppendLine("RangeUInt8 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt8 => {RangeUInt8.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt8 => {RangeUInt8.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt16N ?? true)
                 {
-                    fg.AppendLine("RangeUInt16N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt16N => {RangeUInt16N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt16N => {RangeUInt16N.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt16 ?? true)
                 {
-                    fg.AppendLine("RangeUInt16 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt16 => {RangeUInt16.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt16 => {RangeUInt16.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt32N ?? true)
                 {
-                    fg.AppendLine("RangeUInt32N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt32N => {RangeUInt32N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt32N => {RangeUInt32N.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt32 ?? true)
                 {
-                    fg.AppendLine("RangeUInt32 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt32 => {RangeUInt32.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt32 => {RangeUInt32.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt64N ?? true)
                 {
-                    fg.AppendLine("RangeUInt64N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt64N => {RangeUInt64N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt64N => {RangeUInt64N.ToStringSafe()}");
                 }
                 if (printMask?.RangeUInt64 ?? true)
                 {
-                    fg.AppendLine("RangeUInt64 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"RangeUInt64 => {RangeUInt64.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"RangeUInt64 => {RangeUInt64.ToStringSafe()}");
                 }
                 if (printMask?.String ?? true)
                 {
-                    fg.AppendLine("String =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"String => {String.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"String => {String.ToStringSafe()}");
                 }
                 if (printMask?.UDoubleN ?? true)
                 {
-                    fg.AppendLine("UDoubleN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UDoubleN => {UDoubleN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UDoubleN => {UDoubleN.ToStringSafe()}");
                 }
                 if (printMask?.UDoubleN_Ranged ?? true)
                 {
-                    fg.AppendLine("UDoubleN_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UDoubleN_Ranged => {UDoubleN_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UDoubleN_Ranged => {UDoubleN_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UDouble ?? true)
                 {
-                    fg.AppendLine("UDouble =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UDouble => {UDouble.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UDouble => {UDouble.ToStringSafe()}");
                 }
                 if (printMask?.UDouble_Ranged ?? true)
                 {
-                    fg.AppendLine("UDouble_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UDouble_Ranged => {UDouble_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UDouble_Ranged => {UDouble_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt16N ?? true)
                 {
-                    fg.AppendLine("UInt16N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt16N => {UInt16N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt16N => {UInt16N.ToStringSafe()}");
                 }
                 if (printMask?.UInt16N_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt16N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt16N_Ranged => {UInt16N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt16N_Ranged => {UInt16N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt16 ?? true)
                 {
-                    fg.AppendLine("UInt16 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt16 => {UInt16.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt16 => {UInt16.ToStringSafe()}");
                 }
                 if (printMask?.UInt16_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt16_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt16_Ranged => {UInt16_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt16_Ranged => {UInt16_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt32N ?? true)
                 {
-                    fg.AppendLine("UInt32N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt32N => {UInt32N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt32N => {UInt32N.ToStringSafe()}");
                 }
                 if (printMask?.UInt32N_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt32N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt32N_Ranged => {UInt32N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt32N_Ranged => {UInt32N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt32 ?? true)
                 {
-                    fg.AppendLine("UInt32 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt32 => {UInt32.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt32 => {UInt32.ToStringSafe()}");
                 }
                 if (printMask?.UInt32_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt32_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt32_Ranged => {UInt32_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt32_Ranged => {UInt32_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt64N ?? true)
                 {
-                    fg.AppendLine("UInt64N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt64N => {UInt64N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt64N => {UInt64N.ToStringSafe()}");
                 }
                 if (printMask?.UInt64N_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt64N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt64N_Ranged => {UInt64N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt64N_Ranged => {UInt64N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt64 ?? true)
                 {
-                    fg.AppendLine("UInt64 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt64 => {UInt64.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt64 => {UInt64.ToStringSafe()}");
                 }
                 if (printMask?.UInt64_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt64_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt64_Ranged => {UInt64_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt64_Ranged => {UInt64_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt8N ?? true)
                 {
-                    fg.AppendLine("UInt8N =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt8N => {UInt8N.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt8N => {UInt8N.ToStringSafe()}");
                 }
                 if (printMask?.UInt8N_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt8N_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt8N_Ranged => {UInt8N_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt8N_Ranged => {UInt8N_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.UInt8 ?? true)
                 {
-                    fg.AppendLine("UInt8 =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt8 => {UInt8.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt8 => {UInt8.ToStringSafe()}");
                 }
                 if (printMask?.UInt8_Ranged ?? true)
                 {
-                    fg.AppendLine("UInt8_Ranged =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"UInt8_Ranged => {UInt8_Ranged.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"UInt8_Ranged => {UInt8_Ranged.ToStringSafe()}");
                 }
                 if (printMask?.Enum ?? true)
                 {
-                    fg.AppendLine("Enum =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"Enum => {Enum.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"Enum => {Enum.ToStringSafe()}");
                 }
                 if (printMask?.EnumNull ?? true)
                 {
-                    fg.AppendLine("EnumNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"EnumNull => {EnumNull.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"EnumNull => {EnumNull.ToStringSafe()}");
                 }
                 if (printMask?.WildCard ?? true)
                 {
-                    fg.AppendLine("WildCard =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"WildCard => {WildCard.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"WildCard => {WildCard.ToStringSafe()}");
                 }
                 if (printMask?.WildCardNull ?? true)
                 {
-                    fg.AppendLine("WildCardNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"WildCardNull => {WildCardNull.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"WildCardNull => {WildCardNull.ToStringSafe()}");
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    fg.AppendLine("Ref =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        Ref.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    Ref.ToString(fg);
                 }
                 if (printMask?.Ref_NotNull?.Overall ?? true)
                 {
-                    fg.AppendLine("Ref_NotNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        Ref_NotNull.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    Ref_NotNull.ToString(fg);
                 }
                 if (printMask?.Ref_Singleton?.Overall ?? true)
                 {
-                    fg.AppendLine("Ref_Singleton =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        Ref_Singleton.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    Ref_Singleton.ToString(fg);
                 }
                 if (printMask?.RefGetter?.Overall ?? true)
                 {
-                    fg.AppendLine("RefGetter =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefGetter.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefGetter.ToString(fg);
                 }
                 if (printMask?.RefGetter_NotNull?.Overall ?? true)
                 {
-                    fg.AppendLine("RefGetter_NotNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefGetter_NotNull.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefGetter_NotNull.ToString(fg);
                 }
                 if (printMask?.RefGetter_Singleton?.Overall ?? true)
                 {
-                    fg.AppendLine("RefGetter_Singleton =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefGetter_Singleton.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefGetter_Singleton.ToString(fg);
                 }
                 if (printMask?.RefSetter?.Overall ?? true)
                 {
-                    fg.AppendLine("RefSetter =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefSetter.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefSetter.ToString(fg);
                 }
                 if (printMask?.RefSetter_NotNull?.Overall ?? true)
                 {
-                    fg.AppendLine("RefSetter_NotNull =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefSetter_NotNull.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefSetter_NotNull.ToString(fg);
                 }
                 if (printMask?.RefSetter_Singleton?.Overall ?? true)
                 {
-                    fg.AppendLine("RefSetter_Singleton =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefSetter_Singleton.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefSetter_Singleton.ToString(fg);
                 }
                 if (printMask?.List?.Overall ?? true)
                 {
@@ -13163,28 +12749,22 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("List =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (List.Overall != null)
                         {
-                            if (List.Overall != null)
+                            fg.AppendLine(List.Overall.ToString());
+                        }
+                        if (List.Specific != null)
+                        {
+                            foreach (var subItem in List.Specific)
                             {
-                                fg.AppendLine(List.Overall.ToString());
-                            }
-                            if (List.Specific != null)
-                            {
-                                foreach (var subItem in List.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($" => {subItem.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
+                                    fg.AppendLine($" => {subItem.ToStringSafe()}");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13194,28 +12774,22 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("RefList =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (RefList.Overall != null)
                         {
-                            if (RefList.Overall != null)
+                            fg.AppendLine(RefList.Overall.ToString());
+                        }
+                        if (RefList.Specific != null)
+                        {
+                            foreach (var subItem in RefList.Specific)
                             {
-                                fg.AppendLine(RefList.Overall.ToString());
-                            }
-                            if (RefList.Specific != null)
-                            {
-                                foreach (var subItem in RefList.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        subItem.ToString(fg);
-                                    }
-                                    fg.AppendLine("]");
+                                    subItem.ToString(fg);
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13225,39 +12799,33 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("Dict =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (Dict.Overall != null)
                         {
-                            if (Dict.Overall != null)
+                            fg.AppendLine(Dict.Overall.ToString());
+                        }
+                        if (Dict.Specific != null)
+                        {
+                            foreach (var subItem in Dict.Specific)
                             {
-                                fg.AppendLine(Dict.Overall.ToString());
-                            }
-                            if (Dict.Specific != null)
-                            {
-                                foreach (var subItem in Dict.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
+                                    fg.AppendLine("Key => [");
                                     using (new DepthWrapper(fg))
                                     {
-                                        fg.AppendLine("Key => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
-                                        }
-                                        fg.AppendLine("]");
-                                        fg.AppendLine("Value => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
-                                        }
-                                        fg.AppendLine("]");
+                                        fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
                                     }
                                     fg.AppendLine("]");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13267,39 +12835,33 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("RefDict =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (RefDict.Overall != null)
                         {
-                            if (RefDict.Overall != null)
+                            fg.AppendLine(RefDict.Overall.ToString());
+                        }
+                        if (RefDict.Specific != null)
+                        {
+                            foreach (var subItem in RefDict.Specific)
                             {
-                                fg.AppendLine(RefDict.Overall.ToString());
-                            }
-                            if (RefDict.Specific != null)
-                            {
-                                foreach (var subItem in RefDict.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
+                                    fg.AppendLine("Key => [");
                                     using (new DepthWrapper(fg))
                                     {
-                                        fg.AppendLine("Key => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            subItem.Key.ToString(fg);
-                                        }
-                                        fg.AppendLine("]");
-                                        fg.AppendLine("Value => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            subItem.Value.ToString(fg);
-                                        }
-                                        fg.AppendLine("]");
+                                        subItem.Key.ToString(fg);
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        subItem.Value.ToString(fg);
                                     }
                                     fg.AppendLine("]");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13309,39 +12871,33 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("KeyRefDict =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (KeyRefDict.Overall != null)
                         {
-                            if (KeyRefDict.Overall != null)
+                            fg.AppendLine(KeyRefDict.Overall.ToString());
+                        }
+                        if (KeyRefDict.Specific != null)
+                        {
+                            foreach (var subItem in KeyRefDict.Specific)
                             {
-                                fg.AppendLine(KeyRefDict.Overall.ToString());
-                            }
-                            if (KeyRefDict.Specific != null)
-                            {
-                                foreach (var subItem in KeyRefDict.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
+                                    fg.AppendLine("Key => [");
                                     using (new DepthWrapper(fg))
                                     {
-                                        fg.AppendLine("Key => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            subItem.Key.ToString(fg);
-                                        }
-                                        fg.AppendLine("]");
-                                        fg.AppendLine("Value => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
-                                        }
-                                        fg.AppendLine("]");
+                                        subItem.Key.ToString(fg);
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
                                     }
                                     fg.AppendLine("]");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13351,39 +12907,33 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("ValRefDict =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (ValRefDict.Overall != null)
                         {
-                            if (ValRefDict.Overall != null)
+                            fg.AppendLine(ValRefDict.Overall.ToString());
+                        }
+                        if (ValRefDict.Specific != null)
+                        {
+                            foreach (var subItem in ValRefDict.Specific)
                             {
-                                fg.AppendLine(ValRefDict.Overall.ToString());
-                            }
-                            if (ValRefDict.Specific != null)
-                            {
-                                foreach (var subItem in ValRefDict.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
+                                    fg.AppendLine("Key => [");
                                     using (new DepthWrapper(fg))
                                     {
-                                        fg.AppendLine("Key => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
-                                        }
-                                        fg.AppendLine("]");
-                                        fg.AppendLine("Value => [");
-                                        using (new DepthWrapper(fg))
-                                        {
-                                            subItem.Value.ToString(fg);
-                                        }
-                                        fg.AppendLine("]");
+                                        fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
+                                    }
+                                    fg.AppendLine("]");
+                                    fg.AppendLine("Value => [");
+                                    using (new DepthWrapper(fg))
+                                    {
+                                        subItem.Value.ToString(fg);
                                     }
                                     fg.AppendLine("]");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }
@@ -13393,28 +12943,22 @@ namespace Loqui.Tests.Internals
                     fg.AppendLine("[");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine("DictKeyedValue =>");
-                        fg.AppendLine("[");
-                        using (new DepthWrapper(fg))
+                        if (DictKeyedValue.Overall != null)
                         {
-                            if (DictKeyedValue.Overall != null)
+                            fg.AppendLine(DictKeyedValue.Overall.ToString());
+                        }
+                        if (DictKeyedValue.Specific != null)
+                        {
+                            foreach (var subItem in DictKeyedValue.Specific)
                             {
-                                fg.AppendLine(DictKeyedValue.Overall.ToString());
-                            }
-                            if (DictKeyedValue.Specific != null)
-                            {
-                                foreach (var subItem in DictKeyedValue.Specific)
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
                                 {
-                                    fg.AppendLine("[");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($"KeyField => {subItem.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
+                                    fg.AppendLine($"KeyField => {subItem.ToStringSafe()}");
                                 }
+                                fg.AppendLine("]");
                             }
                         }
-                        fg.AppendLine("]");
                     }
                     fg.AppendLine("]");
                 }

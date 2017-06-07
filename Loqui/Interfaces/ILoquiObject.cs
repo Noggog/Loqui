@@ -16,7 +16,7 @@ namespace Loqui
     {
         object GetNthObject(ushort index);
         bool GetNthObjectHasBeenSet(ushort index);
-        void ToString(FileGeneration fg);
+        void ToString(FileGeneration fg, string name);
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable

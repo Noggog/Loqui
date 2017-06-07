@@ -150,9 +150,9 @@ namespace Loqui.Generation
             subGenerator.GenerateForHash(fg, hashResultAccessor);
         }
 
-        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            subGenerator.GenerateToString(fg, accessor, fgAccessor);
+            subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
         }
     }
 }

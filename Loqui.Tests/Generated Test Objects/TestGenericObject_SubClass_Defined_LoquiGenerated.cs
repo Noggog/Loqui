@@ -118,9 +118,18 @@ namespace Loqui.Tests
             return TestGenericObject_SubClass_DefinedCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
         {
-            TestGenericObject_SubClass_DefinedCommon.ToString(this, fg, printMask: null);
+            return TestGenericObject_SubClass_DefinedCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestGenericObject_SubClass_DefinedCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -707,21 +716,30 @@ namespace Loqui.Tests.Internals
 
         public static string ToString<RBase>(
             this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            string name = null,
             TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString<RBase>(
             this ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             FileGeneration fg,
+            string name = null,
             TestGenericObject_SubClass_Defined_Mask<bool> printMask = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
-            fg.AppendLine($"{nameof(TestGenericObject_SubClass_Defined<RBase>)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestGenericObject_SubClass_Defined<RBase>)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestGenericObject_SubClass_Defined<RBase>)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {

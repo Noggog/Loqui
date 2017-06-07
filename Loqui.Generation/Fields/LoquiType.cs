@@ -728,9 +728,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            fg.AppendLine($"{accessor}.ToString({fgAccessor});");
+            fg.AppendLine($"{accessor}.ToString({fgAccessor}, \"{name}\");");
         }
     }
 }

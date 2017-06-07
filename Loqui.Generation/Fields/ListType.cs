@@ -163,9 +163,26 @@ namespace Loqui.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
-        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            fg.AppendLine("throw new NotImplementedException();");
+            fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
+            fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
+            fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"foreach (var subItem in {accessor})");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                    fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
+                    using (new BraceWrapper(fg))
+                    {
+                        this.SubTypeGeneration.GenerateToString(fg, "Item", "subItem", fgAccessor);
+                    }
+                    fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                }
+            }
+            fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
     }
 }

@@ -293,9 +293,26 @@ namespace Loqui.Generation
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
-        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            fg.AppendLine("throw new NotImplementedException();");
+            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
+            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+            fg.AppendLine($"using (new DepthWrapper(fg))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"foreach (var subItem in {accessor}.Values)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                    fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
+                    using (new BraceWrapper(fg))
+                    {
+                        this.ValueTypeGen.GenerateToString(fg, "Item", "subItem", fgAccessor);
+                    }
+                    fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                }
+            }
+            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
     }
 }

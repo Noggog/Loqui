@@ -327,9 +327,9 @@ namespace Loqui.Generation
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
-        public override void GenerateToString(FileGeneration fg, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            fg.AppendLine($"{fgAccessor}.AppendLine($\"{this.Name} => {{{accessor}}}\");");
+            fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor}}}\");");
         }
     }
 }

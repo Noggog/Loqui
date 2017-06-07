@@ -143,9 +143,18 @@ namespace Loqui.Tests
             return ObjectToRefCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            ObjectToRef_Mask<bool> printMask = null)
         {
-            ObjectToRefCommon.ToString(this, fg, printMask: null);
+            return ObjectToRefCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            ObjectToRefCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -871,19 +880,28 @@ namespace Loqui.Tests.Internals
 
         public static string ToString(
             this IObjectToRefGetter item,
+            string name = null,
             ObjectToRef_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString(
             this IObjectToRefGetter item,
             FileGeneration fg,
+            string name = null,
             ObjectToRef_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(ObjectToRef)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(ObjectToRef)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(ObjectToRef)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -1068,23 +1086,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.KeyField ?? true)
                 {
-                    fg.AppendLine("KeyField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
                 }
                 if (printMask?.SomeField ?? true)
                 {
-                    fg.AppendLine("SomeField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

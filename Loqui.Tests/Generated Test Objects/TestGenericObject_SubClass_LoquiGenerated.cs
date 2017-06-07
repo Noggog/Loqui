@@ -121,9 +121,18 @@ namespace Loqui.Tests
             return TestGenericObject_SubClassCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestGenericObject_SubClass_Mask<bool> printMask = null)
         {
-            TestGenericObject_SubClassCommon.ToString(this, fg, printMask: null);
+            return TestGenericObject_SubClassCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestGenericObject_SubClassCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -749,6 +758,7 @@ namespace Loqui.Tests.Internals
 
         public static string ToString<S, T, RBase, R>(
             this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            string name = null,
             TestGenericObject_SubClass_Mask<bool> printMask = null)
             where S : ObjectToRef
             where T : ILoquiObject
@@ -756,20 +766,28 @@ namespace Loqui.Tests.Internals
             where R : ILoquiObject, ILoquiObjectGetter
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString<S, T, RBase, R>(
             this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
             FileGeneration fg,
+            string name = null,
             TestGenericObject_SubClass_Mask<bool> printMask = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
-            fg.AppendLine($"{nameof(TestGenericObject_SubClass<S, T, RBase, R>)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestGenericObject_SubClass<S, T, RBase, R>)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestGenericObject_SubClass<S, T, RBase, R>)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {

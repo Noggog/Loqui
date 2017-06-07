@@ -139,9 +139,18 @@ namespace Loqui.Tests
             return TestGenericObjectCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestGenericObject_Mask<bool> printMask = null)
         {
-            TestGenericObjectCommon.ToString(this, fg, printMask: null);
+            return TestGenericObjectCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestGenericObjectCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -961,33 +970,42 @@ namespace Loqui.Tests.Internals
 
         public static string ToString<T, RBase, R>(
             this ITestGenericObjectGetter<T, RBase, R> item,
+            string name = null,
             TestGenericObject_Mask<bool> printMask = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString<T, RBase, R>(
             this ITestGenericObjectGetter<T, RBase, R> item,
             FileGeneration fg,
+            string name = null,
             TestGenericObject_Mask<bool> printMask = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
-            fg.AppendLine($"{nameof(TestGenericObject<T, RBase, R>)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestGenericObject<T, RBase, R>)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestGenericObject<T, RBase, R>)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
                 if (printMask?.RefBase?.Overall ?? true)
                 {
-                    item.RefBase.ToString(fg);
+                    item.RefBase.ToString(fg, "RefBase");
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    item.Ref.ToString(fg);
+                    item.Ref.ToString(fg, "Ref");
                 }
             }
             fg.AppendLine("]");
@@ -1209,23 +1227,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.RefBase?.Overall ?? true)
                 {
-                    fg.AppendLine("RefBase =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        RefBase.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    RefBase.ToString(fg);
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    fg.AppendLine("Ref =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        Ref.ToString(fg);
-                    }
-                    fg.AppendLine("]");
+                    Ref.ToString(fg);
                 }
             }
             fg.AppendLine("]");

@@ -112,7 +112,7 @@ namespace Loqui.Generation
 
         public virtual void GenerateForInterfaceExt(FileGeneration fg) { }
 
-        public abstract void GenerateToString(FileGeneration fg, string accessor, string fgAccessor);
+        public abstract void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor);
 
         public virtual string GetName(bool internalUse, bool property)
         {

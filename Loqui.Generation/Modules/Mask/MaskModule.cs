@@ -94,14 +94,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"if ({GetMaskModule(item.Field.GetType()).GenerateBoolMaskCheck(item.Field, "printMask")})");
                                 using (new BraceWrapper(fg))
                                 {
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{item.Field.Name} =>\");");
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
-                                    }
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
                                 }
                             }
                         }

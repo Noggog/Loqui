@@ -128,9 +128,18 @@ namespace Loqui.Tests
             return TestObject_Notifying_SubClassCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestObject_Notifying_SubClass_Mask<bool> printMask = null)
         {
-            TestObject_Notifying_SubClassCommon.ToString(this, fg, printMask: null);
+            return TestObject_Notifying_SubClassCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestObject_Notifying_SubClassCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -779,19 +788,28 @@ namespace Loqui.Tests.Internals
 
         public static string ToString(
             this ITestObject_Notifying_SubClassGetter item,
+            string name = null,
             TestObject_Notifying_SubClass_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString(
             this ITestObject_Notifying_SubClassGetter item,
             FileGeneration fg,
+            string name = null,
             TestObject_Notifying_SubClass_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(TestObject_Notifying_SubClass)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestObject_Notifying_SubClass)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestObject_Notifying_SubClass)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -951,13 +969,7 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.NewField ?? true)
                 {
-                    fg.AppendLine("NewField =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

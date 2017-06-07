@@ -124,9 +124,18 @@ namespace Loqui.Tests
             return TestObject_PrivateCtorCommon.ToString(this, printMask: null);
         }
 
-        public void ToString(FileGeneration fg)
+        public string ToString(
+            string name = null,
+            TestObject_PrivateCtor_Mask<bool> printMask = null)
         {
-            TestObject_PrivateCtorCommon.ToString(this, fg, printMask: null);
+            return TestObject_PrivateCtorCommon.ToString(this, name: name, printMask: printMask);
+        }
+
+        public void ToString(
+            FileGeneration fg,
+            string name = null)
+        {
+            TestObject_PrivateCtorCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
@@ -751,19 +760,28 @@ namespace Loqui.Tests.Internals
 
         public static string ToString(
             this ITestObject_PrivateCtorGetter item,
+            string name = null,
             TestObject_PrivateCtor_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
-            item.ToString(fg, printMask);
+            item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
         public static void ToString(
             this ITestObject_PrivateCtorGetter item,
             FileGeneration fg,
+            string name = null,
             TestObject_PrivateCtor_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(TestObject_PrivateCtor)} =>");
+            if (name == null)
+            {
+                fg.AppendLine($"{nameof(TestObject_PrivateCtor)} =>");
+            }
+            else
+            {
+                fg.AppendLine($"{name} ({nameof(TestObject_PrivateCtor)}) =>");
+            }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -917,13 +935,7 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.BoolN ?? true)
                 {
-                    fg.AppendLine("BoolN =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
-                    }
-                    fg.AppendLine("]");
+                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
                 }
             }
             fg.AppendLine("]");

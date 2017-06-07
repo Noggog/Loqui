@@ -555,12 +555,13 @@ namespace Loqui.Generation
                 GenerateWhereClauses().ToArray()))
             {
                 args.Add($"this {this.Getter_InterfaceStr} item");
+                args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
-                fg.AppendLine($"item.ToString(fg, printMask);");
+                fg.AppendLine($"item.ToString(fg, name, printMask);");
                 fg.AppendLine("return fg.ToString();");
             }
             fg.AppendLine();
@@ -571,11 +572,21 @@ namespace Loqui.Generation
             {
                 args.Add($"this {this.Getter_InterfaceStr} item");
                 args.Add($"{nameof(FileGeneration)} fg");
+                args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"fg.AppendLine($\"{{nameof({this.ObjectName})}} =>\");");
+                fg.AppendLine("if (name == null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"fg.AppendLine($\"{{nameof({this.ObjectName})}} =>\");");
+                }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"fg.AppendLine($\"{{name}} ({{nameof({this.ObjectName})}}) =>\");");
+                }
                 fg.AppendLine($"fg.AppendLine(\"[\");");
                 fg.AppendLine($"using (new DepthWrapper(fg))");
                 using (new BraceWrapper(fg))
@@ -585,7 +596,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"if ({gen.MaskModule.GetMaskModule(item.Field.GetType()).GenerateBoolMaskCheck(item.Field, "printMask")})");
                         using (new BraceWrapper(fg))
                         {
-                            item.Field.GenerateToString(fg, $"item.{item.Field.Name}", "fg");
+                            item.Field.GenerateToString(fg, item.Field.Name, $"item.{item.Field.Name}", "fg");
                         }
                     }
                 }
@@ -1631,10 +1642,27 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public void ToString(FileGeneration fg)");
+                    using (var args = new FunctionWrapper(fg,
+                        $"public string ToString"))
+                    {
+                        args.Add($"string name = null");
+                        args.Add($"{this.GetMaskString("bool")} printMask = null");
+                    }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{this.ExtCommonName}.ToString(this, fg, printMask: null);");
+                        fg.AppendLine($"return {this.ExtCommonName}.ToString(this, name: name, printMask: printMask);");
+                    }
+                    fg.AppendLine();
+
+                    using (var args = new FunctionWrapper(fg,
+                        $"public void ToString"))
+                    {
+                        args.Add($"FileGeneration fg");
+                        args.Add($"string name = null");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{this.ExtCommonName}.ToString(this, fg, name: name, printMask: null);");
                     }
                     fg.AppendLine();
                 }
