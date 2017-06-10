@@ -28,6 +28,24 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>");
             using (new BraceWrapper(fg))
             {
+                using (new RegionWrapper(fg, "Ctors"))
+                {
+                    fg.AppendLine($"public {obj.Name}_Mask()");
+                    using (new BraceWrapper(fg))
+                    {
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public {obj.Name}_Mask(T initialValue)");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.Fields)
+                        {
+                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, "initialValue");
+                        }
+                    }
+                }
+
                 using (new RegionWrapper(fg, "Members"))
                 {
                     foreach (var field in obj.Fields)

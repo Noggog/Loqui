@@ -213,6 +213,13 @@ namespace Loqui.Tests.XML
             return XmlUtility.GetElementNoValue(this.ExpectedName);
         }
 
+        [Fact]
+        public void EnsureAllFieldsTested()
+        {
+            TestObject_HasBeenSet_Mask<bool> mask = new TestObject_HasBeenSet_Mask<bool>();
+            Assert.True(false);
+        }
+
         #region Parse - Typical
         [Fact]
         public void Parse_NoMask()

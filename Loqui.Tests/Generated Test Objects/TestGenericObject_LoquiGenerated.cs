@@ -1168,6 +1168,18 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestGenericObject_Mask<T> : IMask<T>
     {
+        #region Ctors
+        public TestGenericObject_Mask()
+        {
+        }
+
+        public TestGenericObject_Mask(T initialValue)
+        {
+            this.RefBase = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.Ref = new MaskItem<T, object>(initialValue, null);
+        }
+        #endregion
+
         #region Members
         public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }

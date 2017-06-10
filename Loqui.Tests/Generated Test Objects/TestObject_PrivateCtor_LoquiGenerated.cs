@@ -893,6 +893,17 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_PrivateCtor_Mask<T> : IMask<T>
     {
+        #region Ctors
+        public TestObject_PrivateCtor_Mask()
+        {
+        }
+
+        public TestObject_PrivateCtor_Mask(T initialValue)
+        {
+            this.BoolN = initialValue;
+        }
+        #endregion
+
         #region Members
         public T BoolN;
         #endregion

@@ -927,6 +927,17 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_Notifying_SubClass_Mask<T> : TestObject_Notifying_Mask<T>, IMask<T>
     {
+        #region Ctors
+        public TestObject_Notifying_SubClass_Mask()
+        {
+        }
+
+        public TestObject_Notifying_SubClass_Mask(T initialValue)
+        {
+            this.NewField = initialValue;
+        }
+        #endregion
+
         #region Members
         public T NewField;
         #endregion

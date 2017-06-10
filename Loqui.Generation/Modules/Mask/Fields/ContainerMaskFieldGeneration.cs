@@ -183,5 +183,10 @@ namespace Loqui.Generation
         {
             return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
+
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        {
+            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, "T")}({valueStr}, null);");
+        }
     }
 }

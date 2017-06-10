@@ -134,5 +134,11 @@ namespace Loqui.Generation
         {
             return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
+
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        {
+            LoquiType loqui = field as LoquiType;
+            fg.AppendLine($"this.{field.Name} = new MaskItem<T, {loqui.GenerateMaskString("T")}>({valueStr}, {(loqui.TargetObjectGeneration == null ? "null" : $"new {loqui.TargetObjectGeneration.GetMaskString("T")}({valueStr})")});");
+        }
     }
 }

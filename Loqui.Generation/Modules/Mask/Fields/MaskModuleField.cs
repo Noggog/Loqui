@@ -21,5 +21,6 @@ namespace Loqui.Generation
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
         public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
+        public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr);
     }
 }

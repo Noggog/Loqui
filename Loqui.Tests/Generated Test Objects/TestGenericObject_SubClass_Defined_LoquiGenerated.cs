@@ -839,6 +839,16 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestGenericObject_SubClass_Defined_Mask<T> : TestGenericObject_Mask<T>, IMask<T>
     {
+        #region Ctors
+        public TestGenericObject_SubClass_Defined_Mask()
+        {
+        }
+
+        public TestGenericObject_SubClass_Defined_Mask(T initialValue)
+        {
+        }
+        #endregion
+
         #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {

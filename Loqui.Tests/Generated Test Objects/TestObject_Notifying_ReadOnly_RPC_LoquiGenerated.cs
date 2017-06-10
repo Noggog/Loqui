@@ -10309,6 +10309,115 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class TestObject_Notifying_ReadOnly_RPC_Mask<T> : IMask<T>
     {
+        #region Ctors
+        public TestObject_Notifying_ReadOnly_RPC_Mask()
+        {
+        }
+
+        public TestObject_Notifying_ReadOnly_RPC_Mask(T initialValue)
+        {
+            this.BoolN = initialValue;
+            this.Bool = initialValue;
+            this.CharN = initialValue;
+            this.Char = initialValue;
+            this.DateTimeNull = initialValue;
+            this.DateTime = initialValue;
+            this.DoubleN = initialValue;
+            this.DoubleN_Ranged = initialValue;
+            this.Double = initialValue;
+            this.Double_Ranged = initialValue;
+            this.FloatN = initialValue;
+            this.FloatN_Ranged = initialValue;
+            this.Float = initialValue;
+            this.Float_Ranged = initialValue;
+            this.Int16N = initialValue;
+            this.Int16N_Ranged = initialValue;
+            this.Int16 = initialValue;
+            this.Int16_Ranged = initialValue;
+            this.Int32N = initialValue;
+            this.Int32N_Ranged = initialValue;
+            this.Int32 = initialValue;
+            this.Int32_Ranged = initialValue;
+            this.Int64N = initialValue;
+            this.Int64N_Ranged = initialValue;
+            this.Int64 = initialValue;
+            this.Int64_Ranged = initialValue;
+            this.Int8N = initialValue;
+            this.Int8N_Ranged = initialValue;
+            this.Int8 = initialValue;
+            this.Int8_Ranged = initialValue;
+            this.Unsafe = initialValue;
+            this.UnsafeLoqui = initialValue;
+            this.UnsafeNull = initialValue;
+            this.P2IntN = initialValue;
+            this.P2Int = initialValue;
+            this.P3DoubleN = initialValue;
+            this.P3Double = initialValue;
+            this.P3IntN = initialValue;
+            this.P3Int = initialValue;
+            this.PercentN = initialValue;
+            this.Percent = initialValue;
+            this.RangeInt8N = initialValue;
+            this.RangeInt8 = initialValue;
+            this.RangeInt16N = initialValue;
+            this.RangeInt16 = initialValue;
+            this.RangeInt32N = initialValue;
+            this.RangeInt32 = initialValue;
+            this.RangeInt64N = initialValue;
+            this.RangeInt64 = initialValue;
+            this.RangeUInt8N = initialValue;
+            this.RangeUInt8 = initialValue;
+            this.RangeUInt16N = initialValue;
+            this.RangeUInt16 = initialValue;
+            this.RangeUInt32N = initialValue;
+            this.RangeUInt32 = initialValue;
+            this.RangeUInt64N = initialValue;
+            this.RangeUInt64 = initialValue;
+            this.String = initialValue;
+            this.UDoubleN = initialValue;
+            this.UDoubleN_Ranged = initialValue;
+            this.UDouble = initialValue;
+            this.UDouble_Ranged = initialValue;
+            this.UInt16N = initialValue;
+            this.UInt16N_Ranged = initialValue;
+            this.UInt16 = initialValue;
+            this.UInt16_Ranged = initialValue;
+            this.UInt32N = initialValue;
+            this.UInt32N_Ranged = initialValue;
+            this.UInt32 = initialValue;
+            this.UInt32_Ranged = initialValue;
+            this.UInt64N = initialValue;
+            this.UInt64N_Ranged = initialValue;
+            this.UInt64 = initialValue;
+            this.UInt64_Ranged = initialValue;
+            this.UInt8N = initialValue;
+            this.UInt8N_Ranged = initialValue;
+            this.UInt8 = initialValue;
+            this.UInt8_Ranged = initialValue;
+            this.Enum = initialValue;
+            this.EnumNull = initialValue;
+            this.WildCard = initialValue;
+            this.WildCardLoqui = initialValue;
+            this.WildCardNull = initialValue;
+            this.Ref = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.Ref_NotNull = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.Ref_Singleton = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefGetter = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefGetter_NotNull = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefGetter_Singleton = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefSetter = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefSetter_NotNull = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.RefSetter_Singleton = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
+            this.List = new MaskItem<T, IEnumerable<T>>(initialValue, null);
+            this.RefList = new MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>>(initialValue, null);
+            this.Dict = new MaskItem<T, IEnumerable<KeyValuePair<T, T>>>(initialValue, null);
+            this.RefDict = new MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, MaskItem<T, ObjectToRef_Mask<T>>>>>(initialValue, null);
+            this.KeyRefDict = new MaskItem<T, IEnumerable<KeyValuePair<MaskItem<T, ObjectToRef_Mask<T>>, T>>>(initialValue, null);
+            this.ValRefDict = new MaskItem<T, IEnumerable<KeyValuePair<T, MaskItem<T, ObjectToRef_Mask<T>>>>>(initialValue, null);
+            this.DictKeyedValue = new MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>>(initialValue, null);
+        }
+        #endregion
+
         #region Members
         public T BoolN;
         public T Bool;

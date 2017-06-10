@@ -1041,6 +1041,18 @@ namespace Loqui.Tests.Internals
     #region Mask
     public class ObjectToRef_Mask<T> : IMask<T>
     {
+        #region Ctors
+        public ObjectToRef_Mask()
+        {
+        }
+
+        public ObjectToRef_Mask(T initialValue)
+        {
+            this.KeyField = initialValue;
+            this.SomeField = initialValue;
+        }
+        #endregion
+
         #region Members
         public T KeyField;
         public T SomeField;
