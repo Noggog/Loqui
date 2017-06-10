@@ -167,7 +167,7 @@ namespace Loqui.Xml
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
-            using (new ElementWrapper(writer, item.Registration.Name))
+            using (new ElementWrapper(writer, item.Registration.FullName))
             {
                 if (!string.IsNullOrEmpty(name))
                 {

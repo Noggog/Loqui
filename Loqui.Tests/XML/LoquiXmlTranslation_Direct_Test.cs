@@ -16,7 +16,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 82;
+        public static int NUM_FIELDS = 86;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -103,7 +103,11 @@ namespace Loqui.Tests.XML
                 UInt8N_Ranged = ByteNullableXmlTranslation_Test.TYPICAL_VALUE,
                 UInt8_Ranged = ByteXmlTranslation_Test.TYPICAL_VALUE,
                 Unsafe = true,
-                WildCard = true
+                UnsafeLoqui = ObjectToRefXmlTranslation_Test.TYPICAL_VALUE,
+                UnsafeNull = null,
+                WildCard = true,
+                WildCardLoqui = ObjectToRefXmlTranslation_Test.TYPICAL_VALUE,
+                WildCardNull = null
             };
 
         }
@@ -121,6 +125,8 @@ namespace Loqui.Tests.XML
             elem.Add(DateTimeNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DateTimeNull)));
             elem.Add(DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Double)));
             elem.Add(DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DoubleN)));
+            elem.Add(DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Double_Ranged)));
+            elem.Add(DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DoubleN_Ranged)));
             elem.Add(EnumXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Enum)));
             elem.Add(DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DoubleN)));
             elem.Add(DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Double)));
@@ -192,7 +198,13 @@ namespace Loqui.Tests.XML
             elem.Add(ByteXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8)));
             elem.Add(ByteNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8N)));
             elem.Add(ByteXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8_Ranged)));
+            elem.Add(ByteNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UInt8N_Ranged)));
             elem.Add(BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Unsafe)));
+            elem.Add(NullXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UnsafeNull)));
+            elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UnsafeLoqui)));
+            elem.Add(BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCard)));
+            elem.Add(NullXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCardNull)));
+            elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCardLoqui)));
             return elem;
         }
 
@@ -220,7 +232,7 @@ namespace Loqui.Tests.XML
                 errorMask: out var maskObj);
             Assert.Null(maskObj);
             var equalMask = TYPICAL_VALUE.GetEqualsMask(ret);
-            var str = ret.ToString(printMask: equalMask.Translate((b) => !b));
+            var str = equalMask.ToString(printMask: equalMask.Translate((b) => !b));
             Assert.True(equalMask.AllEqual((b) => b));
         }
         #endregion
@@ -282,6 +294,7 @@ namespace Loqui.Tests.XML
                 writer.Writer,
                 name: null);
             XElement elem = writer.Resolve();
+            Assert.Equal(TestObject_HasBeenSet_Registration.FullName, elem.Name.LocalName);
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
             Assert.Equal(NUM_FIELDS, elem.Elements().Count());
         }
@@ -296,6 +309,7 @@ namespace Loqui.Tests.XML
                 errorMask: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
+            Assert.Equal(TestObject_HasBeenSet_Registration.FullName, elem.Name.LocalName);
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
             Assert.Equal(NUM_FIELDS, elem.Elements().Count());
         }

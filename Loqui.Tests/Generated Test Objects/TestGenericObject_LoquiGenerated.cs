@@ -167,12 +167,12 @@ namespace Loqui.Tests
             if (RefBase_Property.HasBeenSet != rhs.RefBase_Property.HasBeenSet) return false;
             if (RefBase_Property.HasBeenSet)
             {
-                if (object.Equals(RefBase, rhs.RefBase)) return false;
+                if (!object.Equals(RefBase, rhs.RefBase)) return false;
             }
             if (Ref_Property.HasBeenSet != rhs.Ref_Property.HasBeenSet) return false;
             if (Ref_Property.HasBeenSet)
             {
-                if (object.Equals(Ref, rhs.Ref)) return false;
+                if (!object.Equals(Ref, rhs.Ref)) return false;
             }
             return true;
         }
@@ -316,19 +316,26 @@ namespace Loqui.Tests
                 case "Ref":
                     try
                     {
-                        var wildType = item.Ref == null ? null : item.Ref.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
+                        {
+                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
+                        }
+                        var transl = XmlTranslator.GetTranslator(type.Item);
                         if (transl?.Item.Failed ?? true)
                         {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
+                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
                         }
-                        transl.Item.Value.Parse(
+                        var tryGet = transl.Item.Value.Parse(
                             root,
                             doMasks,
                             out object suberrorMask);
                         if (suberrorMask != null)
                         {
                             errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
+                        }
+                        if (tryGet.Succeeded)
+                        {
+                            item._Ref.Item = (R)tryGet.Value;
                         }
                     }
                     catch (Exception ex)
@@ -1081,7 +1088,7 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, nameof(TestGenericObject<T, RBase, R>)))
+                using (new ElementWrapper(writer, "Loqui.Tests.TestGenericObject"))
                 {
                     if (!string.IsNullOrEmpty(name))
                     {

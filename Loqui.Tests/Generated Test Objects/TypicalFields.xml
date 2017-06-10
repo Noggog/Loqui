@@ -36,6 +36,12 @@
       <UnsafeObject name="Unsafe">
         <TargetType>bool</TargetType>
       </UnsafeObject>
+      <UnsafeObject name="UnsafeLoqui">
+        <TargetType>ObjectToRef</TargetType>
+      </UnsafeObject>
+      <UnsafeObject name="UnsafeNull">
+        <TargetType>ObjectToRef</TargetType>
+      </UnsafeObject>
       <P2IntNull name="P2IntN" />
       <P2Int name="P2Int" />
       <P3DoubleNull name="P3DoubleN" />
@@ -84,6 +90,7 @@
       <Enum name="Enum" enumName="TestEnum" />
       <EnumNull name="EnumNull" enumName="TestEnum" />
       <Wildcard name="WildCard" />
+      <Wildcard name="WildCardLoqui" />
       <Wildcard name="WildCardNull" />
       <Ref name="Ref">
         <Direct refName="ObjectToRef" />

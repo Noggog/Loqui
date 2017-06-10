@@ -196,7 +196,9 @@
     <Compile Include="XML\UInt32XmlTranslation_Test.cs" />
     <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\UInt64XmlTranslation_Test.cs" />
-    <Compile Include="XML\WildcardXmlTranslation_Test.cs" />
+    <Compile Include="XML\WildcardLoquiXmlTranslation_Test.cs" />
+    <Compile Include="XML\WildcardNullXmlTranslation_Test.cs" />
+    <Compile Include="XML\WildcardBoolXmlTranslation_Test.cs" />
     <Compile Include="XML\XmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>

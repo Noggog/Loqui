@@ -874,8 +874,8 @@ namespace Loqui.Tests.Internals
             IObjectToRefGetter rhs,
             ObjectToRef_Mask<bool> ret)
         {
-            ret.KeyField = item.KeyField_Property.Equals(rhs.KeyField_Property, (l, r) => l != r);
-            ret.SomeField = item.SomeField_Property.Equals(rhs.SomeField_Property, (l, r) => l != r);
+            ret.KeyField = item.KeyField_Property.Equals(rhs.KeyField_Property, (l, r) => l == r);
+            ret.SomeField = item.SomeField_Property.Equals(rhs.SomeField_Property, (l, r) => l == r);
         }
 
         public static string ToString(
@@ -979,7 +979,7 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, nameof(ObjectToRef)))
+                using (new ElementWrapper(writer, "Loqui.Tests.ObjectToRef"))
                 {
                     if (!string.IsNullOrEmpty(name))
                     {

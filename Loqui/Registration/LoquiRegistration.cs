@@ -179,7 +179,7 @@ namespace Loqui
         public static ILoquiRegistration GetRegisterByFullName(string str)
         {
             if (TryGetRegisterByFullName(str, out var regis)) return regis;
-            throw new ArgumentException("Full Name did not match a defined Loqui type: " + str);
+            return null;
         }
 
         public static bool TryGetRegisterByFullName(string str, out ILoquiRegistration regis)

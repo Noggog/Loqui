@@ -15,6 +15,7 @@ namespace Loqui.Xml
 {
     public class DictXmlTranslation<K, V> : IXmlTranslation<IEnumerable<KeyValuePair<K, V>>>
     {
+        public static readonly DictXmlTranslation<K, V> Instance = new DictXmlTranslation<K, V>();
         public virtual string ElementName => "Dict";
 
         public TryGet<IEnumerable<KeyValuePair<K, V>>> Parse(XElement root, bool doMasks, out object maskObj)
@@ -151,7 +152,7 @@ namespace Loqui.Xml
         public void Write(
             XmlWriter writer,
             string name,
-            IEnumerable<KeyValuePair<K, V>> item,
+            IEnumerable<KeyValuePair<K, V>> items,
             bool doMasks,
             out object maskObj)
         {
@@ -168,7 +169,7 @@ namespace Loqui.Xml
             this.Write<object, object>(
                 writer: writer,
                 name: name,
-                items: item,
+                items: items,
                 doMasks: doMasks,
                 maskList: out var maskList,
                 keyTransl: (K item1, out object obj) => keyTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj),

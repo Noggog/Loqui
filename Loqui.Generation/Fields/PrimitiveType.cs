@@ -314,11 +314,11 @@ namespace Loqui.Generation
         {
             if (this.Notifying == NotifyingOption.None)
             {
-                fg.AppendLine($"{retAccessor} = {accessor} != {rhsAccessor};");
+                fg.AppendLine($"{retAccessor} = {accessor} == {rhsAccessor};");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => l != r);");
+                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => l == r);");
             }
         }
 

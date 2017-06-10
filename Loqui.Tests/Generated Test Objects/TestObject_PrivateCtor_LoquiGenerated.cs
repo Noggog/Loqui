@@ -755,7 +755,7 @@ namespace Loqui.Tests.Internals
             ITestObject_PrivateCtorGetter rhs,
             TestObject_PrivateCtor_Mask<bool> ret)
         {
-            ret.BoolN = item.BoolN != rhs.BoolN;
+            ret.BoolN = item.BoolN == rhs.BoolN;
         }
 
         public static string ToString(
@@ -855,7 +855,7 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, nameof(TestObject_PrivateCtor)))
+                using (new ElementWrapper(writer, "Loqui.Tests.TestObject_PrivateCtor"))
                 {
                     if (!string.IsNullOrEmpty(name))
                     {

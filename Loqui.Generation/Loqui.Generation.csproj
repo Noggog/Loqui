@@ -84,7 +84,7 @@
     <Compile Include="Fields\TypicalTypeGeneration\Int64Type.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\Int8NullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\Int8Type.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\UnsafeObjectType.cs" />
+    <Compile Include="Fields\UnsafeObjectType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2IntType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleNullType.cs" />

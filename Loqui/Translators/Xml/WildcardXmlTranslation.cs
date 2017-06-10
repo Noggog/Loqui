@@ -44,7 +44,7 @@ namespace Loqui.Xml
 
         public void Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
-            var xml = GetTranslator(item.GetType());
+            var xml = GetTranslator(item?.GetType());
             xml.Write(writer, name, item, doMasks, out maskObj);
         }
     }

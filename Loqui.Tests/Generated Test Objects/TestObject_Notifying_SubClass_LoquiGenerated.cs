@@ -472,7 +472,7 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_SubClass_FieldIndex
     {
-        NewField = 96,
+        NewField = 99,
     }
     #endregion
 
@@ -782,7 +782,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_SubClassGetter rhs,
             TestObject_Notifying_SubClass_Mask<bool> ret)
         {
-            ret.NewField = item.NewField_Property.Equals(rhs.NewField_Property, (l, r) => l != r);
+            ret.NewField = item.NewField_Property.Equals(rhs.NewField_Property, (l, r) => l == r);
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }
 
@@ -883,7 +883,7 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, nameof(TestObject_Notifying_SubClass)))
+                using (new ElementWrapper(writer, "Loqui.Tests.TestObject_Notifying_SubClass"))
                 {
                     if (!string.IsNullOrEmpty(name))
                     {

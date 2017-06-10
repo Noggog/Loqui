@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("fg.AppendLine(RangeUInt16N.ToString());"))
+            if (str.Equals("if (UnsafeLoqui != rhs.UnsafeLoqui) return false;"))
             {
                 int wer = 23;
                 wer++;

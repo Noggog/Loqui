@@ -11,11 +11,12 @@ namespace Loqui
     {
         public static bool Equals<T>(this IHasBeenSetItemGetter<T> lhs, IHasBeenSetItemGetter<T> rhs, Func<T, T, bool> equalCheck)
         {
-            if (lhs.HasBeenSet == lhs.HasBeenSet)
+            if (lhs.HasBeenSet == rhs.HasBeenSet)
             {
                 if (lhs.HasBeenSet)
                 {
-                    return equalCheck(lhs.Item, rhs.Item);
+                    var r = equalCheck(lhs.Item, rhs.Item);
+                    return r;
                 }
                 else
                 {

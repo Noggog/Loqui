@@ -13,10 +13,13 @@ namespace Loqui.Xml
         public NotifyingItem<GetResponse<IXmlTranslation<object>>> NullTranslation = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
             defaultVal: GetResponse<IXmlTranslation<object>>.Succeed(new NullXmlTranslation()),
             markAsSet: true);
+        public NotifyingItem<Type> NullType = new NotifyingItem<Type>(
+            defaultVal: null,
+            markAsSet: true);
         public Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
         public Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
-        
+
         public XmlTranslatorCache()
         {
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<>)))
@@ -45,6 +48,34 @@ namespace Loqui.Xml
                         }).Item = GetResponse<IXmlTranslation<object>>.Fail(ex);
                 }
             }
+            elementNameTypeDict["Null"] = NullType;
+        }
+
+        public bool Validate(Type t)
+        {
+            return TryGetTranslator(t, out var not);
+        }
+
+        public bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
+        {
+            var ret = elementNameTypeDict.TryGetValue(elementName, out NotifyingItem<Type> n);
+            if (!ret)
+            {
+                var regis = LoquiRegistration.GetRegisterByFullName(elementName);
+                if (regis != null)
+                {
+                    var not = elementNameTypeDict.TryCreateValue(elementName, () => new NotifyingItem<Type>());
+                    not.Item = regis.ClassType;
+                    t = not;
+                    return true;
+                }
+                else
+                {
+                    elementNameTypeDict[elementName] = null;
+                }
+            }
+            t = n;
+            return ret && n != null;
         }
 
         public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)

@@ -14,7 +14,7 @@ namespace Loqui.Tests.XML
     {
         public static readonly ObjectToRef TYPICAL_VALUE = new ObjectToRef()
         {
-            KeyField = 43,
+            KeyField = Int32XmlTranslation_Test.Instance.TypicalValue,
             SomeField = true
         };
 

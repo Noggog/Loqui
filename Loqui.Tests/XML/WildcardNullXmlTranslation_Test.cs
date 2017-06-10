@@ -9,24 +9,20 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class WildcardXmlTranslation_Test
+    public class WildcardNullXmlTranslation_Test
     {
-        public const bool TYPICAL_VALUE = true;
-        public BoolXmlTranslation_Test subTest = new BoolXmlTranslation_Test();
+        public static readonly WildcardNullXmlTranslation_Test Instance = new WildcardNullXmlTranslation_Test();
+        public const object TYPICAL_VALUE = null;
+        public NullXmlTranslation_Test subTest = new NullXmlTranslation_Test();
 
         public IXmlTranslation<Object> GetTranslation()
         {
             return new WildcardXmlTranslation();
         }
 
-        public bool GetDefault()
+        public XElement GetTypicalElement(string name = null)
         {
-            return true;
-        }
-
-        public XElement GetTypicalElement()
-        {
-            return subTest.GetTypicalElement(BoolXmlTranslation_Test.TYPICAL_VALUE);
+            return subTest.GetTypicalElement(NullXmlTranslation_Test.TYPICAL_VALUE, name);
         }
 
         public XElement GetElementNoValue()
@@ -36,7 +32,7 @@ namespace Loqui.Tests.XML
 
         public string GetTypicalString()
         {
-            return subTest.StringConverter(BoolXmlTranslation_Test.TYPICAL_VALUE);
+            return subTest.StringConverter(NullXmlTranslation_Test.TYPICAL_VALUE);
         }
 
         [Fact]
@@ -55,7 +51,7 @@ namespace Loqui.Tests.XML
             transl.Write(
                 writer: writer.Writer,
                 name: name,
-                item: GetDefault(),
+                item: TYPICAL_VALUE,
                 doMasks: false,
                 maskObj: out object maskObj);
             Assert.Null(maskObj);
@@ -124,66 +120,6 @@ namespace Loqui.Tests.XML
         }
         #endregion
 
-        #region Parse - No Value
-        [Fact]
-        public void Parse_NoValue_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
-        }
-
-        [Fact]
-        public void Parse_NoValue_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-        #endregion
-
-        #region Parse - Empty Value
-        [Fact]
-        public void Parse_EmptyValue_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out object maskObj));
-        }
-
-        [Fact]
-        public void Parse_EmptyValue_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out object maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-        #endregion
-
         #region Write - Typical
         [Fact]
         public void Write_NoMask()
@@ -200,8 +136,7 @@ namespace Loqui.Tests.XML
             XElement elem = writer.Resolve();
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
-            Assert.NotNull(valAttr);
-            Assert.Equal(GetTypicalString(), valAttr.Value);
+            Assert.Null(valAttr);
         }
 
         [Fact]
@@ -219,8 +154,7 @@ namespace Loqui.Tests.XML
             XElement elem = writer.Resolve();
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
             var valAttr = elem.Attribute(XName.Get(XmlConstants.VALUE_ATTRIBUTE));
-            Assert.NotNull(valAttr);
-            Assert.Equal(GetTypicalString(), valAttr.Value);
+            Assert.Null(valAttr);
         }
         #endregion
 

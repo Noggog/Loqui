@@ -17,14 +17,12 @@ namespace Loqui.Xml
 
         public static bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
         {
-            var ret = Cache.Value.elementNameTypeDict.TryGetValue(elementName, out NotifyingItem<Type> n);
-            t = n;
-            return ret;
+            return Cache.Value.TranslateElementName(elementName, out t);
         }
 
         public static bool Validate(Type t)
         {
-            return Cache.Value.typeDict.ContainsKey(t);
+            return Cache.Value.Validate(t);
         }
 
         public static INotifyingItemGetter<GetResponse<IXmlTranslation<Object>>> GetTranslator(Type t)
@@ -40,7 +38,7 @@ namespace Loqui.Xml
 
         public static bool TryGetTranslator(Type t, out IXmlTranslation<object> transl)
         {
-            if (!Cache.Value.typeDict.TryGetValue(t, out NotifyingItem<GetResponse<IXmlTranslation<object>>> not))
+            if (!Cache.Value.TryGetTranslator(t, out var not))
             {
                 transl = null;
                 return false;

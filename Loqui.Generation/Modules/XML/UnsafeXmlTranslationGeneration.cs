@@ -50,15 +50,20 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
-            fg.AppendLine($"var wildType = item.{typeGen.Name} == null ? null : item.{typeGen.Name}.GetType();");
-            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(wildType);");
+            UnsafeType unsafeType = typeGen as UnsafeType;
+            fg.AppendLine($"if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{root.Name.LocalName}}.\");");
+            }
+            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(type.Item);");
             fg.AppendLine($"if (transl?.Item.Failed ?? true)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{wildType}}. {{transl?.Item.Reason}}\");");
+                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{type.Item}}. {{transl?.Item.Reason}}\");");
             }
             using (var args = new ArgsWrapper(fg,
-                $"transl.Item.Value.Parse"))
+                $"var tryGet = transl.Item.Value.Parse"))
             {
                 args.Add($"{nodeAccessor}");
                 args.Add($"doMasks");
@@ -75,6 +80,11 @@ namespace Loqui.Generation
             else
             {
                 fg.AppendLine($"{maskAccessor} = sub{maskAccessor};");
+            }
+            fg.AppendLine($"if (tryGet.Succeeded)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{itemAccessor} = ({typeGen.TypeName})tryGet.Value;");
             }
         }
     }

@@ -813,7 +813,7 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, nameof(TestGenericObject_SubClass_Defined<RBase>)))
+                using (new ElementWrapper(writer, "Loqui.Tests.TestGenericObject_SubClass_Defined"))
                 {
                     if (!string.IsNullOrEmpty(name))
                     {

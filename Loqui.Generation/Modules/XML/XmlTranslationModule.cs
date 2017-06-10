@@ -74,7 +74,7 @@ namespace Loqui.Generation
             this.TypeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration(this);
-            this.TypeGenerations[typeof(DictType)] = new UnsafeXmlTranslationGeneration();
+            this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration(this);
         }
 
         public override IEnumerable<string> RequiredUsingStatements()
@@ -533,7 +533,7 @@ namespace Loqui.Generation
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"using (new ElementWrapper(writer, nameof({obj.ObjectName})))");
+                    fg.AppendLine($"using (new ElementWrapper(writer, \"{obj.FullName}\"))");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if (!string.IsNullOrEmpty(name))");
