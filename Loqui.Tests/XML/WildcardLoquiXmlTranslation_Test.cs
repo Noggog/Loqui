@@ -45,7 +45,7 @@ namespace Loqui.Tests.XML
         public void ElementName()
         {
             var transl = GetTranslation();
-            Assert.Equal(null, transl.ElementName);
+            Assert.Null(transl.ElementName);
         }
 
         [Fact]
@@ -162,14 +162,14 @@ namespace Loqui.Tests.XML
 
         #region Reimport
         [Fact]
-        public void Reimport_True()
+        public void Reimport_Typical()
         {
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             transl.Write(
                 writer: writer.Writer,
                 name: XmlUtility.TYPICAL_NAME,
-                item: true,
+                item: TYPICAL_VALUE,
                 doMasks: false,
                 maskObj: out object maskObj);
             var readResp = transl.Parse(
@@ -177,26 +177,7 @@ namespace Loqui.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(true, readResp.Value);
-        }
-
-        [Fact]
-        public void Reimport_False()
-        {
-            var transl = GetTranslation();
-            var writer = XmlUtility.GetWriteBundle();
-            transl.Write(
-                writer: writer.Writer,
-                name: XmlUtility.TYPICAL_NAME,
-                item: false,
-                doMasks: false,
-                maskObj: out object maskObj);
-            var readResp = transl.Parse(
-                writer.Resolve(),
-                doMasks: false,
-                maskObj: out object readMaskObj);
-            Assert.True(readResp.Succeeded);
-            Assert.Equal(false, readResp.Value);
+            Assert.Equal(TYPICAL_VALUE, readResp.Value);
         }
         #endregion
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit;
 
+#pragma warning disable xUnit2004 // Do not use equality check to test for boolean conditions
 namespace Loqui.Tests.XML
 {
     public class WildcardBoolXmlTranslation_Test
@@ -44,7 +45,7 @@ namespace Loqui.Tests.XML
         public void ElementName()
         {
             var transl = GetTranslation();
-            Assert.Equal(null, transl.ElementName);
+            Assert.Null(transl.ElementName);
         }
 
         [Fact]
@@ -266,3 +267,4 @@ namespace Loqui.Tests.XML
         #endregion
     }
 }
+#pragma warning restore xUnit2004 // Do not use equality check to test for boolean conditions

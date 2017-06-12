@@ -101,7 +101,7 @@ namespace Loqui.Tests.XML
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
-            Assert.Equal(null, ret.Value);
+            Assert.Null(ret.Value);
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace Loqui.Tests.XML
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
-            Assert.Equal(null, ret.Value);
+            Assert.Null(ret.Value);
         }
         #endregion
 
@@ -132,7 +132,7 @@ namespace Loqui.Tests.XML
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
-            Assert.Equal(null, ret.Value);
+            Assert.Null(ret.Value);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace Loqui.Tests.XML
                 maskObj: out object maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
-            Assert.Equal(null, ret.Value);
+            Assert.Null(ret.Value);
         }
         #endregion
 
@@ -227,7 +227,7 @@ namespace Loqui.Tests.XML
                 doMasks: false,
                 maskObj: out object readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(null, readResp.Value);
+            Assert.Null(readResp.Value);
         }
 
         [Fact]
