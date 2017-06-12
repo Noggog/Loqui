@@ -1038,6 +1038,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestObject_Derivative_RPC_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestObject_Derivative_RPCCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -6494,6 +6498,128 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet(
+            this ITestObject_Derivative_RPCGetter item,
+            TestObject_Derivative_RPC_Mask<bool?> checkMask)
+        {
+            return true;
+        }
+
+        public static TestObject_Derivative_RPC_Mask<bool> GetHasBeenSetMask(ITestObject_Derivative_RPCGetter item)
+        {
+            var ret = new TestObject_Derivative_RPC_Mask<bool>();
+            ret.BoolN = true;
+            ret.Bool = true;
+            ret.CharN = true;
+            ret.Char = true;
+            ret.DateTimeNull = true;
+            ret.DateTime = true;
+            ret.DoubleN = true;
+            ret.DoubleN_Ranged = true;
+            ret.Double = true;
+            ret.Double_Ranged = true;
+            ret.FloatN = true;
+            ret.FloatN_Ranged = true;
+            ret.Float = true;
+            ret.Float_Ranged = true;
+            ret.Int16N = true;
+            ret.Int16N_Ranged = true;
+            ret.Int16 = true;
+            ret.Int16_Ranged = true;
+            ret.Int32N = true;
+            ret.Int32N_Ranged = true;
+            ret.Int32 = true;
+            ret.Int32_Ranged = true;
+            ret.Int64N = true;
+            ret.Int64N_Ranged = true;
+            ret.Int64 = true;
+            ret.Int64_Ranged = true;
+            ret.Int8N = true;
+            ret.Int8N_Ranged = true;
+            ret.Int8 = true;
+            ret.Int8_Ranged = true;
+            ret.Unsafe = true;
+            ret.UnsafeLoqui = true;
+            ret.UnsafeNull = true;
+            ret.P2IntN = true;
+            ret.P2Int = true;
+            ret.P3DoubleN = true;
+            ret.P3Double = true;
+            ret.P3IntN = true;
+            ret.P3Int = true;
+            ret.PercentN = true;
+            ret.Percent = true;
+            ret.RangeInt8N = true;
+            ret.RangeInt8 = true;
+            ret.RangeInt16N = true;
+            ret.RangeInt16 = true;
+            ret.RangeInt32N = true;
+            ret.RangeInt32 = true;
+            ret.RangeInt64N = true;
+            ret.RangeInt64 = true;
+            ret.RangeUInt8N = true;
+            ret.RangeUInt8 = true;
+            ret.RangeUInt16N = true;
+            ret.RangeUInt16 = true;
+            ret.RangeUInt32N = true;
+            ret.RangeUInt32 = true;
+            ret.RangeUInt64N = true;
+            ret.RangeUInt64 = true;
+            ret.String = true;
+            ret.UDoubleN = true;
+            ret.UDoubleN_Ranged = true;
+            ret.UDouble = true;
+            ret.UDouble_Ranged = true;
+            ret.UInt16N = true;
+            ret.UInt16N_Ranged = true;
+            ret.UInt16 = true;
+            ret.UInt16_Ranged = true;
+            ret.UInt32N = true;
+            ret.UInt32N_Ranged = true;
+            ret.UInt32 = true;
+            ret.UInt32_Ranged = true;
+            ret.UInt64N = true;
+            ret.UInt64N_Ranged = true;
+            ret.UInt64 = true;
+            ret.UInt64_Ranged = true;
+            ret.UInt8N = true;
+            ret.UInt8N_Ranged = true;
+            ret.UInt8 = true;
+            ret.UInt8_Ranged = true;
+            ret.Enum = true;
+            ret.EnumNull = true;
+            ret.WildCard = true;
+            ret.WildCardLoqui = true;
+            ret.WildCardNull = true;
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref));
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_NotNull));
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Singleton));
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter));
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_NotNull));
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Singleton));
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter));
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_NotNull));
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Singleton));
+            ret.List = new MaskItem<bool, IEnumerable<bool>>(item.List.HasBeenSet, null);
+            ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.RefList.HasBeenSet, item.RefList.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
+            ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>(item.Dict.HasBeenSet, null);
+            ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>(
+                item.RefDict.HasBeenSet, item.RefDict.Select((i) => new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Key.GetHasBeenSetMask()),
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Value.GetHasBeenSetMask()))));
+            ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>(
+                item.KeyRefDict.HasBeenSet, item.KeyRefDict.Select((i) => new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Key.GetHasBeenSetMask()),
+                    true)));
+            ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>(
+                item.ValRefDict.HasBeenSet, item.ValRefDict.Select((i) => new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(
+                    true,
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Value.GetHasBeenSetMask()))));
+            ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.DictKeyedValue.HasBeenSet, item.DictKeyedValue.Values.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(

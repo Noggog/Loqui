@@ -14,7 +14,6 @@ namespace Loqui.Generation
         {
             FieldMapping[typeof(LoquiType)] = new LoquiMaskFieldGeneration();
             FieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
-            FieldMapping[typeof(Array2DType)] = new ContainerMaskFieldGeneration();
             FieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
         }
 

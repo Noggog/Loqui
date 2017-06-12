@@ -135,5 +135,15 @@ namespace Loqui.Generation
         {
             throw new NotImplementedException();
         }
+
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

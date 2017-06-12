@@ -159,6 +159,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public ObjectToRef_Mask<bool> GetHasBeenSetMask()
+        {
+            return ObjectToRefCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -916,6 +920,24 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet(
+            this IObjectToRefGetter item,
+            ObjectToRef_Mask<bool?> checkMask)
+        {
+            if (checkMask.KeyField.HasValue && checkMask.KeyField.Value != item.KeyField_Property.HasBeenSet) return false;
+            if (checkMask.SomeField.HasValue && checkMask.SomeField.Value != item.SomeField_Property.HasBeenSet) return false;
+            return true;
+        }
+
+        public static ObjectToRef_Mask<bool> GetHasBeenSetMask(IObjectToRefGetter item)
+        {
+            var ret = new ObjectToRef_Mask<bool>();
+            ret.KeyField = item.KeyField_Property.HasBeenSet;
+            ret.SomeField = item.SomeField_Property.HasBeenSet;
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(

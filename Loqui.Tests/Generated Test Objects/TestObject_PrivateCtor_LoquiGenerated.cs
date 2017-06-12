@@ -140,6 +140,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestObject_PrivateCtor_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestObject_PrivateCtorCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -792,6 +796,21 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet(
+            this ITestObject_PrivateCtorGetter item,
+            TestObject_PrivateCtor_Mask<bool?> checkMask)
+        {
+            return true;
+        }
+
+        public static TestObject_PrivateCtor_Mask<bool> GetHasBeenSetMask(ITestObject_PrivateCtorGetter item)
+        {
+            var ret = new TestObject_PrivateCtor_Mask<bool>();
+            ret.BoolN = true;
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(

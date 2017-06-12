@@ -1220,6 +1220,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestObject_HasBeenSet_ReadOnly_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestObject_HasBeenSet_ReadOnlyCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -8053,6 +8057,236 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet(
+            this ITestObject_HasBeenSet_ReadOnlyGetter item,
+            TestObject_HasBeenSet_ReadOnly_Mask<bool?> checkMask)
+        {
+            if (checkMask.BoolN.HasValue && checkMask.BoolN.Value != item.BoolN_Property.HasBeenSet) return false;
+            if (checkMask.Bool.HasValue && checkMask.Bool.Value != item.Bool_Property.HasBeenSet) return false;
+            if (checkMask.CharN.HasValue && checkMask.CharN.Value != item.CharN_Property.HasBeenSet) return false;
+            if (checkMask.Char.HasValue && checkMask.Char.Value != item.Char_Property.HasBeenSet) return false;
+            if (checkMask.DateTimeNull.HasValue && checkMask.DateTimeNull.Value != item.DateTimeNull_Property.HasBeenSet) return false;
+            if (checkMask.DateTime.HasValue && checkMask.DateTime.Value != item.DateTime_Property.HasBeenSet) return false;
+            if (checkMask.DoubleN.HasValue && checkMask.DoubleN.Value != item.DoubleN_Property.HasBeenSet) return false;
+            if (checkMask.DoubleN_Ranged.HasValue && checkMask.DoubleN_Ranged.Value != item.DoubleN_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Double.HasValue && checkMask.Double.Value != item.Double_Property.HasBeenSet) return false;
+            if (checkMask.Double_Ranged.HasValue && checkMask.Double_Ranged.Value != item.Double_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.FloatN.HasValue && checkMask.FloatN.Value != item.FloatN_Property.HasBeenSet) return false;
+            if (checkMask.FloatN_Ranged.HasValue && checkMask.FloatN_Ranged.Value != item.FloatN_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Float.HasValue && checkMask.Float.Value != item.Float_Property.HasBeenSet) return false;
+            if (checkMask.Float_Ranged.HasValue && checkMask.Float_Ranged.Value != item.Float_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int16N.HasValue && checkMask.Int16N.Value != item.Int16N_Property.HasBeenSet) return false;
+            if (checkMask.Int16N_Ranged.HasValue && checkMask.Int16N_Ranged.Value != item.Int16N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int16.HasValue && checkMask.Int16.Value != item.Int16_Property.HasBeenSet) return false;
+            if (checkMask.Int16_Ranged.HasValue && checkMask.Int16_Ranged.Value != item.Int16_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int32N.HasValue && checkMask.Int32N.Value != item.Int32N_Property.HasBeenSet) return false;
+            if (checkMask.Int32N_Ranged.HasValue && checkMask.Int32N_Ranged.Value != item.Int32N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int32.HasValue && checkMask.Int32.Value != item.Int32_Property.HasBeenSet) return false;
+            if (checkMask.Int32_Ranged.HasValue && checkMask.Int32_Ranged.Value != item.Int32_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int64N.HasValue && checkMask.Int64N.Value != item.Int64N_Property.HasBeenSet) return false;
+            if (checkMask.Int64N_Ranged.HasValue && checkMask.Int64N_Ranged.Value != item.Int64N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int64.HasValue && checkMask.Int64.Value != item.Int64_Property.HasBeenSet) return false;
+            if (checkMask.Int64_Ranged.HasValue && checkMask.Int64_Ranged.Value != item.Int64_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int8N.HasValue && checkMask.Int8N.Value != item.Int8N_Property.HasBeenSet) return false;
+            if (checkMask.Int8N_Ranged.HasValue && checkMask.Int8N_Ranged.Value != item.Int8N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Int8.HasValue && checkMask.Int8.Value != item.Int8_Property.HasBeenSet) return false;
+            if (checkMask.Int8_Ranged.HasValue && checkMask.Int8_Ranged.Value != item.Int8_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Unsafe.HasValue && checkMask.Unsafe.Value != item.Unsafe_Property.HasBeenSet) return false;
+            if (checkMask.UnsafeLoqui.HasValue && checkMask.UnsafeLoqui.Value != item.UnsafeLoqui_Property.HasBeenSet) return false;
+            if (checkMask.UnsafeNull.HasValue && checkMask.UnsafeNull.Value != item.UnsafeNull_Property.HasBeenSet) return false;
+            if (checkMask.P2IntN.HasValue && checkMask.P2IntN.Value != item.P2IntN_Property.HasBeenSet) return false;
+            if (checkMask.P2Int.HasValue && checkMask.P2Int.Value != item.P2Int_Property.HasBeenSet) return false;
+            if (checkMask.P3DoubleN.HasValue && checkMask.P3DoubleN.Value != item.P3DoubleN_Property.HasBeenSet) return false;
+            if (checkMask.P3Double.HasValue && checkMask.P3Double.Value != item.P3Double_Property.HasBeenSet) return false;
+            if (checkMask.P3IntN.HasValue && checkMask.P3IntN.Value != item.P3IntN_Property.HasBeenSet) return false;
+            if (checkMask.P3Int.HasValue && checkMask.P3Int.Value != item.P3Int_Property.HasBeenSet) return false;
+            if (checkMask.PercentN.HasValue && checkMask.PercentN.Value != item.PercentN_Property.HasBeenSet) return false;
+            if (checkMask.Percent.HasValue && checkMask.Percent.Value != item.Percent_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt8N.HasValue && checkMask.RangeInt8N.Value != item.RangeInt8N_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt8.HasValue && checkMask.RangeInt8.Value != item.RangeInt8_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt16N.HasValue && checkMask.RangeInt16N.Value != item.RangeInt16N_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt16.HasValue && checkMask.RangeInt16.Value != item.RangeInt16_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt32N.HasValue && checkMask.RangeInt32N.Value != item.RangeInt32N_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt32.HasValue && checkMask.RangeInt32.Value != item.RangeInt32_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt64N.HasValue && checkMask.RangeInt64N.Value != item.RangeInt64N_Property.HasBeenSet) return false;
+            if (checkMask.RangeInt64.HasValue && checkMask.RangeInt64.Value != item.RangeInt64_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt8N.HasValue && checkMask.RangeUInt8N.Value != item.RangeUInt8N_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt8.HasValue && checkMask.RangeUInt8.Value != item.RangeUInt8_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt16N.HasValue && checkMask.RangeUInt16N.Value != item.RangeUInt16N_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt16.HasValue && checkMask.RangeUInt16.Value != item.RangeUInt16_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt32N.HasValue && checkMask.RangeUInt32N.Value != item.RangeUInt32N_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt32.HasValue && checkMask.RangeUInt32.Value != item.RangeUInt32_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt64N.HasValue && checkMask.RangeUInt64N.Value != item.RangeUInt64N_Property.HasBeenSet) return false;
+            if (checkMask.RangeUInt64.HasValue && checkMask.RangeUInt64.Value != item.RangeUInt64_Property.HasBeenSet) return false;
+            if (checkMask.String.HasValue && checkMask.String.Value != item.String_Property.HasBeenSet) return false;
+            if (checkMask.UDoubleN.HasValue && checkMask.UDoubleN.Value != item.UDoubleN_Property.HasBeenSet) return false;
+            if (checkMask.UDoubleN_Ranged.HasValue && checkMask.UDoubleN_Ranged.Value != item.UDoubleN_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UDouble.HasValue && checkMask.UDouble.Value != item.UDouble_Property.HasBeenSet) return false;
+            if (checkMask.UDouble_Ranged.HasValue && checkMask.UDouble_Ranged.Value != item.UDouble_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt16N.HasValue && checkMask.UInt16N.Value != item.UInt16N_Property.HasBeenSet) return false;
+            if (checkMask.UInt16N_Ranged.HasValue && checkMask.UInt16N_Ranged.Value != item.UInt16N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt16.HasValue && checkMask.UInt16.Value != item.UInt16_Property.HasBeenSet) return false;
+            if (checkMask.UInt16_Ranged.HasValue && checkMask.UInt16_Ranged.Value != item.UInt16_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt32N.HasValue && checkMask.UInt32N.Value != item.UInt32N_Property.HasBeenSet) return false;
+            if (checkMask.UInt32N_Ranged.HasValue && checkMask.UInt32N_Ranged.Value != item.UInt32N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt32.HasValue && checkMask.UInt32.Value != item.UInt32_Property.HasBeenSet) return false;
+            if (checkMask.UInt32_Ranged.HasValue && checkMask.UInt32_Ranged.Value != item.UInt32_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt64N.HasValue && checkMask.UInt64N.Value != item.UInt64N_Property.HasBeenSet) return false;
+            if (checkMask.UInt64N_Ranged.HasValue && checkMask.UInt64N_Ranged.Value != item.UInt64N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt64.HasValue && checkMask.UInt64.Value != item.UInt64_Property.HasBeenSet) return false;
+            if (checkMask.UInt64_Ranged.HasValue && checkMask.UInt64_Ranged.Value != item.UInt64_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt8N.HasValue && checkMask.UInt8N.Value != item.UInt8N_Property.HasBeenSet) return false;
+            if (checkMask.UInt8N_Ranged.HasValue && checkMask.UInt8N_Ranged.Value != item.UInt8N_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.UInt8.HasValue && checkMask.UInt8.Value != item.UInt8_Property.HasBeenSet) return false;
+            if (checkMask.UInt8_Ranged.HasValue && checkMask.UInt8_Ranged.Value != item.UInt8_Ranged_Property.HasBeenSet) return false;
+            if (checkMask.Enum.HasValue && checkMask.Enum.Value != item.Enum_Property.HasBeenSet) return false;
+            if (checkMask.EnumNull.HasValue && checkMask.EnumNull.Value != item.EnumNull_Property.HasBeenSet) return false;
+            if (checkMask.WildCard.HasValue && checkMask.WildCard.Value != item.WildCard_Property.HasBeenSet) return false;
+            if (checkMask.WildCardLoqui.HasValue && checkMask.WildCardLoqui.Value != item.WildCardLoqui_Property.HasBeenSet) return false;
+            if (checkMask.WildCardNull.HasValue && checkMask.WildCardNull.Value != item.WildCardNull_Property.HasBeenSet) return false;
+            if (checkMask.Ref.Overall.HasValue && checkMask.Ref.Overall.Value != item.Ref_Property.HasBeenSet) return false;
+            if (checkMask.Ref.Specific != null && (item.Ref_Property.Item == null || !item.Ref_Property.Item.HasBeenSet(checkMask.Ref.Specific))) return false;
+            if (checkMask.Ref_NotNull.Overall.HasValue && checkMask.Ref_NotNull.Overall.Value != item.Ref_NotNull_Property.HasBeenSet) return false;
+            if (checkMask.Ref_NotNull.Specific != null && (item.Ref_NotNull_Property.Item == null || !item.Ref_NotNull_Property.Item.HasBeenSet(checkMask.Ref_NotNull.Specific))) return false;
+            if (checkMask.Ref_Singleton.Overall.HasValue && checkMask.Ref_Singleton.Overall.Value != item.Ref_Singleton_Property.HasBeenSet) return false;
+            if (checkMask.Ref_Singleton.Specific != null && (item.Ref_Singleton_Property.Item == null || !item.Ref_Singleton_Property.Item.HasBeenSet(checkMask.Ref_Singleton.Specific))) return false;
+            if (checkMask.RefGetter.Overall.HasValue && checkMask.RefGetter.Overall.Value != item.RefGetter_Property.HasBeenSet) return false;
+            if (checkMask.RefGetter.Specific != null && (item.RefGetter_Property.Item == null || !item.RefGetter_Property.Item.HasBeenSet(checkMask.RefGetter.Specific))) return false;
+            if (checkMask.RefGetter_NotNull.Overall.HasValue && checkMask.RefGetter_NotNull.Overall.Value != item.RefGetter_NotNull_Property.HasBeenSet) return false;
+            if (checkMask.RefGetter_NotNull.Specific != null && (item.RefGetter_NotNull_Property.Item == null || !item.RefGetter_NotNull_Property.Item.HasBeenSet(checkMask.RefGetter_NotNull.Specific))) return false;
+            if (checkMask.RefGetter_Singleton.Overall.HasValue && checkMask.RefGetter_Singleton.Overall.Value != item.RefGetter_Singleton_Property.HasBeenSet) return false;
+            if (checkMask.RefGetter_Singleton.Specific != null && (item.RefGetter_Singleton_Property.Item == null || !item.RefGetter_Singleton_Property.Item.HasBeenSet(checkMask.RefGetter_Singleton.Specific))) return false;
+            if (checkMask.RefSetter.Overall.HasValue && checkMask.RefSetter.Overall.Value != item.RefSetter_Property.HasBeenSet) return false;
+            if (checkMask.RefSetter.Specific != null && (item.RefSetter_Property.Item == null || !item.RefSetter_Property.Item.HasBeenSet(checkMask.RefSetter.Specific))) return false;
+            if (checkMask.RefSetter_NotNull.Overall.HasValue && checkMask.RefSetter_NotNull.Overall.Value != item.RefSetter_NotNull_Property.HasBeenSet) return false;
+            if (checkMask.RefSetter_NotNull.Specific != null && (item.RefSetter_NotNull_Property.Item == null || !item.RefSetter_NotNull_Property.Item.HasBeenSet(checkMask.RefSetter_NotNull.Specific))) return false;
+            if (checkMask.RefSetter_Singleton.Overall.HasValue && checkMask.RefSetter_Singleton.Overall.Value != item.RefSetter_Singleton_Property.HasBeenSet) return false;
+            if (checkMask.RefSetter_Singleton.Specific != null && (item.RefSetter_Singleton_Property.Item == null || !item.RefSetter_Singleton_Property.Item.HasBeenSet(checkMask.RefSetter_Singleton.Specific))) return false;
+            if (checkMask.List.Overall.HasValue && checkMask.List.Overall.Value != item.List.HasBeenSet) return false;
+            if (checkMask.RefList.Overall.HasValue && checkMask.RefList.Overall.Value != item.RefList.HasBeenSet) return false;
+            if (checkMask.Dict.Overall.HasValue && checkMask.Dict.Overall.Value != item.Dict.HasBeenSet) return false;
+            if (checkMask.RefDict.Overall.HasValue && checkMask.RefDict.Overall.Value != item.RefDict.HasBeenSet) return false;
+            if (checkMask.KeyRefDict.Overall.HasValue && checkMask.KeyRefDict.Overall.Value != item.KeyRefDict.HasBeenSet) return false;
+            if (checkMask.ValRefDict.Overall.HasValue && checkMask.ValRefDict.Overall.Value != item.ValRefDict.HasBeenSet) return false;
+            if (checkMask.DictKeyedValue.Overall.HasValue && checkMask.DictKeyedValue.Overall.Value != item.DictKeyedValue.HasBeenSet) return false;
+            return true;
+        }
+
+        public static TestObject_HasBeenSet_ReadOnly_Mask<bool> GetHasBeenSetMask(ITestObject_HasBeenSet_ReadOnlyGetter item)
+        {
+            var ret = new TestObject_HasBeenSet_ReadOnly_Mask<bool>();
+            ret.BoolN = item.BoolN_Property.HasBeenSet;
+            ret.Bool = item.Bool_Property.HasBeenSet;
+            ret.CharN = item.CharN_Property.HasBeenSet;
+            ret.Char = item.Char_Property.HasBeenSet;
+            ret.DateTimeNull = item.DateTimeNull_Property.HasBeenSet;
+            ret.DateTime = item.DateTime_Property.HasBeenSet;
+            ret.DoubleN = item.DoubleN_Property.HasBeenSet;
+            ret.DoubleN_Ranged = item.DoubleN_Ranged_Property.HasBeenSet;
+            ret.Double = item.Double_Property.HasBeenSet;
+            ret.Double_Ranged = item.Double_Ranged_Property.HasBeenSet;
+            ret.FloatN = item.FloatN_Property.HasBeenSet;
+            ret.FloatN_Ranged = item.FloatN_Ranged_Property.HasBeenSet;
+            ret.Float = item.Float_Property.HasBeenSet;
+            ret.Float_Ranged = item.Float_Ranged_Property.HasBeenSet;
+            ret.Int16N = item.Int16N_Property.HasBeenSet;
+            ret.Int16N_Ranged = item.Int16N_Ranged_Property.HasBeenSet;
+            ret.Int16 = item.Int16_Property.HasBeenSet;
+            ret.Int16_Ranged = item.Int16_Ranged_Property.HasBeenSet;
+            ret.Int32N = item.Int32N_Property.HasBeenSet;
+            ret.Int32N_Ranged = item.Int32N_Ranged_Property.HasBeenSet;
+            ret.Int32 = item.Int32_Property.HasBeenSet;
+            ret.Int32_Ranged = item.Int32_Ranged_Property.HasBeenSet;
+            ret.Int64N = item.Int64N_Property.HasBeenSet;
+            ret.Int64N_Ranged = item.Int64N_Ranged_Property.HasBeenSet;
+            ret.Int64 = item.Int64_Property.HasBeenSet;
+            ret.Int64_Ranged = item.Int64_Ranged_Property.HasBeenSet;
+            ret.Int8N = item.Int8N_Property.HasBeenSet;
+            ret.Int8N_Ranged = item.Int8N_Ranged_Property.HasBeenSet;
+            ret.Int8 = item.Int8_Property.HasBeenSet;
+            ret.Int8_Ranged = item.Int8_Ranged_Property.HasBeenSet;
+            ret.Unsafe = item.Unsafe_Property.HasBeenSet;
+            ret.UnsafeLoqui = item.UnsafeLoqui_Property.HasBeenSet;
+            ret.UnsafeNull = item.UnsafeNull_Property.HasBeenSet;
+            ret.P2IntN = item.P2IntN_Property.HasBeenSet;
+            ret.P2Int = item.P2Int_Property.HasBeenSet;
+            ret.P3DoubleN = item.P3DoubleN_Property.HasBeenSet;
+            ret.P3Double = item.P3Double_Property.HasBeenSet;
+            ret.P3IntN = item.P3IntN_Property.HasBeenSet;
+            ret.P3Int = item.P3Int_Property.HasBeenSet;
+            ret.PercentN = item.PercentN_Property.HasBeenSet;
+            ret.Percent = item.Percent_Property.HasBeenSet;
+            ret.RangeInt8N = item.RangeInt8N_Property.HasBeenSet;
+            ret.RangeInt8 = item.RangeInt8_Property.HasBeenSet;
+            ret.RangeInt16N = item.RangeInt16N_Property.HasBeenSet;
+            ret.RangeInt16 = item.RangeInt16_Property.HasBeenSet;
+            ret.RangeInt32N = item.RangeInt32N_Property.HasBeenSet;
+            ret.RangeInt32 = item.RangeInt32_Property.HasBeenSet;
+            ret.RangeInt64N = item.RangeInt64N_Property.HasBeenSet;
+            ret.RangeInt64 = item.RangeInt64_Property.HasBeenSet;
+            ret.RangeUInt8N = item.RangeUInt8N_Property.HasBeenSet;
+            ret.RangeUInt8 = item.RangeUInt8_Property.HasBeenSet;
+            ret.RangeUInt16N = item.RangeUInt16N_Property.HasBeenSet;
+            ret.RangeUInt16 = item.RangeUInt16_Property.HasBeenSet;
+            ret.RangeUInt32N = item.RangeUInt32N_Property.HasBeenSet;
+            ret.RangeUInt32 = item.RangeUInt32_Property.HasBeenSet;
+            ret.RangeUInt64N = item.RangeUInt64N_Property.HasBeenSet;
+            ret.RangeUInt64 = item.RangeUInt64_Property.HasBeenSet;
+            ret.String = item.String_Property.HasBeenSet;
+            ret.UDoubleN = item.UDoubleN_Property.HasBeenSet;
+            ret.UDoubleN_Ranged = item.UDoubleN_Ranged_Property.HasBeenSet;
+            ret.UDouble = item.UDouble_Property.HasBeenSet;
+            ret.UDouble_Ranged = item.UDouble_Ranged_Property.HasBeenSet;
+            ret.UInt16N = item.UInt16N_Property.HasBeenSet;
+            ret.UInt16N_Ranged = item.UInt16N_Ranged_Property.HasBeenSet;
+            ret.UInt16 = item.UInt16_Property.HasBeenSet;
+            ret.UInt16_Ranged = item.UInt16_Ranged_Property.HasBeenSet;
+            ret.UInt32N = item.UInt32N_Property.HasBeenSet;
+            ret.UInt32N_Ranged = item.UInt32N_Ranged_Property.HasBeenSet;
+            ret.UInt32 = item.UInt32_Property.HasBeenSet;
+            ret.UInt32_Ranged = item.UInt32_Ranged_Property.HasBeenSet;
+            ret.UInt64N = item.UInt64N_Property.HasBeenSet;
+            ret.UInt64N_Ranged = item.UInt64N_Ranged_Property.HasBeenSet;
+            ret.UInt64 = item.UInt64_Property.HasBeenSet;
+            ret.UInt64_Ranged = item.UInt64_Ranged_Property.HasBeenSet;
+            ret.UInt8N = item.UInt8N_Property.HasBeenSet;
+            ret.UInt8N_Ranged = item.UInt8N_Ranged_Property.HasBeenSet;
+            ret.UInt8 = item.UInt8_Property.HasBeenSet;
+            ret.UInt8_Ranged = item.UInt8_Ranged_Property.HasBeenSet;
+            ret.Enum = item.Enum_Property.HasBeenSet;
+            ret.EnumNull = item.EnumNull_Property.HasBeenSet;
+            ret.WildCard = item.WildCard_Property.HasBeenSet;
+            ret.WildCardLoqui = item.WildCardLoqui_Property.HasBeenSet;
+            ret.WildCardNull = item.WildCardNull_Property.HasBeenSet;
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Property.Item));
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_NotNull_Property.Item));
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Singleton_Property.Item));
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Property.Item));
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_NotNull_Property.Item));
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Singleton_Property.Item));
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Property.Item));
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_NotNull_Property.Item));
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Singleton_Property.Item));
+            ret.List = new MaskItem<bool, IEnumerable<bool>>(item.List.HasBeenSet, null);
+            ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.RefList.HasBeenSet, item.RefList.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
+            ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>(item.Dict.HasBeenSet, null);
+            ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>(
+                item.RefDict.HasBeenSet, item.RefDict.Select((i) => new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Key.GetHasBeenSetMask()),
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Value.GetHasBeenSetMask()))));
+            ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>(
+                item.KeyRefDict.HasBeenSet, item.KeyRefDict.Select((i) => new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Key.GetHasBeenSetMask()),
+                    true)));
+            ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>(
+                item.ValRefDict.HasBeenSet, item.ValRefDict.Select((i) => new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(
+                    true,
+                    new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.Value.GetHasBeenSetMask()))));
+            ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.DictKeyedValue.HasBeenSet, item.DictKeyedValue.Values.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(

@@ -184,5 +184,22 @@ namespace Loqui.Generation
             }
             fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
+
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        {
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+        }
+
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            if (this.SubTypeGeneration is LoquiType loqui)
+            {
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor}.HasBeenSet, {accessor}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<bool>>({accessor}.HasBeenSet, null);");
+            }
+        }
     }
 }

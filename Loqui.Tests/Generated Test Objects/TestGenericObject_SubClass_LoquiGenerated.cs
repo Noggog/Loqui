@@ -137,6 +137,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestGenericObject_SubClass_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestGenericObject_SubClassCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -794,6 +798,28 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet<S, T, RBase, R>(
+            this ITestGenericObject_SubClassGetter<S, T, RBase, R> item,
+            TestGenericObject_SubClass_Mask<bool?> checkMask)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            return true;
+        }
+
+        public static TestGenericObject_SubClass_Mask<bool> GetHasBeenSetMask<S, T, RBase, R>(ITestGenericObject_SubClassGetter<S, T, RBase, R> item)
+            where S : ObjectToRef
+            where T : ILoquiObject
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            var ret = new TestGenericObject_SubClass_Mask<bool>();
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML<S, T, RBase, R>(

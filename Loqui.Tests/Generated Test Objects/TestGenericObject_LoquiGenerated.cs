@@ -155,6 +155,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestGenericObject_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestGenericObjectCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -1017,6 +1021,29 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet<T, RBase, R>(
+            this ITestGenericObjectGetter<T, RBase, R> item,
+            TestGenericObject_Mask<bool?> checkMask)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            if (checkMask.RefBase.Overall.HasValue && checkMask.RefBase.Overall.Value != item.RefBase_Property.HasBeenSet) return false;
+            if (checkMask.RefBase.Specific != null && (item.RefBase_Property.Item == null || !item.RefBase_Property.Item.HasBeenSet(checkMask.RefBase.Specific))) return false;
+            if (checkMask.Ref.Overall.HasValue && checkMask.Ref.Overall.Value != item.Ref_Property.HasBeenSet) return false;
+            return true;
+        }
+
+        public static TestGenericObject_Mask<bool> GetHasBeenSetMask<T, RBase, R>(ITestGenericObjectGetter<T, RBase, R> item)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            var ret = new TestGenericObject_Mask<bool>();
+            ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefBase_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefBase_Property.Item));
+            ret.Ref = new MaskItem<bool, object>(item.Ref_Property.HasBeenSet, null);
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML<T, RBase, R>(

@@ -331,5 +331,22 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor}}}\");");
         }
+
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        {
+            fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor}.HasBeenSet) return false;");
+        }
+
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            if (this.Notifying == NotifyingOption.None)
+            {
+                fg.AppendLine($"{retAccessor} = true;");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = {accessor}.HasBeenSet;");
+            }
+        }
     }
 }

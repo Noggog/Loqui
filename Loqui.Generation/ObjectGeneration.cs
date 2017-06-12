@@ -304,6 +304,8 @@ namespace Loqui.Generation
 
                     GenerateToStringCode(fg);
 
+                    GenerateGetHasBeenSetMask(fg);
+
                     GenerateEqualsSection(fg);
 
                     GenerateModules(fg);
@@ -530,6 +532,10 @@ namespace Loqui.Generation
 
                     GenerateCommonToString(fg);
 
+                    GenerateHasBeenSetCheck(fg);
+
+                    GenerateHasBeenSetMaskGetter(fg);
+
                     // Fields might add some content
                     foreach (var field in this.Fields)
                     {
@@ -602,6 +608,48 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine($"fg.AppendLine(\"]\");");
             }
+            fg.AppendLine();
+        }
+
+        private void GenerateHasBeenSetCheck(FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg,
+                $"public static bool HasBeenSet{this.GenericTypes}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"this {this.Getter_InterfaceStr} item");
+                args.Add($"{this.GetMaskString("bool?")} checkMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                foreach (var field in this.IterateFields())
+                {
+                    if (field.Field.Notifying == NotifyingOption.None) continue;
+                    field.Field.GenerateForHasBeenSetCheck(fg, $"item.{field.Field.Property}", $"checkMask.{field.Field.Name}");
+                }
+                fg.AppendLine("return true;");
+            }
+            fg.AppendLine();
+        }
+
+        private void GenerateHasBeenSetMaskGetter(FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.GetMaskString("bool")} GetHasBeenSetMask{this.GenericTypes}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{this.Getter_InterfaceStr} item");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
+                foreach (var field in this.IterateFields())
+                {
+                    field.Field.GenerateForHasBeenSetMaskGetter(fg, $"item.{field.Field.PropertyOrName}", $"ret.{field.Field.Name}");
+                }
+                fg.AppendLine("return ret;");
+            }
+            fg.AppendLine();
         }
 
         protected virtual void GenerateStaticCopy_ToLoqui(FileGeneration fg)
@@ -1666,6 +1714,15 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
                 }
+            }
+        }
+
+        private void GenerateGetHasBeenSetMask(FileGeneration fg)
+        {
+            fg.AppendLine($"public {this.GetMaskString("bool")} GetHasBeenSetMask()");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"return {this.ExtCommonName}.GetHasBeenSetMask(this);");
             }
         }
 

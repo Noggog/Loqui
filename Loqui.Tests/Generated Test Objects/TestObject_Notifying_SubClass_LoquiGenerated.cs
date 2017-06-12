@@ -144,6 +144,10 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestObject_Notifying_SubClass_Mask<bool> GetHasBeenSetMask()
+        {
+            return TestObject_Notifying_SubClassCommon.GetHasBeenSetMask(this);
+        }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
@@ -820,6 +824,22 @@ namespace Loqui.Tests.Internals
             }
             fg.AppendLine("]");
         }
+
+        public static bool HasBeenSet(
+            this ITestObject_Notifying_SubClassGetter item,
+            TestObject_Notifying_SubClass_Mask<bool?> checkMask)
+        {
+            if (checkMask.NewField.HasValue && checkMask.NewField.Value != item.NewField_Property.HasBeenSet) return false;
+            return true;
+        }
+
+        public static TestObject_Notifying_SubClass_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_SubClassGetter item)
+        {
+            var ret = new TestObject_Notifying_SubClass_Mask<bool>();
+            ret.NewField = item.NewField_Property.HasBeenSet;
+            return ret;
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(

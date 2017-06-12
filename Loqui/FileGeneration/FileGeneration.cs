@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("if (UnsafeLoqui != rhs.UnsafeLoqui) return false;"))
+            if (str.Equals("ret.List = new MaskItem<bool, IEnumerable<bool>>(item.List_Property.HasBeenSet, null);"))
             {
                 int wer = 23;
                 wer++;

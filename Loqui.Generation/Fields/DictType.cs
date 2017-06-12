@@ -154,5 +154,15 @@ namespace Loqui.Generation
         {
             subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
         }
+
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        {
+            subGenerator.GenerateForHasBeenSetCheck(fg, accessor, checkMaskAccessor);
+        }
+
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            subGenerator.GenerateForHasBeenSetMaskGetter(fg, accessor, retAccessor);
+        }
     }
 }

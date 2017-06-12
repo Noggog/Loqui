@@ -54,7 +54,6 @@
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />
-    <Compile Include="Fields\Array2DType.cs" />
     <Compile Include="Fields\ContainerType.cs" />
     <Compile Include="Fields\DictType.cs" />
     <Compile Include="Fields\DictType_KeyedValue.cs" />

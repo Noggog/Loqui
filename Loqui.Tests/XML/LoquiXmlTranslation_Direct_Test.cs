@@ -216,8 +216,7 @@ namespace Loqui.Tests.XML
         [Fact]
         public void EnsureAllFieldsTested()
         {
-            TestObject_HasBeenSet_Mask<bool> mask = new TestObject_HasBeenSet_Mask<bool>();
-            Assert.True(false);
+            Assert.True(TYPICAL_VALUE.HasBeenSet(new TestObject_HasBeenSet_Mask<bool?>(true)));
         }
 
         #region Parse - Typical

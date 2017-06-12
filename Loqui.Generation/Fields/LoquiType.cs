@@ -124,6 +124,11 @@ namespace Loqui.Generation
             Singleton
         }
 
+        public string GetMaskString(string str)
+        {
+            return this.TargetObjectGeneration?.GetMaskString(str) ?? "object";
+        }
+
         public override bool CopyNeedsTryCatch => true;
 
         public override void GenerateForCtor(FileGeneration fg)
@@ -731,6 +736,27 @@ namespace Loqui.Generation
         public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
             fg.AppendLine($"{accessor}.ToString({fgAccessor}, \"{name}\");");
+        }
+
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        {
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+            if (this.TargetObjectGeneration != null)
+            {
+                fg.AppendLine($"if ({checkMaskAccessor}.Specific != null && ({accessor}.Item == null || !{accessor}.Item.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
+            }
+        }
+
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            if (this.TargetObjectGeneration == null)
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Notifying == NotifyingOption.None ? "true" : $"{accessor}.HasBeenSet")}, null);");
+            }
+            else
+            {
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Notifying == NotifyingOption.None ? "true" : $"{accessor}.HasBeenSet")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Notifying == NotifyingOption.None ? accessor : $"{accessor}.Item")}));");
+            }
         }
     }
 }

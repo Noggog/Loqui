@@ -26,7 +26,7 @@ namespace Loqui.Generation
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
-        public virtual string PropertyOrName => $"{this.Name}{(this.Notifying == NotifyingOption.None ? string.Empty : "_Property")}";
+        public virtual string PropertyOrName => $"{(this.Notifying == NotifyingOption.None ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.EnumName}.{this.Name}";
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
@@ -113,6 +113,10 @@ namespace Loqui.Generation
         public virtual void GenerateForInterfaceExt(FileGeneration fg) { }
 
         public abstract void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor);
+
+        public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor);
+
+        public abstract void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor);
 
         public virtual string GetName(bool internalUse, bool property)
         {

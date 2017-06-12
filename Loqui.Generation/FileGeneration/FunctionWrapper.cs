@@ -33,11 +33,23 @@ namespace Loqui.Generation
             if (args.Count == 0)
             {
                 fg.AppendLine($"{initialLine}()");
+                this.fg.Depth++;
+                foreach (var where in wheres)
+                {
+                    fg.AppendLine($"{where}");
+                }
+                this.fg.Depth--;
                 return;
             }
             else if (args.Count == 1)
             {
                 fg.AppendLine($"{initialLine}({args[0]})");
+                this.fg.Depth++;
+                foreach (var where in wheres)
+                {
+                    fg.AppendLine($"{where}");
+                }
+                this.fg.Depth--;
                 return;
             }
             else
