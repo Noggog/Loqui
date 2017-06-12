@@ -303,11 +303,11 @@ namespace Loqui.Tests
             _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
                 markAsSet: false);
@@ -325,11 +325,11 @@ namespace Loqui.Tests
             _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
                 markAsSet: false);
@@ -347,11 +347,11 @@ namespace Loqui.Tests
             _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
                 defaultVal: new ObjectToRef(),
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
-                markAsSet: false);
+                markAsSet: true);
             CustomCtor();
         }
         partial void CustomCtor();

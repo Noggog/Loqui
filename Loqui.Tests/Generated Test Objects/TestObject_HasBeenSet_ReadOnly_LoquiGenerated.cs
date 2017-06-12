@@ -977,7 +977,7 @@ namespace Loqui.Tests
         #region Ref_Singleton
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
             defaultVal: new ObjectToRef(),
-            markAsSet: false);
+            markAsSet: true);
         public ObjectToRef Ref_Singleton
         {
             get => this._Ref_Singleton.Item;
@@ -1013,7 +1013,7 @@ namespace Loqui.Tests
         #region RefGetter_Singleton
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
             defaultVal: new ObjectToRef(),
-            markAsSet: false);
+            markAsSet: true);
         public IObjectToRefGetter RefGetter_Singleton
         {
             get => this._RefGetter_Singleton.Item;
@@ -1049,7 +1049,7 @@ namespace Loqui.Tests
         #region RefSetter_Singleton
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
             defaultVal: new ObjectToRef(),
-            markAsSet: false);
+            markAsSet: true);
         public IObjectToRef RefSetter_Singleton
         {
             get => this._RefSetter_Singleton.Item;

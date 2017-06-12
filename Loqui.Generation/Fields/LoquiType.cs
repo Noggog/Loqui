@@ -289,7 +289,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"noNullFallback: () => new {this.ObjectTypeName}()");
                 }
-                args.Add("markAsSet: false");
+                args.Add($"markAsSet: {(this.SingletonType == SingletonLevel.Singleton ? "true" : "false")}");
             }
         }
 
