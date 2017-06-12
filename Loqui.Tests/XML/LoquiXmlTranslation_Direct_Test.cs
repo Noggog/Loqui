@@ -16,7 +16,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 86;
+        public static int NUM_FIELDS = 89;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -31,6 +31,7 @@ namespace Loqui.Tests.XML
                 Double = DoubleXmlTranslation_Test.TYPICAL_VALUE,
                 DoubleN = DoubleNullableXmlTranslation_Test.TYPICAL_VALUE,
                 Enum = EnumXmlTranslation_Tests.TYPICAL_VALUE,
+                EnumNull = EnumNullableXmlTranslation_Tests.TYPICAL_VALUE,
                 DoubleN_Ranged = DoubleNullableXmlTranslation_Test.TYPICAL_VALUE,
                 Double_Ranged = DoubleXmlTranslation_Test.TYPICAL_VALUE,
                 Float = FloatXmlTranslation_Test.TYPICAL_VALUE,
@@ -57,6 +58,8 @@ namespace Loqui.Tests.XML
                 P2IntN = P2IntNullableXmlTranslation_Test.TYPICAL_VALUE,
                 P3Int = P3IntXmlTranslation_Test.TYPICAL_VALUE,
                 P3IntN = P3IntNullableXmlTranslation_Test.TYPICAL_VALUE,
+                P3Double = P3DoubleXmlTranslation_Test.TYPICAL_VALUE,
+                P3DoubleN = P3DoubleNullableXmlTranslation_Test.TYPICAL_VALUE,
                 Percent = PercentXmlTranslation_Test.TYPICAL_VALUE,
                 PercentN = PercentNullableXmlTranslation_Test.TYPICAL_VALUE,
                 RangeInt16 = RangeInt16XmlTranslation_Test.TYPICAL_VALUE,
@@ -128,6 +131,7 @@ namespace Loqui.Tests.XML
             elem.Add(DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Double_Ranged)));
             elem.Add(DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DoubleN_Ranged)));
             elem.Add(EnumXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Enum)));
+            elem.Add(EnumNullableXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.EnumNull)));
             elem.Add(DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DoubleN)));
             elem.Add(DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Double)));
             elem.Add(FloatXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Float)));
@@ -154,6 +158,8 @@ namespace Loqui.Tests.XML
             elem.Add(P2IntNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P2IntN)));
             elem.Add(P3IntXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3Int)));
             elem.Add(P3IntNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3IntN)));
+            elem.Add(P3DoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3Double)));
+            elem.Add(P3DoubleNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.P3DoubleN)));
             elem.Add(PercentXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Percent)));
             elem.Add(PercentNullableXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.PercentN)));
             elem.Add(RangeInt16XmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RangeInt16)));
@@ -216,7 +222,9 @@ namespace Loqui.Tests.XML
         [Fact]
         public void EnsureAllFieldsTested()
         {
-            Assert.True(TYPICAL_VALUE.HasBeenSet(new TestObject_HasBeenSet_Mask<bool?>(true)));
+            var mask = TYPICAL_VALUE.GetHasBeenSetMask();
+            var str = TYPICAL_VALUE.ToString(printMask: mask.Translate((b) => !b));
+            Assert.True(mask.AllEqual((b) => b));
         }
 
         #region Parse - Typical
@@ -238,7 +246,7 @@ namespace Loqui.Tests.XML
                 errorMask: out var maskObj);
             Assert.Null(maskObj);
             var equalMask = TYPICAL_VALUE.GetEqualsMask(ret);
-            var str = equalMask.ToString(printMask: equalMask.Translate((b) => !b));
+            var str = TYPICAL_VALUE.ToString(printMask: equalMask.Translate((b) => !b));
             Assert.True(equalMask.AllEqual((b) => b));
         }
         #endregion

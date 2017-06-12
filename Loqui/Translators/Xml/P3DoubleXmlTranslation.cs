@@ -9,7 +9,7 @@ namespace Loqui.Xml
 
         protected override string GetItemStr(P3Double item)
         {
-            return $"{item.X}, {item.Y}, {item.Z}";
+            return $"{item.X.ToString("R")}, {item.Y.ToString("R")}, {item.Z.ToString("R")}";
         }
 
         protected override P3Double ParseNonNullString(string str)

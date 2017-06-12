@@ -160,6 +160,8 @@
     <Compile Include="XML\DictXmlTranslation_Tests.cs" />
     <Compile Include="XML\LoquiXmlTranslation_Direct_Test.cs" />
     <Compile Include="XML\ObjectToRefXmlTranslation_Test.cs" />
+    <Compile Include="XML\P3DoubleNullableXmlTranslation_Test.cs" />
+    <Compile Include="XML\P3DoubleXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeUInt64NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\RangeUInt32NullableXmlTranslation_Test.cs" />

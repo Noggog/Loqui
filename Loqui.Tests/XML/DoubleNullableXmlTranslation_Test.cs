@@ -12,9 +12,9 @@ namespace Loqui.Tests.XML
 {
     public class DoubleNullableXmlTranslation_Test : TypicalXmlTranslation_Test<double?, DoubleNullableXmlTranslation_Test>
     {
-        public const double TYPICAL_VALUE = 4;
+        public const double TYPICAL_VALUE = 4.56;
         public override double? TypicalValue => TYPICAL_VALUE;
-        public const double NEGATIVE_VALUE = -4;
+        public const double NEGATIVE_VALUE = -4.56;
         public const double MIN_VALUE = double.MinValue;
         public const double MAX_VALUE = double.MaxValue;
 
