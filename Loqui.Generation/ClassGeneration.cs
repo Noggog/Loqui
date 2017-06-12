@@ -103,7 +103,6 @@ namespace Loqui.Generation
 
         protected override void GenerateCtor(FileGeneration fg)
         {
-            // Make ctors
             fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
             using (new BraceWrapper(fg))
             {

@@ -43,12 +43,10 @@ namespace Loqui.Generation
             {
                 case NotifyingOption.HasBeenSet:
                 case NotifyingOption.Notifying:
-                    if (!this.TrueReadOnly)
+                    if (!this.TrueReadOnly
+                        && this.RaisePropertyChanged)
                     {
-                        if (this.RaisePropertyChanged)
-                        {
-                            GenerateNotifyingConstruction(fg, $"_{this.Name}");
-                        }
+                        GenerateNotifyingConstruction(fg, $"_{this.Name}");
                     }
                     break;
                 default:
@@ -131,9 +129,14 @@ namespace Loqui.Generation
             }
         }
 
+        protected string GetNotifyingProperty()
+        {
+            return $"protected readonly I{(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}<{TypeName}> _{this.Name}";
+        }
+
         protected void GenerateNotifyingCtor(FileGeneration fg)
         {
-            GenerateNotifyingConstruction(fg, $"protected readonly I{(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}<{TypeName}> _{this.Name}");
+            GenerateNotifyingConstruction(fg, GetNotifyingProperty());
         }
 
         protected virtual void GenerateNotifyingConstruction(FileGeneration fg, string prepend)

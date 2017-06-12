@@ -301,11 +301,11 @@ namespace Loqui.Tests
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
             _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
             _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
             _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
@@ -323,11 +323,11 @@ namespace Loqui.Tests
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
             _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
             _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
             _RefSetter = NotifyingItem.Factory<IObjectToRef>(
@@ -345,11 +345,11 @@ namespace Loqui.Tests
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
             _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
             _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
             CustomCtor();
@@ -1317,7 +1317,8 @@ namespace Loqui.Tests
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_RPCGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
         #endregion
         #region Ref_Singleton
-        private readonly INotifyingItem<ObjectToRef> _Ref_Singleton = new NotifyingItem<ObjectToRef>(new ObjectToRef());
+        private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
+        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
         public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_Notifying_RPCGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; set => _Ref_Singleton.Item = value; }
@@ -1350,7 +1351,8 @@ namespace Loqui.Tests
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_RPCGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
         #endregion
         #region RefGetter_Singleton
-        private readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton = new NotifyingItem<IObjectToRefGetter>(new ObjectToRef());
+        private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
+        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_Notifying_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; set => _RefGetter_Singleton.Item = value; }
@@ -1383,7 +1385,8 @@ namespace Loqui.Tests
         INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_RPCGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         #endregion
         #region RefSetter_Singleton
-        private readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton = new NotifyingItem<IObjectToRef>(new ObjectToRef());
+        private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
+        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
         public INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_Notifying_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; set => _RefSetter_Singleton.Item = value; }

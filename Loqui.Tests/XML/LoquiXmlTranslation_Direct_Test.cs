@@ -187,6 +187,7 @@ namespace Loqui.Tests.XML
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefSetter)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Ref_NotNull)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.Ref_Singleton)));
+            elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefGetter_Singleton)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefSetter_Singleton)));
             elem.Add(StringXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.String)));
             elem.Add(UDoubleXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.UDouble)));

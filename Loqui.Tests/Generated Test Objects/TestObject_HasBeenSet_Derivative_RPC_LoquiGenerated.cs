@@ -301,11 +301,11 @@ namespace Loqui.Tests
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
             _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
             _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
             _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(
@@ -323,11 +323,11 @@ namespace Loqui.Tests
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
             _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
             _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
             _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(
@@ -345,11 +345,11 @@ namespace Loqui.Tests
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
             _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
             _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
-                defaultVal: new ObjectToRef(),
+                defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
             CustomCtor();
@@ -1298,6 +1298,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_NotNull_Property => this._Ref_NotNull;
         #endregion
         #region Ref_Singleton
+        private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
         public ObjectToRef Ref_Singleton
         {
@@ -1330,6 +1331,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
         #endregion
         #region RefGetter_Singleton
+        private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton
         {
@@ -1362,6 +1364,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
         #endregion
         #region RefSetter_Singleton
+        private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton
         {

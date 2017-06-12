@@ -85,6 +85,7 @@ namespace Loqui.Generation
                 }
             }
         }
+        public string SingletonObjectName => $"_{this.Name}_Object";
 
         public override string SkipCheck(string copyMaskAccessor)
         {
@@ -139,12 +140,12 @@ namespace Loqui.Generation
             {
                 case NotifyingOption.HasBeenSet:
                 case NotifyingOption.Notifying:
-                    if (!this.TrueReadOnly)
+                    if ((!this.TrueReadOnly
+                        && this.RaisePropertyChanged)
+                        || (this.Notifying != NotifyingOption.None
+                            && this.SingletonType == SingletonLevel.Singleton))
                     {
-                        if (this.RaisePropertyChanged)
-                        {
-                            GenerateNotifyingConstruction(fg, $"_{this.Name}");
-                        }
+                        GenerateNotifyingConstruction(fg, $"_{this.Name}");
                     }
                     break;
                 default:
@@ -192,9 +193,14 @@ namespace Loqui.Generation
                     }
                     break;
                 case NotifyingOption.HasBeenSet:
-                    if (this.RaisePropertyChanged)
+                    if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
+                        fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                    }
+                    if (this.RaisePropertyChanged
+                        || this.SingletonType == SingletonLevel.Singleton)
+                    {
+                        fg.AppendLine(GetNotifyingProperty() + ";");
                     }
                     else
                     {
@@ -245,7 +251,8 @@ namespace Loqui.Generation
                             fg.AppendLine(");");
                             break;
                         case SingletonLevel.Singleton:
-                            fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>(new {this.RefGen.ObjectName}());");
+                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                            fg.AppendLine(GetNotifyingProperty() + ";");
                             break;
                         default:
                             throw new NotImplementedException();
@@ -275,7 +282,7 @@ namespace Loqui.Generation
                     case SingletonLevel.NotNull:
                         break;
                     case SingletonLevel.Singleton:
-                        args.Add($"defaultVal: new {this.RefGen.ObjectName}()");
+                        args.Add($"defaultVal: {this.SingletonObjectName}");
                         break;
                     default:
                         throw new NotImplementedException();

@@ -29,6 +29,15 @@ namespace Loqui.Tests
 
         public TestObject_HasBeenSet()
         {
+            _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
+                defaultVal: _Ref_Singleton_Object,
+                markAsSet: true);
+            _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
+                defaultVal: _RefGetter_Singleton_Object,
+                markAsSet: true);
+            _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
+                defaultVal: _RefSetter_Singleton_Object,
+                markAsSet: true);
             CustomCtor();
         }
         partial void CustomCtor();
@@ -990,9 +999,8 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_NotNull_Property => this._Ref_NotNull;
         #endregion
         #region Ref_Singleton
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
-            defaultVal: new ObjectToRef(),
-            markAsSet: true);
+        private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
+        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
         public ObjectToRef Ref_Singleton
         {
             get => this._Ref_Singleton.Item;
@@ -1026,9 +1034,8 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
         #endregion
         #region RefGetter_Singleton
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
-            defaultVal: new ObjectToRef(),
-            markAsSet: true);
+        private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
+        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton
         {
             get => this._RefGetter_Singleton.Item;
@@ -1062,9 +1069,8 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
         #endregion
         #region RefSetter_Singleton
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
-            defaultVal: new ObjectToRef(),
-            markAsSet: true);
+        private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
+        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton
         {
             get => this._RefSetter_Singleton.Item;
