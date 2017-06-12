@@ -37,11 +37,14 @@ namespace Loqui.Tests
         }
         #endregion
 
+        #region Ctor
         public TestObject_RPC()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         private Boolean? _BoolN;
         public Boolean? BoolN

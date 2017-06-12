@@ -27,6 +27,7 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_HasBeenSet_Derivative_Registration.Instance;
         public static TestObject_HasBeenSet_Derivative_Registration Registration => TestObject_HasBeenSet_Derivative_Registration.Instance;
 
+        #region Ctor
         public TestObject_HasBeenSet_Derivative()
         {
             _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
@@ -41,6 +42,8 @@ namespace Loqui.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         protected readonly IHasBeenSetItem<Boolean?> _BoolN = HasBeenSetItem.Factory<Boolean?>(markAsSet: false);
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;

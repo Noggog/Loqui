@@ -26,11 +26,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => ObjectToRef_Registration.Instance;
         public static ObjectToRef_Registration Registration => ObjectToRef_Registration.Instance;
 
+        #region Ctor
         public ObjectToRef()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region KeyField
         protected readonly INotifyingItem<Int32> _KeyField = NotifyingItem.Factory<Int32>(markAsSet: false);
         public INotifyingItem<Int32> KeyField_Property => _KeyField;

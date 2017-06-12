@@ -27,6 +27,7 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_ReadOnly_RPC_Registration.Instance;
         public static TestObject_Notifying_ReadOnly_RPC_Registration Registration => TestObject_Notifying_ReadOnly_RPC_Registration.Instance;
 
+        #region Ctor
         public TestObject_Notifying_ReadOnly_RPC()
         {
             _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
@@ -41,6 +42,8 @@ namespace Loqui.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingItem.Factory<Boolean?>(markAsSet: false);
         public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;

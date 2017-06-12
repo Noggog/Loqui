@@ -27,11 +27,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_Derivative_Registration.Instance;
         public static TestObject_Derivative_Registration Registration => TestObject_Derivative_Registration.Instance;
 
+        #region Ctor
         public TestObject_Derivative()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         public Boolean? BoolN { get; protected set; }
         #endregion

@@ -26,11 +26,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_SubClass_Registration.Instance;
         public new static TestObject_Notifying_SubClass_Registration Registration => TestObject_Notifying_SubClass_Registration.Instance;
 
+        #region Ctor
         public TestObject_Notifying_SubClass()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region NewField
         protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>(markAsSet: false);
         public INotifyingItem<Boolean> NewField_Property => _NewField;

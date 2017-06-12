@@ -103,16 +103,19 @@ namespace Loqui.Generation
 
         protected override void GenerateCtor(FileGeneration fg)
         {
-            fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
-            using (new BraceWrapper(fg))
+            using (new RegionWrapper(fg, "Ctor"))
             {
-                foreach (var field in this.Fields)
+                fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
+                using (new BraceWrapper(fg))
                 {
-                    field.GenerateForCtor(fg);
+                    foreach (var field in this.Fields)
+                    {
+                        field.GenerateForCtor(fg);
+                    }
+                    fg.AppendLine("CustomCtor();");
                 }
-                fg.AppendLine("CustomCtor();");
+                fg.AppendLine("partial void CustomCtor();");
             }
-            fg.AppendLine("partial void CustomCtor();");
         }
     }
 }

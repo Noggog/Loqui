@@ -37,6 +37,7 @@ namespace Loqui.Tests
         }
         #endregion
 
+        #region Ctor
         public TestObject_HasBeenSet_Derivative_RPC()
         {
             _BoolN = HasBeenSetItem.Factory<Boolean?>(
@@ -355,6 +356,8 @@ namespace Loqui.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         protected readonly IHasBeenSetItem<Boolean?> _BoolN;
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;

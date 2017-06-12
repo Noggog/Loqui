@@ -26,11 +26,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_PrivateCtor_Registration.Instance;
         public static TestObject_PrivateCtor_Registration Registration => TestObject_PrivateCtor_Registration.Instance;
 
+        #region Ctor
         protected TestObject_PrivateCtor()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         public Boolean? BoolN { get; set; }
         #endregion

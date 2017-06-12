@@ -27,11 +27,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestObject_ReadOnly_Registration.Instance;
         public static TestObject_ReadOnly_Registration Registration => TestObject_ReadOnly_Registration.Instance;
 
+        #region Ctor
         public TestObject_ReadOnly()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         public Boolean? BoolN { get; protected set; }
         #endregion

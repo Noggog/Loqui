@@ -28,11 +28,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestGenericObject_Registration.Instance;
         public static TestGenericObject_Registration Registration => TestGenericObject_Registration.Instance;
 
+        #region Ctor
         public TestGenericObject()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region RefBase
         private readonly INotifyingItem<RBase> _RefBase = new NotifyingItem<RBase>();
         public INotifyingItem<RBase> RefBase_Property => this._RefBase;

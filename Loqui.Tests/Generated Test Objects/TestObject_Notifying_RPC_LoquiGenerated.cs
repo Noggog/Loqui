@@ -37,6 +37,7 @@ namespace Loqui.Tests
         }
         #endregion
 
+        #region Ctor
         public TestObject_Notifying_RPC()
         {
             _BoolN = NotifyingItem.Factory<Boolean?>(
@@ -355,6 +356,8 @@ namespace Loqui.Tests
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
         #region BoolN
         protected readonly INotifyingItem<Boolean?> _BoolN;
         public INotifyingItem<Boolean?> BoolN_Property => _BoolN;

@@ -30,11 +30,14 @@ namespace Loqui.Tests
         ILoquiRegistration ILoquiObject.Registration => TestGenericObject_SubClass_Registration.Instance;
         public new static TestGenericObject_SubClass_Registration Registration => TestGenericObject_SubClass_Registration.Instance;
 
+        #region Ctor
         public TestGenericObject_SubClass()
         {
             CustomCtor();
         }
         partial void CustomCtor();
+        #endregion
+
 
         #region Loqui Getter Interface
 
