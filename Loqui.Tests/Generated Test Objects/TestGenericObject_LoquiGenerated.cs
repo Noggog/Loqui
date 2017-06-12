@@ -70,67 +70,6 @@ namespace Loqui.Tests
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(
-            ITestGenericObjectGetter<T, RBase, R> rhs,
-            TestGenericObject_CopyMask copyMask = null,
-            ITestGenericObjectGetter<T, RBase, R> def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestGenericObjectCommon.CopyFieldsFrom<T, RBase, R>(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: false,
-                errorMask: null,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestGenericObjectGetter<T, RBase, R> rhs,
-            out TestGenericObject_ErrorMask errorMask,
-            TestGenericObject_CopyMask copyMask = null,
-            ITestGenericObjectGetter<T, RBase, R> def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestGenericObjectCommon.CopyFieldsFrom<T, RBase, R>(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: true,
-                errorMask: out errorMask,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestGenericObjectGetter<T, RBase, R> rhs,
-            bool doErrorMask,
-            out TestGenericObject_ErrorMask errorMask,
-            TestGenericObject_CopyMask copyMask = null,
-            ITestGenericObjectGetter<T, RBase, R> def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            if (doErrorMask)
-            {
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    errorMask: out errorMask,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-            else
-            {
-                errorMask = null;
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-        }
-
         #endregion
 
         #region To String
@@ -753,6 +692,45 @@ namespace Loqui.Tests.Internals
     public static class TestGenericObjectCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom<T, RBase, R>(
+            this ITestGenericObject<T, RBase, R> item,
+            ITestGenericObjectGetter<T, RBase, R> rhs,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, RBase, R> def = null,
+            NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObjectCommon.CopyFieldsFrom<T, RBase, R>(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: false,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
+        public static void CopyFieldsFrom<T, RBase, R>(
+            this ITestGenericObject<T, RBase, R> item,
+            ITestGenericObjectGetter<T, RBase, R> rhs,
+            out TestGenericObject_ErrorMask errorMask,
+            TestGenericObject_CopyMask copyMask = null,
+            ITestGenericObjectGetter<T, RBase, R> def = null,
+            NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            TestGenericObjectCommon.CopyFieldsFrom<T, RBase, R>(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: out errorMask,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
         public static void CopyFieldsFrom<T, RBase, R>(
             this ITestGenericObject<T, RBase, R> item,
             ITestGenericObjectGetter<T, RBase, R> rhs,

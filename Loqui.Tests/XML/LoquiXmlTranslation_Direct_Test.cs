@@ -113,8 +113,8 @@ namespace Loqui.Tests.XML
                 WildCardLoqui = ObjectToRefXmlTranslation_Test.TYPICAL_VALUE,
                 WildCardNull = null
             };
-            //TYPICAL_VALUE.Ref_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
-            //TYPICAL_VALUE.RefSetter_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
+            TYPICAL_VALUE.Ref_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
+            TYPICAL_VALUE.RefSetter_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
         }
 
         public string ExpectedName => "Loqui.Tests.TestObject_HasBeenSet";

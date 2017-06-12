@@ -1473,67 +1473,6 @@ namespace Loqui.Tests
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_RPCGetter rhs,
-            TestObject_Notifying_RPC_CopyMask copyMask = null,
-            ITestObject_Notifying_RPCGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObject_Notifying_RPCCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: false,
-                errorMask: null,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_RPCGetter rhs,
-            out TestObject_Notifying_RPC_ErrorMask errorMask,
-            TestObject_Notifying_RPC_CopyMask copyMask = null,
-            ITestObject_Notifying_RPCGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObject_Notifying_RPCCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: true,
-                errorMask: out errorMask,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_RPCGetter rhs,
-            bool doErrorMask,
-            out TestObject_Notifying_RPC_ErrorMask errorMask,
-            TestObject_Notifying_RPC_CopyMask copyMask = null,
-            ITestObject_Notifying_RPCGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            if (doErrorMask)
-            {
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    errorMask: out errorMask,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-            else
-            {
-                errorMask = null;
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-        }
-
         #endregion
 
         #region To String
@@ -7153,6 +7092,41 @@ namespace Loqui.Tests.Internals
     public static class TestObject_Notifying_RPCCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_Notifying_RPC item,
+            ITestObject_Notifying_RPCGetter rhs,
+            TestObject_Notifying_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_RPCGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObject_Notifying_RPCCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: false,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
+        public static void CopyFieldsFrom(
+            this ITestObject_Notifying_RPC item,
+            ITestObject_Notifying_RPCGetter rhs,
+            out TestObject_Notifying_RPC_ErrorMask errorMask,
+            TestObject_Notifying_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_RPCGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObject_Notifying_RPCCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: out errorMask,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_Notifying_RPC item,
             ITestObject_Notifying_RPCGetter rhs,

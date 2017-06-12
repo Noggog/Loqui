@@ -623,67 +623,6 @@ namespace Loqui.Tests
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(
-            ITestObjectGetter rhs,
-            TestObject_CopyMask copyMask = null,
-            ITestObjectGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObjectCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: false,
-                errorMask: null,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObjectGetter rhs,
-            out TestObject_ErrorMask errorMask,
-            TestObject_CopyMask copyMask = null,
-            ITestObjectGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObjectCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: true,
-                errorMask: out errorMask,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObjectGetter rhs,
-            bool doErrorMask,
-            out TestObject_ErrorMask errorMask,
-            TestObject_CopyMask copyMask = null,
-            ITestObjectGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            if (doErrorMask)
-            {
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    errorMask: out errorMask,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-            else
-            {
-                errorMask = null;
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-        }
-
         #endregion
 
         #region To String
@@ -5251,6 +5190,41 @@ namespace Loqui.Tests.Internals
     public static class TestObjectCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject item,
+            ITestObjectGetter rhs,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObjectCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: false,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
+        public static void CopyFieldsFrom(
+            this ITestObject item,
+            ITestObjectGetter rhs,
+            out TestObject_ErrorMask errorMask,
+            TestObject_CopyMask copyMask = null,
+            ITestObjectGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObjectCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: out errorMask,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject item,
             ITestObjectGetter rhs,

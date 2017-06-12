@@ -667,6 +667,59 @@ namespace Loqui.Generation
                 {
                     args.Add($"this {this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"{this.CopyMask} copyMask = null");
+                    args.Add($"{this.Getter_InterfaceStr} def = null");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
+                    {
+                        args.Add("item: item");
+                        args.Add("rhs: rhs");
+                        args.Add("def: def");
+                        args.Add("doErrorMask: false");
+                        args.Add("errorMask: null");
+                        args.Add("copyMask: copyMask");
+                        args.Add("cmds: cmds");
+                    }
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void CopyFieldsFrom{this.GenericTypes}",
+                    GenerateWhereClauses().ToArray()))
+                {
+                    args.Add($"this {this.InterfaceStr} item");
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
+                    args.Add($"out {this.ErrorMask} errorMask");
+                    args.Add($"{this.CopyMask} copyMask = null");
+                    args.Add($"{this.Getter_InterfaceStr} def = null");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
+                    {
+                        args.Add("item: item");
+                        args.Add("rhs: rhs");
+                        args.Add("def: def");
+                        args.Add("doErrorMask: true");
+                        args.Add("errorMask: out errorMask");
+                        args.Add("copyMask: copyMask");
+                        args.Add("cmds: cmds");
+                    }
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void CopyFieldsFrom{this.GenericTypes}",
+                    GenerateWhereClauses().ToArray()))
+                {
+                    args.Add($"this {this.InterfaceStr} item");
+                    args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
                     args.Add($"bool doErrorMask");
                     args.Add($"out {this.ErrorMask} errorMask");
@@ -873,97 +926,6 @@ namespace Loqui.Generation
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);");
-                }
-                fg.AppendLine();
-
-                // Generic version
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyFieldsFrom"))
-                {
-                    args.Add($"{this.Getter_InterfaceStr} rhs");
-                    args.Add($"{this.CopyMask} copyMask = null");
-                    args.Add($"{this.Getter_InterfaceStr} def = null");
-                    args.Add($"NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
-                    {
-                        args.Add("item: this");
-                        args.Add("rhs: rhs");
-                        args.Add("def: def");
-                        args.Add("doErrorMask: false");
-                        args.Add("errorMask: null");
-                        args.Add("copyMask: copyMask");
-                        args.Add("cmds: cmds");
-                    }
-                }
-                fg.AppendLine();
-
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyFieldsFrom"))
-                {
-                    args.Add($"{this.Getter_InterfaceStr} rhs");
-                    args.Add($"out {this.ErrorMask} errorMask");
-                    args.Add($"{this.CopyMask} copyMask = null");
-                    args.Add($"{this.Getter_InterfaceStr} def = null");
-                    args.Add($"NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{this.ExtCommonName}.CopyFieldsFrom{this.GenericTypes}"))
-                    {
-                        args.Add("item: this");
-                        args.Add("rhs: rhs");
-                        args.Add("def: def");
-                        args.Add("doErrorMask: true");
-                        args.Add("errorMask: out errorMask");
-                        args.Add("copyMask: copyMask");
-                        args.Add("cmds: cmds");
-                    }
-                }
-                fg.AppendLine();
-
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyFieldsFrom"))
-                {
-                    args.Add($"{this.Getter_InterfaceStr} rhs");
-                    args.Add($"bool doErrorMask");
-                    args.Add($"out {this.ErrorMask} errorMask");
-                    args.Add($"{this.CopyMask} copyMask = null");
-                    args.Add($"{this.Getter_InterfaceStr} def = null");
-                    args.Add($"NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("if (doErrorMask)");
-                    using (new BraceWrapper(fg))
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            "CopyFieldsFrom"))
-                        {
-                            args.Add("rhs: rhs");
-                            args.Add("errorMask: out errorMask");
-                            args.Add("copyMask: copyMask");
-                            args.Add("def: def");
-                            args.Add("cmds: cmds");
-                        }
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine("errorMask = null;");
-                        using (var args = new ArgsWrapper(fg,
-                            "CopyFieldsFrom"))
-                        {
-                            args.Add("rhs: rhs");
-                            args.Add("copyMask: copyMask");
-                            args.Add("def: def");
-                            args.Add("cmds: cmds");
-                        }
-                    }
                 }
                 fg.AppendLine();
             }

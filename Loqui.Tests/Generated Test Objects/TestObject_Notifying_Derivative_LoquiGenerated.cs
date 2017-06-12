@@ -1054,67 +1054,6 @@ namespace Loqui.Tests
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_DerivativeGetter rhs,
-            TestObject_Notifying_Derivative_CopyMask copyMask = null,
-            ITestObject_Notifying_DerivativeGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: false,
-                errorMask: null,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_DerivativeGetter rhs,
-            out TestObject_Notifying_Derivative_ErrorMask errorMask,
-            TestObject_Notifying_Derivative_CopyMask copyMask = null,
-            ITestObject_Notifying_DerivativeGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
-                item: this,
-                rhs: rhs,
-                def: def,
-                doErrorMask: true,
-                errorMask: out errorMask,
-                copyMask: copyMask,
-                cmds: cmds);
-        }
-
-        public void CopyFieldsFrom(
-            ITestObject_Notifying_DerivativeGetter rhs,
-            bool doErrorMask,
-            out TestObject_Notifying_Derivative_ErrorMask errorMask,
-            TestObject_Notifying_Derivative_CopyMask copyMask = null,
-            ITestObject_Notifying_DerivativeGetter def = null,
-            NotifyingFireParameters? cmds = null)
-        {
-            if (doErrorMask)
-            {
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    errorMask: out errorMask,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-            else
-            {
-                errorMask = null;
-                CopyFieldsFrom(
-                    rhs: rhs,
-                    copyMask: copyMask,
-                    def: def,
-                    cmds: cmds);
-            }
-        }
-
         #endregion
 
         #region To String
@@ -6066,6 +6005,41 @@ namespace Loqui.Tests.Internals
     public static class TestObject_Notifying_DerivativeCommon
     {
         #region Copy Fields From
+        public static void CopyFieldsFrom(
+            this ITestObject_Notifying_Derivative item,
+            ITestObject_Notifying_DerivativeGetter rhs,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: false,
+                errorMask: null,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
+        public static void CopyFieldsFrom(
+            this ITestObject_Notifying_Derivative item,
+            ITestObject_Notifying_DerivativeGetter rhs,
+            out TestObject_Notifying_Derivative_ErrorMask errorMask,
+            TestObject_Notifying_Derivative_CopyMask copyMask = null,
+            ITestObject_Notifying_DerivativeGetter def = null,
+            NotifyingFireParameters? cmds = null)
+        {
+            TestObject_Notifying_DerivativeCommon.CopyFieldsFrom(
+                item: item,
+                rhs: rhs,
+                def: def,
+                doErrorMask: true,
+                errorMask: out errorMask,
+                copyMask: copyMask,
+                cmds: cmds);
+        }
+
         public static void CopyFieldsFrom(
             this ITestObject_Notifying_Derivative item,
             ITestObject_Notifying_DerivativeGetter rhs,
