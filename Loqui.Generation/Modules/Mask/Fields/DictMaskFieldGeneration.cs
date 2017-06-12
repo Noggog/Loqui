@@ -204,6 +204,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(dictType, "R")}();");
+                fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
                 fg.AppendLine($"if ({field.Name}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {

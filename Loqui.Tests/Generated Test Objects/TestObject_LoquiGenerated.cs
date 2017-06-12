@@ -10135,6 +10135,7 @@ namespace Loqui.Tests.Internals
             if (Dict != null)
             {
                 ret.Dict = new MaskItem<R, IEnumerable<KeyValuePair<R, R>>>();
+                ret.Dict.Overall = eval(this.Dict.Overall);
                 if (Dict.Specific != null)
                 {
                     List<KeyValuePair<R, R>> l = new List<KeyValuePair<R, R>>();
@@ -10150,6 +10151,7 @@ namespace Loqui.Tests.Internals
             if (RefDict != null)
             {
                 ret.RefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                ret.RefDict.Overall = eval(this.RefDict.Overall);
                 if (RefDict.Specific != null)
                 {
                     List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>();
@@ -10183,6 +10185,7 @@ namespace Loqui.Tests.Internals
             if (KeyRefDict != null)
             {
                 ret.KeyRefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>>();
+                ret.KeyRefDict.Overall = eval(this.KeyRefDict.Overall);
                 if (KeyRefDict.Specific != null)
                 {
                     List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>();
@@ -10207,6 +10210,7 @@ namespace Loqui.Tests.Internals
             if (ValRefDict != null)
             {
                 ret.ValRefDict = new MaskItem<R, IEnumerable<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                ret.ValRefDict.Overall = eval(this.ValRefDict.Overall);
                 if (ValRefDict.Specific != null)
                 {
                     List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>();
@@ -10231,6 +10235,7 @@ namespace Loqui.Tests.Internals
             if (DictKeyedValue != null)
             {
                 ret.DictKeyedValue = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                ret.DictKeyedValue.Overall = eval(this.DictKeyedValue.Overall);
                 if (DictKeyedValue.Specific != null)
                 {
                     List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
