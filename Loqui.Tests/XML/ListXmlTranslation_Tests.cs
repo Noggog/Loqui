@@ -11,6 +11,7 @@ namespace Loqui.Tests.XML
 {
     public class ListXmlTranslation_Tests
     {
+        public static readonly ListXmlTranslation_Tests Instance = new ListXmlTranslation_Tests();
         public string ExpectedName => "List";
 
         public IEnumerable<bool> GetTypicalContents()

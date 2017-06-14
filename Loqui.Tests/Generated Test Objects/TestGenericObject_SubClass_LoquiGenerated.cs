@@ -181,17 +181,13 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected static void Fill_XML_Internal<S, T, RBase, R>(
+        protected static void Fill_XML_Internal(
             TestGenericObject_SubClass<S, T, RBase, R> item,
             XElement root,
             string name,
             string typeName,
             bool doMasks,
             Func<TestGenericObject_SubClass_ErrorMask> errorMask)
-            where S : ObjectToRef
-            where T : ILoquiObject
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
         {
             switch (name)
             {

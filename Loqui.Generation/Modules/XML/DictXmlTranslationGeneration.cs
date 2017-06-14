@@ -93,5 +93,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"throw new NotImplementedException();");
         }
+
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        {
+            fg.AppendLine($"throw new NotImplementedException();");
+        }
     }
 }

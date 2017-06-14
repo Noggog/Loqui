@@ -54,5 +54,19 @@ namespace Loqui.Generation
                 fg.AppendLine($"{itemAccessor} = tryGet.Value{(Nullable ? null : ".Value")};");
             }
         }
+
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        {
+            using (var args = new ArgsWrapper(fg,
+                $"{retAccessor}{this.typeName}XmlTranslation.Instance.Parse",
+                (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
+            {
+                args.Add(nodeAccessor);
+                if (CanBeNotNullable)
+                {
+                    args.Add($"nullable: {Nullable.ToString().ToLower()}");
+                }
+            }
+        }
     }
 }

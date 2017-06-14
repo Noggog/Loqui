@@ -369,8 +369,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"protected static void Fill_XML_Internal{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
+                $"protected static void Fill_XML_Internal"))
             {
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");

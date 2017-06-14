@@ -50,25 +50,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
-            UnsafeType unsafeType = typeGen as UnsafeType;
-            fg.AppendLine($"if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{root.Name.LocalName}}.\");");
-            }
-            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(type.Item);");
-            fg.AppendLine($"if (transl?.Item.Failed ?? true)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{type.Item}}. {{transl?.Item.Reason}}\");");
-            }
-            using (var args = new ArgsWrapper(fg,
-                $"var tryGet = transl.Item.Value.Parse"))
-            {
-                args.Add($"{nodeAccessor}");
-                args.Add($"doMasks");
-                args.Add($"out object sub{maskAccessor}");
-            }
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", maskAccessor);
             if (typeGen.Name != null)
             {
                 fg.AppendLine($"if (sub{maskAccessor} != null)");
@@ -85,6 +67,29 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{itemAccessor} = ({typeGen.TypeName})tryGet.Value;");
+            }
+        }
+
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        {
+            UnsafeType unsafeType = typeGen as UnsafeType;
+            fg.AppendLine($"if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{root.Name.LocalName}}.\");");
+            }
+            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(type.Item);");
+            fg.AppendLine($"if (transl?.Item.Failed ?? true)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{type.Item}}. {{transl?.Item.Reason}}\");");
+            }
+            using (var args = new ArgsWrapper(fg,
+                $"{retAccessor}transl.Item.Value.Parse"))
+            {
+                args.Add($"{nodeAccessor}");
+                args.Add($"doMasks");
+                args.Add($"out object sub{maskAccessor}");
             }
         }
     }

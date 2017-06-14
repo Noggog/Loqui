@@ -5,6 +5,7 @@ namespace Loqui.Generation
     public abstract class MaskModuleField
     {
         public MaskModule Module;
+        public abstract string GetErrorMaskTypeStr(TypeGeneration field);
         public abstract void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr);
         public virtual void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {

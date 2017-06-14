@@ -11,6 +11,7 @@ namespace Loqui.Tests.XML
 {
     public class DictXmlTranslation_Tests
     {
+        public static readonly DictXmlTranslation_Tests Instance = new DictXmlTranslation_Tests();
         public string ExpectedName => "Dict";
 
         public IEnumerable<KeyValuePair<string, bool>> GetTypicalContents()

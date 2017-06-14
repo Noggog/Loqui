@@ -43,5 +43,16 @@ namespace Loqui.Generation
                 fg.AppendLine($"{itemAccessor} = tryGet.Value{(eType.Nullable ? null : ".Value")};");
             }
         }
+
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        {
+            var eType = typeGen as EnumType;
+            using (var args = new ArgsWrapper(fg,
+                $"{retAccessor}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
+            {
+                args.Add(nodeAccessor);
+                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
+            }
+        }
     }
 }

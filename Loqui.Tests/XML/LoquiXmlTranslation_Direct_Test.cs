@@ -17,7 +17,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 92;
+        public static int NUM_FIELDS = 94;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -115,6 +115,8 @@ namespace Loqui.Tests.XML
             };
             TYPICAL_VALUE.Ref_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
             TYPICAL_VALUE.RefSetter_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
+            TYPICAL_VALUE.List.Add(ListXmlTranslation_Tests.Instance.GetTypicalContents());
+            TYPICAL_VALUE.RefList.Add(RefListXmlTranslation_Tests.Instance.GetTypicalContents());
         }
 
         public string ExpectedName => "Loqui.Tests.TestObject_HasBeenSet";
@@ -216,6 +218,8 @@ namespace Loqui.Tests.XML
             elem.Add(BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCard)));
             elem.Add(NullXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCardNull)));
             elem.Add(ObjectToRefXmlTranslation_Test.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.WildCardLoqui)));
+            elem.Add(ListXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.List)));
+            elem.Add(RefListXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefList)));
             return elem;
         }
 

@@ -287,5 +287,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, "T")}({valueStr}, null);");
         }
+
+        public override string GetErrorMaskTypeStr(TypeGeneration field)
+        {
+            return GetMaskString(field as IDictType, "Exception");
+        }
     }
 }

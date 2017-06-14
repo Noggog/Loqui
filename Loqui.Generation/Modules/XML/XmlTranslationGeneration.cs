@@ -18,11 +18,19 @@ namespace Loqui.Generation
             string nameAccessor);
 
         public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => true;
+
         public abstract void GenerateCopyIn(
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
             string itemAccessor,
+            string maskAccessor);
+
+        public abstract void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string retAccessor,
             string maskAccessor);
     }
 }

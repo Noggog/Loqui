@@ -67,7 +67,42 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
-            fg.AppendLine($"throw new NotImplementedException();");
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var listTryGet = ", maskAccessor);
+            fg.AppendLine($"if (suberrorMask != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"errorMask().SetNthMask((ushort){typeGen.IndexEnumName}, suberrorMask);");
+            }
+            fg.AppendLine($"if (listTryGet.Succeeded)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{itemAccessor}.SetTo(listTryGet.Value);");
+            }
+        }
+
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        {
+            ListType list = typeGen as ListType;
+            using (var args = new ArgsWrapper(fg,
+                $"{retAccessor}ListXmlTranslation<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
+            {
+                args.Add($"root: root");
+                args.Add($"doMasks: doMasks");
+                args.Add($"maskObj: out var suberrorMask");
+                args.Add((gen) =>
+                {
+                    gen.AppendLine($"transl: (XElement r, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration)} subsubErr) =>");
+                    using (new BraceWrapper(gen))
+                    {
+                        var xmlGen = _mod.TypeGenerations[list.SubTypeGeneration.GetType()];
+                        if (!xmlGen.OutputsErrorMask)
+                        {
+                            gen.AppendLine("subsubErr = null;");
+                        }
+                        xmlGen.GenerateCopyInRet(gen, list.SubTypeGeneration, "r", "return ", "subsubErr");
+                    }
+                });
+            }
         }
     }
 }

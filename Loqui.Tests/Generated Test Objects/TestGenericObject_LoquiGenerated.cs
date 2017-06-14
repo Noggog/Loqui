@@ -216,37 +216,41 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected static void Fill_XML_Internal<T, RBase, R>(
+        protected static void Fill_XML_Internal(
             TestGenericObject<T, RBase, R> item,
             XElement root,
             string name,
             string typeName,
             bool doMasks,
             Func<TestGenericObject_ErrorMask> errorMask)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-            where R : ILoquiObject, ILoquiObjectGetter
         {
             switch (name)
             {
                 case "RefBase":
                     try
                     {
+                        TryGet<RBase> tryGet;
                         ObjectToRef_ErrorMask suberrorMask;
                         if (typeName.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            item._RefBase.Item = (RBase)ObjectToRef.Create_XML(
+                            tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
-                                errorMask: out suberrorMask);
+                                errorMask: out suberrorMask));
                         }
                         else
                         {
                             var register = LoquiRegistration.GetRegisterByFullName(typeName);
-                            XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            var tmp = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj);
+                                maskObj: out var subErrorMaskObj).Bubble((o) => (RBase)o);
                             suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                            tryGet = tmp;
+                        }
+                        if (tryGet.Succeeded)
+                        {
+                            item._RefBase.Item = tryGet.Value;
                         }
                         if (suberrorMask != null)
                         {

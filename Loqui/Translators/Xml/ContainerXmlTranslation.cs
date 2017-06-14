@@ -12,6 +12,7 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
+    public delegate TryGet<T> XmlSubParseDelegate<T, ErrMask>(XElement root, out ErrMask maskObj);
     public delegate void XmlSubWriteDelegate<in T, ErrMask>(T item, out ErrMask maskObj);
     public abstract class ContainerXmlTranslation<T> : IXmlTranslation<IEnumerable<T>>
     {
@@ -24,10 +25,18 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Item.Reason}");
             }
-            return Parse(transl.Item.Value, root, doMasks, out maskObj);
+            return Parse(
+                root, 
+                doMasks,
+                out maskObj,
+                transl: (XElement r, out object obj) => transl.Item.Value.Parse(root: r, doMasks: doMasks, maskObj: out obj));
         }
-
-        public TryGet<IEnumerable<T>> Parse(IXmlTranslation<T> transl, XElement root, bool doMasks, out object maskObj)
+        
+        public TryGet<IEnumerable<T>> Parse<ErrMask>(
+            XElement root,
+            bool doMasks,
+            out object maskObj,
+            XmlSubParseDelegate<T, ErrMask> transl)
         {
             if (!root.Name.LocalName.Equals(ElementName))
             {
@@ -36,18 +45,13 @@ namespace Loqui.Xml
                 maskObj = ex;
                 return TryGet<IEnumerable<T>>.Failure;
             }
-            return TryGet<IEnumerable<T>>.Succeed(Parse_Internal(transl, root, doMasks, out maskObj));
-        }
-
-        private IEnumerable<T> Parse_Internal(IXmlTranslation<T> transl, XElement root, bool doMasks, out object maskObj)
-        {
-            List<MaskItem<Exception, object>> maskList = null;
+            List<MaskItem<Exception, ErrMask>> maskList = null;
             var ret = new List<T>();
             foreach (var listElem in root.Elements())
             {
                 try
                 {
-                    var get = ParseSingleItem(listElem, transl, doMasks, out object subMaskObj);
+                    var get = transl(listElem, out var subMaskObj);
                     if (get.Succeeded)
                     {
                         ret.Add(get.Value);
@@ -60,9 +64,9 @@ namespace Loqui.Xml
                         }
                         if (maskList == null)
                         {
-                            maskList = new List<MaskItem<Exception, object>>();
+                            maskList = new List<MaskItem<Exception, ErrMask>>();
                         }
-                        maskList.Add(new MaskItem<Exception, object>(null, subMaskObj));
+                        maskList.Add(new MaskItem<Exception, ErrMask>(null, subMaskObj));
                     }
                 }
                 catch (Exception ex)
@@ -70,13 +74,13 @@ namespace Loqui.Xml
                     if (!doMasks) throw;
                     if (maskList == null)
                     {
-                        maskList = new List<MaskItem<Exception, object>>();
+                        maskList = new List<MaskItem<Exception, ErrMask>>();
                     }
-                    maskList.Add(new MaskItem<Exception, object>(ex, null));
+                    maskList.Add(new MaskItem<Exception, ErrMask>(ex, default(ErrMask)));
                 }
             }
             maskObj = maskList;
-            return ret;
+            return TryGet<IEnumerable<T>>.Succeed(ret);
         }
 
         public abstract TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T> transl, bool doMasks, out object maskObj);

@@ -12,6 +12,7 @@ namespace Loqui.Tests.XML
 {
     public class RefListXmlTranslation_Tests
     {
+        public static readonly RefListXmlTranslation_Tests Instance = new RefListXmlTranslation_Tests();
         public string ExpectedName => "List";
 
         public static ObjectToRef Item1 = new ObjectToRef()
