@@ -13,5 +13,16 @@ namespace Loqui.Tests
             KeyField = 4,
             SomeField = true
         };
+        public static readonly ObjectToRef TYPICAL_VALUE_2 = new ObjectToRef()
+        {
+            KeyField = 16,
+            SomeField = true
+        };
+        public static readonly ObjectToRef TYPICAL_VALUE_3 = new ObjectToRef()
+        {
+            KeyField = 9,
+            SomeField = false
+        };
+
     }
 }

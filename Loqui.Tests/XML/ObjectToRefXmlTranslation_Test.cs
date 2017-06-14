@@ -22,14 +22,19 @@ namespace Loqui.Tests.XML
             return new LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>();
         }
 
-        public override XElement GetTypicalElement(string name = null)
+        public XElement GetTypicalElement(ObjectToRef obj, string name = null)
         {
             var ret = XmlUtility.GetElementNoValue(ExpectedName, name);
             ret.Add(
-                Int32XmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.KeyField)));
+                Int32XmlTranslation_Test.Instance.GetTypicalElement(obj?.KeyField ?? Int32XmlTranslation_Test.TYPICAL_VALUE, nameof(ObjectToRef.KeyField)));
             ret.Add(
-                BoolXmlTranslation_Test.Instance.GetTypicalElement(nameof(ObjectToRef.SomeField)));
+                BoolXmlTranslation_Test.Instance.GetTypicalElement(obj?.SomeField ?? BoolXmlTranslation_Test.TYPICAL_VALUE, nameof(ObjectToRef.SomeField)));
             return ret;
+        }
+
+        public override XElement GetTypicalElement(string name = null)
+        {
+            return GetTypicalElement(obj: null, name: name);
         }
 
         public override void Parse_BadElement_Mask()
