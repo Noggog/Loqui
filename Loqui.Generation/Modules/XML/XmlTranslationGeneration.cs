@@ -8,7 +8,9 @@ namespace Loqui.Generation
 {
     public abstract class XmlTranslationGeneration
     {
-        public abstract bool OutputsErrorMask { get; }
+        public MaskModule MaskModule;
+        public XmlTranslationModule XmlMod;
+
         public abstract void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,

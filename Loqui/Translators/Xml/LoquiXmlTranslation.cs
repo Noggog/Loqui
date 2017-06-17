@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class LoquiXmlTranslation<T, M> : IXmlTranslation<T>
+    public class LoquiXmlTranslation<T, M> : IXmlTranslation<T, M>
         where T : ILoquiObjectGetter
         where M : IErrorMask, new()
     {
@@ -55,7 +55,7 @@ namespace Loqui.Xml
                     try
                     {
                         var type = registration.GetNthType(i.Value);
-                        if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
+                        if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object, object> translator))
                         {
                             throw new ArgumentException($"No XML Translator found for {type}");
                         }
@@ -133,7 +133,7 @@ namespace Loqui.Xml
             mask = maskObj;
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out object mask)
+        public TryGet<T> Parse(XElement root, bool doMasks, out M mask)
         {
             var regis = LoquiRegistration.GetRegister(typeof(T));
             var maskObj = default(M);
@@ -184,7 +184,7 @@ namespace Loqui.Xml
                             if (!item.GetNthObjectHasBeenSet(i)) continue;
 
                             var type = item.Registration.GetNthType(i);
-                            if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object> translator))
+                            if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object, object> translator))
                             {
                                 throw new ArgumentException($"No XML Translator found for {type}");
                             }
@@ -232,12 +232,6 @@ namespace Loqui.Xml
                     }
                 }
             }
-        }
-        
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
-        {
-            this.Write(writer, name, item, doMasks, out M mask);
-            maskObj = mask;
         }
     }
 }

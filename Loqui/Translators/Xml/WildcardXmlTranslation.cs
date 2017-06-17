@@ -7,13 +7,13 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class WildcardXmlTranslation : IXmlTranslation<Object>
+    public class WildcardXmlTranslation : IXmlTranslation<object, object>
     {
         public static readonly WildcardXmlTranslation Instance = new WildcardXmlTranslation();
 
         public string ElementName => null;
 
-        public IXmlTranslation<Object> GetTranslator(Type t)
+        public IXmlTranslation<object, object> GetTranslator(Type t)
         {
             return XmlTranslator.GetTranslator(t).Item.Value;
         }

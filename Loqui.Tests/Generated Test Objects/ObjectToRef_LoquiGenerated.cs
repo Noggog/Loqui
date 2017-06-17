@@ -231,37 +231,39 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "KeyField":
-                    try
                     {
+                        Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: false);
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._KeyField.Item = tryGet.Value.Value;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
+                        if (subMask != null)
+                        {
+                            errorMask().KeyField = subMask;
+                        }
                     }
                     break;
                 case "SomeField":
-                    try
                     {
+                        Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            nullable: false);
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._SomeField.Item = tryGet.Value.Value;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                        if (subMask != null)
+                        {
+                            errorMask().SomeField = subMask;
+                        }
                     }
                     break;
                 default:
@@ -986,38 +988,30 @@ namespace Loqui.Tests.Internals
                     }
                     if (item.KeyField_Property.HasBeenSet)
                     {
-                        try
+                        Exception subMask;
+                        Int32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.KeyField),
+                            item.KeyField,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
                         {
-                            if (item.KeyField_Property.HasBeenSet)
-                            {
-                                Int32XmlTranslation.Instance.Write(
-                                    writer,
-                                    nameof(item.KeyField),
-                                    item.KeyField);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (!doMasks) throw;
-                            errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
+                            errorMask().KeyField = subMask;
                         }
                     }
                     if (item.SomeField_Property.HasBeenSet)
                     {
-                        try
+                        Exception subMask;
+                        BooleanXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.SomeField),
+                            item.SomeField,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
                         {
-                            if (item.SomeField_Property.HasBeenSet)
-                            {
-                                BooleanXmlTranslation.Instance.Write(
-                                    writer,
-                                    nameof(item.SomeField),
-                                    item.SomeField);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (!doMasks) throw;
-                            errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                            errorMask().SomeField = subMask;
                         }
                     }
                 }

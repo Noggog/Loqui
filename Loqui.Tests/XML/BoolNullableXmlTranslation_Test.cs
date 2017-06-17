@@ -10,14 +10,14 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class BoolNullableXmlTranslation_Test : TypicalXmlTranslation_Test<bool?, BoolNullableXmlTranslation_Test>
+    public class BoolNullableXmlTranslation_Test : TypicalXmlTranslation_Test<bool?, Exception, BoolNullableXmlTranslation_Test>
     {
         public static readonly bool? TYPICAL_VALUE = true;
         public override bool? TypicalValue => TYPICAL_VALUE;
 
         public override string ExpectedName => "BooleanN";
 
-        public override IXmlTranslation<bool?> GetTranslation()
+        public override IXmlTranslation<bool?, Exception> GetTranslation()
         {
             return new BooleanXmlTranslation();
         }
@@ -31,7 +31,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.True(ret.Value);
@@ -45,7 +45,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.True(ret.Value);
@@ -61,7 +61,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
             Assert.IsType(typeof(ArgumentException), maskObj);
@@ -77,7 +77,7 @@ namespace Loqui.Tests.XML
                 () => transl.Parse(
                     elem,
                     doMasks: false,
-                    maskObj: out object maskObj));
+                    maskObj: out var maskObj));
         }
         #endregion
 
@@ -90,7 +90,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.Null(ret.Value);
@@ -104,7 +104,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.Null(ret.Value);
@@ -121,7 +121,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.Null(ret.Value);
@@ -136,7 +136,7 @@ namespace Loqui.Tests.XML
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.Null(ret.Value);
@@ -154,7 +154,7 @@ namespace Loqui.Tests.XML
                 name: null,
                 item: true,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Null(elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)));
@@ -173,7 +173,7 @@ namespace Loqui.Tests.XML
                 name: XmlUtility.TYPICAL_NAME,
                 item: true,
                 doMasks: true,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
@@ -194,11 +194,11 @@ namespace Loqui.Tests.XML
                 name: XmlUtility.TYPICAL_NAME,
                 item: true,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             var readResp = transl.Parse(
                 writer.Resolve(),
                 doMasks: false,
-                maskObj: out object readMaskObj);
+                maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
             Assert.True(readResp.Value);
         }
@@ -213,11 +213,11 @@ namespace Loqui.Tests.XML
                 name: XmlUtility.TYPICAL_NAME,
                 item: false,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             var readResp = transl.Parse(
                 writer.Resolve(),
                 doMasks: false,
-                maskObj: out object readMaskObj);
+                maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
             Assert.False(readResp.Value);
         }
@@ -232,11 +232,11 @@ namespace Loqui.Tests.XML
                 name: XmlUtility.TYPICAL_NAME,
                 item: null,
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out var maskObj);
             var readResp = transl.Parse(
                 writer.Resolve(),
                 doMasks: false,
-                maskObj: out object readMaskObj);
+                maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
             Assert.Null(readResp.Value);
         }

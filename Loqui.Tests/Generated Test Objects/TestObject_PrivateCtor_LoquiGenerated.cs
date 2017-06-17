@@ -196,20 +196,21 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "BoolN":
-                    try
                     {
+                        Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true);
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.BoolN = tryGet.Value;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
+                        if (subMask != null)
+                        {
+                            errorMask().BoolN = subMask;
+                        }
                     }
                     break;
                 default:
@@ -857,17 +858,18 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("name", name);
                     }
-                    try
                     {
+                        Exception subMask;
                         BooleanXmlTranslation.Instance.Write(
                             writer,
                             nameof(item.BoolN),
-                            item.BoolN);
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestObject_PrivateCtor_FieldIndex.BoolN, ex);
+                            item.BoolN,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
+                        {
+                            errorMask().BoolN = subMask;
+                        }
                     }
                 }
             }

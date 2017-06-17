@@ -208,20 +208,21 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "NewField":
-                    try
                     {
+                        Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            nullable: false);
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._NewField.Item = tryGet.Value.Value;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                        if (subMask != null)
+                        {
+                            errorMask().NewField = subMask;
+                        }
                     }
                     break;
                 default:
@@ -888,20 +889,16 @@ namespace Loqui.Tests.Internals
                     }
                     if (item.NewField_Property.HasBeenSet)
                     {
-                        try
+                        Exception subMask;
+                        BooleanXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.NewField),
+                            item.NewField,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
                         {
-                            if (item.NewField_Property.HasBeenSet)
-                            {
-                                BooleanXmlTranslation.Instance.Write(
-                                    writer,
-                                    nameof(item.NewField),
-                                    item.NewField);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (!doMasks) throw;
-                            errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                            errorMask().NewField = subMask;
                         }
                     }
                 }

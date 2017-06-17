@@ -5,25 +5,28 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class XmlTranslationCaster<T> : IXmlTranslation<Object>
+    public class XmlTranslationCaster<T, M> : IXmlTranslation<Object, Object>
     {
-        public IXmlTranslation<T> Source { get; }
+        public IXmlTranslation<T, M> Source { get; }
 
         public string ElementName => Source.ElementName;
 
-        public XmlTranslationCaster(IXmlTranslation<T> src)
+        public XmlTranslationCaster(IXmlTranslation<T, M> src)
         {
             this.Source = src;
         }
 
-        void IXmlTranslation<object>.Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
+        void IXmlTranslation<object, object>.Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
-            Source.Write(writer, name, (T)item, doMasks, out maskObj);
+            Source.Write(writer, name, (T)item, doMasks, out var subMaskObj);
+            maskObj = subMaskObj;
         }
 
-        TryGet<object> IXmlTranslation<object>.Parse(XElement root, bool doMasks, out object maskObj)
+        TryGet<object> IXmlTranslation<object, object>.Parse(XElement root, bool doMasks, out object maskObj)
         {
-            return Source.Parse(root, doMasks, out maskObj).Bubble<object>((i) => i);
+            var ret = Source.Parse(root, doMasks, out var subMaskObj).Bubble<object>((i) => i);
+            maskObj = subMaskObj;
+            return ret;
         }
     }
 }

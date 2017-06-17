@@ -191,7 +191,7 @@ namespace Loqui.Generation
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)
         {
-            return GetItemString(field as ContainerType, "Exception");
+            return $"MaskItem<Exception, IEnumerable<{GetItemString(field as ContainerType, "Exception")}>>";
         }
     }
 }

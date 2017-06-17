@@ -10,32 +10,34 @@ namespace Loqui.Xml
 {
     class XmlTranslatorCache
     {
-        public NotifyingItem<GetResponse<IXmlTranslation<object>>> NullTranslation = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
-            defaultVal: GetResponse<IXmlTranslation<object>>.Succeed(new NullXmlTranslation()),
+        public static NullXmlTranslation NullTranslation = new NullXmlTranslation();
+        public NotifyingItem<GetResponse<IXmlTranslation<object, object>>> NullTranslationItem = new NotifyingItem<GetResponse<IXmlTranslation<object, object>>>(
+            defaultVal: GetResponse<IXmlTranslation<object, object>>.Succeed(new XmlTranslationCaster<object, Exception>(NullTranslation)),
             markAsSet: true);
         public NotifyingItem<Type> NullType = new NotifyingItem<Type>(
             defaultVal: null,
             markAsSet: true);
         public Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
-        public Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object>>>>();
+        public Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
 
         public XmlTranslatorCache()
         {
-            foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<>)))
+            foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<,>)))
             {
                 if (kv.Value.IsAbstract) continue;
-                if (kv.Value.Equals(typeof(XmlTranslationCaster<>))) continue;
+                if (kv.Value.Equals(typeof(XmlTranslationCaster<,>))) continue;
                 if (kv.Value.IsGenericTypeDefinition)
                 {
                     GenericTypes.Add(kv.Value);
                     continue;
                 }
                 Type transItemType = kv.Key.GetGenericArguments()[0];
+                Type maskItemType = kv.Key.GetGenericArguments()[1];
                 try
                 {
                     SetTranslator(
-                        GetCaster(kv.Value, transItemType),
+                        GetCaster(kv.Value, transItemType, maskItemType),
                         transItemType);
                 }
                 catch (Exception ex)
@@ -44,8 +46,8 @@ namespace Loqui.Xml
                         transItemType,
                         () =>
                         {
-                            return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                        }).Item = GetResponse<IXmlTranslation<object>>.Fail(ex);
+                            return new NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>();
+                        }).Item = GetResponse<IXmlTranslation<object, object>>.Fail(ex);
                 }
             }
             elementNameTypeDict["Null"] = NullType;
@@ -78,11 +80,11 @@ namespace Loqui.Xml
             return ret && n != null;
         }
 
-        public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object>>> not)
+        public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object, object>>> not)
         {
             if (t == null)
             {
-                not = NullTranslation;
+                not = NullTranslationItem;
                 return true;
             }
             if (typeDict.TryGetValue(t, out var item))
@@ -98,9 +100,9 @@ namespace Loqui.Xml
                     LoquiRegistration.GetRegister(t).ErrorMaskType
                 };
                 var xmlConverterGenType = typeof(LoquiXmlTranslation<,>).MakeGenericType(loquiTypes);
-                var xmlCaster = GetCaster(xmlConverterGenType, t);
-                item = new NotifyingItem<GetResponse<IXmlTranslation<object>>>(
-                    GetResponse<IXmlTranslation<object>>.Succeed(xmlCaster));
+                var xmlCaster = GetCaster(xmlConverterGenType, t, LoquiRegistration.GetRegister(t).ErrorMaskType);
+                item = new NotifyingItem<GetResponse<IXmlTranslation<object, object>>>(
+                    GetResponse<IXmlTranslation<object, object>>.Succeed(xmlCaster));
                 typeDict[t] = item;
                 not = item;
                 return true;
@@ -109,21 +111,21 @@ namespace Loqui.Xml
             return false;
         }
 
-        public IXmlTranslation<object> GetCaster(Type xmlType, Type targetType)
+        public static IXmlTranslation<object, object> GetCaster(Type xmlType, Type targetType, Type maskType)
         {
             object xmlTransl = Activator.CreateInstance(xmlType);
-            var xmlConverterGenType = typeof(XmlTranslationCaster<>).MakeGenericType(targetType);
-            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object>;
+            var xmlConverterGenType = typeof(XmlTranslationCaster<,>).MakeGenericType(targetType, maskType);
+            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object, Object>;
         }
 
-        public void SetTranslator(IXmlTranslation<Object> transl, Type t)
+        public void SetTranslator(IXmlTranslation<Object, Object> transl, Type t)
         {
             var resp = typeDict.TryCreateValue(
                 t,
                 () =>
                 {
-                    return new NotifyingItem<GetResponse<IXmlTranslation<Object>>>();
-                }).Item = GetResponse<IXmlTranslation<object>>.Succeed(transl);
+                    return new NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>();
+                }).Item = GetResponse<IXmlTranslation<object, object>>.Succeed(transl);
             if (string.IsNullOrEmpty(transl.ElementName)) return;
             elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Item = t;
         }

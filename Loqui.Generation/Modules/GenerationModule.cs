@@ -13,6 +13,10 @@ namespace Loqui.Generation
         public abstract IEnumerable<string> Interfaces(ObjectGeneration obj);
         public abstract IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj);
         public abstract IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj);
+        public virtual void Load()
+        {
+
+        }
         public abstract void Modify(ObjectGeneration obj);
         public abstract void Modify(LoquiGenerator gen);
         public abstract void GenerateInClass(ObjectGeneration obj, FileGeneration fg);

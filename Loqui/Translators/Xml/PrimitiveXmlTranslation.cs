@@ -6,11 +6,11 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public abstract class PrimitiveXmlTranslation<T> : IXmlTranslation<T>, IXmlTranslation<T?>
+    public abstract class PrimitiveXmlTranslation<T> : IXmlTranslation<T, Exception>, IXmlTranslation<T?, Exception>
         where T : struct
     {
-        string IXmlTranslation<T?>.ElementName => NullableName;
-        string IXmlTranslation<T>.ElementName => ElementName;
+        string IXmlTranslation<T?, Exception>.ElementName => NullableName;
+        string IXmlTranslation<T, Exception>.ElementName => ElementName;
         public static readonly string RAW_NULLABLE_NAME = typeof(T?).GetName().Replace('?', 'N');
         public static readonly string RAW_ELEMENT_NAME = typeof(T).GetName().Replace("?", string.Empty);
         public virtual string NullableName => RAW_NULLABLE_NAME;
@@ -23,14 +23,9 @@ namespace Loqui.Xml
 
         protected abstract T ParseNonNullString(string str);
 
-        public TryGet<T?> Parse(XElement root, bool doMasks, out object maskObj)
+        public TryGet<T?> Parse(XElement root, bool doMasks, out Exception errorMask)
         {
-            return Parse_Internal(root, nullable: true, doMasks: doMasks, maskObj: out maskObj);
-        }
-
-        public TryGet<T?> Parse(XElement root, bool nullable)
-        {
-            return Parse_Internal(root, nullable: nullable, doMasks: false, maskObj: out var ex);
+            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
         }
 
         protected virtual T? ParseValue(XElement root)
@@ -43,84 +38,72 @@ namespace Loqui.Xml
             return ParseNonNullString(val.Value);
         }
         
-        private TryGet<T?> Parse_Internal(XElement root, bool nullable, bool doMasks, out object maskObj)
+        public TryGet<T?> Parse(XElement root, bool nullable, bool doMasks, out Exception errorMask)
         {
-            if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
+            try
             {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
+                if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
+                {
+                    throw new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
+                }
+                var parse = ParseValue(root);
+                if (!nullable && !parse.HasValue)
+                {
+                    throw new ArgumentException("Value was unexpectedly null.");
+                }
+                errorMask = null;
+                return TryGet<T?>.Succeed(parse);
+            }
+            catch (Exception ex)
+            {
                 if (doMasks)
                 {
-                    maskObj = ex;
+                    errorMask = ex;
                     return TryGet<T?>.Failure;
                 }
-                throw ex;
+                throw;
             }
-            var parse = ParseValue(root);
-            if (!nullable && !parse.HasValue)
-            {
-                var ex = new ArgumentException("Value was unexpectedly null.");
-                if (doMasks)
-                {
-                    maskObj = ex;
-                    return TryGet<T?>.Failure;
-                }
-                throw ex;
-            }
-            maskObj = null;
-            return TryGet<T?>.Succeed(parse);
         }
 
-        protected virtual bool WriteValue(XmlWriter writer, string name, T? item)
+        protected virtual void WriteValue(XmlWriter writer, string name, T? item)
         {
             writer.WriteAttributeString(
                 XmlConstants.VALUE_ATTRIBUTE,
                 item.HasValue ? GetItemStr(item.Value) : string.Empty);
-            return true;
         }
 
-        public bool Write(XmlWriter writer, string name, T? item)
+        TryGet<T> IXmlTranslation<T, Exception>.Parse(XElement root, bool doMasks, out Exception errorMask)
         {
-            using (new ElementWrapper(writer, NullableName))
-            {
-                if (name != null)
-                {
-                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                }
-
-                return WriteValue(writer, name, item);
-            }
-        }
-
-        public bool Write(XmlWriter writer, string name, T item)
-        {
-            using (new ElementWrapper(writer, ElementName))
-            {
-                if (name != null)
-                {
-                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                }
-
-                return WriteValue(writer, name, item);
-            }
-        }
-
-        TryGet<T> IXmlTranslation<T>.Parse(XElement root, bool doMasks, out object maskObj)
-        {
-            var parse = this.Parse_Internal(root, nullable: false, doMasks: doMasks, maskObj: out maskObj);
+            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
             if (parse.Failed) return parse.BubbleFailure<T>();
             return TryGet<T>.Succeed(parse.Value.Value);
         }
 
-        public void Write(XmlWriter writer, string name, T? item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, T? item, bool doMasks, out Exception errorMask)
         {
-            maskObj = null;
-            Write(writer, name, item);
+            try
+            {
+                using (new ElementWrapper(writer, NullableName))
+                {
+                    if (name != null)
+                    {
+                        writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
+                    }
+
+                    WriteValue(writer, name, item);
+                }
+                errorMask = null;
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                errorMask = ex;
+            }
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception maskObj)
         {
-            maskObj = null;
-            Write(writer, name, item);
+            Write(writer, name, (T?)item, doMasks, out maskObj);
         }
     }
 }

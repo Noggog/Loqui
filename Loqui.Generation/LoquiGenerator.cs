@@ -39,7 +39,7 @@ namespace Loqui.Generation
             if (typical)
             {
                 this.AddTypicalTypeAssociations();
-                this.Add(new XmlTranslationModule());
+                this.Add(new XmlTranslationModule(this));
                 this.Add(MaskModule);
                 this.AddSearchableFolder(this.CommonGenerationFolder);
             }

@@ -15,6 +15,8 @@ namespace Loqui.Generation
             FieldMapping[typeof(LoquiType)] = new LoquiMaskFieldGeneration();
             FieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
             FieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
+            FieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
+            FieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
         }
 
         public override void Generate(ObjectGeneration obj, FileGeneration fg)

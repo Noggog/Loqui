@@ -7,12 +7,14 @@ namespace Loqui.Generation
 {
     public class XmlTranslationModule : GenerationModule
     {
+        public LoquiGenerator Gen;
         public Dictionary<Type, XmlTranslationGeneration> TypeGenerations = new Dictionary<Type, XmlTranslationGeneration>();
 
         public override string RegionString => "XML Translation";
 
-        public XmlTranslationModule()
+        public XmlTranslationModule(LoquiGenerator gen)
         {
+            this.Gen = gen;
             this.TypeGenerations[typeof(LoquiType)] = new LoquiXmlTranslationGeneration();
             this.TypeGenerations[typeof(BoolNullType)] = new PrimitiveXmlTranslationGeneration<bool?>();
             this.TypeGenerations[typeof(BoolType)] = new PrimitiveXmlTranslationGeneration<bool>();
@@ -73,8 +75,17 @@ namespace Loqui.Generation
             this.TypeGenerations[typeof(UInt64Type)] = new PrimitiveXmlTranslationGeneration<ulong>();
             this.TypeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
-            this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration(this);
-            this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration(this);
+            this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
+            this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
+        }
+
+        public override void Load()
+        {
+            foreach (var gen in TypeGenerations.Values)
+            {
+                gen.XmlMod = this;
+                gen.MaskModule = this.Gen.MaskModule;
+            }
         }
 
         public override IEnumerable<string> RequiredUsingStatements()
@@ -395,16 +406,16 @@ namespace Loqui.Generation
                         {
                             if (generator.ShouldGenerateCopyIn(field.Field))
                             {
-                                fg.AppendLine("try");
                                 using (new BraceWrapper(fg))
                                 {
-                                    generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", "errorMask");
-                                }
-                                fg.AppendLine("catch (Exception ex)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine("if (!doMasks) throw;");
-                                    fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                    var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                                    fg.AppendLine($"{maskType} subMask;");
+                                    generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", $"subMask");
+                                    fg.AppendLine("if (subMask != null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
+                                    }
                                 }
                             }
                             fg.AppendLine("break;");
@@ -554,33 +565,15 @@ namespace Loqui.Generation
                             {
                                 fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
                             }
-                            using (new BraceWrapper(fg, doIt: field.Field.Notifying != NotifyingOption.None))
+                            using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine("try");
+                                var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                                fg.AppendLine($"{maskType} subMask;");
+                                generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", $"subMask", $"nameof(item.{field.Field.Name})");
+                                fg.AppendLine("if (subMask != null)");
                                 using (new BraceWrapper(fg))
                                 {
-                                    switch (field.Field.Notifying)
-                                    {
-                                        case NotifyingOption.None:
-                                            generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", "errorMask", $"nameof(item.{field.Field.Name})");
-                                            break;
-                                        case NotifyingOption.HasBeenSet:
-                                        case NotifyingOption.Notifying:
-                                            fg.AppendLine($"if (item.{field.Field.Property}.HasBeenSet)");
-                                            using (new BraceWrapper(fg))
-                                            {
-                                                generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", "errorMask", $"nameof(item.{field.Field.Name})");
-                                            }
-                                            break;
-                                        default:
-                                            throw new NotImplementedException();
-                                    }
-                                }
-                                fg.AppendLine("catch (Exception ex)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine("if (!doMasks) throw;");
-                                    fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
+                                    fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
                                 }
                             }
                         }

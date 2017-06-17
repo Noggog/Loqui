@@ -111,6 +111,7 @@
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
     <Compile Include="LoquiGenerator.cs" />
+    <Compile Include="Modules\Mask\Fields\UnsafeMaskFieldGeneration.cs" />
     <Compile Include="Modules\Xml\EnumXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\DictXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\ListXmlTranslationGeneration.cs" />

@@ -8,7 +8,6 @@ namespace Loqui.Generation
 {
     public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
     {
-        public override bool OutputsErrorMask => false;
         private string typeName;
         private bool? nullable;
         public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
@@ -34,6 +33,8 @@ namespace Loqui.Generation
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
                 args.Add(itemAccessor);
+                args.Add($"doMasks: doMasks");
+                args.Add($"errorMask: out {maskAccessor}");
             }
         }
 
@@ -47,6 +48,8 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
+                args.Add($"doMasks: doMasks");
+                args.Add($"errorMask: out {maskAccessor}");
             }
             fg.AppendLine("if (tryGet.Succeeded)");
             using (new BraceWrapper(fg))
@@ -66,6 +69,8 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
+                args.Add($"doMasks: doMasks");
+                args.Add($"errorMask: out {maskAccessor}");
             }
         }
     }

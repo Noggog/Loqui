@@ -9,11 +9,11 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public abstract class TypicalXmlTranslation_Test<T, S>
+    public abstract class TypicalXmlTranslation_Test<T, M, S>
         where S : new()
     {
         public abstract string ExpectedName { get; }
-        public abstract IXmlTranslation<T> GetTranslation();
+        public abstract IXmlTranslation<T, M> GetTranslation();
         public static readonly S Instance = new S();
         public abstract T TypicalValue { get; }
 
@@ -61,7 +61,7 @@ namespace Loqui.Tests.XML
                 () => transl.Parse(
                     elem,
                     doMasks: true,
-                    maskObj: out object maskObj));
+                    maskObj: out M maskObj));
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Loqui.Tests.XML
                 () => transl.Parse(
                     elem,
                     doMasks: false,
-                    maskObj: out object maskObj));
+                    maskObj: out M maskObj));
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace Loqui.Tests.XML
                 name: name,
                 item: GetDefault(),
                 doMasks: false,
-                maskObj: out object maskObj);
+                maskObj: out M maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
             var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));

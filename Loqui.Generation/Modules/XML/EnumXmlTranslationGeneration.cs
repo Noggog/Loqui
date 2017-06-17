@@ -8,8 +8,6 @@ namespace Loqui.Generation
 {
     public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
-        public override bool OutputsErrorMask => false;
-
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
@@ -25,18 +23,15 @@ namespace Loqui.Generation
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
                 args.Add($"{itemAccessor}");
+                args.Add($"doMasks: doMasks");
+                args.Add($"errorMask: out {maskAccessor}");
             }
         }
 
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
             var eType = typeGen as EnumType;
-            using (var args = new ArgsWrapper(fg,
-                $"var tryGet = EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
-            {
-                args.Add(nodeAccessor);
-                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
-            }
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var tryGet = ", maskAccessor);
             fg.AppendLine("if (tryGet.Succeeded)");
             using (new BraceWrapper(fg))
             {
@@ -52,6 +47,8 @@ namespace Loqui.Generation
             {
                 args.Add(nodeAccessor);
                 args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
+                args.Add($"doMasks: doMasks");
+                args.Add($"errorMask: out {maskAccessor}");
             }
         }
     }

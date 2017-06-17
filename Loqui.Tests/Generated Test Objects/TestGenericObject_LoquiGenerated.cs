@@ -227,45 +227,40 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "RefBase":
-                    try
                     {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        ObjectToRef_ErrorMask loquiMask;
                         TryGet<RBase> tryGet;
-                        ObjectToRef_ErrorMask suberrorMask;
                         if (typeName.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
-                                errorMask: out suberrorMask));
+                                errorMask: out loquiMask));
                         }
                         else
                         {
                             var register = LoquiRegistration.GetRegisterByFullName(typeName);
-                            var tmp = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (RBase)o);
-                            suberrorMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                            tryGet = tmp;
+                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
                             item._RefBase.Item = tryGet.Value;
                         }
-                        if (suberrorMask != null)
+                        if (subMask != null)
                         {
-                            errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
+                            errorMask().RefBase = subMask;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefBase, ex);
                     }
                     break;
                 case "Ref":
-                    try
                     {
+                        MaskItem<Exception, object> subMask;
                         if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
                         {
                             throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
@@ -278,20 +273,16 @@ namespace Loqui.Tests
                         var tryGet = transl.Item.Value.Parse(
                             root,
                             doMasks,
-                            out object suberrorMask);
-                        if (suberrorMask != null)
-                        {
-                            errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
-                        }
+                            out var unsafeMask);
                         if (tryGet.Succeeded)
                         {
                             item._Ref.Item = (R)tryGet.Value;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!doMasks) throw;
-                        errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
+                        subMask = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);
+                        if (subMask != null)
+                        {
+                            errorMask().Ref = subMask;
+                        }
                     }
                     break;
                 default:
@@ -1108,56 +1099,38 @@ namespace Loqui.Tests.Internals
                     }
                     if (item.RefBase_Property.HasBeenSet)
                     {
-                        try
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        ObjectToRefCommon.Write_XML(
+                            writer: writer,
+                            item: item.RefBase,
+                            name: nameof(item.RefBase),
+                            doMasks: doMasks,
+                            errorMask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        if (subMask != null)
                         {
-                            if (item.RefBase_Property.HasBeenSet)
-                            {
-                                ObjectToRefCommon.Write_XML(
-                                    writer: writer,
-                                    item: item.RefBase,
-                                    name: nameof(item.RefBase),
-                                    doMasks: doMasks,
-                                    errorMask: out ObjectToRef_ErrorMask suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.RefBase, new MaskItem<Exception, ObjectToRef_ErrorMask>(null, suberrorMask));
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (!doMasks) throw;
-                            errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefBase, ex);
+                            errorMask().RefBase = subMask;
                         }
                     }
                     if (item.Ref_Property.HasBeenSet)
                     {
-                        try
+                        MaskItem<Exception, object> subMask;
+                        var wildType = item.Ref == null ? null : item.Ref.GetType();
+                        var transl = XmlTranslator.GetTranslator(wildType);
+                        if (transl?.Item.Failed ?? true)
                         {
-                            if (item.Ref_Property.HasBeenSet)
-                            {
-                                var wildType = item.Ref == null ? null : item.Ref.GetType();
-                                var transl = XmlTranslator.GetTranslator(wildType);
-                                if (transl?.Item.Failed ?? true)
-                                {
-                                    throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                                }
-                                transl.Item.Value.Write(
-                                    writer,
-                                    nameof(item.Ref),
-                                    item.Ref,
-                                    doMasks,
-                                    out object suberrorMask);
-                                if (suberrorMask != null)
-                                {
-                                    errorMask().SetNthMask((ushort)TestGenericObject_FieldIndex.Ref, suberrorMask);
-                                }
-                            }
+                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
                         }
-                        catch (Exception ex)
+                        transl.Item.Value.Write(
+                            writer,
+                            nameof(item.Ref),
+                            item.Ref,
+                            doMasks,
+                            out object unsafeErrMask);
+                        subMask = (MaskItem<Exception, object>)unsafeErrMask;
+                        if (subMask != null)
                         {
-                            if (!doMasks) throw;
-                            errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
+                            errorMask().Ref = subMask;
                         }
                     }
                 }

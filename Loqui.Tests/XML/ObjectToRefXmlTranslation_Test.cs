@@ -10,14 +10,14 @@ using Xunit;
 
 namespace Loqui.Tests.XML
 {
-    public class ObjectToRefXmlTranslation_Test : TypicalXmlTranslation_Test<ObjectToRef, ObjectToRefXmlTranslation_Test>
+    public class ObjectToRefXmlTranslation_Test : TypicalXmlTranslation_Test<ObjectToRef, ObjectToRef_ErrorMask, ObjectToRefXmlTranslation_Test>
     {
         public static readonly ObjectToRef TYPICAL_VALUE = ObjectToRef.TYPICAL_VALUE;
         public override string ExpectedName => "Loqui.Tests.ObjectToRef";
 
         public override ObjectToRef TypicalValue => TYPICAL_VALUE;
 
-        public override IXmlTranslation<ObjectToRef> GetTranslation()
+        public override IXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask> GetTranslation()
         {
             return new LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>();
         }

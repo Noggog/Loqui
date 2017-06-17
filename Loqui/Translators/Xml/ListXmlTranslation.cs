@@ -13,9 +13,9 @@ using Noggog.Notifying;
 
 namespace Loqui.Xml
 {
-    public class ListXmlTranslation<T> : ContainerXmlTranslation<T>
+    public class ListXmlTranslation<T, M> : ContainerXmlTranslation<T, M>
     {
-        public static readonly ListXmlTranslation<T> Instance = new ListXmlTranslation<T>();
+        public static readonly ListXmlTranslation<T, M> Instance = new ListXmlTranslation<T, M>();
 
         public override string ElementName => "List";
 
@@ -24,7 +24,7 @@ namespace Loqui.Xml
             transl(item, out maskObj);
         }
 
-        public override TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T> transl, bool doMasks, out object maskObj)
+        public override TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T, M> transl, bool doMasks, out M maskObj)
         {
             return transl.Parse(root, doMasks, out maskObj);
         }

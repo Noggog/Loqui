@@ -8,7 +8,7 @@ namespace Loqui.Generation
 {
     public class UnsafeXmlTranslationGeneration : XmlTranslationGeneration
     {
-        public override bool OutputsErrorMask => true;
+        public string ErrMaskString = "object";
 
         public override void GenerateWrite(
             FileGeneration fg,
@@ -32,37 +32,14 @@ namespace Loqui.Generation
                 args.Add(nameAccessor);
                 args.Add($"{itemAccessor}");
                 args.Add($"doMasks");
-                args.Add($"out object sub{maskAccessor}");
+                args.Add($"out object unsafeErrMask");
             }
-            if (typeGen.Name != null)
-            {
-                fg.AppendLine($"if (sub{maskAccessor} != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, sub{maskAccessor});");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{maskAccessor} = sub{maskAccessor};");
-            }
+            fg.AppendLine($"{maskAccessor} = ({ErrMaskString})unsafeErrMask;");
         }
 
         public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
         {
             GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", maskAccessor);
-            if (typeGen.Name != null)
-            {
-                fg.AppendLine($"if (sub{maskAccessor} != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, sub{maskAccessor});");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{maskAccessor} = sub{maskAccessor};");
-            }
             fg.AppendLine($"if (tryGet.Succeeded)");
             using (new BraceWrapper(fg))
             {
@@ -89,7 +66,7 @@ namespace Loqui.Generation
             {
                 args.Add($"{nodeAccessor}");
                 args.Add($"doMasks");
-                args.Add($"out object sub{maskAccessor}");
+                args.Add($"out {maskAccessor}");
             }
         }
     }

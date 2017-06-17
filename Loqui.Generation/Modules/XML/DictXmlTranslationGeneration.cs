@@ -8,14 +8,6 @@ namespace Loqui.Generation
 {
     public class DictXmlTranslationGeneration : XmlTranslationGeneration
     { 
-        public override bool OutputsErrorMask => true;
-        private readonly XmlTranslationModule _mod;
-
-        public DictXmlTranslationGeneration(XmlTranslationModule mod)
-        {
-            this._mod = mod;
-        }
-
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
@@ -24,29 +16,35 @@ namespace Loqui.Generation
             string maskAccessor,
             string nameAccessor)
         {
+            fg.AppendLine($"throw new NotImplementedException();");
+            return; 
+
             var dictType = typeGen as DictType;
-            if (!_mod.TypeGenerations.TryGetValue(dictType.KeyTypeGen.GetType(), out var keyTransl))
+            if (!XmlMod.TypeGenerations.TryGetValue(dictType.KeyTypeGen.GetType(), out var keyTransl))
             {
                 throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
             }
 
             var valTypeGen = typeGen as DictType;
-            if (!_mod.TypeGenerations.TryGetValue(dictType.ValueTypeGen.GetType(), out var valTransl))
+            if (!XmlMod.TypeGenerations.TryGetValue(dictType.ValueTypeGen.GetType(), out var valTransl))
             {
                 throw new ArgumentException("Unsupported type generator: " + dictType.ValueTypeGen);
             }
 
+            var keyMask = this.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen);
+            var valMask = this.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
+
             using (var args = new ArgsWrapper(fg,
-                $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
+                $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keyMask}, {valMask}>.Instance.Write"))
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"items: {itemAccessor}");
                 args.Add($"doMasks: doMasks");
-                args.Add("maskList: out var errorMaskObj");
+                args.Add($"maskObj: out {maskAccessor}");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, out object subMask) =>");
+                    gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, out {keyMask} dictSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         keyTransl.GenerateWrite(
@@ -54,17 +52,13 @@ namespace Loqui.Generation
                             typeGen: dictType.KeyTypeGen,
                             writerAccessor: "writer",
                             itemAccessor: $"subItem",
-                            maskAccessor: $"subMask",
+                            maskAccessor: $"dictSubMask",
                             nameAccessor: "null");
-                        if (!keyTransl.OutputsErrorMask)
-                        {
-                            gen.AppendLine($"subMask = null;");
-                        }
                     }
                 });
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out object subMask) =>");
+                    gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {valMask} dictSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         valTransl.GenerateWrite(
@@ -72,20 +66,10 @@ namespace Loqui.Generation
                             typeGen: dictType.ValueTypeGen,
                             writerAccessor: "writer",
                             itemAccessor: $"subItem",
-                            maskAccessor: $"subMask",
+                            maskAccessor: $"dictSubMask",
                             nameAccessor: "null");
-                        if (!valTransl.OutputsErrorMask)
-                        {
-                            gen.AppendLine($"subMask = null;");
-                        }
                     }
                 });
-            }
-
-            fg.AppendLine($"if (errorMaskObj != null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{maskAccessor}().SetNthMask((ushort){typeGen.IndexEnumName}, errorMaskObj);");
             }
         }
 

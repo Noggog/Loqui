@@ -8,7 +8,7 @@ namespace Loqui.Generation
         public override string GetErrorMaskTypeStr(TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
-            return loqui.ErrorMaskItemString;
+            return $"MaskItem<Exception, {loqui.ErrorMaskItemString}>";
         }
 
         public static string GetObjectErrorMask(LoquiType loqui, string accessor)

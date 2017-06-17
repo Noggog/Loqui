@@ -10,11 +10,11 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public class NullXmlTranslation : IXmlTranslation<object>
+    public class NullXmlTranslation : IXmlTranslation<object, Exception>
     {
         public string ElementName => "Null";
 
-        public TryGet<object> Parse(XElement root, bool doMasks, out object maskObj)
+        public TryGet<object> Parse(XElement root, bool doMasks, out Exception maskObj)
         {
             if (!root.Name.LocalName.Equals(ElementName))
             {
@@ -30,7 +30,7 @@ namespace Loqui.Xml
             return TryGet<object>.Succeed(null);
         }
 
-        public void Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
+        public void Write(XmlWriter writer, string name, object item, bool doMasks, out Exception maskObj)
         {
             maskObj = null;
             using (new ElementWrapper(writer, ElementName))
