@@ -65,17 +65,17 @@ namespace Loqui.Tests.XML
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             transl.WriteSingleItem(
-                keyTransl: (ObjectToRef item, out ObjectToRef_ErrorMask subErrorMask) =>
+                keyTransl: (ObjectToRef item, bool doMasks, out ObjectToRef_ErrorMask subErrorMask) =>
                 {
-                    item.Write_XML(writer.Writer, out subErrorMask);
+                    ObjectToRefCommon.Write_XML(item: item, writer: writer.Writer, name: null, doMasks: doMasks, errorMask: out subErrorMask);
                 },
-                valTransl: (bool item, out Exception subErrorMask) =>
+                valTransl: (bool item, bool doMasks, out Exception subErrorMask) =>
                 {
                     BooleanXmlTranslation.Instance.Write(
                         writer.Writer,
                         null,
                         item,
-                        true, 
+                        doMasks, 
                         out subErrorMask);
                 },
                 writer: writer.Writer,
@@ -136,7 +136,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj.Overall);
         }
 
         [Fact]

@@ -75,7 +75,7 @@ namespace Loqui.Xml
                     maskList.Add(subMaskObj.Value);
                 }
             }
-            maskObj = new MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>(null, maskList);
+            maskObj = maskList == null ? null : new MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>(null, maskList);
             return ret;
         }
 
@@ -153,8 +153,8 @@ namespace Loqui.Xml
                 items: items,
                 doMasks: doMasks,
                 maskObj: out maskObj,
-                keyTransl: (K item1, out KMask obj) => keyTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj),
-                valTransl: (V item1, out VMask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj));
+                keyTransl: (K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj),
+                valTransl: (V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public void Write(
@@ -222,11 +222,11 @@ namespace Loqui.Xml
             {
                 using (new ElementWrapper(writer, "Key"))
                 {
-                    keyTransl(item.Key, out keymaskItem);
+                    keyTransl(item.Key, doMasks, out keymaskItem);
                 }
                 using (new ElementWrapper(writer, "Value"))
                 {
-                    valTransl(item.Value, out valmaskItem);
+                    valTransl(item.Value, doMasks, out valmaskItem);
                 }
             }
         }

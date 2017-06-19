@@ -4197,12 +4197,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (XElement r, out Exception listSubMask) =>
+                            transl: (XElement r, bool listDoMasks, out Exception listSubMask) =>
                             {
                                 return BooleanXmlTranslation.Instance.Parse(
                                     r,
                                     nullable: false,
-                                    doMasks: doMasks,
+                                    doMasks: listDoMasks,
                                     errorMask: out listSubMask).Bubble((o) => o.Value);
                             }
                             );
@@ -4223,7 +4223,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (XElement r, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
@@ -4231,7 +4231,7 @@ namespace Loqui.Tests
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
-                                        doMasks: doMasks,
+                                        doMasks: listDoMasks,
                                         errorMask: out loquiMask));
                                 }
                                 else
@@ -4239,7 +4239,7 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(typeName);
                                     tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
-                                        doMasks: doMasks,
+                                        doMasks: listDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
                                     loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                                 }

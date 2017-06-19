@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Loqui.Tests.Internals;
 using Xunit;
+using Noggog;
 
 namespace Loqui.Tests.XML
 {
@@ -73,15 +74,14 @@ namespace Loqui.Tests.XML
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             transl.WriteSingleItem(
-                transl: (ObjectToRef item, out object suberrorMask) =>
+                transl: (ObjectToRef item, bool doMasks, out ObjectToRef_ErrorMask errorMask) =>
                 {
                     ObjectToRefCommon.Write_XML(
                         writer: writer.Writer,
                         item: item,
                         name: null,
-                        doMasks: false,
-                        errorMask: out ObjectToRef_ErrorMask subsuberrorMask);
-                    suberrorMask = subsuberrorMask;
+                        doMasks: doMasks,
+                        errorMask: out errorMask);
                 },
                 writer: writer.Writer,
                 item: Item1,
@@ -89,7 +89,13 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             var readResp = transl.ParseSingleItem(
                 writer.Resolve(),
-                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance,
+                transl: (XElement root, bool doMasks, out ObjectToRef_ErrorMask errorMask) =>
+                {
+                    return TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
+                        root,
+                        doMasks: doMasks,
+                        errorMask: out errorMask));
+                },
                 doMasks: false,
                 maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
@@ -139,7 +145,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj.Overall);
         }
 
         [Fact]

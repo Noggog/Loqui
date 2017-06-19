@@ -4268,12 +4268,12 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (XElement r, out Exception listSubMask) =>
+                            transl: (XElement r, bool listDoMasks, out Exception listSubMask) =>
                             {
                                 return BooleanXmlTranslation.Instance.Parse(
                                     r,
                                     nullable: false,
-                                    doMasks: doMasks,
+                                    doMasks: listDoMasks,
                                     errorMask: out listSubMask).Bubble((o) => o.Value);
                             }
                             );
@@ -4294,7 +4294,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (XElement r, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
@@ -4302,7 +4302,7 @@ namespace Loqui.Tests
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
-                                        doMasks: doMasks,
+                                        doMasks: listDoMasks,
                                         errorMask: out loquiMask));
                                 }
                                 else
@@ -4310,7 +4310,7 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(typeName);
                                     tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
-                                        doMasks: doMasks,
+                                        doMasks: listDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
                                     loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                                 }
@@ -10083,7 +10083,7 @@ namespace Loqui.Tests.Internals
                             item: item.List,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (Boolean subItem, out Exception listSubMask) =>
+                            transl: (Boolean subItem, bool listDoMasks, out Exception listSubMask) =>
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
@@ -10107,7 +10107,7 @@ namespace Loqui.Tests.Internals
                             item: item.RefList,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            transl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
@@ -10132,23 +10132,23 @@ namespace Loqui.Tests.Internals
                             items: item.Dict,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            keyTransl: (String subItem, out Exception dictSubMask) =>
+                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
                             {
                                 StringXmlTranslation.Instance.Write(
                                     writer,
                                     null,
                                     subItem,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
                             }
                             ,
-                            valTransl: (Boolean subItem, out Exception dictSubMask) =>
+                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
                                     null,
                                     subItem,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
                             }
                             );
@@ -10166,24 +10166,24 @@ namespace Loqui.Tests.Internals
                             items: item.RefDict,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            keyTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
                                     name: null,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             ,
-                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
                                     name: null,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
@@ -10202,24 +10202,24 @@ namespace Loqui.Tests.Internals
                             items: item.KeyRefDict,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            keyTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
                                     name: null,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             ,
-                            valTransl: (Boolean subItem, out Exception dictSubMask) =>
+                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
                                     null,
                                     subItem,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
                             }
                             );
@@ -10237,23 +10237,23 @@ namespace Loqui.Tests.Internals
                             items: item.ValRefDict,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            keyTransl: (String subItem, out Exception dictSubMask) =>
+                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
                             {
                                 StringXmlTranslation.Instance.Write(
                                     writer,
                                     null,
                                     subItem,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
                             }
                             ,
-                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
                                     name: null,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
@@ -10272,13 +10272,13 @@ namespace Loqui.Tests.Internals
                             items: item.DictKeyedValue.Values,
                             doMasks: doMasks,
                             maskObj: out subMask,
-                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
                                     name: null,
-                                    doMasks: doMasks,
+                                    doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }

@@ -16,6 +16,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor);
 
@@ -26,6 +27,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor);
 
         public abstract void GenerateCopyInRet(
@@ -33,6 +35,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             string retAccessor,
+            string doMaskAccessor,
             string maskAccessor);
     }
 }

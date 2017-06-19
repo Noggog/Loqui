@@ -99,7 +99,7 @@ namespace Loqui.Xml
                 items: items,
                 doMasks: doMasks,
                 maskObj: out maskObj,
-                valTransl: (V item1, out Mask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj));
+                valTransl: (V item1, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public void Write(
@@ -154,7 +154,7 @@ namespace Loqui.Xml
             out Mask valmaskItem,
             XmlSubWriteDelegate<V, Mask> valTransl)
         {
-            valTransl(item, out valmaskItem);
+            valTransl(item, doMasks, out valmaskItem);
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
+    public delegate TryGet<T> XmlSubParseDelegate<T, M>(XElement root, bool doMasks, out M maskObj);
+    public delegate void XmlSubWriteDelegate<in T, M>(T item, bool doMasks, out M maskObj);
+
     public interface IXmlTranslation<T, M>
     {
         string ElementName { get; }

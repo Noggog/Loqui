@@ -24,6 +24,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor, 
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -33,12 +34,18 @@ namespace Loqui.Generation
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
                 args.Add(itemAccessor);
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"var tryGet = {this.typeName}XmlTranslation.Instance.Parse"))
@@ -48,7 +55,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
             fg.AppendLine("if (tryGet.Succeeded)");
@@ -58,7 +65,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string retAccessor,
+            string doMaskAccessor, 
+            string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{retAccessor}{this.typeName}XmlTranslation.Instance.Parse",
@@ -69,7 +82,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
         }

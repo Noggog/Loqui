@@ -55,13 +55,13 @@ namespace Loqui.Tests.XML
             var transl = GetTranslation();
             var writer = XmlUtility.GetWriteBundle();
             transl.WriteSingleItem(
-                transl: (bool item, out Exception subErrorMask) =>
+                transl: (bool item, bool internalDoMasks, out Exception subErrorMask) =>
                 {
                     BooleanXmlTranslation.Instance.Write(
                         writer.Writer,
                         null,
                         item,
-                        true,
+                        internalDoMasks,
                         out subErrorMask);
                 },
                 writer: writer.Writer,
@@ -70,11 +70,17 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             var readResp = transl.ParseSingleItem(
                 writer.Resolve(),
-                BooleanXmlTranslation.Instance,
+                transl: (XElement root, bool internalDoMasks, out Exception subErrorMask) =>
+                {
+                    return BooleanXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        internalDoMasks,
+                        out subErrorMask);
+                },
                 doMasks: false,
                 maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal(true, readResp.Value);
+            Assert.True(readResp.Value);
         }
         #endregion
 
@@ -120,7 +126,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType(typeof(ArgumentException), maskObj.Overall);
         }
 
         [Fact]

@@ -15,6 +15,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -31,15 +32,21 @@ namespace Loqui.Generation
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
                 args.Add($"{itemAccessor}");
-                args.Add($"doMasks");
+                args.Add($"{doMaskAccessor}");
                 args.Add($"out object unsafeErrMask");
             }
             fg.AppendLine($"{maskAccessor} = ({ErrMaskString})unsafeErrMask;");
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg, 
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", maskAccessor);
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", doMaskAccessor, maskAccessor);
             fg.AppendLine($"if (tryGet.Succeeded)");
             using (new BraceWrapper(fg))
             {
@@ -47,7 +54,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg, 
+            TypeGeneration typeGen, 
+            string nodeAccessor,
+            string retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             fg.AppendLine($"if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))");
@@ -65,7 +78,7 @@ namespace Loqui.Generation
                 $"{retAccessor}transl.Item.Value.Parse"))
             {
                 args.Add($"{nodeAccessor}");
-                args.Add($"doMasks");
+                args.Add($"{doMaskAccessor}");
                 args.Add($"out {maskAccessor}");
             }
         }

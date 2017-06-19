@@ -13,6 +13,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -39,11 +40,11 @@ namespace Loqui.Generation
                         args.Add($"writer: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
                         args.Add($"items: {itemAccessor}");
-                        args.Add($"doMasks: doMasks");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add($"maskObj: out {maskAccessor}");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, out {keyMask} dictSubMask) =>");
+                            gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, bool dictDoMask, out {keyMask} dictSubMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 keyTransl.GenerateWrite(
@@ -51,13 +52,14 @@ namespace Loqui.Generation
                                     typeGen: dictType.KeyTypeGen,
                                     writerAccessor: "writer",
                                     itemAccessor: $"subItem",
+                                    doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "null");
                             }
                         });
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {valMask} dictSubMask) =>");
+                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, bool dictDoMask, out {valMask} dictSubMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 valTransl.GenerateWrite(
@@ -65,6 +67,7 @@ namespace Loqui.Generation
                                     typeGen: dictType.ValueTypeGen,
                                     writerAccessor: "writer",
                                     itemAccessor: $"subItem",
+                                    doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "null");
                             }
@@ -80,11 +83,11 @@ namespace Loqui.Generation
                         args.Add($"writer: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
                         args.Add($"items: {itemAccessor}.Values");
-                        args.Add($"doMasks: doMasks");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add($"maskObj: out {maskAccessor}");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {mask} dictSubMask) =>");
+                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, bool dictDoMask, out {mask} dictSubMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 valTransl.GenerateWrite(
@@ -92,6 +95,7 @@ namespace Loqui.Generation
                                     typeGen: dictType.ValueTypeGen,
                                     writerAccessor: "writer",
                                     itemAccessor: $"subItem",
+                                    doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "null");
                             }
@@ -103,12 +107,24 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg, 
+            TypeGeneration typeGen,
+            string nodeAccessor, 
+            string itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             fg.AppendLine($"throw new NotImplementedException();");
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen, 
+            string nodeAccessor,
+            string retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             fg.AppendLine($"throw new NotImplementedException();");
         }

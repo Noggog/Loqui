@@ -21,12 +21,12 @@ namespace Loqui.Xml
 
         public override void WriteSingleItem<ErrMask>(XmlWriter writer, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj)
         {
-            transl(item, out maskObj);
+            transl(item, doMasks, out maskObj);
         }
 
-        public override TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T, M> transl, bool doMasks, out M maskObj)
+        public override TryGet<T> ParseSingleItem(XElement root, XmlSubParseDelegate<T, M> transl, bool doMasks, out M maskObj)
         {
-            return transl.Parse(root, doMasks, out maskObj);
+            return transl(root, doMasks, out maskObj);
         }
     }
 }

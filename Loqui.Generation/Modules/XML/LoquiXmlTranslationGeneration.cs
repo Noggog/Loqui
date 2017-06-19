@@ -13,6 +13,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -25,7 +26,7 @@ namespace Loqui.Generation
                     args.Add($"writer: {writerAccessor}");
                     args.Add($"item: {itemAccessor}");
                     args.Add($"name: {nameAccessor}");
-                    args.Add($"doMasks: doMasks");
+                    args.Add($"doMasks: {doMaskAccessor}");
                     args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} loquiMask");
                 }
                 fg.AppendLine($"{maskAccessor} = loquiMask == null ? null : new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>(null, loquiMask);");
@@ -41,6 +42,7 @@ namespace Loqui.Generation
                     typeGen: typeGen, 
                     writerAccessor: writerAccessor,
                     itemAccessor: itemAccessor,
+                    doMaskAccessor: doMaskAccessor,
                     maskAccessor: maskAccessor,
                     nameAccessor: nameAccessor);
             }
@@ -52,7 +54,13 @@ namespace Loqui.Generation
             return loquiGen.SingletonType != LoquiType.SingletonLevel.Singleton || loquiGen.InterfaceType != LoquiInterfaceType.IGetter;
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string itemAccessor,
+            string doMaskAccessor, 
+            string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.TargetObjectGeneration != null)
@@ -64,7 +72,7 @@ namespace Loqui.Generation
                         $"var tmp = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
                     {
                         args.Add($"root: {nodeAccessor}");
-                        args.Add($"doMasks: doMasks");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} createMask");
                     }
                     using (var args = new ArgsWrapper(fg,
@@ -75,7 +83,7 @@ namespace Loqui.Generation
                         args.Add("def: null");
                         args.Add("cmds: null");
                         args.Add("copyMask: null");
-                        args.Add("doErrorMask: doMasks");
+                        args.Add($"doErrorMask: {doMaskAccessor}");
                         args.Add($"errorMask: out {loquiGen.ErrorMaskItemString} copyMask");
                     }
                     fg.AppendLine($"var loquiMask = {loquiGen.ErrorMaskItemString}.Combine(createMask, copyMask);");
@@ -83,7 +91,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    GenerateCopyInRet(fg, typeGen, nodeAccessor, null, maskAccessor);
+                    GenerateCopyInRet(fg, typeGen, nodeAccessor, null, doMaskAccessor, maskAccessor);
                     fg.AppendLine("if (tryGet.Succeeded)");
                     using (new BraceWrapper(fg))
                     {
@@ -102,12 +110,19 @@ namespace Loqui.Generation
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
                     itemAccessor: itemAccessor,
+                    doMaskAccessor: doMaskAccessor,
                     maskAccessor: "var unsafeMask");
                 fg.AppendLine($"{maskAccessor} = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);");
             }
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg, 
+            TypeGeneration typeGen, 
+            string nodeAccessor,
+            string retAccessor,
+            string doMaskAccessor, 
+            string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.TargetObjectGeneration != null)
@@ -121,7 +136,7 @@ namespace Loqui.Generation
                         $"tryGet = TryGet<{typeGen.TypeName}>.Succeed(({typeGen.TypeName}){loquiGen.TargetObjectGeneration.Name}.Create_XML"))
                     {
                         args.Add($"root: {nodeAccessor}");
-                        args.Add($"doMasks: doMasks");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add($"errorMask: out loquiMask)");
                     }
                 }
@@ -134,7 +149,7 @@ namespace Loqui.Generation
                         $".Bubble((o) => ({typeGen.TypeName})o)"))
                     {
                         args.Add("root: root");
-                        args.Add("doMasks: doMasks");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add("maskObj: out var subErrorMaskObj");
                     }
                     fg.AppendLine($"loquiMask = ({loquiGen.TargetObjectGeneration.ErrorMask})subErrorMaskObj;");
@@ -156,6 +171,7 @@ namespace Loqui.Generation
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
                     retAccessor: retAccessor,
+                    doMaskAccessor: doMaskAccessor,
                     maskAccessor: maskAccessor);
             }
         }

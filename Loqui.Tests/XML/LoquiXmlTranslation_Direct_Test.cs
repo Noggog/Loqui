@@ -253,9 +253,9 @@ namespace Loqui.Tests.XML
             var ret = TestObject_HasBeenSet.Create_XML(
                 elem,
                 errorMask: out var maskObj);
-            Assert.Null(maskObj);
             var equalMask = TYPICAL_VALUE.GetEqualsMask(ret);
             var str = TYPICAL_VALUE.ToString(printMask: equalMask.Translate((b) => !b));
+            Assert.Null(maskObj);
             Assert.True(equalMask.AllEqual((b) => b));
         }
         #endregion

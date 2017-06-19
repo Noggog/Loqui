@@ -11,6 +11,7 @@ namespace Loqui.Tests.XML
 {
     public abstract class TypicalXmlTranslation_Test<T, M, S>
         where S : new()
+        where M : class
     {
         public abstract string ExpectedName { get; }
         public abstract IXmlTranslation<T, M> GetTranslation();
@@ -56,12 +57,12 @@ namespace Loqui.Tests.XML
         {
             var transl = GetTranslation();
             var elem = this.GetBadElement();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: true,
-                    maskObj: out M maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: true,
+                maskObj: out M maskObj);
+            Assert.False(ret.Succeeded);
+            Assert.NotNull(maskObj);
         }
 
         [Fact]

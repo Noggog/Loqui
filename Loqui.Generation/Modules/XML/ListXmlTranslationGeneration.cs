@@ -13,6 +13,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -29,11 +30,11 @@ namespace Loqui.Generation
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {itemAccessor}");
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"maskObj: out {maskAccessor}");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} subItem, out {subMaskStr} listSubMask) =>");
+                    gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} subItem, bool listDoMasks, out {subMaskStr} listSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
@@ -41,6 +42,7 @@ namespace Loqui.Generation
                             typeGen: list.SubTypeGeneration, 
                             writerAccessor: "writer", 
                             itemAccessor: $"subItem", 
+                            doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",
                             nameAccessor: "null");
                     }
@@ -48,9 +50,15 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg,
+            TypeGeneration typeGen, 
+            string nodeAccessor, 
+            string itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var listTryGet = ", maskAccessor);
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var listTryGet = ", doMaskAccessor, maskAccessor);
             fg.AppendLine($"if (listTryGet.Succeeded)");
             using (new BraceWrapper(fg))
             {
@@ -58,7 +66,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg, 
+            TypeGeneration typeGen,
+            string nodeAccessor, 
+            string retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TypeGenerations.TryGetValue(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -70,15 +84,15 @@ namespace Loqui.Generation
                 $"{retAccessor}ListXmlTranslation<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Parse"))
             {
                 args.Add($"root: root");
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"maskObj: out {maskAccessor}");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: (XElement r, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration)} listSubMask) =>");
+                    gen.AppendLine($"transl: (XElement r, bool listDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration)} listSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         var xmlGen = XmlMod.TypeGenerations[list.SubTypeGeneration.GetType()];
-                        xmlGen.GenerateCopyInRet(gen, list.SubTypeGeneration, "r", "return ", "listSubMask");
+                        xmlGen.GenerateCopyInRet(gen, list.SubTypeGeneration, "r", "return ", "listDoMasks", "listSubMask");
                     }
                 });
             }

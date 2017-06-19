@@ -13,6 +13,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             string itemAccessor,
+            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -23,15 +24,21 @@ namespace Loqui.Generation
                 args.Add(writerAccessor);
                 args.Add(nameAccessor);
                 args.Add($"{itemAccessor}");
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
         }
 
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string itemAccessor, string maskAccessor)
+        public override void GenerateCopyIn(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            string itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             var eType = typeGen as EnumType;
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var tryGet = ", maskAccessor);
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var tryGet = ", doMaskAccessor, maskAccessor);
             fg.AppendLine("if (tryGet.Succeeded)");
             using (new BraceWrapper(fg))
             {
@@ -39,7 +46,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen, 
+            string nodeAccessor,
+            string retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
@@ -47,7 +60,7 @@ namespace Loqui.Generation
             {
                 args.Add(nodeAccessor);
                 args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
-                args.Add($"doMasks: doMasks");
+                args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
         }

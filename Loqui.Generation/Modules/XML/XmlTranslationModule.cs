@@ -410,7 +410,13 @@ namespace Loqui.Generation
                                 {
                                     var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
                                     fg.AppendLine($"{maskType} subMask;");
-                                    generator.GenerateCopyIn(fg, field.Field, "root", $"item.{field.Field.ProtectedName}", $"subMask");
+                                    generator.GenerateCopyIn(
+                                        fg: fg,
+                                        typeGen: field.Field, 
+                                        nodeAccessor: "root",
+                                        itemAccessor: $"item.{field.Field.ProtectedName}",
+                                        doMaskAccessor: "doMasks",
+                                        maskAccessor: $"subMask");
                                     fg.AppendLine("if (subMask != null)");
                                     using (new BraceWrapper(fg))
                                     {
@@ -569,7 +575,14 @@ namespace Loqui.Generation
                             {
                                 var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
                                 fg.AppendLine($"{maskType} subMask;");
-                                generator.GenerateWrite(fg, field.Field, "writer", $"item.{field.Field.Name}", $"subMask", $"nameof(item.{field.Field.Name})");
+                                generator.GenerateWrite(
+                                    fg: fg,
+                                    typeGen: field.Field,
+                                    writerAccessor: "writer",
+                                    itemAccessor: $"item.{field.Field.Name}",
+                                    doMaskAccessor: "doMasks",
+                                    maskAccessor: $"subMask",
+                                    nameAccessor: $"nameof(item.{field.Field.Name})");
                                 fg.AppendLine("if (subMask != null)");
                                 using (new BraceWrapper(fg))
                                 {
@@ -713,7 +726,13 @@ namespace Loqui.Generation
                                         fg.AppendLine("try");
                                         using (new BraceWrapper(fg))
                                         {
-                                            generator.GenerateCopyIn(fg, field.Field, "elem", $"item.{field.Field.Name}", "errorMask");
+                                            generator.GenerateCopyIn(
+                                                fg: fg,
+                                                typeGen: field.Field,
+                                                nodeAccessor: "elem",
+                                                itemAccessor: $"item.{field.Field.Name}",
+                                                doMaskAccessor: "doMasks",
+                                                maskAccessor: "errorMask");
                                         }
                                         fg.AppendLine("catch (Exception ex)");
                                         using (new BraceWrapper(fg))

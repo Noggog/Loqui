@@ -28,6 +28,13 @@ namespace Loqui.Xml
             return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
         }
 
+        public TryGet<T> ParseNonNull(XElement root, bool doMasks, out Exception errorMask)
+        {
+            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
+            if (parse.Failed) return parse.BubbleFailure<T>();
+            return TryGet<T>.Succeed(parse.Value.Value);
+        }
+
         protected virtual T? ParseValue(XElement root)
         {
             if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
@@ -74,16 +81,20 @@ namespace Loqui.Xml
 
         TryGet<T> IXmlTranslation<T, Exception>.Parse(XElement root, bool doMasks, out Exception errorMask)
         {
-            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
-            if (parse.Failed) return parse.BubbleFailure<T>();
-            return TryGet<T>.Succeed(parse.Value.Value);
+            return ParseNonNull(root, doMasks, out errorMask);
         }
 
         public void Write(XmlWriter writer, string name, T? item, bool doMasks, out Exception errorMask)
         {
+            errorMask = Write_Internal(writer, name, item, doMasks, nullable: true);
+        }
+
+        private Exception Write_Internal(XmlWriter writer, string name, T? item, bool doMasks, bool nullable)
+        {
+            Exception errorMask;
             try
             {
-                using (new ElementWrapper(writer, NullableName))
+                using (new ElementWrapper(writer, nullable ? NullableName : ElementName))
                 {
                     if (name != null)
                     {
@@ -99,11 +110,13 @@ namespace Loqui.Xml
                 if (!doMasks) throw;
                 errorMask = ex;
             }
+
+            return errorMask;
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception maskObj)
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception errorMask)
         {
-            Write(writer, name, (T?)item, doMasks, out maskObj);
+            errorMask = Write_Internal(writer, name, (T?)item, doMasks, nullable: false);
         }
     }
 }

@@ -12,8 +12,6 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public delegate TryGet<T> XmlSubParseDelegate<T, M>(XElement root, out M maskObj);
-    public delegate void XmlSubWriteDelegate<in T, M>(T item, out M maskObj);
     public abstract class ContainerXmlTranslation<T, M> : IXmlTranslation<IEnumerable<T>, MaskItem<Exception, IEnumerable<M>>>
     {
         public abstract string ElementName { get; }
@@ -29,7 +27,7 @@ namespace Loqui.Xml
                 root,
                 doMasks,
                 out maskObj,
-                transl: (XElement r, out M obj) => transl.Item.Value.Parse(root: r, doMasks: doMasks, maskObj: out obj));
+                transl: (XElement r, bool internalDoMasks, out M obj) => transl.Item.Value.Parse(root: r, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public TryGet<IEnumerable<T>> Parse(
@@ -51,7 +49,7 @@ namespace Loqui.Xml
                 var ret = new List<T>();
                 foreach (var listElem in root.Elements())
                 {
-                    var get = transl(listElem, out var subMaskObj);
+                    var get = transl(listElem, doMasks, out var subMaskObj);
                     if (get.Succeeded)
                     {
                         ret.Add(get.Value);
@@ -69,7 +67,7 @@ namespace Loqui.Xml
                         maskList.Add(subMaskObj);
                     }
                 }
-                maskObj = new MaskItem<Exception, IEnumerable<M>>(null, maskList);
+                maskObj = maskList == null ? null : new MaskItem<Exception, IEnumerable<M>>(null, maskList);
                 return TryGet<IEnumerable<T>>.Succeed(ret);
             }
             catch (Exception ex)
@@ -80,7 +78,7 @@ namespace Loqui.Xml
             }
         }
 
-        public abstract TryGet<T> ParseSingleItem(XElement root, IXmlTranslation<T, M> transl, bool doMasks, out M maskObj);
+        public abstract TryGet<T> ParseSingleItem(XElement root, XmlSubParseDelegate<T, M> transl, bool doMasks, out M maskObj);
 
         public void Write(
             XmlWriter writer,
@@ -102,7 +100,7 @@ namespace Loqui.Xml
                     item: item,
                     doMasks: doMasks,
                     maskObj: out maskObj,
-                    transl: (T item1, out M obj) => transl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: doMasks, maskObj: out obj));
+                    transl: (T item1, bool internalDoMasks, out M obj) => transl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
             }
             catch (Exception ex)
             {
