@@ -11724,7 +11724,32 @@ namespace Loqui.Tests.Internals
                     if (item.Dict.HasBeenSet)
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
-                        throw new NotImplementedException();
+                        DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.Dict),
+                            items: item.Dict,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (String subItem, out Exception dictSubMask) =>
+                            {
+                                StringXmlTranslation.Instance.Write(
+                                    writer,
+                                    null,
+                                    subItem,
+                                    doMasks: doMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (Boolean subItem, out Exception dictSubMask) =>
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    null,
+                                    subItem,
+                                    doMasks: doMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            );
                         if (subMask != null)
                         {
                             errorMask().Dict = subMask;
@@ -11733,7 +11758,34 @@ namespace Loqui.Tests.Internals
                     if (item.RefDict.HasBeenSet)
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        throw new NotImplementedException();
+                        DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.RefDict),
+                            items: item.RefDict,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: null,
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            ,
+                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: null,
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
                         if (subMask != null)
                         {
                             errorMask().RefDict = subMask;
@@ -11742,7 +11794,33 @@ namespace Loqui.Tests.Internals
                     if (item.KeyRefDict.HasBeenSet)
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
-                        throw new NotImplementedException();
+                        DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.KeyRefDict),
+                            items: item.KeyRefDict,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: null,
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            ,
+                            valTransl: (Boolean subItem, out Exception dictSubMask) =>
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    null,
+                                    subItem,
+                                    doMasks: doMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            );
                         if (subMask != null)
                         {
                             errorMask().KeyRefDict = subMask;
@@ -11751,7 +11829,33 @@ namespace Loqui.Tests.Internals
                     if (item.ValRefDict.HasBeenSet)
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        throw new NotImplementedException();
+                        DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.ValRefDict),
+                            items: item.ValRefDict,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (String subItem, out Exception dictSubMask) =>
+                            {
+                                StringXmlTranslation.Instance.Write(
+                                    writer,
+                                    null,
+                                    subItem,
+                                    doMasks: doMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: null,
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
                         if (subMask != null)
                         {
                             errorMask().ValRefDict = subMask;
@@ -11760,7 +11864,23 @@ namespace Loqui.Tests.Internals
                     if (item.DictKeyedValue.HasBeenSet)
                     {
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        throw new NotImplementedException();
+                        KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.DictKeyedValue),
+                            items: item.DictKeyedValue.Values,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            valTransl: (ObjectToRef subItem, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: null,
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
                         if (subMask != null)
                         {
                             errorMask().DictKeyedValue = subMask;

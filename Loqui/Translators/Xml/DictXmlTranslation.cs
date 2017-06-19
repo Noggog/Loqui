@@ -123,7 +123,7 @@ namespace Loqui.Xml
             if (!valParse.Succeeded)
             {
                 maskObj = null;
-                return keyParse.BubbleFailure<KeyValuePair<K, V>>();
+                return valParse.BubbleFailure<KeyValuePair<K, V>>();
             }
 
             maskObj = null;

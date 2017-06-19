@@ -16,60 +16,90 @@ namespace Loqui.Generation
             string maskAccessor,
             string nameAccessor)
         {
-            fg.AppendLine($"throw new NotImplementedException();");
-            return; 
-
             var dictType = typeGen as DictType;
-            if (!XmlMod.TypeGenerations.TryGetValue(dictType.KeyTypeGen.GetType(), out var keyTransl))
-            {
-                throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
-            }
-
-            var valTypeGen = typeGen as DictType;
             if (!XmlMod.TypeGenerations.TryGetValue(dictType.ValueTypeGen.GetType(), out var valTransl))
             {
                 throw new ArgumentException("Unsupported type generator: " + dictType.ValueTypeGen);
             }
 
-            var keyMask = this.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen);
-            var valMask = this.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
-
-            using (var args = new ArgsWrapper(fg,
-                $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keyMask}, {valMask}>.Instance.Write"))
+            switch (dictType.Mode)
             {
-                args.Add($"writer: {writerAccessor}");
-                args.Add($"name: {nameAccessor}");
-                args.Add($"items: {itemAccessor}");
-                args.Add($"doMasks: doMasks");
-                args.Add($"maskObj: out {maskAccessor}");
-                args.Add((gen) =>
-                {
-                    gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, out {keyMask} dictSubMask) =>");
-                    using (new BraceWrapper(gen))
+                case DictMode.KeyValue:
+                    if (!XmlMod.TypeGenerations.TryGetValue(dictType.KeyTypeGen.GetType(), out var keyTransl))
                     {
-                        keyTransl.GenerateWrite(
-                            fg: gen,
-                            typeGen: dictType.KeyTypeGen,
-                            writerAccessor: "writer",
-                            itemAccessor: $"subItem",
-                            maskAccessor: $"dictSubMask",
-                            nameAccessor: "null");
+                        throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
                     }
-                });
-                args.Add((gen) =>
-                {
-                    gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {valMask} dictSubMask) =>");
-                    using (new BraceWrapper(gen))
+
+                    var keyMask = this.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen);
+                    var valMask = this.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
+
+                    using (var args = new ArgsWrapper(fg,
+                        $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keyMask}, {valMask}>.Instance.Write"))
                     {
-                        valTransl.GenerateWrite(
-                            fg: gen,
-                            typeGen: dictType.ValueTypeGen,
-                            writerAccessor: "writer",
-                            itemAccessor: $"subItem",
-                            maskAccessor: $"dictSubMask",
-                            nameAccessor: "null");
+                        args.Add($"writer: {writerAccessor}");
+                        args.Add($"name: {nameAccessor}");
+                        args.Add($"items: {itemAccessor}");
+                        args.Add($"doMasks: doMasks");
+                        args.Add($"maskObj: out {maskAccessor}");
+                        args.Add((gen) =>
+                        {
+                            gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, out {keyMask} dictSubMask) =>");
+                            using (new BraceWrapper(gen))
+                            {
+                                keyTransl.GenerateWrite(
+                                    fg: gen,
+                                    typeGen: dictType.KeyTypeGen,
+                                    writerAccessor: "writer",
+                                    itemAccessor: $"subItem",
+                                    maskAccessor: $"dictSubMask",
+                                    nameAccessor: "null");
+                            }
+                        });
+                        args.Add((gen) =>
+                        {
+                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {valMask} dictSubMask) =>");
+                            using (new BraceWrapper(gen))
+                            {
+                                valTransl.GenerateWrite(
+                                    fg: gen,
+                                    typeGen: dictType.ValueTypeGen,
+                                    writerAccessor: "writer",
+                                    itemAccessor: $"subItem",
+                                    maskAccessor: $"dictSubMask",
+                                    nameAccessor: "null");
+                            }
+                        });
                     }
-                });
+                    break;
+                case DictMode.KeyedValue:
+                    var mask = this.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
+
+                    using (var args = new ArgsWrapper(fg,
+                        $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {mask}>.Instance.Write"))
+                    {
+                        args.Add($"writer: {writerAccessor}");
+                        args.Add($"name: {nameAccessor}");
+                        args.Add($"items: {itemAccessor}.Values");
+                        args.Add($"doMasks: doMasks");
+                        args.Add($"maskObj: out {maskAccessor}");
+                        args.Add((gen) =>
+                        {
+                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, out {mask} dictSubMask) =>");
+                            using (new BraceWrapper(gen))
+                            {
+                                valTransl.GenerateWrite(
+                                    fg: gen,
+                                    typeGen: dictType.ValueTypeGen,
+                                    writerAccessor: "writer",
+                                    itemAccessor: $"subItem",
+                                    maskAccessor: $"dictSubMask",
+                                    nameAccessor: "null");
+                            }
+                        });
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
