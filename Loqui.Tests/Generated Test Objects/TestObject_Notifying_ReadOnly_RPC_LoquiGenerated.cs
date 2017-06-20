@@ -1579,27 +1579,27 @@ namespace Loqui.Tests
             if (Dict.HasBeenSet != rhs.Dict.HasBeenSet) return false;
             if (Dict.HasBeenSet)
             {
-                if (Dict.SequenceEqual(rhs.Dict)) return false;
+                if (!Dict.SequenceEqual(rhs.Dict)) return false;
             }
             if (RefDict.HasBeenSet != rhs.RefDict.HasBeenSet) return false;
             if (RefDict.HasBeenSet)
             {
-                if (RefDict.SequenceEqual(rhs.RefDict)) return false;
+                if (!RefDict.SequenceEqual(rhs.RefDict)) return false;
             }
             if (KeyRefDict.HasBeenSet != rhs.KeyRefDict.HasBeenSet) return false;
             if (KeyRefDict.HasBeenSet)
             {
-                if (KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
+                if (!KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
             }
             if (ValRefDict.HasBeenSet != rhs.ValRefDict.HasBeenSet) return false;
             if (ValRefDict.HasBeenSet)
             {
-                if (ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
+                if (!ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
             }
             if (DictKeyedValue.HasBeenSet != rhs.DictKeyedValue.HasBeenSet) return false;
             if (DictKeyedValue.HasBeenSet)
             {
-                if (DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
+                if (!DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
             }
             return true;
         }
@@ -3993,7 +3993,31 @@ namespace Loqui.Tests
                 case "Dict":
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
-                        throw new NotImplementedException();
+                        var dictTryGet = DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                            {
+                                return StringXmlTranslation.Instance.Parse(
+                                    r,
+                                    doMasks: dictDoMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                            {
+                                return BooleanXmlTranslation.Instance.Parse(
+                                    r,
+                                    nullable: false,
+                                    doMasks: dictDoMasks,
+                                    errorMask: out dictSubMask).Bubble((o) => o.Value);
+                            }
+                            );
+                        if (dictTryGet.Succeeded)
+                        {
+                            item._Dict.SetTo(dictTryGet.Value, cmds: null);
+                        }
                         if (subMask != null)
                         {
                             errorMask().Dict = subMask;
@@ -4003,7 +4027,76 @@ namespace Loqui.Tests
                 case "RefDict":
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        throw new NotImplementedException();
+                        var dictTryGet = DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<ObjectToRef> tryGet;
+                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: dictDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            null);
+                                        return TryGet<ObjectToRef>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: dictDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            ,
+                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<ObjectToRef> tryGet;
+                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: dictDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            null);
+                                        return TryGet<ObjectToRef>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: dictDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            );
+                        if (dictTryGet.Succeeded)
+                        {
+                            item._RefDict.SetTo(dictTryGet.Value, cmds: null);
+                        }
                         if (subMask != null)
                         {
                             errorMask().RefDict = subMask;
@@ -4013,7 +4106,54 @@ namespace Loqui.Tests
                 case "KeyRefDict":
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
-                        throw new NotImplementedException();
+                        var dictTryGet = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<ObjectToRef> tryGet;
+                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: dictDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            null);
+                                        return TryGet<ObjectToRef>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: dictDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            ,
+                            valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                            {
+                                return BooleanXmlTranslation.Instance.Parse(
+                                    r,
+                                    nullable: false,
+                                    doMasks: dictDoMasks,
+                                    errorMask: out dictSubMask).Bubble((o) => o.Value);
+                            }
+                            );
+                        if (dictTryGet.Succeeded)
+                        {
+                            item._KeyRefDict.SetTo(dictTryGet.Value, cmds: null);
+                        }
                         if (subMask != null)
                         {
                             errorMask().KeyRefDict = subMask;
@@ -4023,7 +4163,53 @@ namespace Loqui.Tests
                 case "ValRefDict":
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        throw new NotImplementedException();
+                        var dictTryGet = DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                            {
+                                return StringXmlTranslation.Instance.Parse(
+                                    r,
+                                    doMasks: dictDoMasks,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<ObjectToRef> tryGet;
+                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: dictDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            null);
+                                        return TryGet<ObjectToRef>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: dictDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            );
+                        if (dictTryGet.Succeeded)
+                        {
+                            item._ValRefDict.SetTo(dictTryGet.Value, cmds: null);
+                        }
                         if (subMask != null)
                         {
                             errorMask().ValRefDict = subMask;
@@ -4033,7 +4219,45 @@ namespace Loqui.Tests
                 case "DictKeyedValue":
                     {
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        throw new NotImplementedException();
+                        var dictTryGet = KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<ObjectToRef> tryGet;
+                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: dictDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            null);
+                                        return TryGet<ObjectToRef>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: dictDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            );
+                        if (dictTryGet.Succeeded)
+                        {
+                            item._DictKeyedValue.SetTo(dictTryGet.Value, cmds: null);
+                        }
                         if (subMask != null)
                         {
                             errorMask().DictKeyedValue = subMask;

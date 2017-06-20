@@ -1,5 +1,6 @@
 ﻿using Loqui.Tests.Internals;
 using Loqui.Xml;
+using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,8 +86,17 @@ namespace Loqui.Tests.XML
                 valmaskItem: out var valMaskObj);
             var readResp = transl.ParseSingleItem(
                 writer.Resolve(),
-                keyTranl: LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance,
-                valTranl: BooleanXmlTranslation.Instance,
+                keyTransl: (XElement root, bool doMasks, out ObjectToRef_ErrorMask subErrorMask) =>
+                {
+                    return TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(root, doMasks, out subErrorMask));
+                },
+                valTransl: (XElement root, bool doMasks, out Exception subErrorMask) =>
+                {
+                    return BooleanXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        doMasks,
+                        out subErrorMask);
+                },
                 doMasks: false,
                 maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);

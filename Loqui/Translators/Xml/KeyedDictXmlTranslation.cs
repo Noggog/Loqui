@@ -25,11 +25,11 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
             }
-            return Parse(valTransl.Item.Value, root, doMasks, out maskObj);
+            return Parse(root, doMasks, out maskObj);
         }
 
         public TryGet<IEnumerable<V>> Parse(
-            IXmlTranslation<V, Mask> valTranl,
+            XmlSubParseDelegate<V, Mask> valTransl,
             XElement root,
             bool doMasks,
             out MaskItem<Exception, IEnumerable<Mask>> maskObj)
@@ -41,11 +41,11 @@ namespace Loqui.Xml
                 maskObj = new MaskItem<Exception, IEnumerable<Mask>>(ex, null);
                 return TryGet<IEnumerable<V>>.Failure;
             }
-            return TryGet<IEnumerable<V>>.Succeed(Parse_Internal(valTranl, root, doMasks, out maskObj));
+            return TryGet<IEnumerable<V>>.Succeed(Parse_Internal(valTransl, root, doMasks, out maskObj));
         }
 
         private IEnumerable<V> Parse_Internal(
-            IXmlTranslation<V, Mask> transl,
+            XmlSubParseDelegate<V, Mask> valTranl,
             XElement root,
             bool doMasks,
             out MaskItem<Exception, IEnumerable<Mask>> maskObj)
@@ -54,7 +54,7 @@ namespace Loqui.Xml
             var ret = new List<V>();
             foreach (var listElem in root.Elements())
             {
-                var get = ParseSingleItem(listElem, transl, doMasks, out var subMaskObj);
+                var get = ParseSingleItem(listElem, valTranl, doMasks, out var subMaskObj);
                 if (get.Succeeded)
                 {
                     ret.Add(get.Value);
@@ -74,11 +74,11 @@ namespace Loqui.Xml
 
         public virtual TryGet<V> ParseSingleItem(
             XElement root,
-            IXmlTranslation<V, Mask> valTranl,
+            XmlSubParseDelegate<V, Mask> valTranl,
             bool doMasks,
             out Mask maskObj)
         {
-            return valTranl.Parse(root, doMasks, out maskObj);
+            return valTranl(root, doMasks, out maskObj);
         }
 
         public void Write(

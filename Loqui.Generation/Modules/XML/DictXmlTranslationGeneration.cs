@@ -115,7 +115,12 @@ namespace Loqui.Generation
             string doMaskAccessor,
             string maskAccessor)
         {
-            fg.AppendLine($"throw new NotImplementedException();");
+            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var dictTryGet = ", doMaskAccessor, maskAccessor);
+            fg.AppendLine($"if (dictTryGet.Succeeded)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{itemAccessor}.SetTo(dictTryGet.Value, cmds: null);");
+            }
         }
 
         public override void GenerateCopyInRet(
@@ -126,7 +131,59 @@ namespace Loqui.Generation
             string doMaskAccessor,
             string maskAccessor)
         {
-            fg.AppendLine($"throw new NotImplementedException();");
+            var dictType = typeGen as IDictType;
+            if (!XmlMod.TypeGenerations.TryGetValue(dictType.KeyTypeGen.GetType(), out var keySubTransl))
+            {
+                throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
+            }
+            var keySubMaskStr = keySubTransl.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen);
+
+            if (!XmlMod.TypeGenerations.TryGetValue(dictType.ValueTypeGen.GetType(), out var valSubTransl))
+            {
+                throw new ArgumentException("Unsupported type generator: " + dictType.ValueTypeGen);
+            }
+            var valSubMaskStr = valSubTransl.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
+
+            string funcStr;
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    funcStr = $"{retAccessor}DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keySubMaskStr}, {valSubMaskStr}>.Instance.Parse";
+                    break;
+                case DictMode.KeyedValue:
+                    funcStr = $"{retAccessor}KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {valSubMaskStr}>.Instance.Parse";
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            using (var args = new ArgsWrapper(fg, funcStr))
+            {
+                args.Add($"root: root");
+                args.Add($"doMasks: {doMaskAccessor}");
+                args.Add($"maskObj: out {maskAccessor}");
+                if (dictType.Mode != DictMode.KeyedValue)
+                {
+                    args.Add((gen) =>
+                    {
+                        gen.AppendLine($"keyTransl: (XElement r, bool dictDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen)} dictSubMask) =>");
+                        using (new BraceWrapper(gen))
+                        {
+                            var xmlGen = XmlMod.TypeGenerations[dictType.KeyTypeGen.GetType()];
+                            xmlGen.GenerateCopyInRet(gen, dictType.KeyTypeGen, "r", "return ", "dictDoMasks", "dictSubMask");
+                        }
+                    });
+                }
+                args.Add((gen) =>
+                {
+                    gen.AppendLine($"valTransl: (XElement r, bool dictDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen)} dictSubMask) =>");
+                    using (new BraceWrapper(gen))
+                    {
+                        var xmlGen = XmlMod.TypeGenerations[dictType.ValueTypeGen.GetType()];
+                        xmlGen.GenerateCopyInRet(gen, dictType.ValueTypeGen, "r", "return ", "dictDoMasks", "dictSubMask");
+                    }
+                });
+            }
         }
     }
 }

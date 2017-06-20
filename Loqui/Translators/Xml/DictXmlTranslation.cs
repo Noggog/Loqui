@@ -30,12 +30,17 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
             }
-            return Parse(keyTransl.Item.Value, valTransl.Item.Value, root, doMasks, out maskObj);
+            return Parse(
+                keyTransl: (XElement r, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Parse(root: r, doMasks: internalDoMasks, maskObj: out obj),
+                valTransl: (XElement r, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Parse(root: r, doMasks: internalDoMasks, maskObj: out obj),
+                root: root,
+                doMasks: doMasks,
+                maskObj: out maskObj);
         }
 
         public TryGet<IEnumerable<KeyValuePair<K, V>>> Parse(
-            IXmlTranslation<K, KMask> keyTranl,
-            IXmlTranslation<V, VMask> valTranl,
+            XmlSubParseDelegate<K, KMask> keyTransl,
+            XmlSubParseDelegate<V, VMask> valTransl,
             XElement root,
             bool doMasks,
             out MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>> maskObj)
@@ -47,12 +52,12 @@ namespace Loqui.Xml
                 maskObj = new MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>(ex, null);
                 return TryGet<IEnumerable<KeyValuePair<K, V>>>.Failure;
             }
-            return TryGet<IEnumerable<KeyValuePair<K, V>>>.Succeed(Parse_Internal(keyTranl, valTranl, root, doMasks, out maskObj));
+            return TryGet<IEnumerable<KeyValuePair<K, V>>>.Succeed(Parse_Internal(keyTransl, valTransl, root, doMasks, out maskObj));
         }
 
         private IEnumerable<KeyValuePair<K, V>> Parse_Internal(
-            IXmlTranslation<K, KMask> keyTransl,
-            IXmlTranslation<V, VMask> valTransl,
+            XmlSubParseDelegate<K, KMask> keyTransl,
+            XmlSubParseDelegate<V, VMask> valTransl,
             XElement root,
             bool doMasks,
             out MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>> maskObj)
@@ -81,8 +86,8 @@ namespace Loqui.Xml
 
         public virtual TryGet<KeyValuePair<K, V>> ParseSingleItem(
             XElement root,
-            IXmlTranslation<K, KMask> keyTranl,
-            IXmlTranslation<V, VMask> valTranl,
+            XmlSubParseDelegate<K, KMask> keyTransl,
+            XmlSubParseDelegate<V, VMask> valTransl,
             bool doMasks,
             out KeyValuePair<KMask, VMask>? maskObj)
         {
@@ -99,7 +104,7 @@ namespace Loqui.Xml
                 return TryGet<KeyValuePair<K, V>>.Failure;
             }
 
-            var keyParse = keyTranl.Parse(keyElem.Elements().First(), doMasks, out var keyMaskObj);
+            var keyParse = keyTransl(keyElem.Elements().First(), doMasks, out var keyMaskObj);
             if (!keyParse.Succeeded)
             {
                 maskObj = null;
@@ -119,7 +124,7 @@ namespace Loqui.Xml
                 return TryGet<KeyValuePair<K, V>>.Failure;
             }
 
-            var valParse = valTranl.Parse(valElem.Elements().First(), doMasks, out var valMaskObj);
+            var valParse = valTransl(valElem.Elements().First(), doMasks, out var valMaskObj);
             if (!valParse.Succeeded)
             {
                 maskObj = null;
