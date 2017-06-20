@@ -184,7 +184,6 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
-                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -201,7 +200,6 @@ namespace Loqui.Tests
             TestObject_Notifying_SubClass item,
             XElement root,
             string name,
-            string typeName,
             bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
         {
@@ -230,7 +228,6 @@ namespace Loqui.Tests
                         item: item,
                         root: root,
                         name: name,
-                        typeName: typeName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                     break;

@@ -203,7 +203,6 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
-                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -220,7 +219,6 @@ namespace Loqui.Tests
             TestGenericObject<T, RBase, R> item,
             XElement root,
             string name,
-            string typeName,
             bool doMasks,
             Func<TestGenericObject_ErrorMask> errorMask)
         {
@@ -231,7 +229,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<RBase> tryGet;
-                        if (typeName.Equals("Loqui.Tests.ObjectToRef"))
+                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
                                 root: root,
@@ -240,7 +238,14 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeName);
+                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            if (register == null)
+                            {
+                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    null);
+                                break;
+                            }
                             tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,

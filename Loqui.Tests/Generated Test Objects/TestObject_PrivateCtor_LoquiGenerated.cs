@@ -172,7 +172,6 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
-                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -189,7 +188,6 @@ namespace Loqui.Tests
             TestObject_PrivateCtor item,
             XElement root,
             string name,
-            string typeName,
             bool doMasks,
             Func<TestObject_PrivateCtor_ErrorMask> errorMask)
         {

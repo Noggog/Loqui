@@ -207,7 +207,6 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: name.Value,
-                        typeName: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -224,7 +223,6 @@ namespace Loqui.Tests
             ObjectToRef item,
             XElement root,
             string name,
-            string typeName,
             bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask)
         {

@@ -43,7 +43,7 @@ namespace Loqui.Tests.XML
             var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
             foreach (var item in GetTypicalContents())
             {
-                var itemElem = new XElement("ObjectToRef");
+                var itemElem = new XElement("Loqui.Tests.ObjectToRef");
                 itemElem.SetAttributeValue("name", "RefList");
                 var keyField = new XElement("Int32");
                 keyField.SetAttributeValue("name", "KeyField");

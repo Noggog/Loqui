@@ -38,8 +38,8 @@ namespace Loqui.Generation
                     ErrMaskString = $"MaskItem<Exception, {loquiGen.ErrorMaskItemString}>"
                 };
                 unsafeXml.GenerateWrite(
-                    fg: fg, 
-                    typeGen: typeGen, 
+                    fg: fg,
+                    typeGen: typeGen,
                     writerAccessor: writerAccessor,
                     itemAccessor: itemAccessor,
                     doMaskAccessor: doMaskAccessor,
@@ -59,7 +59,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             string itemAccessor,
-            string doMaskAccessor, 
+            string doMaskAccessor,
             string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
@@ -117,11 +117,11 @@ namespace Loqui.Generation
         }
 
         public override void GenerateCopyInRet(
-            FileGeneration fg, 
-            TypeGeneration typeGen, 
+            FileGeneration fg,
+            TypeGeneration typeGen,
             string nodeAccessor,
             string retAccessor,
-            string doMaskAccessor, 
+            string doMaskAccessor,
             string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
@@ -129,7 +129,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{loquiGen.TargetObjectGeneration.ErrorMask} loquiMask;");
                 fg.AppendLine($"TryGet<{typeGen.TypeName}> tryGet;");
-                fg.AppendLine($"if (typeName.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
+                fg.AppendLine($"if ({nodeAccessor}.Name.LocalName.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
@@ -143,7 +143,25 @@ namespace Loqui.Generation
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName(typeName);");
+                    fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName({nodeAccessor}.Name.LocalName);");
+                    fg.AppendLine("if (register == null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{maskAccessor} = new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>"))
+                        {
+                            args.Add($"new ArgumentException($\"Unknown Loqui type: {{{nodeAccessor}.Name.LocalName}}\")");
+                            args.Add("null");
+                        }
+                        if (retAccessor != null)
+                        {
+                            fg.AppendLine($"{retAccessor}TryGet<{loquiGen.ObjectTypeName}>.Fail(null);");
+                        }
+                        else
+                        {
+                            fg.AppendLine("break;");
+                        }
+                    }
                     using (var args = new ArgsWrapper(fg,
                         $"tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse",
                         $".Bubble((o) => ({typeGen.TypeName})o)"))
