@@ -1156,7 +1156,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestGenericObject_Mask<T> : IMask<T>
+    public class TestGenericObject_Mask<T> : IMask<T>, IEquatable<TestGenericObject_Mask<T>>
     {
         #region Ctors
         public TestGenericObject_Mask()
@@ -1173,6 +1173,21 @@ namespace Loqui.Tests.Internals
         #region Members
         public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }
+        #endregion
+
+        #region Equals
+        public override bool Equals(object rhs)
+        {
+            if (rhs == null) return false;
+            return Equals((TestGenericObject_Mask<T>)rhs);
+        }
+
+        public bool Equals(TestGenericObject_Mask<T> rhs)
+        {
+            if (!object.Equals(this.RefBase, rhs.RefBase)) return false;
+            if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            return true;
+        }
         #endregion
 
         #region All Equal

@@ -916,7 +916,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_Notifying_SubClass_Mask<T> : TestObject_Notifying_Mask<T>, IMask<T>
+    public class TestObject_Notifying_SubClass_Mask<T> : TestObject_Notifying_Mask<T>, IMask<T>, IEquatable<TestObject_Notifying_SubClass_Mask<T>>
     {
         #region Ctors
         public TestObject_Notifying_SubClass_Mask()
@@ -931,6 +931,20 @@ namespace Loqui.Tests.Internals
 
         #region Members
         public T NewField;
+        #endregion
+
+        #region Equals
+        public override bool Equals(object rhs)
+        {
+            if (rhs == null) return false;
+            return Equals((TestObject_Notifying_SubClass_Mask<T>)rhs);
+        }
+
+        public bool Equals(TestObject_Notifying_SubClass_Mask<T> rhs)
+        {
+            if (!object.Equals(this.NewField, rhs.NewField)) return false;
+            return true;
+        }
         #endregion
 
         #region All Equal

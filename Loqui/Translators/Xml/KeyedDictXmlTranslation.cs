@@ -25,7 +25,11 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
             }
-            return Parse(root, doMasks, out maskObj);
+            return Parse(
+                root: root,
+                doMasks: doMasks,
+                maskObj: out maskObj,
+                valTransl: (XElement r, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Parse(root: r, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public TryGet<IEnumerable<V>> Parse(
@@ -68,17 +72,17 @@ namespace Loqui.Xml
                     maskList.Add(subMaskObj);
                 }
             }
-            maskObj = new MaskItem<Exception, IEnumerable<Mask>>(null, maskList);
+            maskObj = maskList == null ? null : new MaskItem<Exception, IEnumerable<Mask>>(null, maskList);
             return ret;
         }
 
         public virtual TryGet<V> ParseSingleItem(
             XElement root,
-            XmlSubParseDelegate<V, Mask> valTranl,
+            XmlSubParseDelegate<V, Mask> valTransl,
             bool doMasks,
             out Mask maskObj)
         {
-            return valTranl(root, doMasks, out maskObj);
+            return valTransl(root, doMasks, out maskObj);
         }
 
         public void Write(

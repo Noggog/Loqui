@@ -887,7 +887,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_PrivateCtor_Mask<T> : IMask<T>
+    public class TestObject_PrivateCtor_Mask<T> : IMask<T>, IEquatable<TestObject_PrivateCtor_Mask<T>>
     {
         #region Ctors
         public TestObject_PrivateCtor_Mask()
@@ -902,6 +902,20 @@ namespace Loqui.Tests.Internals
 
         #region Members
         public T BoolN;
+        #endregion
+
+        #region Equals
+        public override bool Equals(object rhs)
+        {
+            if (rhs == null) return false;
+            return Equals((TestObject_PrivateCtor_Mask<T>)rhs);
+        }
+
+        public bool Equals(TestObject_PrivateCtor_Mask<T> rhs)
+        {
+            if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
+            return true;
+        }
         #endregion
 
         #region All Equal

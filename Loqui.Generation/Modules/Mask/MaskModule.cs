@@ -26,7 +26,7 @@ namespace Loqui.Generation
                 item.Module = this;
             }
 
-            fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>");
+            fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>, IEquatable<{obj.Name}_Mask<T>>");
             using (new BraceWrapper(fg))
             {
                 using (new RegionWrapper(fg, "Ctors"))
@@ -52,6 +52,27 @@ namespace Loqui.Generation
                     foreach (var field in obj.Fields)
                     {
                         GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Equals"))
+                {
+                    fg.AppendLine("public override bool Equals(object rhs)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (rhs == null) return false;");
+                        fg.AppendLine($"return Equals(({obj.Name}_Mask<T>)rhs);");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public bool Equals({obj.Name}_Mask<T> rhs)");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.Fields)
+                        {
+                            GetMaskModule(field.GetType()).GenerateForEqual(fg, field, $"rhs.{field.Name}");
+                        }
+                        fg.AppendLine("return true;");
                     }
                 }
 

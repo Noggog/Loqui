@@ -1030,7 +1030,7 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class ObjectToRef_Mask<T> : IMask<T>
+    public class ObjectToRef_Mask<T> : IMask<T>, IEquatable<ObjectToRef_Mask<T>>
     {
         #region Ctors
         public ObjectToRef_Mask()
@@ -1047,6 +1047,21 @@ namespace Loqui.Tests.Internals
         #region Members
         public T KeyField;
         public T SomeField;
+        #endregion
+
+        #region Equals
+        public override bool Equals(object rhs)
+        {
+            if (rhs == null) return false;
+            return Equals((ObjectToRef_Mask<T>)rhs);
+        }
+
+        public bool Equals(ObjectToRef_Mask<T> rhs)
+        {
+            if (!object.Equals(this.KeyField, rhs.KeyField)) return false;
+            if (!object.Equals(this.SomeField, rhs.SomeField)) return false;
+            return true;
+        }
         #endregion
 
         #region All Equal

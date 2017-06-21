@@ -17,7 +17,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 98;
+        public static int NUM_FIELDS = 99;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -121,6 +121,7 @@ namespace Loqui.Tests.XML
             TYPICAL_VALUE.KeyRefDict.Add(RefKeyDictXmlTranslation_Tests.Instance.GetTypicalContents());
             TYPICAL_VALUE.ValRefDict.Add(RefValDictXmlTranslation_Tests.Instance.GetTypicalContents());
             TYPICAL_VALUE.RefDict.Add(RefDictXmlTranslation_Tests.Instance.GetTypicalContents());
+            TYPICAL_VALUE.DictKeyedValue.Set(KeyedDictXmlTranslation_Tests.Instance.GetTypicalContents());
         }
 
         public string ExpectedName => "Loqui.Tests.TestObject_HasBeenSet";
@@ -228,6 +229,7 @@ namespace Loqui.Tests.XML
             elem.Add(RefKeyDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.KeyRefDict)));
             elem.Add(RefValDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ValRefDict)));
             elem.Add(RefDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefDict)));
+            elem.Add(KeyedDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DictKeyedValue)));
             return elem;
         }
 
@@ -241,7 +243,11 @@ namespace Loqui.Tests.XML
         {
             var mask = TYPICAL_VALUE.GetHasBeenSetMask();
             var str = TYPICAL_VALUE.ToString(printMask: mask.Translate((b) => !b));
-            Assert.True(mask.AllEqual((b) => b));
+            var equalsMask = new TestObject_HasBeenSet_Mask<bool>(true);
+            equalsMask.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            equalsMask.RefGetter_Singleton.Overall = true;
+            equalsMask.RefGetter_Singleton.Specific = new ObjectToRef_Mask<bool>();
+            Assert.True(mask.Equals(equalsMask));
         }
 
         #region Parse - Typical

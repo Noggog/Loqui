@@ -2,7 +2,7 @@
 
 namespace Loqui
 {
-    public class MaskItem<T, V> : IEquatable<MaskItem<V, T>>
+    public class MaskItem<T, V> : IEquatable<MaskItem<T, V>>
     {
         public T Overall;
         public V Specific;
@@ -19,7 +19,7 @@ namespace Loqui
             this.Specific = specific;
         }
 
-        public bool Equals(MaskItem<V, T> other)
+        public bool Equals(MaskItem<T, V> other)
         {
             return object.Equals(this.Overall, other.Overall)
                 && object.Equals(this.Specific, other.Specific);
