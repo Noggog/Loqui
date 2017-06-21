@@ -1083,6 +1083,12 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Clear Enumerables
+        public void ClearEnumerables()
+        {
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

@@ -53,5 +53,9 @@ namespace Loqui.Generation
         {
             return "Exception";
         }
+
+        public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+        {
+        }
     }
 }

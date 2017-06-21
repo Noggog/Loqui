@@ -242,6 +242,7 @@ namespace Loqui.Tests.XML
         public void EnsureAllFieldsTested()
         {
             var mask = TYPICAL_VALUE.GetHasBeenSetMask();
+            mask.ClearEnumerables();
             var str = TYPICAL_VALUE.ToString(printMask: mask.Translate((b) => !b));
             var equalsMask = new TestObject_HasBeenSet_Mask<bool>(true);
             equalsMask.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();

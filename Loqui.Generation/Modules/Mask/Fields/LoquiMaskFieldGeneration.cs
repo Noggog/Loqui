@@ -146,5 +146,9 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             fg.AppendLine($"this.{field.Name} = new MaskItem<T, {loqui.GenerateMaskString("T")}>({valueStr}, {(loqui.TargetObjectGeneration == null ? "null" : $"new {loqui.TargetObjectGeneration.GetMaskString("T")}({valueStr})")});");
         }
+
+        public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+        {
+        }
     }
 }

@@ -12760,6 +12760,19 @@ namespace Loqui.Tests.Internals
         }
         #endregion
 
+        #region Clear Enumerables
+        public void ClearEnumerables()
+        {
+            this.List.Specific = null;
+            this.RefList.Specific = null;
+            this.Dict.Specific = null;
+            this.RefDict.Specific = null;
+            this.KeyRefDict.Specific = null;
+            this.ValRefDict.Specific = null;
+            this.DictKeyedValue.Specific = null;
+        }
+        #endregion
+
         #region To String
         public override string ToString()
         {

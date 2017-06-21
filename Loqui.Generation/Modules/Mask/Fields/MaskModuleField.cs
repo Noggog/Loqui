@@ -24,6 +24,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!object.Equals(this.{field.Name}, {rhsAccessor})) return false;");
         }
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
+        public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
         public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
         public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr);

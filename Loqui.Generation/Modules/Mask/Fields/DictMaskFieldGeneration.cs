@@ -292,5 +292,10 @@ namespace Loqui.Generation
         {
             return GetMaskString(field as IDictType, "Exception");
         }
+
+        public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+        {
+            fg.AppendLine($"this.{field.Name}.Specific = null;");
+        }
     }
 }

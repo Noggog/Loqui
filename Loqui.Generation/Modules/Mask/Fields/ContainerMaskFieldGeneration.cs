@@ -193,5 +193,10 @@ namespace Loqui.Generation
         {
             return $"MaskItem<Exception, IEnumerable<{GetItemString(field as ContainerType, "Exception")}>>";
         }
+
+        public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+        {
+            fg.AppendLine($"this.{field.Name}.Specific = null;");
+        }
     }
 }
