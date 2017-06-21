@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("item._Ref.Item = (R)tryGet.Value;"))
+            if (str.Equals("this.Ref_Singleton = (ObjectToRef)obj;"))
             {
                 int wer = 23;
                 wer++;

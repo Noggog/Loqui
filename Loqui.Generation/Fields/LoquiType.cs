@@ -37,10 +37,9 @@ namespace Loqui.Generation
         {
             get
             {
-                if (this.SingletonType == SingletonLevel.Singleton
-                    && this.Notifying == NotifyingOption.None)
+                if (this.SingletonType == SingletonLevel.Singleton)
                 {
-                    return $"{this.Name}";
+                    return SingletonObjectName;
                 }
                 else
                 {
@@ -186,7 +185,8 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.Singleton:
-                            fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; }} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
                         default:
                             throw new NotImplementedException();
@@ -649,12 +649,22 @@ namespace Loqui.Generation
 
         public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
         {
-            if (this.SingletonType != SingletonLevel.Singleton)
+            if (this.SingletonType == SingletonLevel.Singleton)
+            {
+                if (this.InterfaceType == LoquiInterfaceType.IGetter)
+                {
+                    fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {this.Name}\");");
+                }
+                else
+                {
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom(rhs: {rhsAccessorPrefix}, cmds: cmds);");
+                    fg.AppendLine("break;");
+                }
+            }
+            else
             {
                 base.GenerateInterfaceSet(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
-                return;
             }
-            fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {this.Name}\");");
         }
 
         public override void GenerateForInterface(FileGeneration fg)

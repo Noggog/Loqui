@@ -135,7 +135,6 @@ namespace Loqui.Xml
 
         public TryGet<T> Parse(XElement root, bool doMasks, out M mask)
         {
-            var regis = LoquiRegistration.GetRegister(typeof(T));
             var maskObj = default(M);
             Func<IErrorMask> maskGet;
             if (doMasks)
@@ -153,16 +152,31 @@ namespace Loqui.Xml
             {
                 maskGet = null;
             }
-            var fields = EnumerateObjects(
-                regis,
-                root,
-                skipProtected: false,
-                doMasks: doMasks,
-                mask: maskGet);
-            var create = LoquiRegistration.GetCreateFunc<T>();
-            var ret = create(fields);
-            mask = maskObj;
-            return TryGet<T>.Succeed(ret);
+            try
+            {
+                var regis = LoquiRegistration.GetRegister(typeof(T));
+                if (!regis.FullName.Equals(root.Name.LocalName))
+                {
+                    throw new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                }
+                var fields = EnumerateObjects(
+                    regis,
+                    root,
+                    skipProtected: false,
+                    doMasks: doMasks,
+                    mask: maskGet);
+                var create = LoquiRegistration.GetCreateFunc<T>();
+                var ret = create(fields);
+                mask = maskObj;
+                return TryGet<T>.Succeed(ret);
+            }
+            catch (Exception ex)
+            {
+                if (!doMasks) throw;
+                maskGet().Overall = ex;
+                mask = maskObj;
+                return TryGet<T>.Failure;
+            }
         }
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)

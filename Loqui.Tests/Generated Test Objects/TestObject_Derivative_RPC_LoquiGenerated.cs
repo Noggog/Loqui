@@ -839,7 +839,8 @@ namespace Loqui.Tests
         }
         #endregion
         #region Ref_Singleton
-        public ObjectToRef Ref_Singleton { get; } = new ObjectToRef();
+        private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
+        public ObjectToRef Ref_Singleton => _Ref_Singleton_Object;
         #endregion
         #region RefGetter
         private IObjectToRefGetter _RefGetter;
@@ -858,7 +859,8 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefGetter_Singleton
-        public IObjectToRefGetter RefGetter_Singleton { get; } = new ObjectToRef();
+        private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
+        public IObjectToRefGetter RefGetter_Singleton => _RefGetter_Singleton_Object;
         #endregion
         #region RefSetter
         private IObjectToRef _RefSetter;
@@ -877,7 +879,8 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefSetter_Singleton
-        public IObjectToRef RefSetter_Singleton { get; } = new ObjectToRef();
+        private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
+        public IObjectToRef RefSetter_Singleton => _RefSetter_Singleton_Object;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
@@ -2914,7 +2917,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item.Ref_Singleton,
+                            item: item._Ref_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -3095,7 +3098,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item.RefSetter_Singleton,
+                            item: item._RefSetter_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,

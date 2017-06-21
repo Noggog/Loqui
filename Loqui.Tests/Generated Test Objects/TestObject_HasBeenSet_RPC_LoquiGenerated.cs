@@ -1320,10 +1320,10 @@ namespace Loqui.Tests
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
         public ObjectToRef Ref_Singleton
         {
-            get => this._Ref_Singleton.Item;
+            get => this._Ref_Singleton_Object;
         }
         public IHasBeenSetItem<ObjectToRef> Ref_Singleton_Property => _Ref_Singleton;
-        ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref_Singleton => this._Ref_Singleton.Item;
+        ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref_Singleton => this._Ref_Singleton_Object;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
         #region RefGetter
@@ -1353,10 +1353,10 @@ namespace Loqui.Tests
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton
         {
-            get => this._RefGetter_Singleton.Item;
+            get => this._RefGetter_Singleton_Object;
         }
         public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Singleton_Property => _RefGetter_Singleton;
-        IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton.Item;
+        IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
         #region RefSetter
@@ -1386,10 +1386,10 @@ namespace Loqui.Tests
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton
         {
-            get => this._RefSetter_Singleton.Item;
+            get => this._RefSetter_Singleton_Object;
         }
         public IHasBeenSetItem<IObjectToRef> RefSetter_Singleton_Property => _RefSetter_Singleton;
-        IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton.Item;
+        IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
         #endregion
         #region List
@@ -4127,7 +4127,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._Ref_Singleton.Item,
+                            item: item._Ref_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -4308,7 +4308,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._RefSetter_Singleton.Item,
+                            item: item._RefSetter_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -5066,7 +5066,8 @@ namespace Loqui.Tests
                     this._Ref_NotNull.Set((ObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Cannot set singleton member Ref_Singleton");
+                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
+                    break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter:
                     this._RefGetter.Set((IObjectToRefGetter)obj);
                     break;
@@ -5082,7 +5083,8 @@ namespace Loqui.Tests
                     this._RefSetter_NotNull.Set((IObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Cannot set singleton member RefSetter_Singleton");
+                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
+                    break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;

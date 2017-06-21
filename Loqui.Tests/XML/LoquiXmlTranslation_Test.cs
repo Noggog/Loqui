@@ -13,7 +13,9 @@ namespace Loqui.Tests.XML
 {
     public class LoquiXmlTranslation_Test
     {
+        public static readonly LoquiXmlTranslation_Test Instance = new LoquiXmlTranslation_Test();
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
+        public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
         public static int NUM_FIELDS = 99;
 
@@ -281,9 +283,9 @@ namespace Loqui.Tests.XML
                 elem,
                 doMasks: true,
                 maskObj: out TestObject_HasBeenSet_ErrorMask maskObj);
-            Assert.True(ret.Failed);
+            Assert.False(ret.Succeeded);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType(typeof(Loqui.Tests.Internals.TestObject_HasBeenSet_ErrorMask), maskObj);
         }
 
         [Fact]
@@ -306,13 +308,13 @@ namespace Loqui.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out TestObject_HasBeenSet_ErrorMask maskObj));
+            var ret = transl.Parse(
+                elem,
+                doMasks: false,
+                maskObj: out TestObject_HasBeenSet_ErrorMask maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.NotNull(ret.Value);
+            Assert.Equal(EMPTY_VALUE, ret.Value);
         }
 
         [Fact]
@@ -320,14 +322,14 @@ namespace Loqui.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
             var ret = transl.Parse(
                 elem,
                 doMasks: true,
                 maskObj: out TestObject_HasBeenSet_ErrorMask maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.True(ret.Succeeded);
+            Assert.NotNull(ret.Value);
+            Assert.Equal(EMPTY_VALUE, ret.Value);
+            Assert.Null(maskObj);
         }
         #endregion
 

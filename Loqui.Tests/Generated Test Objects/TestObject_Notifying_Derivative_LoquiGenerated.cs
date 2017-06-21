@@ -3720,7 +3720,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._Ref_Singleton.Item,
+                            item: item._Ref_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -3901,7 +3901,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._RefSetter_Singleton.Item,
+                            item: item._RefSetter_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,

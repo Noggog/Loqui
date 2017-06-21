@@ -3720,7 +3720,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._Ref_Singleton.Item,
+                            item: item._Ref_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -3901,7 +3901,7 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._RefSetter_Singleton.Item,
+                            item: item._RefSetter_Singleton_Object,
                             rhs: tmp,
                             def: null,
                             cmds: null,
@@ -4829,7 +4829,8 @@ namespace Loqui.Tests
                         cmds);
                     break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Cannot set singleton member Ref_Singleton");
+                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
+                    break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.RefGetter:
                     this._RefGetter.Set(
                         (IObjectToRefGetter)obj,
@@ -4853,7 +4854,8 @@ namespace Loqui.Tests
                         cmds);
                     break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Cannot set singleton member RefSetter_Singleton");
+                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
+                    break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
