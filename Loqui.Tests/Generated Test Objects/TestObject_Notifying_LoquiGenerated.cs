@@ -1010,7 +1010,7 @@ namespace Loqui.Tests
         protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
         public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_NotifyingGetter.Ref_Singleton => this.Ref_Singleton;
-        public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; set => _Ref_Singleton.Item = value; }
+        public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
         INotifyingItemGetter<ObjectToRef> ITestObject_NotifyingGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
         #endregion
         #region RefGetter
@@ -1044,7 +1044,7 @@ namespace Loqui.Tests
         protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_NotifyingGetter.RefGetter_Singleton => this.RefGetter_Singleton;
-        public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; set => _RefGetter_Singleton.Item = value; }
+        public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_NotifyingGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         #endregion
         #region RefSetter
@@ -1078,7 +1078,7 @@ namespace Loqui.Tests
         protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
         public INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_NotifyingGetter.RefSetter_Singleton => this.RefSetter_Singleton;
-        public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; set => _RefSetter_Singleton.Item = value; }
+        public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
         INotifyingItemGetter<IObjectToRef> ITestObject_NotifyingGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
@@ -6800,6 +6800,10 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_FieldIndex enu = (TestObject_Notifying_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                    return true;
                 case TestObject_Notifying_FieldIndex.BoolN:
                 case TestObject_Notifying_FieldIndex.Bool:
                 case TestObject_Notifying_FieldIndex.CharN:
@@ -6885,13 +6889,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_FieldIndex.WildCardNull:
                 case TestObject_Notifying_FieldIndex.Ref:
                 case TestObject_Notifying_FieldIndex.Ref_NotNull:
-                case TestObject_Notifying_FieldIndex.Ref_Singleton:
                 case TestObject_Notifying_FieldIndex.RefGetter:
                 case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
-                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_FieldIndex.RefSetter:
                 case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
-                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_FieldIndex.List:
                 case TestObject_Notifying_FieldIndex.RefList:
                 case TestObject_Notifying_FieldIndex.Dict:
@@ -9250,7 +9251,7 @@ namespace Loqui.Tests.Internals
                     obj.Ref_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
@@ -9258,7 +9259,7 @@ namespace Loqui.Tests.Internals
                     obj.RefGetter_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.HasBeenSet = on;
                     break;
@@ -9266,7 +9267,7 @@ namespace Loqui.Tests.Internals
                     obj.RefSetter_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.List:
                     obj.List.HasBeenSet = on;
                     break;
@@ -9557,8 +9558,7 @@ namespace Loqui.Tests.Internals
                     obj.Ref_NotNull_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_FieldIndex.Ref_Singleton:
-                    ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.RefGetter:
                     obj.RefGetter_Property.Unset(cmds);
                     break;
@@ -9566,7 +9566,7 @@ namespace Loqui.Tests.Internals
                     obj.RefGetter_NotNull_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.RefSetter:
                     obj.RefSetter_Property.Unset(cmds);
                     break;
@@ -9574,8 +9574,7 @@ namespace Loqui.Tests.Internals
                     obj.RefSetter_NotNull_Property.Unset(cmds);
                     break;
                 case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
-                    ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_FieldIndex.List:
                     obj.List.Unset(cmds);
                     break;

@@ -217,7 +217,7 @@ namespace Loqui.Generation
                     }
                     if (this.Protected)
                     {
-                        fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.Property};");
+                        fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.ProtectedProperty};");
                     }
                     else
                     {
@@ -356,6 +356,8 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Ref type needs a target.");
             }
+            
+            this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
         }
 
         public override void Resolve()

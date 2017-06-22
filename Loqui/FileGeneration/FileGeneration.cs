@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("this.Ref_Singleton = (ObjectToRef)obj;"))
+            if (str.Equals("public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this.Ref_Singleton_Property;"))
             {
                 int wer = 23;
                 wer++;

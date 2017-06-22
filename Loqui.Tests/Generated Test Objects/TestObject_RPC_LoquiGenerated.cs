@@ -5549,6 +5549,10 @@ namespace Loqui.Tests.Internals
             TestObject_RPC_FieldIndex enu = (TestObject_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_RPC_FieldIndex.RefSetter_Singleton:
+                    return true;
                 case TestObject_RPC_FieldIndex.BoolN:
                 case TestObject_RPC_FieldIndex.Bool:
                 case TestObject_RPC_FieldIndex.CharN:
@@ -5634,13 +5638,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_RPC_FieldIndex.WildCardNull:
                 case TestObject_RPC_FieldIndex.Ref:
                 case TestObject_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_RPC_FieldIndex.Ref_Singleton:
                 case TestObject_RPC_FieldIndex.RefGetter:
                 case TestObject_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_RPC_FieldIndex.RefGetter_Singleton:
                 case TestObject_RPC_FieldIndex.RefSetter:
                 case TestObject_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_RPC_FieldIndex.RefSetter_Singleton:
                 case TestObject_RPC_FieldIndex.List:
                 case TestObject_RPC_FieldIndex.RefList:
                 case TestObject_RPC_FieldIndex.Dict:
@@ -7001,19 +7002,19 @@ namespace Loqui.Tests.Internals
                 case TestObject_RPC_FieldIndex.Ref_NotNull:
                     break;
                 case TestObject_RPC_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.RefGetter:
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_NotNull:
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.RefSetter:
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_NotNull:
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.List:
                     obj.List.HasBeenSet = on;
                     break;
@@ -7304,8 +7305,7 @@ namespace Loqui.Tests.Internals
                     obj.Ref_NotNull = default(ObjectToRef);
                     break;
                 case TestObject_RPC_FieldIndex.Ref_Singleton:
-                    ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.RefGetter:
                     obj.RefGetter = default(IObjectToRefGetter);
                     break;
@@ -7313,7 +7313,7 @@ namespace Loqui.Tests.Internals
                     obj.RefGetter_NotNull = default(IObjectToRefGetter);
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.RefSetter:
                     obj.RefSetter = default(IObjectToRef);
                     break;
@@ -7321,8 +7321,7 @@ namespace Loqui.Tests.Internals
                     obj.RefSetter_NotNull = default(IObjectToRef);
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_Singleton:
-                    ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_RPC_FieldIndex.List:
                     obj.List.Unset(cmds);
                     break;

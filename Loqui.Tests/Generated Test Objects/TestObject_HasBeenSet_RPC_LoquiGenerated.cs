@@ -1322,7 +1322,7 @@ namespace Loqui.Tests
         {
             get => this._Ref_Singleton_Object;
         }
-        public IHasBeenSetItem<ObjectToRef> Ref_Singleton_Property => _Ref_Singleton;
+        public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref_Singleton => this._Ref_Singleton_Object;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
@@ -1355,7 +1355,7 @@ namespace Loqui.Tests
         {
             get => this._RefGetter_Singleton_Object;
         }
-        public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Singleton_Property => _RefGetter_Singleton;
+        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
@@ -1388,7 +1388,7 @@ namespace Loqui.Tests
         {
             get => this._RefSetter_Singleton_Object;
         }
-        public IHasBeenSetItem<IObjectToRef> RefSetter_Singleton_Property => _RefSetter_Singleton;
+        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
         #endregion
@@ -6933,6 +6933,10 @@ namespace Loqui.Tests.Internals
             TestObject_HasBeenSet_RPC_FieldIndex enu = (TestObject_HasBeenSet_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
+                    return true;
                 case TestObject_HasBeenSet_RPC_FieldIndex.BoolN:
                 case TestObject_HasBeenSet_RPC_FieldIndex.Bool:
                 case TestObject_HasBeenSet_RPC_FieldIndex.CharN:
@@ -7018,13 +7022,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_HasBeenSet_RPC_FieldIndex.WildCardNull:
                 case TestObject_HasBeenSet_RPC_FieldIndex.Ref:
                 case TestObject_HasBeenSet_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter:
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter_Singleton:
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter:
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
                 case TestObject_HasBeenSet_RPC_FieldIndex.List:
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefList:
                 case TestObject_HasBeenSet_RPC_FieldIndex.Dict:
@@ -8630,7 +8631,7 @@ namespace Loqui.Tests.Internals
                     obj.Ref_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: Ref_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
@@ -8638,7 +8639,7 @@ namespace Loqui.Tests.Internals
                     obj.RefGetter_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter:
                     obj.RefSetter_Property.HasBeenSet = on;
                     break;
@@ -8646,7 +8647,7 @@ namespace Loqui.Tests.Internals
                     obj.RefSetter_NotNull_Property.HasBeenSet = on;
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Cannot mark set status of a singleton: RefSetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.List:
                     obj.List.HasBeenSet = on;
                     break;
@@ -8937,8 +8938,7 @@ namespace Loqui.Tests.Internals
                     obj.Ref_NotNull_Property.Unset();
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
-                    ObjectToRefCommon.Clear(obj.Ref_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter:
                     obj.RefGetter_Property.Unset();
                     break;
@@ -8946,7 +8946,7 @@ namespace Loqui.Tests.Internals
                     obj.RefGetter_NotNull_Property.Unset();
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Cannot unset a get only singleton: RefGetter_Singleton");
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter:
                     obj.RefSetter_Property.Unset();
                     break;
@@ -8954,8 +8954,7 @@ namespace Loqui.Tests.Internals
                     obj.RefSetter_NotNull_Property.Unset();
                     break;
                 case TestObject_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
-                    ObjectToRefCommon.Clear(obj.RefSetter_Singleton, cmds.ToUnsetParams());
-                    break;
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_HasBeenSet_RPC_FieldIndex.List:
                     obj.List.Unset(cmds);
                     break;

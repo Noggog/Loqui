@@ -1285,7 +1285,7 @@ namespace Loqui.Tests
             get => this._Ref.Item;
             protected set => this._Ref.Item = value;
         }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_Property => this.Ref_Property;
+        public IHasBeenSetItemGetter<ObjectToRef> Ref_Property => this._Ref;
         ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref => this._Ref.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Property => this._Ref;
         #endregion
@@ -1296,7 +1296,7 @@ namespace Loqui.Tests
             get => this._Ref_NotNull.Item;
             protected set => this._Ref_NotNull.Item = value;
         }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property => this.Ref_NotNull_Property;
+        public IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
         ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_NotNull => this._Ref_NotNull.Item;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_NotNull_Property => this._Ref_NotNull;
         #endregion
@@ -1307,7 +1307,7 @@ namespace Loqui.Tests
         {
             get => this._Ref_Singleton_Object;
         }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this.Ref_Singleton_Property;
+        public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Singleton => this._Ref_Singleton_Object;
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
@@ -1318,7 +1318,7 @@ namespace Loqui.Tests
             get => this._RefGetter.Item;
             protected set => this._RefGetter.Item = value;
         }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property => this.RefGetter_Property;
+        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
         IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter => this._RefGetter.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Property => this._RefGetter;
         #endregion
@@ -1329,7 +1329,7 @@ namespace Loqui.Tests
             get => this._RefGetter_NotNull.Item;
             protected set => this._RefGetter_NotNull.Item = value;
         }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
         IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_NotNull => this._RefGetter_NotNull.Item;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
         #endregion
@@ -1340,7 +1340,7 @@ namespace Loqui.Tests
         {
             get => this._RefGetter_Singleton_Object;
         }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
+        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
@@ -1351,7 +1351,7 @@ namespace Loqui.Tests
             get => this._RefSetter.Item;
             protected set => this._RefSetter.Item = value;
         }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property => this.RefSetter_Property;
+        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
         IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter => this._RefSetter.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Property => this._RefSetter;
         #endregion
@@ -1362,7 +1362,7 @@ namespace Loqui.Tests
             get => this._RefSetter_NotNull.Item;
             protected set => this._RefSetter_NotNull.Item = value;
         }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
+        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
         IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_NotNull => this._RefSetter_NotNull.Item;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
         #endregion
@@ -1373,7 +1373,7 @@ namespace Loqui.Tests
         {
             get => this._RefSetter_Singleton_Object;
         }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
+        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
         #endregion
