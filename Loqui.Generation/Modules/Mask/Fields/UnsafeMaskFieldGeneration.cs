@@ -22,5 +22,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{retAccessor} = {accessor} ?? {rhsAccessor};");
         }
+
+        public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
+        {
+            fg.AppendLine($"this.{field.Name} = obj;");
+        }
     }
 }

@@ -10284,13 +10284,13 @@ namespace Loqui.Tests.Internals
                     this.Int8_Ranged = (Exception)obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.Unsafe:
-                    this.Unsafe = (Exception)obj;
+                    this.Unsafe = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.UnsafeLoqui:
-                    this.UnsafeLoqui = (Exception)obj;
+                    this.UnsafeLoqui = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.UnsafeNull:
-                    this.UnsafeNull = (Exception)obj;
+                    this.UnsafeNull = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.P2IntN:
                     this.P2IntN = (Exception)obj;
@@ -10434,13 +10434,13 @@ namespace Loqui.Tests.Internals
                     this.EnumNull = (Exception)obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.WildCard:
-                    this.WildCard = (Exception)obj;
+                    this.WildCard = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.WildCardLoqui:
-                    this.WildCardLoqui = (Exception)obj;
+                    this.WildCardLoqui = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.WildCardNull:
-                    this.WildCardNull = (Exception)obj;
+                    this.WildCardNull = obj;
                     break;
                 case TestObject_Notifying_Derivative_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;

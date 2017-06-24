@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("ret._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: cmds);"))
+            if (str.Equals("this.UnsafeNull = (Exception)obj;"))
             {
                 int wer = 23;
                 wer++;
