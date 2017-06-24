@@ -375,10 +375,28 @@ namespace Loqui.Tests
         public static TestObject_PrivateCtor Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_PrivateCtor();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestObject_PrivateCtor(ret, pair);
+            }
             return ret;
         }
 
+        protected static void CopyInInternal_TestObject_PrivateCtor(TestObject_PrivateCtor obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestObject_PrivateCtor_FieldIndex enu))
+            {
+                throw new ArgumentException($"Unknown index: {pair.Key}");
+            }
+            switch (enu)
+            {
+                case TestObject_PrivateCtor_FieldIndex.BoolN:
+                    obj.BoolN = (Boolean?)pair.Value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_PrivateCtor obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

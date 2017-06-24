@@ -10,7 +10,7 @@ namespace Loqui.Xml
 
         protected override E ParseNonNullString(string str)
         {
-            if (EnumExt.TryParse(str, out E enumType))
+            if (Enum.TryParse(str, out E enumType))
             {
                 return enumType;
             }

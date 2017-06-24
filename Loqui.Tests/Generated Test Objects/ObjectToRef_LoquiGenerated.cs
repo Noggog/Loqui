@@ -435,10 +435,35 @@ namespace Loqui.Tests
         public static ObjectToRef Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new ObjectToRef();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_ObjectToRef(ret, pair);
+            }
             return ret;
         }
 
+        protected static void CopyInInternal_ObjectToRef(ObjectToRef obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out ObjectToRef_FieldIndex enu))
+            {
+                throw new ArgumentException($"Unknown index: {pair.Key}");
+            }
+            switch (enu)
+            {
+                case ObjectToRef_FieldIndex.KeyField:
+                    obj._KeyField.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case ObjectToRef_FieldIndex.SomeField:
+                    obj._SomeField.Set(
+                        (Boolean)pair.Value,
+                        null);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, ObjectToRef obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

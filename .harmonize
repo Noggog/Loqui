@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>12f3bc86da32b0c487a0e96f0955eac27d76c56c</Sha>
-      <Description>EnumerableExt.SelectAgainst</Description>
+      <Sha>e565181b622ca004044cf0455d30a64d6b162fcf</Sha>
+      <Description>EnumExt TryParse for ints.  Removed unnecessary items</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>05-25-2017 23:02:48</CommitDate>
+      <CommitDate>06-23-2017 19:25:10</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>

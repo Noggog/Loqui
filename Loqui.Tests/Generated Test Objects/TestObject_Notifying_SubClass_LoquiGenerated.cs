@@ -377,10 +377,30 @@ namespace Loqui.Tests
         public new static TestObject_Notifying_SubClass Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_Notifying_SubClass();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestObject_Notifying_SubClass(ret, pair);
+            }
             return ret;
         }
 
+        protected new static void CopyInInternal_TestObject_Notifying_SubClass(TestObject_Notifying_SubClass obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestObject_Notifying_SubClass_FieldIndex enu))
+            {
+                CopyInInternal_TestObject_Notifying(obj, pair);
+            }
+            switch (enu)
+            {
+                case TestObject_Notifying_SubClass_FieldIndex.NewField:
+                    obj._NewField.Set(
+                        (Boolean)pair.Value,
+                        null);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_SubClass obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

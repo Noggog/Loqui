@@ -4921,10 +4921,522 @@ namespace Loqui.Tests
         public static TestObject_Notifying_ReadOnly_RPC Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_Notifying_ReadOnly_RPC();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestObject_Notifying_ReadOnly_RPC(ret, pair);
+            }
             return ret;
         }
 
+        protected static void CopyInInternal_TestObject_Notifying_ReadOnly_RPC(TestObject_Notifying_ReadOnly_RPC obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestObject_Notifying_ReadOnly_RPC_FieldIndex enu))
+            {
+                throw new ArgumentException($"Unknown index: {pair.Key}");
+            }
+            switch (enu)
+            {
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.BoolN:
+                    obj._BoolN.Set(
+                        (Boolean?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Bool:
+                    obj._Bool.Set(
+                        (Boolean)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.CharN:
+                    obj._CharN.Set(
+                        (Char?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Char:
+                    obj._Char.Set(
+                        (Char)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                    obj._DateTimeNull.Set(
+                        (DateTime?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DateTime:
+                    obj._DateTime.Set(
+                        (DateTime)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN:
+                    obj._DoubleN.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                    obj._DoubleN_Ranged.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double:
+                    obj._Double.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                    obj._Double_Ranged.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN:
+                    obj._FloatN.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                    obj._FloatN_Ranged.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float:
+                    obj._Float.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                    obj._Float_Ranged.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N:
+                    obj._Int16N.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                    obj._Int16N_Ranged.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16:
+                    obj._Int16.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                    obj._Int16_Ranged.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N:
+                    obj._Int32N.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                    obj._Int32N_Ranged.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32:
+                    obj._Int32.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                    obj._Int32_Ranged.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N:
+                    obj._Int64N.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                    obj._Int64N_Ranged.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64:
+                    obj._Int64.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                    obj._Int64_Ranged.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N:
+                    obj._Int8N.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                    obj._Int8N_Ranged.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8:
+                    obj._Int8.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                    obj._Int8_Ranged.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Unsafe:
+                    obj._Unsafe.Set(
+                        (bool)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                    obj._UnsafeLoqui.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                    obj._UnsafeNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2IntN:
+                    obj._P2IntN.Set(
+                        (P2Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P2Int:
+                    obj._P2Int.Set(
+                        (P2Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                    obj._P3DoubleN.Set(
+                        (P3Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Double:
+                    obj._P3Double.Set(
+                        (P3Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3IntN:
+                    obj._P3IntN.Set(
+                        (P3Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.P3Int:
+                    obj._P3Int.Set(
+                        (P3Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.PercentN:
+                    obj._PercentN.Set(
+                        (Percent?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Percent:
+                    obj._Percent.Set(
+                        (Percent)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                    obj._RangeInt8N.Set(
+                        (RangeInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt8:
+                    obj._RangeInt8.Set(
+                        (RangeInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                    obj._RangeInt16N.Set(
+                        (RangeInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt16:
+                    obj._RangeInt16.Set(
+                        (RangeInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                    obj._RangeInt32N.Set(
+                        (RangeInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt32:
+                    obj._RangeInt32.Set(
+                        (RangeInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                    obj._RangeInt64N.Set(
+                        (RangeInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeInt64:
+                    obj._RangeInt64.Set(
+                        (RangeInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                    obj._RangeUInt8N.Set(
+                        (RangeUInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                    obj._RangeUInt8.Set(
+                        (RangeUInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                    obj._RangeUInt16N.Set(
+                        (RangeUInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                    obj._RangeUInt16.Set(
+                        (RangeUInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                    obj._RangeUInt32N.Set(
+                        (RangeUInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                    obj._RangeUInt32.Set(
+                        (RangeUInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                    obj._RangeUInt64N.Set(
+                        (RangeUInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                    obj._RangeUInt64.Set(
+                        (RangeUInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.String:
+                    obj._String.Set(
+                        (String)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN:
+                    obj._UDoubleN.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                    obj._UDoubleN_Ranged.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble:
+                    obj._UDouble.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                    obj._UDouble_Ranged.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N:
+                    obj._UInt16N.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                    obj._UInt16N_Ranged.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16:
+                    obj._UInt16.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                    obj._UInt16_Ranged.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N:
+                    obj._UInt32N.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                    obj._UInt32N_Ranged.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32:
+                    obj._UInt32.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                    obj._UInt32_Ranged.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N:
+                    obj._UInt64N.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                    obj._UInt64N_Ranged.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64:
+                    obj._UInt64.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                    obj._UInt64_Ranged.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N:
+                    obj._UInt8N.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                    obj._UInt8N_Ranged.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8:
+                    obj._UInt8.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                    obj._UInt8_Ranged.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Enum:
+                    obj._Enum.Set(
+                        (TestEnum)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.EnumNull:
+                    obj._EnumNull.Set(
+                        (TestEnum?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCard:
+                    obj._WildCard.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                    obj._WildCardLoqui.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.WildCardNull:
+                    obj._WildCardNull.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref:
+                    obj._Ref.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                    obj._Ref_NotNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter:
+                    obj._RefGetter.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                    obj._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter:
+                    obj._RefSetter.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                    obj._RefSetter_NotNull.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.List:
+                    obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefList:
+                    obj._RefList.SetTo((IEnumerable<ObjectToRef>)pair.Value, null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.Dict:
+                    obj.Dict.SetTo(
+                        ((NotifyingDictionary<String, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, Boolean>(
+                                i.Key,
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.RefDict:
+                    obj.RefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                i.Key.Copy(),
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                    obj.KeyRefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, Boolean>(
+                                i.Key.Copy(),
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.ValRefDict:
+                    obj.ValRefDict.SetTo(
+                        ((NotifyingDictionary<String, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, ObjectToRef>(
+                                i.Key,
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    obj.DictKeyedValue.SetTo(
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)pair.Value),
+                        null);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_ReadOnly_RPC obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

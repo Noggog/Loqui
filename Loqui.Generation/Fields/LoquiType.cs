@@ -649,23 +649,23 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
         {
             if (this.SingletonType == SingletonLevel.Singleton)
             {
-                if (this.InterfaceType == LoquiInterfaceType.IGetter)
+                if (!internalUse && this.InterfaceType == LoquiInterfaceType.IGetter)
                 {
                     fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {this.Name}\");");
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom(rhs: {rhsAccessorPrefix}, cmds: cmds);");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom(rhs: {rhsAccessorPrefix}, cmds: {cmdsAccessor});");
                     fg.AppendLine("break;");
                 }
             }
             else
             {
-                base.GenerateInterfaceSet(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor);
+                base.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, internalUse);
             }
         }
 

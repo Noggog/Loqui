@@ -4525,10 +4525,25 @@ namespace Loqui.Tests
         public static TestObject_Notifying_Derivative Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject_Notifying_Derivative();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestObject_Notifying_Derivative(ret, pair);
+            }
             return ret;
         }
 
+        protected static void CopyInInternal_TestObject_Notifying_Derivative(TestObject_Notifying_Derivative obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestObject_Notifying_Derivative_FieldIndex enu))
+            {
+                throw new ArgumentException($"Unknown index: {pair.Key}");
+            }
+            switch (enu)
+            {
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_Derivative obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

@@ -335,10 +335,25 @@ namespace Loqui.Tests
         public new static TestGenericObject_SubClass_Defined<RBase> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestGenericObject_SubClass_Defined<RBase>();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestGenericObject_SubClass_Defined(ret, pair);
+            }
             return ret;
         }
 
+        protected new static void CopyInInternal_TestGenericObject_SubClass_Defined(TestGenericObject_SubClass_Defined<RBase> obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestGenericObject_SubClass_Defined_FieldIndex enu))
+            {
+                CopyInInternal_TestGenericObject(obj, pair);
+            }
+            switch (enu)
+            {
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericObject_SubClass_Defined<RBase> obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

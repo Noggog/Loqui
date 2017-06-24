@@ -1063,11 +1063,12 @@ namespace Loqui.Generation
                         fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            item.Field.GenerateInterfaceSet(
+                            item.Field.GenerateSetNth(
                                 fg,
                                 accessorPrefix: $"this",
                                 rhsAccessorPrefix: $"({item.Field.SetToName})obj",
-                                cmdsAccessor: "cmds");
+                                cmdsAccessor: "cmds",
+                                internalUse: false);
                         }
                     }
 
@@ -1904,10 +1905,54 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {this.ObjectName}();");
-                    fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);");
+                    fg.AppendLine($"foreach (var pair in fields)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"CopyInInternal_{this.Name}(ret, pair);");
+                    }
                     fg.AppendLine("return ret;");
                 }
                 fg.AppendLine();
+            }
+
+            fg.AppendLine($"protected{this.NewOverride}static void CopyInInternal_{this.Name}({this.ObjectName} obj, KeyValuePair<ushort, object> pair)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!EnumExt.TryParse(pair.Key, out {this.EnumName} enu))");
+                using (new BraceWrapper(fg))
+                {
+                    if (this.HasBaseObject)
+                    {
+                        fg.AppendLine($"CopyInInternal_{this.BaseClass.Name}(obj, pair);");
+                    }
+                    else
+                    {
+                        fg.AppendLine("throw new ArgumentException($\"Unknown index: {pair.Key}\");");
+                    }
+                }
+                fg.AppendLine("switch (enu)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var item in IterateFields())
+                    {
+                        if (item.Field.Derivative) continue;
+                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            item.Field.GenerateSetNth(
+                                fg,
+                                accessorPrefix: $"obj",
+                                rhsAccessorPrefix: $"({item.Field.SetToName})pair.Value",
+                                cmdsAccessor: "null",
+                                internalUse: true);
+                        }
+                    }
+                    fg.AppendLine("default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine("throw new ArgumentException($\"Unknown enum type: {enu}\");");
+                    }
+                }
             }
 
             fg.AppendLine($"public static void {Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");

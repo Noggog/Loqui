@@ -231,7 +231,7 @@ namespace Loqui.Generation
             return rhsAccessor;
         }
 
-        public override void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
         {
             if (this.Notifying == NotifyingOption.None)
             {

@@ -3610,10 +3610,344 @@ namespace Loqui.Tests
         public static TestObject Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
             var ret = new TestObject();
-            ILoquiObjectExt.CopyFieldsIn(ret, fields, def: null, skipProtected: false, cmds: null);
+            foreach (var pair in fields)
+            {
+                CopyInInternal_TestObject(ret, pair);
+            }
             return ret;
         }
 
+        protected static void CopyInInternal_TestObject(TestObject obj, KeyValuePair<ushort, object> pair)
+        {
+            if (!EnumExt.TryParse(pair.Key, out TestObject_FieldIndex enu))
+            {
+                throw new ArgumentException($"Unknown index: {pair.Key}");
+            }
+            switch (enu)
+            {
+                case TestObject_FieldIndex.BoolN:
+                    obj.BoolN = (Boolean?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Bool:
+                    obj.Bool = (Boolean)pair.Value;
+                    break;
+                case TestObject_FieldIndex.CharN:
+                    obj.CharN = (Char?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Char:
+                    obj.Char = (Char)pair.Value;
+                    break;
+                case TestObject_FieldIndex.DateTimeNull:
+                    obj.DateTimeNull = (DateTime?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.DateTime:
+                    obj.DateTime = (DateTime)pair.Value;
+                    break;
+                case TestObject_FieldIndex.DoubleN:
+                    obj.DoubleN = (Double?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.DoubleN_Ranged:
+                    obj.DoubleN_Ranged = (Double?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Double:
+                    obj.Double = (Double)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Double_Ranged:
+                    obj.Double_Ranged = (Double)pair.Value;
+                    break;
+                case TestObject_FieldIndex.FloatN:
+                    obj.FloatN = (Single?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.FloatN_Ranged:
+                    obj.FloatN_Ranged = (Single?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Float:
+                    obj.Float = (Single)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Float_Ranged:
+                    obj.Float_Ranged = (Single)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int16N:
+                    obj.Int16N = (Int16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int16N_Ranged:
+                    obj.Int16N_Ranged = (Int16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int16:
+                    obj.Int16 = (Int16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int16_Ranged:
+                    obj.Int16_Ranged = (Int16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int32N:
+                    obj.Int32N = (Int32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int32N_Ranged:
+                    obj.Int32N_Ranged = (Int32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int32:
+                    obj.Int32 = (Int32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int32_Ranged:
+                    obj.Int32_Ranged = (Int32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int64N:
+                    obj.Int64N = (Int64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int64N_Ranged:
+                    obj.Int64N_Ranged = (Int64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int64:
+                    obj.Int64 = (Int64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int64_Ranged:
+                    obj.Int64_Ranged = (Int64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int8N:
+                    obj.Int8N = (SByte?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int8N_Ranged:
+                    obj.Int8N_Ranged = (SByte?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int8:
+                    obj.Int8 = (SByte)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Int8_Ranged:
+                    obj.Int8_Ranged = (SByte)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Unsafe:
+                    obj.Unsafe = (bool)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UnsafeLoqui:
+                    obj.UnsafeLoqui = (ObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UnsafeNull:
+                    obj.UnsafeNull = (ObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P2IntN:
+                    obj.P2IntN = (P2Int?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P2Int:
+                    obj.P2Int = (P2Int)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P3DoubleN:
+                    obj.P3DoubleN = (P3Double?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P3Double:
+                    obj.P3Double = (P3Double)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P3IntN:
+                    obj.P3IntN = (P3Int?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.P3Int:
+                    obj.P3Int = (P3Int)pair.Value;
+                    break;
+                case TestObject_FieldIndex.PercentN:
+                    obj.PercentN = (Percent?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Percent:
+                    obj.Percent = (Percent)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt8N:
+                    obj.RangeInt8N = (RangeInt8?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt8:
+                    obj.RangeInt8 = (RangeInt8)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt16N:
+                    obj.RangeInt16N = (RangeInt16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt16:
+                    obj.RangeInt16 = (RangeInt16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt32N:
+                    obj.RangeInt32N = (RangeInt32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt32:
+                    obj.RangeInt32 = (RangeInt32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt64N:
+                    obj.RangeInt64N = (RangeInt64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeInt64:
+                    obj.RangeInt64 = (RangeInt64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt8N:
+                    obj.RangeUInt8N = (RangeUInt8?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt8:
+                    obj.RangeUInt8 = (RangeUInt8)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt16N:
+                    obj.RangeUInt16N = (RangeUInt16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt16:
+                    obj.RangeUInt16 = (RangeUInt16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt32N:
+                    obj.RangeUInt32N = (RangeUInt32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt32:
+                    obj.RangeUInt32 = (RangeUInt32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt64N:
+                    obj.RangeUInt64N = (RangeUInt64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RangeUInt64:
+                    obj.RangeUInt64 = (RangeUInt64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.String:
+                    obj.String = (String)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UDoubleN:
+                    obj.UDoubleN = (UDouble?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UDoubleN_Ranged:
+                    obj.UDoubleN_Ranged = (UDouble?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UDouble:
+                    obj.UDouble = (UDouble)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UDouble_Ranged:
+                    obj.UDouble_Ranged = (UDouble)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt16N:
+                    obj.UInt16N = (UInt16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt16N_Ranged:
+                    obj.UInt16N_Ranged = (UInt16?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt16:
+                    obj.UInt16 = (UInt16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt16_Ranged:
+                    obj.UInt16_Ranged = (UInt16)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt32N:
+                    obj.UInt32N = (UInt32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt32N_Ranged:
+                    obj.UInt32N_Ranged = (UInt32?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt32:
+                    obj.UInt32 = (UInt32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt32_Ranged:
+                    obj.UInt32_Ranged = (UInt32)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt64N:
+                    obj.UInt64N = (UInt64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt64N_Ranged:
+                    obj.UInt64N_Ranged = (UInt64?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt64:
+                    obj.UInt64 = (UInt64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt64_Ranged:
+                    obj.UInt64_Ranged = (UInt64)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt8N:
+                    obj.UInt8N = (Byte?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt8N_Ranged:
+                    obj.UInt8N_Ranged = (Byte?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt8:
+                    obj.UInt8 = (Byte)pair.Value;
+                    break;
+                case TestObject_FieldIndex.UInt8_Ranged:
+                    obj.UInt8_Ranged = (Byte)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Enum:
+                    obj.Enum = (TestEnum)pair.Value;
+                    break;
+                case TestObject_FieldIndex.EnumNull:
+                    obj.EnumNull = (TestEnum?)pair.Value;
+                    break;
+                case TestObject_FieldIndex.WildCard:
+                    obj.WildCard = (Object)pair.Value;
+                    break;
+                case TestObject_FieldIndex.WildCardLoqui:
+                    obj.WildCardLoqui = (Object)pair.Value;
+                    break;
+                case TestObject_FieldIndex.WildCardNull:
+                    obj.WildCardNull = (Object)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Ref:
+                    obj.Ref = (ObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Ref_NotNull:
+                    obj.Ref_NotNull = (ObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.Ref_Singleton:
+                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_FieldIndex.RefGetter:
+                    obj.RefGetter = (IObjectToRefGetter)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RefGetter_NotNull:
+                    obj.RefGetter_NotNull = (IObjectToRefGetter)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RefGetter_Singleton:
+                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
+                    break;
+                case TestObject_FieldIndex.RefSetter:
+                    obj.RefSetter = (IObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RefSetter_NotNull:
+                    obj.RefSetter_NotNull = (IObjectToRef)pair.Value;
+                    break;
+                case TestObject_FieldIndex.RefSetter_Singleton:
+                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_FieldIndex.List:
+                    obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);
+                    break;
+                case TestObject_FieldIndex.RefList:
+                    obj._RefList.SetTo((IEnumerable<ObjectToRef>)pair.Value, null);
+                    break;
+                case TestObject_FieldIndex.Dict:
+                    obj.Dict.SetTo(
+                        ((NotifyingDictionary<String, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, Boolean>(
+                                i.Key,
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_FieldIndex.RefDict:
+                    obj.RefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                i.Key.Copy(),
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_FieldIndex.KeyRefDict:
+                    obj.KeyRefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, Boolean>(
+                                i.Key.Copy(),
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_FieldIndex.ValRefDict:
+                    obj.ValRefDict.SetTo(
+                        ((NotifyingDictionary<String, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, ObjectToRef>(
+                                i.Key,
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_FieldIndex.DictKeyedValue:
+                    obj.DictKeyedValue.SetTo(
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)pair.Value),
+                        null);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown enum type: {enu}");
+            }
+        }
         public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);

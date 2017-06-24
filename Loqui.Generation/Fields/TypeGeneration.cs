@@ -94,7 +94,7 @@ namespace Loqui.Generation
 
         public abstract string GenerateACopy(string rhsAccessor);
 
-        public abstract void GenerateInterfaceSet(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor);
+        public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse);
 
         public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse);
 
