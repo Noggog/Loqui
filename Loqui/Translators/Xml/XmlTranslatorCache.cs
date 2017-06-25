@@ -97,13 +97,15 @@ namespace Loqui.Xml
 
             if (LoquiRegistration.IsLoquiType(t))
             {
+                var regis = LoquiRegistration.GetRegister(t);
                 var loquiTypes = new Type[]
                 {
-                    t,
-                    LoquiRegistration.GetRegister(t).ErrorMaskType
+                    regis.ClassType,
+                    regis.ErrorMaskType
                 };
+
                 var xmlConverterGenType = typeof(LoquiXmlTranslation<,>).MakeGenericType(loquiTypes);
-                var xmlCaster = GetCaster(xmlConverterGenType, t, LoquiRegistration.GetRegister(t).ErrorMaskType);
+                var xmlCaster = GetCaster(xmlConverterGenType, regis.ClassType, LoquiRegistration.GetRegister(t).ErrorMaskType);
                 item = new NotifyingItem<GetResponse<IXmlTranslation<object, object>>>(
                     GetResponse<IXmlTranslation<object, object>>.Succeed(xmlCaster));
                 typeDict[t] = item;
@@ -141,7 +143,14 @@ namespace Loqui.Xml
         {
             object xmlTransl = Activator.CreateInstance(xmlType);
             var xmlConverterGenType = typeof(XmlTranslationCaster<,>).MakeGenericType(targetType, maskType);
-            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object, Object>;
+            try
+            {
+                return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object, Object>;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public NotifyingItem<GetResponse<IXmlTranslation<object, object>>> SetTranslator(IXmlTranslation<Object, Object> transl, Type t)
