@@ -52,6 +52,7 @@ namespace Loqui.Generation
         public string InterfaceStr => InterfaceStr_Generic(this.GenericTypes);
         public string RegistrationName => $"{this.Name}_Registration";
         public string Getter_InterfaceStr_NoGenerics => $"I{Name}Getter";
+        public string Setter_InterfaceStr_NoGenerics => $"I{this.Name}";
         public string Getter_InterfaceStr => this.Getter_InterfaceStr_NoGenerics + GenericTypes;
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
         public string BaseGenericTypes { get; private set; }
@@ -62,7 +63,7 @@ namespace Loqui.Generation
 
         public string ExtCommonName => $"{Name}Common";
 
-        public string InterfaceStr_Generic(string genericTypes) => $"I{this.Name}{genericTypes}";
+        public string InterfaceStr_Generic(string genericTypes) => $"{this.Setter_InterfaceStr_NoGenerics}{genericTypes}";
 
         public string Getter_InterfaceStr_Generic(string genericTypes) => $"{Getter_InterfaceStr_NoGenerics}{genericTypes}";
 
@@ -432,6 +433,12 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
                     fg.AppendLine();
 
+                    fg.AppendLine($"public static readonly Type GetterType = typeof({this.Getter_InterfaceStr_NoGenerics}{this.EmptyGenerics});");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public static readonly Type SetterType = typeof({this.Setter_InterfaceStr_NoGenerics}{this.EmptyGenerics});");
+                    fg.AppendLine();
+
                     fg.AppendLine($"public static readonly Type CommonType = typeof({this.ExtCommonName});");
                     fg.AppendLine();
 
@@ -480,6 +487,8 @@ namespace Loqui.Generation
                         fg.AppendLine($"Type ILoquiRegistration.MaskType => MaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ClassType => ClassType;");
+                        fg.AppendLine($"Type ILoquiRegistration.SetterType => SetterType;");
+                        fg.AppendLine($"Type ILoquiRegistration.GetterType => GetterType;");
                         fg.AppendLine($"Type ILoquiRegistration.CommonType => CommonType;");
                         fg.AppendLine($"string ILoquiRegistration.FullName => FullName;");
                         fg.AppendLine($"string ILoquiRegistration.Name => Name;");

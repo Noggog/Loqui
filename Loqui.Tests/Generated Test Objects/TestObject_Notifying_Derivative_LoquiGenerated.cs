@@ -5176,6 +5176,10 @@ namespace Loqui.Tests.Internals
 
         public static readonly Type ClassType = typeof(TestObject_Notifying_Derivative);
 
+        public static readonly Type GetterType = typeof(ITestObject_Notifying_DerivativeGetter);
+
+        public static readonly Type SetterType = typeof(ITestObject_Notifying_Derivative);
+
         public static readonly Type CommonType = typeof(TestObject_Notifying_DerivativeCommon);
 
         public const string FullName = "Loqui.Tests.TestObject_Notifying_Derivative";
@@ -6370,6 +6374,8 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.MaskType => MaskType;
         Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;
         Type ILoquiRegistration.ClassType => ClassType;
+        Type ILoquiRegistration.SetterType => SetterType;
+        Type ILoquiRegistration.GetterType => GetterType;
         Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;

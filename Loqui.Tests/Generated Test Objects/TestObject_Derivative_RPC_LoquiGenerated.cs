@@ -4281,6 +4281,10 @@ namespace Loqui.Tests.Internals
 
         public static readonly Type ClassType = typeof(TestObject_Derivative_RPC);
 
+        public static readonly Type GetterType = typeof(ITestObject_Derivative_RPCGetter);
+
+        public static readonly Type SetterType = typeof(ITestObject_Derivative_RPC);
+
         public static readonly Type CommonType = typeof(TestObject_Derivative_RPCCommon);
 
         public const string FullName = "Loqui.Tests.TestObject_Derivative_RPC";
@@ -5475,6 +5479,8 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.MaskType => MaskType;
         Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;
         Type ILoquiRegistration.ClassType => ClassType;
+        Type ILoquiRegistration.SetterType => SetterType;
+        Type ILoquiRegistration.GetterType => GetterType;
         Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;

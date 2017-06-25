@@ -57,6 +57,7 @@ namespace Loqui.Xml
                         var type = registration.GetNthType(i.Value);
                         if (!XmlTranslator.TryGetTranslator(type, out IXmlTranslation<object, object> translator))
                         {
+                            XmlTranslator.TryGetTranslator(type, out translator);
                             throw new ArgumentException($"No XML Translator found for {type}");
                         }
                         var objGet = translator.Parse(elem, doMasks, out var subMaskObj);

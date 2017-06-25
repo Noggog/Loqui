@@ -534,6 +534,10 @@ namespace Loqui.Tests.Internals
 
         public static readonly Type ClassType = typeof(ObjectToRef);
 
+        public static readonly Type GetterType = typeof(IObjectToRefGetter);
+
+        public static readonly Type SetterType = typeof(IObjectToRef);
+
         public static readonly Type CommonType = typeof(ObjectToRefCommon);
 
         public const string FullName = "Loqui.Tests.ObjectToRef";
@@ -658,6 +662,8 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.MaskType => MaskType;
         Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;
         Type ILoquiRegistration.ClassType => ClassType;
+        Type ILoquiRegistration.SetterType => SetterType;
+        Type ILoquiRegistration.GetterType => GetterType;
         Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;

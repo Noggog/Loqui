@@ -126,6 +126,8 @@ namespace Loqui
             Registers.Add(reg.ObjectKey, reg);
             NameRegisters.Add(reg.FullName, reg);
             TypeRegister.Add(reg.ClassType, reg);
+            TypeRegister.Add(reg.SetterType, reg);
+            TypeRegister.Add(reg.GetterType, reg);
             if (reg.GenericRegistrationType != null
                 && !reg.GenericRegistrationType.Equals(reg.GetType()))
             {
