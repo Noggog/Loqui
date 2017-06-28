@@ -110,6 +110,7 @@ namespace Loqui.Tests
 
         public bool Equals(TestGenericObject<T, RBase, R> rhs)
         {
+            if (rhs == null) return false;
             if (RefBase_Property.HasBeenSet != rhs.RefBase_Property.HasBeenSet) return false;
             if (RefBase_Property.HasBeenSet)
             {

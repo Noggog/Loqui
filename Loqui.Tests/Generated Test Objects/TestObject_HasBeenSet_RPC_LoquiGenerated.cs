@@ -1513,6 +1513,7 @@ namespace Loqui.Tests
 
         public bool Equals(TestObject_HasBeenSet_RPC rhs)
         {
+            if (rhs == null) return false;
             if (BoolN_Property.HasBeenSet != rhs.BoolN_Property.HasBeenSet) return false;
             if (BoolN_Property.HasBeenSet)
             {

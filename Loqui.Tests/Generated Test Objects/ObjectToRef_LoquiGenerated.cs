@@ -114,6 +114,7 @@ namespace Loqui.Tests
 
         public bool Equals(ObjectToRef rhs)
         {
+            if (rhs == null) return false;
             if (KeyField_Property.HasBeenSet != rhs.KeyField_Property.HasBeenSet) return false;
             if (KeyField_Property.HasBeenSet)
             {

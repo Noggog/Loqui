@@ -92,6 +92,7 @@ namespace Loqui.Tests
 
         public bool Equals(TestGenericObject_SubClass<S, T, RBase, R> rhs)
         {
+            if (rhs == null) return false;
             return base.Equals(rhs);
         }
 

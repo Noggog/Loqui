@@ -1587,6 +1587,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public bool Equals({this.ObjectName} rhs)");
                     using (new BraceWrapper(fg))
                     {
+                        fg.AppendLine("if (rhs == null) return false;");
                         foreach (var field in Fields)
                         {
                             if (!HasKeyField() || field.KeyField)
