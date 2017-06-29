@@ -4360,7 +4360,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static CopyType Copy<CopyType>(
+        public static CopyType CopyGeneric<CopyType>(
             CopyType item,
             TestObject_Notifying_ReadOnly_RPC_CopyMask copyMask = null,
             ITestObject_Notifying_ReadOnly_RPCGetter def = null)

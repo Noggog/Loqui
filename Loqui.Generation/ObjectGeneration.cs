@@ -1798,7 +1798,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static CopyType Copy<CopyType>"))
+                $"public static CopyType CopyGeneric<CopyType>"))
             {
                 args.Add($"CopyType item");
                 args.Add($"{this.CopyMask} copyMask = null");

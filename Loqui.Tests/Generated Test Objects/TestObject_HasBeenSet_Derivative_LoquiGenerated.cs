@@ -4435,7 +4435,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static CopyType Copy<CopyType>(
+        public static CopyType CopyGeneric<CopyType>(
             CopyType item,
             TestObject_HasBeenSet_Derivative_CopyMask copyMask = null,
             ITestObject_HasBeenSet_DerivativeGetter def = null)

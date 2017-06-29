@@ -277,7 +277,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static CopyType Copy<CopyType>(
+        public static CopyType CopyGeneric<CopyType>(
             CopyType item,
             TestGenericObject_SubClass_Defined_CopyMask copyMask = null,
             ITestGenericObject_SubClass_DefinedGetter<RBase> def = null)
