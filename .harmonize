@@ -2,10 +2,10 @@
   <ParentRepos>
     <RepoListing>
       <Nickname>CSharpExt</Nickname>
-      <Sha>99db0669a6c6e5ff5ef84c87cbd1e0094a83bf68</Sha>
-      <Description>TypeExt.IsAssignableToGenericType</Description>
+      <Sha>ee3edb091c5dab625fdbb749efa26c81a40a530a</Sha>
+      <Description>NuGet update</Description>
       <Author>Justin Swanson</Author>
-      <CommitDate>06-26-2017 23:54:26</CommitDate>
+      <CommitDate>06-28-2017 19:01:52</CommitDate>
     </RepoListing>
   </ParentRepos>
 </HarmonizeConfig>
