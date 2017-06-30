@@ -49,6 +49,8 @@ namespace Loqui
 
         string Name { get; }
 
+        string Namespace { get; }
+
         byte GenericCount { get; }
 
         Type GenericRegistrationType { get; }

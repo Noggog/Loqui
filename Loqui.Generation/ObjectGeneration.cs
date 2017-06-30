@@ -448,6 +448,9 @@ namespace Loqui.Generation
                     fg.AppendLine($"public const string Name = \"{this.Name}\";");
                     fg.AppendLine();
 
+                    fg.AppendLine($"public const string Namespace = \"{this.Namespace}\";");
+                    fg.AppendLine();
+
                     fg.AppendLine($"public const byte GenericCount = {this.Generics.Count};");
                     fg.AppendLine();
 
@@ -492,6 +495,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"Type ILoquiRegistration.CommonType => CommonType;");
                         fg.AppendLine($"string ILoquiRegistration.FullName => FullName;");
                         fg.AppendLine($"string ILoquiRegistration.Name => Name;");
+                        fg.AppendLine($"string ILoquiRegistration.Namespace => Namespace;");
                         fg.AppendLine($"byte ILoquiRegistration.GenericCount => GenericCount;");
                         fg.AppendLine($"Type ILoquiRegistration.GenericRegistrationType => GenericRegistrationType;");
                         fg.AppendLine($"ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);");

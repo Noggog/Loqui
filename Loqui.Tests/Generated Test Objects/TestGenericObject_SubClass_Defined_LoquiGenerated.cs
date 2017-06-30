@@ -419,6 +419,8 @@ namespace Loqui.Tests.Internals
 
         public const string Name = "TestGenericObject_SubClass_Defined";
 
+        public const string Namespace = "Loqui.Tests";
+
         public const byte GenericCount = 1;
 
         public static readonly Type GenericRegistrationType = typeof(TestGenericObject_SubClass_Defined_Registration<>);
@@ -507,6 +509,7 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;
+        string ILoquiRegistration.Namespace => Namespace;
         byte ILoquiRegistration.GenericCount => GenericCount;
         Type ILoquiRegistration.GenericRegistrationType => GenericRegistrationType;
         ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);

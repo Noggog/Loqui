@@ -4292,6 +4292,8 @@ namespace Loqui.Tests.Internals
 
         public const string Name = "TestObject_Derivative_RPC";
 
+        public const string Namespace = "Loqui.Tests";
+
         public const byte GenericCount = 0;
 
         public static readonly Type GenericRegistrationType = null;
@@ -5485,6 +5487,7 @@ namespace Loqui.Tests.Internals
         Type ILoquiRegistration.CommonType => CommonType;
         string ILoquiRegistration.FullName => FullName;
         string ILoquiRegistration.Name => Name;
+        string ILoquiRegistration.Namespace => Namespace;
         byte ILoquiRegistration.GenericCount => GenericCount;
         Type ILoquiRegistration.GenericRegistrationType => GenericRegistrationType;
         ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);
