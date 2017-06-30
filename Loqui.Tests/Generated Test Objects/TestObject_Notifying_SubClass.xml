@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol ProtocolID="1" />
+  <Protocol Namespace="LoquiTests" />
   <Object name="TestObject_Notifying_SubClass" notifyingDefault="Notifying" baseClass="TestObject_Notifying" GUID="3c0cceee-3747-449d-ae3e-617f5c366ef7" ID="4">
     <Fields>
       <Bool name="NewField" />

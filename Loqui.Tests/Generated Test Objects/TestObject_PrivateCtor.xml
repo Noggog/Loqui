@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol ProtocolID="1" />
+  <Protocol Namespace="LoquiTests" />
   <Object name="TestObject_PrivateCtor" notifyingDefault="None" publicCtor="false" GUID="0df474a0-c6b4-4df1-9b98-311fbbe8414d" ID="15">
     <Fields>
       <BoolNull name="BoolN" />

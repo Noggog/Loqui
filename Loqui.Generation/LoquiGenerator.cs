@@ -14,8 +14,7 @@ namespace Loqui.Generation
         private const string CSPROJ_NAMESPACE = "http://schemas.microsoft.com/developer/msbuild/2003";
         private List<DirectoryInfo> sourceFolders = new List<DirectoryInfo>();
         private HashSet<FileInfo> sourceFiles = new HashSet<FileInfo>();
-        Dictionary<ProtocolDefinition, ProtocolGeneration> targetData = new Dictionary<ProtocolDefinition, ProtocolGeneration>();
-        Dictionary<ushort, ProtocolDefinition> idUsageDict = new Dictionary<ushort, ProtocolDefinition>();
+        Dictionary<ProtocolKey, ProtocolGeneration> targetData = new Dictionary<ProtocolKey, ProtocolGeneration>();
         List<FileInfo> projectsToModify = new List<FileInfo>();
         private List<DirectoryInfo> addedTargetDirs = new List<DirectoryInfo>();
         Dictionary<StringCaseAgnostic, Type> typeDict = new Dictionary<StringCaseAgnostic, Type>();
@@ -125,7 +124,7 @@ namespace Loqui.Generation
 
         public void AddProtocol(ProtocolGeneration protoGen)
         {
-            this.targetData[protoGen.Definition] = protoGen;
+            this.targetData[protoGen.Protocol] = protoGen;
         }
 
         public void AddProjectToModify(FileInfo projFile)
@@ -184,18 +183,13 @@ namespace Loqui.Generation
                         if (loquiNode == null) return false;
                         var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
 
-                        if (!protoNode.TryGetAttribute<ushort>("ProtocolID", out ushort protoID))
+                        if (!protoNode.TryGetAttribute("Namespace", out string nameSpace))
                         {
                             throw new ArgumentException();
                         }
 
-                        return protocolGen.Definition.Key.Equals(
-                            new ProtocolKey(protoID));
+                        return protocolGen.Protocol.Namespace.Equals(nameSpace);
                     }));
-
-                if (protocolGen.Empty) return;
-
-                idUsageDict[protocolGen.Definition.Key.ProtocolID] = protocolGen.Definition;
             }
         }
 
@@ -209,18 +203,9 @@ namespace Loqui.Generation
             GenerationInterfaces.Add(interf);
         }
 
-        public bool TryGetProtocol(ushort protoID, out KeyValuePair<ProtocolDefinition, ProtocolGeneration> protoGen)
+        public bool TryGetProtocol(ProtocolKey protocol, out ProtocolGeneration protoGen)
         {
-            if (!this.idUsageDict.TryGetValue(protoID, out var def)
-                || !this.targetData.TryGetValue(def, out var gen))
-            {
-                protoGen = default(KeyValuePair<ProtocolDefinition, ProtocolGeneration>);
-                return false;
-            }
-            protoGen = new KeyValuePair<ProtocolDefinition, ProtocolGeneration>(
-                def,
-                gen);
-            return true;
+            return this.targetData.TryGetValue(protocol, out protoGen);
         }
 
         public void Generate()
@@ -258,7 +243,7 @@ namespace Loqui.Generation
                     if (!obj.ID.HasValue) continue;
                     if (!usedIDs.Add(obj.ID.Value))
                     {
-                        throw new ArgumentException($"Two objects in protocol {proto.Definition} have the same ID {obj.ID.Value}");
+                        throw new ArgumentException($"Two objects in protocol {proto.Protocol.Namespace} have the same ID {obj.ID.Value}");
                     }
                 }
 

@@ -6423,7 +6423,7 @@ namespace Loqui.Tests.Internals
     {
         public static readonly TestObject_Notifying_Registration Instance = new TestObject_Notifying_Registration();
 
-        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_LoquiTests.Definition;
+        public static ProtocolKey ProtocolKey => ProtocolDefinition_LoquiTests.ProtocolKey;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_LoquiTests.ProtocolKey,
@@ -7632,7 +7632,7 @@ namespace Loqui.Tests.Internals
         }
 
         #region Interface
-        ProtocolDefinition ILoquiRegistration.ProtocolDefinition => ProtocolDefinition;
+        ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;
         ObjectKey ILoquiRegistration.ObjectKey => ObjectKey;
         string ILoquiRegistration.GUID => GUID;
         int ILoquiRegistration.FieldCount => FieldCount;

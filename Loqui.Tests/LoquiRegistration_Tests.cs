@@ -10,12 +10,12 @@ namespace Loqui.Tests
     public class LoquiRegistration_Tests
     {
         public static ObjectKey TestObjectKey = new ObjectKey(
-            protocolKey: new ProtocolKey(1),
+            protocolKey: new ProtocolKey("LoquiTests"),
             msgID: 2,
             version: 0);
 
         public static ObjectKey GenericTestObjectKey = new ObjectKey(
-            protocolKey: new ProtocolKey(1),
+            protocolKey: new ProtocolKey("LoquiTests"),
             msgID: 1,
             version: 0);
 

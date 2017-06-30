@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class ProtocolGeneration
     {
-        public ProtocolDefinition Definition;
+        public ProtocolKey Protocol;
         public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
         public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
         public Dictionary<StringCaseAgnostic, FieldBatch> FieldBatchesByName = new Dictionary<StringCaseAgnostic, FieldBatch>();
@@ -24,10 +24,10 @@ namespace Loqui.Generation
 
         public ProtocolGeneration(
             LoquiGenerator gen,
-            ProtocolDefinition def,
+            ProtocolKey protocol,
             DirectoryInfo defFileLocation = null)
         {
-            this.Definition = def;
+            this.Protocol = protocol;
             this.Gen = gen;
             this.DefFileLocationOverride = defFileLocation;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
@@ -169,17 +169,10 @@ namespace Loqui.Generation
             fg.AppendLine("namespace Loqui");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public class ProtocolDefinition_{this.Definition.Nickname} : IProtocolRegistration");
+                fg.AppendLine($"public class ProtocolDefinition_{this.Protocol.Namespace} : IProtocolRegistration");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey({this.Definition.Key.ProtocolID});");
-                    fg.AppendLine($"public readonly static ProtocolDefinition Definition = new ProtocolDefinition(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"key: ProtocolKey,");
-                        fg.AppendLine($"nickname: \"{this.Definition.Nickname}\");");
-                    }
-                    fg.AppendLine();
+                    fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey(\"{this.Protocol.Namespace}\");");
                     fg.AppendLine("public void Register()");
                     using (new BraceWrapper(fg))
                     {
@@ -195,7 +188,7 @@ namespace Loqui.Generation
             fg.Generate(
                 new FileInfo(
                     DefFileLocation.FullName
-                    + $"/ProtocolDefinition_{this.Definition.Nickname}.cs"));
+                    + $"/ProtocolDefinition_{this.Protocol.Namespace}.cs"));
         }
     }
 }

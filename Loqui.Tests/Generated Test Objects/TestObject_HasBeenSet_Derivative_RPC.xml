@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol ProtocolID="1" />
+  <Protocol Namespace="LoquiTests" />
   <Object name="TestObject_HasBeenSet_Derivative_RPC" notifyingDefault="HasBeenSet" derivativeDefault="true" raisePropertyChangedDefault="true" GUID="f287fc31-009b-4ca5-9cd3-dbfa1ebab116" ID="18">
     <Fields>
       <FieldBatch name="TypicalFields" />

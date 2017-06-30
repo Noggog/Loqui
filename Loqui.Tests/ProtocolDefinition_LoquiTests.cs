@@ -5,11 +5,7 @@ namespace Loqui
 {
     public class ProtocolDefinition_LoquiTests : IProtocolRegistration
     {
-        public readonly static ProtocolKey ProtocolKey = new ProtocolKey(1);
-        public readonly static ProtocolDefinition Definition = new ProtocolDefinition(
-            key: ProtocolKey,
-            nickname: "LoquiTests");
-
+        public readonly static ProtocolKey ProtocolKey = new ProtocolKey("LoquiTests");
         public void Register()
         {
             LoquiRegistration.Register(Loqui.Tests.Internals.TestGenericObject_Registration.Instance);

@@ -406,13 +406,13 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly {this.RegistrationName} Instance = new {this.RegistrationName}();");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.Definition;");
+                    fg.AppendLine($"public static ProtocolKey ProtocolKey => ProtocolDefinition_{this.ProtoGen.Protocol.Namespace}.ProtocolKey;");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly ObjectKey ObjectKey = new ObjectKey(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"protocolKey: ProtocolDefinition_{this.ProtoGen.Definition.Nickname}.ProtocolKey,");
+                        fg.AppendLine($"protocolKey: ProtocolDefinition_{this.ProtoGen.Protocol.Namespace}.ProtocolKey,");
                         fg.AppendLine($"msgID: {this.ID},");
                         fg.AppendLine($"version: {this.Version});");
                     }
@@ -480,7 +480,7 @@ namespace Loqui.Generation
 
                     using (new RegionWrapper(fg, "Interface"))
                     {
-                        fg.AppendLine($"ProtocolDefinition ILoquiRegistration.ProtocolDefinition => ProtocolDefinition;");
+                        fg.AppendLine($"ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;");
                         fg.AppendLine($"ObjectKey ILoquiRegistration.ObjectKey => ObjectKey;");
                         fg.AppendLine($"string ILoquiRegistration.GUID => GUID;");
                         fg.AppendLine($"int ILoquiRegistration.FieldCount => FieldCount;");
@@ -947,18 +947,9 @@ namespace Loqui.Generation
 
         private void GenerateProtocolProperty(FileGeneration fg)
         {
-            fg.AppendLine($"public static ProtocolKey Loqui_ProtocolKey_Static => new ProtocolKey({ProtoGen.Definition.Key.ProtocolID});");
+            fg.AppendLine($"public static ProtocolKey Loqui_ProtocolKey_Static => new ProtocolKey({ProtoGen.Protocol.Namespace});");
 
             fg.AppendLine($"public{FunctionOverride}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
-
-            fg.AppendLine("public static ProtocolDefinition Loqui_ProtocolDefinition_Static => new ProtocolDefinition(");
-            using (new DepthWrapper(fg))
-            {
-                fg.AppendLine($"key: Loqui_ProtocolKey_Static,");
-                fg.AppendLine($"nickname: \"{this.ProtoGen.Definition.Nickname}\");");
-            }
-
-            fg.AppendLine($"public{FunctionOverride}ProtocolDefinition Loqui_ProtocolDefinition => Loqui_ProtocolDefinition_Static;");
 
             fg.AppendLine($"public static ObjectKey Loqui_ObjectKey_Static => new ObjectKey(protocolKey: Loqui_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
 

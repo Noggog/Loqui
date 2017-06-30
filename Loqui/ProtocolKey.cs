@@ -4,11 +4,11 @@ namespace Loqui
 {
     public struct ProtocolKey : IEquatable<ProtocolKey>
     {
-        public readonly ushort ProtocolID;
+        public readonly string Namespace;
 
-        public ProtocolKey(ushort id)
+        public ProtocolKey(string nameSpace)
         {
-            this.ProtocolID = id;
+            this.Namespace = nameSpace;
         }
 
         public override bool Equals(object obj)
@@ -19,17 +19,17 @@ namespace Loqui
 
         public bool Equals(ProtocolKey other)
         {
-            return this.ProtocolID == other.ProtocolID;
+            return this.Namespace == other.Namespace;
         }
 
         public override int GetHashCode()
         {
-            return this.ProtocolID.GetHashCode();
+            return this.Namespace.GetHashCode();
         }
 
         public override string ToString()
         {
-            return $"ProtocolKey ({ProtocolID})";
+            return $"ProtocolKey ({Namespace})";
         }
     }
 }

@@ -26,9 +26,7 @@ namespace Loqui.Tests.Generator
             gen.AddProtocol(
                 new ProtocolGeneration(
                     gen,
-                    new ProtocolDefinition(
-                        new ProtocolKey(1),
-                        "LoquiTests")));
+                    new ProtocolKey("LoquiTests")));
 
             gen.Generate();
         }

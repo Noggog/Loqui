@@ -9,7 +9,7 @@ namespace Loqui
 {
     public interface ILoquiRegistration
     {
-        ProtocolDefinition ProtocolDefinition { get; }
+        ProtocolKey ProtocolKey { get; }
 
         ObjectKey ObjectKey { get; }
 

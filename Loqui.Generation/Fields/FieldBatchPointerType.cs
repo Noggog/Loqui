@@ -10,7 +10,7 @@ namespace Loqui.Generation
     public class FieldBatchPointerType : TypeGeneration
     {
         public string BatchName { get; private set; }
-        public ushort? ProtocolID { get; private set; }
+        public string ProtocolID { get; private set; }
 
         #region Type Generation Abstract
         public override string TypeName => throw new NotImplementedException();
@@ -78,20 +78,20 @@ namespace Loqui.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             this.BatchName = node.GetAttribute<string>("name", throwException: true);
-            this.ProtocolID = node.GetAttribute<ushort?>("protocolID", throwException: false);
+            this.ProtocolID = node.GetAttribute("protocol", throwException: false);
         }
 
         public override void Resolve()
         {
             base.Resolve();
-            var protoID = this.ProtocolID ?? this.ObjectGen.ProtoGen.Definition.Key.ProtocolID;
-            if (!this.ObjectGen.ProtoGen.Gen.TryGetProtocol(protoID, out var protoGen))
+            var protoID = this.ProtocolID ?? this.ObjectGen.ProtoGen.Protocol.Namespace;
+            if (!this.ObjectGen.ProtoGen.Gen.TryGetProtocol(new ProtocolKey(protoID), out var protoGen))
             {
                 throw new ArgumentException($"Protocol did not exist {protoID}.");
             }
-            if (!protoGen.Value.FieldBatchesByName.TryGetValue(this.BatchName, out var batch))
+            if (!protoGen.FieldBatchesByName.TryGetValue(this.BatchName, out var batch))
             {
-                throw new ArgumentException($"Field batch did not exist {this.BatchName} in protocol {protoGen.Key}");
+                throw new ArgumentException($"Field batch did not exist {this.BatchName} in protocol {protoGen.Protocol.Namespace}");
             }
             var index = this.ObjectGen.Fields.IndexOf(this);
             if (index == -1)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol ProtocolID="1" />
+  <Protocol Namespace="LoquiTests" />
   <FieldBatch name="TypicalFields">
     <Fields>
       <BoolNull name="BoolN" />

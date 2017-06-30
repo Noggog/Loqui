@@ -41,7 +41,7 @@ namespace Loqui
 
         public override string ToString()
         {
-            return $"ObjectKey (p{this.ProtocolKey.ProtocolID}, m{this.MessageID}, v{this.Version})";
+            return $"ObjectKey ({this.ProtocolKey.Namespace}, m{this.MessageID}, v{this.Version})";
         }
     }
 }

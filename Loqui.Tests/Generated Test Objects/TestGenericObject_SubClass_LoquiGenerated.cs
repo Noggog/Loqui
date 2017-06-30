@@ -401,7 +401,7 @@ namespace Loqui.Tests.Internals
     {
         public static readonly TestGenericObject_SubClass_Registration Instance = new TestGenericObject_SubClass_Registration();
 
-        public static ProtocolDefinition ProtocolDefinition => ProtocolDefinition_LoquiTests.Definition;
+        public static ProtocolKey ProtocolKey => ProtocolDefinition_LoquiTests.ProtocolKey;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_LoquiTests.ProtocolKey,
@@ -504,7 +504,7 @@ namespace Loqui.Tests.Internals
         public static Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
 
         #region Interface
-        ProtocolDefinition ILoquiRegistration.ProtocolDefinition => ProtocolDefinition;
+        ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;
         ObjectKey ILoquiRegistration.ObjectKey => ObjectKey;
         string ILoquiRegistration.GUID => GUID;
         int ILoquiRegistration.FieldCount => FieldCount;
