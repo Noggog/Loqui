@@ -107,20 +107,20 @@ namespace Loqui.Tests
             Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
         }
 
-        [Fact]
-        public void GetCopyFunc()
-        {
-            var func = LoquiRegistration.GetCopyFunc<TestObject_Notifying>();
-            Assert.NotNull(func);
-            Assert.IsType(typeof(Func<TestObject_Notifying, object, object, TestObject_Notifying>), func);
-        }
+        //[Fact]
+        //public void GetCopyFunc()
+        //{
+        //    var func = LoquiRegistration.GetCopyFunc<TestObject_Notifying>();
+        //    Assert.NotNull(func);
+        //    Assert.IsType(typeof(Func<TestObject_Notifying, object, object, TestObject_Notifying>), func);
+        //}
 
-        [Fact]
-        public void GetCopyFunc_Generic()
-        {
-            var func = LoquiRegistration.GetCopyFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
-            Assert.NotNull(func);
-            Assert.IsType(typeof(Func<TestGenericObject<bool, ObjectToRef, ObjectToRef>, object, object, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
-        }
+        //[Fact]
+        //public void GetCopyFunc_Generic()
+        //{
+        //    var func = LoquiRegistration.GetCopyFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
+        //    Assert.NotNull(func);
+        //    Assert.IsType(typeof(Func<TestGenericObject<bool, ObjectToRef, ObjectToRef>, object, object, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
+        //}
     }
 }

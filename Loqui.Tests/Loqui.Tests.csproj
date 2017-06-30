@@ -146,7 +146,6 @@
     <Compile Include="XML\DateTimeNullableXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
     <Compile Include="XML\KeyedDictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\LoquiXmlTranslation_Test.cs" />
     <Compile Include="XML\NullXmlTranslation_Test.cs" />
     <Compile Include="XML\Int8XmlTranslation_Test.cs" />
     <Compile Include="XML\DictXmlTranslation_Tests.cs" />
