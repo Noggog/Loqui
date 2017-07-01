@@ -3727,8 +3727,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -3766,8 +3768,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -3828,8 +3832,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -3867,8 +3873,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -3908,8 +3916,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -3947,8 +3957,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }
@@ -4041,8 +4053,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!listDoMasks) throw ex;
                                         listSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
@@ -4123,8 +4137,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!dictDoMasks) throw ex;
                                         dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
@@ -4154,8 +4170,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!dictDoMasks) throw ex;
                                         dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
@@ -4202,8 +4220,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!dictDoMasks) throw ex;
                                         dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
@@ -4267,8 +4287,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!dictDoMasks) throw ex;
                                         dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
@@ -4315,8 +4337,10 @@ namespace Loqui.Tests
                                     var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
                                     if (register == null)
                                     {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!dictDoMasks) throw ex;
                                         dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}"),
+                                            ex,
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }

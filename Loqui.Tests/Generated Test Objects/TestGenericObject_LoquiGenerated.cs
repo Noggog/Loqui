@@ -242,8 +242,10 @@ namespace Loqui.Tests
                             var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
                             if (register == null)
                             {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
                                 subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}"),
+                                    ex,
                                     null);
                                 break;
                             }

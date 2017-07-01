@@ -147,10 +147,12 @@ namespace Loqui.Generation
                     fg.AppendLine("if (register == null)");
                     using (new BraceWrapper(fg))
                     {
+                        fg.AppendLine($"var ex = new ArgumentException($\"Unknown Loqui type: {{{nodeAccessor}.Name.LocalName}}\");");
+                        fg.AppendLine($"if (!{doMaskAccessor}) throw ex;");
                         using (var args = new ArgsWrapper(fg,
                             $"{maskAccessor} = new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>"))
                         {
-                            args.Add($"new ArgumentException($\"Unknown Loqui type: {{{nodeAccessor}.Name.LocalName}}\")");
+                            args.Add($"ex");
                             args.Add("null");
                         }
                         if (retAccessor != null)
