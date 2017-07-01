@@ -7,10 +7,10 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:complexType name="ProtocolType" >
-    <xs:attribute name="ProtocolID" type="xs:unsignedShort" use="required" >
+    <xs:attribute name="Namespace" type="xs:string" use="required" >
       <xs:annotation>
         <xs:documentation>
-          The ID of the protocol.
+          The unique namespace of the protocol
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
