@@ -29,6 +29,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public NotifyingOption NotifyingDefault = NotifyingOption.None;
         public bool RaisePropertyChangedDefault;
         public MaskModule MaskModule = new MaskModule();
 

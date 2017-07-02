@@ -20,6 +20,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public NotifyingOption NotifyingDefault;
         public bool RaisePropertyChangedDefault = true;
 
         public ProtocolGeneration(
@@ -29,6 +30,7 @@ namespace Loqui.Generation
         {
             this.Protocol = protocol;
             this.Gen = gen;
+            this.NotifyingDefault = gen.NotifyingDefault;
             this.DefFileLocationOverride = defFileLocation;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
             this.ProtectedDefault = gen.ProtectedDefault;

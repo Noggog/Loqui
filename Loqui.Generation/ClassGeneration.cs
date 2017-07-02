@@ -43,7 +43,7 @@ namespace Loqui.Generation
         {
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
-            _notifyingDefault = Node.GetAttribute<NotifyingOption>("notifyingDefault", NotifyingOption.None);
+            _notifyingDefault = Node.GetAttribute<NotifyingOption>("notifyingDefault", this.ProtoGen.NotifyingDefault);
             
             this.Interfaces.Add($"ILoquiObjectSetter");
 
