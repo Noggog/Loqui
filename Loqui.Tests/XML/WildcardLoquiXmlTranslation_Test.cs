@@ -28,7 +28,11 @@ namespace Loqui.Tests.XML
 
         public XElement GetTypicalElement(string name = null)
         {
-            return subTest.GetTypicalElement(name);
+            var wildElem = XmlUtility.GetElementNoValue(name);
+            wildElem.SetAttributeValue(XName.Get(XmlConstants.TYPE_ATTRIBUTE), subTest.ExpectedName);
+            var elem = subTest.GetTypicalElement(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE, "Item");
+            wildElem.Add(elem);
+            return wildElem;
         }
 
         public XElement GetElementNoValue()
@@ -62,9 +66,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
-            var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));
-            Assert.NotNull(nameAttr);
-            Assert.Equal(name, nameAttr.Value);
+            Assert.Equal(name, elem.Name.LocalName);
         }
 
         #region Parse - Typical
@@ -97,35 +99,6 @@ namespace Loqui.Tests.XML
         }
         #endregion
 
-        #region Parse - Bad Element Name
-        [Fact]
-        public void Parse_BadElementName_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out var maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-
-        [Fact]
-        public void Parse_BadElementName_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out var maskObj));
-        }
-        #endregion
-
         #region Write - Typical
         [Fact]
         public void Write_NoMask()
@@ -134,7 +107,7 @@ namespace Loqui.Tests.XML
             var writer = XmlUtility.GetWriteBundle();
             transl.Write(
                 writer: writer.Writer,
-                name: null,
+                name: "Item",
                 item: TYPICAL_VALUE,
                 doMasks: false,
                 maskObj: out var maskObj);
@@ -156,7 +129,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
-            Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
+            Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Name.LocalName);
         }
         #endregion
 

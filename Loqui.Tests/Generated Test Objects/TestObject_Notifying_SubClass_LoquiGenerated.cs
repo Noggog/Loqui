@@ -168,23 +168,15 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
         {
-            if (!root.Name.LocalName.Equals("Loqui.Tests.TestObject_Notifying_SubClass"))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestObject_Notifying_SubClass.");
-                if (!doMasks) throw ex;
-                errorMask().Overall = ex;
-                return null;
-            }
             var ret = new TestObject_Notifying_SubClass();
             try
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
                     Fill_XML_Internal(
                         item: ret,
                         root: elem,
-                        name: name.Value,
+                        name: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -791,6 +783,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_SubClassGetter rhs,
             TestObject_Notifying_SubClass_Mask<bool> ret)
         {
+            if (rhs == null) return;
             ret.NewField = item.NewField_Property.Equals(rhs.NewField_Property, (l, r) => l == r);
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }
@@ -908,11 +901,11 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, "Loqui.Tests.TestObject_Notifying_SubClass"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_Notifying_SubClass"))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    if (name != null)
                     {
-                        writer.WriteAttributeString("name", name);
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_SubClass");
                     }
                     if (item.NewField_Property.HasBeenSet)
                     {

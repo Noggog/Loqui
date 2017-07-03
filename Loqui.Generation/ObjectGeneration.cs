@@ -1451,6 +1451,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                fg.AppendLine("if (rhs == null) return;");
                 foreach (var field in Fields)
                 {
                     if (!HasKeyField() || field.KeyField)

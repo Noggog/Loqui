@@ -2441,23 +2441,15 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestObject_HasBeenSet_ReadOnly_RPC_ErrorMask> errorMask)
         {
-            if (!root.Name.LocalName.Equals("Loqui.Tests.TestObject_HasBeenSet_ReadOnly_RPC"))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestObject_HasBeenSet_ReadOnly_RPC.");
-                if (!doMasks) throw ex;
-                errorMask().Overall = ex;
-                return null;
-            }
             var ret = new TestObject_HasBeenSet_ReadOnly_RPC();
             try
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
                     Fill_XML_Internal(
                         item: ret,
                         root: elem,
-                        name: name.Value,
+                        name: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -3022,19 +3014,10 @@ namespace Loqui.Tests
                 case "Unsafe":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._Unsafe.Item = (bool)tryGet.Value;
@@ -3048,19 +3031,10 @@ namespace Loqui.Tests
                 case "UnsafeLoqui":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._UnsafeLoqui.Item = (ObjectToRef)tryGet.Value;
@@ -3074,19 +3048,10 @@ namespace Loqui.Tests
                 case "UnsafeNull":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._UnsafeNull.Item = (ObjectToRef)tryGet.Value;
@@ -3945,19 +3910,10 @@ namespace Loqui.Tests
                 case "WildCard":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._WildCard.Item = (Object)tryGet.Value;
@@ -3971,19 +3927,10 @@ namespace Loqui.Tests
                 case "WildCardLoqui":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._WildCardLoqui.Item = (Object)tryGet.Value;
@@ -3997,19 +3944,10 @@ namespace Loqui.Tests
                 case "WildCardNull":
                     {
                         object subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out subMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item._WildCardNull.Item = (Object)tryGet.Value;
@@ -4025,7 +3963,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<ObjectToRef> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                 root: root,
@@ -4034,7 +3974,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4066,7 +4006,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<ObjectToRef> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                 root: root,
@@ -4075,7 +4017,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4130,7 +4072,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<IObjectToRefGetter> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<IObjectToRefGetter>.Succeed((IObjectToRefGetter)ObjectToRef.Create_XML(
                                 root: root,
@@ -4139,7 +4083,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4171,7 +4115,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<IObjectToRefGetter> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<IObjectToRefGetter>.Succeed((IObjectToRefGetter)ObjectToRef.Create_XML(
                                 root: root,
@@ -4180,7 +4126,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4214,7 +4160,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<IObjectToRef> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<IObjectToRef>.Succeed((IObjectToRef)ObjectToRef.Create_XML(
                                 root: root,
@@ -4223,7 +4171,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4255,7 +4203,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<IObjectToRef> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<IObjectToRef>.Succeed((IObjectToRef)ObjectToRef.Create_XML(
                                 root: root,
@@ -4264,7 +4214,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -4351,7 +4301,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4360,7 +4312,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -4435,7 +4387,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4444,7 +4398,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -4468,7 +4422,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4477,7 +4433,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -4518,7 +4474,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4527,7 +4485,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -4585,7 +4543,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4594,7 +4554,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -4635,7 +4595,9 @@ namespace Loqui.Tests
                             {
                                 ObjectToRef_ErrorMask loquiMask;
                                 TryGet<ObjectToRef> tryGet;
-                                if (r.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
                                     tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
                                         root: r,
@@ -4644,7 +4606,7 @@ namespace Loqui.Tests
                                 }
                                 else
                                 {
-                                    var register = LoquiRegistration.GetRegisterByFullName(r.Name.LocalName);
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
                                     if (register == null)
                                     {
                                         var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
@@ -8288,6 +8250,7 @@ namespace Loqui.Tests.Internals
             ITestObject_HasBeenSet_ReadOnly_RPCGetter rhs,
             TestObject_HasBeenSet_ReadOnly_RPC_Mask<bool> ret)
         {
+            if (rhs == null) return;
             ret.BoolN = item.BoolN_Property.Equals(rhs.BoolN_Property, (l, r) => l == r);
             ret.Bool = item.Bool_Property.Equals(rhs.Bool_Property, (l, r) => l == r);
             ret.CharN = item.CharN_Property.Equals(rhs.CharN_Property, (l, r) => l == r);
@@ -9370,11 +9333,11 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, "Loqui.Tests.TestObject_HasBeenSet_ReadOnly_RPC"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_HasBeenSet_ReadOnly_RPC"))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    if (name != null)
                     {
-                        writer.WriteAttributeString("name", name);
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_HasBeenSet_ReadOnly_RPC");
                     }
                     if (item.BoolN_Property.HasBeenSet)
                     {
@@ -9799,18 +9762,12 @@ namespace Loqui.Tests.Internals
                     if (item.Unsafe_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.Unsafe == null ? null : item.Unsafe.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.Unsafe),
-                            item.Unsafe,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.Unsafe),
+                            item: item.Unsafe,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -9820,18 +9777,12 @@ namespace Loqui.Tests.Internals
                     if (item.UnsafeLoqui_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.UnsafeLoqui == null ? null : item.UnsafeLoqui.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.UnsafeLoqui),
-                            item.UnsafeLoqui,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.UnsafeLoqui),
+                            item: item.UnsafeLoqui,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -9841,18 +9792,12 @@ namespace Loqui.Tests.Internals
                     if (item.UnsafeNull_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.UnsafeNull == null ? null : item.UnsafeNull.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.UnsafeNull),
-                            item.UnsafeNull,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.UnsafeNull),
+                            item: item.UnsafeNull,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -10520,18 +10465,12 @@ namespace Loqui.Tests.Internals
                     if (item.WildCard_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.WildCard == null ? null : item.WildCard.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.WildCard),
-                            item.WildCard,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCard),
+                            item: item.WildCard,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -10541,18 +10480,12 @@ namespace Loqui.Tests.Internals
                     if (item.WildCardLoqui_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.WildCardLoqui == null ? null : item.WildCardLoqui.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.WildCardLoqui),
-                            item.WildCardLoqui,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCardLoqui),
+                            item: item.WildCardLoqui,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -10562,18 +10495,12 @@ namespace Loqui.Tests.Internals
                     if (item.WildCardNull_Property.HasBeenSet)
                     {
                         object subMask;
-                        var wildType = item.WildCardNull == null ? null : item.WildCardNull.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.WildCardNull),
-                            item.WildCardNull,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCardNull),
+                            item: item.WildCardNull,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
                         if (subMask != null)
                         {
@@ -10728,7 +10655,7 @@ namespace Loqui.Tests.Internals
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
-                                    null,
+                                    "Item",
                                     subItem,
                                     doMasks: doMasks,
                                     errorMask: out listSubMask);
@@ -10753,7 +10680,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: doMasks,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
@@ -10777,7 +10704,7 @@ namespace Loqui.Tests.Internals
                             {
                                 StringXmlTranslation.Instance.Write(
                                     writer,
-                                    null,
+                                    "Item",
                                     subItem,
                                     doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
@@ -10787,7 +10714,7 @@ namespace Loqui.Tests.Internals
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
-                                    null,
+                                    "Item",
                                     subItem,
                                     doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
@@ -10812,7 +10739,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
@@ -10823,7 +10750,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
@@ -10848,7 +10775,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
@@ -10858,7 +10785,7 @@ namespace Loqui.Tests.Internals
                             {
                                 BooleanXmlTranslation.Instance.Write(
                                     writer,
-                                    null,
+                                    "Item",
                                     subItem,
                                     doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
@@ -10882,7 +10809,7 @@ namespace Loqui.Tests.Internals
                             {
                                 StringXmlTranslation.Instance.Write(
                                     writer,
-                                    null,
+                                    "Item",
                                     subItem,
                                     doMasks: dictDoMask,
                                     errorMask: out dictSubMask);
@@ -10893,7 +10820,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
@@ -10918,7 +10845,7 @@ namespace Loqui.Tests.Internals
                                 ObjectToRefCommon.Write_XML(
                                     writer: writer,
                                     item: subItem,
-                                    name: null,
+                                    name: "Item",
                                     doMasks: dictDoMask,
                                     errorMask: out ObjectToRef_ErrorMask loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);

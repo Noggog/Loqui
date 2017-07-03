@@ -31,21 +31,12 @@ namespace Loqui.Xml
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name))
-                    {
-                        if (doMasks)
-                        {
-                            mask().Warnings.Add("Skipping field that did not have name");
-                        }
-                        continue;
-                    }
-
-                    var i = registration.GetNameIndex(name.Value);
+                    var i = registration.GetNameIndex(elem.Name.LocalName);
                     if (!i.HasValue)
                     {
                         if (doMasks)
                         {
-                            mask().Warnings.Add("Skipping field that did not exist anymore with name: " + name);
+                            mask().Warnings.Add($"Skipping field that did not exist anymore with name: {elem.Name.LocalName}");
                         }
                         continue;
                     }
@@ -156,10 +147,6 @@ namespace Loqui.Xml
             try
             {
                 var regis = LoquiRegistration.GetRegister(typeof(T));
-                if (!regis.FullName.Equals(root.Name.LocalName))
-                {
-                    throw new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                }
                 var fields = EnumerateObjects(
                     regis,
                     root,
@@ -182,16 +169,13 @@ namespace Loqui.Xml
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
-            using (new ElementWrapper(writer, item.Registration.FullName))
+            using (new ElementWrapper(writer, name))
             {
-                if (!string.IsNullOrEmpty(name))
-                {
-                    writer.WriteAttributeString("name", name);
-                }
                 mask = default(M);
 
                 try
                 {
+                    writer.WriteAttributeString(XmlConstants.TYPE_ATTRIBUTE, ElementName);
                     for (ushort i = 0; i < item.Registration.FieldCount; i++)
                     {
                         try

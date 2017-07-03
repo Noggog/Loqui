@@ -152,23 +152,15 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestGenericObject_SubClass_ErrorMask> errorMask)
         {
-            if (!root.Name.LocalName.Equals("Loqui.Tests.TestGenericObject_SubClass"))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestGenericObject_SubClass.");
-                if (!doMasks) throw ex;
-                errorMask().Overall = ex;
-                return null;
-            }
             var ret = new TestGenericObject_SubClass<S, T, RBase, R>();
             try
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
                     Fill_XML_Internal(
                         item: ret,
                         root: elem,
-                        name: name.Value,
+                        name: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -760,6 +752,7 @@ namespace Loqui.Tests.Internals
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
+            if (rhs == null) return;
             TestGenericObjectCommon.FillEqualsMask(item, rhs, ret);
         }
 
@@ -902,11 +895,11 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, "Loqui.Tests.TestGenericObject_SubClass"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestGenericObject_SubClass"))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    if (name != null)
                     {
-                        writer.WriteAttributeString("name", name);
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestGenericObject_SubClass");
                     }
                 }
             }

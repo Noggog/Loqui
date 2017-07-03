@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Loqui.Xml;
 
 namespace Loqui.Generation
 {
@@ -341,14 +342,6 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!root.Name.LocalName.Equals(\"{obj.FullName}\"))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var ex = new ArgumentException($\"Skipping field that did not match proper type. Type: {{root.Name.LocalName}}, expected: {obj.FullName}.\");");
-                    fg.AppendLine("if (!doMasks) throw ex;");
-                    fg.AppendLine("errorMask().Overall = ex;");
-                    fg.AppendLine($"return null;");
-                }
                 fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
@@ -356,13 +349,12 @@ namespace Loqui.Generation
                     fg.AppendLine("foreach (var elem in root.Elements())");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!elem.TryGetAttribute(\"name\", out XAttribute name)) continue;");
                         using (var args = new ArgsWrapper(fg,
                             "Fill_XML_Internal"))
                         {
                             args.Add("item: ret");
                             args.Add("root: elem");
-                            args.Add("name: name.Value");
+                            args.Add("name: elem.Name.LocalName");
                             args.Add("doMasks: doMasks");
                             args.Add("errorMask: errorMask");
                         }
@@ -410,7 +402,7 @@ namespace Loqui.Generation
                                     fg.AppendLine($"{maskType} subMask;");
                                     generator.GenerateCopyIn(
                                         fg: fg,
-                                        typeGen: field.Field, 
+                                        typeGen: field.Field,
                                         nodeAccessor: "root",
                                         itemAccessor: $"item.{field.Field.ProtectedName}",
                                         doMaskAccessor: "doMasks",
@@ -546,13 +538,13 @@ namespace Loqui.Generation
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"using (new ElementWrapper(writer, \"{obj.FullName}\"))");
+                    fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!string.IsNullOrEmpty(name))");
+                        fg.AppendLine("if (name != null)");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"writer.WriteAttributeString(\"name\", name);");
+                            fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
                         }
 
                         foreach (var field in obj.IterateFields())

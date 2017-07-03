@@ -15,14 +15,13 @@ namespace Loqui.Tests.XML
         public const string TYPICAL_NAME = "SomeField";
         public const string NAME_ATTR = "name";
 
-        public static XElement GetElementNoValue(string nodeName, string name = null)
+        public static XElement GetElementNoValue(string nodeName)
         {
-            var elem = new XElement(XName.Get(nodeName));
-            if (!string.IsNullOrWhiteSpace(name))
+            if (nodeName == null)
             {
-                elem.SetAttributeValue(XName.Get(XmlConstants.NAME_ATTRIBUTE), name);
+                nodeName = XmlUtility.TYPICAL_NAME;
             }
-            return elem;
+            return new XElement(XName.Get(nodeName));
         }
 
         public static XElement GetBadlyNamedElement()

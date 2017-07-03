@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loqui.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -129,7 +130,12 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{loquiGen.TargetObjectGeneration.ErrorMask} loquiMask;");
                 fg.AppendLine($"TryGet<{typeGen.TypeName}> tryGet;");
-                fg.AppendLine($"if ({nodeAccessor}.Name.LocalName.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
+                fg.AppendLine($"var typeStr = {nodeAccessor}.GetAttribute(XmlConstants.{nameof(XmlConstants.TYPE_ATTRIBUTE)});");
+                fg.AppendLine($"if (typeStr != null");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"&& typeStr.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
+                }
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
@@ -143,7 +149,7 @@ namespace Loqui.Generation
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName({nodeAccessor}.Name.LocalName);");
+                    fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? {nodeAccessor}.Name.LocalName);");
                     fg.AppendLine("if (register == null)");
                     using (new BraceWrapper(fg))
                     {

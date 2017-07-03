@@ -1,5 +1,6 @@
 ﻿using Noggog;
 using Noggog.Notifying;
+using Noggog.Xml;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -25,9 +26,38 @@ namespace Loqui.Xml
 
         public TryGet<Object> Parse(XElement root, bool doMasks, out object maskObj)
         {
-            if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out INotifyingItemGetter<Type> t))
+            if (!root.TryGetAttribute(XmlConstants.TYPE_ATTRIBUTE, out var nameAttr))
             {
-                var ex = new ArgumentException($"Could not match Element type {root.Name.LocalName} to an XML Translator.");
+                var ex = new ArgumentException($"Could not get name attribute for XML Translator.");
+                if (doMasks)
+                {
+                    maskObj = ex;
+                    return TryGet<Object>.Failure;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
+            var itemNode = root.Element("Item");
+            if (itemNode == null)
+            {
+                var ex = new ArgumentException($"Could not get item node.");
+                if (doMasks)
+                {
+                    maskObj = ex;
+                    return TryGet<Object>.Failure;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
+            if (!XmlTranslator.TranslateElementName(nameAttr.Value, out INotifyingItemGetter<Type> t))
+            {
+                var ex = new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator.");
                 if (doMasks)
                 {
                     maskObj = ex;
@@ -39,13 +69,17 @@ namespace Loqui.Xml
                 }
             }
             var xml = GetTranslator(t.Item);
-            return xml.Parse(root, doMasks, out maskObj);
+            return xml.Parse(itemNode, doMasks, out maskObj);
         }
 
         public void Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
         {
             var xml = GetTranslator(item?.GetType());
-            xml.Write(writer, name, item, doMasks, out maskObj);
+            using (new ElementWrapper(writer, name))
+            {
+                writer.WriteAttributeString(XmlConstants.TYPE_ATTRIBUTE, xml.ElementName);
+                xml.Write(writer, "Item", item, doMasks, out maskObj);
+            }
         }
     }
 }

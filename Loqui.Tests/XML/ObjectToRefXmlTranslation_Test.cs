@@ -24,7 +24,8 @@ namespace Loqui.Tests.XML
 
         public XElement GetTypicalElement(ObjectToRef obj, string name = null)
         {
-            var ret = XmlUtility.GetElementNoValue(ExpectedName, name);
+            var ret = XmlUtility.GetElementNoValue(name);
+            ret.SetAttributeValue("type", "Loqui.Tests.ObjectToRef");
             ret.Add(
                 Int32XmlTranslation_Test.Instance.GetTypicalElement(obj?.KeyField ?? Int32XmlTranslation_Test.TYPICAL_VALUE, nameof(ObjectToRef.KeyField)));
             ret.Add(
@@ -55,9 +56,7 @@ namespace Loqui.Tests.XML
                 writer: writer.Writer,
                 name: name);
             XElement elem = writer.Resolve();
-            var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));
-            Assert.NotNull(nameAttr);
-            Assert.Equal(name, nameAttr.Value);
+            Assert.Equal(name, elem.Name.LocalName);
         }
     }
 }

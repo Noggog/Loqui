@@ -191,23 +191,15 @@ namespace Loqui.Tests
             bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask)
         {
-            if (!root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.ObjectToRef.");
-                if (!doMasks) throw ex;
-                errorMask().Overall = ex;
-                return null;
-            }
             var ret = new ObjectToRef();
             try
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
                     Fill_XML_Internal(
                         item: ret,
                         root: elem,
-                        name: name.Value,
+                        name: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -890,6 +882,7 @@ namespace Loqui.Tests.Internals
             IObjectToRefGetter rhs,
             ObjectToRef_Mask<bool> ret)
         {
+            if (rhs == null) return;
             ret.KeyField = item.KeyField_Property.Equals(rhs.KeyField_Property, (l, r) => l == r);
             ret.SomeField = item.SomeField_Property.Equals(rhs.SomeField_Property, (l, r) => l == r);
         }
@@ -1013,11 +1006,11 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, "Loqui.Tests.ObjectToRef"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.ObjectToRef"))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    if (name != null)
                     {
-                        writer.WriteAttributeString("name", name);
+                        writer.WriteAttributeString("type", "Loqui.Tests.ObjectToRef");
                     }
                     if (item.KeyField_Property.HasBeenSet)
                     {

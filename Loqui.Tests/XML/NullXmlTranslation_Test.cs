@@ -27,9 +27,6 @@ namespace Loqui.Tests.XML
             return null;
         }
 
-        #region Bad Element
-        #endregion
-
         #region Parse - Typical
         [Fact]
         public void Parse_NoMask()
@@ -60,34 +57,6 @@ namespace Loqui.Tests.XML
         }
         #endregion
 
-        #region Parse - Bad Element Name
-        [Fact]
-        public void Parse_BadElementName_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out var maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-
-        [Fact]
-        public void Parse_BadElementName_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out var maskObj));
-        }
-        #endregion
 
         #region Bad Element
         [Fact]
@@ -100,7 +69,6 @@ namespace Loqui.Tests.XML
         {
         }
         #endregion
-
         #region Parse - Empty Value
         [Fact]
         public void Parse_EmptyValue_NoMask()
@@ -139,7 +107,7 @@ namespace Loqui.Tests.XML
             var writer = XmlUtility.GetWriteBundle();
             transl.Write(
                 writer: writer.Writer,
-                name: null,
+                name: XmlUtility.TYPICAL_NAME,
                 item: TYPICAL_VALUE,
                 doMasks: false,
                 maskObj: out var maskObj);

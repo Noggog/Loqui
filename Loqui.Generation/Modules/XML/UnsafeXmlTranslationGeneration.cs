@@ -19,21 +19,14 @@ namespace Loqui.Generation
             string maskAccessor,
             string nameAccessor)
         {
-            fg.AppendLine($"var wildType = item.{typeGen.Name} == null ? null : item.{typeGen.Name}.GetType();");
-            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(wildType);");
-            fg.AppendLine($"if (transl?.Item.Failed ?? true)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{wildType}}. {{transl?.Item.Reason}}\");");
-            }
             using (var args = new ArgsWrapper(fg,
-                $"transl.Item.Value.Write"))
+                $"WildcardXmlTranslation.Instance.Write"))
             {
-                args.Add(writerAccessor);
-                args.Add(nameAccessor);
-                args.Add($"{itemAccessor}");
-                args.Add($"{doMaskAccessor}");
-                args.Add($"out object unsafeErrMask");
+                args.Add($"writer: {writerAccessor}");
+                args.Add($"name: {nameAccessor}");
+                args.Add($"item: {itemAccessor}");
+                args.Add($"doMasks: {doMaskAccessor}");
+                args.Add($"maskObj: out var unsafeErrMask");
             }
             fg.AppendLine($"{maskAccessor} = ({ErrMaskString})unsafeErrMask;");
         }
@@ -63,23 +56,12 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
-            fg.AppendLine($"if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{root.Name.LocalName}}.\");");
-            }
-            fg.AppendLine($"var transl = XmlTranslator.GetTranslator(type.Item);");
-            fg.AppendLine($"if (transl?.Item.Failed ?? true)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"throw new ArgumentException($\"Failed to get translator for {{type.Item}}. {{transl?.Item.Reason}}\");");
-            }
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}transl.Item.Value.Parse"))
+                $"var tryGet = WildcardXmlTranslation.Instance.Parse"))
             {
-                args.Add($"{nodeAccessor}");
-                args.Add($"{doMaskAccessor}");
-                args.Add($"out {maskAccessor}");
+                args.Add($"root: {nodeAccessor}");
+                args.Add($"doMasks: {doMaskAccessor}");
+                args.Add($"maskObj: out {maskAccessor}");
             }
         }
     }

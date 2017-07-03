@@ -20,7 +20,7 @@ namespace Loqui.Tests.XML
 
         public virtual XElement GetTypicalElement(T value, string name = null)
         {
-            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            var elem = XmlUtility.GetElementNoValue(name);
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), StringConverter(value));
             return elem;
         }
@@ -32,14 +32,14 @@ namespace Loqui.Tests.XML
 
         public virtual XElement GetBadElement(string name = null)
         {
-            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            var elem = XmlUtility.GetElementNoValue(name);
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), "Gibberish");
             return elem;
         }
 
         public XElement GetElementNoValue()
         {
-            return XmlUtility.GetElementNoValue(this.ExpectedName);
+            return XmlUtility.GetElementNoValue(XmlUtility.TYPICAL_NAME);
         }
 
         public virtual string StringConverter(T item)
@@ -79,13 +79,6 @@ namespace Loqui.Tests.XML
         }
 
         [Fact]
-        public void ElementName()
-        {
-            var transl = GetTranslation();
-            Assert.Equal(ExpectedName, transl.ElementName);
-        }
-
-        [Fact]
         public virtual void Write_NodeName()
         {
             var name = "AName";
@@ -99,9 +92,7 @@ namespace Loqui.Tests.XML
                 maskObj: out M maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
-            var nameAttr = elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE));
-            Assert.NotNull(nameAttr);
-            Assert.Equal(name, nameAttr.Value);
+            Assert.Equal(name, elem.Name.LocalName);
         }
     }
 }

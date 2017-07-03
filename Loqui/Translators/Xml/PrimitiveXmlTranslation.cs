@@ -49,10 +49,6 @@ namespace Loqui.Xml
         {
             try
             {
-                if (!root.Name.LocalName.Equals(nullable ? NullableName : ElementName))
-                {
-                    throw new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {(nullable ? NullableName : ElementName)}.");
-                }
                 var parse = ParseValue(root);
                 if (!nullable && !parse.HasValue)
                 {
@@ -94,13 +90,8 @@ namespace Loqui.Xml
             Exception errorMask;
             try
             {
-                using (new ElementWrapper(writer, nullable ? NullableName : ElementName))
+                using (new ElementWrapper(writer, name))
                 {
-                    if (name != null)
-                    {
-                        writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                    }
-
                     WriteValue(writer, name, item);
                 }
                 errorMask = null;

@@ -38,13 +38,6 @@ namespace Loqui.Xml
             bool doMasks,
             out MaskItem<Exception, IEnumerable<Mask>> maskObj)
         {
-            if (!root.Name.LocalName.Equals(ElementName))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                if (!doMasks) throw ex;
-                maskObj = new MaskItem<Exception, IEnumerable<Mask>>(ex, null);
-                return TryGet<IEnumerable<V>>.Failure;
-            }
             return TryGet<IEnumerable<V>>.Succeed(Parse_Internal(valTransl, root, doMasks, out maskObj));
         }
 
@@ -103,7 +96,7 @@ namespace Loqui.Xml
                 items: items,
                 doMasks: doMasks,
                 maskObj: out maskObj,
-                valTransl: (V item1, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                valTransl: (V item1, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public void Write(
@@ -115,12 +108,8 @@ namespace Loqui.Xml
             XmlSubWriteDelegate<V, Mask> valTransl)
         {
             List<Mask> maskList = null;
-            using (new ElementWrapper(writer, ElementName))
+            using (new ElementWrapper(writer, name))
             {
-                if (name != null)
-                {
-                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                }
                 foreach (var item in items)
                 {
                     WriteSingleItem(

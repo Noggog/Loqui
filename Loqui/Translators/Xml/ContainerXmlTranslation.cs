@@ -38,13 +38,6 @@ namespace Loqui.Xml
         {
             try
             {
-                if (!root.Name.LocalName.Equals(ElementName))
-                {
-                    var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                    if (!doMasks) throw ex;
-                    maskObj = new MaskItem<Exception, IEnumerable<M>>(ex, null);
-                    return TryGet<IEnumerable<T>>.Failure;
-                }
                 List<M> maskList = null;
                 var ret = new List<T>();
                 foreach (var listElem in root.Elements())
@@ -100,7 +93,7 @@ namespace Loqui.Xml
                     item: item,
                     doMasks: doMasks,
                     maskObj: out maskObj,
-                    transl: (T item1, bool internalDoMasks, out M obj) => transl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                    transl: (T item1, bool internalDoMasks, out M obj) => transl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
             }
             catch (Exception ex)
             {
@@ -120,12 +113,8 @@ namespace Loqui.Xml
             try
             {
                 List<M> maskList = null;
-                using (new ElementWrapper(writer, ElementName))
+                using (new ElementWrapper(writer, name))
                 {
-                    if (name != null)
-                    {
-                        writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                    }
                     foreach (var listObj in item)
                     {
                         WriteSingleItem(writer, transl, listObj, doMasks, out M subMaskObj);

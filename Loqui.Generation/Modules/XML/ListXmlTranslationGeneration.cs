@@ -44,7 +44,7 @@ namespace Loqui.Generation
                             itemAccessor: $"subItem", 
                             doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",
-                            nameAccessor: "null");
+                            nameAccessor: "\"Item\"");
                     }
                 });
             }

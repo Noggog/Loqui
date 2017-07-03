@@ -187,23 +187,15 @@ namespace Loqui.Tests
             bool doMasks,
             Func<TestGenericObject_ErrorMask> errorMask)
         {
-            if (!root.Name.LocalName.Equals("Loqui.Tests.TestGenericObject"))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: Loqui.Tests.TestGenericObject.");
-                if (!doMasks) throw ex;
-                errorMask().Overall = ex;
-                return null;
-            }
             var ret = new TestGenericObject<T, RBase, R>();
             try
             {
                 foreach (var elem in root.Elements())
                 {
-                    if (!elem.TryGetAttribute("name", out XAttribute name)) continue;
                     Fill_XML_Internal(
                         item: ret,
                         root: elem,
-                        name: name.Value,
+                        name: elem.Name.LocalName,
                         doMasks: doMasks,
                         errorMask: errorMask);
                 }
@@ -230,7 +222,9 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
                         TryGet<RBase> tryGet;
-                        if (root.Name.LocalName.Equals("Loqui.Tests.ObjectToRef"))
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
                             tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
                                 root: root,
@@ -239,7 +233,7 @@ namespace Loqui.Tests
                         }
                         else
                         {
-                            var register = LoquiRegistration.GetRegisterByFullName(root.Name.LocalName);
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
                             if (register == null)
                             {
                                 var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
@@ -269,19 +263,10 @@ namespace Loqui.Tests
                 case "Ref":
                     {
                         MaskItem<Exception, object> subMask;
-                        if (!XmlTranslator.TranslateElementName(root.Name.LocalName, out var type))
-                        {
-                            throw new ArgumentException($"Failed to get translator for {root.Name.LocalName}.");
-                        }
-                        var transl = XmlTranslator.GetTranslator(type.Item);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {type.Item}. {transl?.Item.Reason}");
-                        }
-                        var tryGet = transl.Item.Value.Parse(
-                            root,
-                            doMasks,
-                            out var unsafeMask);
+                        var tryGet = WildcardXmlTranslation.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeMask);
                         if (tryGet.Succeeded)
                         {
                             item._Ref.Item = (R)tryGet.Value;
@@ -992,6 +977,7 @@ namespace Loqui.Tests.Internals
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
+            if (rhs == null) return;
             ret.RefBase = item.RefBase_Property.LoquiEqualsHelper(rhs.RefBase_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref = new MaskItem<bool, object>();
             ret.Ref.Overall = item.Ref_Property.Equals(rhs.Ref_Property, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
@@ -1133,11 +1119,11 @@ namespace Loqui.Tests.Internals
         {
             try
             {
-                using (new ElementWrapper(writer, "Loqui.Tests.TestGenericObject"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestGenericObject"))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    if (name != null)
                     {
-                        writer.WriteAttributeString("name", name);
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestGenericObject");
                     }
                     if (item.RefBase_Property.HasBeenSet)
                     {
@@ -1157,18 +1143,12 @@ namespace Loqui.Tests.Internals
                     if (item.Ref_Property.HasBeenSet)
                     {
                         MaskItem<Exception, object> subMask;
-                        var wildType = item.Ref == null ? null : item.Ref.GetType();
-                        var transl = XmlTranslator.GetTranslator(wildType);
-                        if (transl?.Item.Failed ?? true)
-                        {
-                            throw new ArgumentException($"Failed to get translator for {wildType}. {transl?.Item.Reason}");
-                        }
-                        transl.Item.Value.Write(
-                            writer,
-                            nameof(item.Ref),
-                            item.Ref,
-                            doMasks,
-                            out object unsafeErrMask);
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.Ref),
+                            item: item.Ref,
+                            doMasks: doMasks,
+                            maskObj: out var unsafeErrMask);
                         subMask = (MaskItem<Exception, object>)unsafeErrMask;
                         if (subMask != null)
                         {

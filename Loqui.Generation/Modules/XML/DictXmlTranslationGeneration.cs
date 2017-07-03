@@ -54,7 +54,7 @@ namespace Loqui.Generation
                                     itemAccessor: $"subItem",
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
-                                    nameAccessor: "null");
+                                    nameAccessor: "\"Item\"");
                             }
                         });
                         args.Add((gen) =>
@@ -69,7 +69,7 @@ namespace Loqui.Generation
                                     itemAccessor: $"subItem",
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
-                                    nameAccessor: "null");
+                                    nameAccessor: "\"Item\"");
                             }
                         });
                     }
@@ -97,7 +97,7 @@ namespace Loqui.Generation
                                     itemAccessor: $"subItem",
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
-                                    nameAccessor: "null");
+                                    nameAccessor: "\"Item\"");
                             }
                         });
                     }

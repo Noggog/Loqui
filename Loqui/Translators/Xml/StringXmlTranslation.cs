@@ -26,16 +26,6 @@ namespace Loqui.Xml
 
         public TryGet<string> Parse(XElement root, bool doMasks, out Exception errorMask)
         {
-            if (!root.Name.LocalName.Equals(ElementName))
-            {
-                var ex = new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<string>.Failure;
-                }
-                throw ex;
-            }
             errorMask = null;
             if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
             {
@@ -48,13 +38,8 @@ namespace Loqui.Xml
         {
             try
             {
-                using (new ElementWrapper(writer, "String"))
+                using (new ElementWrapper(writer, name))
                 {
-                    if (name != null)
-                    {
-                        writer.WriteAttributeString("name", name);
-                    }
-
                     if (item != null)
                     {
                         writer.WriteAttributeString(XmlConstants.VALUE_ATTRIBUTE, item);

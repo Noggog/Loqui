@@ -45,13 +45,6 @@ namespace Loqui.Xml
             bool doMasks,
             out MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>> maskObj)
         {
-            if (!root.Name.LocalName.Equals(ElementName))
-            {
-                var ex = new ArgumentException($"Skipping field that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
-                if (!doMasks) throw ex;
-                maskObj = new MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>(ex, null);
-                return TryGet<IEnumerable<KeyValuePair<K, V>>>.Failure;
-            }
             return TryGet<IEnumerable<KeyValuePair<K, V>>>.Succeed(Parse_Internal(keyTransl, valTransl, root, doMasks, out maskObj));
         }
 
@@ -158,8 +151,8 @@ namespace Loqui.Xml
                 items: items,
                 doMasks: doMasks,
                 maskObj: out maskObj,
-                keyTransl: (K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj),
-                valTransl: (V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(writer: writer, name: null, item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                keyTransl: (K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj),
+                valTransl: (V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public void Write(
@@ -172,12 +165,8 @@ namespace Loqui.Xml
             XmlSubWriteDelegate<V, VMask> valTransl)
         {
             List<KeyValuePair<KMask, VMask>> maskList = null;
-            using (new ElementWrapper(writer, ElementName))
+            using (new ElementWrapper(writer, name))
             {
-                if (name != null)
-                {
-                    writer.WriteAttributeString(XmlConstants.NAME_ATTRIBUTE, name);
-                }
                 foreach (var item in items)
                 {
                     WriteSingleItem(

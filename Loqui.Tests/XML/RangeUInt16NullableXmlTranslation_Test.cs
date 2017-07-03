@@ -28,7 +28,7 @@ namespace Loqui.Tests.XML
 
         public override XElement GetTypicalElement(RangeUInt16? value, string name = null)
         {
-            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            var elem = XmlUtility.GetElementNoValue(name);
             if (value == null) return elem;
             elem.SetAttributeValue(XName.Get(MIN), value.Value.Min);
             elem.SetAttributeValue(XName.Get(MAX), value.Value.Max);
@@ -37,7 +37,7 @@ namespace Loqui.Tests.XML
 
         public override XElement GetBadElement(string name = null)
         {
-            var elem = XmlUtility.GetElementNoValue(ExpectedName, name);
+            var elem = XmlUtility.GetElementNoValue(name);
             elem.SetAttributeValue(XName.Get(MIN), "Gibberish");
             return elem;
         }
@@ -69,35 +69,6 @@ namespace Loqui.Tests.XML
             Assert.True(ret.Succeeded);
             Assert.Null(maskObj);
             Assert.Equal(TYPICAL_VALUE, ret.Value);
-        }
-        #endregion
-
-        #region Parse - Bad Element Name
-        [Fact]
-        public void Parse_BadElementName_Mask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            var ret = transl.Parse(
-                elem,
-                doMasks: true,
-                maskObj: out var maskObj);
-            Assert.True(ret.Failed);
-            Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
-        }
-
-        [Fact]
-        public void Parse_BadElementName_NoMask()
-        {
-            var transl = GetTranslation();
-            var elem = XmlUtility.GetBadlyNamedElement();
-            Assert.Throws(
-                typeof(ArgumentException),
-                () => transl.Parse(
-                    elem,
-                    doMasks: false,
-                    maskObj: out var maskObj));
         }
         #endregion
 
@@ -171,7 +142,7 @@ namespace Loqui.Tests.XML
             var writer = XmlUtility.GetWriteBundle();
             transl.Write(
                 writer: writer.Writer,
-                name: null,
+                name: XmlUtility.TYPICAL_NAME,
                 item: TYPICAL_VALUE,
                 doMasks: false,
                 maskObj: out var maskObj);
@@ -199,7 +170,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.Null(maskObj);
             XElement elem = writer.Resolve();
-            Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Attribute(XName.Get(XmlConstants.NAME_ATTRIBUTE)).Value);
+            Assert.Equal(XmlUtility.TYPICAL_NAME, elem.Name.LocalName);
             var minAttr = elem.Attribute(XName.Get(MIN));
             Assert.NotNull(minAttr);
             Assert.Equal(TYPICAL_VALUE.Min.ToString(), minAttr.Value);
