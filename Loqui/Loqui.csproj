@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolKey.cs" />
     <Compile Include="Registration\LoquiRegistration.cs" />
+    <Compile Include="Registration\LoquiRegistrationSettings.cs" />
     <Compile Include="Translators\Xml\DateTimeXmlTranslation.cs" />
     <Compile Include="Translators\Xml\KeyedDictXmlTranslation.cs" />
     <Compile Include="Translators\Xml\DictXmlTranslation.cs" />

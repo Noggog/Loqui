@@ -21,6 +21,7 @@ namespace Loqui
 
         static LoquiRegistration()
         {
+            if (!LoquiRegistrationSettings.AutomaticRegistration) return;
             foreach (var interf in TypeExt.GetInheritingFromInterface<IProtocolRegistration>(
                 loadAssemblies: false))
             {
