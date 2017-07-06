@@ -97,8 +97,8 @@ namespace Loqui.Xml
                 errorMask = null;
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask = ex;
             }
 

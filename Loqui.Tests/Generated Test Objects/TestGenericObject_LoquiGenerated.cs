@@ -201,8 +201,8 @@ namespace Loqui.Tests
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
             return ret;
@@ -831,8 +831,8 @@ namespace Loqui.Tests.Internals
                         );
                 }
                 catch (Exception ex)
+                when (doErrorMask)
                 {
-                    if (doErrorMask) throw;
                     errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefBase, ex);
                 }
             }
@@ -861,8 +861,8 @@ namespace Loqui.Tests.Internals
                         );
                 }
                 catch (Exception ex)
+                when (doErrorMask)
                 {
-                    if (doErrorMask) throw;
                     errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
                 }
             }
@@ -1158,8 +1158,8 @@ namespace Loqui.Tests.Internals
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
         }

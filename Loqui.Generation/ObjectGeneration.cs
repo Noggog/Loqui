@@ -2012,9 +2012,9 @@ namespace Loqui.Generation
         public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string doErrMaskAccessor, string errorMaskAccessor, string enumAccessor)
         {
             fg.AppendLine("catch (Exception ex)");
+            fg.AppendLine($"when ({doErrMaskAccessor})");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({doErrMaskAccessor}) throw;");
                 fg.AppendLine($"{errorMaskAccessor}().SetNthException((ushort){enumAccessor}, ex);");
             }
         }

@@ -159,8 +159,8 @@ namespace Loqui.Xml
                 return TryGet<T>.Succeed(ret);
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 maskGet().Overall = ex;
                 mask = maskObj;
                 return TryGet<T>.Failure;

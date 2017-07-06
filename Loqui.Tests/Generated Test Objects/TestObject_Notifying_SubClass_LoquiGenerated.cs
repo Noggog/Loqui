@@ -182,8 +182,8 @@ namespace Loqui.Tests
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
             return ret;
@@ -690,8 +690,8 @@ namespace Loqui.Tests.Internals
                         cmds);
                 }
                 catch (Exception ex)
+                when (doErrorMask)
                 {
-                    if (doErrorMask) throw;
                     errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
                 }
             }
@@ -924,8 +924,8 @@ namespace Loqui.Tests.Internals
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
         }

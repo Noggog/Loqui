@@ -2455,8 +2455,8 @@ namespace Loqui.Tests
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
             return ret;
@@ -8609,8 +8609,8 @@ namespace Loqui.Tests.Internals
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 errorMask().Overall = ex;
             }
         }

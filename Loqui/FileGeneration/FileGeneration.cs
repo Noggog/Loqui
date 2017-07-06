@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("this.UnsafeNull = (Exception)obj;"))
+            if (str.Equals("!doMasks"))
             {
                 int wer = 23;
                 wer++;

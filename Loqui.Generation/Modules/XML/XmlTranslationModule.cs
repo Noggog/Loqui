@@ -361,9 +361,9 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (doMasks)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("if (!doMasks) throw;");
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
                 fg.AppendLine("return ret;");
@@ -582,9 +582,9 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (doMasks)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("if (!doMasks) throw;");
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
             }
@@ -724,9 +724,9 @@ namespace Loqui.Generation
                                                 maskAccessor: "errorMask");
                                         }
                                         fg.AppendLine("catch (Exception ex)");
+                                        fg.AppendLine("when (doMasks)");
                                         using (new BraceWrapper(fg))
                                         {
-                                            fg.AppendLine("if (!doMasks) throw;");
                                             fg.AppendLine($"errorMask().SetNthException((ushort){field.Field.IndexEnumName}, ex);");
                                         }
                                     }
@@ -737,9 +737,9 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (doMasks)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("if (!doMasks) throw;");
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
             }

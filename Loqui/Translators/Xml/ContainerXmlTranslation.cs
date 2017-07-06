@@ -64,8 +64,8 @@ namespace Loqui.Xml
                 return TryGet<IEnumerable<T>>.Succeed(ret);
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 maskObj = new MaskItem<Exception, IEnumerable<M>>(ex, null);
                 return TryGet<IEnumerable<T>>.Failure;
             }
@@ -96,8 +96,8 @@ namespace Loqui.Xml
                     transl: (T item1, bool internalDoMasks, out M obj) => transl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 maskObj = new MaskItem<Exception, IEnumerable<M>>(ex, null);
             }
         }
@@ -138,8 +138,8 @@ namespace Loqui.Xml
                 }
             }
             catch (Exception ex)
+            when (doMasks)
             {
-                if (!doMasks) throw;
                 maskObj = new MaskItem<Exception, IEnumerable<M>>(ex, null);
             }
         }
