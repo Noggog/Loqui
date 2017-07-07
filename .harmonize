@@ -1,11 +1,12 @@
 <HarmonizeConfig Version="1">
-  <ParentRepos>
-    <RepoListing>
-      <Nickname>CSharpExt</Nickname>
-      <Sha>3905e2c362fbc3b900edcbf516590bb5a4a670c1</Sha>
-      <Description>NotifyingCollection Count property now is a normal int, with CountProperty being the NotifyingItem</Description>
-      <Author>Justin Swanson</Author>
-      <CommitDate>07-01-2017 00:43:03</CommitDate>
-    </RepoListing>
-  </ParentRepos>
+   <ParentRepos>
+      <RepoListing>
+         <Nickname>CSharpExt</Nickname>
+         <Sha>26ba853ceeabe37343645a4c1a9449cb12c7f61b</Sha>
+         <Path>../CSharpExt</Path>
+         <CommitDate>07-07-2017 18:33:37</CommitDate>
+         <Description>Updated harmonize hook</Description>
+         <Author>Justin Swanson</Author>
+      </RepoListing>
+   </ParentRepos>
 </HarmonizeConfig>
