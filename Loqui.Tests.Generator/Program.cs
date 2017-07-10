@@ -16,7 +16,8 @@ namespace Loqui.Tests.Generator
                 new DirectoryInfo("../../../Loqui.Tests"))
             {
                 DefaultNamespace = "Loqui.Tests",
-                RaisePropertyChangedDefault = false
+                RaisePropertyChangedDefault = false,
+                ProtocolDefault = new ProtocolKey("LoquiTests")
             };
             
             // Add Projects
@@ -26,7 +27,7 @@ namespace Loqui.Tests.Generator
             gen.AddProtocol(
                 new ProtocolGeneration(
                     gen,
-                    new ProtocolKey("LoquiTests")));
+                    gen.ProtocolDefault));
 
             gen.Generate();
         }

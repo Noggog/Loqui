@@ -31,6 +31,7 @@ namespace Loqui.Generation
         public bool DerivativeDefault;
         public NotifyingOption NotifyingDefault = NotifyingOption.None;
         public bool RaisePropertyChangedDefault;
+        public ProtocolKey ProtocolDefault;
         public MaskModule MaskModule = new MaskModule();
 
         public LoquiGenerator(DirectoryInfo commonGenerationFolder, bool typical = true)
@@ -183,10 +184,18 @@ namespace Loqui.Generation
                         var loquiNode = t.Item1.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
                         if (loquiNode == null) return false;
                         var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
-
-                        if (!protoNode.TryGetAttribute("Namespace", out string nameSpace))
+                        string nameSpace;
+                        if (protoNode == null
+                            && !string.IsNullOrWhiteSpace(this.ProtocolDefault.Namespace))
                         {
-                            throw new ArgumentException();
+                            nameSpace = this.ProtocolDefault.Namespace;
+                        }
+                        else
+                        {
+                            if (!protoNode.TryGetAttribute("Namespace", out nameSpace))
+                            {
+                                throw new ArgumentException();
+                            }
                         }
 
                         return protocolGen.Protocol.Namespace.Equals(nameSpace);
