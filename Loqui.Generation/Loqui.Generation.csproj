@@ -44,6 +44,7 @@
     <Compile Include="Enums\DisabledLevel.cs" />
     <Compile Include="FieldBatch.cs" />
     <Compile Include="Fields\FieldBatchPointerType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\ByteArrayType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />

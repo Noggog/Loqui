@@ -40,6 +40,9 @@ namespace Loqui.Tests
         #region Ctor
         public TestObject_Notifying_RPC()
         {
+            _ByteArray = NotifyingItem.Factory<Byte[]>(
+                onSet: (i) => this.OnPropertyChanged(nameof(ByteArray)),
+                markAsSet: false);
             _BoolN = NotifyingItem.Factory<Boolean?>(
                 onSet: (i) => this.OnPropertyChanged(nameof(BoolN)),
                 markAsSet: false);
@@ -358,6 +361,17 @@ namespace Loqui.Tests
         partial void CustomCtor();
         #endregion
 
+        #region ByteArray
+        protected readonly INotifyingItem<Byte[]> _ByteArray;
+        public INotifyingItem<Byte[]> ByteArray_Property => _ByteArray;
+        public Byte[] ByteArray
+        {
+            get => this._ByteArray.Item;
+            set => this._ByteArray.Set(value);
+        }
+        INotifyingItem<Byte[]> ITestObject_Notifying_RPC.ByteArray_Property => this.ByteArray_Property;
+        INotifyingItemGetter<Byte[]> ITestObject_Notifying_RPCGetter.ByteArray_Property => this.ByteArray_Property;
+        #endregion
         #region BoolN
         protected readonly INotifyingItem<Boolean?> _BoolN;
         public INotifyingItem<Boolean?> BoolN_Property => _BoolN;
@@ -1517,6 +1531,11 @@ namespace Loqui.Tests
         public bool Equals(TestObject_Notifying_RPC rhs)
         {
             if (rhs == null) return false;
+            if (ByteArray_Property.HasBeenSet != rhs.ByteArray_Property.HasBeenSet) return false;
+            if (ByteArray_Property.HasBeenSet)
+            {
+                if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
+            }
             if (BoolN_Property.HasBeenSet != rhs.BoolN_Property.HasBeenSet) return false;
             if (BoolN_Property.HasBeenSet)
             {
@@ -2018,6 +2037,10 @@ namespace Loqui.Tests
         public override int GetHashCode()
         {
             int ret = 0;
+            if (ByteArray_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
+            }
             if (BoolN_Property.HasBeenSet)
             {
                 ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
@@ -2496,6 +2519,24 @@ namespace Loqui.Tests
         {
             switch (name)
             {
+                case "ByteArray":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item._ByteArray.Item = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArray = subMask;
+                        }
+                    }
+                    break;
                 case "BoolN":
                     {
                         Exception subMask;
@@ -4800,6 +4841,11 @@ namespace Loqui.Tests
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    this._ByteArray.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     this._BoolN.Set(
                         (Boolean?)obj,
@@ -5333,6 +5379,11 @@ namespace Loqui.Tests
             }
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    obj._ByteArray.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     obj._BoolN.Set(
                         (Boolean?)pair.Value,
@@ -5845,6 +5896,9 @@ namespace Loqui.Tests
     #region Interface
     public interface ITestObject_Notifying_RPC : ITestObject_Notifying_RPCGetter, ILoquiClass<ITestObject_Notifying_RPC, ITestObject_Notifying_RPCGetter>, ILoquiClass<TestObject_Notifying_RPC, ITestObject_Notifying_RPCGetter>
     {
+        new Byte[] ByteArray { get; set; }
+        new INotifyingItem<Byte[]> ByteArray_Property { get; }
+
         new Boolean? BoolN { get; set; }
         new INotifyingItem<Boolean?> BoolN_Property { get; }
 
@@ -6123,6 +6177,11 @@ namespace Loqui.Tests
 
     public interface ITestObject_Notifying_RPCGetter : ILoquiObject
     {
+        #region ByteArray
+        Byte[] ByteArray { get; }
+        INotifyingItemGetter<Byte[]> ByteArray_Property { get; }
+
+        #endregion
         #region BoolN
         Boolean? BoolN { get; }
         INotifyingItemGetter<Boolean?> BoolN_Property { get; }
@@ -6616,105 +6675,106 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_RPC_FieldIndex
     {
-        BoolN = 0,
-        Bool = 1,
-        CharN = 2,
-        Char = 3,
-        DateTimeNull = 4,
-        DateTime = 5,
-        DoubleN = 6,
-        DoubleN_Ranged = 7,
-        Double = 8,
-        Double_Ranged = 9,
-        FloatN = 10,
-        FloatN_Ranged = 11,
-        Float = 12,
-        Float_Ranged = 13,
-        Int16N = 14,
-        Int16N_Ranged = 15,
-        Int16 = 16,
-        Int16_Ranged = 17,
-        Int32N = 18,
-        Int32N_Ranged = 19,
-        Int32 = 20,
-        Int32_Ranged = 21,
-        Int64N = 22,
-        Int64N_Ranged = 23,
-        Int64 = 24,
-        Int64_Ranged = 25,
-        Int8N = 26,
-        Int8N_Ranged = 27,
-        Int8 = 28,
-        Int8_Ranged = 29,
-        Unsafe = 30,
-        UnsafeLoqui = 31,
-        UnsafeNull = 32,
-        P2IntN = 33,
-        P2Int = 34,
-        P3DoubleN = 35,
-        P3Double = 36,
-        P3IntN = 37,
-        P3Int = 38,
-        PercentN = 39,
-        Percent = 40,
-        RangeInt8N = 41,
-        RangeInt8 = 42,
-        RangeInt16N = 43,
-        RangeInt16 = 44,
-        RangeInt32N = 45,
-        RangeInt32 = 46,
-        RangeInt64N = 47,
-        RangeInt64 = 48,
-        RangeUInt8N = 49,
-        RangeUInt8 = 50,
-        RangeUInt16N = 51,
-        RangeUInt16 = 52,
-        RangeUInt32N = 53,
-        RangeUInt32 = 54,
-        RangeUInt64N = 55,
-        RangeUInt64 = 56,
-        String = 57,
-        UDoubleN = 58,
-        UDoubleN_Ranged = 59,
-        UDouble = 60,
-        UDouble_Ranged = 61,
-        UInt16N = 62,
-        UInt16N_Ranged = 63,
-        UInt16 = 64,
-        UInt16_Ranged = 65,
-        UInt32N = 66,
-        UInt32N_Ranged = 67,
-        UInt32 = 68,
-        UInt32_Ranged = 69,
-        UInt64N = 70,
-        UInt64N_Ranged = 71,
-        UInt64 = 72,
-        UInt64_Ranged = 73,
-        UInt8N = 74,
-        UInt8N_Ranged = 75,
-        UInt8 = 76,
-        UInt8_Ranged = 77,
-        Enum = 78,
-        EnumNull = 79,
-        WildCard = 80,
-        WildCardLoqui = 81,
-        WildCardNull = 82,
-        Ref = 83,
-        Ref_NotNull = 84,
-        Ref_Singleton = 85,
-        RefGetter = 86,
-        RefGetter_NotNull = 87,
-        RefGetter_Singleton = 88,
-        RefSetter = 89,
-        RefSetter_NotNull = 90,
-        RefSetter_Singleton = 91,
-        List = 92,
-        RefList = 93,
-        Dict = 94,
-        RefDict = 95,
-        KeyRefDict = 96,
-        ValRefDict = 97,
-        DictKeyedValue = 98,
+        ByteArray = 0,
+        BoolN = 1,
+        Bool = 2,
+        CharN = 3,
+        Char = 4,
+        DateTimeNull = 5,
+        DateTime = 6,
+        DoubleN = 7,
+        DoubleN_Ranged = 8,
+        Double = 9,
+        Double_Ranged = 10,
+        FloatN = 11,
+        FloatN_Ranged = 12,
+        Float = 13,
+        Float_Ranged = 14,
+        Int16N = 15,
+        Int16N_Ranged = 16,
+        Int16 = 17,
+        Int16_Ranged = 18,
+        Int32N = 19,
+        Int32N_Ranged = 20,
+        Int32 = 21,
+        Int32_Ranged = 22,
+        Int64N = 23,
+        Int64N_Ranged = 24,
+        Int64 = 25,
+        Int64_Ranged = 26,
+        Int8N = 27,
+        Int8N_Ranged = 28,
+        Int8 = 29,
+        Int8_Ranged = 30,
+        Unsafe = 31,
+        UnsafeLoqui = 32,
+        UnsafeNull = 33,
+        P2IntN = 34,
+        P2Int = 35,
+        P3DoubleN = 36,
+        P3Double = 37,
+        P3IntN = 38,
+        P3Int = 39,
+        PercentN = 40,
+        Percent = 41,
+        RangeInt8N = 42,
+        RangeInt8 = 43,
+        RangeInt16N = 44,
+        RangeInt16 = 45,
+        RangeInt32N = 46,
+        RangeInt32 = 47,
+        RangeInt64N = 48,
+        RangeInt64 = 49,
+        RangeUInt8N = 50,
+        RangeUInt8 = 51,
+        RangeUInt16N = 52,
+        RangeUInt16 = 53,
+        RangeUInt32N = 54,
+        RangeUInt32 = 55,
+        RangeUInt64N = 56,
+        RangeUInt64 = 57,
+        String = 58,
+        UDoubleN = 59,
+        UDoubleN_Ranged = 60,
+        UDouble = 61,
+        UDouble_Ranged = 62,
+        UInt16N = 63,
+        UInt16N_Ranged = 64,
+        UInt16 = 65,
+        UInt16_Ranged = 66,
+        UInt32N = 67,
+        UInt32N_Ranged = 68,
+        UInt32 = 69,
+        UInt32_Ranged = 70,
+        UInt64N = 71,
+        UInt64N_Ranged = 72,
+        UInt64 = 73,
+        UInt64_Ranged = 74,
+        UInt8N = 75,
+        UInt8N_Ranged = 76,
+        UInt8 = 77,
+        UInt8_Ranged = 78,
+        Enum = 79,
+        EnumNull = 80,
+        WildCard = 81,
+        WildCardLoqui = 82,
+        WildCardNull = 83,
+        Ref = 84,
+        Ref_NotNull = 85,
+        Ref_Singleton = 86,
+        RefGetter = 87,
+        RefGetter_NotNull = 88,
+        RefGetter_Singleton = 89,
+        RefSetter = 90,
+        RefSetter_NotNull = 91,
+        RefSetter_Singleton = 92,
+        List = 93,
+        RefList = 94,
+        Dict = 95,
+        RefDict = 96,
+        KeyRefDict = 97,
+        ValRefDict = 98,
+        DictKeyedValue = 99,
     }
     #endregion
 
@@ -6732,7 +6792,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "7ba65986-3bcf-477c-91a0-2b87e88e7754";
 
-        public const ushort FieldCount = 99;
+        public const ushort FieldCount = 100;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_RPC_Mask<>);
 
@@ -6760,6 +6820,8 @@ namespace Loqui.Tests.Internals
         {
             switch (str.Upper)
             {
+                case "BYTEARRAY":
+                    return (ushort)TestObject_Notifying_RPC_FieldIndex.ByteArray;
                 case "BOOLN":
                     return (ushort)TestObject_Notifying_RPC_FieldIndex.BoolN;
                 case "BOOL":
@@ -6971,6 +7033,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.List:
                 case TestObject_Notifying_RPC_FieldIndex.RefList:
                     return true;
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
@@ -7090,6 +7153,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton:
                 case TestObject_Notifying_RPC_FieldIndex.RefList:
                     return true;
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
@@ -7194,6 +7258,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
@@ -7301,6 +7366,8 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    return "ByteArray";
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     return "BoolN";
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
@@ -7509,6 +7576,7 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
@@ -7623,6 +7691,7 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_RPC_FieldIndex.RefGetter_Singleton:
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
@@ -7730,6 +7799,8 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    return typeof(Byte[]);
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     return typeof(Boolean?);
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
@@ -8039,6 +8110,21 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
+            if (copyMask?.ByteArray ?? true)
+            {
+                try
+                {
+                    item.ByteArray_Property.SetToWithDefault(
+                        rhs.ByteArray_Property,
+                        def?.ByteArray_Property,
+                        cmds);
+                }
+                catch (Exception ex)
+                when (doErrorMask)
+                {
+                    errorMask().SetNthException((ushort)TestObject_Notifying_RPC_FieldIndex.ByteArray, ex);
+                }
+            }
             if (copyMask?.BoolN ?? true)
             {
                 try
@@ -9817,6 +9903,9 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    obj.ByteArray_Property.HasBeenSet = on;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     obj.BoolN_Property.HasBeenSet = on;
                     break;
@@ -10124,6 +10213,9 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    obj.ByteArray_Property.Unset(cmds);
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     obj.BoolN_Property.Unset(cmds);
                     break;
@@ -10430,6 +10522,8 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    return obj.ByteArray_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
@@ -10640,6 +10734,8 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    return obj.ByteArray;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     return obj.BoolN;
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
@@ -10847,6 +10943,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_RPC item,
             NotifyingUnsetParameters? cmds = null)
         {
+            item.ByteArray_Property.Unset(cmds.ToUnsetParams());
             item.BoolN_Property.Unset(cmds.ToUnsetParams());
             item.Bool_Property.Unset(cmds.ToUnsetParams());
             item.CharN_Property.Unset(cmds.ToUnsetParams());
@@ -10960,6 +11057,7 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_Mask<bool> ret)
         {
             if (rhs == null) return;
+            ret.ByteArray = item.ByteArray_Property.Equals(rhs.ByteArray_Property, (l, r) => l.EqualsFast(r));
             ret.BoolN = item.BoolN_Property.Equals(rhs.BoolN_Property, (l, r) => l == r);
             ret.Bool = item.Bool_Property.Equals(rhs.Bool_Property, (l, r) => l == r);
             ret.CharN = item.CharN_Property.Equals(rhs.CharN_Property, (l, r) => l == r);
@@ -11248,6 +11346,10 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
+                if (printMask?.ByteArray ?? true)
+                {
+                    fg.AppendLine($"ByteArray => {item.ByteArray}");
+                }
                 if (printMask?.BoolN ?? true)
                 {
                     fg.AppendLine($"BoolN => {item.BoolN}");
@@ -11754,6 +11856,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_RPCGetter item,
             TestObject_Notifying_RPC_Mask<bool?> checkMask)
         {
+            if (checkMask.ByteArray.HasValue && checkMask.ByteArray.Value != item.ByteArray_Property.HasBeenSet) return false;
             if (checkMask.BoolN.HasValue && checkMask.BoolN.Value != item.BoolN_Property.HasBeenSet) return false;
             if (checkMask.Bool.HasValue && checkMask.Bool.Value != item.Bool_Property.HasBeenSet) return false;
             if (checkMask.CharN.HasValue && checkMask.CharN.Value != item.CharN_Property.HasBeenSet) return false;
@@ -11868,6 +11971,7 @@ namespace Loqui.Tests.Internals
         public static TestObject_Notifying_RPC_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_RPCGetter item)
         {
             var ret = new TestObject_Notifying_RPC_Mask<bool>();
+            ret.ByteArray = item.ByteArray_Property.HasBeenSet;
             ret.BoolN = item.BoolN_Property.HasBeenSet;
             ret.Bool = item.Bool_Property.HasBeenSet;
             ret.CharN = item.CharN_Property.HasBeenSet;
@@ -12047,6 +12151,20 @@ namespace Loqui.Tests.Internals
                     if (name != null)
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_RPC");
+                    }
+                    if (item.ByteArray_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArray),
+                            item.ByteArray,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArray = subMask;
+                        }
                     }
                     if (item.BoolN_Property.HasBeenSet)
                     {
@@ -13592,6 +13710,7 @@ namespace Loqui.Tests.Internals
 
         public TestObject_Notifying_RPC_Mask(T initialValue)
         {
+            this.ByteArray = initialValue;
             this.BoolN = initialValue;
             this.Bool = initialValue;
             this.CharN = initialValue;
@@ -13695,6 +13814,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Members
+        public T ByteArray;
         public T BoolN;
         public T Bool;
         public T CharN;
@@ -13805,6 +13925,7 @@ namespace Loqui.Tests.Internals
 
         public bool Equals(TestObject_Notifying_RPC_Mask<T> rhs)
         {
+            if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
@@ -13911,6 +14032,7 @@ namespace Loqui.Tests.Internals
         #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
+            if (!eval(this.ByteArray)) return false;
             if (!eval(this.BoolN)) return false;
             if (!eval(this.Bool)) return false;
             if (!eval(this.CharN)) return false;
@@ -14146,6 +14268,7 @@ namespace Loqui.Tests.Internals
         public TestObject_Notifying_RPC_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new TestObject_Notifying_RPC_Mask<R>();
+            ret.ByteArray = eval(this.ByteArray);
             ret.BoolN = eval(this.BoolN);
             ret.Bool = eval(this.Bool);
             ret.CharN = eval(this.CharN);
@@ -14510,6 +14633,10 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
+                if (printMask?.ByteArray ?? true)
+                {
+                    fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
                 if (printMask?.BoolN ?? true)
                 {
                     fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
@@ -15120,6 +15247,7 @@ namespace Loqui.Tests.Internals
                 return _warnings;
             }
         }
+        public Exception ByteArray;
         public Exception BoolN;
         public Exception Bool;
         public Exception CharN;
@@ -15227,6 +15355,9 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    this.ByteArray = ex;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
@@ -15534,6 +15665,9 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_RPC_FieldIndex enu = (TestObject_Notifying_RPC_FieldIndex)index;
             switch (enu)
             {
+                case TestObject_Notifying_RPC_FieldIndex.ByteArray:
+                    this.ByteArray = (Exception)obj;
+                    break;
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
@@ -15851,6 +15985,10 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
+                if (ByteArray != null)
+                {
+                    fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
                 if (BoolN != null)
                 {
                     fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
@@ -16447,6 +16585,7 @@ namespace Loqui.Tests.Internals
         public TestObject_Notifying_RPC_ErrorMask Combine(TestObject_Notifying_RPC_ErrorMask rhs)
         {
             var ret = new TestObject_Notifying_RPC_ErrorMask();
+            ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
             ret.BoolN = this.BoolN.Combine(rhs.BoolN);
             ret.Bool = this.Bool.Combine(rhs.Bool);
             ret.CharN = this.CharN.Combine(rhs.CharN);
@@ -16559,6 +16698,7 @@ namespace Loqui.Tests.Internals
     public class TestObject_Notifying_RPC_CopyMask
     {
         #region Members
+        public bool ByteArray;
         public bool BoolN;
         public bool Bool;
         public bool CharN;

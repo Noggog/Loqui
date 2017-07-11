@@ -17,7 +17,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 99;
+        public static int NUM_FIELDS = 100;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -111,7 +111,8 @@ namespace Loqui.Tests.XML
                 UnsafeNull = null,
                 WildCard = true,
                 WildCardLoqui = ObjectToRefXmlTranslation_Test.TYPICAL_VALUE,
-                WildCardNull = null
+                WildCardNull = null,
+                ByteArray = ByteArrayXmlTranslation_Tests.TYPICAL_VALUE
             };
             TYPICAL_VALUE.Ref_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
             TYPICAL_VALUE.RefSetter_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
@@ -230,6 +231,7 @@ namespace Loqui.Tests.XML
             elem.Add(RefValDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ValRefDict)));
             elem.Add(RefDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefDict)));
             elem.Add(KeyedDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DictKeyedValue)));
+            elem.Add(ByteArrayXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ByteArray)));
             return elem;
         }
 

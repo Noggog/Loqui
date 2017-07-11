@@ -68,6 +68,7 @@
     <Compile Include="ProtocolKey.cs" />
     <Compile Include="Registration\LoquiRegistration.cs" />
     <Compile Include="Registration\LoquiRegistrationSettings.cs" />
+    <Compile Include="Translators\Xml\ByteArrayXmlTranslation.cs" />
     <Compile Include="Translators\Xml\DateTimeXmlTranslation.cs" />
     <Compile Include="Translators\Xml\KeyedDictXmlTranslation.cs" />
     <Compile Include="Translators\Xml\DictXmlTranslation.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Translators\Xml\RangeUInt8XmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeInt8XmlTranslation.cs" />
     <Compile Include="Translators\Xml\RangeInt16XmlTranslation.cs" />
+    <Compile Include="Translators\Xml\TypicalXmlTranslation.cs" />
     <Compile Include="Translators\Xml\XmlConstants.cs" />
     <Compile Include="Translators\Xml\XmlTranslatorCache.cs" />
     <Compile Include="WildcardLink.cs" />

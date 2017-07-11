@@ -115,6 +115,7 @@
   <xs:group name="FieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
+      <xs:element name="ByteArray" type="ByteArray" />
       <xs:element name="UInt8" type="RangedUInt8" />
       <xs:element name="UInt16" type="RangedUInt16" />
       <xs:element name="UInt32" type="RangedUInt32" />
@@ -196,6 +197,7 @@
   <xs:group name="NamedFieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
+      <xs:element name="ByteArray" type="NByteArray" />
       <xs:element name="UInt8" type="NRangedUInt8" />
       <xs:element name="UInt16" type="NRangedUInt16" />
       <xs:element name="UInt32" type="NRangedUInt32" />
@@ -720,6 +722,22 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="ByteArray" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NByteArray" >
+    <xs:complexContent>
+      <xs:extension base="ByteArray">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="RangedInt8" >

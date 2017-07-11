@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("!doMasks"))
+            if (str.Equals("item._ByteArray.Item = tryGet.Value.Value;"))
             {
                 int wer = 23;
                 wer++;

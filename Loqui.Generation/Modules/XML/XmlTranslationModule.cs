@@ -78,6 +78,7 @@ namespace Loqui.Generation
             this.TypeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
             this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
+            this.TypeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
         }
 
         public override void Load()

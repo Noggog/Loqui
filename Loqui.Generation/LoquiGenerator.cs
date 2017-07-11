@@ -111,6 +111,7 @@ namespace Loqui.Generation
             AddTypeAssociation<FieldBatchPointerType>("FieldBatch");
             AddTypeAssociation<DateTimeType>("DateTime");
             AddTypeAssociation<DateTimeNullType>("DateTimeNull");
+            AddTypeAssociation<ByteArrayType>("ByteArray");
         }
 
         public void AddTypeAssociation<T>(StringCaseAgnostic key, bool overrideExisting = false)

@@ -3,6 +3,7 @@
   <Protocol Namespace="LoquiTests" />
   <FieldBatch name="TypicalFields">
     <Fields>
+      <ByteArray name="ByteArray" />
       <BoolNull name="BoolN" />
       <Bool name="Bool" />
       <CharNull name="CharN" />
