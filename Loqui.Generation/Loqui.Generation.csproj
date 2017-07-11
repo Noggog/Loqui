@@ -64,7 +64,6 @@
     <Compile Include="Fields\TypicalFloatNumberTypeGeneration.cs" />
     <Compile Include="Fields\PrimitiveType.cs" />
     <Compile Include="Fields\TypicalRangedTypeGeneration.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\BoolNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\BoolType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\CharNullType.cs" />

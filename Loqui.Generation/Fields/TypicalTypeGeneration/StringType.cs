@@ -2,7 +2,7 @@
 
 namespace Loqui.Generation
 {
-    public class StringType : TypicalTypeGeneration
+    public class StringType : PrimitiveType
     {
         public override Type Type => typeof(string);
 

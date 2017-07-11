@@ -12,6 +12,7 @@ namespace Loqui.Generation
 
         public override string TypeName => $"{EnumName}{(Nullable ? "?" : string.Empty)}";
         public string NoNullTypeName => $"{EnumName}";
+        public override Type Type => throw new NotImplementedException();
 
         public EnumType()
         {

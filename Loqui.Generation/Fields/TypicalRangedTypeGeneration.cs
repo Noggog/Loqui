@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class TypicalRangedTypeGeneration : TypicalTypeGeneration
+    public abstract class TypicalRangedTypeGeneration : PrimitiveType
     {
         public string Min;
         public string Max;

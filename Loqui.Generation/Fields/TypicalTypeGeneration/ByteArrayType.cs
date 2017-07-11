@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class ByteArrayType : TypicalTypeGeneration
+    public class ByteArrayType : PrimitiveType
     {
         public override Type Type => typeof(byte[]);
 

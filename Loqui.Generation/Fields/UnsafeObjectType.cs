@@ -7,6 +7,7 @@ namespace Loqui.Generation
     {
         private string _typeName;
         public override string TypeName => _typeName;
+        public override Type Type => throw new NotImplementedException();
 
         public override void Load(XElement root, bool requireName = true)
         {

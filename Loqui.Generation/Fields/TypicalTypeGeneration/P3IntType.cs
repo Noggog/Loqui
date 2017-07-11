@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class P3IntType : TypicalTypeGeneration
+    public class P3IntType : PrimitiveType
     {
         public override Type Type => typeof(P3Int);
 

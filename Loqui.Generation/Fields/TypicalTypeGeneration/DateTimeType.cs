@@ -2,7 +2,7 @@
 
 namespace Loqui.Generation
 {
-    public class DateTimeType : TypicalTypeGeneration
+    public class DateTimeType : PrimitiveType
     {
         public override Type Type => typeof(DateTime);
     }

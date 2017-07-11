@@ -2,7 +2,7 @@
 
 namespace Loqui.Generation
 {
-    public class CharType : TypicalTypeGeneration
+    public class CharType : PrimitiveType
     {
         public override Type Type => typeof(char);
     }

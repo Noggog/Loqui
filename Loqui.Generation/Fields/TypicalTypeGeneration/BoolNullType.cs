@@ -2,7 +2,7 @@
 
 namespace Loqui.Generation
 {
-    public class BoolNullType : TypicalTypeGeneration
+    public class BoolNullType : PrimitiveType
     {
         public override Type Type => typeof(bool?);
     }

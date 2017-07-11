@@ -85,6 +85,7 @@ namespace Loqui.Generation
             }
         }
         public string SingletonObjectName => $"_{this.Name}_Object";
+        public override Type Type => throw new NotImplementedException();
 
         public override string SkipCheck(string copyMaskAccessor)
         {

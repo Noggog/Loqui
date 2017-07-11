@@ -5,6 +5,8 @@ namespace Loqui.Generation
 {
     public abstract class PrimitiveType : TypeGeneration
     {
+        public abstract Type Type { get; }
+        public override string TypeName => Type.GetName();
         public string DefaultValue;
         public bool HasDefault;
         public override string ProtectedProperty => "_" + this.Name;

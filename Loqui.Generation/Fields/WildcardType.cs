@@ -2,7 +2,7 @@
 
 namespace Loqui.Generation
 {
-    public class WildcardType : TypicalTypeGeneration
+    public class WildcardType : PrimitiveType
     {
         public override Type Type => typeof(object);
 
