@@ -6,4 +6,7 @@
 	<Enabled value="True" />
 	<TrackChildRepos value="True" />
 	<Lock value="True" />
+	<TimeoutMS value="45000" />
+	<ContinuePushingOnCredentialFailure value="True" />
+	<ParentUnpushedPreference value="Block" />
 </HarmonizeGitSettings>

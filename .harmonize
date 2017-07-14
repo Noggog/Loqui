@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3905e2c362fbc3b900edcbf516590bb5a4a670c1</Sha>
+         <Sha>b3634afc9114e32b225731dbc2fee5dc8580db06</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>07-01-2017 00:43:03</CommitDate>
-         <Description>NotifyingCollection Count property now is a normal int, with CountProperty being the NotifyingItem</Description>
+         <CommitDate>07-13-2017 19:25:47</CommitDate>
+         <Description>tmp</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
