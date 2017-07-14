@@ -49,64 +49,104 @@ namespace Loqui.Tests
         private Byte[] _ByteArray;
         public Byte[] ByteArray
         {
-            get => _ByteArray;
+            get => ByteArray;
             protected set { this._ByteArray = value; OnPropertyChanged(nameof(ByteArray)); }
+        }
+        #endregion
+        #region ByteArrayNull
+        private Byte[] _ByteArrayNull;
+        public Byte[] ByteArrayNull
+        {
+            get => ByteArrayNull;
+            protected set { this._ByteArrayNull = value; OnPropertyChanged(nameof(ByteArrayNull)); }
+        }
+        #endregion
+        #region ByteArrayNotNull
+        private Byte[] _ByteArrayNotNull = new byte[3];
+        public Byte[] ByteArrayNotNull
+        {
+            get => ByteArrayNotNull;
+            protected set
+            {
+                this.ByteArrayNotNull = value;
+                if (value == null)
+                {
+                    this.ByteArrayNotNull = new byte[3];
+                }
+                OnPropertyChanged(nameof(ByteArrayNotNull));
+            }
+        }
+        #endregion
+        #region ByteArraySingleton
+        private Byte[] _ByteArraySingleton = new byte[3];
+        public Byte[] ByteArraySingleton
+        {
+            get => ByteArraySingleton;
+            protected set
+            {
+                this.ByteArraySingleton = value;
+                if (value == null)
+                {
+                    this.ByteArraySingleton = new byte[3];
+                }
+                OnPropertyChanged(nameof(ByteArraySingleton));
+            }
         }
         #endregion
         #region BoolN
         private Boolean? _BoolN;
         public Boolean? BoolN
         {
-            get => _BoolN;
-            protected set { this._BoolN = value; OnPropertyChanged(nameof(BoolN)); }
+            get => BoolN;
+            protected set { this.BoolN = value; OnPropertyChanged(nameof(BoolN)); }
         }
         #endregion
         #region Bool
         private Boolean _Bool;
         public Boolean Bool
         {
-            get => _Bool;
-            protected set { this._Bool = value; OnPropertyChanged(nameof(Bool)); }
+            get => Bool;
+            protected set { this.Bool = value; OnPropertyChanged(nameof(Bool)); }
         }
         #endregion
         #region CharN
         private Char? _CharN;
         public Char? CharN
         {
-            get => _CharN;
-            protected set { this._CharN = value; OnPropertyChanged(nameof(CharN)); }
+            get => CharN;
+            protected set { this.CharN = value; OnPropertyChanged(nameof(CharN)); }
         }
         #endregion
         #region Char
         private Char _Char;
         public Char Char
         {
-            get => _Char;
-            protected set { this._Char = value; OnPropertyChanged(nameof(Char)); }
+            get => Char;
+            protected set { this.Char = value; OnPropertyChanged(nameof(Char)); }
         }
         #endregion
         #region DateTimeNull
         private DateTime? _DateTimeNull;
         public DateTime? DateTimeNull
         {
-            get => _DateTimeNull;
-            protected set { this._DateTimeNull = value; OnPropertyChanged(nameof(DateTimeNull)); }
+            get => DateTimeNull;
+            protected set { this.DateTimeNull = value; OnPropertyChanged(nameof(DateTimeNull)); }
         }
         #endregion
         #region DateTime
         private DateTime _DateTime;
         public DateTime DateTime
         {
-            get => _DateTime;
-            protected set { this._DateTime = value; OnPropertyChanged(nameof(DateTime)); }
+            get => DateTime;
+            protected set { this.DateTime = value; OnPropertyChanged(nameof(DateTime)); }
         }
         #endregion
         #region DoubleN
         private Double? _DoubleN;
         public Double? DoubleN
         {
-            get => _DoubleN;
-            protected set { this._DoubleN = value; OnPropertyChanged(nameof(DoubleN)); }
+            get => DoubleN;
+            protected set { this.DoubleN = value; OnPropertyChanged(nameof(DoubleN)); }
         }
         #endregion
         #region DoubleN_Ranged
@@ -126,8 +166,8 @@ namespace Loqui.Tests
         private Double _Double;
         public Double Double
         {
-            get => _Double;
-            protected set { this._Double = value; OnPropertyChanged(nameof(Double)); }
+            get => Double;
+            protected set { this.Double = value; OnPropertyChanged(nameof(Double)); }
         }
         #endregion
         #region Double_Ranged
@@ -147,8 +187,8 @@ namespace Loqui.Tests
         private Single? _FloatN;
         public Single? FloatN
         {
-            get => _FloatN;
-            protected set { this._FloatN = value; OnPropertyChanged(nameof(FloatN)); }
+            get => FloatN;
+            protected set { this.FloatN = value; OnPropertyChanged(nameof(FloatN)); }
         }
         #endregion
         #region FloatN_Ranged
@@ -168,8 +208,8 @@ namespace Loqui.Tests
         private Single _Float;
         public Single Float
         {
-            get => _Float;
-            protected set { this._Float = value; OnPropertyChanged(nameof(Float)); }
+            get => Float;
+            protected set { this.Float = value; OnPropertyChanged(nameof(Float)); }
         }
         #endregion
         #region Float_Ranged
@@ -189,8 +229,8 @@ namespace Loqui.Tests
         private Int16? _Int16N;
         public Int16? Int16N
         {
-            get => _Int16N;
-            protected set { this._Int16N = value; OnPropertyChanged(nameof(Int16N)); }
+            get => Int16N;
+            protected set { this.Int16N = value; OnPropertyChanged(nameof(Int16N)); }
         }
         #endregion
         #region Int16N_Ranged
@@ -210,8 +250,8 @@ namespace Loqui.Tests
         private Int16 _Int16;
         public Int16 Int16
         {
-            get => _Int16;
-            protected set { this._Int16 = value; OnPropertyChanged(nameof(Int16)); }
+            get => Int16;
+            protected set { this.Int16 = value; OnPropertyChanged(nameof(Int16)); }
         }
         #endregion
         #region Int16_Ranged
@@ -231,8 +271,8 @@ namespace Loqui.Tests
         private Int32? _Int32N;
         public Int32? Int32N
         {
-            get => _Int32N;
-            protected set { this._Int32N = value; OnPropertyChanged(nameof(Int32N)); }
+            get => Int32N;
+            protected set { this.Int32N = value; OnPropertyChanged(nameof(Int32N)); }
         }
         #endregion
         #region Int32N_Ranged
@@ -252,8 +292,8 @@ namespace Loqui.Tests
         private Int32 _Int32;
         public Int32 Int32
         {
-            get => _Int32;
-            protected set { this._Int32 = value; OnPropertyChanged(nameof(Int32)); }
+            get => Int32;
+            protected set { this.Int32 = value; OnPropertyChanged(nameof(Int32)); }
         }
         #endregion
         #region Int32_Ranged
@@ -273,8 +313,8 @@ namespace Loqui.Tests
         private Int64? _Int64N;
         public Int64? Int64N
         {
-            get => _Int64N;
-            protected set { this._Int64N = value; OnPropertyChanged(nameof(Int64N)); }
+            get => Int64N;
+            protected set { this.Int64N = value; OnPropertyChanged(nameof(Int64N)); }
         }
         #endregion
         #region Int64N_Ranged
@@ -294,8 +334,8 @@ namespace Loqui.Tests
         private Int64 _Int64;
         public Int64 Int64
         {
-            get => _Int64;
-            protected set { this._Int64 = value; OnPropertyChanged(nameof(Int64)); }
+            get => Int64;
+            protected set { this.Int64 = value; OnPropertyChanged(nameof(Int64)); }
         }
         #endregion
         #region Int64_Ranged
@@ -315,8 +355,8 @@ namespace Loqui.Tests
         private SByte? _Int8N;
         public SByte? Int8N
         {
-            get => _Int8N;
-            protected set { this._Int8N = value; OnPropertyChanged(nameof(Int8N)); }
+            get => Int8N;
+            protected set { this.Int8N = value; OnPropertyChanged(nameof(Int8N)); }
         }
         #endregion
         #region Int8N_Ranged
@@ -336,8 +376,8 @@ namespace Loqui.Tests
         private SByte _Int8;
         public SByte Int8
         {
-            get => _Int8;
-            protected set { this._Int8 = value; OnPropertyChanged(nameof(Int8)); }
+            get => Int8;
+            protected set { this.Int8 = value; OnPropertyChanged(nameof(Int8)); }
         }
         #endregion
         #region Int8_Ranged
@@ -357,232 +397,232 @@ namespace Loqui.Tests
         private bool _Unsafe;
         public bool Unsafe
         {
-            get => _Unsafe;
-            protected set { this._Unsafe = value; OnPropertyChanged(nameof(Unsafe)); }
+            get => Unsafe;
+            protected set { this.Unsafe = value; OnPropertyChanged(nameof(Unsafe)); }
         }
         #endregion
         #region UnsafeLoqui
         private ObjectToRef _UnsafeLoqui;
         public ObjectToRef UnsafeLoqui
         {
-            get => _UnsafeLoqui;
-            protected set { this._UnsafeLoqui = value; OnPropertyChanged(nameof(UnsafeLoqui)); }
+            get => UnsafeLoqui;
+            protected set { this.UnsafeLoqui = value; OnPropertyChanged(nameof(UnsafeLoqui)); }
         }
         #endregion
         #region UnsafeNull
         private ObjectToRef _UnsafeNull;
         public ObjectToRef UnsafeNull
         {
-            get => _UnsafeNull;
-            protected set { this._UnsafeNull = value; OnPropertyChanged(nameof(UnsafeNull)); }
+            get => UnsafeNull;
+            protected set { this.UnsafeNull = value; OnPropertyChanged(nameof(UnsafeNull)); }
         }
         #endregion
         #region P2IntN
         private P2Int? _P2IntN;
         public P2Int? P2IntN
         {
-            get => _P2IntN;
-            protected set { this._P2IntN = value; OnPropertyChanged(nameof(P2IntN)); }
+            get => P2IntN;
+            protected set { this.P2IntN = value; OnPropertyChanged(nameof(P2IntN)); }
         }
         #endregion
         #region P2Int
         private P2Int _P2Int;
         public P2Int P2Int
         {
-            get => _P2Int;
-            protected set { this._P2Int = value; OnPropertyChanged(nameof(P2Int)); }
+            get => P2Int;
+            protected set { this.P2Int = value; OnPropertyChanged(nameof(P2Int)); }
         }
         #endregion
         #region P3DoubleN
         private P3Double? _P3DoubleN;
         public P3Double? P3DoubleN
         {
-            get => _P3DoubleN;
-            protected set { this._P3DoubleN = value; OnPropertyChanged(nameof(P3DoubleN)); }
+            get => P3DoubleN;
+            protected set { this.P3DoubleN = value; OnPropertyChanged(nameof(P3DoubleN)); }
         }
         #endregion
         #region P3Double
         private P3Double _P3Double;
         public P3Double P3Double
         {
-            get => _P3Double;
-            protected set { this._P3Double = value; OnPropertyChanged(nameof(P3Double)); }
+            get => P3Double;
+            protected set { this.P3Double = value; OnPropertyChanged(nameof(P3Double)); }
         }
         #endregion
         #region P3IntN
         private P3Int? _P3IntN;
         public P3Int? P3IntN
         {
-            get => _P3IntN;
-            protected set { this._P3IntN = value; OnPropertyChanged(nameof(P3IntN)); }
+            get => P3IntN;
+            protected set { this.P3IntN = value; OnPropertyChanged(nameof(P3IntN)); }
         }
         #endregion
         #region P3Int
         private P3Int _P3Int;
         public P3Int P3Int
         {
-            get => _P3Int;
-            protected set { this._P3Int = value; OnPropertyChanged(nameof(P3Int)); }
+            get => P3Int;
+            protected set { this.P3Int = value; OnPropertyChanged(nameof(P3Int)); }
         }
         #endregion
         #region PercentN
         private Percent? _PercentN;
         public Percent? PercentN
         {
-            get => _PercentN;
-            protected set { this._PercentN = value; OnPropertyChanged(nameof(PercentN)); }
+            get => PercentN;
+            protected set { this.PercentN = value; OnPropertyChanged(nameof(PercentN)); }
         }
         #endregion
         #region Percent
         private Percent _Percent;
         public Percent Percent
         {
-            get => _Percent;
-            protected set { this._Percent = value; OnPropertyChanged(nameof(Percent)); }
+            get => Percent;
+            protected set { this.Percent = value; OnPropertyChanged(nameof(Percent)); }
         }
         #endregion
         #region RangeInt8N
         private RangeInt8? _RangeInt8N;
         public RangeInt8? RangeInt8N
         {
-            get => _RangeInt8N;
-            protected set { this._RangeInt8N = value; OnPropertyChanged(nameof(RangeInt8N)); }
+            get => RangeInt8N;
+            protected set { this.RangeInt8N = value; OnPropertyChanged(nameof(RangeInt8N)); }
         }
         #endregion
         #region RangeInt8
         private RangeInt8 _RangeInt8;
         public RangeInt8 RangeInt8
         {
-            get => _RangeInt8;
-            protected set { this._RangeInt8 = value; OnPropertyChanged(nameof(RangeInt8)); }
+            get => RangeInt8;
+            protected set { this.RangeInt8 = value; OnPropertyChanged(nameof(RangeInt8)); }
         }
         #endregion
         #region RangeInt16N
         private RangeInt16? _RangeInt16N;
         public RangeInt16? RangeInt16N
         {
-            get => _RangeInt16N;
-            protected set { this._RangeInt16N = value; OnPropertyChanged(nameof(RangeInt16N)); }
+            get => RangeInt16N;
+            protected set { this.RangeInt16N = value; OnPropertyChanged(nameof(RangeInt16N)); }
         }
         #endregion
         #region RangeInt16
         private RangeInt16 _RangeInt16;
         public RangeInt16 RangeInt16
         {
-            get => _RangeInt16;
-            protected set { this._RangeInt16 = value; OnPropertyChanged(nameof(RangeInt16)); }
+            get => RangeInt16;
+            protected set { this.RangeInt16 = value; OnPropertyChanged(nameof(RangeInt16)); }
         }
         #endregion
         #region RangeInt32N
         private RangeInt32? _RangeInt32N;
         public RangeInt32? RangeInt32N
         {
-            get => _RangeInt32N;
-            protected set { this._RangeInt32N = value; OnPropertyChanged(nameof(RangeInt32N)); }
+            get => RangeInt32N;
+            protected set { this.RangeInt32N = value; OnPropertyChanged(nameof(RangeInt32N)); }
         }
         #endregion
         #region RangeInt32
         private RangeInt32 _RangeInt32;
         public RangeInt32 RangeInt32
         {
-            get => _RangeInt32;
-            protected set { this._RangeInt32 = value; OnPropertyChanged(nameof(RangeInt32)); }
+            get => RangeInt32;
+            protected set { this.RangeInt32 = value; OnPropertyChanged(nameof(RangeInt32)); }
         }
         #endregion
         #region RangeInt64N
         private RangeInt64? _RangeInt64N;
         public RangeInt64? RangeInt64N
         {
-            get => _RangeInt64N;
-            protected set { this._RangeInt64N = value; OnPropertyChanged(nameof(RangeInt64N)); }
+            get => RangeInt64N;
+            protected set { this.RangeInt64N = value; OnPropertyChanged(nameof(RangeInt64N)); }
         }
         #endregion
         #region RangeInt64
         private RangeInt64 _RangeInt64;
         public RangeInt64 RangeInt64
         {
-            get => _RangeInt64;
-            protected set { this._RangeInt64 = value; OnPropertyChanged(nameof(RangeInt64)); }
+            get => RangeInt64;
+            protected set { this.RangeInt64 = value; OnPropertyChanged(nameof(RangeInt64)); }
         }
         #endregion
         #region RangeUInt8N
         private RangeUInt8? _RangeUInt8N;
         public RangeUInt8? RangeUInt8N
         {
-            get => _RangeUInt8N;
-            protected set { this._RangeUInt8N = value; OnPropertyChanged(nameof(RangeUInt8N)); }
+            get => RangeUInt8N;
+            protected set { this.RangeUInt8N = value; OnPropertyChanged(nameof(RangeUInt8N)); }
         }
         #endregion
         #region RangeUInt8
         private RangeUInt8 _RangeUInt8;
         public RangeUInt8 RangeUInt8
         {
-            get => _RangeUInt8;
-            protected set { this._RangeUInt8 = value; OnPropertyChanged(nameof(RangeUInt8)); }
+            get => RangeUInt8;
+            protected set { this.RangeUInt8 = value; OnPropertyChanged(nameof(RangeUInt8)); }
         }
         #endregion
         #region RangeUInt16N
         private RangeUInt16? _RangeUInt16N;
         public RangeUInt16? RangeUInt16N
         {
-            get => _RangeUInt16N;
-            protected set { this._RangeUInt16N = value; OnPropertyChanged(nameof(RangeUInt16N)); }
+            get => RangeUInt16N;
+            protected set { this.RangeUInt16N = value; OnPropertyChanged(nameof(RangeUInt16N)); }
         }
         #endregion
         #region RangeUInt16
         private RangeUInt16 _RangeUInt16;
         public RangeUInt16 RangeUInt16
         {
-            get => _RangeUInt16;
-            protected set { this._RangeUInt16 = value; OnPropertyChanged(nameof(RangeUInt16)); }
+            get => RangeUInt16;
+            protected set { this.RangeUInt16 = value; OnPropertyChanged(nameof(RangeUInt16)); }
         }
         #endregion
         #region RangeUInt32N
         private RangeUInt32? _RangeUInt32N;
         public RangeUInt32? RangeUInt32N
         {
-            get => _RangeUInt32N;
-            protected set { this._RangeUInt32N = value; OnPropertyChanged(nameof(RangeUInt32N)); }
+            get => RangeUInt32N;
+            protected set { this.RangeUInt32N = value; OnPropertyChanged(nameof(RangeUInt32N)); }
         }
         #endregion
         #region RangeUInt32
         private RangeUInt32 _RangeUInt32;
         public RangeUInt32 RangeUInt32
         {
-            get => _RangeUInt32;
-            protected set { this._RangeUInt32 = value; OnPropertyChanged(nameof(RangeUInt32)); }
+            get => RangeUInt32;
+            protected set { this.RangeUInt32 = value; OnPropertyChanged(nameof(RangeUInt32)); }
         }
         #endregion
         #region RangeUInt64N
         private RangeUInt64? _RangeUInt64N;
         public RangeUInt64? RangeUInt64N
         {
-            get => _RangeUInt64N;
-            protected set { this._RangeUInt64N = value; OnPropertyChanged(nameof(RangeUInt64N)); }
+            get => RangeUInt64N;
+            protected set { this.RangeUInt64N = value; OnPropertyChanged(nameof(RangeUInt64N)); }
         }
         #endregion
         #region RangeUInt64
         private RangeUInt64 _RangeUInt64;
         public RangeUInt64 RangeUInt64
         {
-            get => _RangeUInt64;
-            protected set { this._RangeUInt64 = value; OnPropertyChanged(nameof(RangeUInt64)); }
+            get => RangeUInt64;
+            protected set { this.RangeUInt64 = value; OnPropertyChanged(nameof(RangeUInt64)); }
         }
         #endregion
         #region String
         private String _String;
         public String String
         {
-            get => _String;
-            protected set { this._String = value; OnPropertyChanged(nameof(String)); }
+            get => String;
+            protected set { this.String = value; OnPropertyChanged(nameof(String)); }
         }
         #endregion
         #region UDoubleN
         private UDouble? _UDoubleN;
         public UDouble? UDoubleN
         {
-            get => _UDoubleN;
-            protected set { this._UDoubleN = value; OnPropertyChanged(nameof(UDoubleN)); }
+            get => UDoubleN;
+            protected set { this.UDoubleN = value; OnPropertyChanged(nameof(UDoubleN)); }
         }
         #endregion
         #region UDoubleN_Ranged
@@ -602,8 +642,8 @@ namespace Loqui.Tests
         private UDouble _UDouble;
         public UDouble UDouble
         {
-            get => _UDouble;
-            protected set { this._UDouble = value; OnPropertyChanged(nameof(UDouble)); }
+            get => UDouble;
+            protected set { this.UDouble = value; OnPropertyChanged(nameof(UDouble)); }
         }
         #endregion
         #region UDouble_Ranged
@@ -623,8 +663,8 @@ namespace Loqui.Tests
         private UInt16? _UInt16N;
         public UInt16? UInt16N
         {
-            get => _UInt16N;
-            protected set { this._UInt16N = value; OnPropertyChanged(nameof(UInt16N)); }
+            get => UInt16N;
+            protected set { this.UInt16N = value; OnPropertyChanged(nameof(UInt16N)); }
         }
         #endregion
         #region UInt16N_Ranged
@@ -644,8 +684,8 @@ namespace Loqui.Tests
         private UInt16 _UInt16;
         public UInt16 UInt16
         {
-            get => _UInt16;
-            protected set { this._UInt16 = value; OnPropertyChanged(nameof(UInt16)); }
+            get => UInt16;
+            protected set { this.UInt16 = value; OnPropertyChanged(nameof(UInt16)); }
         }
         #endregion
         #region UInt16_Ranged
@@ -665,8 +705,8 @@ namespace Loqui.Tests
         private UInt32? _UInt32N;
         public UInt32? UInt32N
         {
-            get => _UInt32N;
-            protected set { this._UInt32N = value; OnPropertyChanged(nameof(UInt32N)); }
+            get => UInt32N;
+            protected set { this.UInt32N = value; OnPropertyChanged(nameof(UInt32N)); }
         }
         #endregion
         #region UInt32N_Ranged
@@ -686,8 +726,8 @@ namespace Loqui.Tests
         private UInt32 _UInt32;
         public UInt32 UInt32
         {
-            get => _UInt32;
-            protected set { this._UInt32 = value; OnPropertyChanged(nameof(UInt32)); }
+            get => UInt32;
+            protected set { this.UInt32 = value; OnPropertyChanged(nameof(UInt32)); }
         }
         #endregion
         #region UInt32_Ranged
@@ -707,8 +747,8 @@ namespace Loqui.Tests
         private UInt64? _UInt64N;
         public UInt64? UInt64N
         {
-            get => _UInt64N;
-            protected set { this._UInt64N = value; OnPropertyChanged(nameof(UInt64N)); }
+            get => UInt64N;
+            protected set { this.UInt64N = value; OnPropertyChanged(nameof(UInt64N)); }
         }
         #endregion
         #region UInt64N_Ranged
@@ -728,8 +768,8 @@ namespace Loqui.Tests
         private UInt64 _UInt64;
         public UInt64 UInt64
         {
-            get => _UInt64;
-            protected set { this._UInt64 = value; OnPropertyChanged(nameof(UInt64)); }
+            get => UInt64;
+            protected set { this.UInt64 = value; OnPropertyChanged(nameof(UInt64)); }
         }
         #endregion
         #region UInt64_Ranged
@@ -749,8 +789,8 @@ namespace Loqui.Tests
         private Byte? _UInt8N;
         public Byte? UInt8N
         {
-            get => _UInt8N;
-            protected set { this._UInt8N = value; OnPropertyChanged(nameof(UInt8N)); }
+            get => UInt8N;
+            protected set { this.UInt8N = value; OnPropertyChanged(nameof(UInt8N)); }
         }
         #endregion
         #region UInt8N_Ranged
@@ -770,8 +810,8 @@ namespace Loqui.Tests
         private Byte _UInt8;
         public Byte UInt8
         {
-            get => _UInt8;
-            protected set { this._UInt8 = value; OnPropertyChanged(nameof(UInt8)); }
+            get => UInt8;
+            protected set { this.UInt8 = value; OnPropertyChanged(nameof(UInt8)); }
         }
         #endregion
         #region UInt8_Ranged
@@ -791,16 +831,16 @@ namespace Loqui.Tests
         private TestEnum _Enum;
         public TestEnum Enum
         {
-            get => _Enum;
-            protected set { this._Enum = value; OnPropertyChanged(nameof(Enum)); }
+            get => Enum;
+            protected set { this.Enum = value; OnPropertyChanged(nameof(Enum)); }
         }
         #endregion
         #region EnumNull
         private TestEnum? _EnumNull;
         public TestEnum? EnumNull
         {
-            get => _EnumNull;
-            protected set { this._EnumNull = value; OnPropertyChanged(nameof(EnumNull)); }
+            get => EnumNull;
+            protected set { this.EnumNull = value; OnPropertyChanged(nameof(EnumNull)); }
         }
         #endregion
         #region WildCard
@@ -1006,6 +1046,9 @@ namespace Loqui.Tests
         {
             if (rhs == null) return false;
             if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
+            if (!ByteArrayNull.EqualsFast(rhs.ByteArrayNull)) return false;
+            if (!ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull)) return false;
+            if (!ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton)) return false;
             if (BoolN != rhs.BoolN) return false;
             if (Bool != rhs.Bool) return false;
             if (CharN != rhs.CharN) return false;
@@ -1112,6 +1155,9 @@ namespace Loqui.Tests
         {
             int ret = 0;
             ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArraySingleton).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
@@ -1308,6 +1354,60 @@ namespace Loqui.Tests
                         if (subMask != null)
                         {
                             errorMask().ByteArray = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArrayNull = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNotNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArrayNotNull = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNotNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArraySingleton":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArraySingleton = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArraySingleton = subMask;
                         }
                     }
                     break;
@@ -3616,6 +3716,9 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -3774,6 +3877,18 @@ namespace Loqui.Tests
     {
         #region ByteArray
         Byte[] ByteArray { get; }
+
+        #endregion
+        #region ByteArrayNull
+        Byte[] ByteArrayNull { get; }
+
+        #endregion
+        #region ByteArrayNotNull
+        Byte[] ByteArrayNotNull { get; }
+
+        #endregion
+        #region ByteArraySingleton
+        Byte[] ByteArraySingleton { get; }
 
         #endregion
         #region BoolN
@@ -4178,105 +4293,108 @@ namespace Loqui.Tests.Internals
     public enum TestObject_Derivative_RPC_FieldIndex
     {
         ByteArray = 0,
-        BoolN = 1,
-        Bool = 2,
-        CharN = 3,
-        Char = 4,
-        DateTimeNull = 5,
-        DateTime = 6,
-        DoubleN = 7,
-        DoubleN_Ranged = 8,
-        Double = 9,
-        Double_Ranged = 10,
-        FloatN = 11,
-        FloatN_Ranged = 12,
-        Float = 13,
-        Float_Ranged = 14,
-        Int16N = 15,
-        Int16N_Ranged = 16,
-        Int16 = 17,
-        Int16_Ranged = 18,
-        Int32N = 19,
-        Int32N_Ranged = 20,
-        Int32 = 21,
-        Int32_Ranged = 22,
-        Int64N = 23,
-        Int64N_Ranged = 24,
-        Int64 = 25,
-        Int64_Ranged = 26,
-        Int8N = 27,
-        Int8N_Ranged = 28,
-        Int8 = 29,
-        Int8_Ranged = 30,
-        Unsafe = 31,
-        UnsafeLoqui = 32,
-        UnsafeNull = 33,
-        P2IntN = 34,
-        P2Int = 35,
-        P3DoubleN = 36,
-        P3Double = 37,
-        P3IntN = 38,
-        P3Int = 39,
-        PercentN = 40,
-        Percent = 41,
-        RangeInt8N = 42,
-        RangeInt8 = 43,
-        RangeInt16N = 44,
-        RangeInt16 = 45,
-        RangeInt32N = 46,
-        RangeInt32 = 47,
-        RangeInt64N = 48,
-        RangeInt64 = 49,
-        RangeUInt8N = 50,
-        RangeUInt8 = 51,
-        RangeUInt16N = 52,
-        RangeUInt16 = 53,
-        RangeUInt32N = 54,
-        RangeUInt32 = 55,
-        RangeUInt64N = 56,
-        RangeUInt64 = 57,
-        String = 58,
-        UDoubleN = 59,
-        UDoubleN_Ranged = 60,
-        UDouble = 61,
-        UDouble_Ranged = 62,
-        UInt16N = 63,
-        UInt16N_Ranged = 64,
-        UInt16 = 65,
-        UInt16_Ranged = 66,
-        UInt32N = 67,
-        UInt32N_Ranged = 68,
-        UInt32 = 69,
-        UInt32_Ranged = 70,
-        UInt64N = 71,
-        UInt64N_Ranged = 72,
-        UInt64 = 73,
-        UInt64_Ranged = 74,
-        UInt8N = 75,
-        UInt8N_Ranged = 76,
-        UInt8 = 77,
-        UInt8_Ranged = 78,
-        Enum = 79,
-        EnumNull = 80,
-        WildCard = 81,
-        WildCardLoqui = 82,
-        WildCardNull = 83,
-        Ref = 84,
-        Ref_NotNull = 85,
-        Ref_Singleton = 86,
-        RefGetter = 87,
-        RefGetter_NotNull = 88,
-        RefGetter_Singleton = 89,
-        RefSetter = 90,
-        RefSetter_NotNull = 91,
-        RefSetter_Singleton = 92,
-        List = 93,
-        RefList = 94,
-        Dict = 95,
-        RefDict = 96,
-        KeyRefDict = 97,
-        ValRefDict = 98,
-        DictKeyedValue = 99,
+        ByteArrayNull = 1,
+        ByteArrayNotNull = 2,
+        ByteArraySingleton = 3,
+        BoolN = 4,
+        Bool = 5,
+        CharN = 6,
+        Char = 7,
+        DateTimeNull = 8,
+        DateTime = 9,
+        DoubleN = 10,
+        DoubleN_Ranged = 11,
+        Double = 12,
+        Double_Ranged = 13,
+        FloatN = 14,
+        FloatN_Ranged = 15,
+        Float = 16,
+        Float_Ranged = 17,
+        Int16N = 18,
+        Int16N_Ranged = 19,
+        Int16 = 20,
+        Int16_Ranged = 21,
+        Int32N = 22,
+        Int32N_Ranged = 23,
+        Int32 = 24,
+        Int32_Ranged = 25,
+        Int64N = 26,
+        Int64N_Ranged = 27,
+        Int64 = 28,
+        Int64_Ranged = 29,
+        Int8N = 30,
+        Int8N_Ranged = 31,
+        Int8 = 32,
+        Int8_Ranged = 33,
+        Unsafe = 34,
+        UnsafeLoqui = 35,
+        UnsafeNull = 36,
+        P2IntN = 37,
+        P2Int = 38,
+        P3DoubleN = 39,
+        P3Double = 40,
+        P3IntN = 41,
+        P3Int = 42,
+        PercentN = 43,
+        Percent = 44,
+        RangeInt8N = 45,
+        RangeInt8 = 46,
+        RangeInt16N = 47,
+        RangeInt16 = 48,
+        RangeInt32N = 49,
+        RangeInt32 = 50,
+        RangeInt64N = 51,
+        RangeInt64 = 52,
+        RangeUInt8N = 53,
+        RangeUInt8 = 54,
+        RangeUInt16N = 55,
+        RangeUInt16 = 56,
+        RangeUInt32N = 57,
+        RangeUInt32 = 58,
+        RangeUInt64N = 59,
+        RangeUInt64 = 60,
+        String = 61,
+        UDoubleN = 62,
+        UDoubleN_Ranged = 63,
+        UDouble = 64,
+        UDouble_Ranged = 65,
+        UInt16N = 66,
+        UInt16N_Ranged = 67,
+        UInt16 = 68,
+        UInt16_Ranged = 69,
+        UInt32N = 70,
+        UInt32N_Ranged = 71,
+        UInt32 = 72,
+        UInt32_Ranged = 73,
+        UInt64N = 74,
+        UInt64N_Ranged = 75,
+        UInt64 = 76,
+        UInt64_Ranged = 77,
+        UInt8N = 78,
+        UInt8N_Ranged = 79,
+        UInt8 = 80,
+        UInt8_Ranged = 81,
+        Enum = 82,
+        EnumNull = 83,
+        WildCard = 84,
+        WildCardLoqui = 85,
+        WildCardNull = 86,
+        Ref = 87,
+        Ref_NotNull = 88,
+        Ref_Singleton = 89,
+        RefGetter = 90,
+        RefGetter_NotNull = 91,
+        RefGetter_Singleton = 92,
+        RefSetter = 93,
+        RefSetter_NotNull = 94,
+        RefSetter_Singleton = 95,
+        List = 96,
+        RefList = 97,
+        Dict = 98,
+        RefDict = 99,
+        KeyRefDict = 100,
+        ValRefDict = 101,
+        DictKeyedValue = 102,
     }
     #endregion
 
@@ -4294,7 +4412,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "adc609a9-7f4d-4b13-ad2d-1c05c05f7508";
 
-        public const ushort FieldCount = 100;
+        public const ushort FieldCount = 103;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_RPC_Mask<>);
 
@@ -4324,6 +4442,12 @@ namespace Loqui.Tests.Internals
             {
                 case "BYTEARRAY":
                     return (ushort)TestObject_Derivative_RPC_FieldIndex.ByteArray;
+                case "BYTEARRAYNULL":
+                    return (ushort)TestObject_Derivative_RPC_FieldIndex.ByteArrayNull;
+                case "BYTEARRAYNOTNULL":
+                    return (ushort)TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull;
+                case "BYTEARRAYSINGLETON":
+                    return (ushort)TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton;
                 case "BOOLN":
                     return (ushort)TestObject_Derivative_RPC_FieldIndex.BoolN;
                 case "BOOL":
@@ -4536,6 +4660,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                     return true;
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -4656,6 +4783,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefList:
                     return true;
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -4761,6 +4891,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -4870,6 +5003,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
                     return "ByteArray";
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                    return "ByteArrayNull";
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                    return "ByteArrayNotNull";
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                    return "ByteArraySingleton";
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                     return "BoolN";
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
@@ -5079,6 +5218,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -5190,6 +5332,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -5301,6 +5446,12 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                     return typeof(Byte[]);
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                     return typeof(Boolean?);
@@ -5625,6 +5776,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -5739,6 +5893,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -5852,6 +6009,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
                 case TestObject_Derivative_RPC_FieldIndex.CharN:
@@ -5966,6 +6126,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
                     return obj.ByteArray;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                    return obj.ByteArrayNull;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                    return obj.ByteArrayNotNull;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                    return obj.ByteArraySingleton;
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                     return obj.BoolN;
                 case TestObject_Derivative_RPC_FieldIndex.Bool:
@@ -6191,6 +6357,9 @@ namespace Loqui.Tests.Internals
         {
             if (rhs == null) return;
             ret.ByteArray = item.ByteArray.EqualsFast(rhs.ByteArray);
+            ret.ByteArrayNull = item.ByteArrayNull.EqualsFast(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = item.ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = item.ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton);
             ret.BoolN = item.BoolN == rhs.BoolN;
             ret.Bool = item.Bool == rhs.Bool;
             ret.CharN = item.CharN == rhs.CharN;
@@ -6400,6 +6569,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {item.ByteArray}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {item.ByteArrayNull}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {item.ByteArrayNotNull}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {item.ByteArraySingleton}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -6914,6 +7095,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_RPC_Mask<bool>();
             ret.ByteArray = true;
+            ret.ByteArrayNull = true;
+            ret.ByteArrayNotNull = true;
+            ret.ByteArraySingleton = true;
             ret.BoolN = true;
             ret.Bool = true;
             ret.CharN = true;
@@ -7122,6 +7306,9 @@ namespace Loqui.Tests.Internals
         public TestObject_Derivative_RPC_Mask(T initialValue)
         {
             this.ByteArray = initialValue;
+            this.ByteArrayNull = initialValue;
+            this.ByteArrayNotNull = initialValue;
+            this.ByteArraySingleton = initialValue;
             this.BoolN = initialValue;
             this.Bool = initialValue;
             this.CharN = initialValue;
@@ -7226,6 +7413,9 @@ namespace Loqui.Tests.Internals
 
         #region Members
         public T ByteArray;
+        public T ByteArrayNull;
+        public T ByteArrayNotNull;
+        public T ByteArraySingleton;
         public T BoolN;
         public T Bool;
         public T CharN;
@@ -7337,6 +7527,9 @@ namespace Loqui.Tests.Internals
         public bool Equals(TestObject_Derivative_RPC_Mask<T> rhs)
         {
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
+            if (!object.Equals(this.ByteArrayNull, rhs.ByteArrayNull)) return false;
+            if (!object.Equals(this.ByteArrayNotNull, rhs.ByteArrayNotNull)) return false;
+            if (!object.Equals(this.ByteArraySingleton, rhs.ByteArraySingleton)) return false;
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
@@ -7444,6 +7637,9 @@ namespace Loqui.Tests.Internals
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.ByteArray)) return false;
+            if (!eval(this.ByteArrayNull)) return false;
+            if (!eval(this.ByteArrayNotNull)) return false;
+            if (!eval(this.ByteArraySingleton)) return false;
             if (!eval(this.BoolN)) return false;
             if (!eval(this.Bool)) return false;
             if (!eval(this.CharN)) return false;
@@ -7680,6 +7876,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_RPC_Mask<R>();
             ret.ByteArray = eval(this.ByteArray);
+            ret.ByteArrayNull = eval(this.ByteArrayNull);
+            ret.ByteArrayNotNull = eval(this.ByteArrayNotNull);
+            ret.ByteArraySingleton = eval(this.ByteArraySingleton);
             ret.BoolN = eval(this.BoolN);
             ret.Bool = eval(this.Bool);
             ret.CharN = eval(this.CharN);
@@ -8047,6 +8246,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -8659,6 +8870,9 @@ namespace Loqui.Tests.Internals
             }
         }
         public Exception ByteArray;
+        public Exception ByteArrayNull;
+        public Exception ByteArrayNotNull;
+        public Exception ByteArraySingleton;
         public Exception BoolN;
         public Exception Bool;
         public Exception CharN;
@@ -8768,6 +8982,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
                     this.ByteArray = ex;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = ex;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = ex;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = ex;
                     break;
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                     this.BoolN = ex;
@@ -9078,6 +9301,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_RPC_FieldIndex.ByteArray:
                     this.ByteArray = (Exception)obj;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = (Exception)obj;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = (Exception)obj;
+                    break;
+                case TestObject_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = (Exception)obj;
                     break;
                 case TestObject_Derivative_RPC_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
@@ -9399,6 +9631,18 @@ namespace Loqui.Tests.Internals
                 if (ByteArray != null)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (ByteArrayNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (ByteArrayNotNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (ByteArraySingleton != null)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (BoolN != null)
                 {
@@ -9997,6 +10241,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_RPC_ErrorMask();
             ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
+            ret.ByteArrayNull = this.ByteArrayNull.Combine(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = this.ByteArrayNotNull.Combine(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = this.ByteArraySingleton.Combine(rhs.ByteArraySingleton);
             ret.BoolN = this.BoolN.Combine(rhs.BoolN);
             ret.Bool = this.Bool.Combine(rhs.Bool);
             ret.CharN = this.CharN.Combine(rhs.CharN);
@@ -10110,6 +10357,9 @@ namespace Loqui.Tests.Internals
     {
         #region Members
         public bool ByteArray;
+        public bool ByteArrayNull;
+        public bool ByteArrayNotNull;
+        public bool ByteArraySingleton;
         public bool BoolN;
         public bool Bool;
         public bool CharN;

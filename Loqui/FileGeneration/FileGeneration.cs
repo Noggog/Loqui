@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("item._ByteArray.Item = tryGet.Value.Value;"))
+            if (str.Equals("_ByteArrayNotNull = new byte[3]);"))
             {
                 int wer = 23;
                 wer++;

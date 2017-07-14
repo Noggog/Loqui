@@ -17,7 +17,7 @@ namespace Loqui.Tests.XML
         public static readonly TestObject_HasBeenSet TYPICAL_VALUE;
         public static readonly TestObject_HasBeenSet EMPTY_VALUE = new TestObject_HasBeenSet();
         public static readonly LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask> Translator = new LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>();
-        public static int NUM_FIELDS = 100;
+        public static int NUM_FIELDS = 103;
 
         static LoquiXmlTranslation_Direct_Test()
         {
@@ -112,7 +112,9 @@ namespace Loqui.Tests.XML
                 WildCard = true,
                 WildCardLoqui = ObjectToRefXmlTranslation_Test.TYPICAL_VALUE,
                 WildCardNull = null,
-                ByteArray = ByteArrayXmlTranslation_Tests.TYPICAL_VALUE
+                ByteArray = ByteArrayXmlTranslation_Tests.TYPICAL_VALUE,
+                ByteArrayNull = null,
+                ByteArrayNotNull = ByteArrayXmlTranslation_Tests.TYPICAL_VALUE
             };
             TYPICAL_VALUE.Ref_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
             TYPICAL_VALUE.RefSetter_Singleton.CopyFieldsFrom(ObjectToRefXmlTranslation_Test.TYPICAL_VALUE);
@@ -123,6 +125,7 @@ namespace Loqui.Tests.XML
             TYPICAL_VALUE.ValRefDict.Add(RefValDictXmlTranslation_Tests.Instance.GetTypicalContents());
             TYPICAL_VALUE.RefDict.Add(RefDictXmlTranslation_Tests.Instance.GetTypicalContents());
             TYPICAL_VALUE.DictKeyedValue.Set(KeyedDictXmlTranslation_Tests.Instance.GetTypicalContents());
+            Array.Copy(ByteArrayXmlTranslation_Tests.TYPICAL_VALUE, TYPICAL_VALUE.ByteArraySingleton, ByteArrayXmlTranslation_Tests.TYPICAL_VALUE.Length);
         }
 
         public string ExpectedName => "Loqui.Tests.TestObject_HasBeenSet";
@@ -232,6 +235,9 @@ namespace Loqui.Tests.XML
             elem.Add(RefDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.RefDict)));
             elem.Add(KeyedDictXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.DictKeyedValue)));
             elem.Add(ByteArrayXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ByteArray)));
+            elem.Add(XmlUtility.GetElementNoValue(nameof(TestObject_HasBeenSet.ByteArrayNull)));
+            elem.Add(ByteArrayXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ByteArrayNotNull)));
+            elem.Add(ByteArrayXmlTranslation_Tests.Instance.GetTypicalElement(nameof(TestObject_HasBeenSet.ByteArraySingleton)));
             return elem;
         }
 

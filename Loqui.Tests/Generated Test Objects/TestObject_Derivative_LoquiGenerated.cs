@@ -36,7 +36,50 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        public Byte[] ByteArray { get; protected set; }
+        private Byte[] _ByteArray;
+        public Byte[] ByteArray
+        {
+            get => ByteArray;
+            protected set { this._ByteArray = value; }
+        }
+        #endregion
+        #region ByteArrayNull
+        private Byte[] _ByteArrayNull;
+        public Byte[] ByteArrayNull
+        {
+            get => ByteArrayNull;
+            protected set { this._ByteArrayNull = value; }
+        }
+        #endregion
+        #region ByteArrayNotNull
+        private Byte[] _ByteArrayNotNull = new byte[3];
+        public Byte[] ByteArrayNotNull
+        {
+            get => ByteArrayNotNull;
+            protected set
+            {
+                this.ByteArrayNotNull = value;
+                if (value == null)
+                {
+                    this.ByteArrayNotNull = new byte[3];
+                }
+            }
+        }
+        #endregion
+        #region ByteArraySingleton
+        private Byte[] _ByteArraySingleton = new byte[3];
+        public Byte[] ByteArraySingleton
+        {
+            get => ByteArraySingleton;
+            protected set
+            {
+                this.ByteArraySingleton = value;
+                if (value == null)
+                {
+                    this.ByteArraySingleton = new byte[3];
+                }
+            }
+        }
         #endregion
         #region BoolN
         public Boolean? BoolN { get; protected set; }
@@ -664,6 +707,9 @@ namespace Loqui.Tests
         {
             if (rhs == null) return false;
             if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
+            if (!ByteArrayNull.EqualsFast(rhs.ByteArrayNull)) return false;
+            if (!ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull)) return false;
+            if (!ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton)) return false;
             if (BoolN != rhs.BoolN) return false;
             if (Bool != rhs.Bool) return false;
             if (CharN != rhs.CharN) return false;
@@ -770,6 +816,9 @@ namespace Loqui.Tests
         {
             int ret = 0;
             ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArraySingleton).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
@@ -966,6 +1015,60 @@ namespace Loqui.Tests
                         if (subMask != null)
                         {
                             errorMask().ByteArray = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArrayNull = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNotNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArrayNotNull = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNotNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArraySingleton":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.ByteArraySingleton = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArraySingleton = subMask;
                         }
                     }
                     break;
@@ -3274,6 +3377,9 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -3432,6 +3538,18 @@ namespace Loqui.Tests
     {
         #region ByteArray
         Byte[] ByteArray { get; }
+
+        #endregion
+        #region ByteArrayNull
+        Byte[] ByteArrayNull { get; }
+
+        #endregion
+        #region ByteArrayNotNull
+        Byte[] ByteArrayNotNull { get; }
+
+        #endregion
+        #region ByteArraySingleton
+        Byte[] ByteArraySingleton { get; }
 
         #endregion
         #region BoolN
@@ -3836,105 +3954,108 @@ namespace Loqui.Tests.Internals
     public enum TestObject_Derivative_FieldIndex
     {
         ByteArray = 0,
-        BoolN = 1,
-        Bool = 2,
-        CharN = 3,
-        Char = 4,
-        DateTimeNull = 5,
-        DateTime = 6,
-        DoubleN = 7,
-        DoubleN_Ranged = 8,
-        Double = 9,
-        Double_Ranged = 10,
-        FloatN = 11,
-        FloatN_Ranged = 12,
-        Float = 13,
-        Float_Ranged = 14,
-        Int16N = 15,
-        Int16N_Ranged = 16,
-        Int16 = 17,
-        Int16_Ranged = 18,
-        Int32N = 19,
-        Int32N_Ranged = 20,
-        Int32 = 21,
-        Int32_Ranged = 22,
-        Int64N = 23,
-        Int64N_Ranged = 24,
-        Int64 = 25,
-        Int64_Ranged = 26,
-        Int8N = 27,
-        Int8N_Ranged = 28,
-        Int8 = 29,
-        Int8_Ranged = 30,
-        Unsafe = 31,
-        UnsafeLoqui = 32,
-        UnsafeNull = 33,
-        P2IntN = 34,
-        P2Int = 35,
-        P3DoubleN = 36,
-        P3Double = 37,
-        P3IntN = 38,
-        P3Int = 39,
-        PercentN = 40,
-        Percent = 41,
-        RangeInt8N = 42,
-        RangeInt8 = 43,
-        RangeInt16N = 44,
-        RangeInt16 = 45,
-        RangeInt32N = 46,
-        RangeInt32 = 47,
-        RangeInt64N = 48,
-        RangeInt64 = 49,
-        RangeUInt8N = 50,
-        RangeUInt8 = 51,
-        RangeUInt16N = 52,
-        RangeUInt16 = 53,
-        RangeUInt32N = 54,
-        RangeUInt32 = 55,
-        RangeUInt64N = 56,
-        RangeUInt64 = 57,
-        String = 58,
-        UDoubleN = 59,
-        UDoubleN_Ranged = 60,
-        UDouble = 61,
-        UDouble_Ranged = 62,
-        UInt16N = 63,
-        UInt16N_Ranged = 64,
-        UInt16 = 65,
-        UInt16_Ranged = 66,
-        UInt32N = 67,
-        UInt32N_Ranged = 68,
-        UInt32 = 69,
-        UInt32_Ranged = 70,
-        UInt64N = 71,
-        UInt64N_Ranged = 72,
-        UInt64 = 73,
-        UInt64_Ranged = 74,
-        UInt8N = 75,
-        UInt8N_Ranged = 76,
-        UInt8 = 77,
-        UInt8_Ranged = 78,
-        Enum = 79,
-        EnumNull = 80,
-        WildCard = 81,
-        WildCardLoqui = 82,
-        WildCardNull = 83,
-        Ref = 84,
-        Ref_NotNull = 85,
-        Ref_Singleton = 86,
-        RefGetter = 87,
-        RefGetter_NotNull = 88,
-        RefGetter_Singleton = 89,
-        RefSetter = 90,
-        RefSetter_NotNull = 91,
-        RefSetter_Singleton = 92,
-        List = 93,
-        RefList = 94,
-        Dict = 95,
-        RefDict = 96,
-        KeyRefDict = 97,
-        ValRefDict = 98,
-        DictKeyedValue = 99,
+        ByteArrayNull = 1,
+        ByteArrayNotNull = 2,
+        ByteArraySingleton = 3,
+        BoolN = 4,
+        Bool = 5,
+        CharN = 6,
+        Char = 7,
+        DateTimeNull = 8,
+        DateTime = 9,
+        DoubleN = 10,
+        DoubleN_Ranged = 11,
+        Double = 12,
+        Double_Ranged = 13,
+        FloatN = 14,
+        FloatN_Ranged = 15,
+        Float = 16,
+        Float_Ranged = 17,
+        Int16N = 18,
+        Int16N_Ranged = 19,
+        Int16 = 20,
+        Int16_Ranged = 21,
+        Int32N = 22,
+        Int32N_Ranged = 23,
+        Int32 = 24,
+        Int32_Ranged = 25,
+        Int64N = 26,
+        Int64N_Ranged = 27,
+        Int64 = 28,
+        Int64_Ranged = 29,
+        Int8N = 30,
+        Int8N_Ranged = 31,
+        Int8 = 32,
+        Int8_Ranged = 33,
+        Unsafe = 34,
+        UnsafeLoqui = 35,
+        UnsafeNull = 36,
+        P2IntN = 37,
+        P2Int = 38,
+        P3DoubleN = 39,
+        P3Double = 40,
+        P3IntN = 41,
+        P3Int = 42,
+        PercentN = 43,
+        Percent = 44,
+        RangeInt8N = 45,
+        RangeInt8 = 46,
+        RangeInt16N = 47,
+        RangeInt16 = 48,
+        RangeInt32N = 49,
+        RangeInt32 = 50,
+        RangeInt64N = 51,
+        RangeInt64 = 52,
+        RangeUInt8N = 53,
+        RangeUInt8 = 54,
+        RangeUInt16N = 55,
+        RangeUInt16 = 56,
+        RangeUInt32N = 57,
+        RangeUInt32 = 58,
+        RangeUInt64N = 59,
+        RangeUInt64 = 60,
+        String = 61,
+        UDoubleN = 62,
+        UDoubleN_Ranged = 63,
+        UDouble = 64,
+        UDouble_Ranged = 65,
+        UInt16N = 66,
+        UInt16N_Ranged = 67,
+        UInt16 = 68,
+        UInt16_Ranged = 69,
+        UInt32N = 70,
+        UInt32N_Ranged = 71,
+        UInt32 = 72,
+        UInt32_Ranged = 73,
+        UInt64N = 74,
+        UInt64N_Ranged = 75,
+        UInt64 = 76,
+        UInt64_Ranged = 77,
+        UInt8N = 78,
+        UInt8N_Ranged = 79,
+        UInt8 = 80,
+        UInt8_Ranged = 81,
+        Enum = 82,
+        EnumNull = 83,
+        WildCard = 84,
+        WildCardLoqui = 85,
+        WildCardNull = 86,
+        Ref = 87,
+        Ref_NotNull = 88,
+        Ref_Singleton = 89,
+        RefGetter = 90,
+        RefGetter_NotNull = 91,
+        RefGetter_Singleton = 92,
+        RefSetter = 93,
+        RefSetter_NotNull = 94,
+        RefSetter_Singleton = 95,
+        List = 96,
+        RefList = 97,
+        Dict = 98,
+        RefDict = 99,
+        KeyRefDict = 100,
+        ValRefDict = 101,
+        DictKeyedValue = 102,
     }
     #endregion
 
@@ -3952,7 +4073,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "ec188280-ea8c-4490-b011-0940de80033f";
 
-        public const ushort FieldCount = 100;
+        public const ushort FieldCount = 103;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_Mask<>);
 
@@ -3982,6 +4103,12 @@ namespace Loqui.Tests.Internals
             {
                 case "BYTEARRAY":
                     return (ushort)TestObject_Derivative_FieldIndex.ByteArray;
+                case "BYTEARRAYNULL":
+                    return (ushort)TestObject_Derivative_FieldIndex.ByteArrayNull;
+                case "BYTEARRAYNOTNULL":
+                    return (ushort)TestObject_Derivative_FieldIndex.ByteArrayNotNull;
+                case "BYTEARRAYSINGLETON":
+                    return (ushort)TestObject_Derivative_FieldIndex.ByteArraySingleton;
                 case "BOOLN":
                     return (ushort)TestObject_Derivative_FieldIndex.BoolN;
                 case "BOOL":
@@ -4194,6 +4321,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RefList:
                     return true;
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -4314,6 +4444,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RefList:
                     return true;
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -4419,6 +4552,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RefSetter_Singleton:
                     return true;
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -4528,6 +4664,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
                     return "ByteArray";
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                    return "ByteArrayNull";
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                    return "ByteArrayNotNull";
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
+                    return "ByteArraySingleton";
                 case TestObject_Derivative_FieldIndex.BoolN:
                     return "BoolN";
                 case TestObject_Derivative_FieldIndex.Bool:
@@ -4737,6 +4879,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -4848,6 +4993,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -4959,6 +5107,12 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                    return typeof(Byte[]);
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                     return typeof(Byte[]);
                 case TestObject_Derivative_FieldIndex.BoolN:
                     return typeof(Boolean?);
@@ -5283,6 +5437,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -5397,6 +5554,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -5510,6 +5670,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
                 case TestObject_Derivative_FieldIndex.BoolN:
                 case TestObject_Derivative_FieldIndex.Bool:
                 case TestObject_Derivative_FieldIndex.CharN:
@@ -5624,6 +5787,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
                     return obj.ByteArray;
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                    return obj.ByteArrayNull;
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                    return obj.ByteArrayNotNull;
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
+                    return obj.ByteArraySingleton;
                 case TestObject_Derivative_FieldIndex.BoolN:
                     return obj.BoolN;
                 case TestObject_Derivative_FieldIndex.Bool:
@@ -5849,6 +6018,9 @@ namespace Loqui.Tests.Internals
         {
             if (rhs == null) return;
             ret.ByteArray = item.ByteArray.EqualsFast(rhs.ByteArray);
+            ret.ByteArrayNull = item.ByteArrayNull.EqualsFast(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = item.ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = item.ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton);
             ret.BoolN = item.BoolN == rhs.BoolN;
             ret.Bool = item.Bool == rhs.Bool;
             ret.CharN = item.CharN == rhs.CharN;
@@ -6058,6 +6230,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {item.ByteArray}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {item.ByteArrayNull}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {item.ByteArrayNotNull}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {item.ByteArraySingleton}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -6572,6 +6756,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_Mask<bool>();
             ret.ByteArray = true;
+            ret.ByteArrayNull = true;
+            ret.ByteArrayNotNull = true;
+            ret.ByteArraySingleton = true;
             ret.BoolN = true;
             ret.Bool = true;
             ret.CharN = true;
@@ -6780,6 +6967,9 @@ namespace Loqui.Tests.Internals
         public TestObject_Derivative_Mask(T initialValue)
         {
             this.ByteArray = initialValue;
+            this.ByteArrayNull = initialValue;
+            this.ByteArrayNotNull = initialValue;
+            this.ByteArraySingleton = initialValue;
             this.BoolN = initialValue;
             this.Bool = initialValue;
             this.CharN = initialValue;
@@ -6884,6 +7074,9 @@ namespace Loqui.Tests.Internals
 
         #region Members
         public T ByteArray;
+        public T ByteArrayNull;
+        public T ByteArrayNotNull;
+        public T ByteArraySingleton;
         public T BoolN;
         public T Bool;
         public T CharN;
@@ -6995,6 +7188,9 @@ namespace Loqui.Tests.Internals
         public bool Equals(TestObject_Derivative_Mask<T> rhs)
         {
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
+            if (!object.Equals(this.ByteArrayNull, rhs.ByteArrayNull)) return false;
+            if (!object.Equals(this.ByteArrayNotNull, rhs.ByteArrayNotNull)) return false;
+            if (!object.Equals(this.ByteArraySingleton, rhs.ByteArraySingleton)) return false;
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
@@ -7102,6 +7298,9 @@ namespace Loqui.Tests.Internals
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.ByteArray)) return false;
+            if (!eval(this.ByteArrayNull)) return false;
+            if (!eval(this.ByteArrayNotNull)) return false;
+            if (!eval(this.ByteArraySingleton)) return false;
             if (!eval(this.BoolN)) return false;
             if (!eval(this.Bool)) return false;
             if (!eval(this.CharN)) return false;
@@ -7338,6 +7537,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_Mask<R>();
             ret.ByteArray = eval(this.ByteArray);
+            ret.ByteArrayNull = eval(this.ByteArrayNull);
+            ret.ByteArrayNotNull = eval(this.ByteArrayNotNull);
+            ret.ByteArraySingleton = eval(this.ByteArraySingleton);
             ret.BoolN = eval(this.BoolN);
             ret.Bool = eval(this.Bool);
             ret.CharN = eval(this.CharN);
@@ -7705,6 +7907,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -8317,6 +8531,9 @@ namespace Loqui.Tests.Internals
             }
         }
         public Exception ByteArray;
+        public Exception ByteArrayNull;
+        public Exception ByteArrayNotNull;
+        public Exception ByteArraySingleton;
         public Exception BoolN;
         public Exception Bool;
         public Exception CharN;
@@ -8426,6 +8643,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
                     this.ByteArray = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = ex;
                     break;
                 case TestObject_Derivative_FieldIndex.BoolN:
                     this.BoolN = ex;
@@ -8736,6 +8962,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Derivative_FieldIndex.ByteArray:
                     this.ByteArray = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = (Exception)obj;
                     break;
                 case TestObject_Derivative_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
@@ -9057,6 +9292,18 @@ namespace Loqui.Tests.Internals
                 if (ByteArray != null)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (ByteArrayNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (ByteArrayNotNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (ByteArraySingleton != null)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (BoolN != null)
                 {
@@ -9655,6 +9902,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Derivative_ErrorMask();
             ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
+            ret.ByteArrayNull = this.ByteArrayNull.Combine(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = this.ByteArrayNotNull.Combine(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = this.ByteArraySingleton.Combine(rhs.ByteArraySingleton);
             ret.BoolN = this.BoolN.Combine(rhs.BoolN);
             ret.Bool = this.Bool.Combine(rhs.Bool);
             ret.CharN = this.CharN.Combine(rhs.CharN);
@@ -9768,6 +10018,9 @@ namespace Loqui.Tests.Internals
     {
         #region Members
         public bool ByteArray;
+        public bool ByteArrayNull;
+        public bool ByteArrayNotNull;
+        public bool ByteArraySingleton;
         public bool BoolN;
         public bool Bool;
         public bool CharN;

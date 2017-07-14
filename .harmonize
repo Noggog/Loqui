@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>b3634afc9114e32b225731dbc2fee5dc8580db06</Sha>
+         <Sha>104876e8ef2ef86dc33dbc4543d3a611aa5eaacc</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>07-13-2017 19:25:47</CommitDate>
-         <Description>tmp</Description>
+         <CommitDate>07-13-2017 20:19:38</CommitDate>
+         <Description>TypeExt.IsNullable.  Fixes for XmlExt.TryGetAttribute /w nullables.  ByteExt.ToHexString and EqualsFast</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

@@ -4,6 +4,9 @@
   <FieldBatch name="TypicalFields">
     <Fields>
       <ByteArray name="ByteArray" />
+      <ByteArray name="ByteArrayNull" />
+      <ByteArray name="ByteArrayNotNull" nullable="false" length="3" />
+      <ByteArray name="ByteArraySingleton" singleton="true" length="3" />
       <BoolNull name="BoolN" />
       <Bool name="Bool" />
       <CharNull name="CharN" />

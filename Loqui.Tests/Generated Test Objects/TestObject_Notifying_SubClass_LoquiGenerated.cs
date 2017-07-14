@@ -429,7 +429,7 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_SubClass_FieldIndex
     {
-        NewField = 100,
+        NewField = 103,
     }
     #endregion
 

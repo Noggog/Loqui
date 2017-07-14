@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Loqui.Xml
@@ -14,6 +15,12 @@ namespace Loqui.Xml
         protected override string GetItemStr(byte[] item)
         {
             return item.ToHexString();
+        }
+
+        protected override void WriteValue(XmlWriter writer, string name, byte[] item)
+        {
+            if (item == null) return;
+            base.WriteValue(writer, name, item);
         }
 
         protected override Byte[] ParseValue(XElement root)

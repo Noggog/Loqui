@@ -54,6 +54,40 @@ namespace Loqui.Tests
         }
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_ReadOnlyGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
+        #region ByteArrayNull
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingItem.Factory<Byte[]>(markAsSet: false);
+        public INotifyingItemGetter<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
+        public Byte[] ByteArrayNull
+        {
+            get => this._ByteArrayNull.Item;
+            protected set => this._ByteArrayNull.Set(value);
+        }
+        INotifyingItemGetter<Byte[]> ITestObject_Notifying_ReadOnlyGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
+        #endregion
+        #region ByteArrayNotNull
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingItem.Factory<Byte[]>(
+            markAsSet: false,
+            noNullFallback: () => new byte[3]);
+        public INotifyingItemGetter<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
+        public Byte[] ByteArrayNotNull
+        {
+            get => this._ByteArrayNotNull.Item;
+            protected set => this._ByteArrayNotNull.Set(value);
+        }
+        INotifyingItemGetter<Byte[]> ITestObject_Notifying_ReadOnlyGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
+        #endregion
+        #region ByteArraySingleton
+        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingItem.Factory<Byte[]>(
+            markAsSet: true,
+            noNullFallback: () => new byte[3]);
+        public INotifyingItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
+        public Byte[] ByteArraySingleton
+        {
+            get => this._ByteArraySingleton.Item;
+            protected set => this._ByteArraySingleton.Set(value);
+        }
+        INotifyingItemGetter<Byte[]> ITestObject_Notifying_ReadOnlyGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
+        #endregion
         #region BoolN
         protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingItem.Factory<Boolean?>(markAsSet: false);
         public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;
@@ -1122,6 +1156,21 @@ namespace Loqui.Tests
             {
                 if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
             }
+            if (ByteArrayNull_Property.HasBeenSet != rhs.ByteArrayNull_Property.HasBeenSet) return false;
+            if (ByteArrayNull_Property.HasBeenSet)
+            {
+                if (!ByteArrayNull.EqualsFast(rhs.ByteArrayNull)) return false;
+            }
+            if (ByteArrayNotNull_Property.HasBeenSet != rhs.ByteArrayNotNull_Property.HasBeenSet) return false;
+            if (ByteArrayNotNull_Property.HasBeenSet)
+            {
+                if (!ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull)) return false;
+            }
+            if (ByteArraySingleton_Property.HasBeenSet != rhs.ByteArraySingleton_Property.HasBeenSet) return false;
+            if (ByteArraySingleton_Property.HasBeenSet)
+            {
+                if (!ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton)) return false;
+            }
             if (BoolN_Property.HasBeenSet != rhs.BoolN_Property.HasBeenSet) return false;
             if (BoolN_Property.HasBeenSet)
             {
@@ -1627,6 +1676,18 @@ namespace Loqui.Tests
             {
                 ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
             }
+            if (ByteArrayNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(ByteArrayNull).CombineHashCode(ret);
+            }
+            if (ByteArrayNotNull_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(ByteArrayNotNull).CombineHashCode(ret);
+            }
+            if (ByteArraySingleton_Property.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(ByteArraySingleton).CombineHashCode(ret);
+            }
             if (BoolN_Property.HasBeenSet)
             {
                 ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
@@ -2120,6 +2181,60 @@ namespace Loqui.Tests
                         if (subMask != null)
                         {
                             errorMask().ByteArray = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item._ByteArrayNull.Item = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArrayNotNull":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item._ByteArrayNotNull.Item = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNotNull = subMask;
+                        }
+                    }
+                    break;
+                case "ByteArraySingleton":
+                    {
+                        Exception subMask;
+                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item._ByteArraySingleton.Item = tryGet.Value;
+                        }
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArraySingleton = subMask;
                         }
                     }
                     break;
@@ -4432,6 +4547,21 @@ namespace Loqui.Tests
                         (Byte[])obj,
                         cmds);
                     break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    this._ByteArrayNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    this._ByteArrayNotNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    this._ByteArraySingleton.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     this._BoolN.Set(
                         (Boolean?)obj,
@@ -4970,6 +5100,21 @@ namespace Loqui.Tests
                         (Byte[])pair.Value,
                         null);
                     break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    obj._ByteArrayNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    obj._ByteArrayNotNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    obj._ByteArraySingleton.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     obj._BoolN.Set(
                         (Boolean?)pair.Value,
@@ -5491,6 +5636,21 @@ namespace Loqui.Tests
         INotifyingItemGetter<Byte[]> ByteArray_Property { get; }
 
         #endregion
+        #region ByteArrayNull
+        Byte[] ByteArrayNull { get; }
+        INotifyingItemGetter<Byte[]> ByteArrayNull_Property { get; }
+
+        #endregion
+        #region ByteArrayNotNull
+        Byte[] ByteArrayNotNull { get; }
+        INotifyingItemGetter<Byte[]> ByteArrayNotNull_Property { get; }
+
+        #endregion
+        #region ByteArraySingleton
+        Byte[] ByteArraySingleton { get; }
+        INotifyingItemGetter<Byte[]> ByteArraySingleton_Property { get; }
+
+        #endregion
         #region BoolN
         Boolean? BoolN { get; }
         INotifyingItemGetter<Boolean?> BoolN_Property { get; }
@@ -5985,105 +6145,108 @@ namespace Loqui.Tests.Internals
     public enum TestObject_Notifying_ReadOnly_FieldIndex
     {
         ByteArray = 0,
-        BoolN = 1,
-        Bool = 2,
-        CharN = 3,
-        Char = 4,
-        DateTimeNull = 5,
-        DateTime = 6,
-        DoubleN = 7,
-        DoubleN_Ranged = 8,
-        Double = 9,
-        Double_Ranged = 10,
-        FloatN = 11,
-        FloatN_Ranged = 12,
-        Float = 13,
-        Float_Ranged = 14,
-        Int16N = 15,
-        Int16N_Ranged = 16,
-        Int16 = 17,
-        Int16_Ranged = 18,
-        Int32N = 19,
-        Int32N_Ranged = 20,
-        Int32 = 21,
-        Int32_Ranged = 22,
-        Int64N = 23,
-        Int64N_Ranged = 24,
-        Int64 = 25,
-        Int64_Ranged = 26,
-        Int8N = 27,
-        Int8N_Ranged = 28,
-        Int8 = 29,
-        Int8_Ranged = 30,
-        Unsafe = 31,
-        UnsafeLoqui = 32,
-        UnsafeNull = 33,
-        P2IntN = 34,
-        P2Int = 35,
-        P3DoubleN = 36,
-        P3Double = 37,
-        P3IntN = 38,
-        P3Int = 39,
-        PercentN = 40,
-        Percent = 41,
-        RangeInt8N = 42,
-        RangeInt8 = 43,
-        RangeInt16N = 44,
-        RangeInt16 = 45,
-        RangeInt32N = 46,
-        RangeInt32 = 47,
-        RangeInt64N = 48,
-        RangeInt64 = 49,
-        RangeUInt8N = 50,
-        RangeUInt8 = 51,
-        RangeUInt16N = 52,
-        RangeUInt16 = 53,
-        RangeUInt32N = 54,
-        RangeUInt32 = 55,
-        RangeUInt64N = 56,
-        RangeUInt64 = 57,
-        String = 58,
-        UDoubleN = 59,
-        UDoubleN_Ranged = 60,
-        UDouble = 61,
-        UDouble_Ranged = 62,
-        UInt16N = 63,
-        UInt16N_Ranged = 64,
-        UInt16 = 65,
-        UInt16_Ranged = 66,
-        UInt32N = 67,
-        UInt32N_Ranged = 68,
-        UInt32 = 69,
-        UInt32_Ranged = 70,
-        UInt64N = 71,
-        UInt64N_Ranged = 72,
-        UInt64 = 73,
-        UInt64_Ranged = 74,
-        UInt8N = 75,
-        UInt8N_Ranged = 76,
-        UInt8 = 77,
-        UInt8_Ranged = 78,
-        Enum = 79,
-        EnumNull = 80,
-        WildCard = 81,
-        WildCardLoqui = 82,
-        WildCardNull = 83,
-        Ref = 84,
-        Ref_NotNull = 85,
-        Ref_Singleton = 86,
-        RefGetter = 87,
-        RefGetter_NotNull = 88,
-        RefGetter_Singleton = 89,
-        RefSetter = 90,
-        RefSetter_NotNull = 91,
-        RefSetter_Singleton = 92,
-        List = 93,
-        RefList = 94,
-        Dict = 95,
-        RefDict = 96,
-        KeyRefDict = 97,
-        ValRefDict = 98,
-        DictKeyedValue = 99,
+        ByteArrayNull = 1,
+        ByteArrayNotNull = 2,
+        ByteArraySingleton = 3,
+        BoolN = 4,
+        Bool = 5,
+        CharN = 6,
+        Char = 7,
+        DateTimeNull = 8,
+        DateTime = 9,
+        DoubleN = 10,
+        DoubleN_Ranged = 11,
+        Double = 12,
+        Double_Ranged = 13,
+        FloatN = 14,
+        FloatN_Ranged = 15,
+        Float = 16,
+        Float_Ranged = 17,
+        Int16N = 18,
+        Int16N_Ranged = 19,
+        Int16 = 20,
+        Int16_Ranged = 21,
+        Int32N = 22,
+        Int32N_Ranged = 23,
+        Int32 = 24,
+        Int32_Ranged = 25,
+        Int64N = 26,
+        Int64N_Ranged = 27,
+        Int64 = 28,
+        Int64_Ranged = 29,
+        Int8N = 30,
+        Int8N_Ranged = 31,
+        Int8 = 32,
+        Int8_Ranged = 33,
+        Unsafe = 34,
+        UnsafeLoqui = 35,
+        UnsafeNull = 36,
+        P2IntN = 37,
+        P2Int = 38,
+        P3DoubleN = 39,
+        P3Double = 40,
+        P3IntN = 41,
+        P3Int = 42,
+        PercentN = 43,
+        Percent = 44,
+        RangeInt8N = 45,
+        RangeInt8 = 46,
+        RangeInt16N = 47,
+        RangeInt16 = 48,
+        RangeInt32N = 49,
+        RangeInt32 = 50,
+        RangeInt64N = 51,
+        RangeInt64 = 52,
+        RangeUInt8N = 53,
+        RangeUInt8 = 54,
+        RangeUInt16N = 55,
+        RangeUInt16 = 56,
+        RangeUInt32N = 57,
+        RangeUInt32 = 58,
+        RangeUInt64N = 59,
+        RangeUInt64 = 60,
+        String = 61,
+        UDoubleN = 62,
+        UDoubleN_Ranged = 63,
+        UDouble = 64,
+        UDouble_Ranged = 65,
+        UInt16N = 66,
+        UInt16N_Ranged = 67,
+        UInt16 = 68,
+        UInt16_Ranged = 69,
+        UInt32N = 70,
+        UInt32N_Ranged = 71,
+        UInt32 = 72,
+        UInt32_Ranged = 73,
+        UInt64N = 74,
+        UInt64N_Ranged = 75,
+        UInt64 = 76,
+        UInt64_Ranged = 77,
+        UInt8N = 78,
+        UInt8N_Ranged = 79,
+        UInt8 = 80,
+        UInt8_Ranged = 81,
+        Enum = 82,
+        EnumNull = 83,
+        WildCard = 84,
+        WildCardLoqui = 85,
+        WildCardNull = 86,
+        Ref = 87,
+        Ref_NotNull = 88,
+        Ref_Singleton = 89,
+        RefGetter = 90,
+        RefGetter_NotNull = 91,
+        RefGetter_Singleton = 92,
+        RefSetter = 93,
+        RefSetter_NotNull = 94,
+        RefSetter_Singleton = 95,
+        List = 96,
+        RefList = 97,
+        Dict = 98,
+        RefDict = 99,
+        KeyRefDict = 100,
+        ValRefDict = 101,
+        DictKeyedValue = 102,
     }
     #endregion
 
@@ -6101,7 +6264,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "788f2672-47d2-47d0-a157-c7426032ad72";
 
-        public const ushort FieldCount = 100;
+        public const ushort FieldCount = 103;
 
         public static readonly Type MaskType = typeof(TestObject_Notifying_ReadOnly_Mask<>);
 
@@ -6131,6 +6294,12 @@ namespace Loqui.Tests.Internals
             {
                 case "BYTEARRAY":
                     return (ushort)TestObject_Notifying_ReadOnly_FieldIndex.ByteArray;
+                case "BYTEARRAYNULL":
+                    return (ushort)TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull;
+                case "BYTEARRAYNOTNULL":
+                    return (ushort)TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull;
+                case "BYTEARRAYSINGLETON":
+                    return (ushort)TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton;
                 case "BOOLN":
                     return (ushort)TestObject_Notifying_ReadOnly_FieldIndex.BoolN;
                 case "BOOL":
@@ -6343,6 +6512,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
                     return true;
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
                 case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
@@ -6463,6 +6635,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_ReadOnly_FieldIndex.RefList:
                     return true;
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
                 case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
@@ -6568,6 +6743,9 @@ namespace Loqui.Tests.Internals
                 case TestObject_Notifying_ReadOnly_FieldIndex.RefSetter_Singleton:
                     return true;
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
                 case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
@@ -6677,6 +6855,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     return "ByteArray";
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    return "ByteArrayNull";
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    return "ByteArrayNotNull";
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    return "ByteArraySingleton";
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     return "BoolN";
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
@@ -6886,6 +7070,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
                 case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
@@ -6997,6 +7184,9 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
                 case TestObject_Notifying_ReadOnly_FieldIndex.CharN:
@@ -7108,6 +7298,12 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
+                    return typeof(Byte[]);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    return typeof(Byte[]);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    return typeof(Byte[]);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
                     return typeof(Byte[]);
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     return typeof(Boolean?);
@@ -7433,6 +7629,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
@@ -7646,6 +7848,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
@@ -7858,6 +8066,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     return obj.ByteArray_Property.HasBeenSet;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    return obj.ByteArrayNull_Property.HasBeenSet;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    return obj.ByteArrayNotNull_Property.HasBeenSet;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    return obj.ByteArraySingleton_Property.HasBeenSet;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
@@ -8070,6 +8284,12 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     return obj.ByteArray;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    return obj.ByteArrayNull;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    return obj.ByteArrayNotNull;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    return obj.ByteArraySingleton;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     return obj.BoolN;
                 case TestObject_Notifying_ReadOnly_FieldIndex.Bool:
@@ -8295,6 +8515,9 @@ namespace Loqui.Tests.Internals
         {
             if (rhs == null) return;
             ret.ByteArray = item.ByteArray_Property.Equals(rhs.ByteArray_Property, (l, r) => l.EqualsFast(r));
+            ret.ByteArrayNull = item.ByteArrayNull_Property.Equals(rhs.ByteArrayNull_Property, (l, r) => l.EqualsFast(r));
+            ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.Equals(rhs.ByteArrayNotNull_Property, (l, r) => l.EqualsFast(r));
+            ret.ByteArraySingleton = item.ByteArraySingleton_Property.Equals(rhs.ByteArraySingleton_Property, (l, r) => l.EqualsFast(r));
             ret.BoolN = item.BoolN_Property.Equals(rhs.BoolN_Property, (l, r) => l == r);
             ret.Bool = item.Bool_Property.Equals(rhs.Bool_Property, (l, r) => l == r);
             ret.CharN = item.CharN_Property.Equals(rhs.CharN_Property, (l, r) => l == r);
@@ -8586,6 +8809,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {item.ByteArray}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {item.ByteArrayNull}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {item.ByteArrayNotNull}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {item.ByteArraySingleton}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -9094,6 +9329,9 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_ReadOnly_Mask<bool?> checkMask)
         {
             if (checkMask.ByteArray.HasValue && checkMask.ByteArray.Value != item.ByteArray_Property.HasBeenSet) return false;
+            if (checkMask.ByteArrayNull.HasValue && checkMask.ByteArrayNull.Value != item.ByteArrayNull_Property.HasBeenSet) return false;
+            if (checkMask.ByteArrayNotNull.HasValue && checkMask.ByteArrayNotNull.Value != item.ByteArrayNotNull_Property.HasBeenSet) return false;
+            if (checkMask.ByteArraySingleton.HasValue && checkMask.ByteArraySingleton.Value != item.ByteArraySingleton_Property.HasBeenSet) return false;
             if (checkMask.BoolN.HasValue && checkMask.BoolN.Value != item.BoolN_Property.HasBeenSet) return false;
             if (checkMask.Bool.HasValue && checkMask.Bool.Value != item.Bool_Property.HasBeenSet) return false;
             if (checkMask.CharN.HasValue && checkMask.CharN.Value != item.CharN_Property.HasBeenSet) return false;
@@ -9209,6 +9447,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Notifying_ReadOnly_Mask<bool>();
             ret.ByteArray = item.ByteArray_Property.HasBeenSet;
+            ret.ByteArrayNull = item.ByteArrayNull_Property.HasBeenSet;
+            ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.HasBeenSet;
+            ret.ByteArraySingleton = item.ByteArraySingleton_Property.HasBeenSet;
             ret.BoolN = item.BoolN_Property.HasBeenSet;
             ret.Bool = item.Bool_Property.HasBeenSet;
             ret.CharN = item.CharN_Property.HasBeenSet;
@@ -9401,6 +9642,48 @@ namespace Loqui.Tests.Internals
                         if (subMask != null)
                         {
                             errorMask().ByteArray = subMask;
+                        }
+                    }
+                    if (item.ByteArrayNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArrayNull),
+                            item.ByteArrayNull,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNull = subMask;
+                        }
+                    }
+                    if (item.ByteArrayNotNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArrayNotNull),
+                            item.ByteArrayNotNull,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArrayNotNull = subMask;
+                        }
+                    }
+                    if (item.ByteArraySingleton_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArraySingleton),
+                            item.ByteArraySingleton,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (subMask != null)
+                        {
+                            errorMask().ByteArraySingleton = subMask;
                         }
                     }
                     if (item.BoolN_Property.HasBeenSet)
@@ -10948,6 +11231,9 @@ namespace Loqui.Tests.Internals
         public TestObject_Notifying_ReadOnly_Mask(T initialValue)
         {
             this.ByteArray = initialValue;
+            this.ByteArrayNull = initialValue;
+            this.ByteArrayNotNull = initialValue;
+            this.ByteArraySingleton = initialValue;
             this.BoolN = initialValue;
             this.Bool = initialValue;
             this.CharN = initialValue;
@@ -11052,6 +11338,9 @@ namespace Loqui.Tests.Internals
 
         #region Members
         public T ByteArray;
+        public T ByteArrayNull;
+        public T ByteArrayNotNull;
+        public T ByteArraySingleton;
         public T BoolN;
         public T Bool;
         public T CharN;
@@ -11163,6 +11452,9 @@ namespace Loqui.Tests.Internals
         public bool Equals(TestObject_Notifying_ReadOnly_Mask<T> rhs)
         {
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
+            if (!object.Equals(this.ByteArrayNull, rhs.ByteArrayNull)) return false;
+            if (!object.Equals(this.ByteArrayNotNull, rhs.ByteArrayNotNull)) return false;
+            if (!object.Equals(this.ByteArraySingleton, rhs.ByteArraySingleton)) return false;
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             if (!object.Equals(this.Bool, rhs.Bool)) return false;
             if (!object.Equals(this.CharN, rhs.CharN)) return false;
@@ -11270,6 +11562,9 @@ namespace Loqui.Tests.Internals
         public bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.ByteArray)) return false;
+            if (!eval(this.ByteArrayNull)) return false;
+            if (!eval(this.ByteArrayNotNull)) return false;
+            if (!eval(this.ByteArraySingleton)) return false;
             if (!eval(this.BoolN)) return false;
             if (!eval(this.Bool)) return false;
             if (!eval(this.CharN)) return false;
@@ -11506,6 +11801,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Notifying_ReadOnly_Mask<R>();
             ret.ByteArray = eval(this.ByteArray);
+            ret.ByteArrayNull = eval(this.ByteArrayNull);
+            ret.ByteArrayNotNull = eval(this.ByteArrayNotNull);
+            ret.ByteArraySingleton = eval(this.ByteArraySingleton);
             ret.BoolN = eval(this.BoolN);
             ret.Bool = eval(this.Bool);
             ret.CharN = eval(this.CharN);
@@ -11873,6 +12171,18 @@ namespace Loqui.Tests.Internals
                 if (printMask?.ByteArray ?? true)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArrayNotNull ?? true)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (printMask?.ByteArraySingleton ?? true)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (printMask?.BoolN ?? true)
                 {
@@ -12485,6 +12795,9 @@ namespace Loqui.Tests.Internals
             }
         }
         public Exception ByteArray;
+        public Exception ByteArrayNull;
+        public Exception ByteArrayNotNull;
+        public Exception ByteArraySingleton;
         public Exception BoolN;
         public Exception Bool;
         public Exception CharN;
@@ -12594,6 +12907,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     this.ByteArray = ex;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = ex;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = ex;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = ex;
                     break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     this.BoolN = ex;
@@ -12904,6 +13226,15 @@ namespace Loqui.Tests.Internals
             {
                 case TestObject_Notifying_ReadOnly_FieldIndex.ByteArray:
                     this.ByteArray = (Exception)obj;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNull:
+                    this.ByteArrayNull = (Exception)obj;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArrayNotNull:
+                    this.ByteArrayNotNull = (Exception)obj;
+                    break;
+                case TestObject_Notifying_ReadOnly_FieldIndex.ByteArraySingleton:
+                    this.ByteArraySingleton = (Exception)obj;
                     break;
                 case TestObject_Notifying_ReadOnly_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
@@ -13225,6 +13556,18 @@ namespace Loqui.Tests.Internals
                 if (ByteArray != null)
                 {
                     fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+                }
+                if (ByteArrayNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+                }
+                if (ByteArrayNotNull != null)
+                {
+                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+                }
+                if (ByteArraySingleton != null)
+                {
+                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
                 }
                 if (BoolN != null)
                 {
@@ -13823,6 +14166,9 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestObject_Notifying_ReadOnly_ErrorMask();
             ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
+            ret.ByteArrayNull = this.ByteArrayNull.Combine(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = this.ByteArrayNotNull.Combine(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = this.ByteArraySingleton.Combine(rhs.ByteArraySingleton);
             ret.BoolN = this.BoolN.Combine(rhs.BoolN);
             ret.Bool = this.Bool.Combine(rhs.Bool);
             ret.CharN = this.CharN.Combine(rhs.CharN);
@@ -13936,6 +14282,9 @@ namespace Loqui.Tests.Internals
     {
         #region Members
         public bool ByteArray;
+        public bool ByteArrayNull;
+        public bool ByteArrayNotNull;
+        public bool ByteArraySingleton;
         public bool BoolN;
         public bool Bool;
         public bool CharN;
