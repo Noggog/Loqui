@@ -86,6 +86,7 @@ namespace Loqui.Generation
         }
         public string SingletonObjectName => $"_{this.Name}_Object";
         public override Type Type => throw new NotImplementedException();
+        public string RefName;
 
         public override string SkipCheck(string copyMaskAccessor)
         {
@@ -317,16 +318,19 @@ namespace Loqui.Generation
                 throw new ArgumentException("Cannot both be generic and have specific object specified.");
             }
 
-            var refName = refNode?.GetAttribute("refName");
+            if (this.RefName == null)
+            {
+                this.RefName = refNode?.GetAttribute("refName");
+            }
             var genericName = genericNode?.Value;
 
-            if (!string.IsNullOrWhiteSpace(refName))
+            if (!string.IsNullOrWhiteSpace(this.RefName))
             {
                 var r = new Ref();
                 this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>("interfaceType", this.ObjectGen.InterfaceTypeDefault);
 
-                var genElems = refNode.Elements(XName.Get("Generic", LoquiGenerator.Namespace)).ToList();
-                if (genElems.Count > 0)
+                var genElems = refNode?.Elements(XName.Get("Generic", LoquiGenerator.Namespace)).ToList();
+                if (genElems?.Count > 0)
                 {
                     r = new GenRef()
                     {
@@ -335,9 +339,9 @@ namespace Loqui.Generation
                 }
 
                 this.RefType = LoquiRefType.Direct;
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(refName, out ObjectGeneration refGen))
+                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.RefName, out ObjectGeneration refGen))
                 {
-                    throw new ArgumentException("Loqui type cannot be found: " + refName);
+                    throw new ArgumentException("Loqui type cannot be found: " + this.RefName);
                 }
                 r.Obj = refGen;
                 this.RefGen = r;
