@@ -9,81 +9,81 @@ namespace Loqui.Generation
     public class XmlTranslationModule : GenerationModule
     {
         public LoquiGenerator Gen;
-        public Dictionary<Type, XmlTranslationGeneration> TypeGenerations = new Dictionary<Type, XmlTranslationGeneration>();
+        private Dictionary<Type, XmlTranslationGeneration> _typeGenerations = new Dictionary<Type, XmlTranslationGeneration>();
 
         public override string RegionString => "XML Translation";
 
         public XmlTranslationModule(LoquiGenerator gen)
         {
             this.Gen = gen;
-            this.TypeGenerations[typeof(LoquiType)] = new LoquiXmlTranslationGeneration();
-            this.TypeGenerations[typeof(BoolNullType)] = new PrimitiveXmlTranslationGeneration<bool?>();
-            this.TypeGenerations[typeof(BoolType)] = new PrimitiveXmlTranslationGeneration<bool>();
-            this.TypeGenerations[typeof(CharNullType)] = new PrimitiveXmlTranslationGeneration<char?>();
-            this.TypeGenerations[typeof(CharType)] = new PrimitiveXmlTranslationGeneration<char>();
-            this.TypeGenerations[typeof(DateTimeNullType)] = new PrimitiveXmlTranslationGeneration<DateTime?>();
-            this.TypeGenerations[typeof(DateTimeType)] = new PrimitiveXmlTranslationGeneration<DateTime>();
-            this.TypeGenerations[typeof(DoubleNullType)] = new PrimitiveXmlTranslationGeneration<double?>();
-            this.TypeGenerations[typeof(DoubleType)] = new PrimitiveXmlTranslationGeneration<double>();
-            this.TypeGenerations[typeof(EnumType)] = new EnumXmlTranslationGeneration();
-            this.TypeGenerations[typeof(EnumNullType)] = new EnumXmlTranslationGeneration();
-            this.TypeGenerations[typeof(FloatNullType)] = new PrimitiveXmlTranslationGeneration<float?>("Float");
-            this.TypeGenerations[typeof(FloatType)] = new PrimitiveXmlTranslationGeneration<float>("Float");
-            this.TypeGenerations[typeof(Int8NullType)] = new PrimitiveXmlTranslationGeneration<sbyte?>("Int8");
-            this.TypeGenerations[typeof(Int8Type)] = new PrimitiveXmlTranslationGeneration<sbyte>("Int8");
-            this.TypeGenerations[typeof(Int16NullType)] = new PrimitiveXmlTranslationGeneration<short?>();
-            this.TypeGenerations[typeof(Int16Type)] = new PrimitiveXmlTranslationGeneration<short>();
-            this.TypeGenerations[typeof(Int32NullType)] = new PrimitiveXmlTranslationGeneration<int?>();
-            this.TypeGenerations[typeof(Int32Type)] = new PrimitiveXmlTranslationGeneration<int>();
-            this.TypeGenerations[typeof(Int64NullType)] = new PrimitiveXmlTranslationGeneration<long?>();
-            this.TypeGenerations[typeof(Int64Type)] = new PrimitiveXmlTranslationGeneration<long>();
-            this.TypeGenerations[typeof(P2IntNullType)] = new PrimitiveXmlTranslationGeneration<P2Int?>();
-            this.TypeGenerations[typeof(P2IntType)] = new PrimitiveXmlTranslationGeneration<P2Int>();
-            this.TypeGenerations[typeof(P3IntNullType)] = new PrimitiveXmlTranslationGeneration<P3Int?>();
-            this.TypeGenerations[typeof(P3IntType)] = new PrimitiveXmlTranslationGeneration<P3Int>();
-            this.TypeGenerations[typeof(P3DoubleNullType)] = new PrimitiveXmlTranslationGeneration<P3Double?>();
-            this.TypeGenerations[typeof(P3DoubleType)] = new PrimitiveXmlTranslationGeneration<P3Double>();
-            this.TypeGenerations[typeof(PercentNullType)] = new PrimitiveXmlTranslationGeneration<Percent?>();
-            this.TypeGenerations[typeof(PercentType)] = new PrimitiveXmlTranslationGeneration<Percent>();
-            this.TypeGenerations[typeof(RangeDoubleNullType)] = new PrimitiveXmlTranslationGeneration<RangeDouble?>();
-            this.TypeGenerations[typeof(RangeDoubleType)] = new PrimitiveXmlTranslationGeneration<RangeDouble>();
-            this.TypeGenerations[typeof(StringType)] = new PrimitiveXmlTranslationGeneration<string>(nullable: true) { CanBeNotNullable = false };
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt8?>)] = new PrimitiveXmlTranslationGeneration<RangeInt8?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt8>)] = new PrimitiveXmlTranslationGeneration<RangeInt8>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt16?>)] = new PrimitiveXmlTranslationGeneration<RangeInt16?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt16>)] = new PrimitiveXmlTranslationGeneration<RangeInt16>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt32?>)] = new PrimitiveXmlTranslationGeneration<RangeInt32?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt32>)] = new PrimitiveXmlTranslationGeneration<RangeInt32>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt64?>)] = new PrimitiveXmlTranslationGeneration<RangeInt64?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeInt64>)] = new PrimitiveXmlTranslationGeneration<RangeInt64>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt8?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt8?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt8>)] = new PrimitiveXmlTranslationGeneration<RangeUInt8>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt16?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt16?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt16>)] = new PrimitiveXmlTranslationGeneration<RangeUInt16>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt32?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt32?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt32>)] = new PrimitiveXmlTranslationGeneration<RangeUInt32>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt64?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt64?>();
-            this.TypeGenerations[typeof(TypicalRangedIntType<RangeUInt64>)] = new PrimitiveXmlTranslationGeneration<RangeUInt64>();
-            this.TypeGenerations[typeof(UDoubleNullType)] = new PrimitiveXmlTranslationGeneration<UDouble?>();
-            this.TypeGenerations[typeof(UDoubleType)] = new PrimitiveXmlTranslationGeneration<UDouble>();
-            this.TypeGenerations[typeof(UInt8NullType)] = new PrimitiveXmlTranslationGeneration<byte?>();
-            this.TypeGenerations[typeof(UInt8Type)] = new PrimitiveXmlTranslationGeneration<byte>();
-            this.TypeGenerations[typeof(UInt16NullType)] = new PrimitiveXmlTranslationGeneration<ushort?>();
-            this.TypeGenerations[typeof(UInt16Type)] = new PrimitiveXmlTranslationGeneration<ushort>();
-            this.TypeGenerations[typeof(UInt32NullType)] = new PrimitiveXmlTranslationGeneration<uint?>();
-            this.TypeGenerations[typeof(UInt32Type)] = new PrimitiveXmlTranslationGeneration<uint>();
-            this.TypeGenerations[typeof(UInt64NullType)] = new PrimitiveXmlTranslationGeneration<ulong?>();
-            this.TypeGenerations[typeof(UInt64Type)] = new PrimitiveXmlTranslationGeneration<ulong>();
-            this.TypeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
-            this.TypeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
-            this.TypeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
-            this.TypeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
-            this.TypeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
+            this._typeGenerations[typeof(LoquiType)] = new LoquiXmlTranslationGeneration();
+            this._typeGenerations[typeof(BoolNullType)] = new PrimitiveXmlTranslationGeneration<bool?>();
+            this._typeGenerations[typeof(BoolType)] = new PrimitiveXmlTranslationGeneration<bool>();
+            this._typeGenerations[typeof(CharNullType)] = new PrimitiveXmlTranslationGeneration<char?>();
+            this._typeGenerations[typeof(CharType)] = new PrimitiveXmlTranslationGeneration<char>();
+            this._typeGenerations[typeof(DateTimeNullType)] = new PrimitiveXmlTranslationGeneration<DateTime?>();
+            this._typeGenerations[typeof(DateTimeType)] = new PrimitiveXmlTranslationGeneration<DateTime>();
+            this._typeGenerations[typeof(DoubleNullType)] = new PrimitiveXmlTranslationGeneration<double?>();
+            this._typeGenerations[typeof(DoubleType)] = new PrimitiveXmlTranslationGeneration<double>();
+            this._typeGenerations[typeof(EnumType)] = new EnumXmlTranslationGeneration();
+            this._typeGenerations[typeof(EnumNullType)] = new EnumXmlTranslationGeneration();
+            this._typeGenerations[typeof(FloatNullType)] = new PrimitiveXmlTranslationGeneration<float?>("Float");
+            this._typeGenerations[typeof(FloatType)] = new PrimitiveXmlTranslationGeneration<float>("Float");
+            this._typeGenerations[typeof(Int8NullType)] = new PrimitiveXmlTranslationGeneration<sbyte?>("Int8");
+            this._typeGenerations[typeof(Int8Type)] = new PrimitiveXmlTranslationGeneration<sbyte>("Int8");
+            this._typeGenerations[typeof(Int16NullType)] = new PrimitiveXmlTranslationGeneration<short?>();
+            this._typeGenerations[typeof(Int16Type)] = new PrimitiveXmlTranslationGeneration<short>();
+            this._typeGenerations[typeof(Int32NullType)] = new PrimitiveXmlTranslationGeneration<int?>();
+            this._typeGenerations[typeof(Int32Type)] = new PrimitiveXmlTranslationGeneration<int>();
+            this._typeGenerations[typeof(Int64NullType)] = new PrimitiveXmlTranslationGeneration<long?>();
+            this._typeGenerations[typeof(Int64Type)] = new PrimitiveXmlTranslationGeneration<long>();
+            this._typeGenerations[typeof(P2IntNullType)] = new PrimitiveXmlTranslationGeneration<P2Int?>();
+            this._typeGenerations[typeof(P2IntType)] = new PrimitiveXmlTranslationGeneration<P2Int>();
+            this._typeGenerations[typeof(P3IntNullType)] = new PrimitiveXmlTranslationGeneration<P3Int?>();
+            this._typeGenerations[typeof(P3IntType)] = new PrimitiveXmlTranslationGeneration<P3Int>();
+            this._typeGenerations[typeof(P3DoubleNullType)] = new PrimitiveXmlTranslationGeneration<P3Double?>();
+            this._typeGenerations[typeof(P3DoubleType)] = new PrimitiveXmlTranslationGeneration<P3Double>();
+            this._typeGenerations[typeof(PercentNullType)] = new PrimitiveXmlTranslationGeneration<Percent?>();
+            this._typeGenerations[typeof(PercentType)] = new PrimitiveXmlTranslationGeneration<Percent>();
+            this._typeGenerations[typeof(RangeDoubleNullType)] = new PrimitiveXmlTranslationGeneration<RangeDouble?>();
+            this._typeGenerations[typeof(RangeDoubleType)] = new PrimitiveXmlTranslationGeneration<RangeDouble>();
+            this._typeGenerations[typeof(StringType)] = new PrimitiveXmlTranslationGeneration<string>(nullable: true) { CanBeNotNullable = false };
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt8?>)] = new PrimitiveXmlTranslationGeneration<RangeInt8?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt8>)] = new PrimitiveXmlTranslationGeneration<RangeInt8>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt16?>)] = new PrimitiveXmlTranslationGeneration<RangeInt16?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt16>)] = new PrimitiveXmlTranslationGeneration<RangeInt16>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt32?>)] = new PrimitiveXmlTranslationGeneration<RangeInt32?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt32>)] = new PrimitiveXmlTranslationGeneration<RangeInt32>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt64?>)] = new PrimitiveXmlTranslationGeneration<RangeInt64?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeInt64>)] = new PrimitiveXmlTranslationGeneration<RangeInt64>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt8?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt8?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt8>)] = new PrimitiveXmlTranslationGeneration<RangeUInt8>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt16?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt16?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt16>)] = new PrimitiveXmlTranslationGeneration<RangeUInt16>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt32?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt32?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt32>)] = new PrimitiveXmlTranslationGeneration<RangeUInt32>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt64?>)] = new PrimitiveXmlTranslationGeneration<RangeUInt64?>();
+            this._typeGenerations[typeof(TypicalRangedIntType<RangeUInt64>)] = new PrimitiveXmlTranslationGeneration<RangeUInt64>();
+            this._typeGenerations[typeof(UDoubleNullType)] = new PrimitiveXmlTranslationGeneration<UDouble?>();
+            this._typeGenerations[typeof(UDoubleType)] = new PrimitiveXmlTranslationGeneration<UDouble>();
+            this._typeGenerations[typeof(UInt8NullType)] = new PrimitiveXmlTranslationGeneration<byte?>();
+            this._typeGenerations[typeof(UInt8Type)] = new PrimitiveXmlTranslationGeneration<byte>();
+            this._typeGenerations[typeof(UInt16NullType)] = new PrimitiveXmlTranslationGeneration<ushort?>();
+            this._typeGenerations[typeof(UInt16Type)] = new PrimitiveXmlTranslationGeneration<ushort>();
+            this._typeGenerations[typeof(UInt32NullType)] = new PrimitiveXmlTranslationGeneration<uint?>();
+            this._typeGenerations[typeof(UInt32Type)] = new PrimitiveXmlTranslationGeneration<uint>();
+            this._typeGenerations[typeof(UInt64NullType)] = new PrimitiveXmlTranslationGeneration<ulong?>();
+            this._typeGenerations[typeof(UInt64Type)] = new PrimitiveXmlTranslationGeneration<ulong>();
+            this._typeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
+            this._typeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
+            this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
+            this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
+            this._typeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
         }
 
         public override void Load()
         {
-            foreach (var gen in TypeGenerations.Values)
+            foreach (var gen in _typeGenerations.Values)
             {
                 gen.XmlMod = this;
                 gen.MaskModule = this.Gen.MaskModule;
@@ -387,7 +387,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in obj.IterateFields())
                     {
-                        if (!this.TypeGenerations.TryGetValue(field.Field.GetType(), out var generator))
+                        if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                         {
                             throw new ArgumentException("Unsupported type generator: " + field.Field);
                         }
@@ -552,7 +552,7 @@ namespace Loqui.Generation
                         {
                             if (field.Field.Derivative) continue;
 
-                            if (!this.TypeGenerations.TryGetValue(field.Field.GetType(), out var generator))
+                            if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                             {
                                 throw new ArgumentException("Unsupported type generator: " + field.Field);
                             }
@@ -703,7 +703,7 @@ namespace Loqui.Generation
                                 if (field.Field.Protected) continue;
                                 if (field.Field is LoquiType loquiType && loquiType.SingletonType == LoquiType.SingletonLevel.Singleton) continue;
 
-                                if (!this.TypeGenerations.TryGetValue(field.Field.GetType(), out var generator))
+                                if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                                 {
                                     throw new ArgumentException("Unsupported type generator: " + field.Field);
                                 }
@@ -744,6 +744,41 @@ namespace Loqui.Generation
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
             }
+        }
+
+        public void AddTypeAssociation<T>(XmlTranslationGeneration transl, bool overrideExisting = false)
+            where T : TypeGeneration
+        {
+            if (overrideExisting)
+            {
+                this._typeGenerations[typeof(T)] = transl;
+            }
+            else
+            {
+                this._typeGenerations.Add(typeof(T), transl);
+            }
+        }
+
+        public bool TryGetTypeGeneration(Type t, out XmlTranslationGeneration gen)
+        {
+            if (!this._typeGenerations.TryGetValue(t, out gen))
+            {
+                foreach (var kv in _typeGenerations.ToList())
+                {
+                    if (t.InheritsFrom(kv.Key))
+                    {
+                        _typeGenerations[t] = kv.Value;
+                        gen = kv.Value;
+                        return true;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public XmlTranslationGeneration GetTypeGeneration(Type t)
+        {
+            return this._typeGenerations[t];
         }
     }
 }

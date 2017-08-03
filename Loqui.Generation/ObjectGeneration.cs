@@ -179,7 +179,7 @@ namespace Loqui.Generation
 
             if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out typeGen))
             {
-                throw new ArgumentException("Unknown field type: " + fieldNode.Name);
+                throw new ArgumentException($"Unknown field type: {fieldNode.Name.LocalName}");
             }
 
             typeGen.ObjectGen = this;

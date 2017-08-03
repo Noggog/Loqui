@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Loqui.Generation
 {
     public class MaskModule : GenerationModule
     {
-        public Dictionary<Type, MaskModuleField> FieldMapping = new Dictionary<Type, MaskModuleField>();
+        private Dictionary<Type, MaskModuleField> _fieldMapping = new Dictionary<Type, MaskModuleField>();
         public TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
 
         public override string RegionString => "Mask";
 
         public MaskModule()
         {
-            FieldMapping[typeof(LoquiType)] = new LoquiMaskFieldGeneration();
-            FieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
-            FieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
-            FieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
-            FieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
+            _fieldMapping[typeof(LoquiType)] = new LoquiMaskFieldGeneration();
+            _fieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
+            _fieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
+            _fieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
+            _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
         }
 
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
-            foreach (var item in FieldMapping.Values)
+            foreach (var item in _fieldMapping.Values)
             {
                 item.Module = this;
             }
@@ -361,9 +362,18 @@ namespace Loqui.Generation
 
         public MaskModuleField GetMaskModule(Type t)
         {
-            if (!this.FieldMapping.TryGetValue(t, out var fieldGen))
+            if (!this._fieldMapping.TryGetValue(t, out var fieldGen))
             {
-                fieldGen = this.TypicalField;
+                foreach (var kv in _fieldMapping.ToList())
+                {
+                    if (t.InheritsFrom(kv.Key))
+                    {
+                        _fieldMapping[t] = kv.Value;
+                        return kv.Value;
+                    }
+                }
+                _fieldMapping[t] = this.TypicalField;
+                return this.TypicalField;
             }
             return fieldGen;
         }
