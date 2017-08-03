@@ -33,6 +33,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;
         public MaskModule MaskModule = new MaskModule();
+        public XmlTranslationModule XmlTranslation;
 
         public LoquiGenerator(DirectoryInfo commonGenerationFolder, bool typical = true)
         {
@@ -40,7 +41,8 @@ namespace Loqui.Generation
             if (typical)
             {
                 this.AddTypicalTypeAssociations();
-                this.Add(new XmlTranslationModule(this));
+                this.XmlTranslation = new XmlTranslationModule(this);
+                this.Add(this.XmlTranslation);
                 this.Add(MaskModule);
                 this.AddSearchableFolder(this.CommonGenerationFolder);
             }
