@@ -307,11 +307,61 @@ namespace Loqui.Generation
             }
             bool modified = false;
             var projNode = doc.Element(XName.Get("Project", CSPROJ_NAMESPACE));
-            foreach (var compile in projNode.Elements(XName.Get("ItemGroup", CSPROJ_NAMESPACE))
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", CSPROJ_NAMESPACE))))
+            List<XElement> includeGroupNodes = projNode.Elements(XName.Get("ItemGroup", CSPROJ_NAMESPACE))
+                .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("Compile")))
+                .ToList();
+            var compileNodes = includeGroupNodes
+                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", CSPROJ_NAMESPACE)))
+                .ToList();
+
+            XElement compileIncludeNode;
+            if (includeGroupNodes.Count == 0)
             {
-                if (!compile.TryGetAttribute("Include", out XAttribute includeAttr)) continue;
-                FileInfo file = new FileInfo(projFile.Directory.FullName + "/" + includeAttr.Value);
+                compileIncludeNode = new XElement("Compile");
+                projNode.Add(compileIncludeNode);
+                includeGroupNodes.Add(compileIncludeNode);
+            }
+            else
+            {
+                compileIncludeNode = includeGroupNodes.First();
+            }
+
+            // Find which objects are present
+            HashSet<ObjectKey> present = new HashSet<ObjectKey>();
+            foreach (var compile in compileNodes)
+            {
+                XAttribute includeAttr = compile.Attribute("Include");
+                FileInfo file = new FileInfo(Path.Combine(projFile.Directory.FullName, includeAttr.Value));
+                if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
+                present.Add(objGen.Key);
+            }
+
+            // Add missing object nodes
+            foreach (var objGens in this.ObjectGenerationsByDir)
+            {
+                DirectoryInfo dir = new DirectoryInfo(objGens.Key);
+                if (dir.IsSubfolderOf(projFile.Directory))
+                {
+                    foreach (var objGen in objGens.Value)
+                    {
+                        if (!present.Add(objGen.Key)) continue;
+                        string filePath = objGen.TargetDir.FullName.TrimStart(projFile.Directory.FullName);
+                        filePath = filePath.TrimStart('\\');
+                        filePath = Path.Combine(filePath, objGen.FileName);
+                        var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
+                            new XAttribute("Include", filePath));
+                        compileNodes.Add(compileElem);
+                        compileIncludeNode.Add(compileElem);
+                        modified = true;
+                    }
+                }
+            }
+            
+            // Add dependent files underneath
+            foreach (var compile in compileNodes)
+            {
+                XAttribute includeAttr = compile.Attribute("Include");
+                FileInfo file = new FileInfo(Path.Combine(projFile.Directory.FullName, includeAttr.Value));
                 if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
                 if (file.Name.EqualsIgnoreCase(objGen.SourceXMLFile.Name)) continue;
                 var depName = XName.Get("DependentUpon", CSPROJ_NAMESPACE);
