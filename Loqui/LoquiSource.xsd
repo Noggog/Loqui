@@ -931,60 +931,68 @@
   </xs:complexType>
 
   <xs:complexType name="RefDirect" >
-    <xs:choice>
-      <xs:element type="xs:string"  name="Generic" minOccurs="0" maxOccurs="unbounded" >
-        <xs:annotation>
-          <xs:documentation>
-            The generic symbols to define in the object.  These can be used/referenced by fields.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-    </xs:choice>
-    <xs:attribute name="refName" use="required">
-      <xs:annotation>
-        <xs:documentation>
-          Name of the Loqui object to reference.
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="interfaceType" type="LoquiInterfaceType">
-      <xs:annotation>
-        <xs:documentation>
-          What type of reference interface to use.  Direct reference to Loqui object type, or one of the interfaces.
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:choice>
+          <xs:element type="xs:string"  name="Generic" minOccurs="0" maxOccurs="unbounded" >
+            <xs:annotation>
+              <xs:documentation>
+                The generic symbols to define in the object.  These can be used/referenced by fields.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:choice>
+        <xs:attribute name="refName" use="required">
+          <xs:annotation>
+            <xs:documentation>
+              Name of the Loqui object to reference.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="interfaceType" type="LoquiInterfaceType">
+          <xs:annotation>
+            <xs:documentation>
+              What type of reference interface to use.  Direct reference to Loqui object type, or one of the interfaces.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="Ref" >
-    <xs:annotation>
-      <xs:documentation>
-        Creates a single member reference to another Loqui object type.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:choice>
-      <xs:element name="Direct" type="RefDirect">
+    <xs:complexContent>
+      <xs:extension base="Field">
         <xs:annotation>
           <xs:documentation>
-            Direct reference to another Loqui type.
+            Creates a single member reference to another Loqui object type.
           </xs:documentation>
         </xs:annotation>
-      </xs:element>
-      <xs:element name="Generic" type="xs:string">
-        <xs:annotation>
-          <xs:documentation>
-            Name of generic to reference.  The generic will enforce that it's a Loqui object.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-    </xs:choice>
-    <xs:attribute name="singleton" type="SingletonLevel" >
-      <xs:annotation>
-        <xs:documentation>
-          Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+        <xs:choice>
+          <xs:element name="Direct" type="RefDirect">
+            <xs:annotation>
+              <xs:documentation>
+                Direct reference to another Loqui type.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Generic" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>
+                Name of generic to reference.  The generic will enforce that it's a Loqui object.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:choice>
+        <xs:attribute name="singleton" type="SingletonLevel" >
+          <xs:annotation>
+            <xs:documentation>
+              Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="NRef" >
