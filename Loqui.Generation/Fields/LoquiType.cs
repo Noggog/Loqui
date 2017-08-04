@@ -307,7 +307,16 @@ namespace Loqui.Generation
             base.Load(node, requireName);
             this.SingletonType = node.GetAttribute("singleton", SingletonLevel.None);
 
-            var refNode = node.Name.LocalName.Equals("RefDirect") ? node : node.Element(XName.Get("Direct", LoquiGenerator.Namespace));
+            XElement refNode;
+            if (node.Name.LocalName.Equals("RefDirect")
+                || node.Name.LocalName.Equals("RefList"))
+            {
+                refNode = node;
+            }
+            else
+            {
+                refNode = node.Element(XName.Get("Direct", LoquiGenerator.Namespace));
+            }
             var genericNode = node.Element(XName.Get("Generic", LoquiGenerator.Namespace));
 
             if (refNode != null

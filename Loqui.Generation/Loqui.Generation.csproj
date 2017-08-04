@@ -45,6 +45,7 @@
     <Compile Include="FieldBatch.cs" />
     <Compile Include="Fields\ClassType.cs" />
     <Compile Include="Fields\FieldBatchPointerType.cs" />
+    <Compile Include="Fields\LoquiListType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\ByteArrayType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />

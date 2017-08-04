@@ -172,6 +172,7 @@
       <xs:element name="DateTimeNull" type="DateTime" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="RefDirect" type="RefDirectField" />
+      <xs:element name="RefList" type="RefDirectField" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
       <xs:element name="Array2D" type="List" />
@@ -262,6 +263,7 @@
       <xs:element name="DateTimeNull" type="NDateTime" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="RefDirect" type="NRefDirectField" />
+      <xs:element name="RefList" type="NRefDirectField" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
       <xs:element name="Array2D" type="NList" />

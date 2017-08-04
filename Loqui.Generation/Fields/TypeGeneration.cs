@@ -44,6 +44,11 @@ namespace Loqui.Generation
 
         public virtual void Load(XElement node, bool requireName = true)
         {
+            LoadTypeGenerationFromNode(node, requireName);
+        }
+
+        protected void LoadTypeGenerationFromNode(XElement node, bool requireName = true)
+        {
             KeyField = node.GetAttribute<bool>("keyField", false);
             Name = node.GetAttribute<string>("name");
             this._derivative = node.GetAttribute<bool>("derivative", this.ObjectGen.DerivativeDefault);
