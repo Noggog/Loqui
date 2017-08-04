@@ -103,6 +103,7 @@ namespace Loqui.Generation
             AddTypeAssociation<DoubleType>("Double");
             AddTypeAssociation<DoubleNullType>("DoubleNull");
             AddTypeAssociation<LoquiType>("Ref");
+            AddTypeAssociation<LoquiType>("RefDirect");
             AddTypeAssociation<ListType>("List");
             AddTypeAssociation<DictType>("Dict");
             AddTypeAssociation<EnumType>("Enum");
