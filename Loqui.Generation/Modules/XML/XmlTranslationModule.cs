@@ -262,10 +262,6 @@ namespace Loqui.Generation
             {
                 CommonXmlWrite(obj, fg);
             }
-            using (new RegionWrapper(fg, "XML Copy In"))
-            {
-                //CommonXmlCopyIn(obj, fg);
-            }
         }
 
         private void GenerateXmlCreate(ObjectGeneration obj, FileGeneration fg)
