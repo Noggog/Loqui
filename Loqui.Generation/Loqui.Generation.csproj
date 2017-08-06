@@ -53,7 +53,6 @@
     <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\TypicalRangedIntType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
-    <Compile Include="FileGeneration\BraceWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />
     <Compile Include="Fields\ContainerType.cs" />
     <Compile Include="Fields\DictType.cs" />
