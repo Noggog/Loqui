@@ -6,16 +6,13 @@ using Loqui.Xml;
 
 namespace Loqui.Generation
 {
-    public class XmlTranslationModule : GenerationModule
+    public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
     {
-        public LoquiGenerator Gen;
-        private Dictionary<Type, XmlTranslationGeneration> _typeGenerations = new Dictionary<Type, XmlTranslationGeneration>();
-
-        public override string RegionString => "XML Translation";
+        public override string ModuleNickname => "XML";
 
         public XmlTranslationModule(LoquiGenerator gen)
+            : base(gen)
         {
-            this.Gen = gen;
             this._typeGenerations[typeof(LoquiType)] = new LoquiXmlTranslationGeneration();
             this._typeGenerations[typeof(BoolNullType)] = new PrimitiveXmlTranslationGeneration<bool?>();
             this._typeGenerations[typeof(BoolType)] = new PrimitiveXmlTranslationGeneration<bool>();
@@ -109,11 +106,11 @@ namespace Loqui.Generation
             GenerateRead(obj, fg);
             if (obj.IsTopClass)
             {
-                fg.AppendLine("public void Write_XML(Stream stream)");
+                fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream)");
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_XML"))
+                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
                     {
                         args.Add("this");
                         args.Add("stream");
@@ -122,11 +119,11 @@ namespace Loqui.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine($"public void Write_XML(Stream stream, out {obj.ErrorMask} errorMask)");
+            fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_XML"))
+                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
                 {
                     args.Add("this");
                     args.Add("stream");
@@ -135,11 +132,11 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public void Write_XML(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
+            fg.AppendLine($"public void Write_{ModuleNickname}(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_XML"))
+                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
                 {
                     args.Add($"writer: writer");
                     args.Add($"name: name");
@@ -154,18 +151,18 @@ namespace Loqui.Generation
             {
                 if (!obj.BaseClass?.Abstract ?? true)
                 {
-                    fg.AppendLine("public abstract void Write_XML(XmlWriter writer, string name = null);");
+                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(XmlWriter writer, string name = null);");
                     fg.AppendLine();
                 }
             }
             else if (obj.IsTopClass
                 || (!obj.Abstract && (obj.BaseClass?.Abstract ?? true)))
             {
-                fg.AppendLine($"public{obj.FunctionOverride}void Write_XML(XmlWriter writer, string name = null)");
+                fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(XmlWriter writer, string name = null)");
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_XML"))
+                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
                     {
                         args.Add($"writer: writer");
                         args.Add($"name: name");
@@ -186,7 +183,7 @@ namespace Loqui.Generation
             }
 
             if (obj is StructGeneration) return;
-            fg.AppendLine("public" + obj.FunctionOverride + "void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}(XElement root, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
@@ -202,7 +199,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public virtual void CopyIn_XML(XElement root, out {obj.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"public virtual void CopyIn_{ModuleNickname}(XElement root, out {obj.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
@@ -220,10 +217,10 @@ namespace Loqui.Generation
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
-                fg.AppendLine($"public override void CopyIn_XML(XElement root, out {baseClass.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
+                fg.AppendLine($"public override void CopyIn_{ModuleNickname}(XElement root, out {baseClass.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"CopyIn_XML(root, out {obj.ErrorMask} errMask, cmds: cmds);");
+                    fg.AppendLine($"CopyIn_{ModuleNickname}(root, out {obj.ErrorMask} errMask, cmds: cmds);");
                     fg.AppendLine("errorMask = errMask;");
                 }
                 fg.AppendLine();
@@ -258,7 +255,7 @@ namespace Loqui.Generation
 
         public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
-            using (new RegionWrapper(fg, "XML Write"))
+            using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
             {
                 CommonXmlWrite(obj, fg);
             }
@@ -266,22 +263,22 @@ namespace Loqui.Generation
 
         private void GenerateXmlCreate(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(Stream stream)");
+            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(Stream stream)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"using (var reader = new StreamReader(stream))");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("return Create_XML(XElement.Parse(reader.ReadToEnd()));");
+                    fg.AppendLine($"return Create_{ModuleNickname}(XElement.Parse(reader.ReadToEnd()));");
                 }
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_XML(XElement root)");
+            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(XElement root)");
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    "return Create_XML"))
+                    $"return Create_{ModuleNickname}"))
                 {
                     args.Add("root: root");
                     args.Add("doMasks: false");
@@ -291,7 +288,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static {obj.ObjectName} Create_XML"))
+                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
             {
                 args.Add("XElement root");
                 args.Add($"out {obj.ErrorMask} errorMask");
@@ -299,7 +296,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    "return Create_XML"))
+                    $"return Create_{ModuleNickname}"))
                 {
                     args.Add("root: root");
                     args.Add("doMasks: true");
@@ -309,7 +306,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static {obj.ObjectName} Create_XML"))
+                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
             {
                 args.Add("XElement root");
                 args.Add("bool doMasks");
@@ -319,7 +316,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"var ret = Create_XML_Internal"))
+                    $"var ret = Create_{ModuleNickname}_Internal"))
                 {
                     args.Add("root: root");
                     args.Add("doMasks: doMasks");
@@ -331,7 +328,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"private static {obj.ObjectName} Create_XML_Internal"))
+                $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal"))
             {
                 args.Add("XElement root");
                 args.Add("bool doMasks");
@@ -347,7 +344,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            "Fill_XML_Internal"))
+                            $"Fill_{ModuleNickname}_Internal"))
                         {
                             args.Add("item: ret");
                             args.Add("root: elem");
@@ -368,7 +365,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"protected static void Fill_XML_Internal"))
+                $"protected static void Fill_{ModuleNickname}_Internal"))
             {
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");
@@ -421,7 +418,7 @@ namespace Loqui.Generation
                         if (obj.HasBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClassName}.Fill_XML_Internal"))
+                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal"))
                             {
                                 args.Add("item: item");
                                 args.Add("root: root");
@@ -440,7 +437,7 @@ namespace Loqui.Generation
         private void CommonXmlWrite(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
+                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.Getter_InterfaceStr} item");
@@ -453,7 +450,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("writer.Formatting = Formatting.Indented;");
                     fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_XML(");
+                    fg.AppendLine($"Write_{ModuleNickname}(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"writer: writer,");
@@ -467,7 +464,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
+                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.Getter_InterfaceStr} item");
@@ -481,7 +478,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("writer.Formatting = Formatting.Indented;");
                     fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_XML(");
+                    fg.AppendLine($"Write_{ModuleNickname}(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"writer: writer,");
@@ -495,7 +492,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_XML{obj.GenericTypes}",
+                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"XmlWriter writer");
@@ -508,7 +505,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"Write_XML_Internal"))
+                    $"Write_{ModuleNickname}_Internal"))
                 {
                     args.Add("writer: writer");
                     args.Add("name: name");
@@ -521,7 +518,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"private static void Write_XML_Internal{obj.GenericTypes}",
+                $"private static void Write_{ModuleNickname}_Internal{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"XmlWriter writer");
@@ -590,7 +587,7 @@ namespace Loqui.Generation
         private void CommonXmlCopyIn(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void CopyIn_XML{obj.GenericTypes}",
+                $"public static void CopyIn_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.InterfaceStr} item");
@@ -606,7 +603,7 @@ namespace Loqui.Generation
                     fg.AppendLine("root = XElement.Parse(reader.ReadToEnd());");
                 }
                 using (var args = new ArgsWrapper(fg,
-                    "CopyIn_XML"))
+                    $"CopyIn_{ModuleNickname}"))
                 {
                     args.Add("item: item");
                     args.Add("root: root");
@@ -618,7 +615,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void CopyIn_XML{obj.GenericTypes}",
+                $"public static void CopyIn_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.InterfaceStr} item");
@@ -635,7 +632,7 @@ namespace Loqui.Generation
                     fg.AppendLine("root = XElement.Parse(reader.ReadToEnd());");
                 }
                 using (var args = new ArgsWrapper(fg,
-                    "CopyIn_XML"))
+                    $"CopyIn_{ModuleNickname}"))
                 {
                     args.Add("item: item");
                     args.Add("root: root");
@@ -647,7 +644,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void CopyIn_XML{obj.GenericTypes}",
+                $"public static void CopyIn_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.InterfaceStr} item");
@@ -660,7 +657,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"CopyIn_XML_Internal"))
+                    $"CopyIn_{ModuleNickname}_Internal"))
                 {
                     args.Add("item: item");
                     args.Add("root: root");
@@ -673,7 +670,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"private static void CopyIn_XML_Internal{obj.GenericTypes}",
+                $"private static void CopyIn_{ModuleNickname}_Internal{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
                 args.Add($"{obj.InterfaceStr} item");
@@ -740,41 +737,6 @@ namespace Loqui.Generation
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
             }
-        }
-
-        public void AddTypeAssociation<T>(XmlTranslationGeneration transl, bool overrideExisting = false)
-            where T : TypeGeneration
-        {
-            if (overrideExisting)
-            {
-                this._typeGenerations[typeof(T)] = transl;
-            }
-            else
-            {
-                this._typeGenerations.Add(typeof(T), transl);
-            }
-        }
-
-        public bool TryGetTypeGeneration(Type t, out XmlTranslationGeneration gen)
-        {
-            if (!this._typeGenerations.TryGetValue(t, out gen))
-            {
-                foreach (var kv in _typeGenerations.ToList())
-                {
-                    if (t.InheritsFrom(kv.Key))
-                    {
-                        _typeGenerations[t] = kv.Value;
-                        gen = kv.Value;
-                        return true;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public XmlTranslationGeneration GetTypeGeneration(Type t)
-        {
-            return this._typeGenerations[t];
         }
     }
 }
