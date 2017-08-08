@@ -243,7 +243,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (RBase)o);

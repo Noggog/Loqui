@@ -2592,7 +2592,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -2635,7 +2635,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -2701,7 +2701,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRefGetter)o);
@@ -2744,7 +2744,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRefGetter)o);
@@ -2789,7 +2789,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRef)o);
@@ -2832,7 +2832,7 @@ namespace Loqui.Tests
                                     null);
                                 break;
                             }
-                            tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
                                 maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRef)o);
@@ -2930,7 +2930,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: listDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -3016,7 +3016,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: dictDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -3051,7 +3051,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: dictDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -3103,7 +3103,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: dictDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -3172,7 +3172,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: dictDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
@@ -3224,7 +3224,7 @@ namespace Loqui.Tests
                                             null);
                                         return TryGet<ObjectToRef>.Fail(null);
                                     }
-                                    tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse(
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                         root: root,
                                         doMasks: dictDoMasks,
                                         maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);

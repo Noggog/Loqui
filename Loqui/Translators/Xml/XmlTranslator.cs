@@ -11,22 +11,24 @@ using System.Xml;
 
 namespace Loqui.Xml
 {
-    public static class XmlTranslator
+    public class XmlTranslator
     {
-        public static NullXmlTranslation NullTranslation = new NullXmlTranslation();
-        public static NotifyingItem<GetResponse<IXmlTranslation<object, object>>> NullTranslationItem = new NotifyingItem<GetResponse<IXmlTranslation<object, object>>>(
-            defaultVal: GetResponse<IXmlTranslation<object, object>>.Succeed(new XmlTranslationCaster<object, Exception>(NullTranslation)),
-            markAsSet: true);
-        public static NotifyingItem<Type> NullType = new NotifyingItem<Type>(
+        public readonly static XmlTranslator Instance = new XmlTranslator();
+        public NullXmlTranslation NullTranslation = new NullXmlTranslation();
+        public NotifyingItem<GetResponse<IXmlTranslation<object, object>>> NullTranslationItem;
+        public NotifyingItem<Type> NullType = new NotifyingItem<Type>(
             defaultVal: null,
             markAsSet: true);
 
-        public static Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
-        public static Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>>();
-        public static HashSet<Type> GenericTypes = new HashSet<Type>();
+        public Dictionary<string, NotifyingItem<Type>> elementNameTypeDict = new Dictionary<string, NotifyingItem<Type>>();
+        public Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<IXmlTranslation<Object, Object>>>>();
+        public HashSet<Type> GenericTypes = new HashSet<Type>();
 
-        static XmlTranslator()
+        private XmlTranslator()
         {
+            this.NullTranslationItem = new NotifyingItem<GetResponse<IXmlTranslation<object, object>>>(
+                defaultVal: GetResponse<IXmlTranslation<object, object>>.Succeed(new XmlTranslationCaster<object, Exception>(NullTranslation)),
+                markAsSet: true);
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(typeof(IXmlTranslation<,>)))
             {
                 if (kv.Value.IsAbstract) continue;
@@ -57,12 +59,12 @@ namespace Loqui.Xml
             elementNameTypeDict["Null"] = NullType;
         }
         
-        public static bool Validate(Type t)
+        public bool Validate(Type t)
         {
             return TryGetTranslator(t, out IXmlTranslation<object, object> not);
         }
 
-        public static bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
+        public bool TranslateElementName(string elementName, out INotifyingItemGetter<Type> t)
         {
             var ret = elementNameTypeDict.TryGetValue(elementName, out NotifyingItem<Type> n);
             if (!ret)
@@ -84,7 +86,7 @@ namespace Loqui.Xml
             return ret && n != null;
         }
 
-        public static bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object, object>>> not)
+        public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object, object>>> not)
         {
             if (t == null)
             {
@@ -142,14 +144,14 @@ namespace Loqui.Xml
             return false;
         }
 
-        public static IXmlTranslation<object, object> GetCaster(Type xmlType, Type targetType, Type maskType)
+        public IXmlTranslation<object, object> GetCaster(Type xmlType, Type targetType, Type maskType)
         {
             object xmlTransl = Activator.CreateInstance(xmlType);
             var xmlConverterGenType = typeof(XmlTranslationCaster<,>).MakeGenericType(targetType, maskType);
             return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as IXmlTranslation<Object, Object>;
         }
 
-        internal static NotifyingItem<GetResponse<IXmlTranslation<object, object>>> SetTranslator(IXmlTranslation<Object, Object> transl, Type t)
+        internal NotifyingItem<GetResponse<IXmlTranslation<object, object>>> SetTranslator(IXmlTranslation<Object, Object> transl, Type t)
         {
             var resp = typeDict.TryCreateValue(
                 t,
@@ -163,13 +165,13 @@ namespace Loqui.Xml
             return resp;
         }
 
-        public static INotifyingItemGetter<GetResponse<IXmlTranslation<Object, Object>>> GetTranslator(Type t)
+        public INotifyingItemGetter<GetResponse<IXmlTranslation<Object, Object>>> GetTranslator(Type t)
         {
             TryGetTranslator(t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object, object>>> not);
             return not;
         }
 
-        public static bool TryGetTranslator(Type t, out IXmlTranslation<object, object> transl)
+        public bool TryGetTranslator(Type t, out IXmlTranslation<object, object> transl)
         {
             if (!TryGetTranslator(t, out INotifyingItemGetter<GetResponse<IXmlTranslation<object, object>>> not))
             {
@@ -185,7 +187,7 @@ namespace Loqui.Xml
             return transl != null;
         }
 
-        internal static void SetTranslator<T, M>(IXmlTranslation<T, M> transl)
+        internal void SetTranslator<T, M>(IXmlTranslation<T, M> transl)
         {
             SetTranslator(transl as IXmlTranslation<Object, Object>, typeof(T));
         }
@@ -198,7 +200,7 @@ namespace Loqui.Xml
 
         static XmlTranslator()
         {
-            var transl = XmlTranslator.GetTranslator(typeof(T));
+            var transl = XmlTranslator.Instance.GetTranslator(typeof(T));
             transl.Subscribe(
                 _translator,
                 (change) =>
@@ -215,7 +217,7 @@ namespace Loqui.Xml
 
         public static void SetTranslator(IXmlTranslation<T, M> translator)
         {
-            XmlTranslator.SetTranslator(translator);
+            XmlTranslator.Instance.SetTranslator(translator);
         }
     }
 }

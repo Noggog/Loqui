@@ -171,7 +171,7 @@ namespace Loqui.Generation
                         }
                     }
                     using (var args = new ArgsWrapper(fg,
-                        $"tryGet = XmlTranslator.GetTranslator(register.ClassType).Item.Value.Parse",
+                        $"tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse",
                         $".Bubble((o) => ({typeGen.TypeName})o)"))
                     {
                         args.Add("root: root");
