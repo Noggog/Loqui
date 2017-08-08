@@ -9,6 +9,7 @@ namespace Loqui.Generation
     public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
     {
         public override string ModuleNickname => "XML";
+        public override string Namespace => "Loqui.Generation";
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)

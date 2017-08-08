@@ -12,6 +12,7 @@ namespace Loqui.Generation
         protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
         public abstract string ModuleNickname { get; }
         public override string RegionString => $"{ModuleNickname} Translation";
+        public abstract string Namespace { get; }
 
         public TranslationModule(LoquiGenerator gen)
         {
