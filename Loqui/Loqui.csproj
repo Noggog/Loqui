@@ -83,7 +83,6 @@
     <Compile Include="Translators\Xml\RangeInt16XmlTranslation.cs" />
     <Compile Include="Translators\Xml\TypicalXmlTranslation.cs" />
     <Compile Include="Translators\Xml\XmlConstants.cs" />
-    <Compile Include="Translators\Xml\XmlTranslatorCache.cs" />
     <Compile Include="WildcardLink.cs" />
     <Compile Include="Translators\Xml\BooleanXmlTranslation.cs" />
     <Compile Include="Translators\Xml\ByteXmlTranslation.cs" />
