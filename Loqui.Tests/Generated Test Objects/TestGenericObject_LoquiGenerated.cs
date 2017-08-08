@@ -254,7 +254,7 @@ namespace Loqui.Tests
                         {
                             item._RefBase.Item = tryGet.Value;
                         }
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().RefBase = subMask;
                         }
@@ -272,7 +272,7 @@ namespace Loqui.Tests
                             item._Ref.Item = (R)tryGet.Value;
                         }
                         subMask = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().Ref = subMask;
                         }
@@ -1135,7 +1135,7 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().RefBase = subMask;
                         }
@@ -1150,7 +1150,7 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (MaskItem<Exception, object>)unsafeErrMask;
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().Ref = subMask;
                         }

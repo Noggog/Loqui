@@ -198,7 +198,7 @@ namespace Loqui.Tests
                         {
                             item.BoolN = tryGet.Value;
                         }
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().BoolN = subMask;
                         }
@@ -885,7 +885,7 @@ namespace Loqui.Tests.Internals
                             item.BoolN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().BoolN = subMask;
                         }

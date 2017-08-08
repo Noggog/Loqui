@@ -402,7 +402,7 @@ namespace Loqui.Generation
                                         itemAccessor: $"item.{field.Field.ProtectedName}",
                                         doMaskAccessor: "doMasks",
                                         maskAccessor: $"subMask");
-                                    fg.AppendLine("if (subMask != null)");
+                                    fg.AppendLine("if (doMasks && subMask != null)");
                                     using (new BraceWrapper(fg))
                                     {
                                         fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
@@ -567,7 +567,7 @@ namespace Loqui.Generation
                                     doMaskAccessor: "doMasks",
                                     maskAccessor: $"subMask",
                                     nameAccessor: $"nameof(item.{field.Field.Name})");
-                                fg.AppendLine("if (subMask != null)");
+                                fg.AppendLine("if (doMasks && subMask != null)");
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");

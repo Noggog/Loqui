@@ -210,7 +210,7 @@ namespace Loqui.Tests
                         {
                             item._NewField.Item = tryGet.Value.Value;
                         }
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().NewField = subMask;
                         }
@@ -916,7 +916,7 @@ namespace Loqui.Tests.Internals
                             item.NewField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().NewField = subMask;
                         }

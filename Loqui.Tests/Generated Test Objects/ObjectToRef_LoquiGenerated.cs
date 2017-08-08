@@ -233,7 +233,7 @@ namespace Loqui.Tests
                         {
                             item._KeyField.Item = tryGet.Value.Value;
                         }
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().KeyField = subMask;
                         }
@@ -251,7 +251,7 @@ namespace Loqui.Tests
                         {
                             item._SomeField.Item = tryGet.Value.Value;
                         }
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().SomeField = subMask;
                         }
@@ -1021,7 +1021,7 @@ namespace Loqui.Tests.Internals
                             item.KeyField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().KeyField = subMask;
                         }
@@ -1035,7 +1035,7 @@ namespace Loqui.Tests.Internals
                             item.SomeField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (subMask != null)
+                        if (doMasks && subMask != null)
                         {
                             errorMask().SomeField = subMask;
                         }
