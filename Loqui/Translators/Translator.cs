@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Loqui.Translators
 {
-    public class Translator<ObjTransl>
+    public abstract class Translator<ObjTransl>
         where ObjTransl : class
     {
         public NotifyingItem<GetResponse<ObjTransl>> NullTranslationItem;

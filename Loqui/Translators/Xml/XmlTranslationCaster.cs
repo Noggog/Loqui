@@ -1,13 +1,15 @@
-﻿using Noggog;
+﻿using Loqui.Translators;
+using Noggog;
 using System;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class XmlTranslationCaster<T, M> : IXmlTranslation<Object, Object>
+    public class XmlTranslationCaster<T, M> : IXmlTranslation<Object, Object>, ITranslationCaster<T, M>
     {
         public IXmlTranslation<T, M> Source { get; }
+        ITranslation<T, M> ITranslationCaster<T, M>.Source => this.Source;
 
         public string ElementName => Source.ElementName;
 

@@ -57,11 +57,6 @@ namespace Loqui.Xml
             elementNameTypeDict.TryCreateValue(transl.ElementName, () => new NotifyingItem<Type>()).Item = t;
             return resp;
         }
-
-        internal void SetTranslator<T, M>(IXmlTranslation<T, M> transl)
-        {
-            SetTranslator(transl as IXmlTranslation<Object, Object>, typeof(T));
-        }
     }
 
     public class XmlTranslator<T, M>
@@ -84,11 +79,6 @@ namespace Loqui.Xml
                     var caster = change.New.Value as XmlTranslationCaster<T, M>;
                     _translator.Item = GetResponse<IXmlTranslation<T, M>>.Succeed(caster.Source);
                 });
-        }
-
-        public static void SetTranslator(IXmlTranslation<T, M> translator)
-        {
-            XmlTranslator.Instance.SetTranslator(translator);
         }
     }
 }
