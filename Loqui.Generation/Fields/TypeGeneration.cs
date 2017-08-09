@@ -27,7 +27,7 @@ namespace Loqui.Generation
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
         public virtual string PropertyOrName => $"{(this.Notifying == NotifyingOption.None ? Name : Property)}";
-        public string IndexEnumName => $"{this.ObjectGen.EnumName}.{this.Name}";
+        public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
         protected bool _derivative;

@@ -61,7 +61,7 @@ namespace Loqui.Generation
         public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
         public string ErrorMask => $"{this.Name}_ErrorMask";
         public string CopyMask => $"{this.Name}_CopyMask";
-        public string EnumName => $"{this.Name}_FieldIndex";
+        public string FieldIndexName => $"{this.Name}_FieldIndex";
 
         public string ExtCommonName => $"{Name}Common";
 
@@ -387,7 +387,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Field Index"))
             {
-                fg.AppendLine($"public enum {this.EnumName}");
+                fg.AppendLine($"public enum {this.FieldIndexName}");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.IterateFields())
@@ -973,7 +973,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1003,7 +1003,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1046,7 +1046,7 @@ namespace Loqui.Generation
             fg.AppendLine($"protected{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1097,7 +1097,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1149,7 +1149,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1195,7 +1195,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static bool GetNthIsLoqui(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1259,7 +1259,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static bool IsNthDerivative(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1299,7 +1299,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static bool GetNthIsEnumerable(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1339,7 +1339,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public{(generic ? " new " : " ")}static Type GetNthType(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1363,7 +1363,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static string GetNthName(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1387,7 +1387,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static bool GetNthIsSingleton(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
@@ -1540,7 +1540,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"case \"{this.Fields[i].Name.ToUpper()}\":");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return (ushort){this.EnumName}.{this.Fields[i].Name};");
+                            fg.AppendLine($"return (ushort){this.FieldIndexName}.{this.Fields[i].Name};");
                         }
                     }
 
@@ -1926,7 +1926,7 @@ namespace Loqui.Generation
             fg.AppendLine($"protected{this.NewOverride}static void CopyInInternal_{this.Name}({this.ObjectName} obj, KeyValuePair<ushort, object> pair)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!EnumExt.TryParse(pair.Key, out {this.EnumName} enu))");
+                fg.AppendLine($"if (!EnumExt.TryParse(pair.Key, out {this.FieldIndexName} enu))");
                 using (new BraceWrapper(fg))
                 {
                     if (this.HasBaseObject)
@@ -1976,7 +1976,7 @@ namespace Loqui.Generation
             fg.AppendLine("public static bool IsProtected(ushort index)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.EnumName} enu = ({this.EnumName})index;");
+                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {

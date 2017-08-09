@@ -192,13 +192,13 @@ namespace Loqui.Generation
                     fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(ushort index, Exception ex)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
+                        fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
                             foreach (var item in obj.IterateFields())
                             {
-                                fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
+                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Field.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
                                     GetMaskModule(item.Field.GetType()).GenerateSetException(fg, item.Field);
@@ -214,13 +214,13 @@ namespace Loqui.Generation
                     fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(ushort index, object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{obj.EnumName} enu = ({obj.EnumName})index;");
+                        fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
                             foreach (var item in obj.IterateFields())
                             {
-                                fg.AppendLine($"case {obj.EnumName}.{item.Field.Name}:");
+                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Field.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
                                     GetMaskModule(item.Field.GetType()).GenerateSetMask(fg, item.Field);
