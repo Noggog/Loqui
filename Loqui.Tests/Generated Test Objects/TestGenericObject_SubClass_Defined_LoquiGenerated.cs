@@ -130,6 +130,24 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(string path)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: false,
+                errorMask: out var errorMask);
+        }
+
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
+            string path,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
         public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
             XElement root,
             bool doMasks,
@@ -190,7 +208,9 @@ namespace Loqui.Tests
             }
         }
 
-        public override void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(
+            XElement root,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -201,7 +221,10 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyIn_XML(XElement root, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(
+            XElement root,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -212,9 +235,42 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public override void CopyIn_XML(XElement root, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public override void CopyIn_XML(
+            string path,
+            NotifyingFireParameters? cmds = null)
         {
-            CopyIn_XML(root, out TestGenericObject_SubClass_Defined_ErrorMask errMask, cmds: cmds);
+            LoquiXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
+                item: this,
+                skipProtected: true,
+                doMasks: false,
+                mask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+                cmds: cmds);
+        }
+
+        public virtual void CopyIn_XML(
+            string path,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestGenericObject_SubClass_Defined<RBase>, TestGenericObject_SubClass_Defined_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
+                item: this,
+                skipProtected: true,
+                doMasks: true,
+                mask: out errorMask,
+                cmds: cmds);
+        }
+
+        public override void CopyIn_XML(
+            XElement root,
+            out TestGenericObject_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            CopyIn_XML(
+                root,
+                out TestGenericObject_SubClass_Defined_ErrorMask errMask,
+                cmds: cmds);
             errorMask = errMask;
         }
 
@@ -223,6 +279,14 @@ namespace Loqui.Tests
             TestGenericObject_SubClass_DefinedCommon.Write_XML(
                 this,
                 stream,
+                out errorMask);
+        }
+
+        public void Write_XML(string path, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        {
+            TestGenericObject_SubClass_DefinedCommon.Write_XML(
+                this,
+                path,
                 out errorMask);
         }
 
@@ -786,6 +850,43 @@ namespace Loqui.Tests.Internals
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            string path)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML<RBase>(
+            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
+            string path,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;

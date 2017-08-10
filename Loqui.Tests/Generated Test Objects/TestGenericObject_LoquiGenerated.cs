@@ -168,6 +168,24 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        public static TestGenericObject<T, RBase, R> Create_XML(string path)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: false,
+                errorMask: out var errorMask);
+        }
+
+        public static TestGenericObject<T, RBase, R> Create_XML(
+            string path,
+            out TestGenericObject_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
         public static TestGenericObject<T, RBase, R> Create_XML(
             XElement root,
             bool doMasks,
@@ -283,7 +301,9 @@ namespace Loqui.Tests
             }
         }
 
-        public virtual void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(
+            XElement root,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject<T, RBase, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -294,10 +314,40 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyIn_XML(XElement root, out TestGenericObject_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(
+            XElement root,
+            out TestGenericObject_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject<T, RBase, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
                 root: root,
+                item: this,
+                skipProtected: true,
+                doMasks: true,
+                mask: out errorMask,
+                cmds: cmds);
+        }
+
+        public virtual void CopyIn_XML(
+            string path,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestGenericObject<T, RBase, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
+                item: this,
+                skipProtected: true,
+                doMasks: false,
+                mask: out TestGenericObject_ErrorMask errorMask,
+                cmds: cmds);
+        }
+
+        public virtual void CopyIn_XML(
+            string path,
+            out TestGenericObject_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestGenericObject<T, RBase, R>, TestGenericObject_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
                 item: this,
                 skipProtected: true,
                 doMasks: true,
@@ -312,11 +362,26 @@ namespace Loqui.Tests
                 stream);
         }
 
+        public void Write_XML(string path)
+        {
+            TestGenericObjectCommon.Write_XML(
+                this,
+                path);
+        }
+
         public void Write_XML(Stream stream, out TestGenericObject_ErrorMask errorMask)
         {
             TestGenericObjectCommon.Write_XML(
                 this,
                 stream,
+                out errorMask);
+        }
+
+        public void Write_XML(string path, out TestGenericObject_ErrorMask errorMask)
+        {
+            TestGenericObjectCommon.Write_XML(
+                this,
+                path,
                 out errorMask);
         }
 
@@ -1077,6 +1142,45 @@ namespace Loqui.Tests.Internals
             where R : ILoquiObject, ILoquiObjectGetter
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML<T, RBase, R>(
+            ITestGenericObjectGetter<T, RBase, R> item,
+            string path)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestGenericObject_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML<T, RBase, R>(
+            ITestGenericObjectGetter<T, RBase, R> item,
+            string path,
+            out TestGenericObject_ErrorMask errorMask)
+            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
+            where R : ILoquiObject, ILoquiObjectGetter
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;

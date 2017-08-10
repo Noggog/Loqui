@@ -118,6 +118,18 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine();
+
+                fg.AppendLine($"public void Write_{ModuleNickname}(string path)");
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                    {
+                        args.Add("this");
+                        args.Add("path");
+                    }
+                }
+                fg.AppendLine();
             }
 
             fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
@@ -128,6 +140,19 @@ namespace Loqui.Generation
                 {
                     args.Add("this");
                     args.Add("stream");
+                    args.Add("out errorMask");
+                }
+            }
+            fg.AppendLine();
+
+            fg.AppendLine($"public void Write_{ModuleNickname}(string path, out {obj.ErrorMask} errorMask)");
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                {
+                    args.Add("this");
+                    args.Add("path");
                     args.Add("out errorMask");
                 }
             }
@@ -184,44 +209,112 @@ namespace Loqui.Generation
             }
 
             if (obj is StructGeneration) return;
-            fg.AppendLine($"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}(XElement root, NotifyingFireParameters? cmds = null)");
+            using (var args = new FunctionWrapper(fg,
+                $"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}"))
+            {
+                args.Add("XElement root");
+                args.Add("NotifyingFireParameters? cmds = null");
+            }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
+                using (var args = new ArgsWrapper(fg,
+                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"root: root,");
-                    fg.AppendLine($"item: this,");
-                    fg.AppendLine($"skipProtected: true,");
-                    fg.AppendLine($"doMasks: false,");
-                    fg.AppendLine($"mask: out {obj.ErrorMask} errorMask,");
-                    fg.AppendLine($"cmds: cmds);");
+                    args.Add($"root: root");
+                    args.Add($"item: this");
+                    args.Add($"skipProtected: true");
+                    args.Add($"doMasks: false");
+                    args.Add($"mask: out {obj.ErrorMask} errorMask");
+                    args.Add($"cmds: cmds");
                 }
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public virtual void CopyIn_{ModuleNickname}(XElement root, out {obj.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
+            using (var args = new FunctionWrapper(fg,
+                $"public virtual void CopyIn_{ModuleNickname}"))
+            {
+                args.Add("XElement root");
+                args.Add($"out {obj.ErrorMask} errorMask");
+                args.Add("NotifyingFireParameters? cmds = null");
+            }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn(");
+                using (var args = new ArgsWrapper(fg,
+                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
+                {
+                    args.Add($"root: root");
+                    args.Add($"item: this");
+                    args.Add($"skipProtected: true");
+                    args.Add($"doMasks: true");
+                    args.Add($"mask: out errorMask");
+                    args.Add($"cmds: cmds");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}"))
+            {
+                args.Add("string path");
+                args.Add("NotifyingFireParameters? cmds = null");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"root: root,");
-                    fg.AppendLine($"item: this,");
-                    fg.AppendLine($"skipProtected: true,");
-                    fg.AppendLine($"doMasks: true,");
-                    fg.AppendLine($"mask: out errorMask,");
-                    fg.AppendLine($"cmds: cmds);");
+                    args.Add($"root: XDocument.Load(path).Root");
+                    args.Add($"item: this");
+                    args.Add($"skipProtected: true");
+                    args.Add($"doMasks: false");
+                    args.Add($"mask: out {obj.ErrorMask} errorMask");
+                    args.Add($"cmds: cmds");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public virtual void CopyIn_{ModuleNickname}"))
+            {
+                args.Add($"string path");
+                args.Add($"out {obj.ErrorMask} errorMask");
+                args.Add($"NotifyingFireParameters? cmds = null");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
+                {
+                    args.Add($"root: XDocument.Load(path).Root");
+                    args.Add($"item: this");
+                    args.Add($"skipProtected: true");
+                    args.Add($"doMasks: true");
+                    args.Add($"mask: out errorMask");
+                    args.Add($"cmds: cmds");
                 }
             }
             fg.AppendLine();
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
-                fg.AppendLine($"public override void CopyIn_{ModuleNickname}(XElement root, out {baseClass.ErrorMask} errorMask, NotifyingFireParameters? cmds = null)");
+                using (var args = new FunctionWrapper(fg,
+                    $"public override void CopyIn_{ModuleNickname}"))
+                {
+                    args.Add($"XElement root");
+                    args.Add($"out {baseClass.ErrorMask} errorMask");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"CopyIn_{ModuleNickname}(root, out {obj.ErrorMask} errMask, cmds: cmds);");
+                    using (var args = new ArgsWrapper(fg,
+                        $"CopyIn_{ModuleNickname}"))
+                    {
+                        args.Add($"root");
+                        args.Add($"out {obj.ErrorMask} errMask");
+                        args.Add($"cmds: cmds");
+                    }
                     fg.AppendLine("errorMask = errMask;");
                 }
                 fg.AppendLine();
@@ -300,6 +393,37 @@ namespace Loqui.Generation
                     $"return Create_{ModuleNickname}"))
                 {
                     args.Add("root: root");
+                    args.Add("doMasks: true");
+                    args.Add("errorMask: out errorMask");
+                }
+            }
+            fg.AppendLine();
+
+            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(string path)");
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                $"return Create_{ModuleNickname}"))
+                {
+                    args.Add("root: XDocument.Load(path).Root");
+                    args.Add("doMasks: false");
+                    args.Add("errorMask: out var errorMask");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
+            {
+                args.Add("string path");
+                args.Add($"out {obj.ErrorMask} errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                $"return Create_{ModuleNickname}"))
+                {
+                    args.Add("root: XDocument.Load(path).Root");
                     args.Add("doMasks: true");
                     args.Add("errorMask: out errorMask");
                 }
@@ -475,6 +599,61 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
+                    fg.AppendLine("writer.Indentation = 3;");
+                    fg.AppendLine($"Write_{ModuleNickname}(");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"writer: writer,");
+                        fg.AppendLine($"name: null,");
+                        fg.AppendLine($"item: item,");
+                        fg.AppendLine($"doMasks: true,");
+                        fg.AppendLine($"errorMask: out errorMask);");
+                    }
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.Getter_InterfaceStr} item");
+                args.Add($"string path");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
+                    fg.AppendLine("writer.Indentation = 3;");
+                    fg.AppendLine($"Write_{ModuleNickname}(");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"writer: writer,");
+                        fg.AppendLine($"name: null,");
+                        fg.AppendLine($"item: item,");
+                        fg.AppendLine($"doMasks: false,");
+                        fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
+                    }
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
+                obj.GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{obj.Getter_InterfaceStr} item");
+                args.Add($"string path");
+                args.Add($"out {obj.ErrorMask} errorMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("writer.Formatting = Formatting.Indented;");

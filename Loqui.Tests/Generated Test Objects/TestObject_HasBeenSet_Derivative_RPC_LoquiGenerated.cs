@@ -2516,6 +2516,24 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(string path)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: false,
+                errorMask: out var errorMask);
+        }
+
+        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+            string path,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            return Create_XML(
+                root: XDocument.Load(path).Root,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
         public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
             XElement root,
             bool doMasks,
@@ -4807,7 +4825,9 @@ namespace Loqui.Tests
             }
         }
 
-        public void CopyIn_XML(XElement root, NotifyingFireParameters? cmds = null)
+        public void CopyIn_XML(
+            XElement root,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -4818,10 +4838,40 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public virtual void CopyIn_XML(XElement root, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask, NotifyingFireParameters? cmds = null)
+        public virtual void CopyIn_XML(
+            XElement root,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
+                item: this,
+                skipProtected: true,
+                doMasks: true,
+                mask: out errorMask,
+                cmds: cmds);
+        }
+
+        public void CopyIn_XML(
+            string path,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
+                item: this,
+                skipProtected: true,
+                doMasks: false,
+                mask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+                cmds: cmds);
+        }
+
+        public virtual void CopyIn_XML(
+            string path,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
+                root: XDocument.Load(path).Root,
                 item: this,
                 skipProtected: true,
                 doMasks: true,
@@ -4836,11 +4886,26 @@ namespace Loqui.Tests
                 stream);
         }
 
+        public void Write_XML(string path)
+        {
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
+                this,
+                path);
+        }
+
         public void Write_XML(Stream stream, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
         {
             TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
                 this,
                 stream,
+                out errorMask);
+        }
+
+        public void Write_XML(string path, out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
+                this,
+                path,
                 out errorMask);
         }
 
@@ -8852,6 +8917,41 @@ namespace Loqui.Tests.Internals
             out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: true,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            string path)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: null,
+                    item: item,
+                    doMasks: false,
+                    errorMask: out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask);
+            }
+        }
+
+        public static void Write_XML(
+            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            string path,
+            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;
