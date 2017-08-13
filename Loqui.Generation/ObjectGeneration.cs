@@ -62,7 +62,7 @@ namespace Loqui.Generation
         public string ErrorMask => $"{this.Name}_ErrorMask";
         public string CopyMask => $"{this.Name}_CopyMask";
         public string FieldIndexName => $"{this.Name}_FieldIndex";
-
+        public string ProtocolDefinitionName => $"{this.ProtoGen.ProtocolDefinitionName}";
         public string ExtCommonName => $"{Name}Common";
 
         public string InterfaceStr_Generic(string genericTypes) => $"{this.Setter_InterfaceStr_NoGenerics}{genericTypes}";
@@ -408,13 +408,13 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly {this.RegistrationName} Instance = new {this.RegistrationName}();");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static ProtocolKey ProtocolKey => ProtocolDefinition_{this.ProtoGen.Protocol.Namespace}.ProtocolKey;");
+                    fg.AppendLine($"public static ProtocolKey ProtocolKey => {this.ProtocolDefinitionName}.ProtocolKey;");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly ObjectKey ObjectKey = new ObjectKey(");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"protocolKey: ProtocolDefinition_{this.ProtoGen.Protocol.Namespace}.ProtocolKey,");
+                        fg.AppendLine($"protocolKey: {this.ProtocolDefinitionName}.ProtocolKey,");
                         fg.AppendLine($"msgID: {this.ID},");
                         fg.AppendLine($"version: {this.Version});");
                     }

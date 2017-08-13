@@ -22,6 +22,7 @@ namespace Loqui.Generation
         public bool DerivativeDefault;
         public NotifyingOption NotifyingDefault;
         public bool RaisePropertyChangedDefault = true;
+        public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
 
         public ProtocolGeneration(
             LoquiGenerator gen,
@@ -171,7 +172,7 @@ namespace Loqui.Generation
             fg.AppendLine("namespace Loqui");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public class ProtocolDefinition_{this.Protocol.Namespace} : IProtocolRegistration");
+                fg.AppendLine($"public class {this.ProtocolDefinitionName} : IProtocolRegistration");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey(\"{this.Protocol.Namespace}\");");
@@ -190,7 +191,7 @@ namespace Loqui.Generation
             fg.Generate(
                 new FileInfo(
                     DefFileLocation.FullName
-                    + $"/ProtocolDefinition_{this.Protocol.Namespace}.cs"));
+                    + $"/{this.ProtocolDefinitionName}.cs"));
         }
     }
 }

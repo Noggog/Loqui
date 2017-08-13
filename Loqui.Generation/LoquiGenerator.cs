@@ -335,6 +335,7 @@ namespace Loqui.Generation
             foreach (var compile in compileNodes)
             {
                 XAttribute includeAttr = compile.Attribute("Include");
+                if (includeAttr == null) continue;
                 FileInfo file = new FileInfo(Path.Combine(projFile.Directory.FullName, includeAttr.Value));
                 if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
                 present.Add(objGen.Key);
@@ -344,7 +345,8 @@ namespace Loqui.Generation
             foreach (var objGens in this.ObjectGenerationsByDir)
             {
                 DirectoryInfo dir = new DirectoryInfo(objGens.Key);
-                if (dir.IsSubfolderOf(projFile.Directory))
+                if (dir.IsSubfolderOf(projFile.Directory)
+                    || dir.FullName.Equals(projFile.Directory.FullName))
                 {
                     foreach (var objGen in objGens.Value)
                     {
@@ -376,6 +378,30 @@ namespace Loqui.Generation
                     Value = objGen.SourceXMLFile.Name
                 };
                 compile.Add(depElem);
+                modified = true;
+            }
+
+            // Add Protocol Definition
+            HashSet<ProtocolKey> foundProtocols = new HashSet<ProtocolKey>();
+            foreach (var compile in compileNodes)
+            {
+                XAttribute includeAttr = compile.Attribute("Include");
+                if (includeAttr == null) continue;
+                foreach (var proto in this.targetData)
+                {
+                    if (includeAttr.Value.Contains(proto.Value.ProtocolDefinitionName))
+                    {
+                        foundProtocols.Add(proto.Key);
+                    }
+                }
+            }
+            foreach (var proto in this.targetData)
+            {
+                if (!foundProtocols.Add(proto.Key)) continue;
+                var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
+                    new XAttribute("Include", proto.Value.ProtocolDefinitionName + ".cs"));
+                compileNodes.Add(compileElem);
+                compileIncludeNode.Add(compileElem);
                 modified = true;
             }
 
