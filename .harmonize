@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>0c714e29df32de8553f80e6309a9a8d94dae3bd2</Sha>
+         <Sha>a5f1c15bc1bcb50905f4ccc171e0985c00c502e0</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-08-2017 21:42:41</CommitDate>
-         <Description>EnumExt.Values /w cache</Description>
+         <CommitDate>08-12-2017 16:44:49</CommitDate>
+         <Description>Downgraded .NET to 4.5.2.   Marked release build to allow unsafe code</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
