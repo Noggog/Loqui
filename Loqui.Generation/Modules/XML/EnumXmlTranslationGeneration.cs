@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -63,6 +64,15 @@ namespace Loqui.Generation
                 args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
+        }
+
+        public override XElement GenerateForXSD(
+            XElement rootElement, 
+            XElement choiceElement,
+            TypeGeneration typeGen,
+            string nameOverride = null)
+        {
+            return null;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -38,10 +39,10 @@ namespace Loqui.Generation
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
-                            fg: gen, 
-                            typeGen: list.SubTypeGeneration, 
-                            writerAccessor: "writer", 
-                            itemAccessor: $"subItem", 
+                            fg: gen,
+                            typeGen: list.SubTypeGeneration,
+                            writerAccessor: "writer",
+                            itemAccessor: $"subItem",
                             doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",
                             nameAccessor: "\"Item\"");
@@ -52,8 +53,8 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(
             FileGeneration fg,
-            TypeGeneration typeGen, 
-            string nodeAccessor, 
+            TypeGeneration typeGen,
+            string nodeAccessor,
             string itemAccessor,
             string doMaskAccessor,
             string maskAccessor)
@@ -67,9 +68,9 @@ namespace Loqui.Generation
         }
 
         public override void GenerateCopyInRet(
-            FileGeneration fg, 
+            FileGeneration fg,
             TypeGeneration typeGen,
-            string nodeAccessor, 
+            string nodeAccessor,
             string retAccessor,
             string doMaskAccessor,
             string maskAccessor)
@@ -96,6 +97,35 @@ namespace Loqui.Generation
                     }
                 });
             }
+        }
+
+        public override XElement GenerateForXSD(
+            XElement rootElement,
+            XElement choiceElement,
+            TypeGeneration typeGen,
+            string nameOverride = null)
+        {
+            var elem = new XElement(XmlTranslationModule.XSDNamespace + "element",
+                new XAttribute("name", nameOverride ?? typeGen.Name),
+                new XAttribute("type", $"{typeGen.Name}Type"));
+            choiceElement.Add(elem);
+
+            var subChoice = new XElement(XmlTranslationModule.XSDNamespace + "choice",
+                new XAttribute("minOccurs", 0),
+                new XAttribute("maxOccurs", "unbounded"));
+            rootElement.Add(
+                new XElement(XmlTranslationModule.XSDNamespace + "complexType",
+                    new XAttribute("name", $"{typeGen.Name}Type"),
+                    subChoice));
+
+            var list = typeGen as ListType;
+            var xmlGen = XmlMod.GetTypeGeneration(list.SubTypeGeneration.GetType());
+            var subElem = xmlGen.GenerateForXSD(
+                 rootElement,
+                 subChoice,
+                 list.SubTypeGeneration,
+                 nameOverride: "Item");
+            return elem;
         }
     }
 }

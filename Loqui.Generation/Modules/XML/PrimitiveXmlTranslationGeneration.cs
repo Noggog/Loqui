@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -22,7 +23,7 @@ namespace Loqui.Generation
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
-            string writerAccessor, 
+            string writerAccessor,
             string itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
@@ -70,7 +71,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             string retAccessor,
-            string doMaskAccessor, 
+            string doMaskAccessor,
             string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
@@ -85,6 +86,28 @@ namespace Loqui.Generation
                 args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
+        }
+
+        public override XElement GenerateForXSD(
+            XElement rootElement,
+            XElement choiceElement,
+            TypeGeneration typeGen,
+            string nameOverride = null)
+        {
+            var elem = new XElement(XmlTranslationModule.XSDNamespace + "element");
+            elem.Add(new XAttribute("name", nameOverride ?? typeGen.Name));
+            elem.Add(new XAttribute("type", $"{typeName}Type"));
+            choiceElement.Add(elem);
+
+            if (rootElement.Elements().Any((e) => e.Attribute("name")?.Value.Equals($"{typeName}Type") ?? false)) return elem;
+
+            rootElement.Add(
+                new XElement(XmlTranslationModule.XSDNamespace + "complexType",
+                    new XAttribute("name", $"{typeName}Type"),
+                    new XElement(XmlTranslationModule.XSDNamespace + "attribute",
+                        new XAttribute("name", "value"),
+                        new XAttribute("use", this.Nullable ? "optional" : "required"))));
+            return elem;
         }
     }
 }

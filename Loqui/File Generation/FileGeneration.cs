@@ -75,6 +75,13 @@ namespace Loqui
             }
         }
 
+        public void Generate(string path, bool onlyIfChanged = true)
+        {
+            Generate(
+                new FileInfo(path),
+                onlyIfChanged);
+        }
+
         public void Generate(FileInfo file, bool onlyIfChanged = true)
         {
             var str = GetString();
@@ -87,7 +94,7 @@ namespace Loqui
             file.Directory.Create();
             File.WriteAllText(file.FullName, str);
         }
-        
+
         public string GetString()
         {
             return string.Join("\n", Strings);

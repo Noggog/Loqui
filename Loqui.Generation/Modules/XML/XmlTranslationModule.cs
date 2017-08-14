@@ -3,6 +3,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Loqui.Xml;
+using System.IO;
+using System.Xml.Linq;
+using System.Xml;
+using System.Text;
 
 namespace Loqui.Generation
 {
@@ -10,6 +14,7 @@ namespace Loqui.Generation
     {
         public override string ModuleNickname => "XML";
         public override string Namespace => "Loqui.Generation";
+        public readonly static XNamespace XSDNamespace = "http://www.w3.org/2001/XMLSchema";
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)
@@ -761,6 +766,60 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("errorMask().Overall = ex;");
                 }
+            }
+        }
+
+        public override void Generate(ObjectGeneration obj)
+        {
+            GenerateXSD(obj);
+        }
+
+        public void GenerateXSD(ObjectGeneration obj)
+        {
+            var itemNamespace = $"{obj.ProtoGen.Protocol.Namespace}/{obj.Name}.xsd";
+
+            XElement root = new XElement(XSDNamespace + "schema",
+                new XAttribute("id", obj.Name),
+                new XAttribute("targetNamespace", itemNamespace),
+                new XAttribute("elementFormDefault", "qualified"),
+                new XAttribute("xmlns", itemNamespace),
+                new XAttribute(XNamespace.Xmlns + "mstns", itemNamespace),
+                new XAttribute(XNamespace.Xmlns + "xs", XSDNamespace.NamespaceName));
+
+            root.Add(
+                new XElement(XSDNamespace + "element",
+                    new XAttribute("name", obj.Name),
+                    new XAttribute("type", $"{obj.Name}Type")));
+
+            var typeElement = new XElement(XSDNamespace + "complexType",
+                new XAttribute("name", $"{obj.Name}Type"));
+            var choiceElement = new XElement(XSDNamespace + "choice",
+                new XAttribute("minOccurs", 0),
+                new XAttribute("maxOccurs", "unbounded"));
+            typeElement.Add(choiceElement);
+            root.Add(typeElement);
+            foreach (var field in obj.Fields)
+            {
+                if (!this.TryGetTypeGeneration(field.GetType(), out var xmlGen))
+                {
+                    throw new ArgumentException("Unsupported type generator: " + field.GetType());
+                }
+                var elem = xmlGen.GenerateForXSD(
+                    root,
+                    choiceElement, 
+                    field,
+                    nameOverride: null);
+                elem.Add(new XAttribute("minOccurs", 0));
+                elem.Add(new XAttribute("maxOccurs", 1));
+            }
+
+            var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
+            using (var writer = new XmlTextWriter (outputPath, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                XDocument doc = new XDocument(root);
+                doc.WriteTo(writer);
             }
         }
     }

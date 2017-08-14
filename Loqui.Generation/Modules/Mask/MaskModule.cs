@@ -377,5 +377,9 @@ namespace Loqui.Generation
             }
             return fieldGen;
         }
+
+        public override void Generate(ObjectGeneration obj)
+        {
+        }
     }
 }

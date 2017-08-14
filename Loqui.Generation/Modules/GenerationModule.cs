@@ -23,5 +23,6 @@ namespace Loqui.Generation
         public abstract void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg);
         public abstract void Generate(ObjectGeneration obj, FileGeneration fg);
         public abstract void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg);
+        public abstract void Generate(ObjectGeneration obj);
     }
 }

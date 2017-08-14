@@ -225,7 +225,7 @@ namespace Loqui.Generation
                 GenerateLoquiInterfaces(fg);
             }
 
-            var fileName = $"{TargetDir.FullName}\\{FileName}";
+            var fileName = Path.Combine(TargetDir.FullName, FileName);
             fg.Generate(new FileInfo(fileName));
             if (!this.gen.GeneratedFiles.Add(fileName))
             {
@@ -2034,6 +2034,8 @@ namespace Loqui.Generation
                         translGen.Generate(this, fg);
                     }
                     fg.AppendLine();
+
+                    translGen.Generate(this);
                 }
             }
         }

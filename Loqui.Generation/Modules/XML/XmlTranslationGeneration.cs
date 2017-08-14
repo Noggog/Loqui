@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -37,5 +38,11 @@ namespace Loqui.Generation
             string retAccessor,
             string doMaskAccessor,
             string maskAccessor);
+
+        public abstract XElement GenerateForXSD(
+            XElement rootElement,
+            XElement choiceElement,
+            TypeGeneration typeGen,
+            string nameOverride);
     }
 }
