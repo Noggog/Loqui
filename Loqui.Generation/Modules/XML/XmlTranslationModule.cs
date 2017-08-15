@@ -817,6 +817,8 @@ namespace Loqui.Generation
             }
 
             var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
+            var outputFile = new FileInfo(outputPath);
+            obj.GeneratedFiles[Path.GetFullPath(outputPath)] = ProjItemType.None;
             using (var writer = new XmlTextWriter (outputPath, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;

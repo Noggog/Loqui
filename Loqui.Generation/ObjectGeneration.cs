@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Noggog;
 
 namespace Loqui.Generation
 {
@@ -76,6 +77,7 @@ namespace Loqui.Generation
         public HashSet<string> RequiredNamespaces = new HashSet<string>();
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<TypeGeneration> Fields = new List<TypeGeneration>();
+        public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {
@@ -226,7 +228,9 @@ namespace Loqui.Generation
             }
 
             var fileName = Path.Combine(TargetDir.FullName, FileName);
-            fg.Generate(new FileInfo(fileName));
+            var file = new FileInfo(fileName);
+            this.GeneratedFiles[Path.GetFullPath(fileName)] = ProjItemType.Compile;
+            fg.Generate(file);
             if (!this.gen.GeneratedFiles.Add(fileName))
             {
                 throw new ArgumentException();

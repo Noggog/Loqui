@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\DisabledLevel.cs" />
+    <Compile Include="Enums\ProjItemType.cs" />
     <Compile Include="FieldBatch.cs" />
     <Compile Include="Fields\ClassType.cs" />
     <Compile Include="Fields\FieldBatchPointerType.cs" />
