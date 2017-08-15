@@ -389,7 +389,7 @@ namespace Loqui.Generation
                 if (includeAttr == null) continue;
                 foreach (var proto in this.targetData)
                 {
-                    if (includeAttr.Value.Contains(proto.Value.ProtocolDefinitionName))
+                    if (includeAttr.Value.ToLower().Contains(proto.Value.ProtocolDefinitionName.ToLower()))
                     {
                         foundProtocols.Add(proto.Key);
                     }
