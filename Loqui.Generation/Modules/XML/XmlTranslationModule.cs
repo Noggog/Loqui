@@ -78,6 +78,10 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(UInt32Type)] = new PrimitiveXmlTranslationGeneration<uint>();
             this._typeGenerations[typeof(UInt64NullType)] = new PrimitiveXmlTranslationGeneration<ulong?>();
             this._typeGenerations[typeof(UInt64Type)] = new PrimitiveXmlTranslationGeneration<ulong>();
+            this._typeGenerations[typeof(FilePathType)] = new PrimitiveXmlTranslationGeneration<FilePath>();
+            this._typeGenerations[typeof(FilePathNullType)] = new PrimitiveXmlTranslationGeneration<FilePath?>();
+            this._typeGenerations[typeof(DirectoryPathType)] = new PrimitiveXmlTranslationGeneration<DirectoryPath>();
+            this._typeGenerations[typeof(DirectoryPathNullType)] = new PrimitiveXmlTranslationGeneration<DirectoryPath?>();
             this._typeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
             this._typeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
@@ -809,7 +813,7 @@ namespace Loqui.Generation
                 }
                 var elem = xmlGen.GenerateForXSD(
                     root,
-                    choiceElement, 
+                    choiceElement,
                     field,
                     nameOverride: null);
                 elem.Add(new XAttribute("minOccurs", 0));
@@ -819,7 +823,7 @@ namespace Loqui.Generation
             var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
             var outputFile = new FileInfo(outputPath);
             obj.GeneratedFiles[Path.GetFullPath(outputPath)] = ProjItemType.None;
-            using (var writer = new XmlTextWriter (outputPath, Encoding.ASCII))
+            using (var writer = new XmlTextWriter(outputPath, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;

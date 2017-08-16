@@ -363,6 +363,18 @@ namespace Loqui.Tests
         #region String
         public String String { get; protected set; }
         #endregion
+        #region FilePath
+        public FilePath FilePath { get; protected set; }
+        #endregion
+        #region FilePathNull
+        public FilePath? FilePathNull { get; protected set; }
+        #endregion
+        #region DirectoryPath
+        public DirectoryPath DirectoryPath { get; protected set; }
+        #endregion
+        #region DirectoryPathNull
+        public DirectoryPath? DirectoryPathNull { get; protected set; }
+        #endregion
         #region UDoubleN
         public UDouble? UDoubleN { get; protected set; }
         #endregion
@@ -767,7 +779,11 @@ namespace Loqui.Tests
             if (RangeUInt32 != rhs.RangeUInt32) return false;
             if (RangeUInt64N != rhs.RangeUInt64N) return false;
             if (RangeUInt64 != rhs.RangeUInt64) return false;
-            if (String != rhs.String) return false;
+            if (!object.Equals(String, rhs.String)) return false;
+            if (!object.Equals(FilePath, rhs.FilePath)) return false;
+            if (!object.Equals(FilePathNull, rhs.FilePathNull)) return false;
+            if (!object.Equals(DirectoryPath, rhs.DirectoryPath)) return false;
+            if (!object.Equals(DirectoryPathNull, rhs.DirectoryPathNull)) return false;
             if (UDoubleN != rhs.UDoubleN) return false;
             if (UDoubleN_Ranged != rhs.UDoubleN_Ranged) return false;
             if (UDouble != rhs.UDouble) return false;
@@ -877,6 +893,10 @@ namespace Loqui.Tests
             ret = HashHelper.GetHashCode(RangeUInt64N).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(RangeUInt64).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(String).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FilePath).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FilePathNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DirectoryPath).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DirectoryPathNull).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(UDoubleN).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(UDoubleN_Ranged).CombineHashCode(ret);
             ret = HashHelper.GetHashCode(UDouble).CombineHashCode(ret);
@@ -2127,6 +2147,78 @@ namespace Loqui.Tests
                         if (doMasks && subMask != null)
                         {
                             errorMask().String = subMask;
+                        }
+                    }
+                    break;
+                case "FilePath":
+                    {
+                        Exception subMask;
+                        var tryGet = FilePathXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.FilePath = tryGet.Value.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().FilePath = subMask;
+                        }
+                    }
+                    break;
+                case "FilePathNull":
+                    {
+                        Exception subMask;
+                        var tryGet = FilePathXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.FilePathNull = tryGet.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().FilePathNull = subMask;
+                        }
+                    }
+                    break;
+                case "DirectoryPath":
+                    {
+                        Exception subMask;
+                        var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DirectoryPath = tryGet.Value.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().DirectoryPath = subMask;
+                        }
+                    }
+                    break;
+                case "DirectoryPathNull":
+                    {
+                        Exception subMask;
+                        var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: true,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.DirectoryPathNull = tryGet.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().DirectoryPathNull = subMask;
                         }
                     }
                     break;
@@ -3503,6 +3595,10 @@ namespace Loqui.Tests
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -3849,6 +3945,22 @@ namespace Loqui.Tests
         String String { get; }
 
         #endregion
+        #region FilePath
+        FilePath FilePath { get; }
+
+        #endregion
+        #region FilePathNull
+        FilePath? FilePathNull { get; }
+
+        #endregion
+        #region DirectoryPath
+        DirectoryPath DirectoryPath { get; }
+
+        #endregion
+        #region DirectoryPathNull
+        DirectoryPath? DirectoryPathNull { get; }
+
+        #endregion
         #region UDoubleN
         UDouble? UDoubleN { get; }
 
@@ -4080,47 +4192,51 @@ namespace Loqui.Tests.Internals
         RangeUInt64N = 59,
         RangeUInt64 = 60,
         String = 61,
-        UDoubleN = 62,
-        UDoubleN_Ranged = 63,
-        UDouble = 64,
-        UDouble_Ranged = 65,
-        UInt16N = 66,
-        UInt16N_Ranged = 67,
-        UInt16 = 68,
-        UInt16_Ranged = 69,
-        UInt32N = 70,
-        UInt32N_Ranged = 71,
-        UInt32 = 72,
-        UInt32_Ranged = 73,
-        UInt64N = 74,
-        UInt64N_Ranged = 75,
-        UInt64 = 76,
-        UInt64_Ranged = 77,
-        UInt8N = 78,
-        UInt8N_Ranged = 79,
-        UInt8 = 80,
-        UInt8_Ranged = 81,
-        Enum = 82,
-        EnumNull = 83,
-        WildCard = 84,
-        WildCardLoqui = 85,
-        WildCardNull = 86,
-        Ref = 87,
-        Ref_NotNull = 88,
-        Ref_Singleton = 89,
-        RefGetter = 90,
-        RefGetter_NotNull = 91,
-        RefGetter_Singleton = 92,
-        RefSetter = 93,
-        RefSetter_NotNull = 94,
-        RefSetter_Singleton = 95,
-        List = 96,
-        RefList = 97,
-        Dict = 98,
-        RefDict = 99,
-        KeyRefDict = 100,
-        ValRefDict = 101,
-        DictKeyedValue = 102,
+        FilePath = 62,
+        FilePathNull = 63,
+        DirectoryPath = 64,
+        DirectoryPathNull = 65,
+        UDoubleN = 66,
+        UDoubleN_Ranged = 67,
+        UDouble = 68,
+        UDouble_Ranged = 69,
+        UInt16N = 70,
+        UInt16N_Ranged = 71,
+        UInt16 = 72,
+        UInt16_Ranged = 73,
+        UInt32N = 74,
+        UInt32N_Ranged = 75,
+        UInt32 = 76,
+        UInt32_Ranged = 77,
+        UInt64N = 78,
+        UInt64N_Ranged = 79,
+        UInt64 = 80,
+        UInt64_Ranged = 81,
+        UInt8N = 82,
+        UInt8N_Ranged = 83,
+        UInt8 = 84,
+        UInt8_Ranged = 85,
+        Enum = 86,
+        EnumNull = 87,
+        WildCard = 88,
+        WildCardLoqui = 89,
+        WildCardNull = 90,
+        Ref = 91,
+        Ref_NotNull = 92,
+        Ref_Singleton = 93,
+        RefGetter = 94,
+        RefGetter_NotNull = 95,
+        RefGetter_Singleton = 96,
+        RefSetter = 97,
+        RefSetter_NotNull = 98,
+        RefSetter_Singleton = 99,
+        List = 100,
+        RefList = 101,
+        Dict = 102,
+        RefDict = 103,
+        KeyRefDict = 104,
+        ValRefDict = 105,
+        DictKeyedValue = 106,
     }
     #endregion
 
@@ -4138,7 +4254,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "ec188280-ea8c-4490-b011-0940de80033f";
 
-        public const ushort FieldCount = 103;
+        public const ushort FieldCount = 107;
 
         public static readonly Type MaskType = typeof(TestObject_Derivative_Mask<>);
 
@@ -4290,6 +4406,14 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestObject_Derivative_FieldIndex.RangeUInt64;
                 case "STRING":
                     return (ushort)TestObject_Derivative_FieldIndex.String;
+                case "FILEPATH":
+                    return (ushort)TestObject_Derivative_FieldIndex.FilePath;
+                case "FILEPATHNULL":
+                    return (ushort)TestObject_Derivative_FieldIndex.FilePathNull;
+                case "DIRECTORYPATH":
+                    return (ushort)TestObject_Derivative_FieldIndex.DirectoryPath;
+                case "DIRECTORYPATHNULL":
+                    return (ushort)TestObject_Derivative_FieldIndex.DirectoryPathNull;
                 case "UDOUBLEN":
                     return (ushort)TestObject_Derivative_FieldIndex.UDoubleN;
                 case "UDOUBLEN_RANGED":
@@ -4447,6 +4571,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -4570,6 +4698,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -4678,6 +4810,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -4851,6 +4987,14 @@ namespace Loqui.Tests.Internals
                     return "RangeUInt64";
                 case TestObject_Derivative_FieldIndex.String:
                     return "String";
+                case TestObject_Derivative_FieldIndex.FilePath:
+                    return "FilePath";
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                    return "FilePathNull";
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                    return "DirectoryPath";
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
+                    return "DirectoryPathNull";
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                     return "UDoubleN";
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -5005,6 +5149,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -5119,6 +5267,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -5295,6 +5447,14 @@ namespace Loqui.Tests.Internals
                     return typeof(RangeUInt64);
                 case TestObject_Derivative_FieldIndex.String:
                     return typeof(String);
+                case TestObject_Derivative_FieldIndex.FilePath:
+                    return typeof(FilePath);
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                    return typeof(FilePath?);
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                    return typeof(DirectoryPath);
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
+                    return typeof(DirectoryPath?);
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -5563,6 +5723,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -5680,6 +5844,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -5796,6 +5964,10 @@ namespace Loqui.Tests.Internals
                 case TestObject_Derivative_FieldIndex.RangeUInt64N:
                 case TestObject_Derivative_FieldIndex.RangeUInt64:
                 case TestObject_Derivative_FieldIndex.String:
+                case TestObject_Derivative_FieldIndex.FilePath:
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
                 case TestObject_Derivative_FieldIndex.UDouble:
@@ -5974,6 +6146,14 @@ namespace Loqui.Tests.Internals
                     return obj.RangeUInt64;
                 case TestObject_Derivative_FieldIndex.String:
                     return obj.String;
+                case TestObject_Derivative_FieldIndex.FilePath:
+                    return obj.FilePath;
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                    return obj.FilePathNull;
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                    return obj.DirectoryPath;
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
+                    return obj.DirectoryPathNull;
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
                 case TestObject_Derivative_FieldIndex.UDoubleN_Ranged:
@@ -6143,7 +6323,11 @@ namespace Loqui.Tests.Internals
             ret.RangeUInt32 = item.RangeUInt32 == rhs.RangeUInt32;
             ret.RangeUInt64N = item.RangeUInt64N == rhs.RangeUInt64N;
             ret.RangeUInt64 = item.RangeUInt64 == rhs.RangeUInt64;
-            ret.String = item.String == rhs.String;
+            ret.String = object.Equals(item.String, rhs.String);
+            ret.FilePath = object.Equals(item.FilePath, rhs.FilePath);
+            ret.FilePathNull = object.Equals(item.FilePathNull, rhs.FilePathNull);
+            ret.DirectoryPath = object.Equals(item.DirectoryPath, rhs.DirectoryPath);
+            ret.DirectoryPathNull = object.Equals(item.DirectoryPathNull, rhs.DirectoryPathNull);
             ret.UDoubleN = item.UDoubleN == rhs.UDoubleN;
             ret.UDoubleN_Ranged = item.UDoubleN_Ranged == rhs.UDoubleN_Ranged;
             ret.UDouble = item.UDouble == rhs.UDouble;
@@ -6540,6 +6724,22 @@ namespace Loqui.Tests.Internals
                 {
                     fg.AppendLine($"String => {item.String}");
                 }
+                if (printMask?.FilePath ?? true)
+                {
+                    fg.AppendLine($"FilePath => {item.FilePath}");
+                }
+                if (printMask?.FilePathNull ?? true)
+                {
+                    fg.AppendLine($"FilePathNull => {item.FilePathNull}");
+                }
+                if (printMask?.DirectoryPath ?? true)
+                {
+                    fg.AppendLine($"DirectoryPath => {item.DirectoryPath}");
+                }
+                if (printMask?.DirectoryPathNull ?? true)
+                {
+                    fg.AppendLine($"DirectoryPathNull => {item.DirectoryPathNull}");
+                }
                 if (printMask?.UDoubleN ?? true)
                 {
                     fg.AppendLine($"UDoubleN => {item.UDoubleN}");
@@ -6882,6 +7082,10 @@ namespace Loqui.Tests.Internals
             ret.RangeUInt64N = true;
             ret.RangeUInt64 = true;
             ret.String = true;
+            ret.FilePath = true;
+            ret.FilePathNull = true;
+            ret.DirectoryPath = true;
+            ret.DirectoryPathNull = true;
             ret.UDoubleN = true;
             ret.UDoubleN_Ranged = true;
             ret.UDouble = true;
@@ -7128,6 +7332,10 @@ namespace Loqui.Tests.Internals
             this.RangeUInt64N = initialValue;
             this.RangeUInt64 = initialValue;
             this.String = initialValue;
+            this.FilePath = initialValue;
+            this.FilePathNull = initialValue;
+            this.DirectoryPath = initialValue;
+            this.DirectoryPathNull = initialValue;
             this.UDoubleN = initialValue;
             this.UDoubleN_Ranged = initialValue;
             this.UDouble = initialValue;
@@ -7235,6 +7443,10 @@ namespace Loqui.Tests.Internals
         public T RangeUInt64N;
         public T RangeUInt64;
         public T String;
+        public T FilePath;
+        public T FilePathNull;
+        public T DirectoryPath;
+        public T DirectoryPathNull;
         public T UDoubleN;
         public T UDoubleN_Ranged;
         public T UDouble;
@@ -7349,6 +7561,10 @@ namespace Loqui.Tests.Internals
             if (!object.Equals(this.RangeUInt64N, rhs.RangeUInt64N)) return false;
             if (!object.Equals(this.RangeUInt64, rhs.RangeUInt64)) return false;
             if (!object.Equals(this.String, rhs.String)) return false;
+            if (!object.Equals(this.FilePath, rhs.FilePath)) return false;
+            if (!object.Equals(this.FilePathNull, rhs.FilePathNull)) return false;
+            if (!object.Equals(this.DirectoryPath, rhs.DirectoryPath)) return false;
+            if (!object.Equals(this.DirectoryPathNull, rhs.DirectoryPathNull)) return false;
             if (!object.Equals(this.UDoubleN, rhs.UDoubleN)) return false;
             if (!object.Equals(this.UDoubleN_Ranged, rhs.UDoubleN_Ranged)) return false;
             if (!object.Equals(this.UDouble, rhs.UDouble)) return false;
@@ -7459,6 +7675,10 @@ namespace Loqui.Tests.Internals
             if (!eval(this.RangeUInt64N)) return false;
             if (!eval(this.RangeUInt64)) return false;
             if (!eval(this.String)) return false;
+            if (!eval(this.FilePath)) return false;
+            if (!eval(this.FilePathNull)) return false;
+            if (!eval(this.DirectoryPath)) return false;
+            if (!eval(this.DirectoryPathNull)) return false;
             if (!eval(this.UDoubleN)) return false;
             if (!eval(this.UDoubleN_Ranged)) return false;
             if (!eval(this.UDouble)) return false;
@@ -7698,6 +7918,10 @@ namespace Loqui.Tests.Internals
             ret.RangeUInt64N = eval(this.RangeUInt64N);
             ret.RangeUInt64 = eval(this.RangeUInt64);
             ret.String = eval(this.String);
+            ret.FilePath = eval(this.FilePath);
+            ret.FilePathNull = eval(this.FilePathNull);
+            ret.DirectoryPath = eval(this.DirectoryPath);
+            ret.DirectoryPathNull = eval(this.DirectoryPathNull);
             ret.UDoubleN = eval(this.UDoubleN);
             ret.UDoubleN_Ranged = eval(this.UDoubleN_Ranged);
             ret.UDouble = eval(this.UDouble);
@@ -8252,6 +8476,22 @@ namespace Loqui.Tests.Internals
                 {
                     fg.AppendLine($"String => {String.ToStringSafe()}");
                 }
+                if (printMask?.FilePath ?? true)
+                {
+                    fg.AppendLine($"FilePath => {FilePath.ToStringSafe()}");
+                }
+                if (printMask?.FilePathNull ?? true)
+                {
+                    fg.AppendLine($"FilePathNull => {FilePathNull.ToStringSafe()}");
+                }
+                if (printMask?.DirectoryPath ?? true)
+                {
+                    fg.AppendLine($"DirectoryPath => {DirectoryPath.ToStringSafe()}");
+                }
+                if (printMask?.DirectoryPathNull ?? true)
+                {
+                    fg.AppendLine($"DirectoryPathNull => {DirectoryPathNull.ToStringSafe()}");
+                }
                 if (printMask?.UDoubleN ?? true)
                 {
                     fg.AppendLine($"UDoubleN => {UDoubleN.ToStringSafe()}");
@@ -8692,6 +8932,10 @@ namespace Loqui.Tests.Internals
         public Exception RangeUInt64N;
         public Exception RangeUInt64;
         public Exception String;
+        public Exception FilePath;
+        public Exception FilePathNull;
+        public Exception DirectoryPath;
+        public Exception DirectoryPathNull;
         public Exception UDoubleN;
         public Exception UDoubleN_Ranged;
         public Exception UDouble;
@@ -8926,6 +9170,18 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_Derivative_FieldIndex.String:
                     this.String = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.FilePath:
+                    this.FilePath = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                    this.FilePathNull = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                    this.DirectoryPath = ex;
+                    break;
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
+                    this.DirectoryPathNull = ex;
                     break;
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
@@ -9245,6 +9501,18 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestObject_Derivative_FieldIndex.String:
                     this.String = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.FilePath:
+                    this.FilePath = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.FilePathNull:
+                    this.FilePathNull = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.DirectoryPath:
+                    this.DirectoryPath = (Exception)obj;
+                    break;
+                case TestObject_Derivative_FieldIndex.DirectoryPathNull:
+                    this.DirectoryPathNull = (Exception)obj;
                     break;
                 case TestObject_Derivative_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
@@ -9636,6 +9904,22 @@ namespace Loqui.Tests.Internals
                 if (String != null)
                 {
                     fg.AppendLine($"String => {String.ToStringSafe()}");
+                }
+                if (FilePath != null)
+                {
+                    fg.AppendLine($"FilePath => {FilePath.ToStringSafe()}");
+                }
+                if (FilePathNull != null)
+                {
+                    fg.AppendLine($"FilePathNull => {FilePathNull.ToStringSafe()}");
+                }
+                if (DirectoryPath != null)
+                {
+                    fg.AppendLine($"DirectoryPath => {DirectoryPath.ToStringSafe()}");
+                }
+                if (DirectoryPathNull != null)
+                {
+                    fg.AppendLine($"DirectoryPathNull => {DirectoryPathNull.ToStringSafe()}");
                 }
                 if (UDoubleN != null)
                 {
@@ -10063,6 +10347,10 @@ namespace Loqui.Tests.Internals
             ret.RangeUInt64N = this.RangeUInt64N.Combine(rhs.RangeUInt64N);
             ret.RangeUInt64 = this.RangeUInt64.Combine(rhs.RangeUInt64);
             ret.String = this.String.Combine(rhs.String);
+            ret.FilePath = this.FilePath.Combine(rhs.FilePath);
+            ret.FilePathNull = this.FilePathNull.Combine(rhs.FilePathNull);
+            ret.DirectoryPath = this.DirectoryPath.Combine(rhs.DirectoryPath);
+            ret.DirectoryPathNull = this.DirectoryPathNull.Combine(rhs.DirectoryPathNull);
             ret.UDoubleN = this.UDoubleN.Combine(rhs.UDoubleN);
             ret.UDoubleN_Ranged = this.UDoubleN_Ranged.Combine(rhs.UDoubleN_Ranged);
             ret.UDouble = this.UDouble.Combine(rhs.UDouble);
@@ -10179,6 +10467,10 @@ namespace Loqui.Tests.Internals
         public bool RangeUInt64N;
         public bool RangeUInt64;
         public bool String;
+        public bool FilePath;
+        public bool FilePathNull;
+        public bool DirectoryPath;
+        public bool DirectoryPathNull;
         public bool UDoubleN;
         public bool UDoubleN_Ranged;
         public bool UDouble;

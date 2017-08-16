@@ -9,6 +9,7 @@ namespace Loqui.Generation
 {
     public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
+        PrimitiveXmlTranslationGeneration<string> _subGen = new PrimitiveXmlTranslationGeneration<string>();
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
@@ -72,7 +73,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nameOverride = null)
         {
-            return null;
+            return _subGen.GenerateForXSD(rootElement, choiceElement, typeGen, nameOverride);
         }
     }
 }

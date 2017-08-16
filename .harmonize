@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>1ed05ecae22a841565466019c63fcf86169fbb8b</Sha>
+         <Sha>875d031277958948fa24e98b481bf1d1d404cd4e</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-15-2017 18:34:41</CommitDate>
-         <Description>DirectoryPath/FilePath objects to allow for hashable less-picky path systems</Description>
+         <CommitDate>08-15-2017 21:17:39</CommitDate>
+         <Description>Null fix for FilePath systems</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

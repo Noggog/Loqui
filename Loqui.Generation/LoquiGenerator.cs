@@ -110,6 +110,10 @@ namespace Loqui.Generation
             AddTypeAssociation<EnumType>("Enum");
             AddTypeAssociation<EnumNullType>("EnumNull");
             AddTypeAssociation<StringType>("String");
+            AddTypeAssociation<FilePathType>("FilePath");
+            AddTypeAssociation<DirectoryPathType>("DirectoryPath");
+            AddTypeAssociation<FilePathNullType>("FilePathNull");
+            AddTypeAssociation<DirectoryPathNullType>("DirectoryPathNull");
             AddTypeAssociation<UnsafeType>("UnsafeObject");
             AddTypeAssociation<WildcardType>("Wildcard");
             AddTypeAssociation<FieldBatchPointerType>("FieldBatch");

@@ -179,6 +179,10 @@
       <xs:element name="Enum" type="Enum" />
       <xs:element name="EnumNull" type="Enum" />
       <xs:element name="String" type="String" />
+      <xs:element name="FilePath" type="String" />
+      <xs:element name="FilePathNull" type="String" />
+      <xs:element name="DirectoryPath" type="String" />
+      <xs:element name="DirectoryPathNull" type="String" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -270,6 +274,10 @@
       <xs:element name="Enum" type="NEnum" />
       <xs:element name="EnumNull" type="NEnum" />
       <xs:element name="String" type="NString" />
+      <xs:element name="FilePath" type="NString" />
+      <xs:element name="FilePathNull" type="NString" />
+      <xs:element name="DirectoryPath" type="NString" />
+      <xs:element name="DirectoryPathNull" type="NString" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
