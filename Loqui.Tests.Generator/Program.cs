@@ -19,7 +19,8 @@ namespace Loqui.Tests.Generator
                 RaisePropertyChangedDefault = false,
                 ProtocolDefault = new ProtocolKey("LoquiTests")
             };
-            
+            gen.XmlTranslation.ShouldGenerateXSD = false;
+
             // Add Projects
             gen.AddProjectToModify(
                 new FileInfo(Path.Combine(gen.CommonGenerationFolder.FullName, "Loqui.Tests.csproj")));

@@ -15,6 +15,7 @@ namespace Loqui.Generation
         public override string ModuleNickname => "XML";
         public override string Namespace => "Loqui.Generation";
         public readonly static XNamespace XSDNamespace = "http://www.w3.org/2001/XMLSchema";
+        public bool ShouldGenerateXSD = true;
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)
@@ -776,6 +777,8 @@ namespace Loqui.Generation
 
         public void GenerateXSD(ObjectGeneration obj)
         {
+            if (!ShouldGenerateXSD) return;
+
             var itemNamespace = $"{obj.ProtoGen.Protocol.Namespace}/{obj.Name}.xsd";
 
             XElement root = new XElement(XSDNamespace + "schema",
