@@ -358,6 +358,7 @@ namespace Loqui.Generation
 
             Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
             generatedItems.Set(this.ObjectGenerationsByDir.SelectMany((kv) => kv.Value).Select((objGen) => objGen.GeneratedFiles).SelectMany((d) => d));
+            HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByDir.SelectMany(kv => kv.Value).Select((objGen) => new FilePath(objGen.SourceXMLFile.FullName)));
 
             // Find which objects are present
             foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))
@@ -407,7 +408,8 @@ namespace Loqui.Generation
             {
                 XAttribute includeAttr = subMode.Attribute("Include");
                 if (includeAttr == null) continue;
-                FileInfo file = new FileInfo(Path.Combine(projFile.Directory.Path, includeAttr.Value));
+                FilePath file = new FilePath(Path.Combine(projFile.Directory.Path, includeAttr.Value));
+                if (sourceXMLs.Contains(file)) continue;
                 if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
                 if (file.Name.Equals(objGen.SourceXMLFile.Name)) continue;
                 if (subMode.Element(depName) != null) continue;
