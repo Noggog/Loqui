@@ -332,7 +332,7 @@ namespace Loqui.Generation
             XElement compileIncludeNode;
             if (compileGroupNodes.Count == 0)
             {
-                compileIncludeNode = new XElement("ItemGroup");
+                compileIncludeNode = new XElement("ItemGroup", CSPROJ_NAMESPACE);
                 projNode.Add(compileIncludeNode);
                 compileGroupNodes.Add(compileIncludeNode);
             }
@@ -341,17 +341,20 @@ namespace Loqui.Generation
                 compileIncludeNode = compileGroupNodes.First();
             }
 
-            XElement noneIncludeNode;
-            if (noneGroupNodes.Count == 0)
+            Lazy<XElement> noneIncludeNode = new Lazy<XElement>(() =>
             {
-                noneIncludeNode = new XElement("ItemGroup");
-                projNode.Add(noneIncludeNode);
-                noneGroupNodes.Add(noneIncludeNode);
-            }
-            else
-            {
-                noneIncludeNode = noneGroupNodes.First();
-            }
+                if (noneGroupNodes.Count == 0)
+                {
+                    var ret = new XElement("ItemGroup", CSPROJ_NAMESPACE);
+                    projNode.Add(ret);
+                    noneGroupNodes.Add(ret);
+                    return ret;
+                }
+                else
+                {
+                    return noneGroupNodes.First();
+                }
+            });
 
             Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
             generatedItems.Set(this.ObjectGenerationsByDir.SelectMany((kv) => kv.Value).Select((objGen) => objGen.GeneratedFiles).SelectMany((d) => d));
@@ -379,7 +382,7 @@ namespace Loqui.Generation
                     {
                         case ProjItemType.None:
                             nodes = noneNodes;
-                            includeNode = noneIncludeNode;
+                            includeNode = noneIncludeNode.Value;
                             nodeName = "None";
                             break;
                         case ProjItemType.Compile:
