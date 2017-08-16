@@ -461,14 +461,10 @@ namespace Loqui.Generation
         {
             if (this.ObjectGenerationsByDir.TryGetValue(file.Directory, out List<ObjectGeneration> objs))
             {
-                foreach (var obj in objs)
-                {
-                    if (file.Name.StartsWith(obj.Name))
-                    {
-                        objGen = obj;
-                        return true;
-                    }
-                }
+                objGen = objs.Where((obj) => file.Name.StartsWith(obj.Name))
+                    .OrderByDescending((obj) => obj.Name.Length)
+                    .FirstOrDefault();
+                return objGen != null;
             }
 
             objGen = null;
