@@ -447,7 +447,7 @@ namespace Loqui.Generation
                 new FileStream(projFile.Path, FileMode.Create), Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
+                writer.Indentation = 2;
                 doc.WriteTo(writer);
             }
         }
