@@ -4628,37 +4628,31 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public void Write_XML(Stream stream)
+        public virtual void Write_XML(Stream stream, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
         {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                this,
-                stream);
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(
+                    writer,
+                    out errorMask);
+            }
         }
 
-        public void Write_XML(string path)
+        public virtual void Write_XML(string path, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
         {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                this,
-                path);
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(
+                    writer,
+                    out errorMask);
+            }
         }
 
-        public void Write_XML(Stream stream, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                this,
-                stream,
-                out errorMask);
-        }
-
-        public void Write_XML(string path, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                this,
-                path,
-                out errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask, string name = null)
+        public virtual void Write_XML(XmlWriter writer, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask, string name = null)
         {
             TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
                 writer: writer,
@@ -4676,6 +4670,26 @@ namespace Loqui.Tests
                 item: this,
                 doMasks: false,
                 errorMask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
+        }
+
+        public void Write_XML(Stream stream)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(writer);
+            }
+        }
+
+        public void Write_XML(string path)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(writer);
+            }
         }
 
         #endregion

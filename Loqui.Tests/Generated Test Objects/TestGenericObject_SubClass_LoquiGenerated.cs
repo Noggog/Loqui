@@ -270,44 +270,50 @@ namespace Loqui.Tests
             out TestGenericObject_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
-            CopyIn_XML(
+            this.CopyIn_XML(
                 root,
                 out TestGenericObject_SubClass_ErrorMask errMask,
                 cmds: cmds);
             errorMask = errMask;
         }
 
-        public override void Write_XML(Stream stream)
+        public override void CopyIn_XML(
+            string path,
+            out TestGenericObject_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
         {
-            TestGenericObject_SubClassCommon.Write_XML(
-                this,
-                stream);
-        }
-
-        public override void Write_XML(string path)
-        {
-            TestGenericObject_SubClassCommon.Write_XML(
-                this,
-                path);
-        }
-
-        public void Write_XML(Stream stream, out TestGenericObject_SubClass_ErrorMask errorMask)
-        {
-            TestGenericObject_SubClassCommon.Write_XML(
-                this,
-                stream,
-                out errorMask);
-        }
-
-        public void Write_XML(string path, out TestGenericObject_SubClass_ErrorMask errorMask)
-        {
-            TestGenericObject_SubClassCommon.Write_XML(
-                this,
+            this.CopyIn_XML(
                 path,
-                out errorMask);
+                out TestGenericObject_SubClass_ErrorMask errMask,
+                cmds: cmds);
+            errorMask = errMask;
         }
 
-        public void Write_XML(XmlWriter writer, out TestGenericObject_SubClass_ErrorMask errorMask, string name = null)
+        public virtual void Write_XML(Stream stream, out TestGenericObject_SubClass_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(
+                    writer,
+                    out errorMask);
+            }
+        }
+
+        public virtual void Write_XML(string path, out TestGenericObject_SubClass_ErrorMask errorMask)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                this.Write_XML(
+                    writer,
+                    out errorMask);
+            }
+        }
+
+        public virtual void Write_XML(XmlWriter writer, out TestGenericObject_SubClass_ErrorMask errorMask, string name = null)
         {
             TestGenericObject_SubClassCommon.Write_XML(
                 writer: writer,
@@ -315,6 +321,12 @@ namespace Loqui.Tests
                 item: this,
                 doMasks: true,
                 errorMask: out errorMask);
+        }
+
+        public override void Write_XML(XmlWriter writer, out TestGenericObject_ErrorMask errorMask, string name = null)
+        {
+            Write_XML(writer, out TestGenericObject_SubClass_ErrorMask errMask, name: name);
+            errorMask = errMask;
         }
 
         #endregion

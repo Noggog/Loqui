@@ -115,57 +115,43 @@ namespace Loqui.Generation
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             GenerateRead(obj, fg);
-            fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(Stream stream)");
+            fg.AppendLine($"public virtual void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
+                using (new BraceWrapper(fg))
                 {
-                    args.Add("this");
-                    args.Add("stream");
+                    fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                    fg.AppendLine($"writer.Indentation = 3;");
+                    using (var args = new ArgsWrapper(fg,
+                        $"this.Write_{ModuleNickname}"))
+                    {
+                        args.Add("writer");
+                        args.Add($"out errorMask");
+                    }
                 }
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(string path)");
+            fg.AppendLine($"public virtual void Write_{ModuleNickname}(string path, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
+                using (new BraceWrapper(fg))
                 {
-                    args.Add("this");
-                    args.Add("path");
+                    fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                    fg.AppendLine($"writer.Indentation = 3;");
+                    using (var args = new ArgsWrapper(fg,
+                        $"this.Write_{ModuleNickname}"))
+                    {
+                        args.Add("writer");
+                        args.Add($"out errorMask");
+                    }
                 }
             }
             fg.AppendLine();
 
-            fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                {
-                    args.Add("this");
-                    args.Add("stream");
-                    args.Add("out errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public void Write_{ModuleNickname}(string path, out {obj.ErrorMask} errorMask)");
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                {
-                    args.Add("this");
-                    args.Add("path");
-                    args.Add("out errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public void Write_{ModuleNickname}(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
+            fg.AppendLine($"public virtual void Write_{ModuleNickname}(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
@@ -186,6 +172,12 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"public abstract void Write_{ModuleNickname}(XmlWriter writer, string name = null);");
                     fg.AppendLine();
+
+                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(Stream stream);");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(string path);");
+                    fg.AppendLine();
                 }
             }
             else if (obj.IsTopClass
@@ -205,6 +197,53 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine();
+
+                fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                        fg.AppendLine($"writer.Indentation = 3;");
+                        using (var args = new ArgsWrapper(fg,
+                            $"this.Write_{ModuleNickname}"))
+                        {
+                            args.Add("writer");
+                        }
+                    }
+                }
+                fg.AppendLine();
+
+                fg.AppendLine($"public void Write_{ModuleNickname}(string path)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                        fg.AppendLine($"writer.Indentation = 3;");
+                        using (var args = new ArgsWrapper(fg,
+                            $"this.Write_{ModuleNickname}"))
+                        {
+                            args.Add("writer");
+                        }
+                    }
+                }
+                fg.AppendLine();
+            }
+            else
+            {
+                foreach (var baseClass in obj.BaseClassTrail())
+                {
+                    fg.AppendLine($"public override void Write_{ModuleNickname}(XmlWriter writer, out {baseClass.ErrorMask} errorMask, string name = null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"Write_{this.ModuleNickname}(writer, out {obj.ErrorMask} errMask, name: name);");
+                        fg.AppendLine("errorMask = errMask;");
+                    }
+                    fg.AppendLine();
+                }
             }
         }
 
@@ -316,9 +355,29 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"CopyIn_{ModuleNickname}"))
+                        $"this.CopyIn_{ModuleNickname}"))
                     {
                         args.Add($"root");
+                        args.Add($"out {obj.ErrorMask} errMask");
+                        args.Add($"cmds: cmds");
+                    }
+                    fg.AppendLine("errorMask = errMask;");
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public override void CopyIn_{ModuleNickname}"))
+                {
+                    args.Add($"string path");
+                    args.Add($"out {baseClass.ErrorMask} errorMask");
+                    args.Add($"NotifyingFireParameters? cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"this.CopyIn_{ModuleNickname}"))
+                    {
+                        args.Add($"path");
                         args.Add($"out {obj.ErrorMask} errMask");
                         args.Add($"cmds: cmds");
                     }
