@@ -115,32 +115,29 @@ namespace Loqui.Generation
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             GenerateRead(obj, fg);
-            if (obj.IsTopClass)
+            fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(Stream stream)");
+            using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream)");
-                using (new BraceWrapper(fg))
+                using (var args = new ArgsWrapper(fg,
+                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
                 {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                    {
-                        args.Add("this");
-                        args.Add("stream");
-                    }
+                    args.Add("this");
+                    args.Add("stream");
                 }
-                fg.AppendLine();
-
-                fg.AppendLine($"public void Write_{ModuleNickname}(string path)");
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                    {
-                        args.Add("this");
-                        args.Add("path");
-                    }
-                }
-                fg.AppendLine();
             }
+            fg.AppendLine();
+
+            fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(string path)");
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                {
+                    args.Add("this");
+                    args.Add("path");
+                }
+            }
+            fg.AppendLine();
 
             fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))

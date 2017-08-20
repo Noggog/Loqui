@@ -4731,14 +4731,14 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public void Write_XML(Stream stream)
+        public virtual void Write_XML(Stream stream)
         {
             TestObject_NotifyingCommon.Write_XML(
                 this,
                 stream);
         }
 
-        public void Write_XML(string path)
+        public virtual void Write_XML(string path)
         {
             TestObject_NotifyingCommon.Write_XML(
                 this,

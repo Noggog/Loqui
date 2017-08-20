@@ -355,14 +355,14 @@ namespace Loqui.Tests
                 cmds: cmds);
         }
 
-        public void Write_XML(Stream stream)
+        public virtual void Write_XML(Stream stream)
         {
             TestGenericObjectCommon.Write_XML(
                 this,
                 stream);
         }
 
-        public void Write_XML(string path)
+        public virtual void Write_XML(string path)
         {
             TestGenericObjectCommon.Write_XML(
                 this,

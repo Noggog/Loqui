@@ -274,6 +274,20 @@ namespace Loqui.Tests
             errorMask = errMask;
         }
 
+        public override void Write_XML(Stream stream)
+        {
+            TestGenericObject_SubClass_DefinedCommon.Write_XML(
+                this,
+                stream);
+        }
+
+        public override void Write_XML(string path)
+        {
+            TestGenericObject_SubClass_DefinedCommon.Write_XML(
+                this,
+                path);
+        }
+
         public void Write_XML(Stream stream, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
             TestGenericObject_SubClass_DefinedCommon.Write_XML(
