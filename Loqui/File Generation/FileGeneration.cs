@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Equals("_ByteArrayNotNull = new byte[3]);"))
+            if (str.Contains("public override void CopyIn_XML"))
             {
                 int wer = 23;
                 wer++;

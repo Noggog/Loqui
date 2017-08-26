@@ -13,6 +13,8 @@ namespace Loqui.Generation
         public abstract string ModuleNickname { get; }
         public override string RegionString => $"{ModuleNickname} Translation";
         public abstract string Namespace { get; }
+        public TranslationModuleAPI MainAPI;
+        protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
 
         public TranslationModule(LoquiGenerator gen)
         {

@@ -87,6 +87,25 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
             this._typeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
+            this.MainAPI = new TranslationModuleAPI(
+                writerAPI: "XmlWriter writer",
+                readerAPI: "XmlReader reader");
+            this.MinorAPIs.Add(
+                new TranslationModuleAPI("string path")
+                {
+                    Funnel = new TranslationFunnel(
+                        this.MainAPI,
+                        ConvertFromPathOut,
+                        ConvertFromPathIn)
+                });
+            this.MinorAPIs.Add(
+                new TranslationModuleAPI("Stream stream")
+                {
+                    Funnel = new TranslationFunnel(
+                        this.MainAPI,
+                        ConvertFromStreamOut,
+                        ConvertFromStreamIn)
+                });
         }
 
         public override void Load()
@@ -112,9 +131,44 @@ namespace Loqui.Generation
             yield break;
         }
 
+        private void ConvertFromStreamOut(FileGeneration fg, Action<string> internalToDo)
+        {
+            fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                fg.AppendLine($"writer.Indentation = 3;");
+                internalToDo("writer");
+            }
+        }
+
+        private void ConvertFromStreamIn(FileGeneration fg, Action<string> internalToDo)
+        {
+            fg.AppendLine($"var root = XDocument.Load(stream).Root;");
+            internalToDo("root");
+        }
+
+        private void ConvertFromPathOut(FileGeneration fg, Action<string> internalToDo)
+        {
+            fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"writer.Formatting = Formatting.Indented;");
+                fg.AppendLine($"writer.Indentation = 3;");
+                internalToDo("writer");
+            }
+        }
+
+        private void ConvertFromPathIn(FileGeneration fg, Action<string> internalToDo)
+        {
+            fg.AppendLine($"var root = XDocument.Load(path).Root;");
+            internalToDo("root");
+        }
+
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             GenerateRead(obj, fg);
+
             fg.AppendLine($"public virtual void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
             using (new BraceWrapper(fg))
             {
@@ -299,49 +353,52 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            using (var args = new FunctionWrapper(fg,
-                $"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}"))
+            foreach (var minorAPI in this.MinorAPIs)
             {
-                args.Add("string path");
-                args.Add("NotifyingFireParameters? cmds = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
-                using (new DepthWrapper(fg))
+                using (var args = new FunctionWrapper(fg,
+                    $"public void CopyIn_{ModuleNickname}"))
                 {
-                    args.Add($"root: XDocument.Load(path).Root");
-                    args.Add($"item: this");
-                    args.Add($"skipProtected: true");
-                    args.Add($"doMasks: false");
-                    args.Add($"mask: out {obj.ErrorMask} errorMask");
-                    args.Add($"cmds: cmds");
+                    args.Add(minorAPI.WriterAPI);
+                    args.Add("NotifyingFireParameters? cmds = null");
                 }
-            }
-            fg.AppendLine();
+                using (new BraceWrapper(fg))
+                {
+                    minorAPI.Funnel.InConverter(fg, (accessor) =>
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"this.CopyIn_{ModuleNickname}"))
+                        using (new DepthWrapper(fg))
+                        {
+                            args.Add($"root: {accessor}");
+                            args.Add($"cmds: cmds");
+                        }
+                    });
+                }
+                fg.AppendLine();
 
-            using (var args = new FunctionWrapper(fg,
-                $"public virtual void CopyIn_{ModuleNickname}"))
-            {
-                args.Add($"string path");
-                args.Add($"out {obj.ErrorMask} errorMask");
-                args.Add($"NotifyingFireParameters? cmds = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
+                using (var args = new FunctionWrapper(fg,
+                    $"public void CopyIn_{ModuleNickname}"))
                 {
-                    args.Add($"root: XDocument.Load(path).Root");
-                    args.Add($"item: this");
-                    args.Add($"skipProtected: true");
-                    args.Add($"doMasks: true");
-                    args.Add($"mask: out errorMask");
-                    args.Add($"cmds: cmds");
+                    args.Add(minorAPI.WriterAPI);
+                    args.Add($"out {obj.ErrorMask} errorMask");
+                    args.Add("NotifyingFireParameters? cmds = null");
                 }
+                using (new BraceWrapper(fg))
+                {
+                    minorAPI.Funnel.InConverter(fg, (accessor) =>
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"this.CopyIn_{ModuleNickname}"))
+                        using (new DepthWrapper(fg))
+                        {
+                            args.Add($"root: {accessor}");
+                            args.Add($"errorMask: out errorMask");
+                            args.Add($"cmds: cmds");
+                        }
+                    });
+                }
+                fg.AppendLine();
             }
-            fg.AppendLine();
 
             foreach (var baseClass in obj.BaseClassTrail())
             {
@@ -358,26 +415,6 @@ namespace Loqui.Generation
                         $"this.CopyIn_{ModuleNickname}"))
                     {
                         args.Add($"root");
-                        args.Add($"out {obj.ErrorMask} errMask");
-                        args.Add($"cmds: cmds");
-                    }
-                    fg.AppendLine("errorMask = errMask;");
-                }
-                fg.AppendLine();
-
-                using (var args = new FunctionWrapper(fg,
-                    $"public override void CopyIn_{ModuleNickname}"))
-                {
-                    args.Add($"string path");
-                    args.Add($"out {baseClass.ErrorMask} errorMask");
-                    args.Add($"NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"this.CopyIn_{ModuleNickname}"))
-                    {
-                        args.Add($"path");
                         args.Add($"out {obj.ErrorMask} errMask");
                         args.Add($"cmds: cmds");
                     }
