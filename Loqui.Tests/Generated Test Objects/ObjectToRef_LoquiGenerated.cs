@@ -1225,7 +1225,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public new ObjectToRef_Mask<R> Translate<R>(Func<T, R> eval)
+        public ObjectToRef_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new ObjectToRef_Mask<R>();
             this.Translate_InternalFill(ret, eval);

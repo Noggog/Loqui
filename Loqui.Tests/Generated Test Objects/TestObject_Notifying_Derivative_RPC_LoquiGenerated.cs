@@ -9943,7 +9943,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public new TestObject_Notifying_Derivative_RPC_Mask<R> Translate<R>(Func<T, R> eval)
+        public TestObject_Notifying_Derivative_RPC_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new TestObject_Notifying_Derivative_RPC_Mask<R>();
             this.Translate_InternalFill(ret, eval);
