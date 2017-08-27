@@ -1693,7 +1693,7 @@ namespace Loqui.Generation
 
         private void GenerateGetHasBeenSetMask(FileGeneration fg)
         {
-            fg.AppendLine($"public {this.GetMaskString("bool")} GetHasBeenSetMask()");
+            fg.AppendLine($"public{this.NewOverride}{this.GetMaskString("bool")} GetHasBeenSetMask()");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"return {this.ExtCommonName}.GetHasBeenSetMask(this);");

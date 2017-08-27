@@ -76,7 +76,7 @@ namespace Loqui.Tests
 
         #endregion
 
-        public TestGenericObject_SubClass_Defined_Mask<bool> GetHasBeenSetMask()
+        public new TestGenericObject_SubClass_Defined_Mask<bool> GetHasBeenSetMask()
         {
             return TestGenericObject_SubClass_DefinedCommon.GetHasBeenSetMask(this);
         }

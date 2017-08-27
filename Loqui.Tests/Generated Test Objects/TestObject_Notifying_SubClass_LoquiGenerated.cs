@@ -86,7 +86,7 @@ namespace Loqui.Tests
 
         #endregion
 
-        public TestObject_Notifying_SubClass_Mask<bool> GetHasBeenSetMask()
+        public new TestObject_Notifying_SubClass_Mask<bool> GetHasBeenSetMask()
         {
             return TestObject_Notifying_SubClassCommon.GetHasBeenSetMask(this);
         }
