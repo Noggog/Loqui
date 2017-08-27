@@ -97,56 +97,56 @@ namespace Loqui.Tests
         private Boolean? _BoolN;
         public Boolean? BoolN
         {
-            get => BoolN;
-            protected set { this.BoolN = value; OnPropertyChanged(nameof(BoolN)); }
+            get => this._BoolN;
+            protected set { this._BoolN = value; OnPropertyChanged(nameof(BoolN)); }
         }
         #endregion
         #region Bool
         private Boolean _Bool;
         public Boolean Bool
         {
-            get => Bool;
-            protected set { this.Bool = value; OnPropertyChanged(nameof(Bool)); }
+            get => this._Bool;
+            protected set { this._Bool = value; OnPropertyChanged(nameof(Bool)); }
         }
         #endregion
         #region CharN
         private Char? _CharN;
         public Char? CharN
         {
-            get => CharN;
-            protected set { this.CharN = value; OnPropertyChanged(nameof(CharN)); }
+            get => this._CharN;
+            protected set { this._CharN = value; OnPropertyChanged(nameof(CharN)); }
         }
         #endregion
         #region Char
         private Char _Char;
         public Char Char
         {
-            get => Char;
-            protected set { this.Char = value; OnPropertyChanged(nameof(Char)); }
+            get => this._Char;
+            protected set { this._Char = value; OnPropertyChanged(nameof(Char)); }
         }
         #endregion
         #region DateTimeNull
         private DateTime? _DateTimeNull;
         public DateTime? DateTimeNull
         {
-            get => DateTimeNull;
-            protected set { this.DateTimeNull = value; OnPropertyChanged(nameof(DateTimeNull)); }
+            get => this._DateTimeNull;
+            protected set { this._DateTimeNull = value; OnPropertyChanged(nameof(DateTimeNull)); }
         }
         #endregion
         #region DateTime
         private DateTime _DateTime;
         public DateTime DateTime
         {
-            get => DateTime;
-            protected set { this.DateTime = value; OnPropertyChanged(nameof(DateTime)); }
+            get => this._DateTime;
+            protected set { this._DateTime = value; OnPropertyChanged(nameof(DateTime)); }
         }
         #endregion
         #region DoubleN
         private Double? _DoubleN;
         public Double? DoubleN
         {
-            get => DoubleN;
-            protected set { this.DoubleN = value; OnPropertyChanged(nameof(DoubleN)); }
+            get => this._DoubleN;
+            protected set { this._DoubleN = value; OnPropertyChanged(nameof(DoubleN)); }
         }
         #endregion
         #region DoubleN_Ranged
@@ -166,8 +166,8 @@ namespace Loqui.Tests
         private Double _Double;
         public Double Double
         {
-            get => Double;
-            protected set { this.Double = value; OnPropertyChanged(nameof(Double)); }
+            get => this._Double;
+            protected set { this._Double = value; OnPropertyChanged(nameof(Double)); }
         }
         #endregion
         #region Double_Ranged
@@ -187,8 +187,8 @@ namespace Loqui.Tests
         private Single? _FloatN;
         public Single? FloatN
         {
-            get => FloatN;
-            protected set { this.FloatN = value; OnPropertyChanged(nameof(FloatN)); }
+            get => this._FloatN;
+            protected set { this._FloatN = value; OnPropertyChanged(nameof(FloatN)); }
         }
         #endregion
         #region FloatN_Ranged
@@ -208,8 +208,8 @@ namespace Loqui.Tests
         private Single _Float;
         public Single Float
         {
-            get => Float;
-            protected set { this.Float = value; OnPropertyChanged(nameof(Float)); }
+            get => this._Float;
+            protected set { this._Float = value; OnPropertyChanged(nameof(Float)); }
         }
         #endregion
         #region Float_Ranged
@@ -229,8 +229,8 @@ namespace Loqui.Tests
         private Int16? _Int16N;
         public Int16? Int16N
         {
-            get => Int16N;
-            protected set { this.Int16N = value; OnPropertyChanged(nameof(Int16N)); }
+            get => this._Int16N;
+            protected set { this._Int16N = value; OnPropertyChanged(nameof(Int16N)); }
         }
         #endregion
         #region Int16N_Ranged
@@ -250,8 +250,8 @@ namespace Loqui.Tests
         private Int16 _Int16;
         public Int16 Int16
         {
-            get => Int16;
-            protected set { this.Int16 = value; OnPropertyChanged(nameof(Int16)); }
+            get => this._Int16;
+            protected set { this._Int16 = value; OnPropertyChanged(nameof(Int16)); }
         }
         #endregion
         #region Int16_Ranged
@@ -271,8 +271,8 @@ namespace Loqui.Tests
         private Int32? _Int32N;
         public Int32? Int32N
         {
-            get => Int32N;
-            protected set { this.Int32N = value; OnPropertyChanged(nameof(Int32N)); }
+            get => this._Int32N;
+            protected set { this._Int32N = value; OnPropertyChanged(nameof(Int32N)); }
         }
         #endregion
         #region Int32N_Ranged
@@ -292,8 +292,8 @@ namespace Loqui.Tests
         private Int32 _Int32;
         public Int32 Int32
         {
-            get => Int32;
-            protected set { this.Int32 = value; OnPropertyChanged(nameof(Int32)); }
+            get => this._Int32;
+            protected set { this._Int32 = value; OnPropertyChanged(nameof(Int32)); }
         }
         #endregion
         #region Int32_Ranged
@@ -313,8 +313,8 @@ namespace Loqui.Tests
         private Int64? _Int64N;
         public Int64? Int64N
         {
-            get => Int64N;
-            protected set { this.Int64N = value; OnPropertyChanged(nameof(Int64N)); }
+            get => this._Int64N;
+            protected set { this._Int64N = value; OnPropertyChanged(nameof(Int64N)); }
         }
         #endregion
         #region Int64N_Ranged
@@ -334,8 +334,8 @@ namespace Loqui.Tests
         private Int64 _Int64;
         public Int64 Int64
         {
-            get => Int64;
-            protected set { this.Int64 = value; OnPropertyChanged(nameof(Int64)); }
+            get => this._Int64;
+            protected set { this._Int64 = value; OnPropertyChanged(nameof(Int64)); }
         }
         #endregion
         #region Int64_Ranged
@@ -355,8 +355,8 @@ namespace Loqui.Tests
         private SByte? _Int8N;
         public SByte? Int8N
         {
-            get => Int8N;
-            protected set { this.Int8N = value; OnPropertyChanged(nameof(Int8N)); }
+            get => this._Int8N;
+            protected set { this._Int8N = value; OnPropertyChanged(nameof(Int8N)); }
         }
         #endregion
         #region Int8N_Ranged
@@ -376,8 +376,8 @@ namespace Loqui.Tests
         private SByte _Int8;
         public SByte Int8
         {
-            get => Int8;
-            protected set { this.Int8 = value; OnPropertyChanged(nameof(Int8)); }
+            get => this._Int8;
+            protected set { this._Int8 = value; OnPropertyChanged(nameof(Int8)); }
         }
         #endregion
         #region Int8_Ranged
@@ -397,264 +397,264 @@ namespace Loqui.Tests
         private bool _Unsafe;
         public bool Unsafe
         {
-            get => Unsafe;
-            protected set { this.Unsafe = value; OnPropertyChanged(nameof(Unsafe)); }
+            get => this._Unsafe;
+            protected set { this._Unsafe = value; OnPropertyChanged(nameof(Unsafe)); }
         }
         #endregion
         #region UnsafeLoqui
         private ObjectToRef _UnsafeLoqui;
         public ObjectToRef UnsafeLoqui
         {
-            get => UnsafeLoqui;
-            protected set { this.UnsafeLoqui = value; OnPropertyChanged(nameof(UnsafeLoqui)); }
+            get => this._UnsafeLoqui;
+            protected set { this._UnsafeLoqui = value; OnPropertyChanged(nameof(UnsafeLoqui)); }
         }
         #endregion
         #region UnsafeNull
         private ObjectToRef _UnsafeNull;
         public ObjectToRef UnsafeNull
         {
-            get => UnsafeNull;
-            protected set { this.UnsafeNull = value; OnPropertyChanged(nameof(UnsafeNull)); }
+            get => this._UnsafeNull;
+            protected set { this._UnsafeNull = value; OnPropertyChanged(nameof(UnsafeNull)); }
         }
         #endregion
         #region P2IntN
         private P2Int? _P2IntN;
         public P2Int? P2IntN
         {
-            get => P2IntN;
-            protected set { this.P2IntN = value; OnPropertyChanged(nameof(P2IntN)); }
+            get => this._P2IntN;
+            protected set { this._P2IntN = value; OnPropertyChanged(nameof(P2IntN)); }
         }
         #endregion
         #region P2Int
         private P2Int _P2Int;
         public P2Int P2Int
         {
-            get => P2Int;
-            protected set { this.P2Int = value; OnPropertyChanged(nameof(P2Int)); }
+            get => this._P2Int;
+            protected set { this._P2Int = value; OnPropertyChanged(nameof(P2Int)); }
         }
         #endregion
         #region P3DoubleN
         private P3Double? _P3DoubleN;
         public P3Double? P3DoubleN
         {
-            get => P3DoubleN;
-            protected set { this.P3DoubleN = value; OnPropertyChanged(nameof(P3DoubleN)); }
+            get => this._P3DoubleN;
+            protected set { this._P3DoubleN = value; OnPropertyChanged(nameof(P3DoubleN)); }
         }
         #endregion
         #region P3Double
         private P3Double _P3Double;
         public P3Double P3Double
         {
-            get => P3Double;
-            protected set { this.P3Double = value; OnPropertyChanged(nameof(P3Double)); }
+            get => this._P3Double;
+            protected set { this._P3Double = value; OnPropertyChanged(nameof(P3Double)); }
         }
         #endregion
         #region P3IntN
         private P3Int? _P3IntN;
         public P3Int? P3IntN
         {
-            get => P3IntN;
-            protected set { this.P3IntN = value; OnPropertyChanged(nameof(P3IntN)); }
+            get => this._P3IntN;
+            protected set { this._P3IntN = value; OnPropertyChanged(nameof(P3IntN)); }
         }
         #endregion
         #region P3Int
         private P3Int _P3Int;
         public P3Int P3Int
         {
-            get => P3Int;
-            protected set { this.P3Int = value; OnPropertyChanged(nameof(P3Int)); }
+            get => this._P3Int;
+            protected set { this._P3Int = value; OnPropertyChanged(nameof(P3Int)); }
         }
         #endregion
         #region PercentN
         private Percent? _PercentN;
         public Percent? PercentN
         {
-            get => PercentN;
-            protected set { this.PercentN = value; OnPropertyChanged(nameof(PercentN)); }
+            get => this._PercentN;
+            protected set { this._PercentN = value; OnPropertyChanged(nameof(PercentN)); }
         }
         #endregion
         #region Percent
         private Percent _Percent;
         public Percent Percent
         {
-            get => Percent;
-            protected set { this.Percent = value; OnPropertyChanged(nameof(Percent)); }
+            get => this._Percent;
+            protected set { this._Percent = value; OnPropertyChanged(nameof(Percent)); }
         }
         #endregion
         #region RangeInt8N
         private RangeInt8? _RangeInt8N;
         public RangeInt8? RangeInt8N
         {
-            get => RangeInt8N;
-            protected set { this.RangeInt8N = value; OnPropertyChanged(nameof(RangeInt8N)); }
+            get => this._RangeInt8N;
+            protected set { this._RangeInt8N = value; OnPropertyChanged(nameof(RangeInt8N)); }
         }
         #endregion
         #region RangeInt8
         private RangeInt8 _RangeInt8;
         public RangeInt8 RangeInt8
         {
-            get => RangeInt8;
-            protected set { this.RangeInt8 = value; OnPropertyChanged(nameof(RangeInt8)); }
+            get => this._RangeInt8;
+            protected set { this._RangeInt8 = value; OnPropertyChanged(nameof(RangeInt8)); }
         }
         #endregion
         #region RangeInt16N
         private RangeInt16? _RangeInt16N;
         public RangeInt16? RangeInt16N
         {
-            get => RangeInt16N;
-            protected set { this.RangeInt16N = value; OnPropertyChanged(nameof(RangeInt16N)); }
+            get => this._RangeInt16N;
+            protected set { this._RangeInt16N = value; OnPropertyChanged(nameof(RangeInt16N)); }
         }
         #endregion
         #region RangeInt16
         private RangeInt16 _RangeInt16;
         public RangeInt16 RangeInt16
         {
-            get => RangeInt16;
-            protected set { this.RangeInt16 = value; OnPropertyChanged(nameof(RangeInt16)); }
+            get => this._RangeInt16;
+            protected set { this._RangeInt16 = value; OnPropertyChanged(nameof(RangeInt16)); }
         }
         #endregion
         #region RangeInt32N
         private RangeInt32? _RangeInt32N;
         public RangeInt32? RangeInt32N
         {
-            get => RangeInt32N;
-            protected set { this.RangeInt32N = value; OnPropertyChanged(nameof(RangeInt32N)); }
+            get => this._RangeInt32N;
+            protected set { this._RangeInt32N = value; OnPropertyChanged(nameof(RangeInt32N)); }
         }
         #endregion
         #region RangeInt32
         private RangeInt32 _RangeInt32;
         public RangeInt32 RangeInt32
         {
-            get => RangeInt32;
-            protected set { this.RangeInt32 = value; OnPropertyChanged(nameof(RangeInt32)); }
+            get => this._RangeInt32;
+            protected set { this._RangeInt32 = value; OnPropertyChanged(nameof(RangeInt32)); }
         }
         #endregion
         #region RangeInt64N
         private RangeInt64? _RangeInt64N;
         public RangeInt64? RangeInt64N
         {
-            get => RangeInt64N;
-            protected set { this.RangeInt64N = value; OnPropertyChanged(nameof(RangeInt64N)); }
+            get => this._RangeInt64N;
+            protected set { this._RangeInt64N = value; OnPropertyChanged(nameof(RangeInt64N)); }
         }
         #endregion
         #region RangeInt64
         private RangeInt64 _RangeInt64;
         public RangeInt64 RangeInt64
         {
-            get => RangeInt64;
-            protected set { this.RangeInt64 = value; OnPropertyChanged(nameof(RangeInt64)); }
+            get => this._RangeInt64;
+            protected set { this._RangeInt64 = value; OnPropertyChanged(nameof(RangeInt64)); }
         }
         #endregion
         #region RangeUInt8N
         private RangeUInt8? _RangeUInt8N;
         public RangeUInt8? RangeUInt8N
         {
-            get => RangeUInt8N;
-            protected set { this.RangeUInt8N = value; OnPropertyChanged(nameof(RangeUInt8N)); }
+            get => this._RangeUInt8N;
+            protected set { this._RangeUInt8N = value; OnPropertyChanged(nameof(RangeUInt8N)); }
         }
         #endregion
         #region RangeUInt8
         private RangeUInt8 _RangeUInt8;
         public RangeUInt8 RangeUInt8
         {
-            get => RangeUInt8;
-            protected set { this.RangeUInt8 = value; OnPropertyChanged(nameof(RangeUInt8)); }
+            get => this._RangeUInt8;
+            protected set { this._RangeUInt8 = value; OnPropertyChanged(nameof(RangeUInt8)); }
         }
         #endregion
         #region RangeUInt16N
         private RangeUInt16? _RangeUInt16N;
         public RangeUInt16? RangeUInt16N
         {
-            get => RangeUInt16N;
-            protected set { this.RangeUInt16N = value; OnPropertyChanged(nameof(RangeUInt16N)); }
+            get => this._RangeUInt16N;
+            protected set { this._RangeUInt16N = value; OnPropertyChanged(nameof(RangeUInt16N)); }
         }
         #endregion
         #region RangeUInt16
         private RangeUInt16 _RangeUInt16;
         public RangeUInt16 RangeUInt16
         {
-            get => RangeUInt16;
-            protected set { this.RangeUInt16 = value; OnPropertyChanged(nameof(RangeUInt16)); }
+            get => this._RangeUInt16;
+            protected set { this._RangeUInt16 = value; OnPropertyChanged(nameof(RangeUInt16)); }
         }
         #endregion
         #region RangeUInt32N
         private RangeUInt32? _RangeUInt32N;
         public RangeUInt32? RangeUInt32N
         {
-            get => RangeUInt32N;
-            protected set { this.RangeUInt32N = value; OnPropertyChanged(nameof(RangeUInt32N)); }
+            get => this._RangeUInt32N;
+            protected set { this._RangeUInt32N = value; OnPropertyChanged(nameof(RangeUInt32N)); }
         }
         #endregion
         #region RangeUInt32
         private RangeUInt32 _RangeUInt32;
         public RangeUInt32 RangeUInt32
         {
-            get => RangeUInt32;
-            protected set { this.RangeUInt32 = value; OnPropertyChanged(nameof(RangeUInt32)); }
+            get => this._RangeUInt32;
+            protected set { this._RangeUInt32 = value; OnPropertyChanged(nameof(RangeUInt32)); }
         }
         #endregion
         #region RangeUInt64N
         private RangeUInt64? _RangeUInt64N;
         public RangeUInt64? RangeUInt64N
         {
-            get => RangeUInt64N;
-            protected set { this.RangeUInt64N = value; OnPropertyChanged(nameof(RangeUInt64N)); }
+            get => this._RangeUInt64N;
+            protected set { this._RangeUInt64N = value; OnPropertyChanged(nameof(RangeUInt64N)); }
         }
         #endregion
         #region RangeUInt64
         private RangeUInt64 _RangeUInt64;
         public RangeUInt64 RangeUInt64
         {
-            get => RangeUInt64;
-            protected set { this.RangeUInt64 = value; OnPropertyChanged(nameof(RangeUInt64)); }
+            get => this._RangeUInt64;
+            protected set { this._RangeUInt64 = value; OnPropertyChanged(nameof(RangeUInt64)); }
         }
         #endregion
         #region String
         private String _String;
         public String String
         {
-            get => String;
-            protected set { this.String = value; OnPropertyChanged(nameof(String)); }
+            get => this._String;
+            protected set { this._String = value; OnPropertyChanged(nameof(String)); }
         }
         #endregion
         #region FilePath
         private FilePath _FilePath;
         public FilePath FilePath
         {
-            get => FilePath;
-            protected set { this.FilePath = value; OnPropertyChanged(nameof(FilePath)); }
+            get => this._FilePath;
+            protected set { this._FilePath = value; OnPropertyChanged(nameof(FilePath)); }
         }
         #endregion
         #region FilePathNull
         private FilePath? _FilePathNull;
         public FilePath? FilePathNull
         {
-            get => FilePathNull;
-            protected set { this.FilePathNull = value; OnPropertyChanged(nameof(FilePathNull)); }
+            get => this._FilePathNull;
+            protected set { this._FilePathNull = value; OnPropertyChanged(nameof(FilePathNull)); }
         }
         #endregion
         #region DirectoryPath
         private DirectoryPath _DirectoryPath;
         public DirectoryPath DirectoryPath
         {
-            get => DirectoryPath;
-            protected set { this.DirectoryPath = value; OnPropertyChanged(nameof(DirectoryPath)); }
+            get => this._DirectoryPath;
+            protected set { this._DirectoryPath = value; OnPropertyChanged(nameof(DirectoryPath)); }
         }
         #endregion
         #region DirectoryPathNull
         private DirectoryPath? _DirectoryPathNull;
         public DirectoryPath? DirectoryPathNull
         {
-            get => DirectoryPathNull;
-            protected set { this.DirectoryPathNull = value; OnPropertyChanged(nameof(DirectoryPathNull)); }
+            get => this._DirectoryPathNull;
+            protected set { this._DirectoryPathNull = value; OnPropertyChanged(nameof(DirectoryPathNull)); }
         }
         #endregion
         #region UDoubleN
         private UDouble? _UDoubleN;
         public UDouble? UDoubleN
         {
-            get => UDoubleN;
-            protected set { this.UDoubleN = value; OnPropertyChanged(nameof(UDoubleN)); }
+            get => this._UDoubleN;
+            protected set { this._UDoubleN = value; OnPropertyChanged(nameof(UDoubleN)); }
         }
         #endregion
         #region UDoubleN_Ranged
@@ -674,8 +674,8 @@ namespace Loqui.Tests
         private UDouble _UDouble;
         public UDouble UDouble
         {
-            get => UDouble;
-            protected set { this.UDouble = value; OnPropertyChanged(nameof(UDouble)); }
+            get => this._UDouble;
+            protected set { this._UDouble = value; OnPropertyChanged(nameof(UDouble)); }
         }
         #endregion
         #region UDouble_Ranged
@@ -695,8 +695,8 @@ namespace Loqui.Tests
         private UInt16? _UInt16N;
         public UInt16? UInt16N
         {
-            get => UInt16N;
-            protected set { this.UInt16N = value; OnPropertyChanged(nameof(UInt16N)); }
+            get => this._UInt16N;
+            protected set { this._UInt16N = value; OnPropertyChanged(nameof(UInt16N)); }
         }
         #endregion
         #region UInt16N_Ranged
@@ -716,8 +716,8 @@ namespace Loqui.Tests
         private UInt16 _UInt16;
         public UInt16 UInt16
         {
-            get => UInt16;
-            protected set { this.UInt16 = value; OnPropertyChanged(nameof(UInt16)); }
+            get => this._UInt16;
+            protected set { this._UInt16 = value; OnPropertyChanged(nameof(UInt16)); }
         }
         #endregion
         #region UInt16_Ranged
@@ -737,8 +737,8 @@ namespace Loqui.Tests
         private UInt32? _UInt32N;
         public UInt32? UInt32N
         {
-            get => UInt32N;
-            protected set { this.UInt32N = value; OnPropertyChanged(nameof(UInt32N)); }
+            get => this._UInt32N;
+            protected set { this._UInt32N = value; OnPropertyChanged(nameof(UInt32N)); }
         }
         #endregion
         #region UInt32N_Ranged
@@ -758,8 +758,8 @@ namespace Loqui.Tests
         private UInt32 _UInt32;
         public UInt32 UInt32
         {
-            get => UInt32;
-            protected set { this.UInt32 = value; OnPropertyChanged(nameof(UInt32)); }
+            get => this._UInt32;
+            protected set { this._UInt32 = value; OnPropertyChanged(nameof(UInt32)); }
         }
         #endregion
         #region UInt32_Ranged
@@ -779,8 +779,8 @@ namespace Loqui.Tests
         private UInt64? _UInt64N;
         public UInt64? UInt64N
         {
-            get => UInt64N;
-            protected set { this.UInt64N = value; OnPropertyChanged(nameof(UInt64N)); }
+            get => this._UInt64N;
+            protected set { this._UInt64N = value; OnPropertyChanged(nameof(UInt64N)); }
         }
         #endregion
         #region UInt64N_Ranged
@@ -800,8 +800,8 @@ namespace Loqui.Tests
         private UInt64 _UInt64;
         public UInt64 UInt64
         {
-            get => UInt64;
-            protected set { this.UInt64 = value; OnPropertyChanged(nameof(UInt64)); }
+            get => this._UInt64;
+            protected set { this._UInt64 = value; OnPropertyChanged(nameof(UInt64)); }
         }
         #endregion
         #region UInt64_Ranged
@@ -821,8 +821,8 @@ namespace Loqui.Tests
         private Byte? _UInt8N;
         public Byte? UInt8N
         {
-            get => UInt8N;
-            protected set { this.UInt8N = value; OnPropertyChanged(nameof(UInt8N)); }
+            get => this._UInt8N;
+            protected set { this._UInt8N = value; OnPropertyChanged(nameof(UInt8N)); }
         }
         #endregion
         #region UInt8N_Ranged
@@ -842,8 +842,8 @@ namespace Loqui.Tests
         private Byte _UInt8;
         public Byte UInt8
         {
-            get => UInt8;
-            protected set { this.UInt8 = value; OnPropertyChanged(nameof(UInt8)); }
+            get => this._UInt8;
+            protected set { this._UInt8 = value; OnPropertyChanged(nameof(UInt8)); }
         }
         #endregion
         #region UInt8_Ranged
@@ -863,16 +863,16 @@ namespace Loqui.Tests
         private TestEnum _Enum;
         public TestEnum Enum
         {
-            get => Enum;
-            protected set { this.Enum = value; OnPropertyChanged(nameof(Enum)); }
+            get => this._Enum;
+            protected set { this._Enum = value; OnPropertyChanged(nameof(Enum)); }
         }
         #endregion
         #region EnumNull
         private TestEnum? _EnumNull;
         public TestEnum? EnumNull
         {
-            get => EnumNull;
-            protected set { this.EnumNull = value; OnPropertyChanged(nameof(EnumNull)); }
+            get => this._EnumNull;
+            protected set { this._EnumNull = value; OnPropertyChanged(nameof(EnumNull)); }
         }
         #endregion
         #region WildCard

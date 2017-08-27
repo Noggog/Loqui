@@ -71,8 +71,8 @@ namespace Loqui.Generation
                         fg.AppendLine($"public {TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"get => {this.ProtectedName};");
-                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this.{this.ProtectedName} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                            fg.AppendLine($"get => this._{this.Name};");
+                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
                         }
                     }
                     else
@@ -95,7 +95,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"get => this._{ this.Name}.Item;");
+                            fg.AppendLine($"get => this._{this.Name}.Item;");
                             fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
