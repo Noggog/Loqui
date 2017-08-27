@@ -78,8 +78,7 @@ namespace Loqui.Tests.XML
         {
             var transl = GetTranslation();
             var elem = GetElementNoValue();
-            Assert.Throws(
-                typeof(ArgumentException),
+            Assert.Throws<ArgumentException>(
                 () => transl.Parse(
                     elem,
                     doMasks: false,
@@ -97,7 +96,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType<ArgumentException>(maskObj);
         }
         #endregion
 
@@ -108,8 +107,7 @@ namespace Loqui.Tests.XML
             var transl = GetTranslation();
             var elem = GetElementNoValue();
             elem.SetAttributeValue(XName.Get(XmlConstants.VALUE_ATTRIBUTE), string.Empty);
-            Assert.Throws(
-                typeof(ArgumentException),
+            Assert.Throws<ArgumentException>(
                 () => transl.Parse(
                     elem,
                     doMasks: false,
@@ -128,7 +126,7 @@ namespace Loqui.Tests.XML
                 maskObj: out var maskObj);
             Assert.True(ret.Failed);
             Assert.NotNull(maskObj);
-            Assert.IsType(typeof(ArgumentException), maskObj);
+            Assert.IsType<ArgumentException>(maskObj);
         }
         #endregion
 

@@ -68,7 +68,7 @@ namespace Loqui.Tests.XML
                 doMasks: false,
                 maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal<byte[]>(null, readResp.Value);
+            Assert.Null(readResp.Value);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace Loqui.Tests.XML
                 doMasks: false,
                 maskObj: out var readMaskObj);
             Assert.True(readResp.Succeeded);
-            Assert.Equal<byte[]>(null, readResp.Value);
+            Assert.Null(readResp.Value);
         }
         #endregion
 

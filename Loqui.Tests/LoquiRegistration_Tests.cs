@@ -80,7 +80,7 @@ namespace Loqui.Tests
         {
             var func = LoquiRegistration.GetCreateFunc<TestObject_Notifying>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>), func);
+            Assert.IsType<Func<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>>(func);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Loqui.Tests
         {
             var func = LoquiRegistration.GetCreateFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Func<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
+            Assert.IsType<Func<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>>(func);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Loqui.Tests
         {
             var func = LoquiRegistration.GetCopyInFunc<TestObject_Notifying>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>), func);
+            Assert.IsType<Action<IEnumerable<KeyValuePair<ushort, object>>, TestObject_Notifying>>(func);
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace Loqui.Tests
         {
             var func = LoquiRegistration.GetCopyInFunc<TestGenericObject<bool, ObjectToRef, ObjectToRef>>();
             Assert.NotNull(func);
-            Assert.IsType(typeof(Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>), func);
+            Assert.IsType<Action<IEnumerable<KeyValuePair<ushort, object>>, TestGenericObject<bool, ObjectToRef, ObjectToRef>>>(func);
         }
 
         //[Fact]

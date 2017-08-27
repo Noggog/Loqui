@@ -70,8 +70,7 @@ namespace Loqui.Tests.XML
         {
             var transl = GetTranslation();
             var elem = this.GetBadElement();
-            Assert.Throws(
-                typeof(ArgumentException),
+            Assert.Throws<ArgumentException>(
                 () => transl.Parse(
                     elem,
                     doMasks: false,
