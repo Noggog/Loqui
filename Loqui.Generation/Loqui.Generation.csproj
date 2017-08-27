@@ -116,6 +116,7 @@
     <Compile Include="Interfaces\GenerationInterface.cs" />
     <Compile Include="LoquiGenerator.cs" />
     <Compile Include="Modules\Mask\Fields\UnsafeMaskFieldGeneration.cs" />
+    <Compile Include="Modules\Translation\MethodAPI.cs" />
     <Compile Include="Modules\Translation\TranslationModule.cs" />
     <Compile Include="Modules\Translation\TranslationModuleAPI.cs" />
     <Compile Include="Modules\Xml\EnumXmlTranslationGeneration.cs" />

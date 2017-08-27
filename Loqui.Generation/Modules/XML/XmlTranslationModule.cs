@@ -88,10 +88,16 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
             this._typeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
             this.MainAPI = new TranslationModuleAPI(
-                writerAPI: "XmlWriter writer",
-                readerAPI: "XmlReader reader");
+                writerAPI: new MethodAPI(
+                    api: new string[] { "XmlWriter writer" },
+                    optionalAPI: new string[] { "string name = null" }),
+                readerAPI: new MethodAPI("XElement root"));
             this.MinorAPIs.Add(
-                new TranslationModuleAPI("string path")
+                new TranslationModuleAPI(
+                    writerAPI: new MethodAPI(
+                        api: new string[] { "string path" },
+                        optionalAPI: new string[] { "string name = null" }),
+                    readerAPI: new MethodAPI("string path"))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -99,7 +105,11 @@ namespace Loqui.Generation
                         ConvertFromPathIn)
                 });
             this.MinorAPIs.Add(
-                new TranslationModuleAPI("Stream stream")
+                new TranslationModuleAPI(
+                    writerAPI: new MethodAPI(
+                        api: new string[] { "Stream stream" },
+                        optionalAPI: new string[] { "string name = null" }),
+                    readerAPI: new MethodAPI("Stream stream"))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -126,40 +136,35 @@ namespace Loqui.Generation
             yield return "Loqui.Xml";
         }
 
-        public override IEnumerable<string> Interfaces(ObjectGeneration obj)
-        {
-            yield break;
-        }
-
-        private void ConvertFromStreamOut(FileGeneration fg, Action<string> internalToDo)
+        private void ConvertFromStreamOut(FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"writer.Formatting = Formatting.Indented;");
                 fg.AppendLine($"writer.Indentation = 3;");
-                internalToDo("writer");
+                internalToDo("writer", "name");
             }
         }
 
-        private void ConvertFromStreamIn(FileGeneration fg, Action<string> internalToDo)
+        private void ConvertFromStreamIn(FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var root = XDocument.Load(stream).Root;");
             internalToDo("root");
         }
 
-        private void ConvertFromPathOut(FileGeneration fg, Action<string> internalToDo)
+        private void ConvertFromPathOut(FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"writer.Formatting = Formatting.Indented;");
                 fg.AppendLine($"writer.Indentation = 3;");
-                internalToDo("writer");
+                internalToDo("writer", "name");
             }
         }
 
-        private void ConvertFromPathIn(FileGeneration fg, Action<string> internalToDo)
+        private void ConvertFromPathIn(FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var root = XDocument.Load(path).Root;");
             internalToDo("root");
@@ -167,394 +172,12 @@ namespace Loqui.Generation
 
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
-            GenerateRead(obj, fg);
-
-            fg.AppendLine($"public virtual void Write_{ModuleNickname}(Stream stream, out {obj.ErrorMask} errorMask)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine($"writer.Indentation = 3;");
-                    using (var args = new ArgsWrapper(fg,
-                        $"this.Write_{ModuleNickname}"))
-                    {
-                        args.Add("writer");
-                        args.Add($"out errorMask");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public virtual void Write_{ModuleNickname}(string path, out {obj.ErrorMask} errorMask)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine($"writer.Indentation = 3;");
-                    using (var args = new ArgsWrapper(fg,
-                        $"this.Write_{ModuleNickname}"))
-                    {
-                        args.Add("writer");
-                        args.Add($"out errorMask");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public virtual void Write_{ModuleNickname}(XmlWriter writer, out {obj.ErrorMask} errorMask, string name = null)");
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                {
-                    args.Add($"writer: writer");
-                    args.Add($"name: name");
-                    args.Add($"item: this");
-                    args.Add($"doMasks: true");
-                    args.Add($"errorMask: out errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            if (obj.Abstract)
-            {
-                if (!obj.BaseClass?.Abstract ?? true)
-                {
-                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(XmlWriter writer, string name = null);");
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(Stream stream);");
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public abstract void Write_{ModuleNickname}(string path);");
-                    fg.AppendLine();
-                }
-            }
-            else if (obj.IsTopClass
-                || (!obj.Abstract && (obj.BaseClass?.Abstract ?? true)))
-            {
-                fg.AppendLine($"public{obj.FunctionOverride}void Write_{ModuleNickname}(XmlWriter writer, string name = null)");
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
-                    {
-                        args.Add($"writer: writer");
-                        args.Add($"name: name");
-                        args.Add($"item: this");
-                        args.Add($"doMasks: false");
-                        args.Add($"errorMask: out {obj.ErrorMask} errorMask");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public void Write_{ModuleNickname}(Stream stream)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                        fg.AppendLine($"writer.Indentation = 3;");
-                        using (var args = new ArgsWrapper(fg,
-                            $"this.Write_{ModuleNickname}"))
-                        {
-                            args.Add("writer");
-                        }
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine($"public void Write_{ModuleNickname}(string path)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                        fg.AppendLine($"writer.Indentation = 3;");
-                        using (var args = new ArgsWrapper(fg,
-                            $"this.Write_{ModuleNickname}"))
-                        {
-                            args.Add("writer");
-                        }
-                    }
-                }
-                fg.AppendLine();
-            }
-            else
-            {
-                foreach (var baseClass in obj.BaseClassTrail())
-                {
-                    fg.AppendLine($"public override void Write_{ModuleNickname}(XmlWriter writer, out {baseClass.ErrorMask} errorMask, string name = null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"Write_{this.ModuleNickname}(writer, out {obj.ErrorMask} errMask, name: name);");
-                        fg.AppendLine("errorMask = errMask;");
-                    }
-                    fg.AppendLine();
-                }
-            }
+            base.GenerateInClass(obj, fg);
+            GenerateCreateExtras(obj, fg);
         }
 
-        private void GenerateRead(ObjectGeneration obj, FileGeneration fg)
+        private void GenerateCreateExtras(ObjectGeneration obj, FileGeneration fg)
         {
-            if (!obj.Abstract)
-            {
-                GenerateXmlCreate(obj, fg);
-            }
-
-            if (obj is StructGeneration) return;
-            using (var args = new FunctionWrapper(fg,
-                $"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}"))
-            {
-                args.Add("XElement root");
-                args.Add("NotifyingFireParameters? cmds = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
-                using (new DepthWrapper(fg))
-                {
-                    args.Add($"root: root");
-                    args.Add($"item: this");
-                    args.Add($"skipProtected: true");
-                    args.Add($"doMasks: false");
-                    args.Add($"mask: out {obj.ErrorMask} errorMask");
-                    args.Add($"cmds: cmds");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public virtual void CopyIn_{ModuleNickname}"))
-            {
-                args.Add("XElement root");
-                args.Add($"out {obj.ErrorMask} errorMask");
-                args.Add("NotifyingFireParameters? cmds = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
-                {
-                    args.Add($"root: root");
-                    args.Add($"item: this");
-                    args.Add($"skipProtected: true");
-                    args.Add($"doMasks: true");
-                    args.Add($"mask: out errorMask");
-                    args.Add($"cmds: cmds");
-                }
-            }
-            fg.AppendLine();
-
-            foreach (var minorAPI in this.MinorAPIs)
-            {
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyIn_{ModuleNickname}"))
-                {
-                    args.Add(minorAPI.WriterAPI);
-                    args.Add("NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    minorAPI.Funnel.InConverter(fg, (accessor) =>
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"this.CopyIn_{ModuleNickname}"))
-                        using (new DepthWrapper(fg))
-                        {
-                            args.Add($"root: {accessor}");
-                            args.Add($"cmds: cmds");
-                        }
-                    });
-                }
-                fg.AppendLine();
-
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyIn_{ModuleNickname}"))
-                {
-                    args.Add(minorAPI.WriterAPI);
-                    args.Add($"out {obj.ErrorMask} errorMask");
-                    args.Add("NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    minorAPI.Funnel.InConverter(fg, (accessor) =>
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"this.CopyIn_{ModuleNickname}"))
-                        using (new DepthWrapper(fg))
-                        {
-                            args.Add($"root: {accessor}");
-                            args.Add($"errorMask: out errorMask");
-                            args.Add($"cmds: cmds");
-                        }
-                    });
-                }
-                fg.AppendLine();
-            }
-
-            foreach (var baseClass in obj.BaseClassTrail())
-            {
-                using (var args = new FunctionWrapper(fg,
-                    $"public override void CopyIn_{ModuleNickname}"))
-                {
-                    args.Add($"XElement root");
-                    args.Add($"out {baseClass.ErrorMask} errorMask");
-                    args.Add($"NotifyingFireParameters? cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"this.CopyIn_{ModuleNickname}"))
-                    {
-                        args.Add($"root");
-                        args.Add($"out {obj.ErrorMask} errMask");
-                        args.Add($"cmds: cmds");
-                    }
-                    fg.AppendLine("errorMask = errMask;");
-                }
-                fg.AppendLine();
-            }
-        }
-
-        public override void Modify(ObjectGeneration obj)
-        {
-        }
-
-        public override void Modify(LoquiGenerator gen)
-        {
-        }
-
-        public override void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
-        {
-        }
-
-        public override void Generate(ObjectGeneration obj, FileGeneration fg)
-        {
-        }
-
-        public override IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
-        {
-            yield break;
-        }
-
-        public override IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
-        {
-            yield break;
-        }
-
-        public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
-        {
-            using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
-            {
-                CommonXmlWrite(obj, fg);
-            }
-        }
-
-        private void GenerateXmlCreate(ObjectGeneration obj, FileGeneration fg)
-        {
-            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(Stream stream)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"using (var reader = new StreamReader(stream))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return Create_{ModuleNickname}(XElement.Parse(reader.ReadToEnd()));");
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(XElement root)");
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"return Create_{ModuleNickname}"))
-                {
-                    args.Add("root: root");
-                    args.Add("doMasks: false");
-                    args.Add("errorMask: out var errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
-            {
-                args.Add("XElement root");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"return Create_{ModuleNickname}"))
-                {
-                    args.Add("root: root");
-                    args.Add("doMasks: true");
-                    args.Add("errorMask: out errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            fg.AppendLine($"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}(string path)");
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                $"return Create_{ModuleNickname}"))
-                {
-                    args.Add("root: XDocument.Load(path).Root");
-                    args.Add("doMasks: false");
-                    args.Add("errorMask: out var errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
-            {
-                args.Add("string path");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                $"return Create_{ModuleNickname}"))
-                {
-                    args.Add("root: XDocument.Load(path).Root");
-                    args.Add("doMasks: true");
-                    args.Add("errorMask: out errorMask");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static {obj.ObjectName} Create_{ModuleNickname}"))
-            {
-                args.Add("XElement root");
-                args.Add("bool doMasks");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
-                using (var args = new ArgsWrapper(fg,
-                    $"var ret = Create_{ModuleNickname}_Internal"))
-                {
-                    args.Add("root: root");
-                    args.Add("doMasks: doMasks");
-                    args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
-                }
-                fg.AppendLine($"errorMask = errMaskRet;");
-                fg.AppendLine($"return ret;");
-            }
-            fg.AppendLine();
-
             using (var args = new FunctionWrapper(fg,
                 $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal"))
             {
@@ -662,211 +285,6 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void CommonXmlWrite(ObjectGeneration obj, FileGeneration fg)
-        {
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"Stream stream");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_{ModuleNickname}(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"writer: writer,");
-                        fg.AppendLine($"name: null,");
-                        fg.AppendLine($"item: item,");
-                        fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"Stream stream");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_{ModuleNickname}(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"writer: writer,");
-                        fg.AppendLine($"name: null,");
-                        fg.AppendLine($"item: item,");
-                        fg.AppendLine($"doMasks: true,");
-                        fg.AppendLine($"errorMask: out errorMask);");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"string path");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_{ModuleNickname}(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"writer: writer,");
-                        fg.AppendLine($"name: null,");
-                        fg.AppendLine($"item: item,");
-                        fg.AppendLine($"doMasks: false,");
-                        fg.AppendLine($"errorMask: out {obj.ErrorMask} errorMask);");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"string path");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("writer.Formatting = Formatting.Indented;");
-                    fg.AppendLine("writer.Indentation = 3;");
-                    fg.AppendLine($"Write_{ModuleNickname}(");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"writer: writer,");
-                        fg.AppendLine($"name: null,");
-                        fg.AppendLine($"item: item,");
-                        fg.AppendLine($"doMasks: true,");
-                        fg.AppendLine($"errorMask: out errorMask);");
-                    }
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"XmlWriter writer");
-                args.Add($"string name");
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"bool doMasks");
-                args.Add($"out {obj.ErrorMask} errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
-                using (var args = new ArgsWrapper(fg,
-                    $"Write_{ModuleNickname}_Internal"))
-                {
-                    args.Add("writer: writer");
-                    args.Add("name: name");
-                    args.Add("item: item");
-                    args.Add("doMasks: doMasks");
-                    args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
-                }
-                fg.AppendLine($"errorMask = errMaskRet;");
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"private static void Write_{ModuleNickname}_Internal{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
-            {
-                args.Add($"XmlWriter writer");
-                args.Add($"string name");
-                args.Add($"{obj.Getter_InterfaceStr} item");
-                args.Add($"bool doMasks");
-                args.Add($"Func<{obj.ErrorMask}> errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("try");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine("if (name != null)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
-                        }
-
-                        foreach (var field in obj.IterateFields())
-                        {
-                            if (field.Field.Derivative) continue;
-
-                            if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
-                            {
-                                throw new ArgumentException("Unsupported type generator: " + field.Field);
-                            }
-
-                            if (field.Field.Notifying != NotifyingOption.None)
-                            {
-                                fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
-                            }
-                            using (new BraceWrapper(fg))
-                            {
-                                var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
-                                fg.AppendLine($"{maskType} subMask;");
-                                generator.GenerateWrite(
-                                    fg: fg,
-                                    typeGen: field.Field,
-                                    writerAccessor: "writer",
-                                    itemAccessor: $"item.{field.Field.Name}",
-                                    doMaskAccessor: "doMasks",
-                                    maskAccessor: $"subMask",
-                                    nameAccessor: $"nameof(item.{field.Field.Name})");
-                                fg.AppendLine("if (doMasks && subMask != null)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
-                                }
-                            }
-                        }
-                    }
-                }
-                fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (doMasks)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("errorMask().Overall = ex;");
-                }
-            }
-        }
-
         public override void Generate(ObjectGeneration obj)
         {
             GenerateXSD(obj);
@@ -922,6 +340,102 @@ namespace Loqui.Generation
                 writer.Indentation = 3;
                 XDocument doc = new XDocument(root);
                 doc.WriteTo(writer);
+            }
+        }
+
+        protected override void GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, bool usingErrorMask)
+        {
+            using (var args = new ArgsWrapper(fg,
+                $"LoquiXmlTranslation<{obj.ObjectName}, {obj.ErrorMask}>.Instance.CopyIn"))
+            using (new DepthWrapper(fg))
+            {
+                foreach (var item in this.MainAPI.ReaderPassArgs)
+                {
+                    args.Add(item);
+                }
+                args.Add($"item: this");
+                args.Add($"skipProtected: true");
+                if (usingErrorMask)
+                {
+                    args.Add($"doMasks: true");
+                    args.Add($"mask: out errorMask");
+                }
+                else
+                {
+                    args.Add($"doMasks: false");
+                    args.Add($"mask: out {obj.ErrorMask} errorMask");
+                }
+                args.Add($"cmds: cmds");
+            }
+        }
+
+        protected override void GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
+            using (var args = new ArgsWrapper(fg,
+                $"var ret = Create_{ModuleNickname}_Internal"))
+            {
+                args.Add("root: root");
+                args.Add("doMasks: doMasks");
+                args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
+            }
+            fg.AppendLine($"errorMask = errMaskRet;");
+            fg.AppendLine($"return ret;");
+        }
+
+        protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine("try");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("if (name != null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+                    }
+
+                    foreach (var field in obj.IterateFields())
+                    {
+                        if (field.Field.Derivative) continue;
+
+                        if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
+                        {
+                            throw new ArgumentException("Unsupported type generator: " + field.Field);
+                        }
+
+                        if (field.Field.Notifying != NotifyingOption.None)
+                        {
+                            fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                            fg.AppendLine($"{maskType} subMask;");
+                            generator.GenerateWrite(
+                                fg: fg,
+                                typeGen: field.Field,
+                                writerAccessor: "writer",
+                                itemAccessor: $"item.{field.Field.Name}",
+                                doMaskAccessor: "doMasks",
+                                maskAccessor: $"subMask",
+                                nameAccessor: $"nameof(item.{field.Field.Name})");
+                            fg.AppendLine("if (doMasks && subMask != null)");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
+                            }
+                        }
+                    }
+                }
+            }
+            fg.AppendLine("catch (Exception ex)");
+            fg.AppendLine("when (doMasks)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("errorMask().Overall = ex;");
             }
         }
     }

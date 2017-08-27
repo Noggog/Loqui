@@ -124,14 +124,7 @@ namespace Loqui.Tests
 
 
         #region XML Translation
-        public new static TestObject_Notifying_SubClass Create_XML(Stream stream)
-        {
-            using (var reader = new StreamReader(stream))
-            {
-                return Create_XML(XElement.Parse(reader.ReadToEnd()));
-            }
-        }
-
+        #region XML Create
         public new static TestObject_Notifying_SubClass Create_XML(XElement root)
         {
             return Create_XML(
@@ -150,24 +143,6 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public new static TestObject_Notifying_SubClass Create_XML(string path)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: false,
-                errorMask: out var errorMask);
-        }
-
-        public static TestObject_Notifying_SubClass Create_XML(
-            string path,
-            out TestObject_Notifying_SubClass_ErrorMask errorMask)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
         public static TestObject_Notifying_SubClass Create_XML(
             XElement root,
             bool doMasks,
@@ -182,70 +157,41 @@ namespace Loqui.Tests
             return ret;
         }
 
-        private static TestObject_Notifying_SubClass Create_XML_Internal(
-            XElement root,
-            bool doMasks,
-            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
+        public static TestObject_Notifying_SubClass Create_XML(string path)
         {
-            var ret = new TestObject_Notifying_SubClass();
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    Fill_XML_Internal(
-                        item: ret,
-                        root: elem,
-                        name: elem.Name.LocalName,
-                        doMasks: doMasks,
-                        errorMask: errorMask);
-                }
-            }
-            catch (Exception ex)
-            when (doMasks)
-            {
-                errorMask().Overall = ex;
-            }
-            return ret;
+            var root = XDocument.Load(path).Root;
+            return Create_XML(root: root);
         }
 
-        protected static void Fill_XML_Internal(
-            TestObject_Notifying_SubClass item,
-            XElement root,
-            string name,
-            bool doMasks,
-            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
+        public static TestObject_Notifying_SubClass Create_XML(
+            string path,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask)
         {
-            switch (name)
-            {
-                case "NewField":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.Parse(
-                            root,
-                            nullable: false,
-                            doMasks: doMasks,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._NewField.Item = tryGet.Value.Value;
-                        }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().NewField = subMask;
-                        }
-                    }
-                    break;
-                default:
-                    TestObject_Notifying.Fill_XML_Internal(
-                        item: item,
-                        root: root,
-                        name: name,
-                        doMasks: doMasks,
-                        errorMask: errorMask);
-                    break;
-            }
+            var root = XDocument.Load(path).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
         }
 
+        public static TestObject_Notifying_SubClass Create_XML(Stream stream)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(root: root);
+        }
+
+        public static TestObject_Notifying_SubClass Create_XML(
+            Stream stream,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
+        }
+
+        #endregion
+
+        #region XML Copy In
         public override void CopyIn_XML(
             XElement root,
             NotifyingFireParameters? cmds = null)
@@ -323,37 +269,19 @@ namespace Loqui.Tests
             NotifyingFireParameters? cmds = null)
         {
             this.CopyIn_XML(
-                root,
-                out TestObject_Notifying_SubClass_ErrorMask errMask,
+                root: root,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errMask,
                 cmds: cmds);
             errorMask = errMask;
         }
 
-        public virtual void Write_XML(Stream stream, out TestObject_Notifying_SubClass_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
+        #endregion
 
-        public virtual void Write_XML(string path, out TestObject_Notifying_SubClass_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
-
-        public virtual void Write_XML(XmlWriter writer, out TestObject_Notifying_SubClass_ErrorMask errorMask, string name = null)
+        #region XML Write
+        public virtual void Write_XML(
+            XmlWriter writer,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            string name = null)
         {
             TestObject_Notifying_SubClassCommon.Write_XML(
                 writer: writer,
@@ -363,10 +291,141 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public override void Write_XML(XmlWriter writer, out TestObject_Notifying_ErrorMask errorMask, string name = null)
+        public virtual void Write_XML(
+            string path,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            string name = null)
         {
-            Write_XML(writer, out TestObject_Notifying_SubClass_ErrorMask errMask, name: name);
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public virtual void Write_XML(
+            Stream stream,
+            out TestObject_Notifying_SubClass_ErrorMask errorMask,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        #region Base Class Trickdown Overrides
+        public override void Write_XML(
+            XmlWriter writer,
+            out TestObject_Notifying_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errMask);
             errorMask = errMask;
+        }
+
+        public override void Write_XML(
+            string path,
+            out TestObject_Notifying_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                path: path,
+                name: name,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errMask);
+            errorMask = errMask;
+        }
+
+        public override void Write_XML(
+            Stream stream,
+            out TestObject_Notifying_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                stream: stream,
+                name: name,
+                errorMask: out TestObject_Notifying_SubClass_ErrorMask errMask);
+            errorMask = errMask;
+        }
+
+        #endregion
+
+        #endregion
+
+        private static TestObject_Notifying_SubClass Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
+        {
+            var ret = new TestObject_Notifying_SubClass();
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: elem.Name.LocalName,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            when (doMasks)
+            {
+                errorMask().Overall = ex;
+            }
+            return ret;
+        }
+
+        protected static void Fill_XML_Internal(
+            TestObject_Notifying_SubClass item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                case "NewField":
+                    {
+                        Exception subMask;
+                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                            root,
+                            nullable: false,
+                            doMasks: doMasks,
+                            errorMask: out subMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item._NewField.Item = tryGet.Value.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().NewField = subMask;
+                        }
+                    }
+                    break;
+                default:
+                    TestObject_Notifying.Fill_XML_Internal(
+                        item: item,
+                        root: root,
+                        name: name,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                    break;
+            }
         }
 
         #endregion
@@ -936,76 +995,6 @@ namespace Loqui.Tests.Internals
 
         #region XML Translation
         #region XML Write
-        public static void Write_XML(
-            ITestObject_Notifying_SubClassGetter item,
-            Stream stream)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestObject_Notifying_SubClass_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_SubClassGetter item,
-            Stream stream,
-            out TestObject_Notifying_SubClass_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_SubClassGetter item,
-            string path)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestObject_Notifying_SubClass_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_SubClassGetter item,
-            string path,
-            out TestObject_Notifying_SubClass_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
         public static void Write_XML(
             XmlWriter writer,
             string name,

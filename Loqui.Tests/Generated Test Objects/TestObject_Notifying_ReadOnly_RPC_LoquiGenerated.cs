@@ -2167,14 +2167,7 @@ namespace Loqui.Tests
 
 
         #region XML Translation
-        public static TestObject_Notifying_ReadOnly_RPC Create_XML(Stream stream)
-        {
-            using (var reader = new StreamReader(stream))
-            {
-                return Create_XML(XElement.Parse(reader.ReadToEnd()));
-            }
-        }
-
+        #region XML Create
         public static TestObject_Notifying_ReadOnly_RPC Create_XML(XElement root)
         {
             return Create_XML(
@@ -2193,24 +2186,6 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public static TestObject_Notifying_ReadOnly_RPC Create_XML(string path)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: false,
-                errorMask: out var errorMask);
-        }
-
-        public static TestObject_Notifying_ReadOnly_RPC Create_XML(
-            string path,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
         public static TestObject_Notifying_ReadOnly_RPC Create_XML(
             XElement root,
             bool doMasks,
@@ -2224,6 +2199,202 @@ namespace Loqui.Tests
             errorMask = errMaskRet;
             return ret;
         }
+
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(string path)
+        {
+            var root = XDocument.Load(path).Root;
+            return Create_XML(root: root);
+        }
+
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(
+            string path,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
+        {
+            var root = XDocument.Load(path).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
+        }
+
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(Stream stream)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(root: root);
+        }
+
+        public static TestObject_Notifying_ReadOnly_RPC Create_XML(
+            Stream stream,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
+        }
+
+        #endregion
+
+        #region XML Copy In
+        public void CopyIn_XML(
+            XElement root,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
+                root: root,
+                item: this,
+                skipProtected: true,
+                doMasks: false,
+                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+                cmds: cmds);
+        }
+
+        public virtual void CopyIn_XML(
+            XElement root,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            LoquiXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
+                root: root,
+                item: this,
+                skipProtected: true,
+                doMasks: true,
+                mask: out errorMask,
+                cmds: cmds);
+        }
+
+        public void CopyIn_XML(
+            string path,
+            NotifyingFireParameters? cmds = null)
+        {
+            var root = XDocument.Load(path).Root;
+            this.CopyIn_XML(
+                root: root,
+                cmds: cmds);
+        }
+
+        public void CopyIn_XML(
+            string path,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            var root = XDocument.Load(path).Root;
+            this.CopyIn_XML(
+                root: root,
+                errorMask: out errorMask,
+                cmds: cmds);
+        }
+
+        public void CopyIn_XML(
+            Stream stream,
+            NotifyingFireParameters? cmds = null)
+        {
+            var root = XDocument.Load(stream).Root;
+            this.CopyIn_XML(
+                root: root,
+                cmds: cmds);
+        }
+
+        public void CopyIn_XML(
+            Stream stream,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            NotifyingFireParameters? cmds = null)
+        {
+            var root = XDocument.Load(stream).Root;
+            this.CopyIn_XML(
+                root: root,
+                errorMask: out errorMask,
+                cmds: cmds);
+        }
+
+        #endregion
+
+        #region XML Write
+        public virtual void Write_XML(
+            XmlWriter writer,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            string name = null)
+        {
+            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
+                writer: writer,
+                name: name,
+                item: this,
+                doMasks: true,
+                errorMask: out errorMask);
+        }
+
+        public virtual void Write_XML(
+            string path,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public virtual void Write_XML(
+            Stream stream,
+            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public void Write_XML(
+            XmlWriter writer,
+            string name = null)
+        {
+            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
+                writer: writer,
+                name: name,
+                item: this,
+                doMasks: false,
+                errorMask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
+        }
+
+        public void Write_XML(
+            string path,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name);
+            }
+        }
+
+        public void Write_XML(
+            Stream stream,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name);
+            }
+        }
+
+        #endregion
 
         private static TestObject_Notifying_ReadOnly_RPC Create_XML_Internal(
             XElement root,
@@ -4571,141 +4742,6 @@ namespace Loqui.Tests
                     break;
                 default:
                     break;
-            }
-        }
-
-        public void CopyIn_XML(
-            XElement root,
-            NotifyingFireParameters? cmds = null)
-        {
-            LoquiXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: this,
-                skipProtected: true,
-                doMasks: false,
-                mask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
-                cmds: cmds);
-        }
-
-        public virtual void CopyIn_XML(
-            XElement root,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
-        {
-            LoquiXmlTranslation<TestObject_Notifying_ReadOnly_RPC, TestObject_Notifying_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
-                root: root,
-                item: this,
-                skipProtected: true,
-                doMasks: true,
-                mask: out errorMask,
-                cmds: cmds);
-        }
-
-        public void CopyIn_XML(
-            string path,
-            NotifyingFireParameters? cmds = null)
-        {
-            var root = XDocument.Load(path).Root;
-            this.CopyIn_XML(
-                root: root,
-                cmds: cmds);
-        }
-
-        public void CopyIn_XML(
-            string path,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
-        {
-            var root = XDocument.Load(path).Root;
-            this.CopyIn_XML(
-                root: root,
-                errorMask: out errorMask,
-                cmds: cmds);
-        }
-
-        public void CopyIn_XML(
-            Stream stream,
-            NotifyingFireParameters? cmds = null)
-        {
-            var root = XDocument.Load(stream).Root;
-            this.CopyIn_XML(
-                root: root,
-                cmds: cmds);
-        }
-
-        public void CopyIn_XML(
-            Stream stream,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
-        {
-            var root = XDocument.Load(stream).Root;
-            this.CopyIn_XML(
-                root: root,
-                errorMask: out errorMask,
-                cmds: cmds);
-        }
-
-        public virtual void Write_XML(Stream stream, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
-
-        public virtual void Write_XML(string path, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
-
-        public virtual void Write_XML(XmlWriter writer, out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask, string name = null)
-        {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                writer: writer,
-                name: name,
-                item: this,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
-        public void Write_XML(XmlWriter writer, string name = null)
-        {
-            TestObject_Notifying_ReadOnly_RPCCommon.Write_XML(
-                writer: writer,
-                name: name,
-                item: this,
-                doMasks: false,
-                errorMask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
-        }
-
-        public void Write_XML(Stream stream)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(writer);
-            }
-        }
-
-        public void Write_XML(string path)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(writer);
             }
         }
 
@@ -9975,76 +10011,6 @@ namespace Loqui.Tests.Internals
 
         #region XML Translation
         #region XML Write
-        public static void Write_XML(
-            ITestObject_Notifying_ReadOnly_RPCGetter item,
-            Stream stream)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_ReadOnly_RPCGetter item,
-            Stream stream,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_ReadOnly_RPCGetter item,
-            string path)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML(
-            ITestObject_Notifying_ReadOnly_RPCGetter item,
-            string path,
-            out TestObject_Notifying_ReadOnly_RPC_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
         public static void Write_XML(
             XmlWriter writer,
             string name,

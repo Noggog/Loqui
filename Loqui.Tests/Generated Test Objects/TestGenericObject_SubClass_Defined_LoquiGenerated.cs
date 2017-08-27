@@ -105,14 +105,7 @@ namespace Loqui.Tests
 
 
         #region XML Translation
-        public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(Stream stream)
-        {
-            using (var reader = new StreamReader(stream))
-            {
-                return Create_XML(XElement.Parse(reader.ReadToEnd()));
-            }
-        }
-
+        #region XML Create
         public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(XElement root)
         {
             return Create_XML(
@@ -131,24 +124,6 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public new static TestGenericObject_SubClass_Defined<RBase> Create_XML(string path)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: false,
-                errorMask: out var errorMask);
-        }
-
-        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
-            string path,
-            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
-        {
-            return Create_XML(
-                root: XDocument.Load(path).Root,
-                doMasks: true,
-                errorMask: out errorMask);
-        }
-
         public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
             XElement root,
             bool doMasks,
@@ -163,52 +138,41 @@ namespace Loqui.Tests
             return ret;
         }
 
-        private static TestGenericObject_SubClass_Defined<RBase> Create_XML_Internal(
-            XElement root,
-            bool doMasks,
-            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(string path)
         {
-            var ret = new TestGenericObject_SubClass_Defined<RBase>();
-            try
-            {
-                foreach (var elem in root.Elements())
-                {
-                    Fill_XML_Internal(
-                        item: ret,
-                        root: elem,
-                        name: elem.Name.LocalName,
-                        doMasks: doMasks,
-                        errorMask: errorMask);
-                }
-            }
-            catch (Exception ex)
-            when (doMasks)
-            {
-                errorMask().Overall = ex;
-            }
-            return ret;
+            var root = XDocument.Load(path).Root;
+            return Create_XML(root: root);
         }
 
-        protected static void Fill_XML_Internal(
-            TestGenericObject_SubClass_Defined<RBase> item,
-            XElement root,
-            string name,
-            bool doMasks,
-            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
+            string path,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
-            switch (name)
-            {
-                default:
-                    TestGenericObject<long, RBase, ObjectToRef>.Fill_XML_Internal(
-                        item: item,
-                        root: root,
-                        name: name,
-                        doMasks: doMasks,
-                        errorMask: errorMask);
-                    break;
-            }
+            var root = XDocument.Load(path).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
         }
 
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(Stream stream)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(root: root);
+        }
+
+        public static TestGenericObject_SubClass_Defined<RBase> Create_XML(
+            Stream stream,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+        {
+            var root = XDocument.Load(stream).Root;
+            return Create_XML(
+                root: root,
+                errorMask: out errorMask);
+        }
+
+        #endregion
+
+        #region XML Copy In
         public override void CopyIn_XML(
             XElement root,
             NotifyingFireParameters? cmds = null)
@@ -286,37 +250,19 @@ namespace Loqui.Tests
             NotifyingFireParameters? cmds = null)
         {
             this.CopyIn_XML(
-                root,
-                out TestGenericObject_SubClass_Defined_ErrorMask errMask,
+                root: root,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errMask,
                 cmds: cmds);
             errorMask = errMask;
         }
 
-        public virtual void Write_XML(Stream stream, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
+        #endregion
 
-        public virtual void Write_XML(string path, out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                this.Write_XML(
-                    writer,
-                    out errorMask);
-            }
-        }
-
-        public virtual void Write_XML(XmlWriter writer, out TestGenericObject_SubClass_Defined_ErrorMask errorMask, string name = null)
+        #region XML Write
+        public virtual void Write_XML(
+            XmlWriter writer,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            string name = null)
         {
             TestGenericObject_SubClass_DefinedCommon.Write_XML(
                 writer: writer,
@@ -326,10 +272,123 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public override void Write_XML(XmlWriter writer, out TestGenericObject_ErrorMask errorMask, string name = null)
+        public virtual void Write_XML(
+            string path,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            string name = null)
         {
-            Write_XML(writer, out TestGenericObject_SubClass_Defined_ErrorMask errMask, name: name);
+            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        public virtual void Write_XML(
+            Stream stream,
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            string name = null)
+        {
+            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                Write_XML(
+                    writer: writer,
+                    name: name,
+                    errorMask: out errorMask);
+            }
+        }
+
+        #region Base Class Trickdown Overrides
+        public override void Write_XML(
+            XmlWriter writer,
+            out TestGenericObject_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                writer: writer,
+                name: name,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errMask);
             errorMask = errMask;
+        }
+
+        public override void Write_XML(
+            string path,
+            out TestGenericObject_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                path: path,
+                name: name,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errMask);
+            errorMask = errMask;
+        }
+
+        public override void Write_XML(
+            Stream stream,
+            out TestGenericObject_ErrorMask errorMask,
+            string name = null)
+        {
+            Write_XML(
+                stream: stream,
+                name: name,
+                errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errMask);
+            errorMask = errMask;
+        }
+
+        #endregion
+
+        #endregion
+
+        private static TestGenericObject_SubClass_Defined<RBase> Create_XML_Internal(
+            XElement root,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+        {
+            var ret = new TestGenericObject_SubClass_Defined<RBase>();
+            try
+            {
+                foreach (var elem in root.Elements())
+                {
+                    Fill_XML_Internal(
+                        item: ret,
+                        root: elem,
+                        name: elem.Name.LocalName,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                }
+            }
+            catch (Exception ex)
+            when (doMasks)
+            {
+                errorMask().Overall = ex;
+            }
+            return ret;
+        }
+
+        protected static void Fill_XML_Internal(
+            TestGenericObject_SubClass_Defined<RBase> item,
+            XElement root,
+            string name,
+            bool doMasks,
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+        {
+            switch (name)
+            {
+                default:
+                    TestGenericObject<long, RBase, ObjectToRef>.Fill_XML_Internal(
+                        item: item,
+                        root: root,
+                        name: name,
+                        doMasks: doMasks,
+                        errorMask: errorMask);
+                    break;
+            }
         }
 
         #endregion
@@ -857,80 +916,6 @@ namespace Loqui.Tests.Internals
 
         #region XML Translation
         #region XML Write
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            Stream stream)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            Stream stream,
-            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            string path)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: false,
-                    errorMask: out TestGenericObject_SubClass_Defined_ErrorMask errorMask);
-            }
-        }
-
-        public static void Write_XML<RBase>(
-            ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            string path,
-            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
-            where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
-        {
-            using (var writer = new XmlTextWriter(path, Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 3;
-                Write_XML(
-                    writer: writer,
-                    name: null,
-                    item: item,
-                    doMasks: true,
-                    errorMask: out errorMask);
-            }
-        }
-
         public static void Write_XML<RBase>(
             XmlWriter writer,
             string name,

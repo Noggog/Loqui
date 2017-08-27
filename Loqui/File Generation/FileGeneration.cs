@@ -58,7 +58,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public override void CopyIn_XML"))
+            if (str.Contains("Write_XML(root: root)"))
             {
                 int wer = 23;
                 wer++;
