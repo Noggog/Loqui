@@ -1617,38 +1617,35 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    if (Fields.Count != 0 || this.HasBaseObject)
+                    fg.AppendLine("public override int GetHashCode()");
+                    using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("public override int GetHashCode()");
-                        using (new BraceWrapper(fg))
+                        fg.AppendLine("int ret = 0;");
+                        foreach (var field in Fields)
                         {
-                            fg.AppendLine("int ret = 0;");
-                            foreach (var field in Fields)
+                            if (!HasKeyField() || field.KeyField)
                             {
-                                if (!HasKeyField() || field.KeyField)
+                                if (field.Notifying == NotifyingOption.None)
                                 {
-                                    if (field.Notifying == NotifyingOption.None)
+                                    field.GenerateForHash(fg, "ret");
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"if ({field.HasBeenSetAccessor})");
+                                    using (new BraceWrapper(fg))
                                     {
                                         field.GenerateForHash(fg, "ret");
                                     }
-                                    else
-                                    {
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor})");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            field.GenerateForHash(fg, "ret");
-                                        }
-                                    }
                                 }
                             }
-                            if (this.HasBaseObject)
-                            {
-                                fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
-                            }
-                            fg.AppendLine("return ret;");
                         }
-                        fg.AppendLine();
+                        if (this.HasBaseObject)
+                        {
+                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                        }
+                        fg.AppendLine("return ret;");
                     }
+                    fg.AppendLine();
                 }
                 fg.AppendLine();
             }
