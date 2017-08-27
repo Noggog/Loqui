@@ -22,7 +22,7 @@ namespace Loqui.Tests.XML
             return new LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>();
         }
 
-        public XElement GetTypicalElement(ObjectToRef obj, string name = null)
+        public override XElement GetTypicalElement(ObjectToRef obj, string name = null)
         {
             var ret = XmlUtility.GetElementNoValue(name);
             ret.SetAttributeValue("type", "Loqui.Tests.ObjectToRef");
@@ -38,10 +38,12 @@ namespace Loqui.Tests.XML
             return GetTypicalElement(obj: null, name: name);
         }
 
+        [Fact]
         public override void Parse_BadElement_Mask()
         {
         }
 
+        [Fact]
         public override void Parse_BadElement_NoMask()
         {
         }

@@ -12440,189 +12440,195 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public TestObject_HasBeenSet_ReadOnly_RPC_Mask<R> Translate<R>(Func<T, R> eval)
+        public new TestObject_HasBeenSet_ReadOnly_RPC_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new TestObject_HasBeenSet_ReadOnly_RPC_Mask<R>();
-            ret.ByteArray = eval(this.ByteArray);
-            ret.ByteArrayNull = eval(this.ByteArrayNull);
-            ret.ByteArrayNotNull = eval(this.ByteArrayNotNull);
-            ret.ByteArraySingleton = eval(this.ByteArraySingleton);
-            ret.BoolN = eval(this.BoolN);
-            ret.Bool = eval(this.Bool);
-            ret.CharN = eval(this.CharN);
-            ret.Char = eval(this.Char);
-            ret.DateTimeNull = eval(this.DateTimeNull);
-            ret.DateTime = eval(this.DateTime);
-            ret.DoubleN = eval(this.DoubleN);
-            ret.DoubleN_Ranged = eval(this.DoubleN_Ranged);
-            ret.Double = eval(this.Double);
-            ret.Double_Ranged = eval(this.Double_Ranged);
-            ret.FloatN = eval(this.FloatN);
-            ret.FloatN_Ranged = eval(this.FloatN_Ranged);
-            ret.Float = eval(this.Float);
-            ret.Float_Ranged = eval(this.Float_Ranged);
-            ret.Int16N = eval(this.Int16N);
-            ret.Int16N_Ranged = eval(this.Int16N_Ranged);
-            ret.Int16 = eval(this.Int16);
-            ret.Int16_Ranged = eval(this.Int16_Ranged);
-            ret.Int32N = eval(this.Int32N);
-            ret.Int32N_Ranged = eval(this.Int32N_Ranged);
-            ret.Int32 = eval(this.Int32);
-            ret.Int32_Ranged = eval(this.Int32_Ranged);
-            ret.Int64N = eval(this.Int64N);
-            ret.Int64N_Ranged = eval(this.Int64N_Ranged);
-            ret.Int64 = eval(this.Int64);
-            ret.Int64_Ranged = eval(this.Int64_Ranged);
-            ret.Int8N = eval(this.Int8N);
-            ret.Int8N_Ranged = eval(this.Int8N_Ranged);
-            ret.Int8 = eval(this.Int8);
-            ret.Int8_Ranged = eval(this.Int8_Ranged);
-            ret.Unsafe = eval(this.Unsafe);
-            ret.UnsafeLoqui = eval(this.UnsafeLoqui);
-            ret.UnsafeNull = eval(this.UnsafeNull);
-            ret.P2IntN = eval(this.P2IntN);
-            ret.P2Int = eval(this.P2Int);
-            ret.P3DoubleN = eval(this.P3DoubleN);
-            ret.P3Double = eval(this.P3Double);
-            ret.P3IntN = eval(this.P3IntN);
-            ret.P3Int = eval(this.P3Int);
-            ret.PercentN = eval(this.PercentN);
-            ret.Percent = eval(this.Percent);
-            ret.RangeInt8N = eval(this.RangeInt8N);
-            ret.RangeInt8 = eval(this.RangeInt8);
-            ret.RangeInt16N = eval(this.RangeInt16N);
-            ret.RangeInt16 = eval(this.RangeInt16);
-            ret.RangeInt32N = eval(this.RangeInt32N);
-            ret.RangeInt32 = eval(this.RangeInt32);
-            ret.RangeInt64N = eval(this.RangeInt64N);
-            ret.RangeInt64 = eval(this.RangeInt64);
-            ret.RangeUInt8N = eval(this.RangeUInt8N);
-            ret.RangeUInt8 = eval(this.RangeUInt8);
-            ret.RangeUInt16N = eval(this.RangeUInt16N);
-            ret.RangeUInt16 = eval(this.RangeUInt16);
-            ret.RangeUInt32N = eval(this.RangeUInt32N);
-            ret.RangeUInt32 = eval(this.RangeUInt32);
-            ret.RangeUInt64N = eval(this.RangeUInt64N);
-            ret.RangeUInt64 = eval(this.RangeUInt64);
-            ret.String = eval(this.String);
-            ret.FilePath = eval(this.FilePath);
-            ret.FilePathNull = eval(this.FilePathNull);
-            ret.DirectoryPath = eval(this.DirectoryPath);
-            ret.DirectoryPathNull = eval(this.DirectoryPathNull);
-            ret.UDoubleN = eval(this.UDoubleN);
-            ret.UDoubleN_Ranged = eval(this.UDoubleN_Ranged);
-            ret.UDouble = eval(this.UDouble);
-            ret.UDouble_Ranged = eval(this.UDouble_Ranged);
-            ret.UInt16N = eval(this.UInt16N);
-            ret.UInt16N_Ranged = eval(this.UInt16N_Ranged);
-            ret.UInt16 = eval(this.UInt16);
-            ret.UInt16_Ranged = eval(this.UInt16_Ranged);
-            ret.UInt32N = eval(this.UInt32N);
-            ret.UInt32N_Ranged = eval(this.UInt32N_Ranged);
-            ret.UInt32 = eval(this.UInt32);
-            ret.UInt32_Ranged = eval(this.UInt32_Ranged);
-            ret.UInt64N = eval(this.UInt64N);
-            ret.UInt64N_Ranged = eval(this.UInt64N_Ranged);
-            ret.UInt64 = eval(this.UInt64);
-            ret.UInt64_Ranged = eval(this.UInt64_Ranged);
-            ret.UInt8N = eval(this.UInt8N);
-            ret.UInt8N_Ranged = eval(this.UInt8N_Ranged);
-            ret.UInt8 = eval(this.UInt8);
-            ret.UInt8_Ranged = eval(this.UInt8_Ranged);
-            ret.Enum = eval(this.Enum);
-            ret.EnumNull = eval(this.EnumNull);
-            ret.WildCard = eval(this.WildCard);
-            ret.WildCardLoqui = eval(this.WildCardLoqui);
-            ret.WildCardNull = eval(this.WildCardNull);
+            this.Translate_InternalFill(ret, eval);
+            return ret;
+        }
+
+        protected void Translate_InternalFill<R>(TestObject_HasBeenSet_ReadOnly_RPC_Mask<R> obj, Func<T, R> eval)
+        {
+            obj.ByteArray = eval(this.ByteArray);
+            obj.ByteArrayNull = eval(this.ByteArrayNull);
+            obj.ByteArrayNotNull = eval(this.ByteArrayNotNull);
+            obj.ByteArraySingleton = eval(this.ByteArraySingleton);
+            obj.BoolN = eval(this.BoolN);
+            obj.Bool = eval(this.Bool);
+            obj.CharN = eval(this.CharN);
+            obj.Char = eval(this.Char);
+            obj.DateTimeNull = eval(this.DateTimeNull);
+            obj.DateTime = eval(this.DateTime);
+            obj.DoubleN = eval(this.DoubleN);
+            obj.DoubleN_Ranged = eval(this.DoubleN_Ranged);
+            obj.Double = eval(this.Double);
+            obj.Double_Ranged = eval(this.Double_Ranged);
+            obj.FloatN = eval(this.FloatN);
+            obj.FloatN_Ranged = eval(this.FloatN_Ranged);
+            obj.Float = eval(this.Float);
+            obj.Float_Ranged = eval(this.Float_Ranged);
+            obj.Int16N = eval(this.Int16N);
+            obj.Int16N_Ranged = eval(this.Int16N_Ranged);
+            obj.Int16 = eval(this.Int16);
+            obj.Int16_Ranged = eval(this.Int16_Ranged);
+            obj.Int32N = eval(this.Int32N);
+            obj.Int32N_Ranged = eval(this.Int32N_Ranged);
+            obj.Int32 = eval(this.Int32);
+            obj.Int32_Ranged = eval(this.Int32_Ranged);
+            obj.Int64N = eval(this.Int64N);
+            obj.Int64N_Ranged = eval(this.Int64N_Ranged);
+            obj.Int64 = eval(this.Int64);
+            obj.Int64_Ranged = eval(this.Int64_Ranged);
+            obj.Int8N = eval(this.Int8N);
+            obj.Int8N_Ranged = eval(this.Int8N_Ranged);
+            obj.Int8 = eval(this.Int8);
+            obj.Int8_Ranged = eval(this.Int8_Ranged);
+            obj.Unsafe = eval(this.Unsafe);
+            obj.UnsafeLoqui = eval(this.UnsafeLoqui);
+            obj.UnsafeNull = eval(this.UnsafeNull);
+            obj.P2IntN = eval(this.P2IntN);
+            obj.P2Int = eval(this.P2Int);
+            obj.P3DoubleN = eval(this.P3DoubleN);
+            obj.P3Double = eval(this.P3Double);
+            obj.P3IntN = eval(this.P3IntN);
+            obj.P3Int = eval(this.P3Int);
+            obj.PercentN = eval(this.PercentN);
+            obj.Percent = eval(this.Percent);
+            obj.RangeInt8N = eval(this.RangeInt8N);
+            obj.RangeInt8 = eval(this.RangeInt8);
+            obj.RangeInt16N = eval(this.RangeInt16N);
+            obj.RangeInt16 = eval(this.RangeInt16);
+            obj.RangeInt32N = eval(this.RangeInt32N);
+            obj.RangeInt32 = eval(this.RangeInt32);
+            obj.RangeInt64N = eval(this.RangeInt64N);
+            obj.RangeInt64 = eval(this.RangeInt64);
+            obj.RangeUInt8N = eval(this.RangeUInt8N);
+            obj.RangeUInt8 = eval(this.RangeUInt8);
+            obj.RangeUInt16N = eval(this.RangeUInt16N);
+            obj.RangeUInt16 = eval(this.RangeUInt16);
+            obj.RangeUInt32N = eval(this.RangeUInt32N);
+            obj.RangeUInt32 = eval(this.RangeUInt32);
+            obj.RangeUInt64N = eval(this.RangeUInt64N);
+            obj.RangeUInt64 = eval(this.RangeUInt64);
+            obj.String = eval(this.String);
+            obj.FilePath = eval(this.FilePath);
+            obj.FilePathNull = eval(this.FilePathNull);
+            obj.DirectoryPath = eval(this.DirectoryPath);
+            obj.DirectoryPathNull = eval(this.DirectoryPathNull);
+            obj.UDoubleN = eval(this.UDoubleN);
+            obj.UDoubleN_Ranged = eval(this.UDoubleN_Ranged);
+            obj.UDouble = eval(this.UDouble);
+            obj.UDouble_Ranged = eval(this.UDouble_Ranged);
+            obj.UInt16N = eval(this.UInt16N);
+            obj.UInt16N_Ranged = eval(this.UInt16N_Ranged);
+            obj.UInt16 = eval(this.UInt16);
+            obj.UInt16_Ranged = eval(this.UInt16_Ranged);
+            obj.UInt32N = eval(this.UInt32N);
+            obj.UInt32N_Ranged = eval(this.UInt32N_Ranged);
+            obj.UInt32 = eval(this.UInt32);
+            obj.UInt32_Ranged = eval(this.UInt32_Ranged);
+            obj.UInt64N = eval(this.UInt64N);
+            obj.UInt64N_Ranged = eval(this.UInt64N_Ranged);
+            obj.UInt64 = eval(this.UInt64);
+            obj.UInt64_Ranged = eval(this.UInt64_Ranged);
+            obj.UInt8N = eval(this.UInt8N);
+            obj.UInt8N_Ranged = eval(this.UInt8N_Ranged);
+            obj.UInt8 = eval(this.UInt8);
+            obj.UInt8_Ranged = eval(this.UInt8_Ranged);
+            obj.Enum = eval(this.Enum);
+            obj.EnumNull = eval(this.EnumNull);
+            obj.WildCard = eval(this.WildCard);
+            obj.WildCardLoqui = eval(this.WildCardLoqui);
+            obj.WildCardNull = eval(this.WildCardNull);
             if (this.Ref != null)
             {
-                ret.Ref = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.Ref.Overall = eval(this.Ref.Overall);
+                obj.Ref = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.Ref.Overall = eval(this.Ref.Overall);
                 if (this.Ref.Specific != null)
                 {
-                    ret.Ref.Specific = this.Ref.Specific.Translate(eval);
+                    obj.Ref.Specific = this.Ref.Specific.Translate(eval);
                 }
             }
             if (this.Ref_NotNull != null)
             {
-                ret.Ref_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.Ref_NotNull.Overall = eval(this.Ref_NotNull.Overall);
+                obj.Ref_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.Ref_NotNull.Overall = eval(this.Ref_NotNull.Overall);
                 if (this.Ref_NotNull.Specific != null)
                 {
-                    ret.Ref_NotNull.Specific = this.Ref_NotNull.Specific.Translate(eval);
+                    obj.Ref_NotNull.Specific = this.Ref_NotNull.Specific.Translate(eval);
                 }
             }
             if (this.Ref_Singleton != null)
             {
-                ret.Ref_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.Ref_Singleton.Overall = eval(this.Ref_Singleton.Overall);
+                obj.Ref_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.Ref_Singleton.Overall = eval(this.Ref_Singleton.Overall);
                 if (this.Ref_Singleton.Specific != null)
                 {
-                    ret.Ref_Singleton.Specific = this.Ref_Singleton.Specific.Translate(eval);
+                    obj.Ref_Singleton.Specific = this.Ref_Singleton.Specific.Translate(eval);
                 }
             }
             if (this.RefGetter != null)
             {
-                ret.RefGetter = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefGetter.Overall = eval(this.RefGetter.Overall);
+                obj.RefGetter = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefGetter.Overall = eval(this.RefGetter.Overall);
                 if (this.RefGetter.Specific != null)
                 {
-                    ret.RefGetter.Specific = this.RefGetter.Specific.Translate(eval);
+                    obj.RefGetter.Specific = this.RefGetter.Specific.Translate(eval);
                 }
             }
             if (this.RefGetter_NotNull != null)
             {
-                ret.RefGetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefGetter_NotNull.Overall = eval(this.RefGetter_NotNull.Overall);
+                obj.RefGetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefGetter_NotNull.Overall = eval(this.RefGetter_NotNull.Overall);
                 if (this.RefGetter_NotNull.Specific != null)
                 {
-                    ret.RefGetter_NotNull.Specific = this.RefGetter_NotNull.Specific.Translate(eval);
+                    obj.RefGetter_NotNull.Specific = this.RefGetter_NotNull.Specific.Translate(eval);
                 }
             }
             if (this.RefGetter_Singleton != null)
             {
-                ret.RefGetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefGetter_Singleton.Overall = eval(this.RefGetter_Singleton.Overall);
+                obj.RefGetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefGetter_Singleton.Overall = eval(this.RefGetter_Singleton.Overall);
                 if (this.RefGetter_Singleton.Specific != null)
                 {
-                    ret.RefGetter_Singleton.Specific = this.RefGetter_Singleton.Specific.Translate(eval);
+                    obj.RefGetter_Singleton.Specific = this.RefGetter_Singleton.Specific.Translate(eval);
                 }
             }
             if (this.RefSetter != null)
             {
-                ret.RefSetter = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefSetter.Overall = eval(this.RefSetter.Overall);
+                obj.RefSetter = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefSetter.Overall = eval(this.RefSetter.Overall);
                 if (this.RefSetter.Specific != null)
                 {
-                    ret.RefSetter.Specific = this.RefSetter.Specific.Translate(eval);
+                    obj.RefSetter.Specific = this.RefSetter.Specific.Translate(eval);
                 }
             }
             if (this.RefSetter_NotNull != null)
             {
-                ret.RefSetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefSetter_NotNull.Overall = eval(this.RefSetter_NotNull.Overall);
+                obj.RefSetter_NotNull = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefSetter_NotNull.Overall = eval(this.RefSetter_NotNull.Overall);
                 if (this.RefSetter_NotNull.Specific != null)
                 {
-                    ret.RefSetter_NotNull.Specific = this.RefSetter_NotNull.Specific.Translate(eval);
+                    obj.RefSetter_NotNull.Specific = this.RefSetter_NotNull.Specific.Translate(eval);
                 }
             }
             if (this.RefSetter_Singleton != null)
             {
-                ret.RefSetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
-                ret.RefSetter_Singleton.Overall = eval(this.RefSetter_Singleton.Overall);
+                obj.RefSetter_Singleton = new MaskItem<R, ObjectToRef_Mask<R>>();
+                obj.RefSetter_Singleton.Overall = eval(this.RefSetter_Singleton.Overall);
                 if (this.RefSetter_Singleton.Specific != null)
                 {
-                    ret.RefSetter_Singleton.Specific = this.RefSetter_Singleton.Specific.Translate(eval);
+                    obj.RefSetter_Singleton.Specific = this.RefSetter_Singleton.Specific.Translate(eval);
                 }
             }
             if (List != null)
             {
-                ret.List = new MaskItem<R, IEnumerable<R>>();
-                ret.List.Overall = eval(this.List.Overall);
+                obj.List = new MaskItem<R, IEnumerable<R>>();
+                obj.List.Overall = eval(this.List.Overall);
                 if (List.Specific != null)
                 {
                     List<R> l = new List<R>();
-                    ret.List.Specific = l;
+                    obj.List.Specific = l;
                     foreach (var item in List.Specific)
                     {
                         R mask = default(R);
@@ -12633,12 +12639,12 @@ namespace Loqui.Tests.Internals
             }
             if (RefList != null)
             {
-                ret.RefList = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
-                ret.RefList.Overall = eval(this.RefList.Overall);
+                obj.RefList = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                obj.RefList.Overall = eval(this.RefList.Overall);
                 if (RefList.Specific != null)
                 {
                     List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
-                    ret.RefList.Specific = l;
+                    obj.RefList.Specific = l;
                     foreach (var item in RefList.Specific)
                     {
                         MaskItem<R, ObjectToRef_Mask<R>> mask = default(MaskItem<R, ObjectToRef_Mask<R>>);
@@ -12657,12 +12663,12 @@ namespace Loqui.Tests.Internals
             }
             if (Dict != null)
             {
-                ret.Dict = new MaskItem<R, IEnumerable<KeyValuePair<R, R>>>();
-                ret.Dict.Overall = eval(this.Dict.Overall);
+                obj.Dict = new MaskItem<R, IEnumerable<KeyValuePair<R, R>>>();
+                obj.Dict.Overall = eval(this.Dict.Overall);
                 if (Dict.Specific != null)
                 {
                     List<KeyValuePair<R, R>> l = new List<KeyValuePair<R, R>>();
-                    ret.Dict.Specific = l;
+                    obj.Dict.Specific = l;
                     foreach (var item in Dict.Specific)
                     {
                         R keyVal = eval(item.Key);
@@ -12673,12 +12679,12 @@ namespace Loqui.Tests.Internals
             }
             if (RefDict != null)
             {
-                ret.RefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>>();
-                ret.RefDict.Overall = eval(this.RefDict.Overall);
+                obj.RefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                obj.RefDict.Overall = eval(this.RefDict.Overall);
                 if (RefDict.Specific != null)
                 {
                     List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, MaskItem<R, ObjectToRef_Mask<R>>>>();
-                    ret.RefDict.Specific = l;
+                    obj.RefDict.Specific = l;
                     foreach (var item in RefDict.Specific)
                     {
                         MaskItem<R, ObjectToRef_Mask<R>> keyVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
@@ -12707,12 +12713,12 @@ namespace Loqui.Tests.Internals
             }
             if (KeyRefDict != null)
             {
-                ret.KeyRefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>>();
-                ret.KeyRefDict.Overall = eval(this.KeyRefDict.Overall);
+                obj.KeyRefDict = new MaskItem<R, IEnumerable<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>>();
+                obj.KeyRefDict.Overall = eval(this.KeyRefDict.Overall);
                 if (KeyRefDict.Specific != null)
                 {
                     List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>> l = new List<KeyValuePair<MaskItem<R, ObjectToRef_Mask<R>>, R>>();
-                    ret.KeyRefDict.Specific = l;
+                    obj.KeyRefDict.Specific = l;
                     foreach (var item in KeyRefDict.Specific)
                     {
                         MaskItem<R, ObjectToRef_Mask<R>> keyVal = default(MaskItem<R, ObjectToRef_Mask<R>>);
@@ -12732,12 +12738,12 @@ namespace Loqui.Tests.Internals
             }
             if (ValRefDict != null)
             {
-                ret.ValRefDict = new MaskItem<R, IEnumerable<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>>();
-                ret.ValRefDict.Overall = eval(this.ValRefDict.Overall);
+                obj.ValRefDict = new MaskItem<R, IEnumerable<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>>();
+                obj.ValRefDict.Overall = eval(this.ValRefDict.Overall);
                 if (ValRefDict.Specific != null)
                 {
                     List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>> l = new List<KeyValuePair<R, MaskItem<R, ObjectToRef_Mask<R>>>>();
-                    ret.ValRefDict.Specific = l;
+                    obj.ValRefDict.Specific = l;
                     foreach (var item in ValRefDict.Specific)
                     {
                         R keyVal = eval(item.Key);
@@ -12757,12 +12763,12 @@ namespace Loqui.Tests.Internals
             }
             if (DictKeyedValue != null)
             {
-                ret.DictKeyedValue = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
-                ret.DictKeyedValue.Overall = eval(this.DictKeyedValue.Overall);
+                obj.DictKeyedValue = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                obj.DictKeyedValue.Overall = eval(this.DictKeyedValue.Overall);
                 if (DictKeyedValue.Specific != null)
                 {
                     List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
-                    ret.DictKeyedValue.Specific = l;
+                    obj.DictKeyedValue.Specific = l;
                     foreach (var item in DictKeyedValue.Specific)
                     {
                         MaskItem<R, ObjectToRef_Mask<R>> mask = default(MaskItem<R, ObjectToRef_Mask<R>>);
@@ -12779,7 +12785,6 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            return ret;
         }
         #endregion
 

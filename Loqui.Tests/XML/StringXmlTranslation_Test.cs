@@ -53,6 +53,7 @@ namespace Loqui.Tests.XML
         #endregion
 
         #region Parse - Bad Element
+        [Fact]
         public override void Parse_BadElement_Mask()
         {
             // N/A
@@ -67,6 +68,7 @@ namespace Loqui.Tests.XML
             Assert.Equal("Gibberish", ret.Value);
         }
 
+        [Fact]
         public override void Parse_BadElement_NoMask()
         {
             // N/A

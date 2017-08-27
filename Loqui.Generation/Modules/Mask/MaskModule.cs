@@ -113,15 +113,26 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Translate"))
                 {
-                    fg.AppendLine($"public {obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    fg.AppendLine($"public new {obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
+                        fg.AppendLine($"this.Translate_InternalFill(ret, eval);");
+                        fg.AppendLine("return ret;");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"protected void Translate_InternalFill<R>({obj.Name}_Mask<R> obj, Func<T, R> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"base.Translate_InternalFill(obj, eval);");
+                        }
                         foreach (var field in obj.Fields)
                         {
-                            GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"ret.{field.Name}", $"this.{field.Name}");
+                            GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"obj.{field.Name}", $"this.{field.Name}");
                         }
-                        fg.AppendLine("return ret;");
                     }
                 }
 

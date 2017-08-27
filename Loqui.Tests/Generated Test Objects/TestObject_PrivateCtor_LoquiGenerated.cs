@@ -1070,11 +1070,16 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public TestObject_PrivateCtor_Mask<R> Translate<R>(Func<T, R> eval)
+        public new TestObject_PrivateCtor_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new TestObject_PrivateCtor_Mask<R>();
-            ret.BoolN = eval(this.BoolN);
+            this.Translate_InternalFill(ret, eval);
             return ret;
+        }
+
+        protected void Translate_InternalFill<R>(TestObject_PrivateCtor_Mask<R> obj, Func<T, R> eval)
+        {
+            obj.BoolN = eval(this.BoolN);
         }
         #endregion
 

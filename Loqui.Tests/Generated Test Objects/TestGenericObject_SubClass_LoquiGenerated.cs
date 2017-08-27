@@ -1095,10 +1095,16 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public TestGenericObject_SubClass_Mask<R> Translate<R>(Func<T, R> eval)
+        public new TestGenericObject_SubClass_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new TestGenericObject_SubClass_Mask<R>();
+            this.Translate_InternalFill(ret, eval);
             return ret;
+        }
+
+        protected void Translate_InternalFill<R>(TestGenericObject_SubClass_Mask<R> obj, Func<T, R> eval)
+        {
+            base.Translate_InternalFill(obj, eval);
         }
         #endregion
 

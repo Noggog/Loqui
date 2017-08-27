@@ -1225,12 +1225,17 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public ObjectToRef_Mask<R> Translate<R>(Func<T, R> eval)
+        public new ObjectToRef_Mask<R> Translate<R>(Func<T, R> eval)
         {
             var ret = new ObjectToRef_Mask<R>();
-            ret.KeyField = eval(this.KeyField);
-            ret.SomeField = eval(this.SomeField);
+            this.Translate_InternalFill(ret, eval);
             return ret;
+        }
+
+        protected void Translate_InternalFill<R>(ObjectToRef_Mask<R> obj, Func<T, R> eval)
+        {
+            obj.KeyField = eval(this.KeyField);
+            obj.SomeField = eval(this.SomeField);
         }
         #endregion
 
