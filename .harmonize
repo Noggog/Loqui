@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>875d031277958948fa24e98b481bf1d1d404cd4e</Sha>
+         <Sha>1694bf428abdc424ef5ea82374ac412dd67ec81f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-15-2017 21:17:39</CommitDate>
-         <Description>Null fix for FilePath systems</Description>
+         <CommitDate>08-27-2017 13:16:31</CommitDate>
+         <Description>Nuget Update</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
