@@ -77,7 +77,7 @@ namespace Loqui.Tests
             return TestObject_Notifying_SubClassCommon.ToString(this, name: name, printMask: printMask);
         }
 
-        public void ToString(
+        public override void ToString(
             FileGeneration fg,
             string name = null)
         {

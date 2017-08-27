@@ -1271,7 +1271,7 @@ namespace Loqui.Tests
             return TestObject_NotifyingCommon.ToString(this, name: name, printMask: printMask);
         }
 
-        public void ToString(
+        public virtual void ToString(
             FileGeneration fg,
             string name = null)
         {

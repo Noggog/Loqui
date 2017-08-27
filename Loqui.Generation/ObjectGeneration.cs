@@ -1683,7 +1683,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public void ToString"))
+                        $"public{this.FunctionOverride}void ToString"))
                     {
                         args.Add($"FileGeneration fg");
                         args.Add($"string name = null");
