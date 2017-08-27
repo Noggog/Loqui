@@ -1324,6 +1324,14 @@ namespace Loqui.Tests.Internals
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
             return true;
         }
+        public override int GetHashCode()
+        {
+            int ret = 0;
+            ret = ret.CombineHashCode(this.RefBase?.GetHashCode());
+            ret = ret.CombineHashCode(this.Ref?.GetHashCode());
+            return ret;
+        }
+
         #endregion
 
         #region All Equal

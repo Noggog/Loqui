@@ -1052,6 +1052,13 @@ namespace Loqui.Tests.Internals
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             return true;
         }
+        public override int GetHashCode()
+        {
+            int ret = 0;
+            ret = ret.CombineHashCode(this.BoolN?.GetHashCode());
+            return ret;
+        }
+
         #endregion
 
         #region All Equal

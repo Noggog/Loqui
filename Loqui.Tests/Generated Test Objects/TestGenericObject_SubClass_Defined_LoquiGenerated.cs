@@ -1003,6 +1003,13 @@ namespace Loqui.Tests.Internals
             if (!base.Equals(rhs)) return false;
             return true;
         }
+        public override int GetHashCode()
+        {
+            int ret = 0;
+            ret = ret.CombineHashCode(base.GetHashCode());
+            return ret;
+        }
+
         #endregion
 
         #region All Equal

@@ -1096,6 +1096,14 @@ namespace Loqui.Tests.Internals
             if (!object.Equals(this.NewField, rhs.NewField)) return false;
             return true;
         }
+        public override int GetHashCode()
+        {
+            int ret = 0;
+            ret = ret.CombineHashCode(this.NewField?.GetHashCode());
+            ret = ret.CombineHashCode(base.GetHashCode());
+            return ret;
+        }
+
         #endregion
 
         #region All Equal

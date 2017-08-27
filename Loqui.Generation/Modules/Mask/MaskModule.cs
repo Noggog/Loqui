@@ -80,6 +80,22 @@ namespace Loqui.Generation
                         }
                         fg.AppendLine("return true;");
                     }
+
+                    fg.AppendLine("public override int GetHashCode()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("int ret = 0;");
+                        foreach (var field in obj.Fields)
+                        {
+                            fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
+                        }
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                        }
+                        fg.AppendLine("return ret;");
+                    }
+                    fg.AppendLine();
                 }
 
                 using (new RegionWrapper(fg, "All Equal"))
