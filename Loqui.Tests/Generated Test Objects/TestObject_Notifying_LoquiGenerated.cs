@@ -14749,7 +14749,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region All Equal
-        public bool AllEqual(Func<T, bool> eval)
+        public virtual bool AllEqual(Func<T, bool> eval)
         {
             if (!eval(this.ByteArray)) return false;
             if (!eval(this.ByteArrayNull)) return false;

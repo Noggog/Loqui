@@ -1335,7 +1335,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region All Equal
-        public bool AllEqual(Func<T, bool> eval)
+        public virtual bool AllEqual(Func<T, bool> eval)
         {
             if (RefBase != null)
             {

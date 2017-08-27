@@ -48,6 +48,7 @@ namespace Loqui.Tests.XML
         {
         }
 
+        [Fact]
         public override void Write_NodeName()
         {
             var name = "AName";

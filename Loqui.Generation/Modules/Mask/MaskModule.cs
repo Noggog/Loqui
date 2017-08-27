@@ -100,9 +100,13 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "All Equal"))
                 {
-                    fg.AppendLine("public bool AllEqual(Func<T, bool> eval)");
+                    fg.AppendLine($"public{obj.FunctionOverride}bool AllEqual(Func<T, bool> eval)");
                     using (new BraceWrapper(fg))
                     {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"if (!base.AllEqual(eval)) return false;");
+                        }
                         foreach (var field in obj.Fields)
                         {
                             GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field);
@@ -113,7 +117,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Translate"))
                 {
-                    fg.AppendLine($"public{(obj.HasBaseObject ? " new" : string.Empty)} {obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    fg.AppendLine($"public{obj.NewOverride}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
