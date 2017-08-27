@@ -1380,7 +1380,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Clear Enumerables
-        public void ClearEnumerables()
+        public virtual void ClearEnumerables()
         {
         }
         #endregion

@@ -15340,7 +15340,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Clear Enumerables
-        public void ClearEnumerables()
+        public virtual void ClearEnumerables()
         {
             this.List.Specific = null;
             this.RefList.Specific = null;

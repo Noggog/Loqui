@@ -138,9 +138,13 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Clear Enumerables"))
                 {
-                    fg.AppendLine("public void ClearEnumerables()");
+                    fg.AppendLine($"public{obj.FunctionOverride}void ClearEnumerables()");
                     using (new BraceWrapper(fg))
                     {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"base.ClearEnumerables();");
+                        }
                         foreach (var field in obj.Fields)
                         {
                             GetMaskModule(field.GetType()).GenerateForClearEnumerable(fg, field);
