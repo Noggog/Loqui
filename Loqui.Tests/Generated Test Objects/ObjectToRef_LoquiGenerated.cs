@@ -1079,10 +1079,10 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML(
             XmlWriter writer,
-            string name,
             IObjectToRefGetter item,
             bool doMasks,
-            out ObjectToRef_ErrorMask errorMask)
+            out ObjectToRef_ErrorMask errorMask,
+            string name = null)
         {
             ObjectToRef_ErrorMask errMaskRet = null;
             Write_XML_Internal(
@@ -1096,10 +1096,10 @@ namespace Loqui.Tests.Internals
 
         private static void Write_XML_Internal(
             XmlWriter writer,
-            string name,
             IObjectToRefGetter item,
             bool doMasks,
-            Func<ObjectToRef_ErrorMask> errorMask)
+            Func<ObjectToRef_ErrorMask> errorMask,
+            string name = null)
         {
             try
             {

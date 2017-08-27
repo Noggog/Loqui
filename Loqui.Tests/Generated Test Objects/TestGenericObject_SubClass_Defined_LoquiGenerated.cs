@@ -918,10 +918,10 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML<RBase>(
             XmlWriter writer,
-            string name,
             ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             bool doMasks,
-            out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
+            out TestGenericObject_SubClass_Defined_ErrorMask errorMask,
+            string name = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
             TestGenericObject_SubClass_Defined_ErrorMask errMaskRet = null;
@@ -936,10 +936,10 @@ namespace Loqui.Tests.Internals
 
         private static void Write_XML_Internal<RBase>(
             XmlWriter writer,
-            string name,
             ITestGenericObject_SubClass_DefinedGetter<RBase> item,
             bool doMasks,
-            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask)
+            Func<TestGenericObject_SubClass_Defined_ErrorMask> errorMask,
+            string name = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         {
             try

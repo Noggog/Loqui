@@ -12927,10 +12927,10 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML(
             XmlWriter writer,
-            string name,
             ITestObject_Notifying_RPCGetter item,
             bool doMasks,
-            out TestObject_Notifying_RPC_ErrorMask errorMask)
+            out TestObject_Notifying_RPC_ErrorMask errorMask,
+            string name = null)
         {
             TestObject_Notifying_RPC_ErrorMask errMaskRet = null;
             Write_XML_Internal(
@@ -12944,10 +12944,10 @@ namespace Loqui.Tests.Internals
 
         private static void Write_XML_Internal(
             XmlWriter writer,
-            string name,
             ITestObject_Notifying_RPCGetter item,
             bool doMasks,
-            Func<TestObject_Notifying_RPC_ErrorMask> errorMask)
+            Func<TestObject_Notifying_RPC_ErrorMask> errorMask,
+            string name = null)
         {
             try
             {

@@ -380,11 +380,17 @@ namespace Loqui.Generation
                 $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
-                args.Add($"XmlWriter writer");
-                args.Add($"string name");
+                foreach (var item in this.MainAPI.WriterAPI.API)
+                {
+                    args.Add(item);
+                }
                 args.Add($"{obj.Getter_InterfaceStr} item");
                 args.Add($"bool doMasks");
                 args.Add($"out {obj.ErrorMask} errorMask");
+                foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
+                {
+                    args.Add(item);
+                }
             }
             using (new BraceWrapper(fg))
             {
@@ -392,8 +398,10 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"Write_{ModuleNickname}_Internal"))
                 {
-                    args.Add("writer: writer");
-                    args.Add("name: name");
+                    foreach (var item in this.MainAPI.WriterPassArgs)
+                    {
+                        args.Add(item);
+                    }
                     args.Add("item: item");
                     args.Add("doMasks: doMasks");
                     args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
@@ -406,11 +414,17 @@ namespace Loqui.Generation
                 $"private static void Write_{ModuleNickname}_Internal{obj.GenericTypes}",
                 obj.GenerateWhereClauses().ToArray()))
             {
-                args.Add($"XmlWriter writer");
-                args.Add($"string name");
+                foreach (var item in this.MainAPI.WriterAPI.API)
+                {
+                    args.Add(item);
+                }
                 args.Add($"{obj.Getter_InterfaceStr} item");
                 args.Add($"bool doMasks");
                 args.Add($"Func<{obj.ErrorMask}> errorMask");
+                foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
+                {
+                    args.Add(item);
+                }
             }
             using (new BraceWrapper(fg))
             {

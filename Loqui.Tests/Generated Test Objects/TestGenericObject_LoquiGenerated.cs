@@ -1184,10 +1184,10 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML<T, RBase, R>(
             XmlWriter writer,
-            string name,
             ITestGenericObjectGetter<T, RBase, R> item,
             bool doMasks,
-            out TestGenericObject_ErrorMask errorMask)
+            out TestGenericObject_ErrorMask errorMask,
+            string name = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {
@@ -1203,10 +1203,10 @@ namespace Loqui.Tests.Internals
 
         private static void Write_XML_Internal<T, RBase, R>(
             XmlWriter writer,
-            string name,
             ITestGenericObjectGetter<T, RBase, R> item,
             bool doMasks,
-            Func<TestGenericObject_ErrorMask> errorMask)
+            Func<TestGenericObject_ErrorMask> errorMask,
+            string name = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
             where R : ILoquiObject, ILoquiObjectGetter
         {

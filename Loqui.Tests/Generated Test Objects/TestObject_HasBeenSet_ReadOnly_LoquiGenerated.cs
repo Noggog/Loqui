@@ -9708,10 +9708,10 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML(
             XmlWriter writer,
-            string name,
             ITestObject_HasBeenSet_ReadOnlyGetter item,
             bool doMasks,
-            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask)
+            out TestObject_HasBeenSet_ReadOnly_ErrorMask errorMask,
+            string name = null)
         {
             TestObject_HasBeenSet_ReadOnly_ErrorMask errMaskRet = null;
             Write_XML_Internal(
@@ -9725,10 +9725,10 @@ namespace Loqui.Tests.Internals
 
         private static void Write_XML_Internal(
             XmlWriter writer,
-            string name,
             ITestObject_HasBeenSet_ReadOnlyGetter item,
             bool doMasks,
-            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> errorMask)
+            Func<TestObject_HasBeenSet_ReadOnly_ErrorMask> errorMask,
+            string name = null)
         {
             try
             {
