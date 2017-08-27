@@ -284,7 +284,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg)");
+                    fg.AppendLine($"public{obj.FunctionOverride}void ToString({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
@@ -292,16 +292,26 @@ namespace Loqui.Generation
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.IterateFields())
-                            {
-                                fg.AppendLine($"if ({item.Field.Name} != null)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
-                                }
-                            }
+                            fg.AppendLine($"ToString_FillInternal(fg);");
                         }
                         fg.AppendLine($"fg.AppendLine(\"]\");");
+                    }
+
+                    fg.AppendLine($"protected{obj.FunctionOverride}void ToString_FillInternal({nameof(FileGeneration)} fg)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine("base.ToString_FillInternal(fg);");
+                        }
+                        foreach (var item in obj.IterateFields())
+                        {
+                            fg.AppendLine($"if ({item.Field.Name} != null)");
+                            using (new BraceWrapper(fg))
+                            {
+                                GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                            }
+                        }
                     }
                 }
 

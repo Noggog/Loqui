@@ -11499,627 +11499,631 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (ByteArray != null)
-                {
-                    fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
-                }
-                if (ByteArrayNull != null)
-                {
-                    fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
-                }
-                if (ByteArrayNotNull != null)
-                {
-                    fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
-                }
-                if (ByteArraySingleton != null)
-                {
-                    fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
-                }
-                if (BoolN != null)
-                {
-                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
-                }
-                if (Bool != null)
-                {
-                    fg.AppendLine($"Bool => {Bool.ToStringSafe()}");
-                }
-                if (CharN != null)
-                {
-                    fg.AppendLine($"CharN => {CharN.ToStringSafe()}");
-                }
-                if (Char != null)
-                {
-                    fg.AppendLine($"Char => {Char.ToStringSafe()}");
-                }
-                if (DateTimeNull != null)
-                {
-                    fg.AppendLine($"DateTimeNull => {DateTimeNull.ToStringSafe()}");
-                }
-                if (DateTime != null)
-                {
-                    fg.AppendLine($"DateTime => {DateTime.ToStringSafe()}");
-                }
-                if (DoubleN != null)
-                {
-                    fg.AppendLine($"DoubleN => {DoubleN.ToStringSafe()}");
-                }
-                if (DoubleN_Ranged != null)
-                {
-                    fg.AppendLine($"DoubleN_Ranged => {DoubleN_Ranged.ToStringSafe()}");
-                }
-                if (Double != null)
-                {
-                    fg.AppendLine($"Double => {Double.ToStringSafe()}");
-                }
-                if (Double_Ranged != null)
-                {
-                    fg.AppendLine($"Double_Ranged => {Double_Ranged.ToStringSafe()}");
-                }
-                if (FloatN != null)
-                {
-                    fg.AppendLine($"FloatN => {FloatN.ToStringSafe()}");
-                }
-                if (FloatN_Ranged != null)
-                {
-                    fg.AppendLine($"FloatN_Ranged => {FloatN_Ranged.ToStringSafe()}");
-                }
-                if (Float != null)
-                {
-                    fg.AppendLine($"Float => {Float.ToStringSafe()}");
-                }
-                if (Float_Ranged != null)
-                {
-                    fg.AppendLine($"Float_Ranged => {Float_Ranged.ToStringSafe()}");
-                }
-                if (Int16N != null)
-                {
-                    fg.AppendLine($"Int16N => {Int16N.ToStringSafe()}");
-                }
-                if (Int16N_Ranged != null)
-                {
-                    fg.AppendLine($"Int16N_Ranged => {Int16N_Ranged.ToStringSafe()}");
-                }
-                if (Int16 != null)
-                {
-                    fg.AppendLine($"Int16 => {Int16.ToStringSafe()}");
-                }
-                if (Int16_Ranged != null)
-                {
-                    fg.AppendLine($"Int16_Ranged => {Int16_Ranged.ToStringSafe()}");
-                }
-                if (Int32N != null)
-                {
-                    fg.AppendLine($"Int32N => {Int32N.ToStringSafe()}");
-                }
-                if (Int32N_Ranged != null)
-                {
-                    fg.AppendLine($"Int32N_Ranged => {Int32N_Ranged.ToStringSafe()}");
-                }
-                if (Int32 != null)
-                {
-                    fg.AppendLine($"Int32 => {Int32.ToStringSafe()}");
-                }
-                if (Int32_Ranged != null)
-                {
-                    fg.AppendLine($"Int32_Ranged => {Int32_Ranged.ToStringSafe()}");
-                }
-                if (Int64N != null)
-                {
-                    fg.AppendLine($"Int64N => {Int64N.ToStringSafe()}");
-                }
-                if (Int64N_Ranged != null)
-                {
-                    fg.AppendLine($"Int64N_Ranged => {Int64N_Ranged.ToStringSafe()}");
-                }
-                if (Int64 != null)
-                {
-                    fg.AppendLine($"Int64 => {Int64.ToStringSafe()}");
-                }
-                if (Int64_Ranged != null)
-                {
-                    fg.AppendLine($"Int64_Ranged => {Int64_Ranged.ToStringSafe()}");
-                }
-                if (Int8N != null)
-                {
-                    fg.AppendLine($"Int8N => {Int8N.ToStringSafe()}");
-                }
-                if (Int8N_Ranged != null)
-                {
-                    fg.AppendLine($"Int8N_Ranged => {Int8N_Ranged.ToStringSafe()}");
-                }
-                if (Int8 != null)
-                {
-                    fg.AppendLine($"Int8 => {Int8.ToStringSafe()}");
-                }
-                if (Int8_Ranged != null)
-                {
-                    fg.AppendLine($"Int8_Ranged => {Int8_Ranged.ToStringSafe()}");
-                }
-                if (Unsafe != null)
-                {
-                    fg.AppendLine($"Unsafe => {Unsafe.ToStringSafe()}");
-                }
-                if (UnsafeLoqui != null)
-                {
-                    fg.AppendLine($"UnsafeLoqui => {UnsafeLoqui.ToStringSafe()}");
-                }
-                if (UnsafeNull != null)
-                {
-                    fg.AppendLine($"UnsafeNull => {UnsafeNull.ToStringSafe()}");
-                }
-                if (P2IntN != null)
-                {
-                    fg.AppendLine($"P2IntN => {P2IntN.ToStringSafe()}");
-                }
-                if (P2Int != null)
-                {
-                    fg.AppendLine($"P2Int => {P2Int.ToStringSafe()}");
-                }
-                if (P3DoubleN != null)
-                {
-                    fg.AppendLine($"P3DoubleN => {P3DoubleN.ToStringSafe()}");
-                }
-                if (P3Double != null)
-                {
-                    fg.AppendLine($"P3Double => {P3Double.ToStringSafe()}");
-                }
-                if (P3IntN != null)
-                {
-                    fg.AppendLine($"P3IntN => {P3IntN.ToStringSafe()}");
-                }
-                if (P3Int != null)
-                {
-                    fg.AppendLine($"P3Int => {P3Int.ToStringSafe()}");
-                }
-                if (PercentN != null)
-                {
-                    fg.AppendLine($"PercentN => {PercentN.ToStringSafe()}");
-                }
-                if (Percent != null)
-                {
-                    fg.AppendLine($"Percent => {Percent.ToStringSafe()}");
-                }
-                if (RangeInt8N != null)
-                {
-                    fg.AppendLine($"RangeInt8N => {RangeInt8N.ToStringSafe()}");
-                }
-                if (RangeInt8 != null)
-                {
-                    fg.AppendLine($"RangeInt8 => {RangeInt8.ToStringSafe()}");
-                }
-                if (RangeInt16N != null)
-                {
-                    fg.AppendLine($"RangeInt16N => {RangeInt16N.ToStringSafe()}");
-                }
-                if (RangeInt16 != null)
-                {
-                    fg.AppendLine($"RangeInt16 => {RangeInt16.ToStringSafe()}");
-                }
-                if (RangeInt32N != null)
-                {
-                    fg.AppendLine($"RangeInt32N => {RangeInt32N.ToStringSafe()}");
-                }
-                if (RangeInt32 != null)
-                {
-                    fg.AppendLine($"RangeInt32 => {RangeInt32.ToStringSafe()}");
-                }
-                if (RangeInt64N != null)
-                {
-                    fg.AppendLine($"RangeInt64N => {RangeInt64N.ToStringSafe()}");
-                }
-                if (RangeInt64 != null)
-                {
-                    fg.AppendLine($"RangeInt64 => {RangeInt64.ToStringSafe()}");
-                }
-                if (RangeUInt8N != null)
-                {
-                    fg.AppendLine($"RangeUInt8N => {RangeUInt8N.ToStringSafe()}");
-                }
-                if (RangeUInt8 != null)
-                {
-                    fg.AppendLine($"RangeUInt8 => {RangeUInt8.ToStringSafe()}");
-                }
-                if (RangeUInt16N != null)
-                {
-                    fg.AppendLine($"RangeUInt16N => {RangeUInt16N.ToStringSafe()}");
-                }
-                if (RangeUInt16 != null)
-                {
-                    fg.AppendLine($"RangeUInt16 => {RangeUInt16.ToStringSafe()}");
-                }
-                if (RangeUInt32N != null)
-                {
-                    fg.AppendLine($"RangeUInt32N => {RangeUInt32N.ToStringSafe()}");
-                }
-                if (RangeUInt32 != null)
-                {
-                    fg.AppendLine($"RangeUInt32 => {RangeUInt32.ToStringSafe()}");
-                }
-                if (RangeUInt64N != null)
-                {
-                    fg.AppendLine($"RangeUInt64N => {RangeUInt64N.ToStringSafe()}");
-                }
-                if (RangeUInt64 != null)
-                {
-                    fg.AppendLine($"RangeUInt64 => {RangeUInt64.ToStringSafe()}");
-                }
-                if (String != null)
-                {
-                    fg.AppendLine($"String => {String.ToStringSafe()}");
-                }
-                if (FilePath != null)
-                {
-                    fg.AppendLine($"FilePath => {FilePath.ToStringSafe()}");
-                }
-                if (FilePathNull != null)
-                {
-                    fg.AppendLine($"FilePathNull => {FilePathNull.ToStringSafe()}");
-                }
-                if (DirectoryPath != null)
-                {
-                    fg.AppendLine($"DirectoryPath => {DirectoryPath.ToStringSafe()}");
-                }
-                if (DirectoryPathNull != null)
-                {
-                    fg.AppendLine($"DirectoryPathNull => {DirectoryPathNull.ToStringSafe()}");
-                }
-                if (UDoubleN != null)
-                {
-                    fg.AppendLine($"UDoubleN => {UDoubleN.ToStringSafe()}");
-                }
-                if (UDoubleN_Ranged != null)
-                {
-                    fg.AppendLine($"UDoubleN_Ranged => {UDoubleN_Ranged.ToStringSafe()}");
-                }
-                if (UDouble != null)
-                {
-                    fg.AppendLine($"UDouble => {UDouble.ToStringSafe()}");
-                }
-                if (UDouble_Ranged != null)
-                {
-                    fg.AppendLine($"UDouble_Ranged => {UDouble_Ranged.ToStringSafe()}");
-                }
-                if (UInt16N != null)
-                {
-                    fg.AppendLine($"UInt16N => {UInt16N.ToStringSafe()}");
-                }
-                if (UInt16N_Ranged != null)
-                {
-                    fg.AppendLine($"UInt16N_Ranged => {UInt16N_Ranged.ToStringSafe()}");
-                }
-                if (UInt16 != null)
-                {
-                    fg.AppendLine($"UInt16 => {UInt16.ToStringSafe()}");
-                }
-                if (UInt16_Ranged != null)
-                {
-                    fg.AppendLine($"UInt16_Ranged => {UInt16_Ranged.ToStringSafe()}");
-                }
-                if (UInt32N != null)
-                {
-                    fg.AppendLine($"UInt32N => {UInt32N.ToStringSafe()}");
-                }
-                if (UInt32N_Ranged != null)
-                {
-                    fg.AppendLine($"UInt32N_Ranged => {UInt32N_Ranged.ToStringSafe()}");
-                }
-                if (UInt32 != null)
-                {
-                    fg.AppendLine($"UInt32 => {UInt32.ToStringSafe()}");
-                }
-                if (UInt32_Ranged != null)
-                {
-                    fg.AppendLine($"UInt32_Ranged => {UInt32_Ranged.ToStringSafe()}");
-                }
-                if (UInt64N != null)
-                {
-                    fg.AppendLine($"UInt64N => {UInt64N.ToStringSafe()}");
-                }
-                if (UInt64N_Ranged != null)
-                {
-                    fg.AppendLine($"UInt64N_Ranged => {UInt64N_Ranged.ToStringSafe()}");
-                }
-                if (UInt64 != null)
-                {
-                    fg.AppendLine($"UInt64 => {UInt64.ToStringSafe()}");
-                }
-                if (UInt64_Ranged != null)
-                {
-                    fg.AppendLine($"UInt64_Ranged => {UInt64_Ranged.ToStringSafe()}");
-                }
-                if (UInt8N != null)
-                {
-                    fg.AppendLine($"UInt8N => {UInt8N.ToStringSafe()}");
-                }
-                if (UInt8N_Ranged != null)
-                {
-                    fg.AppendLine($"UInt8N_Ranged => {UInt8N_Ranged.ToStringSafe()}");
-                }
-                if (UInt8 != null)
-                {
-                    fg.AppendLine($"UInt8 => {UInt8.ToStringSafe()}");
-                }
-                if (UInt8_Ranged != null)
-                {
-                    fg.AppendLine($"UInt8_Ranged => {UInt8_Ranged.ToStringSafe()}");
-                }
-                if (Enum != null)
-                {
-                    fg.AppendLine($"Enum => {Enum.ToStringSafe()}");
-                }
-                if (EnumNull != null)
-                {
-                    fg.AppendLine($"EnumNull => {EnumNull.ToStringSafe()}");
-                }
-                if (WildCard != null)
-                {
-                    fg.AppendLine($"WildCard => {WildCard.ToStringSafe()}");
-                }
-                if (WildCardLoqui != null)
-                {
-                    fg.AppendLine($"WildCardLoqui => {WildCardLoqui.ToStringSafe()}");
-                }
-                if (WildCardNull != null)
-                {
-                    fg.AppendLine($"WildCardNull => {WildCardNull.ToStringSafe()}");
-                }
-                if (Ref != null)
-                {
-                    Ref.ToString(fg);
-                }
-                if (Ref_NotNull != null)
-                {
-                    Ref_NotNull.ToString(fg);
-                }
-                if (Ref_Singleton != null)
-                {
-                    Ref_Singleton.ToString(fg);
-                }
-                if (RefGetter != null)
-                {
-                    RefGetter.ToString(fg);
-                }
-                if (RefGetter_NotNull != null)
-                {
-                    RefGetter_NotNull.ToString(fg);
-                }
-                if (RefGetter_Singleton != null)
-                {
-                    RefGetter_Singleton.ToString(fg);
-                }
-                if (RefSetter != null)
-                {
-                    RefSetter.ToString(fg);
-                }
-                if (RefSetter_NotNull != null)
-                {
-                    RefSetter_NotNull.ToString(fg);
-                }
-                if (RefSetter_Singleton != null)
-                {
-                    RefSetter_Singleton.ToString(fg);
-                }
-                if (List != null)
-                {
-                    fg.AppendLine("List =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (List.Overall != null)
-                        {
-                            fg.AppendLine(List.Overall.ToString());
-                        }
-                        if (List.Specific != null)
-                        {
-                            foreach (var subItem in List.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine($" => {subItem.ToStringSafe()}");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (RefList != null)
-                {
-                    fg.AppendLine("RefList =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (RefList.Overall != null)
-                        {
-                            fg.AppendLine(RefList.Overall.ToString());
-                        }
-                        if (RefList.Specific != null)
-                        {
-                            foreach (var subItem in RefList.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    subItem.ToString(fg);
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (Dict != null)
-                {
-                    fg.AppendLine("Dict =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (Dict.Overall != null)
-                        {
-                            fg.AppendLine(Dict.Overall.ToString());
-                        }
-                        if (Dict.Specific != null)
-                        {
-                            foreach (var subItem in Dict.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine("Key => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
-                                    fg.AppendLine("Value => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (RefDict != null)
-                {
-                    fg.AppendLine("RefDict =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (RefDict.Overall != null)
-                        {
-                            fg.AppendLine(RefDict.Overall.ToString());
-                        }
-                        if (RefDict.Specific != null)
-                        {
-                            foreach (var subItem in RefDict.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine("Key => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        subItem.Key.ToString(fg);
-                                    }
-                                    fg.AppendLine("]");
-                                    fg.AppendLine("Value => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        subItem.Value.ToString(fg);
-                                    }
-                                    fg.AppendLine("]");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (KeyRefDict != null)
-                {
-                    fg.AppendLine("KeyRefDict =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (KeyRefDict.Overall != null)
-                        {
-                            fg.AppendLine(KeyRefDict.Overall.ToString());
-                        }
-                        if (KeyRefDict.Specific != null)
-                        {
-                            foreach (var subItem in KeyRefDict.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine("Key => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        subItem.Key.ToString(fg);
-                                    }
-                                    fg.AppendLine("]");
-                                    fg.AppendLine("Value => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (ValRefDict != null)
-                {
-                    fg.AppendLine("ValRefDict =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (ValRefDict.Overall != null)
-                        {
-                            fg.AppendLine(ValRefDict.Overall.ToString());
-                        }
-                        if (ValRefDict.Specific != null)
-                        {
-                            foreach (var subItem in ValRefDict.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine("Key => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
-                                    }
-                                    fg.AppendLine("]");
-                                    fg.AppendLine("Value => [");
-                                    using (new DepthWrapper(fg))
-                                    {
-                                        subItem.Value.ToString(fg);
-                                    }
-                                    fg.AppendLine("]");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
-                if (DictKeyedValue != null)
-                {
-                    fg.AppendLine("DictKeyedValue =>");
-                    fg.AppendLine("[");
-                    using (new DepthWrapper(fg))
-                    {
-                        if (DictKeyedValue.Overall != null)
-                        {
-                            fg.AppendLine(DictKeyedValue.Overall.ToString());
-                        }
-                        if (DictKeyedValue.Specific != null)
-                        {
-                            foreach (var subItem in DictKeyedValue.Specific)
-                            {
-                                fg.AppendLine("[");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine($"KeyField => {subItem.ToStringSafe()}");
-                                }
-                                fg.AppendLine("]");
-                            }
-                        }
-                    }
-                    fg.AppendLine("]");
-                }
+                ToString_FillInternal(fg);
             }
             fg.AppendLine("]");
+        }
+        protected void ToString_FillInternal(FileGeneration fg)
+        {
+            if (ByteArray != null)
+            {
+                fg.AppendLine($"ByteArray => {ByteArray.ToStringSafe()}");
+            }
+            if (ByteArrayNull != null)
+            {
+                fg.AppendLine($"ByteArrayNull => {ByteArrayNull.ToStringSafe()}");
+            }
+            if (ByteArrayNotNull != null)
+            {
+                fg.AppendLine($"ByteArrayNotNull => {ByteArrayNotNull.ToStringSafe()}");
+            }
+            if (ByteArraySingleton != null)
+            {
+                fg.AppendLine($"ByteArraySingleton => {ByteArraySingleton.ToStringSafe()}");
+            }
+            if (BoolN != null)
+            {
+                fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
+            }
+            if (Bool != null)
+            {
+                fg.AppendLine($"Bool => {Bool.ToStringSafe()}");
+            }
+            if (CharN != null)
+            {
+                fg.AppendLine($"CharN => {CharN.ToStringSafe()}");
+            }
+            if (Char != null)
+            {
+                fg.AppendLine($"Char => {Char.ToStringSafe()}");
+            }
+            if (DateTimeNull != null)
+            {
+                fg.AppendLine($"DateTimeNull => {DateTimeNull.ToStringSafe()}");
+            }
+            if (DateTime != null)
+            {
+                fg.AppendLine($"DateTime => {DateTime.ToStringSafe()}");
+            }
+            if (DoubleN != null)
+            {
+                fg.AppendLine($"DoubleN => {DoubleN.ToStringSafe()}");
+            }
+            if (DoubleN_Ranged != null)
+            {
+                fg.AppendLine($"DoubleN_Ranged => {DoubleN_Ranged.ToStringSafe()}");
+            }
+            if (Double != null)
+            {
+                fg.AppendLine($"Double => {Double.ToStringSafe()}");
+            }
+            if (Double_Ranged != null)
+            {
+                fg.AppendLine($"Double_Ranged => {Double_Ranged.ToStringSafe()}");
+            }
+            if (FloatN != null)
+            {
+                fg.AppendLine($"FloatN => {FloatN.ToStringSafe()}");
+            }
+            if (FloatN_Ranged != null)
+            {
+                fg.AppendLine($"FloatN_Ranged => {FloatN_Ranged.ToStringSafe()}");
+            }
+            if (Float != null)
+            {
+                fg.AppendLine($"Float => {Float.ToStringSafe()}");
+            }
+            if (Float_Ranged != null)
+            {
+                fg.AppendLine($"Float_Ranged => {Float_Ranged.ToStringSafe()}");
+            }
+            if (Int16N != null)
+            {
+                fg.AppendLine($"Int16N => {Int16N.ToStringSafe()}");
+            }
+            if (Int16N_Ranged != null)
+            {
+                fg.AppendLine($"Int16N_Ranged => {Int16N_Ranged.ToStringSafe()}");
+            }
+            if (Int16 != null)
+            {
+                fg.AppendLine($"Int16 => {Int16.ToStringSafe()}");
+            }
+            if (Int16_Ranged != null)
+            {
+                fg.AppendLine($"Int16_Ranged => {Int16_Ranged.ToStringSafe()}");
+            }
+            if (Int32N != null)
+            {
+                fg.AppendLine($"Int32N => {Int32N.ToStringSafe()}");
+            }
+            if (Int32N_Ranged != null)
+            {
+                fg.AppendLine($"Int32N_Ranged => {Int32N_Ranged.ToStringSafe()}");
+            }
+            if (Int32 != null)
+            {
+                fg.AppendLine($"Int32 => {Int32.ToStringSafe()}");
+            }
+            if (Int32_Ranged != null)
+            {
+                fg.AppendLine($"Int32_Ranged => {Int32_Ranged.ToStringSafe()}");
+            }
+            if (Int64N != null)
+            {
+                fg.AppendLine($"Int64N => {Int64N.ToStringSafe()}");
+            }
+            if (Int64N_Ranged != null)
+            {
+                fg.AppendLine($"Int64N_Ranged => {Int64N_Ranged.ToStringSafe()}");
+            }
+            if (Int64 != null)
+            {
+                fg.AppendLine($"Int64 => {Int64.ToStringSafe()}");
+            }
+            if (Int64_Ranged != null)
+            {
+                fg.AppendLine($"Int64_Ranged => {Int64_Ranged.ToStringSafe()}");
+            }
+            if (Int8N != null)
+            {
+                fg.AppendLine($"Int8N => {Int8N.ToStringSafe()}");
+            }
+            if (Int8N_Ranged != null)
+            {
+                fg.AppendLine($"Int8N_Ranged => {Int8N_Ranged.ToStringSafe()}");
+            }
+            if (Int8 != null)
+            {
+                fg.AppendLine($"Int8 => {Int8.ToStringSafe()}");
+            }
+            if (Int8_Ranged != null)
+            {
+                fg.AppendLine($"Int8_Ranged => {Int8_Ranged.ToStringSafe()}");
+            }
+            if (Unsafe != null)
+            {
+                fg.AppendLine($"Unsafe => {Unsafe.ToStringSafe()}");
+            }
+            if (UnsafeLoqui != null)
+            {
+                fg.AppendLine($"UnsafeLoqui => {UnsafeLoqui.ToStringSafe()}");
+            }
+            if (UnsafeNull != null)
+            {
+                fg.AppendLine($"UnsafeNull => {UnsafeNull.ToStringSafe()}");
+            }
+            if (P2IntN != null)
+            {
+                fg.AppendLine($"P2IntN => {P2IntN.ToStringSafe()}");
+            }
+            if (P2Int != null)
+            {
+                fg.AppendLine($"P2Int => {P2Int.ToStringSafe()}");
+            }
+            if (P3DoubleN != null)
+            {
+                fg.AppendLine($"P3DoubleN => {P3DoubleN.ToStringSafe()}");
+            }
+            if (P3Double != null)
+            {
+                fg.AppendLine($"P3Double => {P3Double.ToStringSafe()}");
+            }
+            if (P3IntN != null)
+            {
+                fg.AppendLine($"P3IntN => {P3IntN.ToStringSafe()}");
+            }
+            if (P3Int != null)
+            {
+                fg.AppendLine($"P3Int => {P3Int.ToStringSafe()}");
+            }
+            if (PercentN != null)
+            {
+                fg.AppendLine($"PercentN => {PercentN.ToStringSafe()}");
+            }
+            if (Percent != null)
+            {
+                fg.AppendLine($"Percent => {Percent.ToStringSafe()}");
+            }
+            if (RangeInt8N != null)
+            {
+                fg.AppendLine($"RangeInt8N => {RangeInt8N.ToStringSafe()}");
+            }
+            if (RangeInt8 != null)
+            {
+                fg.AppendLine($"RangeInt8 => {RangeInt8.ToStringSafe()}");
+            }
+            if (RangeInt16N != null)
+            {
+                fg.AppendLine($"RangeInt16N => {RangeInt16N.ToStringSafe()}");
+            }
+            if (RangeInt16 != null)
+            {
+                fg.AppendLine($"RangeInt16 => {RangeInt16.ToStringSafe()}");
+            }
+            if (RangeInt32N != null)
+            {
+                fg.AppendLine($"RangeInt32N => {RangeInt32N.ToStringSafe()}");
+            }
+            if (RangeInt32 != null)
+            {
+                fg.AppendLine($"RangeInt32 => {RangeInt32.ToStringSafe()}");
+            }
+            if (RangeInt64N != null)
+            {
+                fg.AppendLine($"RangeInt64N => {RangeInt64N.ToStringSafe()}");
+            }
+            if (RangeInt64 != null)
+            {
+                fg.AppendLine($"RangeInt64 => {RangeInt64.ToStringSafe()}");
+            }
+            if (RangeUInt8N != null)
+            {
+                fg.AppendLine($"RangeUInt8N => {RangeUInt8N.ToStringSafe()}");
+            }
+            if (RangeUInt8 != null)
+            {
+                fg.AppendLine($"RangeUInt8 => {RangeUInt8.ToStringSafe()}");
+            }
+            if (RangeUInt16N != null)
+            {
+                fg.AppendLine($"RangeUInt16N => {RangeUInt16N.ToStringSafe()}");
+            }
+            if (RangeUInt16 != null)
+            {
+                fg.AppendLine($"RangeUInt16 => {RangeUInt16.ToStringSafe()}");
+            }
+            if (RangeUInt32N != null)
+            {
+                fg.AppendLine($"RangeUInt32N => {RangeUInt32N.ToStringSafe()}");
+            }
+            if (RangeUInt32 != null)
+            {
+                fg.AppendLine($"RangeUInt32 => {RangeUInt32.ToStringSafe()}");
+            }
+            if (RangeUInt64N != null)
+            {
+                fg.AppendLine($"RangeUInt64N => {RangeUInt64N.ToStringSafe()}");
+            }
+            if (RangeUInt64 != null)
+            {
+                fg.AppendLine($"RangeUInt64 => {RangeUInt64.ToStringSafe()}");
+            }
+            if (String != null)
+            {
+                fg.AppendLine($"String => {String.ToStringSafe()}");
+            }
+            if (FilePath != null)
+            {
+                fg.AppendLine($"FilePath => {FilePath.ToStringSafe()}");
+            }
+            if (FilePathNull != null)
+            {
+                fg.AppendLine($"FilePathNull => {FilePathNull.ToStringSafe()}");
+            }
+            if (DirectoryPath != null)
+            {
+                fg.AppendLine($"DirectoryPath => {DirectoryPath.ToStringSafe()}");
+            }
+            if (DirectoryPathNull != null)
+            {
+                fg.AppendLine($"DirectoryPathNull => {DirectoryPathNull.ToStringSafe()}");
+            }
+            if (UDoubleN != null)
+            {
+                fg.AppendLine($"UDoubleN => {UDoubleN.ToStringSafe()}");
+            }
+            if (UDoubleN_Ranged != null)
+            {
+                fg.AppendLine($"UDoubleN_Ranged => {UDoubleN_Ranged.ToStringSafe()}");
+            }
+            if (UDouble != null)
+            {
+                fg.AppendLine($"UDouble => {UDouble.ToStringSafe()}");
+            }
+            if (UDouble_Ranged != null)
+            {
+                fg.AppendLine($"UDouble_Ranged => {UDouble_Ranged.ToStringSafe()}");
+            }
+            if (UInt16N != null)
+            {
+                fg.AppendLine($"UInt16N => {UInt16N.ToStringSafe()}");
+            }
+            if (UInt16N_Ranged != null)
+            {
+                fg.AppendLine($"UInt16N_Ranged => {UInt16N_Ranged.ToStringSafe()}");
+            }
+            if (UInt16 != null)
+            {
+                fg.AppendLine($"UInt16 => {UInt16.ToStringSafe()}");
+            }
+            if (UInt16_Ranged != null)
+            {
+                fg.AppendLine($"UInt16_Ranged => {UInt16_Ranged.ToStringSafe()}");
+            }
+            if (UInt32N != null)
+            {
+                fg.AppendLine($"UInt32N => {UInt32N.ToStringSafe()}");
+            }
+            if (UInt32N_Ranged != null)
+            {
+                fg.AppendLine($"UInt32N_Ranged => {UInt32N_Ranged.ToStringSafe()}");
+            }
+            if (UInt32 != null)
+            {
+                fg.AppendLine($"UInt32 => {UInt32.ToStringSafe()}");
+            }
+            if (UInt32_Ranged != null)
+            {
+                fg.AppendLine($"UInt32_Ranged => {UInt32_Ranged.ToStringSafe()}");
+            }
+            if (UInt64N != null)
+            {
+                fg.AppendLine($"UInt64N => {UInt64N.ToStringSafe()}");
+            }
+            if (UInt64N_Ranged != null)
+            {
+                fg.AppendLine($"UInt64N_Ranged => {UInt64N_Ranged.ToStringSafe()}");
+            }
+            if (UInt64 != null)
+            {
+                fg.AppendLine($"UInt64 => {UInt64.ToStringSafe()}");
+            }
+            if (UInt64_Ranged != null)
+            {
+                fg.AppendLine($"UInt64_Ranged => {UInt64_Ranged.ToStringSafe()}");
+            }
+            if (UInt8N != null)
+            {
+                fg.AppendLine($"UInt8N => {UInt8N.ToStringSafe()}");
+            }
+            if (UInt8N_Ranged != null)
+            {
+                fg.AppendLine($"UInt8N_Ranged => {UInt8N_Ranged.ToStringSafe()}");
+            }
+            if (UInt8 != null)
+            {
+                fg.AppendLine($"UInt8 => {UInt8.ToStringSafe()}");
+            }
+            if (UInt8_Ranged != null)
+            {
+                fg.AppendLine($"UInt8_Ranged => {UInt8_Ranged.ToStringSafe()}");
+            }
+            if (Enum != null)
+            {
+                fg.AppendLine($"Enum => {Enum.ToStringSafe()}");
+            }
+            if (EnumNull != null)
+            {
+                fg.AppendLine($"EnumNull => {EnumNull.ToStringSafe()}");
+            }
+            if (WildCard != null)
+            {
+                fg.AppendLine($"WildCard => {WildCard.ToStringSafe()}");
+            }
+            if (WildCardLoqui != null)
+            {
+                fg.AppendLine($"WildCardLoqui => {WildCardLoqui.ToStringSafe()}");
+            }
+            if (WildCardNull != null)
+            {
+                fg.AppendLine($"WildCardNull => {WildCardNull.ToStringSafe()}");
+            }
+            if (Ref != null)
+            {
+                Ref.ToString(fg);
+            }
+            if (Ref_NotNull != null)
+            {
+                Ref_NotNull.ToString(fg);
+            }
+            if (Ref_Singleton != null)
+            {
+                Ref_Singleton.ToString(fg);
+            }
+            if (RefGetter != null)
+            {
+                RefGetter.ToString(fg);
+            }
+            if (RefGetter_NotNull != null)
+            {
+                RefGetter_NotNull.ToString(fg);
+            }
+            if (RefGetter_Singleton != null)
+            {
+                RefGetter_Singleton.ToString(fg);
+            }
+            if (RefSetter != null)
+            {
+                RefSetter.ToString(fg);
+            }
+            if (RefSetter_NotNull != null)
+            {
+                RefSetter_NotNull.ToString(fg);
+            }
+            if (RefSetter_Singleton != null)
+            {
+                RefSetter_Singleton.ToString(fg);
+            }
+            if (List != null)
+            {
+                fg.AppendLine("List =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (List.Overall != null)
+                    {
+                        fg.AppendLine(List.Overall.ToString());
+                    }
+                    if (List.Specific != null)
+                    {
+                        foreach (var subItem in List.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($" => {subItem.ToStringSafe()}");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (RefList != null)
+            {
+                fg.AppendLine("RefList =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (RefList.Overall != null)
+                    {
+                        fg.AppendLine(RefList.Overall.ToString());
+                    }
+                    if (RefList.Specific != null)
+                    {
+                        foreach (var subItem in RefList.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.ToString(fg);
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (Dict != null)
+            {
+                fg.AppendLine("Dict =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (Dict.Overall != null)
+                    {
+                        fg.AppendLine(Dict.Overall.ToString());
+                    }
+                    if (Dict.Specific != null)
+                    {
+                        foreach (var subItem in Dict.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("Key => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
+                                }
+                                fg.AppendLine("]");
+                                fg.AppendLine("Value => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
+                                }
+                                fg.AppendLine("]");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (RefDict != null)
+            {
+                fg.AppendLine("RefDict =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (RefDict.Overall != null)
+                    {
+                        fg.AppendLine(RefDict.Overall.ToString());
+                    }
+                    if (RefDict.Specific != null)
+                    {
+                        foreach (var subItem in RefDict.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("Key => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    subItem.Key.ToString(fg);
+                                }
+                                fg.AppendLine("]");
+                                fg.AppendLine("Value => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    subItem.Value.ToString(fg);
+                                }
+                                fg.AppendLine("]");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (KeyRefDict != null)
+            {
+                fg.AppendLine("KeyRefDict =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (KeyRefDict.Overall != null)
+                    {
+                        fg.AppendLine(KeyRefDict.Overall.ToString());
+                    }
+                    if (KeyRefDict.Specific != null)
+                    {
+                        foreach (var subItem in KeyRefDict.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("Key => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    subItem.Key.ToString(fg);
+                                }
+                                fg.AppendLine("]");
+                                fg.AppendLine("Value => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine($" => {subItem.Value.ToStringSafe()}");
+                                }
+                                fg.AppendLine("]");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (ValRefDict != null)
+            {
+                fg.AppendLine("ValRefDict =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (ValRefDict.Overall != null)
+                    {
+                        fg.AppendLine(ValRefDict.Overall.ToString());
+                    }
+                    if (ValRefDict.Specific != null)
+                    {
+                        foreach (var subItem in ValRefDict.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("Key => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine($" => {subItem.Key.ToStringSafe()}");
+                                }
+                                fg.AppendLine("]");
+                                fg.AppendLine("Value => [");
+                                using (new DepthWrapper(fg))
+                                {
+                                    subItem.Value.ToString(fg);
+                                }
+                                fg.AppendLine("]");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
+            if (DictKeyedValue != null)
+            {
+                fg.AppendLine("DictKeyedValue =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (DictKeyedValue.Overall != null)
+                    {
+                        fg.AppendLine(DictKeyedValue.Overall.ToString());
+                    }
+                    if (DictKeyedValue.Specific != null)
+                    {
+                        foreach (var subItem in DictKeyedValue.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"KeyField => {subItem.ToStringSafe()}");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
         }
         #endregion
 

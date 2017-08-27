@@ -1180,12 +1180,16 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (BoolN != null)
-                {
-                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
-                }
+                ToString_FillInternal(fg);
             }
             fg.AppendLine("]");
+        }
+        protected void ToString_FillInternal(FileGeneration fg)
+        {
+            if (BoolN != null)
+            {
+                fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
+            }
         }
         #endregion
 

@@ -1481,22 +1481,26 @@ namespace Loqui.Tests.Internals
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public virtual void ToString(FileGeneration fg)
         {
             fg.AppendLine("TestGenericObject_ErrorMask =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (RefBase != null)
-                {
-                    RefBase.ToString(fg);
-                }
-                if (Ref != null)
-                {
-                    Ref.ToString(fg);
-                }
+                ToString_FillInternal(fg);
             }
             fg.AppendLine("]");
+        }
+        protected virtual void ToString_FillInternal(FileGeneration fg)
+        {
+            if (RefBase != null)
+            {
+                RefBase.ToString(fg);
+            }
+            if (Ref != null)
+            {
+                Ref.ToString(fg);
+            }
         }
         #endregion
 

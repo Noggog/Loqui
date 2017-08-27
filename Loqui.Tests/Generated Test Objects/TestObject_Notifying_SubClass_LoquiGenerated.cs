@@ -1211,18 +1211,23 @@ namespace Loqui.Tests.Internals
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg)
+        public override void ToString(FileGeneration fg)
         {
             fg.AppendLine("TestObject_Notifying_SubClass_ErrorMask =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (NewField != null)
-                {
-                    fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
-                }
+                ToString_FillInternal(fg);
             }
             fg.AppendLine("]");
+        }
+        protected override void ToString_FillInternal(FileGeneration fg)
+        {
+            base.ToString_FillInternal(fg);
+            if (NewField != null)
+            {
+                fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
+            }
         }
         #endregion
 

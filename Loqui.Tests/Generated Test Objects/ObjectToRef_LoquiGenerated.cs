@@ -1347,16 +1347,20 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (KeyField != null)
-                {
-                    fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
-                }
-                if (SomeField != null)
-                {
-                    fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
-                }
+                ToString_FillInternal(fg);
             }
             fg.AppendLine("]");
+        }
+        protected void ToString_FillInternal(FileGeneration fg)
+        {
+            if (KeyField != null)
+            {
+                fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
+            }
+            if (SomeField != null)
+            {
+                fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
+            }
         }
         #endregion
 
