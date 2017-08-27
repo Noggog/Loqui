@@ -1311,14 +1311,15 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((TestGenericObject_Mask<T>)rhs);
+            if (!(obj is TestGenericObject_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestGenericObject_Mask<T> rhs)
         {
+            if (rhs == null) return false;
             if (!object.Equals(this.RefBase, rhs.RefBase)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
             return true;

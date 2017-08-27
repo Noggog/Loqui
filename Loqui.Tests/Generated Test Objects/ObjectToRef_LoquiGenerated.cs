@@ -1192,14 +1192,15 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((ObjectToRef_Mask<T>)rhs);
+            if (!(obj is ObjectToRef_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(ObjectToRef_Mask<T> rhs)
         {
+            if (rhs == null) return false;
             if (!object.Equals(this.KeyField, rhs.KeyField)) return false;
             if (!object.Equals(this.SomeField, rhs.SomeField)) return false;
             return true;

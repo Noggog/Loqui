@@ -100,12 +100,13 @@ namespace Loqui.Tests
         public bool Equals(TestObject_Notifying_SubClass rhs)
         {
             if (rhs == null) return false;
+            if (!base.Equals(rhs)) return false;
             if (NewField_Property.HasBeenSet != rhs.NewField_Property.HasBeenSet) return false;
             if (NewField_Property.HasBeenSet)
             {
                 if (NewField != rhs.NewField) return false;
             }
-            return base.Equals(rhs);
+            return true;
         }
 
         public override int GetHashCode()
@@ -1082,14 +1083,16 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((TestObject_Notifying_SubClass_Mask<T>)rhs);
+            if (!(obj is TestObject_Notifying_SubClass_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestObject_Notifying_SubClass_Mask<T> rhs)
         {
+            if (rhs == null) return false;
+            if (!base.Equals(rhs)) return false;
             if (!object.Equals(this.NewField, rhs.NewField)) return false;
             return true;
         }

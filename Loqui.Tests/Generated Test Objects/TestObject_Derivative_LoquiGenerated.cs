@@ -7505,14 +7505,15 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((TestObject_Derivative_Mask<T>)rhs);
+            if (!(obj is TestObject_Derivative_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestObject_Derivative_Mask<T> rhs)
         {
+            if (rhs == null) return false;
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
             if (!object.Equals(this.ByteArrayNull, rhs.ByteArrayNull)) return false;
             if (!object.Equals(this.ByteArrayNotNull, rhs.ByteArrayNotNull)) return false;

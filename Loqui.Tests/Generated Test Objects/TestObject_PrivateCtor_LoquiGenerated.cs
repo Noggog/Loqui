@@ -1040,14 +1040,15 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((TestObject_PrivateCtor_Mask<T>)rhs);
+            if (!(obj is TestObject_PrivateCtor_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestObject_PrivateCtor_Mask<T> rhs)
         {
+            if (rhs == null) return false;
             if (!object.Equals(this.BoolN, rhs.BoolN)) return false;
             return true;
         }

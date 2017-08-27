@@ -1590,6 +1590,10 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return false;");
+                        if (this.HasBaseObject)
+                        {
+                            fg.AppendLine($"if (!base.Equals(rhs)) return false;");
+                        }
                         foreach (var field in Fields)
                         {
                             if (!HasKeyField() || field.KeyField)
@@ -1609,14 +1613,7 @@ namespace Loqui.Generation
                                 }
                             }
                         }
-                        if (this.HasBaseObject)
-                        {
-                            fg.AppendLine($"return base.Equals(rhs);");
-                        }
-                        else
-                        {
-                            fg.AppendLine("return true;");
-                        }
+                        fg.AppendLine("return true;");
                     }
                     fg.AppendLine();
 

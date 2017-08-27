@@ -58,17 +58,22 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Equals"))
                 {
-                    fg.AppendLine("public override bool Equals(object rhs)");
+                    fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("if (rhs == null) return false;");
-                        fg.AppendLine($"return Equals(({obj.Name}_Mask<T>)rhs);");
+                        fg.AppendLine($"if (!(obj is {obj.Name}_Mask<T> rhs)) return false;");
+                        fg.AppendLine($"return Equals(rhs);");
                     }
                     fg.AppendLine();
 
                     fg.AppendLine($"public bool Equals({obj.Name}_Mask<T> rhs)");
                     using (new BraceWrapper(fg))
                     {
+                        fg.AppendLine("if (rhs == null) return false;");
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"if (!base.Equals(rhs)) return false;");
+                        }
                         foreach (var field in obj.Fields)
                         {
                             GetMaskModule(field.GetType()).GenerateForEqual(fg, field, $"rhs.{field.Name}");

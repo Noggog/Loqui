@@ -90,7 +90,8 @@ namespace Loqui.Tests
         public bool Equals(TestGenericObject_SubClass_Defined<RBase> rhs)
         {
             if (rhs == null) return false;
-            return base.Equals(rhs);
+            if (!base.Equals(rhs)) return false;
+            return true;
         }
 
         public override int GetHashCode()
@@ -990,14 +991,16 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Equals
-        public override bool Equals(object rhs)
+        public override bool Equals(object obj)
         {
-            if (rhs == null) return false;
-            return Equals((TestGenericObject_SubClass_Defined_Mask<T>)rhs);
+            if (!(obj is TestGenericObject_SubClass_Defined_Mask<T> rhs)) return false;
+            return Equals(rhs);
         }
 
         public bool Equals(TestGenericObject_SubClass_Defined_Mask<T> rhs)
         {
+            if (rhs == null) return false;
+            if (!base.Equals(rhs)) return false;
             return true;
         }
         #endregion
