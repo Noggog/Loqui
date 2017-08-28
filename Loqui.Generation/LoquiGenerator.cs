@@ -133,6 +133,22 @@ namespace Loqui.Generation
             typeDict[key] = typeof(T);
         }
 
+        public void ReplaceTypeAssociation<Target, Replacement>()
+            where Target : TypeGeneration
+            where Replacement : TypeGeneration
+        {
+            Type t = typeof(Target);
+            var matching = this.typeDict.Where((kv) => kv.Value.Equals(t)).ToList();
+            if (!matching.Any())
+            {
+                throw new ArgumentException($"No matching types of type {t}");
+            }
+            foreach (var item in matching)
+            {
+                AddTypeAssociation<Replacement>(item.Key, overrideExisting: true);
+            }
+        }
+
         public void AddProtocol(ProtocolGeneration protoGen)
         {
             this.targetData[protoGen.Protocol] = protoGen;
