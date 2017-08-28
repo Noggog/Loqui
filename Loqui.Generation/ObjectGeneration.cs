@@ -78,6 +78,7 @@ namespace Loqui.Generation
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<TypeGeneration> Fields = new List<TypeGeneration>();
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
+        public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {
