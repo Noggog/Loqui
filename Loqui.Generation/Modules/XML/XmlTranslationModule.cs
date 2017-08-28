@@ -118,7 +118,7 @@ namespace Loqui.Generation
                 });
         }
 
-        public override void Load()
+        public override void PostLoad(ObjectGeneration obj)
         {
             foreach (var gen in _typeGenerations.Values)
             {

@@ -134,6 +134,14 @@ namespace Loqui.Generation
         {
             foreach (var obj in ObjectGenerationsByID.Values)
             {
+                foreach (var mods in this.Gen.GenerationModules)
+                {
+                    mods.PreLoad(obj);
+                }
+            }
+
+            foreach (var obj in ObjectGenerationsByID.Values)
+            {
                 obj.Load();
             }
 

@@ -162,12 +162,7 @@ namespace Loqui.Generation
 
             foreach (var mods in this.gen.GenerationModules)
             {
-                mods.Load();
-            }
-
-            foreach (var mods in this.gen.GenerationModules)
-            {
-                mods.Modify(this);
+                mods.PostLoad(this);
             }
         }
 

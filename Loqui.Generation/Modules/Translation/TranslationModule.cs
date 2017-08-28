@@ -77,10 +77,6 @@ namespace Loqui.Generation
             yield break;
         }
 
-        public override void Modify(ObjectGeneration obj)
-        {
-        }
-
         public override void Modify(LoquiGenerator gen)
         {
         }

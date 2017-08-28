@@ -367,10 +367,6 @@ namespace Loqui.Generation
         {
         }
 
-        public override void Modify(ObjectGeneration obj)
-        {
-        }
-
         public override IEnumerable<string> RequiredUsingStatements()
         {
             yield break;
