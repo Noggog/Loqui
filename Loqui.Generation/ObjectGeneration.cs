@@ -188,6 +188,10 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Cannot have two fields with the same name.");
             }
+            foreach (var module in this.gen.GenerationModules)
+            {
+                module.PostFieldLoad(this, typeGen, fieldNode);
+            }
             return true;
         }
 

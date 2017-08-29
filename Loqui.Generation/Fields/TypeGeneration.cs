@@ -41,6 +41,7 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers;
         public NotifyingOption Notifying;
+        public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
         public virtual void Load(XElement node, bool requireName = true)
         {
