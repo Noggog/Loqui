@@ -150,6 +150,12 @@ namespace Loqui.Generation
             }
         }
 
+        public override string ToString()
+        {
+            if (string.IsNullOrWhiteSpace(this.Name)) return base.ToString();
+            return $"{this.Name} {base.ToString()}";
+        }
+
         public virtual void Resolve()
         {
             this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
