@@ -292,6 +292,18 @@ namespace Loqui.Generation
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
                         {
+                            fg.AppendLine($"if (this.Overall != null)");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"fg.AppendLine(\"Overall =>\");");
+                                fg.AppendLine($"fg.AppendLine(\"[\");");
+                                fg.AppendLine($"using (new DepthWrapper(fg))");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("fg.AppendLine($\"{this.Overall}\");");
+                                }
+                                fg.AppendLine($"fg.AppendLine(\"]\");");
+                            }
                             fg.AppendLine($"ToString_FillInternal(fg);");
                         }
                         fg.AppendLine($"fg.AppendLine(\"]\");");
