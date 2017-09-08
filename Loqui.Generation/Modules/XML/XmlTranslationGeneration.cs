@@ -27,7 +27,7 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor);
 

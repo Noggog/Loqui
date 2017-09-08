@@ -36,15 +36,22 @@ namespace Loqui.Generation
             FileGeneration fg, 
             TypeGeneration typeGen,
             string nodeAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
             GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", doMaskAccessor, maskAccessor);
-            fg.AppendLine($"if (tryGet.Succeeded)");
-            using (new BraceWrapper(fg))
+            if (itemAccessor.PropertyAccess != null)
             {
-                fg.AppendLine($"{itemAccessor} = ({typeGen.TypeName})tryGet.Value;");
+                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet.Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i));");
+            }
+            else
+            {
+                fg.AppendLine($"if (tryGet.Succeeded)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{itemAccessor.DirectAccess} = ({typeGen.TypeName})tryGet.Value;");
+                }
             }
         }
 

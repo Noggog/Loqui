@@ -64,6 +64,11 @@ namespace Loqui.Xml
             }
         }
 
+        public TryGet<T> Parse(XElement root, bool doMasks, out Exception errorMask)
+        {
+            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
+        }
+
         protected virtual void WriteValue(XmlWriter writer, string name, T item)
         {
             writer.WriteAttributeString(

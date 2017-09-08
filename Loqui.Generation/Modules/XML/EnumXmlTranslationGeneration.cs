@@ -35,16 +35,23 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
             GenerateCopyInRet(fg, typeGen, nodeAccessor, "var tryGet = ", doMaskAccessor, maskAccessor);
-            fg.AppendLine("if (tryGet.Succeeded)");
-            using (new BraceWrapper(fg))
+            if (itemAccessor.PropertyAccess != null)
             {
-                fg.AppendLine($"{itemAccessor} = tryGet.Value{(eType.Nullable ? null : ".Value")};");
+                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet{(eType.Nullable ? null : $".Bubble<{typeGen.TypeName}>((i) => i.Value)")});");
+            }
+            else
+            {
+                fg.AppendLine("if (tryGet.Succeeded)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value{(eType.Nullable ? null : ".Value")};");
+                }
             }
         }
 

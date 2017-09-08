@@ -380,7 +380,6 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
                         if (tryGet.Succeeded)

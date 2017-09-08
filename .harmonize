@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>1694bf428abdc424ef5ea82374ac412dd67ec81f</Sha>
+         <Sha>e95b23197d765b5ff770940c791df01f9595b39f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-27-2017 13:16:31</CommitDate>
-         <Description>Nuget Update</Description>
+         <CommitDate>09-07-2017 19:39:09</CommitDate>
+         <Description>IHasBeenSetItem.SetIfSucceeded()</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

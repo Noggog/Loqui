@@ -439,10 +439,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefBase.Item = tryGet.Value;
-                        }
+                        item._RefBase.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefBase = subMask;
@@ -456,10 +453,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out var unsafeMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Ref.Item = (R)tryGet.Value;
-                        }
+                        item._Ref.SetIfSucceeded(tryGet.Bubble<R>(i => (R)i));
                         subMask = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);
                         if (doMasks && subMask != null)
                         {

@@ -44,25 +44,29 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
+            var pType = typeGen as PrimitiveType;
             using (var args = new ArgsWrapper(fg,
-                $"var tryGet = {this.typeName}XmlTranslation.Instance.Parse"))
+                $"var tryGet = {this.typeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor);
-                if (CanBeNotNullable)
-                {
-                    args.Add($"nullable: {Nullable.ToString().ToLower()}");
-                }
                 args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
-            fg.AppendLine("if (tryGet.Succeeded)");
-            using (new BraceWrapper(fg))
+            if (itemAccessor.PropertyAccess != null)
             {
-                fg.AppendLine($"{itemAccessor} = tryGet.Value{(Nullable ? null : ".Value")};");
+                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet);");
+            }
+            else
+            {
+                fg.AppendLine("if (tryGet.Succeeded)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value;");
+                }
             }
         }
 

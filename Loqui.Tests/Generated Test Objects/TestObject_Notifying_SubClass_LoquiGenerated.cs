@@ -402,15 +402,11 @@ namespace Loqui.Tests
                 case "NewField":
                     {
                         Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                        var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._NewField.Item = tryGet.Value.Value;
-                        }
+                        item._NewField.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().NewField = subMask;

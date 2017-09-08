@@ -60,7 +60,7 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
@@ -80,7 +80,7 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyFieldsFrom"))
                     {
-                        args.Add($"item: {itemAccessor}");
+                        args.Add($"item: {itemAccessor.DirectAccess}");
                         args.Add("rhs: tmp");
                         args.Add("def: null");
                         args.Add("cmds: null");
@@ -94,10 +94,17 @@ namespace Loqui.Generation
                 else
                 {
                     GenerateCopyInRet(fg, typeGen, nodeAccessor, null, doMaskAccessor, maskAccessor);
-                    fg.AppendLine("if (tryGet.Succeeded)");
-                    using (new BraceWrapper(fg))
+                    if (itemAccessor.PropertyAccess != null)
                     {
-                        fg.AppendLine($"{itemAccessor} = tryGet.Value;");
+                        fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet);");
+                    }
+                    else
+                    {
+                        fg.AppendLine("if (tryGet.Succeeded)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value;");
+                        }
                     }
                 }
             }

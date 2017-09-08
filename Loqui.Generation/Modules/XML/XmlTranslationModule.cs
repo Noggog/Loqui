@@ -249,7 +249,11 @@ namespace Loqui.Generation
                                         fg: fg,
                                         typeGen: field.Field,
                                         nodeAccessor: "root",
-                                        itemAccessor: $"item.{field.Field.ProtectedName}",
+                                        itemAccessor: new Accessor()
+                                        {
+                                            DirectAccess = $"item.{field.Field.ProtectedName}",
+                                            PropertyAccess = field.Field.Notifying == NotifyingOption.None ? null : $"item.{field.Field.ProtectedProperty}"
+                                        },
                                         doMaskAccessor: "doMasks",
                                         maskAccessor: $"subMask");
                                     fg.AppendLine("if (doMasks && subMask != null)");

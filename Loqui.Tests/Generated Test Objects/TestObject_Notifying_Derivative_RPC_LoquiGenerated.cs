@@ -2772,13 +2772,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArray.Item = tryGet.Value;
-                        }
+                        item._ByteArray.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().ByteArray = subMask;
@@ -2790,13 +2786,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArrayNull.Item = tryGet.Value;
-                        }
+                        item._ByteArrayNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().ByteArrayNull = subMask;
@@ -2808,13 +2800,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArrayNotNull.Item = tryGet.Value;
-                        }
+                        item._ByteArrayNotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().ByteArrayNotNull = subMask;
@@ -2826,13 +2814,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArraySingleton.Item = tryGet.Value;
-                        }
+                        item._ByteArraySingleton.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().ByteArraySingleton = subMask;
@@ -2844,13 +2828,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._BoolN.Item = tryGet.Value;
-                        }
+                        item._BoolN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().BoolN = subMask;
@@ -2860,15 +2840,11 @@ namespace Loqui.Tests
                 case "Bool":
                     {
                         Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.Parse(
+                        var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Bool.Item = tryGet.Value.Value;
-                        }
+                        item._Bool.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Bool = subMask;
@@ -2880,13 +2856,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = CharXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._CharN.Item = tryGet.Value;
-                        }
+                        item._CharN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().CharN = subMask;
@@ -2896,15 +2868,11 @@ namespace Loqui.Tests
                 case "Char":
                     {
                         Exception subMask;
-                        var tryGet = CharXmlTranslation.Instance.Parse(
+                        var tryGet = CharXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Char.Item = tryGet.Value.Value;
-                        }
+                        item._Char.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Char = subMask;
@@ -2916,13 +2884,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DateTimeXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DateTimeNull.Item = tryGet.Value;
-                        }
+                        item._DateTimeNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DateTimeNull = subMask;
@@ -2932,15 +2896,11 @@ namespace Loqui.Tests
                 case "DateTime":
                     {
                         Exception subMask;
-                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
+                        var tryGet = DateTimeXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DateTime.Item = tryGet.Value.Value;
-                        }
+                        item._DateTime.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DateTime = subMask;
@@ -2952,13 +2912,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DoubleN.Item = tryGet.Value;
-                        }
+                        item._DoubleN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DoubleN = subMask;
@@ -2970,13 +2926,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DoubleN_Ranged.Item = tryGet.Value;
-                        }
+                        item._DoubleN_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DoubleN_Ranged = subMask;
@@ -2986,15 +2938,11 @@ namespace Loqui.Tests
                 case "Double":
                     {
                         Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                        var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Double.Item = tryGet.Value.Value;
-                        }
+                        item._Double.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Double = subMask;
@@ -3004,15 +2952,11 @@ namespace Loqui.Tests
                 case "Double_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.Parse(
+                        var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Double_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Double_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Double_Ranged = subMask;
@@ -3024,13 +2968,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FloatN.Item = tryGet.Value;
-                        }
+                        item._FloatN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().FloatN = subMask;
@@ -3042,13 +2982,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FloatN_Ranged.Item = tryGet.Value;
-                        }
+                        item._FloatN_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().FloatN_Ranged = subMask;
@@ -3058,15 +2994,11 @@ namespace Loqui.Tests
                 case "Float":
                     {
                         Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                        var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Float.Item = tryGet.Value.Value;
-                        }
+                        item._Float.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Float = subMask;
@@ -3076,15 +3008,11 @@ namespace Loqui.Tests
                 case "Float_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.Parse(
+                        var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Float_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Float_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Float_Ranged = subMask;
@@ -3096,13 +3024,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16N.Item = tryGet.Value;
-                        }
+                        item._Int16N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int16N = subMask;
@@ -3114,13 +3038,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16N_Ranged.Item = tryGet.Value;
-                        }
+                        item._Int16N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int16N_Ranged = subMask;
@@ -3130,15 +3050,11 @@ namespace Loqui.Tests
                 case "Int16":
                     {
                         Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                        var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16.Item = tryGet.Value.Value;
-                        }
+                        item._Int16.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int16 = subMask;
@@ -3148,15 +3064,11 @@ namespace Loqui.Tests
                 case "Int16_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.Parse(
+                        var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Int16_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int16_Ranged = subMask;
@@ -3168,13 +3080,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32N.Item = tryGet.Value;
-                        }
+                        item._Int32N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int32N = subMask;
@@ -3186,13 +3094,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32N_Ranged.Item = tryGet.Value;
-                        }
+                        item._Int32N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int32N_Ranged = subMask;
@@ -3202,15 +3106,11 @@ namespace Loqui.Tests
                 case "Int32":
                     {
                         Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                        var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32.Item = tryGet.Value.Value;
-                        }
+                        item._Int32.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int32 = subMask;
@@ -3220,15 +3120,11 @@ namespace Loqui.Tests
                 case "Int32_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.Parse(
+                        var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Int32_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int32_Ranged = subMask;
@@ -3240,13 +3136,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64N.Item = tryGet.Value;
-                        }
+                        item._Int64N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int64N = subMask;
@@ -3258,13 +3150,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64N_Ranged.Item = tryGet.Value;
-                        }
+                        item._Int64N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int64N_Ranged = subMask;
@@ -3274,15 +3162,11 @@ namespace Loqui.Tests
                 case "Int64":
                     {
                         Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                        var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64.Item = tryGet.Value.Value;
-                        }
+                        item._Int64.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int64 = subMask;
@@ -3292,15 +3176,11 @@ namespace Loqui.Tests
                 case "Int64_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.Parse(
+                        var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Int64_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int64_Ranged = subMask;
@@ -3312,13 +3192,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8N.Item = tryGet.Value;
-                        }
+                        item._Int8N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int8N = subMask;
@@ -3330,13 +3206,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8N_Ranged.Item = tryGet.Value;
-                        }
+                        item._Int8N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int8N_Ranged = subMask;
@@ -3346,15 +3218,11 @@ namespace Loqui.Tests
                 case "Int8":
                     {
                         Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                        var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8.Item = tryGet.Value.Value;
-                        }
+                        item._Int8.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int8 = subMask;
@@ -3364,15 +3232,11 @@ namespace Loqui.Tests
                 case "Int8_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.Parse(
+                        var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._Int8_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Int8_Ranged = subMask;
@@ -3386,10 +3250,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Unsafe.Item = (bool)tryGet.Value;
-                        }
+                        item._Unsafe.SetIfSucceeded(tryGet.Bubble<bool>(i => (bool)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().Unsafe = subMask;
@@ -3403,10 +3264,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UnsafeLoqui.Item = (ObjectToRef)tryGet.Value;
-                        }
+                        item._UnsafeLoqui.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().UnsafeLoqui = subMask;
@@ -3420,10 +3278,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UnsafeNull.Item = (ObjectToRef)tryGet.Value;
-                        }
+                        item._UnsafeNull.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().UnsafeNull = subMask;
@@ -3435,13 +3290,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P2IntXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P2IntN.Item = tryGet.Value;
-                        }
+                        item._P2IntN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P2IntN = subMask;
@@ -3451,15 +3302,11 @@ namespace Loqui.Tests
                 case "P2Int":
                     {
                         Exception subMask;
-                        var tryGet = P2IntXmlTranslation.Instance.Parse(
+                        var tryGet = P2IntXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P2Int.Item = tryGet.Value.Value;
-                        }
+                        item._P2Int.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P2Int = subMask;
@@ -3471,13 +3318,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3DoubleXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3DoubleN.Item = tryGet.Value;
-                        }
+                        item._P3DoubleN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P3DoubleN = subMask;
@@ -3487,15 +3330,11 @@ namespace Loqui.Tests
                 case "P3Double":
                     {
                         Exception subMask;
-                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
+                        var tryGet = P3DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3Double.Item = tryGet.Value.Value;
-                        }
+                        item._P3Double.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P3Double = subMask;
@@ -3507,13 +3346,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3IntXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3IntN.Item = tryGet.Value;
-                        }
+                        item._P3IntN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P3IntN = subMask;
@@ -3523,15 +3358,11 @@ namespace Loqui.Tests
                 case "P3Int":
                     {
                         Exception subMask;
-                        var tryGet = P3IntXmlTranslation.Instance.Parse(
+                        var tryGet = P3IntXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3Int.Item = tryGet.Value.Value;
-                        }
+                        item._P3Int.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().P3Int = subMask;
@@ -3543,13 +3374,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = PercentXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._PercentN.Item = tryGet.Value;
-                        }
+                        item._PercentN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().PercentN = subMask;
@@ -3559,15 +3386,11 @@ namespace Loqui.Tests
                 case "Percent":
                     {
                         Exception subMask;
-                        var tryGet = PercentXmlTranslation.Instance.Parse(
+                        var tryGet = PercentXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Percent.Item = tryGet.Value.Value;
-                        }
+                        item._Percent.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Percent = subMask;
@@ -3579,13 +3402,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt8XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt8N.Item = tryGet.Value;
-                        }
+                        item._RangeInt8N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt8N = subMask;
@@ -3595,15 +3414,11 @@ namespace Loqui.Tests
                 case "RangeInt8":
                     {
                         Exception subMask;
-                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
+                        var tryGet = RangeInt8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt8.Item = tryGet.Value.Value;
-                        }
+                        item._RangeInt8.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt8 = subMask;
@@ -3615,13 +3430,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt16N.Item = tryGet.Value;
-                        }
+                        item._RangeInt16N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt16N = subMask;
@@ -3631,15 +3442,11 @@ namespace Loqui.Tests
                 case "RangeInt16":
                     {
                         Exception subMask;
-                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
+                        var tryGet = RangeInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt16.Item = tryGet.Value.Value;
-                        }
+                        item._RangeInt16.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt16 = subMask;
@@ -3651,13 +3458,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt32N.Item = tryGet.Value;
-                        }
+                        item._RangeInt32N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt32N = subMask;
@@ -3667,15 +3470,11 @@ namespace Loqui.Tests
                 case "RangeInt32":
                     {
                         Exception subMask;
-                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
+                        var tryGet = RangeInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt32.Item = tryGet.Value.Value;
-                        }
+                        item._RangeInt32.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt32 = subMask;
@@ -3687,13 +3486,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt64N.Item = tryGet.Value;
-                        }
+                        item._RangeInt64N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt64N = subMask;
@@ -3703,15 +3498,11 @@ namespace Loqui.Tests
                 case "RangeInt64":
                     {
                         Exception subMask;
-                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
+                        var tryGet = RangeInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt64.Item = tryGet.Value.Value;
-                        }
+                        item._RangeInt64.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeInt64 = subMask;
@@ -3723,13 +3514,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt8N.Item = tryGet.Value;
-                        }
+                        item._RangeUInt8N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt8N = subMask;
@@ -3739,15 +3526,11 @@ namespace Loqui.Tests
                 case "RangeUInt8":
                     {
                         Exception subMask;
-                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
+                        var tryGet = RangeUInt8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt8.Item = tryGet.Value.Value;
-                        }
+                        item._RangeUInt8.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt8 = subMask;
@@ -3759,13 +3542,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt16N.Item = tryGet.Value;
-                        }
+                        item._RangeUInt16N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt16N = subMask;
@@ -3775,15 +3554,11 @@ namespace Loqui.Tests
                 case "RangeUInt16":
                     {
                         Exception subMask;
-                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
+                        var tryGet = RangeUInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt16.Item = tryGet.Value.Value;
-                        }
+                        item._RangeUInt16.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt16 = subMask;
@@ -3795,13 +3570,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt32N.Item = tryGet.Value;
-                        }
+                        item._RangeUInt32N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt32N = subMask;
@@ -3811,15 +3582,11 @@ namespace Loqui.Tests
                 case "RangeUInt32":
                     {
                         Exception subMask;
-                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
+                        var tryGet = RangeUInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt32.Item = tryGet.Value.Value;
-                        }
+                        item._RangeUInt32.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt32 = subMask;
@@ -3831,13 +3598,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt64N.Item = tryGet.Value;
-                        }
+                        item._RangeUInt64N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt64N = subMask;
@@ -3847,15 +3610,11 @@ namespace Loqui.Tests
                 case "RangeUInt64":
                     {
                         Exception subMask;
-                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
+                        var tryGet = RangeUInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt64.Item = tryGet.Value.Value;
-                        }
+                        item._RangeUInt64.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RangeUInt64 = subMask;
@@ -3869,10 +3628,7 @@ namespace Loqui.Tests
                             root,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._String.Item = tryGet.Value;
-                        }
+                        item._String.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().String = subMask;
@@ -3882,15 +3638,11 @@ namespace Loqui.Tests
                 case "FilePath":
                     {
                         Exception subMask;
-                        var tryGet = FilePathXmlTranslation.Instance.Parse(
+                        var tryGet = FilePathXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FilePath.Item = tryGet.Value.Value;
-                        }
+                        item._FilePath.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().FilePath = subMask;
@@ -3902,13 +3654,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FilePathXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FilePathNull.Item = tryGet.Value;
-                        }
+                        item._FilePathNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().FilePathNull = subMask;
@@ -3918,15 +3666,11 @@ namespace Loqui.Tests
                 case "DirectoryPath":
                     {
                         Exception subMask;
-                        var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
+                        var tryGet = DirectoryPathXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DirectoryPath.Item = tryGet.Value.Value;
-                        }
+                        item._DirectoryPath.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DirectoryPath = subMask;
@@ -3938,13 +3682,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DirectoryPathNull.Item = tryGet.Value;
-                        }
+                        item._DirectoryPathNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DirectoryPathNull = subMask;
@@ -3956,13 +3696,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDoubleN.Item = tryGet.Value;
-                        }
+                        item._UDoubleN.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UDoubleN = subMask;
@@ -3974,13 +3710,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDoubleN_Ranged.Item = tryGet.Value;
-                        }
+                        item._UDoubleN_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UDoubleN_Ranged = subMask;
@@ -3990,15 +3722,11 @@ namespace Loqui.Tests
                 case "UDouble":
                     {
                         Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                        var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDouble.Item = tryGet.Value.Value;
-                        }
+                        item._UDouble.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UDouble = subMask;
@@ -4008,15 +3736,11 @@ namespace Loqui.Tests
                 case "UDouble_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
+                        var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDouble_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._UDouble_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UDouble_Ranged = subMask;
@@ -4028,13 +3752,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16N.Item = tryGet.Value;
-                        }
+                        item._UInt16N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt16N = subMask;
@@ -4046,13 +3766,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16N_Ranged.Item = tryGet.Value;
-                        }
+                        item._UInt16N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt16N_Ranged = subMask;
@@ -4062,15 +3778,11 @@ namespace Loqui.Tests
                 case "UInt16":
                     {
                         Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                        var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16.Item = tryGet.Value.Value;
-                        }
+                        item._UInt16.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt16 = subMask;
@@ -4080,15 +3792,11 @@ namespace Loqui.Tests
                 case "UInt16_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.Parse(
+                        var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._UInt16_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt16_Ranged = subMask;
@@ -4100,13 +3808,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32N.Item = tryGet.Value;
-                        }
+                        item._UInt32N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt32N = subMask;
@@ -4118,13 +3822,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32N_Ranged.Item = tryGet.Value;
-                        }
+                        item._UInt32N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt32N_Ranged = subMask;
@@ -4134,15 +3834,11 @@ namespace Loqui.Tests
                 case "UInt32":
                     {
                         Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                        var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32.Item = tryGet.Value.Value;
-                        }
+                        item._UInt32.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt32 = subMask;
@@ -4152,15 +3848,11 @@ namespace Loqui.Tests
                 case "UInt32_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.Parse(
+                        var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._UInt32_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt32_Ranged = subMask;
@@ -4172,13 +3864,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64N.Item = tryGet.Value;
-                        }
+                        item._UInt64N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt64N = subMask;
@@ -4190,13 +3878,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64N_Ranged.Item = tryGet.Value;
-                        }
+                        item._UInt64N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt64N_Ranged = subMask;
@@ -4206,15 +3890,11 @@ namespace Loqui.Tests
                 case "UInt64":
                     {
                         Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                        var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64.Item = tryGet.Value.Value;
-                        }
+                        item._UInt64.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt64 = subMask;
@@ -4224,15 +3904,11 @@ namespace Loqui.Tests
                 case "UInt64_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.Parse(
+                        var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._UInt64_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt64_Ranged = subMask;
@@ -4244,13 +3920,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8N.Item = tryGet.Value;
-                        }
+                        item._UInt8N.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt8N = subMask;
@@ -4262,13 +3934,9 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.Parse(
                             root,
-                            nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8N_Ranged.Item = tryGet.Value;
-                        }
+                        item._UInt8N_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt8N_Ranged = subMask;
@@ -4278,15 +3946,11 @@ namespace Loqui.Tests
                 case "UInt8":
                     {
                         Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                        var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8.Item = tryGet.Value.Value;
-                        }
+                        item._UInt8.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt8 = subMask;
@@ -4296,15 +3960,11 @@ namespace Loqui.Tests
                 case "UInt8_Ranged":
                     {
                         Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.Parse(
+                        var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
                             root,
-                            nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8_Ranged.Item = tryGet.Value.Value;
-                        }
+                        item._UInt8_Ranged.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().UInt8_Ranged = subMask;
@@ -4319,10 +3979,7 @@ namespace Loqui.Tests
                             nullable: false,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Enum.Item = tryGet.Value.Value;
-                        }
+                        item._Enum.SetIfSucceeded(tryGet.Bubble<TestEnum>((i) => i.Value));
                         if (doMasks && subMask != null)
                         {
                             errorMask().Enum = subMask;
@@ -4337,10 +3994,7 @@ namespace Loqui.Tests
                             nullable: true,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._EnumNull.Item = tryGet.Value;
-                        }
+                        item._EnumNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().EnumNull = subMask;
@@ -4354,10 +4008,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCard.Item = (Object)tryGet.Value;
-                        }
+                        item._WildCard.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().WildCard = subMask;
@@ -4371,10 +4022,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCardLoqui.Item = (Object)tryGet.Value;
-                        }
+                        item._WildCardLoqui.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().WildCardLoqui = subMask;
@@ -4388,10 +4036,7 @@ namespace Loqui.Tests
                             root: root,
                             doMasks: doMasks,
                             maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCardNull.Item = (Object)tryGet.Value;
-                        }
+                        item._WildCardNull.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         if (doMasks && subMask != null)
                         {
                             errorMask().WildCardNull = subMask;
@@ -4431,10 +4076,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Ref.Item = tryGet.Value;
-                        }
+                        item._Ref.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Ref = subMask;
@@ -4474,10 +4116,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Ref_NotNull.Item = tryGet.Value;
-                        }
+                        item._Ref_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Ref_NotNull = subMask;
@@ -4540,10 +4179,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefGetter.Item = tryGet.Value;
-                        }
+                        item._RefGetter.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefGetter = subMask;
@@ -4583,10 +4219,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefGetter_NotNull.Item = tryGet.Value;
-                        }
+                        item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefGetter_NotNull = subMask;
@@ -4628,10 +4261,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefSetter.Item = tryGet.Value;
-                        }
+                        item._RefSetter.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefSetter = subMask;
@@ -4671,10 +4301,7 @@ namespace Loqui.Tests
                             loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefSetter_NotNull.Item = tryGet.Value;
-                        }
+                        item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefSetter_NotNull = subMask;
@@ -4720,10 +4347,7 @@ namespace Loqui.Tests
                                     errorMask: out listSubMask).Bubble((o) => o.Value);
                             }
                             );
-                        if (listTryGet.Succeeded)
-                        {
-                            item._List.SetTo(listTryGet.Value);
-                        }
+                        item._List.SetIfSucceeded(listTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().List = subMask;
@@ -4772,10 +4396,7 @@ namespace Loqui.Tests
                                 return tryGet;
                             }
                             );
-                        if (listTryGet.Succeeded)
-                        {
-                            item._RefList.SetTo(listTryGet.Value);
-                        }
+                        item._RefList.SetIfSucceeded(listTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefList = subMask;
@@ -4806,10 +4427,7 @@ namespace Loqui.Tests
                                     errorMask: out dictSubMask).Bubble((o) => o.Value);
                             }
                             );
-                        if (dictTryGet.Succeeded)
-                        {
-                            item._Dict.SetTo(dictTryGet.Value, cmds: null);
-                        }
+                        item._Dict.SetIfSucceeded(dictTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().Dict = subMask;
@@ -4893,10 +4511,7 @@ namespace Loqui.Tests
                                 return tryGet;
                             }
                             );
-                        if (dictTryGet.Succeeded)
-                        {
-                            item._RefDict.SetTo(dictTryGet.Value, cmds: null);
-                        }
+                        item._RefDict.SetIfSucceeded(dictTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().RefDict = subMask;
@@ -4954,10 +4569,7 @@ namespace Loqui.Tests
                                     errorMask: out dictSubMask).Bubble((o) => o.Value);
                             }
                             );
-                        if (dictTryGet.Succeeded)
-                        {
-                            item._KeyRefDict.SetTo(dictTryGet.Value, cmds: null);
-                        }
+                        item._KeyRefDict.SetIfSucceeded(dictTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().KeyRefDict = subMask;
@@ -5014,10 +4626,7 @@ namespace Loqui.Tests
                                 return tryGet;
                             }
                             );
-                        if (dictTryGet.Succeeded)
-                        {
-                            item._ValRefDict.SetTo(dictTryGet.Value, cmds: null);
-                        }
+                        item._ValRefDict.SetIfSucceeded(dictTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().ValRefDict = subMask;
@@ -5066,10 +4675,7 @@ namespace Loqui.Tests
                                 return tryGet;
                             }
                             );
-                        if (dictTryGet.Succeeded)
-                        {
-                            item._DictKeyedValue.SetTo(dictTryGet.Value, cmds: null);
-                        }
+                        item._DictKeyedValue.SetIfSucceeded(dictTryGet);
                         if (doMasks && subMask != null)
                         {
                             errorMask().DictKeyedValue = subMask;
