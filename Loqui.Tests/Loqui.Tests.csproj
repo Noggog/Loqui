@@ -196,6 +196,9 @@
     <Compile Include="XML\WildcardNullXmlTranslation_Test.cs" />
     <Compile Include="XML\WildcardBoolXmlTranslation_Test.cs" />
     <Compile Include="XML\XmlUtility.cs" />
+    <Compile Include="Generated Test Objects\TestObject_Abstract_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Abstract.xml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
@@ -216,6 +219,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TestGenericObject.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Abstract.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TypicalFields.xml">

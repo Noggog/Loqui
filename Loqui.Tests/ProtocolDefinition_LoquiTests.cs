@@ -31,6 +31,7 @@ namespace Loqui
             LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_Derivative_RPC_Registration.Instance);
             LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_ReadOnly_RPC_Registration.Instance);
             LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_RPC_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Abstract_Registration.Instance);
         }
     }
 }

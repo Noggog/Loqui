@@ -178,42 +178,45 @@ namespace Loqui.Generation
 
         private void GenerateCreateExtras(ObjectGeneration obj, FileGeneration fg)
         {
-            using (var args = new FunctionWrapper(fg,
-                $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal"))
+            if (!obj.Abstract)
             {
-                args.Add("XElement root");
-                args.Add("bool doMasks");
-                args.Add($"Func<{obj.ErrorMask}> errorMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
-                fg.AppendLine("try");
+                using (var args = new FunctionWrapper(fg,
+                    $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal"))
+                {
+                    args.Add("XElement root");
+                    args.Add("bool doMasks");
+                    args.Add($"Func<{obj.ErrorMask}> errorMask");
+                }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("foreach (var elem in root.Elements())");
+                    fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
+                    fg.AppendLine("try");
                     using (new BraceWrapper(fg))
                     {
-                        using (var args = new ArgsWrapper(fg,
-                            $"Fill_{ModuleNickname}_Internal"))
+                        fg.AppendLine("foreach (var elem in root.Elements())");
+                        using (new BraceWrapper(fg))
                         {
-                            args.Add("item: ret");
-                            args.Add("root: elem");
-                            args.Add("name: elem.Name.LocalName");
-                            args.Add("doMasks: doMasks");
-                            args.Add("errorMask: errorMask");
+                            using (var args = new ArgsWrapper(fg,
+                                $"Fill_{ModuleNickname}_Internal"))
+                            {
+                                args.Add("item: ret");
+                                args.Add("root: elem");
+                                args.Add("name: elem.Name.LocalName");
+                                args.Add("doMasks: doMasks");
+                                args.Add("errorMask: errorMask");
+                            }
                         }
                     }
+                    fg.AppendLine("catch (Exception ex)");
+                    fg.AppendLine("when (doMasks)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("errorMask().Overall = ex;");
+                    }
+                    fg.AppendLine("return ret;");
                 }
-                fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (doMasks)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("errorMask().Overall = ex;");
-                }
-                fg.AppendLine("return ret;");
+                fg.AppendLine();
             }
-            fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
                 $"protected static void Fill_{ModuleNickname}_Internal"))

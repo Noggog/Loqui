@@ -1756,6 +1756,8 @@ namespace Loqui.Generation
 
         public virtual void GenerateCopy(FileGeneration fg)
         {
+            if (this.Abstract) return;
+
             using (var args = new FunctionWrapper(fg,
                 $"public {this.ObjectName} Copy"))
             {
@@ -1773,8 +1775,6 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-
-            if (this.Abstract) return;
 
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.ObjectName} Copy"))
