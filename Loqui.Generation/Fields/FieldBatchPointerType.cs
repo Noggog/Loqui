@@ -77,6 +77,7 @@ namespace Loqui.Generation
 
         public override void Load(XElement node, bool requireName = true)
         {
+            this._derivative = false;
             this.BatchName = node.GetAttribute<string>("name", throwException: true);
             this.ProtocolID = node.GetAttribute("protocol", throwException: false);
         }

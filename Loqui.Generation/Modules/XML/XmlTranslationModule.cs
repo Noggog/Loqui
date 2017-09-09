@@ -389,57 +389,47 @@ namespace Loqui.Generation
 
         protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine("try");
+            fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
+                fg.AppendLine("if (name != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("if (name != null)");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+                }
+
+                foreach (var field in obj.IterateFields())
+                {
+                    if (field.Field.Derivative) continue;
+
+                    if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                     {
-                        fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+                        throw new ArgumentException("Unsupported type generator: " + field.Field);
                     }
 
-                    foreach (var field in obj.IterateFields())
+                    if (field.Field.Notifying != NotifyingOption.None)
                     {
-                        if (field.Field.Derivative) continue;
-
-                        if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
-                        {
-                            throw new ArgumentException("Unsupported type generator: " + field.Field);
-                        }
-
-                        if (field.Field.Notifying != NotifyingOption.None)
-                        {
-                            fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
-                        }
+                        fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                        fg.AppendLine($"{maskType} subMask;");
+                        generator.GenerateWrite(
+                            fg: fg,
+                            typeGen: field.Field,
+                            writerAccessor: "writer",
+                            itemAccessor: $"item.{field.Field.Name}",
+                            doMaskAccessor: "doMasks",
+                            maskAccessor: $"subMask",
+                            nameAccessor: $"nameof(item.{field.Field.Name})");
+                        fg.AppendLine("if (doMasks && subMask != null)");
                         using (new BraceWrapper(fg))
                         {
-                            var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
-                            fg.AppendLine($"{maskType} subMask;");
-                            generator.GenerateWrite(
-                                fg: fg,
-                                typeGen: field.Field,
-                                writerAccessor: "writer",
-                                itemAccessor: $"item.{field.Field.Name}",
-                                doMaskAccessor: "doMasks",
-                                maskAccessor: $"subMask",
-                                nameAccessor: $"nameof(item.{field.Field.Name})");
-                            fg.AppendLine("if (doMasks && subMask != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
-                            }
+                            fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
                         }
                     }
                 }
-            }
-            fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine("when (doMasks)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("errorMask().Overall = ex;");
             }
         }
     }

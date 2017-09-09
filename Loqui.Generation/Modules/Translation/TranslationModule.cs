@@ -424,7 +424,17 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                GenerateWriteSnippet(obj, fg);
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    GenerateWriteSnippet(obj, fg);
+                }
+                fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (doMasks)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("errorMask().Overall = ex;");
+                }
             }
         }
 

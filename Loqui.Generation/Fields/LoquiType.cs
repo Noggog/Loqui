@@ -370,7 +370,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Ref type needs a target.");
             }
-            
+
             this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
         }
 

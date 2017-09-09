@@ -12,11 +12,8 @@ namespace Loqui.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             LoadTypeGenerationFromNode(node, requireName);
-            SingleTypeGen = new LoquiType()
-            {
-                ObjectGen = this.ObjectGen,
-                ProtoGen = this.ProtoGen
-            };
+            SingleTypeGen = new LoquiType();
+            SingleTypeGen.SetObjectGeneration(this.ObjectGen);
             SingleTypeGen.Load(node, false);
             singleType = true;
             isLoquiSingle = SingleTypeGen as LoquiType != null;

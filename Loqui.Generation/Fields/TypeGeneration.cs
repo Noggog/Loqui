@@ -6,20 +6,8 @@ namespace Loqui.Generation
 {
     public abstract class TypeGeneration
     {
-        private ObjectGeneration _ObjectGen;
-        public ObjectGeneration ObjectGen
-        {
-            get { return _ObjectGen; }
-            set
-            {
-                if (value is StructGeneration)
-                {
-                    this.Notifying = NotifyingOption.None;
-                }
-                this._ObjectGen = value;
-            }
-        }
-        public ProtocolGeneration ProtoGen;
+        public ObjectGeneration ObjectGen { get; private set; }
+        public ProtocolGeneration ProtoGen => ObjectGen.ProtoGen;
         public bool KeyField { get; protected set; }
         public abstract string TypeName { get; }
         public virtual string SetToName => TypeName;
@@ -37,9 +25,27 @@ namespace Loqui.Generation
         private bool _copy;
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
-        public bool GenerateClassMembers;
-        public NotifyingOption Notifying;
+        public bool GenerateClassMembers = true;
+        private NotifyingOption _notifying;
+        public NotifyingOption Notifying
+        {
+            get => this.ObjectGen is StructGeneration ? NotifyingOption.None : _notifying;
+            set => _notifying = value;
+        }
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
+
+        public TypeGeneration()
+        {
+        }
+
+        public void SetObjectGeneration(ObjectGeneration obj)
+        {
+            this.ObjectGen = obj;
+            this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
+            this._notifying = this.ObjectGen.NotifyingDefault;
+            this._derivative = this.ObjectGen.DerivativeDefault;
+            this.Protected = this.ObjectGen.ProtectedDefault;
+        }
 
         public virtual void Load(XElement node, bool requireName = true)
         {
@@ -48,21 +54,25 @@ namespace Loqui.Generation
 
         protected void LoadTypeGenerationFromNode(XElement node, bool requireName = true)
         {
-            KeyField = node.GetAttribute<bool>("keyField", false);
+            node.TransferAttribute<bool>("keyField", i => this.KeyField = i);
             Name = node.GetAttribute<string>("name");
-            this._derivative = node.GetAttribute<bool>("derivative", this.ObjectGen.DerivativeDefault);
+            node.TransferAttribute<bool>("derivative", i => this._derivative = i);
             this.Protected = node.GetAttribute<bool>("protected", this.ObjectGen.ProtectedDefault || Derivative);
-            if (this._derivative && !Protected)
-            {
-                throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
-            }
             this._copy = node.GetAttribute<bool>("copy", !this.Protected);
-            this.GenerateClassMembers = node.GetAttribute<bool>("generateClassMembers", true);
-            this.RaisePropertyChanged = node.GetAttribute<bool>("raisePropertyChanged", this.ObjectGen.RaisePropertyChangedDefault);
-            this.Notifying = node.GetAttribute<NotifyingOption>("notifying", this.ObjectGen.NotifyingDefault);
+            node.TransferAttribute<bool>("generateClassMembers", i => this.GenerateClassMembers = i);
+            node.TransferAttribute<bool>("raisePropertyChanged", i => this.RaisePropertyChanged = i);
+            node.TransferAttribute<NotifyingOption>("notifying", i => this.Notifying = i);
             if (requireName && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");
+            }
+        }
+
+        public void FinalizeField()
+        {
+            if (this._derivative && !Protected)
+            {
+                throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
             }
         }
 

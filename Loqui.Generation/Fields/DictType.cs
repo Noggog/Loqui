@@ -52,20 +52,16 @@ namespace Loqui.Generation
             var keyedValueNode = node.Element(XName.Get("KeyedValue", LoquiGenerator.Namespace));
             if (keyedValueNode != null)
             {
-                var dictType = new DictType_KeyedValue()
-                {
-                    ObjectGen = this.ObjectGen
-                };
+                var dictType = new DictType_KeyedValue();
+                dictType.SetObjectGeneration(this.ObjectGen);
                 subGenerator = dictType;
                 subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
             }
             else
             {
-                var dictType = new DictType_Typical()
-                {
-                    ObjectGen = this.ObjectGen
-                };
+                var dictType = new DictType_Typical();
+                dictType.SetObjectGeneration(this.ObjectGen);
                 subGenerator = dictType;
                 subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
