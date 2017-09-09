@@ -49,7 +49,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArray;
         public Byte[] ByteArray
         {
-            get => ByteArray;
+            get => _ByteArray;
             protected set { this._ByteArray = value; OnPropertyChanged(nameof(ByteArray)); }
         }
         #endregion
@@ -57,7 +57,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
-            get => ByteArrayNull;
+            get => _ByteArrayNull;
             protected set { this._ByteArrayNull = value; OnPropertyChanged(nameof(ByteArrayNull)); }
         }
         #endregion
@@ -65,13 +65,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNotNull = new byte[3];
         public Byte[] ByteArrayNotNull
         {
-            get => ByteArrayNotNull;
+            get => _ByteArrayNotNull;
             protected set
             {
-                this.ByteArrayNotNull = value;
+                this._ByteArrayNotNull = value;
                 if (value == null)
                 {
-                    this.ByteArrayNotNull = new byte[3];
+                    this._ByteArrayNotNull = new byte[3];
                 }
                 OnPropertyChanged(nameof(ByteArrayNotNull));
             }
@@ -81,13 +81,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArraySingleton = new byte[3];
         public Byte[] ByteArraySingleton
         {
-            get => ByteArraySingleton;
+            get => _ByteArraySingleton;
             protected set
             {
-                this.ByteArraySingleton = value;
+                this._ByteArraySingleton = value;
                 if (value == null)
                 {
-                    this.ByteArraySingleton = new byte[3];
+                    this._ByteArraySingleton = new byte[3];
                 }
                 OnPropertyChanged(nameof(ByteArraySingleton));
             }
@@ -1577,7 +1577,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArray = tryGet.Value;
+                            item._ByteArray = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1594,7 +1594,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNull = tryGet.Value;
+                            item._ByteArrayNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1611,7 +1611,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNotNull = tryGet.Value;
+                            item._ByteArrayNotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1628,7 +1628,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArraySingleton = tryGet.Value;
+                            item._ByteArraySingleton = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1645,7 +1645,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.BoolN = tryGet.Value;
+                            item._BoolN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1662,7 +1662,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Bool = tryGet.Value;
+                            item._Bool = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1679,7 +1679,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.CharN = tryGet.Value;
+                            item._CharN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1696,7 +1696,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Char = tryGet.Value;
+                            item._Char = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1713,7 +1713,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DateTimeNull = tryGet.Value;
+                            item._DateTimeNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1730,7 +1730,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DateTime = tryGet.Value;
+                            item._DateTime = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1747,7 +1747,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DoubleN = tryGet.Value;
+                            item._DoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1764,7 +1764,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DoubleN_Ranged = tryGet.Value;
+                            item._DoubleN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1781,7 +1781,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Double = tryGet.Value;
+                            item._Double = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1798,7 +1798,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Double_Ranged = tryGet.Value;
+                            item._Double_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1815,7 +1815,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FloatN = tryGet.Value;
+                            item._FloatN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1832,7 +1832,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FloatN_Ranged = tryGet.Value;
+                            item._FloatN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1849,7 +1849,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Float = tryGet.Value;
+                            item._Float = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1866,7 +1866,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Float_Ranged = tryGet.Value;
+                            item._Float_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1883,7 +1883,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16N = tryGet.Value;
+                            item._Int16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1900,7 +1900,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16N_Ranged = tryGet.Value;
+                            item._Int16N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1917,7 +1917,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16 = tryGet.Value;
+                            item._Int16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1934,7 +1934,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16_Ranged = tryGet.Value;
+                            item._Int16_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1951,7 +1951,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32N = tryGet.Value;
+                            item._Int32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1968,7 +1968,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32N_Ranged = tryGet.Value;
+                            item._Int32N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1985,7 +1985,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32 = tryGet.Value;
+                            item._Int32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2002,7 +2002,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32_Ranged = tryGet.Value;
+                            item._Int32_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2019,7 +2019,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64N = tryGet.Value;
+                            item._Int64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2036,7 +2036,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64N_Ranged = tryGet.Value;
+                            item._Int64N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2053,7 +2053,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64 = tryGet.Value;
+                            item._Int64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2070,7 +2070,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64_Ranged = tryGet.Value;
+                            item._Int64_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2087,7 +2087,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8N = tryGet.Value;
+                            item._Int8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2104,7 +2104,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8N_Ranged = tryGet.Value;
+                            item._Int8N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2121,7 +2121,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8 = tryGet.Value;
+                            item._Int8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2138,7 +2138,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8_Ranged = tryGet.Value;
+                            item._Int8_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2155,7 +2155,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Unsafe = (bool)tryGet.Value;
+                            item._Unsafe = (bool)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2172,7 +2172,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UnsafeLoqui = (ObjectToRef)tryGet.Value;
+                            item._UnsafeLoqui = (ObjectToRef)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2189,7 +2189,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UnsafeNull = (ObjectToRef)tryGet.Value;
+                            item._UnsafeNull = (ObjectToRef)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2206,7 +2206,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P2IntN = tryGet.Value;
+                            item._P2IntN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2223,7 +2223,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P2Int = tryGet.Value;
+                            item._P2Int = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2240,7 +2240,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3DoubleN = tryGet.Value;
+                            item._P3DoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2257,7 +2257,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3Double = tryGet.Value;
+                            item._P3Double = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2274,7 +2274,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3IntN = tryGet.Value;
+                            item._P3IntN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2291,7 +2291,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3Int = tryGet.Value;
+                            item._P3Int = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2308,7 +2308,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.PercentN = tryGet.Value;
+                            item._PercentN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2325,7 +2325,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Percent = tryGet.Value;
+                            item._Percent = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2342,7 +2342,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt8N = tryGet.Value;
+                            item._RangeInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2359,7 +2359,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt8 = tryGet.Value;
+                            item._RangeInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2376,7 +2376,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt16N = tryGet.Value;
+                            item._RangeInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2393,7 +2393,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt16 = tryGet.Value;
+                            item._RangeInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2410,7 +2410,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt32N = tryGet.Value;
+                            item._RangeInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2427,7 +2427,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt32 = tryGet.Value;
+                            item._RangeInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2444,7 +2444,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt64N = tryGet.Value;
+                            item._RangeInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2461,7 +2461,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt64 = tryGet.Value;
+                            item._RangeInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2478,7 +2478,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt8N = tryGet.Value;
+                            item._RangeUInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2495,7 +2495,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt8 = tryGet.Value;
+                            item._RangeUInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2512,7 +2512,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt16N = tryGet.Value;
+                            item._RangeUInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2529,7 +2529,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt16 = tryGet.Value;
+                            item._RangeUInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2546,7 +2546,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt32N = tryGet.Value;
+                            item._RangeUInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2563,7 +2563,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt32 = tryGet.Value;
+                            item._RangeUInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2580,7 +2580,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt64N = tryGet.Value;
+                            item._RangeUInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2597,7 +2597,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt64 = tryGet.Value;
+                            item._RangeUInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2614,7 +2614,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.String = tryGet.Value;
+                            item._String = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2631,7 +2631,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FilePath = tryGet.Value;
+                            item._FilePath = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2648,7 +2648,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FilePathNull = tryGet.Value;
+                            item._FilePathNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2665,7 +2665,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DirectoryPath = tryGet.Value;
+                            item._DirectoryPath = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2682,7 +2682,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DirectoryPathNull = tryGet.Value;
+                            item._DirectoryPathNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2699,7 +2699,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDoubleN = tryGet.Value;
+                            item._UDoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2716,7 +2716,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDoubleN_Ranged = tryGet.Value;
+                            item._UDoubleN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2733,7 +2733,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDouble = tryGet.Value;
+                            item._UDouble = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2750,7 +2750,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDouble_Ranged = tryGet.Value;
+                            item._UDouble_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2767,7 +2767,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16N = tryGet.Value;
+                            item._UInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2784,7 +2784,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16N_Ranged = tryGet.Value;
+                            item._UInt16N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2801,7 +2801,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16 = tryGet.Value;
+                            item._UInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2818,7 +2818,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16_Ranged = tryGet.Value;
+                            item._UInt16_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2835,7 +2835,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32N = tryGet.Value;
+                            item._UInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2852,7 +2852,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32N_Ranged = tryGet.Value;
+                            item._UInt32N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2869,7 +2869,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32 = tryGet.Value;
+                            item._UInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2886,7 +2886,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32_Ranged = tryGet.Value;
+                            item._UInt32_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2903,7 +2903,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64N = tryGet.Value;
+                            item._UInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2920,7 +2920,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64N_Ranged = tryGet.Value;
+                            item._UInt64N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2937,7 +2937,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64 = tryGet.Value;
+                            item._UInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2954,7 +2954,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64_Ranged = tryGet.Value;
+                            item._UInt64_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2971,7 +2971,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8N = tryGet.Value;
+                            item._UInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2988,7 +2988,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8N_Ranged = tryGet.Value;
+                            item._UInt8N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3005,7 +3005,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8 = tryGet.Value;
+                            item._UInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3022,7 +3022,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8_Ranged = tryGet.Value;
+                            item._UInt8_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3040,7 +3040,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Enum = tryGet.Value.Value;
+                            item._Enum = tryGet.Value.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3058,7 +3058,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.EnumNull = tryGet.Value;
+                            item._EnumNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3075,7 +3075,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCard = (Object)tryGet.Value;
+                            item._WildCard = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3092,7 +3092,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCardLoqui = (Object)tryGet.Value;
+                            item._WildCardLoqui = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3109,7 +3109,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCardNull = (Object)tryGet.Value;
+                            item._WildCardNull = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3152,7 +3152,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Ref = tryGet.Value;
+                            item._Ref = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3195,7 +3195,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Ref_NotNull = tryGet.Value;
+                            item._Ref_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3261,7 +3261,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefGetter = tryGet.Value;
+                            item._RefGetter = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3304,7 +3304,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefGetter_NotNull = tryGet.Value;
+                            item._RefGetter_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3349,7 +3349,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefSetter = tryGet.Value;
+                            item._RefSetter = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3392,7 +3392,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefSetter_NotNull = tryGet.Value;
+                            item._RefSetter_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {

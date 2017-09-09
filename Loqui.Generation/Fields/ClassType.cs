@@ -13,6 +13,22 @@ namespace Loqui.Generation
         public bool Singleton;
         public bool Readonly;
         public override bool Copy => base.Copy && !this.Singleton;
+        public override string ProtectedName
+        {
+            get
+            {
+                switch (this.Notifying)
+                {
+                    case NotifyingOption.None:
+                        return $"_{this.Name}";
+                    case NotifyingOption.HasBeenSet:
+                    case NotifyingOption.Notifying:
+                        return $"{this.ProtectedProperty}.Item";
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
 
         public abstract string GetNewForNonNullable();
 

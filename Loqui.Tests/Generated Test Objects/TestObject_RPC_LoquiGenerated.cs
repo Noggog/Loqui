@@ -49,7 +49,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArray;
         public Byte[] ByteArray
         {
-            get => ByteArray;
+            get => _ByteArray;
             set { this._ByteArray = value; OnPropertyChanged(nameof(ByteArray)); }
         }
         #endregion
@@ -57,7 +57,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
-            get => ByteArrayNull;
+            get => _ByteArrayNull;
             set { this._ByteArrayNull = value; OnPropertyChanged(nameof(ByteArrayNull)); }
         }
         #endregion
@@ -65,13 +65,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNotNull = new byte[3];
         public Byte[] ByteArrayNotNull
         {
-            get => ByteArrayNotNull;
+            get => _ByteArrayNotNull;
             set
             {
-                this.ByteArrayNotNull = value;
+                this._ByteArrayNotNull = value;
                 if (value == null)
                 {
-                    this.ByteArrayNotNull = new byte[3];
+                    this._ByteArrayNotNull = new byte[3];
                 }
                 OnPropertyChanged(nameof(ByteArrayNotNull));
             }
@@ -81,13 +81,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArraySingleton = new byte[3];
         public Byte[] ByteArraySingleton
         {
-            get => ByteArraySingleton;
+            get => _ByteArraySingleton;
             protected set
             {
-                this.ByteArraySingleton = value;
+                this._ByteArraySingleton = value;
                 if (value == null)
                 {
-                    this.ByteArraySingleton = new byte[3];
+                    this._ByteArraySingleton = new byte[3];
                 }
                 OnPropertyChanged(nameof(ByteArraySingleton));
             }
@@ -1584,7 +1584,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArray = tryGet.Value;
+                            item._ByteArray = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1601,7 +1601,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNull = tryGet.Value;
+                            item._ByteArrayNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1618,7 +1618,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNotNull = tryGet.Value;
+                            item._ByteArrayNotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1635,7 +1635,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArraySingleton = tryGet.Value;
+                            item._ByteArraySingleton = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1652,7 +1652,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.BoolN = tryGet.Value;
+                            item._BoolN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1669,7 +1669,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Bool = tryGet.Value;
+                            item._Bool = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1686,7 +1686,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.CharN = tryGet.Value;
+                            item._CharN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1703,7 +1703,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Char = tryGet.Value;
+                            item._Char = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1720,7 +1720,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DateTimeNull = tryGet.Value;
+                            item._DateTimeNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1737,7 +1737,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DateTime = tryGet.Value;
+                            item._DateTime = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1754,7 +1754,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DoubleN = tryGet.Value;
+                            item._DoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1771,7 +1771,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DoubleN_Ranged = tryGet.Value;
+                            item._DoubleN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1788,7 +1788,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Double = tryGet.Value;
+                            item._Double = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1805,7 +1805,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Double_Ranged = tryGet.Value;
+                            item._Double_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1822,7 +1822,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FloatN = tryGet.Value;
+                            item._FloatN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1839,7 +1839,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FloatN_Ranged = tryGet.Value;
+                            item._FloatN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1856,7 +1856,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Float = tryGet.Value;
+                            item._Float = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1873,7 +1873,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Float_Ranged = tryGet.Value;
+                            item._Float_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1890,7 +1890,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16N = tryGet.Value;
+                            item._Int16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1907,7 +1907,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16N_Ranged = tryGet.Value;
+                            item._Int16N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1924,7 +1924,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16 = tryGet.Value;
+                            item._Int16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1941,7 +1941,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int16_Ranged = tryGet.Value;
+                            item._Int16_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1958,7 +1958,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32N = tryGet.Value;
+                            item._Int32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1975,7 +1975,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32N_Ranged = tryGet.Value;
+                            item._Int32N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1992,7 +1992,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32 = tryGet.Value;
+                            item._Int32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2009,7 +2009,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int32_Ranged = tryGet.Value;
+                            item._Int32_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2026,7 +2026,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64N = tryGet.Value;
+                            item._Int64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2043,7 +2043,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64N_Ranged = tryGet.Value;
+                            item._Int64N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2060,7 +2060,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64 = tryGet.Value;
+                            item._Int64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2077,7 +2077,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int64_Ranged = tryGet.Value;
+                            item._Int64_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2094,7 +2094,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8N = tryGet.Value;
+                            item._Int8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2111,7 +2111,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8N_Ranged = tryGet.Value;
+                            item._Int8N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2128,7 +2128,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8 = tryGet.Value;
+                            item._Int8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2145,7 +2145,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Int8_Ranged = tryGet.Value;
+                            item._Int8_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2162,7 +2162,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Unsafe = (bool)tryGet.Value;
+                            item._Unsafe = (bool)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2179,7 +2179,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UnsafeLoqui = (ObjectToRef)tryGet.Value;
+                            item._UnsafeLoqui = (ObjectToRef)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2196,7 +2196,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UnsafeNull = (ObjectToRef)tryGet.Value;
+                            item._UnsafeNull = (ObjectToRef)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2213,7 +2213,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P2IntN = tryGet.Value;
+                            item._P2IntN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2230,7 +2230,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P2Int = tryGet.Value;
+                            item._P2Int = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2247,7 +2247,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3DoubleN = tryGet.Value;
+                            item._P3DoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2264,7 +2264,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3Double = tryGet.Value;
+                            item._P3Double = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2281,7 +2281,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3IntN = tryGet.Value;
+                            item._P3IntN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2298,7 +2298,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.P3Int = tryGet.Value;
+                            item._P3Int = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2315,7 +2315,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.PercentN = tryGet.Value;
+                            item._PercentN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2332,7 +2332,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Percent = tryGet.Value;
+                            item._Percent = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2349,7 +2349,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt8N = tryGet.Value;
+                            item._RangeInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2366,7 +2366,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt8 = tryGet.Value;
+                            item._RangeInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2383,7 +2383,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt16N = tryGet.Value;
+                            item._RangeInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2400,7 +2400,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt16 = tryGet.Value;
+                            item._RangeInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2417,7 +2417,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt32N = tryGet.Value;
+                            item._RangeInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2434,7 +2434,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt32 = tryGet.Value;
+                            item._RangeInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2451,7 +2451,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt64N = tryGet.Value;
+                            item._RangeInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2468,7 +2468,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeInt64 = tryGet.Value;
+                            item._RangeInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2485,7 +2485,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt8N = tryGet.Value;
+                            item._RangeUInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2502,7 +2502,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt8 = tryGet.Value;
+                            item._RangeUInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2519,7 +2519,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt16N = tryGet.Value;
+                            item._RangeUInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2536,7 +2536,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt16 = tryGet.Value;
+                            item._RangeUInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2553,7 +2553,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt32N = tryGet.Value;
+                            item._RangeUInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2570,7 +2570,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt32 = tryGet.Value;
+                            item._RangeUInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2587,7 +2587,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt64N = tryGet.Value;
+                            item._RangeUInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2604,7 +2604,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RangeUInt64 = tryGet.Value;
+                            item._RangeUInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2621,7 +2621,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.String = tryGet.Value;
+                            item._String = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2638,7 +2638,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FilePath = tryGet.Value;
+                            item._FilePath = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2655,7 +2655,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.FilePathNull = tryGet.Value;
+                            item._FilePathNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2672,7 +2672,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DirectoryPath = tryGet.Value;
+                            item._DirectoryPath = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2689,7 +2689,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.DirectoryPathNull = tryGet.Value;
+                            item._DirectoryPathNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2706,7 +2706,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDoubleN = tryGet.Value;
+                            item._UDoubleN = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2723,7 +2723,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDoubleN_Ranged = tryGet.Value;
+                            item._UDoubleN_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2740,7 +2740,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDouble = tryGet.Value;
+                            item._UDouble = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2757,7 +2757,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UDouble_Ranged = tryGet.Value;
+                            item._UDouble_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2774,7 +2774,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16N = tryGet.Value;
+                            item._UInt16N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2791,7 +2791,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16N_Ranged = tryGet.Value;
+                            item._UInt16N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2808,7 +2808,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16 = tryGet.Value;
+                            item._UInt16 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2825,7 +2825,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt16_Ranged = tryGet.Value;
+                            item._UInt16_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2842,7 +2842,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32N = tryGet.Value;
+                            item._UInt32N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2859,7 +2859,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32N_Ranged = tryGet.Value;
+                            item._UInt32N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2876,7 +2876,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32 = tryGet.Value;
+                            item._UInt32 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2893,7 +2893,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt32_Ranged = tryGet.Value;
+                            item._UInt32_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2910,7 +2910,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64N = tryGet.Value;
+                            item._UInt64N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2927,7 +2927,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64N_Ranged = tryGet.Value;
+                            item._UInt64N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2944,7 +2944,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64 = tryGet.Value;
+                            item._UInt64 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2961,7 +2961,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt64_Ranged = tryGet.Value;
+                            item._UInt64_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2978,7 +2978,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8N = tryGet.Value;
+                            item._UInt8N = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -2995,7 +2995,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8N_Ranged = tryGet.Value;
+                            item._UInt8N_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3012,7 +3012,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8 = tryGet.Value;
+                            item._UInt8 = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3029,7 +3029,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.UInt8_Ranged = tryGet.Value;
+                            item._UInt8_Ranged = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3047,7 +3047,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Enum = tryGet.Value.Value;
+                            item._Enum = tryGet.Value.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3065,7 +3065,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.EnumNull = tryGet.Value;
+                            item._EnumNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3082,7 +3082,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCard = (Object)tryGet.Value;
+                            item._WildCard = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3099,7 +3099,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCardLoqui = (Object)tryGet.Value;
+                            item._WildCardLoqui = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3116,7 +3116,7 @@ namespace Loqui.Tests
                             maskObj: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.WildCardNull = (Object)tryGet.Value;
+                            item._WildCardNull = (Object)tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3159,7 +3159,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Ref = tryGet.Value;
+                            item._Ref = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3202,7 +3202,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.Ref_NotNull = tryGet.Value;
+                            item._Ref_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3268,7 +3268,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefGetter = tryGet.Value;
+                            item._RefGetter = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3311,7 +3311,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefGetter_NotNull = tryGet.Value;
+                            item._RefGetter_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3356,7 +3356,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefSetter = tryGet.Value;
+                            item._RefSetter = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3399,7 +3399,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.RefSetter_NotNull = tryGet.Value;
+                            item._RefSetter_NotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3885,300 +3885,300 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_RPC_FieldIndex.ByteArray:
-                    this.ByteArray = (Byte[])obj;
+                    this._ByteArray = (Byte[])obj;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArrayNull:
-                    this.ByteArrayNull = (Byte[])obj;
+                    this._ByteArrayNull = (Byte[])obj;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArrayNotNull:
-                    this.ByteArrayNotNull = (Byte[])obj;
+                    this._ByteArrayNotNull = (Byte[])obj;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArraySingleton:
-                    this.ByteArraySingleton = (Byte[])obj;
+                    this._ByteArraySingleton = (Byte[])obj;
                     break;
                 case TestObject_RPC_FieldIndex.BoolN:
-                    this.BoolN = (Boolean?)obj;
+                    this._BoolN = (Boolean?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Bool:
-                    this.Bool = (Boolean)obj;
+                    this._Bool = (Boolean)obj;
                     break;
                 case TestObject_RPC_FieldIndex.CharN:
-                    this.CharN = (Char?)obj;
+                    this._CharN = (Char?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Char:
-                    this.Char = (Char)obj;
+                    this._Char = (Char)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DateTimeNull:
-                    this.DateTimeNull = (DateTime?)obj;
+                    this._DateTimeNull = (DateTime?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DateTime:
-                    this.DateTime = (DateTime)obj;
+                    this._DateTime = (DateTime)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DoubleN:
-                    this.DoubleN = (Double?)obj;
+                    this._DoubleN = (Double?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DoubleN_Ranged:
-                    this.DoubleN_Ranged = (Double?)obj;
+                    this._DoubleN_Ranged = (Double?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Double:
-                    this.Double = (Double)obj;
+                    this._Double = (Double)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Double_Ranged:
-                    this.Double_Ranged = (Double)obj;
+                    this._Double_Ranged = (Double)obj;
                     break;
                 case TestObject_RPC_FieldIndex.FloatN:
-                    this.FloatN = (Single?)obj;
+                    this._FloatN = (Single?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.FloatN_Ranged:
-                    this.FloatN_Ranged = (Single?)obj;
+                    this._FloatN_Ranged = (Single?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Float:
-                    this.Float = (Single)obj;
+                    this._Float = (Single)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Float_Ranged:
-                    this.Float_Ranged = (Single)obj;
+                    this._Float_Ranged = (Single)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int16N:
-                    this.Int16N = (Int16?)obj;
+                    this._Int16N = (Int16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int16N_Ranged:
-                    this.Int16N_Ranged = (Int16?)obj;
+                    this._Int16N_Ranged = (Int16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int16:
-                    this.Int16 = (Int16)obj;
+                    this._Int16 = (Int16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int16_Ranged:
-                    this.Int16_Ranged = (Int16)obj;
+                    this._Int16_Ranged = (Int16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int32N:
-                    this.Int32N = (Int32?)obj;
+                    this._Int32N = (Int32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int32N_Ranged:
-                    this.Int32N_Ranged = (Int32?)obj;
+                    this._Int32N_Ranged = (Int32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int32:
-                    this.Int32 = (Int32)obj;
+                    this._Int32 = (Int32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int32_Ranged:
-                    this.Int32_Ranged = (Int32)obj;
+                    this._Int32_Ranged = (Int32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int64N:
-                    this.Int64N = (Int64?)obj;
+                    this._Int64N = (Int64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int64N_Ranged:
-                    this.Int64N_Ranged = (Int64?)obj;
+                    this._Int64N_Ranged = (Int64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int64:
-                    this.Int64 = (Int64)obj;
+                    this._Int64 = (Int64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int64_Ranged:
-                    this.Int64_Ranged = (Int64)obj;
+                    this._Int64_Ranged = (Int64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int8N:
-                    this.Int8N = (SByte?)obj;
+                    this._Int8N = (SByte?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int8N_Ranged:
-                    this.Int8N_Ranged = (SByte?)obj;
+                    this._Int8N_Ranged = (SByte?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int8:
-                    this.Int8 = (SByte)obj;
+                    this._Int8 = (SByte)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Int8_Ranged:
-                    this.Int8_Ranged = (SByte)obj;
+                    this._Int8_Ranged = (SByte)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Unsafe:
-                    this.Unsafe = (bool)obj;
+                    this._Unsafe = (bool)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UnsafeLoqui:
-                    this.UnsafeLoqui = (ObjectToRef)obj;
+                    this._UnsafeLoqui = (ObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UnsafeNull:
-                    this.UnsafeNull = (ObjectToRef)obj;
+                    this._UnsafeNull = (ObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P2IntN:
-                    this.P2IntN = (P2Int?)obj;
+                    this._P2IntN = (P2Int?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P2Int:
-                    this.P2Int = (P2Int)obj;
+                    this._P2Int = (P2Int)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P3DoubleN:
-                    this.P3DoubleN = (P3Double?)obj;
+                    this._P3DoubleN = (P3Double?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P3Double:
-                    this.P3Double = (P3Double)obj;
+                    this._P3Double = (P3Double)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P3IntN:
-                    this.P3IntN = (P3Int?)obj;
+                    this._P3IntN = (P3Int?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.P3Int:
-                    this.P3Int = (P3Int)obj;
+                    this._P3Int = (P3Int)obj;
                     break;
                 case TestObject_RPC_FieldIndex.PercentN:
-                    this.PercentN = (Percent?)obj;
+                    this._PercentN = (Percent?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Percent:
-                    this.Percent = (Percent)obj;
+                    this._Percent = (Percent)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt8N:
-                    this.RangeInt8N = (RangeInt8?)obj;
+                    this._RangeInt8N = (RangeInt8?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt8:
-                    this.RangeInt8 = (RangeInt8)obj;
+                    this._RangeInt8 = (RangeInt8)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt16N:
-                    this.RangeInt16N = (RangeInt16?)obj;
+                    this._RangeInt16N = (RangeInt16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt16:
-                    this.RangeInt16 = (RangeInt16)obj;
+                    this._RangeInt16 = (RangeInt16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt32N:
-                    this.RangeInt32N = (RangeInt32?)obj;
+                    this._RangeInt32N = (RangeInt32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt32:
-                    this.RangeInt32 = (RangeInt32)obj;
+                    this._RangeInt32 = (RangeInt32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt64N:
-                    this.RangeInt64N = (RangeInt64?)obj;
+                    this._RangeInt64N = (RangeInt64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt64:
-                    this.RangeInt64 = (RangeInt64)obj;
+                    this._RangeInt64 = (RangeInt64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt8N:
-                    this.RangeUInt8N = (RangeUInt8?)obj;
+                    this._RangeUInt8N = (RangeUInt8?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt8:
-                    this.RangeUInt8 = (RangeUInt8)obj;
+                    this._RangeUInt8 = (RangeUInt8)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt16N:
-                    this.RangeUInt16N = (RangeUInt16?)obj;
+                    this._RangeUInt16N = (RangeUInt16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt16:
-                    this.RangeUInt16 = (RangeUInt16)obj;
+                    this._RangeUInt16 = (RangeUInt16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt32N:
-                    this.RangeUInt32N = (RangeUInt32?)obj;
+                    this._RangeUInt32N = (RangeUInt32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt32:
-                    this.RangeUInt32 = (RangeUInt32)obj;
+                    this._RangeUInt32 = (RangeUInt32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt64N:
-                    this.RangeUInt64N = (RangeUInt64?)obj;
+                    this._RangeUInt64N = (RangeUInt64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt64:
-                    this.RangeUInt64 = (RangeUInt64)obj;
+                    this._RangeUInt64 = (RangeUInt64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.String:
-                    this.String = (String)obj;
+                    this._String = (String)obj;
                     break;
                 case TestObject_RPC_FieldIndex.FilePath:
-                    this.FilePath = (FilePath)obj;
+                    this._FilePath = (FilePath)obj;
                     break;
                 case TestObject_RPC_FieldIndex.FilePathNull:
-                    this.FilePathNull = (FilePath?)obj;
+                    this._FilePathNull = (FilePath?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DirectoryPath:
-                    this.DirectoryPath = (DirectoryPath)obj;
+                    this._DirectoryPath = (DirectoryPath)obj;
                     break;
                 case TestObject_RPC_FieldIndex.DirectoryPathNull:
-                    this.DirectoryPathNull = (DirectoryPath?)obj;
+                    this._DirectoryPathNull = (DirectoryPath?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UDoubleN:
-                    this.UDoubleN = (UDouble?)obj;
+                    this._UDoubleN = (UDouble?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UDoubleN_Ranged:
-                    this.UDoubleN_Ranged = (UDouble?)obj;
+                    this._UDoubleN_Ranged = (UDouble?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UDouble:
-                    this.UDouble = (UDouble)obj;
+                    this._UDouble = (UDouble)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UDouble_Ranged:
-                    this.UDouble_Ranged = (UDouble)obj;
+                    this._UDouble_Ranged = (UDouble)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16N:
-                    this.UInt16N = (UInt16?)obj;
+                    this._UInt16N = (UInt16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16N_Ranged:
-                    this.UInt16N_Ranged = (UInt16?)obj;
+                    this._UInt16N_Ranged = (UInt16?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16:
-                    this.UInt16 = (UInt16)obj;
+                    this._UInt16 = (UInt16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16_Ranged:
-                    this.UInt16_Ranged = (UInt16)obj;
+                    this._UInt16_Ranged = (UInt16)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32N:
-                    this.UInt32N = (UInt32?)obj;
+                    this._UInt32N = (UInt32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32N_Ranged:
-                    this.UInt32N_Ranged = (UInt32?)obj;
+                    this._UInt32N_Ranged = (UInt32?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32:
-                    this.UInt32 = (UInt32)obj;
+                    this._UInt32 = (UInt32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32_Ranged:
-                    this.UInt32_Ranged = (UInt32)obj;
+                    this._UInt32_Ranged = (UInt32)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64N:
-                    this.UInt64N = (UInt64?)obj;
+                    this._UInt64N = (UInt64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64N_Ranged:
-                    this.UInt64N_Ranged = (UInt64?)obj;
+                    this._UInt64N_Ranged = (UInt64?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64:
-                    this.UInt64 = (UInt64)obj;
+                    this._UInt64 = (UInt64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64_Ranged:
-                    this.UInt64_Ranged = (UInt64)obj;
+                    this._UInt64_Ranged = (UInt64)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8N:
-                    this.UInt8N = (Byte?)obj;
+                    this._UInt8N = (Byte?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8N_Ranged:
-                    this.UInt8N_Ranged = (Byte?)obj;
+                    this._UInt8N_Ranged = (Byte?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8:
-                    this.UInt8 = (Byte)obj;
+                    this._UInt8 = (Byte)obj;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8_Ranged:
-                    this.UInt8_Ranged = (Byte)obj;
+                    this._UInt8_Ranged = (Byte)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Enum:
-                    this.Enum = (TestEnum)obj;
+                    this._Enum = (TestEnum)obj;
                     break;
                 case TestObject_RPC_FieldIndex.EnumNull:
-                    this.EnumNull = (TestEnum?)obj;
+                    this._EnumNull = (TestEnum?)obj;
                     break;
                 case TestObject_RPC_FieldIndex.WildCard:
-                    this.WildCard = (Object)obj;
+                    this._WildCard = (Object)obj;
                     break;
                 case TestObject_RPC_FieldIndex.WildCardLoqui:
-                    this.WildCardLoqui = (Object)obj;
+                    this._WildCardLoqui = (Object)obj;
                     break;
                 case TestObject_RPC_FieldIndex.WildCardNull:
-                    this.WildCardNull = (Object)obj;
+                    this._WildCardNull = (Object)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Ref:
-                    this.Ref = (ObjectToRef)obj;
+                    this._Ref = (ObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Ref_NotNull:
-                    this.Ref_NotNull = (ObjectToRef)obj;
+                    this._Ref_NotNull = (ObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.Ref_Singleton:
                     this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter:
-                    this.RefGetter = (IObjectToRefGetter)obj;
+                    this._RefGetter = (IObjectToRefGetter)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_NotNull:
-                    this.RefGetter_NotNull = (IObjectToRefGetter)obj;
+                    this._RefGetter_NotNull = (IObjectToRefGetter)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
                 case TestObject_RPC_FieldIndex.RefSetter:
-                    this.RefSetter = (IObjectToRef)obj;
+                    this._RefSetter = (IObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_NotNull:
-                    this.RefSetter_NotNull = (IObjectToRef)obj;
+                    this._RefSetter_NotNull = (IObjectToRef)obj;
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_Singleton:
                     this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
@@ -4264,301 +4264,301 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_RPC_FieldIndex.ByteArray:
-                    obj.ByteArray = (Byte[])pair.Value;
+                    obj._ByteArray = (Byte[])pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull = (Byte[])pair.Value;
+                    obj._ByteArrayNull = (Byte[])pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull = (Byte[])pair.Value;
+                    obj._ByteArrayNotNull = (Byte[])pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.ByteArraySingleton:
-                    obj.ByteArraySingleton = (Byte[])pair.Value;
+                    obj._ByteArraySingleton = (Byte[])pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.BoolN:
-                    obj.BoolN = (Boolean?)pair.Value;
+                    obj._BoolN = (Boolean?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Bool:
-                    obj.Bool = (Boolean)pair.Value;
+                    obj._Bool = (Boolean)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.CharN:
-                    obj.CharN = (Char?)pair.Value;
+                    obj._CharN = (Char?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Char:
-                    obj.Char = (Char)pair.Value;
+                    obj._Char = (Char)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DateTimeNull:
-                    obj.DateTimeNull = (DateTime?)pair.Value;
+                    obj._DateTimeNull = (DateTime?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DateTime:
-                    obj.DateTime = (DateTime)pair.Value;
+                    obj._DateTime = (DateTime)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DoubleN:
-                    obj.DoubleN = (Double?)pair.Value;
+                    obj._DoubleN = (Double?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DoubleN_Ranged:
-                    obj.DoubleN_Ranged = (Double?)pair.Value;
+                    obj._DoubleN_Ranged = (Double?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Double:
-                    obj.Double = (Double)pair.Value;
+                    obj._Double = (Double)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Double_Ranged:
-                    obj.Double_Ranged = (Double)pair.Value;
+                    obj._Double_Ranged = (Double)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.FloatN:
-                    obj.FloatN = (Single?)pair.Value;
+                    obj._FloatN = (Single?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.FloatN_Ranged:
-                    obj.FloatN_Ranged = (Single?)pair.Value;
+                    obj._FloatN_Ranged = (Single?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Float:
-                    obj.Float = (Single)pair.Value;
+                    obj._Float = (Single)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Float_Ranged:
-                    obj.Float_Ranged = (Single)pair.Value;
+                    obj._Float_Ranged = (Single)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int16N:
-                    obj.Int16N = (Int16?)pair.Value;
+                    obj._Int16N = (Int16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int16N_Ranged:
-                    obj.Int16N_Ranged = (Int16?)pair.Value;
+                    obj._Int16N_Ranged = (Int16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int16:
-                    obj.Int16 = (Int16)pair.Value;
+                    obj._Int16 = (Int16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int16_Ranged:
-                    obj.Int16_Ranged = (Int16)pair.Value;
+                    obj._Int16_Ranged = (Int16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int32N:
-                    obj.Int32N = (Int32?)pair.Value;
+                    obj._Int32N = (Int32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int32N_Ranged:
-                    obj.Int32N_Ranged = (Int32?)pair.Value;
+                    obj._Int32N_Ranged = (Int32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int32:
-                    obj.Int32 = (Int32)pair.Value;
+                    obj._Int32 = (Int32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int32_Ranged:
-                    obj.Int32_Ranged = (Int32)pair.Value;
+                    obj._Int32_Ranged = (Int32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int64N:
-                    obj.Int64N = (Int64?)pair.Value;
+                    obj._Int64N = (Int64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int64N_Ranged:
-                    obj.Int64N_Ranged = (Int64?)pair.Value;
+                    obj._Int64N_Ranged = (Int64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int64:
-                    obj.Int64 = (Int64)pair.Value;
+                    obj._Int64 = (Int64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int64_Ranged:
-                    obj.Int64_Ranged = (Int64)pair.Value;
+                    obj._Int64_Ranged = (Int64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int8N:
-                    obj.Int8N = (SByte?)pair.Value;
+                    obj._Int8N = (SByte?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int8N_Ranged:
-                    obj.Int8N_Ranged = (SByte?)pair.Value;
+                    obj._Int8N_Ranged = (SByte?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int8:
-                    obj.Int8 = (SByte)pair.Value;
+                    obj._Int8 = (SByte)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Int8_Ranged:
-                    obj.Int8_Ranged = (SByte)pair.Value;
+                    obj._Int8_Ranged = (SByte)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Unsafe:
-                    obj.Unsafe = (bool)pair.Value;
+                    obj._Unsafe = (bool)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UnsafeLoqui:
-                    obj.UnsafeLoqui = (ObjectToRef)pair.Value;
+                    obj._UnsafeLoqui = (ObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UnsafeNull:
-                    obj.UnsafeNull = (ObjectToRef)pair.Value;
+                    obj._UnsafeNull = (ObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P2IntN:
-                    obj.P2IntN = (P2Int?)pair.Value;
+                    obj._P2IntN = (P2Int?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P2Int:
-                    obj.P2Int = (P2Int)pair.Value;
+                    obj._P2Int = (P2Int)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P3DoubleN:
-                    obj.P3DoubleN = (P3Double?)pair.Value;
+                    obj._P3DoubleN = (P3Double?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P3Double:
-                    obj.P3Double = (P3Double)pair.Value;
+                    obj._P3Double = (P3Double)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P3IntN:
-                    obj.P3IntN = (P3Int?)pair.Value;
+                    obj._P3IntN = (P3Int?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.P3Int:
-                    obj.P3Int = (P3Int)pair.Value;
+                    obj._P3Int = (P3Int)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.PercentN:
-                    obj.PercentN = (Percent?)pair.Value;
+                    obj._PercentN = (Percent?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Percent:
-                    obj.Percent = (Percent)pair.Value;
+                    obj._Percent = (Percent)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt8N:
-                    obj.RangeInt8N = (RangeInt8?)pair.Value;
+                    obj._RangeInt8N = (RangeInt8?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt8:
-                    obj.RangeInt8 = (RangeInt8)pair.Value;
+                    obj._RangeInt8 = (RangeInt8)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt16N:
-                    obj.RangeInt16N = (RangeInt16?)pair.Value;
+                    obj._RangeInt16N = (RangeInt16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt16:
-                    obj.RangeInt16 = (RangeInt16)pair.Value;
+                    obj._RangeInt16 = (RangeInt16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt32N:
-                    obj.RangeInt32N = (RangeInt32?)pair.Value;
+                    obj._RangeInt32N = (RangeInt32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt32:
-                    obj.RangeInt32 = (RangeInt32)pair.Value;
+                    obj._RangeInt32 = (RangeInt32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt64N:
-                    obj.RangeInt64N = (RangeInt64?)pair.Value;
+                    obj._RangeInt64N = (RangeInt64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeInt64:
-                    obj.RangeInt64 = (RangeInt64)pair.Value;
+                    obj._RangeInt64 = (RangeInt64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt8N:
-                    obj.RangeUInt8N = (RangeUInt8?)pair.Value;
+                    obj._RangeUInt8N = (RangeUInt8?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt8:
-                    obj.RangeUInt8 = (RangeUInt8)pair.Value;
+                    obj._RangeUInt8 = (RangeUInt8)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt16N:
-                    obj.RangeUInt16N = (RangeUInt16?)pair.Value;
+                    obj._RangeUInt16N = (RangeUInt16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt16:
-                    obj.RangeUInt16 = (RangeUInt16)pair.Value;
+                    obj._RangeUInt16 = (RangeUInt16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt32N:
-                    obj.RangeUInt32N = (RangeUInt32?)pair.Value;
+                    obj._RangeUInt32N = (RangeUInt32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt32:
-                    obj.RangeUInt32 = (RangeUInt32)pair.Value;
+                    obj._RangeUInt32 = (RangeUInt32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt64N:
-                    obj.RangeUInt64N = (RangeUInt64?)pair.Value;
+                    obj._RangeUInt64N = (RangeUInt64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RangeUInt64:
-                    obj.RangeUInt64 = (RangeUInt64)pair.Value;
+                    obj._RangeUInt64 = (RangeUInt64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.String:
-                    obj.String = (String)pair.Value;
+                    obj._String = (String)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.FilePath:
-                    obj.FilePath = (FilePath)pair.Value;
+                    obj._FilePath = (FilePath)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.FilePathNull:
-                    obj.FilePathNull = (FilePath?)pair.Value;
+                    obj._FilePathNull = (FilePath?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DirectoryPath:
-                    obj.DirectoryPath = (DirectoryPath)pair.Value;
+                    obj._DirectoryPath = (DirectoryPath)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.DirectoryPathNull:
-                    obj.DirectoryPathNull = (DirectoryPath?)pair.Value;
+                    obj._DirectoryPathNull = (DirectoryPath?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UDoubleN:
-                    obj.UDoubleN = (UDouble?)pair.Value;
+                    obj._UDoubleN = (UDouble?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UDoubleN_Ranged:
-                    obj.UDoubleN_Ranged = (UDouble?)pair.Value;
+                    obj._UDoubleN_Ranged = (UDouble?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UDouble:
-                    obj.UDouble = (UDouble)pair.Value;
+                    obj._UDouble = (UDouble)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UDouble_Ranged:
-                    obj.UDouble_Ranged = (UDouble)pair.Value;
+                    obj._UDouble_Ranged = (UDouble)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16N:
-                    obj.UInt16N = (UInt16?)pair.Value;
+                    obj._UInt16N = (UInt16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16N_Ranged:
-                    obj.UInt16N_Ranged = (UInt16?)pair.Value;
+                    obj._UInt16N_Ranged = (UInt16?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16:
-                    obj.UInt16 = (UInt16)pair.Value;
+                    obj._UInt16 = (UInt16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt16_Ranged:
-                    obj.UInt16_Ranged = (UInt16)pair.Value;
+                    obj._UInt16_Ranged = (UInt16)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32N:
-                    obj.UInt32N = (UInt32?)pair.Value;
+                    obj._UInt32N = (UInt32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32N_Ranged:
-                    obj.UInt32N_Ranged = (UInt32?)pair.Value;
+                    obj._UInt32N_Ranged = (UInt32?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32:
-                    obj.UInt32 = (UInt32)pair.Value;
+                    obj._UInt32 = (UInt32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt32_Ranged:
-                    obj.UInt32_Ranged = (UInt32)pair.Value;
+                    obj._UInt32_Ranged = (UInt32)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64N:
-                    obj.UInt64N = (UInt64?)pair.Value;
+                    obj._UInt64N = (UInt64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64N_Ranged:
-                    obj.UInt64N_Ranged = (UInt64?)pair.Value;
+                    obj._UInt64N_Ranged = (UInt64?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64:
-                    obj.UInt64 = (UInt64)pair.Value;
+                    obj._UInt64 = (UInt64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt64_Ranged:
-                    obj.UInt64_Ranged = (UInt64)pair.Value;
+                    obj._UInt64_Ranged = (UInt64)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8N:
-                    obj.UInt8N = (Byte?)pair.Value;
+                    obj._UInt8N = (Byte?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8N_Ranged:
-                    obj.UInt8N_Ranged = (Byte?)pair.Value;
+                    obj._UInt8N_Ranged = (Byte?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8:
-                    obj.UInt8 = (Byte)pair.Value;
+                    obj._UInt8 = (Byte)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.UInt8_Ranged:
-                    obj.UInt8_Ranged = (Byte)pair.Value;
+                    obj._UInt8_Ranged = (Byte)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Enum:
-                    obj.Enum = (TestEnum)pair.Value;
+                    obj._Enum = (TestEnum)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.EnumNull:
-                    obj.EnumNull = (TestEnum?)pair.Value;
+                    obj._EnumNull = (TestEnum?)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.WildCard:
-                    obj.WildCard = (Object)pair.Value;
+                    obj._WildCard = (Object)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.WildCardLoqui:
-                    obj.WildCardLoqui = (Object)pair.Value;
+                    obj._WildCardLoqui = (Object)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.WildCardNull:
-                    obj.WildCardNull = (Object)pair.Value;
+                    obj._WildCardNull = (Object)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Ref:
-                    obj.Ref = (ObjectToRef)pair.Value;
+                    obj._Ref = (ObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Ref_NotNull:
-                    obj.Ref_NotNull = (ObjectToRef)pair.Value;
+                    obj._Ref_NotNull = (ObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.Ref_Singleton:
                     obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter:
-                    obj.RefGetter = (IObjectToRefGetter)pair.Value;
+                    obj._RefGetter = (IObjectToRefGetter)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_NotNull:
-                    obj.RefGetter_NotNull = (IObjectToRefGetter)pair.Value;
+                    obj._RefGetter_NotNull = (IObjectToRefGetter)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RefGetter_Singleton:
                     obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter:
-                    obj.RefSetter = (IObjectToRef)pair.Value;
+                    obj._RefSetter = (IObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_NotNull:
-                    obj.RefSetter_NotNull = (IObjectToRef)pair.Value;
+                    obj._RefSetter_NotNull = (IObjectToRef)pair.Value;
                     break;
                 case TestObject_RPC_FieldIndex.RefSetter_Singleton:
                     obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);

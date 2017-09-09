@@ -39,7 +39,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArray;
         public Byte[] ByteArray
         {
-            get => ByteArray;
+            get => _ByteArray;
             set { this._ByteArray = value; }
         }
         #endregion
@@ -47,7 +47,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
-            get => ByteArrayNull;
+            get => _ByteArrayNull;
             set { this._ByteArrayNull = value; }
         }
         #endregion
@@ -55,13 +55,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNotNull = new byte[3];
         public Byte[] ByteArrayNotNull
         {
-            get => ByteArrayNotNull;
+            get => _ByteArrayNotNull;
             set
             {
-                this.ByteArrayNotNull = value;
+                this._ByteArrayNotNull = value;
                 if (value == null)
                 {
-                    this.ByteArrayNotNull = new byte[3];
+                    this._ByteArrayNotNull = new byte[3];
                 }
             }
         }
@@ -70,13 +70,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArraySingleton = new byte[3];
         public Byte[] ByteArraySingleton
         {
-            get => ByteArraySingleton;
+            get => _ByteArraySingleton;
             protected set
             {
-                this.ByteArraySingleton = value;
+                this._ByteArraySingleton = value;
                 if (value == null)
                 {
-                    this.ByteArraySingleton = new byte[3];
+                    this._ByteArraySingleton = new byte[3];
                 }
             }
         }
@@ -1225,7 +1225,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArray = tryGet.Value;
+                            item._ByteArray = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1242,7 +1242,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNull = tryGet.Value;
+                            item._ByteArrayNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1259,7 +1259,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNotNull = tryGet.Value;
+                            item._ByteArrayNotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1276,7 +1276,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArraySingleton = tryGet.Value;
+                            item._ByteArraySingleton = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -3526,16 +3526,16 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_FieldIndex.ByteArray:
-                    this.ByteArray = (Byte[])obj;
+                    this._ByteArray = (Byte[])obj;
                     break;
                 case TestObject_FieldIndex.ByteArrayNull:
-                    this.ByteArrayNull = (Byte[])obj;
+                    this._ByteArrayNull = (Byte[])obj;
                     break;
                 case TestObject_FieldIndex.ByteArrayNotNull:
-                    this.ByteArrayNotNull = (Byte[])obj;
+                    this._ByteArrayNotNull = (Byte[])obj;
                     break;
                 case TestObject_FieldIndex.ByteArraySingleton:
-                    this.ByteArraySingleton = (Byte[])obj;
+                    this._ByteArraySingleton = (Byte[])obj;
                     break;
                 case TestObject_FieldIndex.BoolN:
                     this.BoolN = (Boolean?)obj;
@@ -3905,16 +3905,16 @@ namespace Loqui.Tests
             switch (enu)
             {
                 case TestObject_FieldIndex.ByteArray:
-                    obj.ByteArray = (Byte[])pair.Value;
+                    obj._ByteArray = (Byte[])pair.Value;
                     break;
                 case TestObject_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull = (Byte[])pair.Value;
+                    obj._ByteArrayNull = (Byte[])pair.Value;
                     break;
                 case TestObject_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull = (Byte[])pair.Value;
+                    obj._ByteArrayNotNull = (Byte[])pair.Value;
                     break;
                 case TestObject_FieldIndex.ByteArraySingleton:
-                    obj.ByteArraySingleton = (Byte[])pair.Value;
+                    obj._ByteArraySingleton = (Byte[])pair.Value;
                     break;
                 case TestObject_FieldIndex.BoolN:
                     obj.BoolN = (Boolean?)pair.Value;

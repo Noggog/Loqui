@@ -39,7 +39,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArray;
         public Byte[] ByteArray
         {
-            get => ByteArray;
+            get => _ByteArray;
             protected set { this._ByteArray = value; }
         }
         #endregion
@@ -47,7 +47,7 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
-            get => ByteArrayNull;
+            get => _ByteArrayNull;
             protected set { this._ByteArrayNull = value; }
         }
         #endregion
@@ -55,13 +55,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArrayNotNull = new byte[3];
         public Byte[] ByteArrayNotNull
         {
-            get => ByteArrayNotNull;
+            get => _ByteArrayNotNull;
             protected set
             {
-                this.ByteArrayNotNull = value;
+                this._ByteArrayNotNull = value;
                 if (value == null)
                 {
-                    this.ByteArrayNotNull = new byte[3];
+                    this._ByteArrayNotNull = new byte[3];
                 }
             }
         }
@@ -70,13 +70,13 @@ namespace Loqui.Tests
         private Byte[] _ByteArraySingleton = new byte[3];
         public Byte[] ByteArraySingleton
         {
-            get => ByteArraySingleton;
+            get => _ByteArraySingleton;
             protected set
             {
-                this.ByteArraySingleton = value;
+                this._ByteArraySingleton = value;
                 if (value == null)
                 {
-                    this.ByteArraySingleton = new byte[3];
+                    this._ByteArraySingleton = new byte[3];
                 }
             }
         }
@@ -1218,7 +1218,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArray = tryGet.Value;
+                            item._ByteArray = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1235,7 +1235,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNull = tryGet.Value;
+                            item._ByteArrayNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1252,7 +1252,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArrayNotNull = tryGet.Value;
+                            item._ByteArrayNotNull = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
@@ -1269,7 +1269,7 @@ namespace Loqui.Tests
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
-                            item.ByteArraySingleton = tryGet.Value;
+                            item._ByteArraySingleton = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {

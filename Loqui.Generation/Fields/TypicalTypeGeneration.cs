@@ -21,7 +21,14 @@ namespace Loqui.Generation
                 switch (this.Notifying)
                 {
                     case NotifyingOption.None:
-                        return $"{this.Name}";
+                        if (this.RaisePropertyChanged)
+                        {
+                            return $"_{this.Name}";
+                        }
+                        else
+                        {
+                            return $"{this.Name}";
+                        }
                     case NotifyingOption.HasBeenSet:
                     case NotifyingOption.Notifying:
                         return $"{this.ProtectedProperty}.Item";
