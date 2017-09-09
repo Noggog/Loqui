@@ -31,16 +31,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override bool Imports
-        {
-            get
-            {
-                if (!base.Imports) return false;
-                if (!ValueTypeGen.Imports || !KeyTypeGen.Imports) return false;
-                return true;
-            }
-        }
-
         public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
 
         public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";

@@ -17,17 +17,7 @@ namespace Loqui.Generation
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
         public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
-
-        public override bool Imports
-        {
-            get
-            {
-                if (!base.Imports) return false;
-                if (!ValueTypeGen.Imports || !KeyTypeGen.Imports) return false;
-                return true;
-            }
-        }
-
+        
         public override bool CopyNeedsTryCatch => true;
 
         public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";

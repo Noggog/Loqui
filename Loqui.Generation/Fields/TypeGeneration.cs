@@ -33,8 +33,6 @@ namespace Loqui.Generation
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public bool RaisePropertyChanged;
-        private bool _imports;
-        public virtual bool Imports => _imports && !Derivative;
         public bool Protected;
         private bool _copy;
         public virtual bool Copy => _copy;
@@ -58,7 +56,6 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
             }
-            this._imports = node.GetAttribute<bool>("export", true);
             this._copy = node.GetAttribute<bool>("copy", !this.Protected);
             this.GenerateClassMembers = node.GetAttribute<bool>("generateClassMembers", true);
             this.RaisePropertyChanged = node.GetAttribute<bool>("raisePropertyChanged", this.ObjectGen.RaisePropertyChangedDefault);

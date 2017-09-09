@@ -14,16 +14,6 @@ namespace Loqui.Generation
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
 
-        public override bool Imports
-        {
-            get
-            {
-                if (!base.Imports) return false;
-                if (!SingleTypeGen.Imports) return false;
-                return true;
-            }
-        }
-
         public virtual string ItemTypeName
         {
             get
