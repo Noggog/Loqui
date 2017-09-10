@@ -57,6 +57,7 @@
     <Compile Include="Interfaces\ILoquiObject.cs" />
     <Compile Include="Interfaces\ILoquiRegistration.cs" />
     <Compile Include="Interfaces\IMask.cs" />
+    <Compile Include="Interfaces\IPrintable.cs" />
     <Compile Include="Masks\IErrorMask.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
     <Compile Include="Interfaces\ICopyInAble.cs" />

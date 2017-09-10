@@ -45,11 +45,25 @@ namespace Loqui
             if (maskItem == null) return;
             if (maskItem.Overall != null)
             {
-                fg.AppendLine(maskItem.Overall.ToString());
+                if (maskItem.Overall is IPrintable printable)
+                {
+                    printable.ToString(fg);
+                }
+                else
+                {
+                    fg.AppendLine(maskItem.Overall.ToString());
+                }
             }
             if (maskItem.Specific != null)
             {
-                fg.AppendLine(maskItem.Specific.ToString());
+                if (maskItem.Specific is IPrintable printable)
+                {
+                    printable.ToString(fg);
+                }
+                else
+                {
+                    fg.AppendLine(maskItem.Specific.ToString());
+                }
             }
         }
     }
