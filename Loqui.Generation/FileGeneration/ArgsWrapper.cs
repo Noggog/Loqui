@@ -17,9 +17,11 @@ namespace Loqui.Generation
         public ArgsWrapper(
             FileGeneration fg,
             string initialLine = null,
-            string suffixLine = null)
+            string suffixLine = null,
+            bool semiColon = true)
         {
             this.fg = fg;
+            this.SemiColon = semiColon;
             this.initialLine = initialLine;
             this.suffixLine = suffixLine;
         }

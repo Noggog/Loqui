@@ -403,13 +403,13 @@ namespace Loqui.Generation
 
                 foreach (var field in obj.IterateFields())
                 {
-                    if (field.Field.Derivative) continue;
-
                     if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                     {
                         throw new ArgumentException("Unsupported type generator: " + field.Field);
                     }
 
+                    if (!generator.ShouldGenerateWrite(field.Field)) continue;
+                    
                     if (field.Field.Notifying != NotifyingOption.None)
                     {
                         fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");

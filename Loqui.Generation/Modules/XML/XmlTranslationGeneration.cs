@@ -7,9 +7,8 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class XmlTranslationGeneration
+    public abstract class XmlTranslationGeneration : TranslationGeneration
     {
-        public MaskModule MaskModule;
         public XmlTranslationModule XmlMod;
 
         public abstract void GenerateWrite(
@@ -20,8 +19,6 @@ namespace Loqui.Generation
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor);
-
-        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => true;
 
         public abstract void GenerateCopyIn(
             FileGeneration fg,
