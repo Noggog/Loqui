@@ -9,6 +9,8 @@ namespace Loqui.Generation
 {
     public class ListXmlTranslationGeneration : XmlTranslationGeneration
     {
+        public virtual string TranslatorName => $"ListXmlTranslation";
+
         public override void GenerateWrite(
             FileGeneration fg,
             TypeGeneration typeGen,
@@ -26,7 +28,7 @@ namespace Loqui.Generation
 
             var subMaskStr = subTransl.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration);
             using (var args = new ArgsWrapper(fg,
-                $"ListXmlTranslation<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Write"))
+                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Write"))
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -48,7 +50,15 @@ namespace Loqui.Generation
                             nameAccessor: "\"Item\"");
                     }
                 });
+                ExtraWriteArgs(itemAccessor, typeGen, args);
             }
+        }
+
+        protected virtual void ExtraWriteArgs(
+            string itemAccessor,
+            TypeGeneration typeGen, 
+            ArgsWrapper args)
+        {
         }
 
         public override void GenerateCopyIn(
@@ -89,7 +99,7 @@ namespace Loqui.Generation
             }
             var subMaskStr = subTransl.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration);
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}ListXmlTranslation<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Parse"))
+                $"{retAccessor}{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Parse"))
             {
                 args.Add($"root: root");
                 args.Add($"doMasks: {doMaskAccessor}");
@@ -103,7 +113,14 @@ namespace Loqui.Generation
                         xmlGen.GenerateCopyInRet(gen, list.SubTypeGeneration, "r", "return ", "listDoMasks", "listSubMask");
                     }
                 });
+                ExtraCopyInArgs(typeGen, args);
             }
+        }
+
+        protected virtual void ExtraCopyInArgs(
+            TypeGeneration typeGen, 
+            ArgsWrapper args)
+        {
         }
 
         public override XElement GenerateForXSD(
