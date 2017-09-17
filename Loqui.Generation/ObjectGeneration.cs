@@ -1921,7 +1921,7 @@ namespace Loqui.Generation
         {
             if (!this.Abstract)
             {
-                fg.AppendLine($"public{this.NewOverride}static {this.ObjectName} {Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
+                fg.AppendLine($"public{this.NewOverride}static {this.ObjectName} {Loqui.Internal.Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {this.ObjectName}();");
@@ -1975,7 +1975,7 @@ namespace Loqui.Generation
                 }
             }
 
-            fg.AppendLine($"public static void {Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
+            fg.AppendLine($"public static void {Loqui.Internal.Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);");

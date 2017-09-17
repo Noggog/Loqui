@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accessor.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Enums\DisabledLevel.cs" />
     <Compile Include="Enums\ProjItemType.cs" />
     <Compile Include="FieldBatch.cs" />

@@ -4,14 +4,14 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    class DictType_KeyedValue : TypeGeneration, IDictType
+    public class DictType_KeyedValue : TypeGeneration, IDictType
     {
-        XElement node;
+        protected XElement node;
         public LoquiType ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;
         public TypeGeneration KeyTypeGen;
         TypeGeneration IDictType.KeyTypeGen => this.KeyTypeGen;
-        public string KeyAccessorString { get; private set; }
+        public string KeyAccessorString { get; protected set; }
         public DictMode Mode => DictMode.KeyedValue;
 
         public override string Property => $"{this.Name}";
@@ -34,7 +34,7 @@ namespace Loqui.Generation
 
         public override void Resolve()
         {
-            var keyedValNode = node.Element(XName.Get("KeyedValue", LoquiGenerator.Namespace));
+            var keyedValNode = node.Element(XName.Get(Constants.KEYED_VALUE, LoquiGenerator.Namespace));
             if (keyedValNode == null)
             {
                 throw new ArgumentException("Dict had no keyed value element.");
@@ -53,7 +53,7 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
 
-            var keyAccessorAttr = keyedValNode.Attribute(XName.Get("keyAccessor"));
+            var keyAccessorAttr = keyedValNode.Attribute(XName.Get(Constants.KEY_ACCESSOR));
             if (keyAccessorAttr == null)
             {
                 throw new ArgumentException("Dict had no key accessor attribute.");

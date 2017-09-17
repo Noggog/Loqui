@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public override void Load(XElement root, bool requireName = true)
         {
             base.Load(root, requireName);
-            var typeNode = root.Element(XName.Get("TargetType", LoquiGenerator.Namespace));
+            var typeNode = root.Element(XName.Get(Constants.TARGET_TYPE, LoquiGenerator.Namespace));
             if (typeNode == null)
             {
                 throw new ArgumentException("Needed to define target type.");

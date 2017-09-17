@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    class DictType_Typical : TypeGeneration, IDictType
+    public class DictType_Typical : TypeGeneration, IDictType
     {
         public TypeGeneration ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;

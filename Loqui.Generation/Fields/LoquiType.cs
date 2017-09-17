@@ -305,19 +305,19 @@ namespace Loqui.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
-            this.SingletonType = node.GetAttribute("singleton", SingletonLevel.None);
+            this.SingletonType = node.GetAttribute(Constants.SINGLETON, SingletonLevel.None);
 
             XElement refNode;
-            if (node.Name.LocalName.Equals("RefDirect")
-                || node.Name.LocalName.Equals("RefList"))
+            if (node.Name.LocalName.Equals(Constants.REF_DIRECT)
+                || node.Name.LocalName.Equals(Constants.REF_LIST))
             {
                 refNode = node;
             }
             else
             {
-                refNode = node.Element(XName.Get("Direct", LoquiGenerator.Namespace));
+                refNode = node.Element(XName.Get(Constants.DIRECT, LoquiGenerator.Namespace));
             }
-            var genericNode = node.Element(XName.Get("Generic", LoquiGenerator.Namespace));
+            var genericNode = node.Element(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace));
 
             if (refNode != null
                 && !string.IsNullOrWhiteSpace(refNode.Value)
@@ -329,16 +329,16 @@ namespace Loqui.Generation
 
             if (this.RefName == null)
             {
-                this.RefName = refNode?.GetAttribute("refName");
+                this.RefName = refNode?.GetAttribute(Constants.REF_NAME);
             }
             var genericName = genericNode?.Value;
 
             if (!string.IsNullOrWhiteSpace(this.RefName))
             {
                 var r = new Ref();
-                this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>("interfaceType", this.ObjectGen.InterfaceTypeDefault);
+                this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
 
-                var genElems = refNode?.Elements(XName.Get("Generic", LoquiGenerator.Namespace)).ToList();
+                var genElems = refNode?.Elements(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace)).ToList();
                 if (genElems?.Count > 0)
                 {
                     r = new GenRef()

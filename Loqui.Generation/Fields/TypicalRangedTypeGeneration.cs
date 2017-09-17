@@ -17,16 +17,16 @@ namespace Loqui.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
-            if (node.GetAttribute("min") != null)
+            if (node.GetAttribute(Constants.MIN) != null)
             {
-                HasRange = node.TryGetAttribute("min", out Min);
+                HasRange = node.TryGetAttribute(Constants.MIN, out Min);
             }
-            if (node.GetAttribute("max") != null)
+            if (node.GetAttribute(Constants.MAX) != null)
             {
-                HasRange = node.TryGetAttribute("max", out Max);
+                HasRange = node.TryGetAttribute(Constants.MAX, out Max);
             }
             this.Nullable = this.TypeName.EndsWith("?");
-            RangeThrowException = node.GetAttribute<bool>("rangeThrowException", false);
+            RangeThrowException = node.GetAttribute<bool>(Constants.RANGE_THROW_EXCEPTION, false);
         }
 
         protected string InRangeCheckerString => $"{(this.Nullable ? "?" : string.Empty)}.{(this.RangeThrowException ? "" : "Put")}InRange({RangeMemberName}.Min, {RangeMemberName}.Max)";

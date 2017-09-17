@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>cddcecc1dd554c91c91d8c2080c8a21690378962</Sha>
+         <Sha>2efe4da4e94328d2563b2284e1956251ff85292d</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-14-2017 23:35:16</CommitDate>
-         <Description>NotifyingList.Subscribe methods with no owner, which should never be unsubbable</Description>
+         <CommitDate>09-17-2017 01:27:50</CommitDate>
+         <Description>EnumerableExt.ForEach</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

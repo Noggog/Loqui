@@ -54,14 +54,14 @@ namespace Loqui.Generation
 
         protected void LoadTypeGenerationFromNode(XElement node, bool requireName = true)
         {
-            node.TransferAttribute<bool>("keyField", i => this.KeyField = i);
-            Name = node.GetAttribute<string>("name");
-            node.TransferAttribute<bool>("derivative", i => this._derivative = i);
-            this.Protected = node.GetAttribute<bool>("protected", this.ObjectGen.ProtectedDefault || Derivative);
-            this._copy = node.GetAttribute<bool>("copy", !this.Protected);
-            node.TransferAttribute<bool>("generateClassMembers", i => this.GenerateClassMembers = i);
-            node.TransferAttribute<bool>("raisePropertyChanged", i => this.RaisePropertyChanged = i);
-            node.TransferAttribute<NotifyingOption>("notifying", i => this.Notifying = i);
+            node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
+            Name = node.GetAttribute<string>(Constants.NAME);
+            node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
+            this.Protected = node.GetAttribute<bool>(Constants.PROTECTED, this.ObjectGen.ProtectedDefault || Derivative);
+            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Protected);
+            node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
+            node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
+            node.TransferAttribute<NotifyingOption>(Constants.NOTIFYING, i => this.Notifying = i);
             if (requireName && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");
