@@ -77,6 +77,7 @@ namespace Loqui.Generation
         public HashSet<string> RequiredNamespaces = new HashSet<string>();
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<TypeGeneration> Fields = new List<TypeGeneration>();
+        public IEnumerable<TypeGeneration> AllFields => this.HasBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
@@ -2093,6 +2094,11 @@ namespace Loqui.Generation
             foreach (var field in this.Fields.ToList())
             {
                 field.Resolve();
+            }
+
+            foreach (var module in this.gen.GenerationModules)
+            {
+                module.Resolve(this);
             }
 
             if (this.HasRaisedPropertyChanged)

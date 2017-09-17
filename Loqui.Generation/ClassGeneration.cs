@@ -47,11 +47,6 @@ namespace Loqui.Generation
             
             this.Interfaces.Add($"ILoquiObjectSetter");
 
-            base.Load();
-        }
-
-        public override void Resolve()
-        {
             if (!string.IsNullOrWhiteSpace(this.BaseClassStr))
             {
                 if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.BaseClassStr, out ObjectGeneration baseObj)
@@ -66,7 +61,8 @@ namespace Loqui.Generation
                     baseClass.DerivativeClasses.Add(this);
                 }
             }
-            base.Resolve();
+
+            base.Load();
         }
 
         protected override void GenerateClassLine(FileGeneration fg)

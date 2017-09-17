@@ -60,7 +60,7 @@ namespace Loqui.Generation
             }
 
             this.KeyAccessorString = keyAccessorAttr.Value;
-            this.KeyTypeGen = this.ValueTypeGen.RefGen.Obj.Fields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
+            this.KeyTypeGen = this.ValueTypeGen.RefGen.Obj.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
             if (this.KeyTypeGen == null)
             {
                 throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
