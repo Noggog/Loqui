@@ -13,7 +13,7 @@ namespace Loqui.Generation
             }
             else
             {
-                return $"MaskItem<{valueStr}, {loquiType.RefGen.Obj.GetMaskString(valueStr)}>";
+                return $"MaskItem<{valueStr}, {loquiType.GetMaskString(valueStr)}>";
             }
         }
 
@@ -47,7 +47,7 @@ namespace Loqui.Generation
             ListType listType = field as ListType;
             if (listType.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.RefGen.Obj.CopyMask}> {field.Name};");
+                fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.CopyMaskItemString}> {field.Name};");
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Loqui.Generation
             ListType listType = field as ListType;
             if (listType.SubTypeGeneration is LoquiType loqui)
             {
-                return $"MaskItem<{maskStr}, {loqui.RefGen.Obj.GetMaskString(maskStr)}>";
+                return $"MaskItem<{maskStr}, {loqui.GetMaskString(maskStr)}>";
             }
             else
             {

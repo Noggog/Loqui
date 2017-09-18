@@ -74,6 +74,8 @@ namespace Loqui.Generation
         {
             if (this.isLoquiSingle)
             {
+                LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                loqui.Name = this.Name;
                 using (var args = new ArgsWrapper(fg,
                     $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
@@ -85,6 +87,7 @@ namespace Loqui.Generation
                         gen.AppendLine("(r, d) =>");
                         using (new BraceWrapper(gen))
                         {
+
                             gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
                             using (new BraceWrapper(gen))
                             {
@@ -96,7 +99,9 @@ namespace Loqui.Generation
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
+                                    loqui.GenerateTypicalMakeCopy(
+                                        gen,
+                                        copyMaskAccessor: copyMaskAccessor);
                                 }
                                 gen.AppendLine($"default:");
                                 using (new DepthWrapper(gen))

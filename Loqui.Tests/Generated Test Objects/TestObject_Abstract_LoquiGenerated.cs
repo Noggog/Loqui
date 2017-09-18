@@ -6931,7 +6931,11 @@ namespace Loqui.Tests.Internals
                                 case CopyOption.Reference:
                                     return r;
                                 case CopyOption.MakeCopy:
-                                    return r.Copy(copyMask?.RefList.Specific, d);
+                                    if (r == null) return default(ObjectToRef);
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.RefList.Specific,
+                                        def: d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefList.Overall}. Cannot execute copy.");
                             }

@@ -69,6 +69,7 @@ namespace Loqui.Generation
         private ObjectGeneration _genericBaseObject;
         public GenericDefinition Generics;
         public string ErrorMaskItemString => this.TargetObjectGeneration?.ErrorMask ?? "object";
+        public string CopyMaskItemString => this.TargetObjectGeneration?.CopyMask ?? "object";
         public ObjectGeneration TargetObjectGeneration
         {
             get
@@ -372,11 +373,7 @@ namespace Loqui.Generation
             }
 
             this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
-        }
 
-        public override void Resolve()
-        {
-            base.Resolve();
             if (this.RefType != LoquiRefType.Generic || !this.Generics.Wheres.Any()) return;
             if (!this.ObjectGen.ProtoGen.ObjectGenerationsByName.TryGetValue(this.Generics.Wheres.First(), out var baseObjGen)) return;
             this._genericBaseObject = baseObjGen;
@@ -511,55 +508,71 @@ namespace Loqui.Generation
                         }
                         else
                         {
-                            gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                            using (new BraceWrapper(gen))
-                            {
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    gen.AppendLine("return r;");
-                                }
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
-                                if (this.InterfaceType != LoquiInterfaceType.IGetter)
-                                {
-                                    using (new DepthWrapper(gen))
-                                    {
-                                        this.GenerateCopyFieldsFrom(gen);
-                                        gen.AppendLine("return r;");
-                                    }
-                                }
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    gen.AppendLine($"if (r == null) return default({this.TypeName});");
-                                    if (this.RefType == LoquiRefType.Direct)
-                                    {
-                                        using (var args2 = new ArgsWrapper(gen,
-                                            $"return {this.ObjectTypeName}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
-                                        {
-                                            args2.Add($"r");
-                                            if (this.RefType == LoquiRefType.Direct)
-                                            {
-                                                args2.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
-                                            }
-                                            args2.Add($"def: d");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        gen.AppendLine($"var copyFunc = {nameof(LoquiRegistration)}.GetCopyFunc<{_generic}>();");
-                                        gen.AppendLine($"return copyFunc(r, null, d);");
-                                    }
-                                }
-                                gen.AppendLine($"default:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}?.{(this.RefType == LoquiRefType.Direct ? $"{this.Name}.Overall" : this.Name)}}}. Cannot execute copy.\");");
-                                }
-                            }
+                            GenerateTypicalCopyFieldsFrom(
+                                gen,
+                                copyMaskAccessor: copyMaskAccessor);
                         }
                     }
                 });
+            }
+        }
+
+        public void GenerateTypicalCopyFieldsFrom(
+            FileGeneration fg,
+            string copyMaskAccessor)
+        {
+            fg.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine("return r;");
+                }
+                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
+                if (this.InterfaceType != LoquiInterfaceType.IGetter)
+                {
+                    using (new DepthWrapper(fg))
+                    {
+                        this.GenerateCopyFieldsFrom(fg);
+                        fg.AppendLine("return r;");
+                    }
+                }
+                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                using (new DepthWrapper(fg))
+                {
+                    GenerateTypicalMakeCopy(fg, copyMaskAccessor);
+                }
+                fg.AppendLine($"default:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}?.{(this.RefType == LoquiRefType.Direct ? $"{this.Name}.Overall" : this.Name)}}}. Cannot execute copy.\");");
+                }
+            }
+        }
+
+        public void GenerateTypicalMakeCopy(
+            FileGeneration fg,
+            string copyMaskAccessor)
+        {
+            fg.AppendLine($"if (r == null) return default({this.TypeName});");
+            if (this.RefType == LoquiRefType.Direct)
+            {
+                using (var args2 = new ArgsWrapper(fg,
+                    $"return {this.ObjectTypeName}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                {
+                    args2.Add($"r");
+                    if (this.RefType == LoquiRefType.Direct)
+                    {
+                        args2.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
+                    }
+                    args2.Add($"def: d");
+                }
+            }
+            else
+            {
+                fg.AppendLine($"var copyFunc = {nameof(LoquiRegistration)}.GetCopyFunc<{_generic}>();");
+                fg.AppendLine($"return copyFunc(r, null, d);");
             }
         }
 

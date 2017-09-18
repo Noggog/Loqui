@@ -17,6 +17,11 @@
       <Ref name="Ref">
         <Generic>R</Generic>
       </Ref>
+      <List name="RefList">
+        <Ref>
+          <Generic>RBase</Generic>
+        </Ref>
+      </List>
     </Fields>
   </Object>
 </Loqui>

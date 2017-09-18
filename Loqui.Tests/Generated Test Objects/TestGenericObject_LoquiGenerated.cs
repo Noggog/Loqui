@@ -52,6 +52,15 @@ namespace Loqui.Tests
         INotifyingItem<R> ITestGenericObject<T, RBase, R>.Ref_Property => this.Ref_Property;
         INotifyingItemGetter<R> ITestGenericObjectGetter<T, RBase, R>.Ref_Property => this.Ref_Property;
         #endregion
+        #region RefList
+        private readonly INotifyingList<RBase> _RefList = new NotifyingList<RBase>();
+        public INotifyingList<RBase> RefList => _RefList;
+        #region Interface Members
+        INotifyingList<RBase> ITestGenericObject<T, RBase, R>.RefList => _RefList;
+        INotifyingListGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefList => _RefList;
+        #endregion
+
+        #endregion
 
         #region Loqui Getter Interface
 
@@ -121,6 +130,11 @@ namespace Loqui.Tests
             {
                 if (!object.Equals(Ref, rhs.Ref)) return false;
             }
+            if (RefList.HasBeenSet != rhs.RefList.HasBeenSet) return false;
+            if (RefList.HasBeenSet)
+            {
+                if (!RefList.SequenceEqual(rhs.RefList)) return false;
+            }
             return true;
         }
 
@@ -134,6 +148,10 @@ namespace Loqui.Tests
             if (Ref_Property.HasBeenSet)
             {
                 ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
+            }
+            if (RefList.HasBeenSet)
+            {
+                ret = HashHelper.GetHashCode(RefList).CombineHashCode(ret);
             }
             return ret;
         }
@@ -461,6 +479,55 @@ namespace Loqui.Tests
                         }
                     }
                     break;
+                case "RefList":
+                    {
+                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                        var listTryGet = ListXmlTranslation<RBase, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            {
+                                ObjectToRef_ErrorMask loquiMask;
+                                TryGet<RBase> tryGet;
+                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                                if (typeStr != null
+                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
+                                {
+                                    tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
+                                        root: r,
+                                        doMasks: listDoMasks,
+                                        errorMask: out loquiMask));
+                                }
+                                else
+                                {
+                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
+                                    if (register == null)
+                                    {
+                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
+                                        if (!listDoMasks) throw ex;
+                                        listSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
+                                            ex,
+                                            null);
+                                        return TryGet<RBase>.Fail(null);
+                                    }
+                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                                        root: root,
+                                        doMasks: listDoMasks,
+                                        maskObj: out var subErrorMaskObj).Bubble((o) => (RBase)o);
+                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
+                                }
+                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                return tryGet;
+                            }
+                            );
+                        item._RefList.SetIfSucceeded(listTryGet);
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().RefList = subMask;
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -553,6 +620,9 @@ namespace Loqui.Tests
                         (R)obj,
                         cmds);
                     break;
+                case TestGenericObject_FieldIndex.RefList:
+                    this._RefList.SetTo((IEnumerable<RBase>)obj, cmds);
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -600,6 +670,9 @@ namespace Loqui.Tests
                         (R)pair.Value,
                         null);
                     break;
+                case TestGenericObject_FieldIndex.RefList:
+                    obj._RefList.SetTo((IEnumerable<RBase>)pair.Value, null);
+                    break;
                 default:
                     throw new ArgumentException($"Unknown enum type: {enu}");
             }
@@ -623,6 +696,7 @@ namespace Loqui.Tests
         new R Ref { get; set; }
         new INotifyingItem<R> Ref_Property { get; }
 
+        new INotifyingList<RBase> RefList { get; }
     }
 
     public interface ITestGenericObjectGetter<T, RBase, R> : ILoquiObject
@@ -639,6 +713,9 @@ namespace Loqui.Tests
         INotifyingItemGetter<R> Ref_Property { get; }
 
         #endregion
+        #region RefList
+        INotifyingListGetter<RBase> RefList { get; }
+        #endregion
 
     }
 
@@ -653,6 +730,7 @@ namespace Loqui.Tests.Internals
     {
         RefBase = 0,
         Ref = 1,
+        RefList = 2,
     }
     #endregion
 
@@ -670,7 +748,7 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "c0c6b45b-906e-4a34-8e26-13ac0f04e3f8";
 
-        public const ushort FieldCount = 2;
+        public const ushort FieldCount = 3;
 
         public static readonly Type MaskType = typeof(TestGenericObject_Mask<>);
 
@@ -702,6 +780,8 @@ namespace Loqui.Tests.Internals
                     return (ushort)TestGenericObject_FieldIndex.RefBase;
                 case "REF":
                     return (ushort)TestGenericObject_FieldIndex.Ref;
+                case "REFLIST":
+                    return (ushort)TestGenericObject_FieldIndex.RefList;
                 default:
                     return null;
             }
@@ -712,6 +792,8 @@ namespace Loqui.Tests.Internals
             TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
             switch (enu)
             {
+                case TestGenericObject_FieldIndex.RefList:
+                    return true;
                 case TestGenericObject_FieldIndex.RefBase:
                 case TestGenericObject_FieldIndex.Ref:
                     return false;
@@ -727,6 +809,7 @@ namespace Loqui.Tests.Internals
             {
                 case TestGenericObject_FieldIndex.RefBase:
                 case TestGenericObject_FieldIndex.Ref:
+                case TestGenericObject_FieldIndex.RefList:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -740,6 +823,7 @@ namespace Loqui.Tests.Internals
             {
                 case TestGenericObject_FieldIndex.RefBase:
                 case TestGenericObject_FieldIndex.Ref:
+                case TestGenericObject_FieldIndex.RefList:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -755,6 +839,8 @@ namespace Loqui.Tests.Internals
                     return "RefBase";
                 case TestGenericObject_FieldIndex.Ref:
                     return "Ref";
+                case TestGenericObject_FieldIndex.RefList:
+                    return "RefList";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -767,6 +853,7 @@ namespace Loqui.Tests.Internals
             {
                 case TestGenericObject_FieldIndex.RefBase:
                 case TestGenericObject_FieldIndex.Ref:
+                case TestGenericObject_FieldIndex.RefList:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -780,6 +867,7 @@ namespace Loqui.Tests.Internals
             {
                 case TestGenericObject_FieldIndex.RefBase:
                 case TestGenericObject_FieldIndex.Ref:
+                case TestGenericObject_FieldIndex.RefList:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -831,6 +919,8 @@ namespace Loqui.Tests.Internals
                     return typeof(RBase);
                 case TestGenericObject_FieldIndex.Ref:
                     return typeof(R);
+                case TestGenericObject_FieldIndex.RefList:
+                    return typeof(NotifyingList<RBase>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -992,6 +1082,36 @@ namespace Loqui.Tests.Internals
                     errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.Ref, ex);
                 }
             }
+            if (copyMask?.RefList.Overall != CopyOption.Skip)
+            {
+                try
+                {
+                    item.RefList.SetToWithDefault(
+                        rhs.RefList,
+                        def?.RefList,
+                        cmds,
+                        (r, d) =>
+                        {
+                            switch (copyMask?.RefList.Overall ?? CopyOption.Reference)
+                            {
+                                case CopyOption.Reference:
+                                    return r;
+                                case CopyOption.MakeCopy:
+                                    if (r == null) return default(RBase);
+                                    var copyFunc = LoquiRegistration.GetCopyFunc<RBase>();
+                                    return copyFunc(r, null, d);
+                                default:
+                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefList.Overall}. Cannot execute copy.");
+                            }
+                        }
+                        );
+                }
+                catch (Exception ex)
+                when (doErrorMask)
+                {
+                    errorMask().SetNthException((ushort)TestGenericObject_FieldIndex.RefList, ex);
+                }
+            }
         }
 
         #endregion
@@ -1012,6 +1132,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestGenericObject_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
+                    break;
+                case TestGenericObject_FieldIndex.RefList:
+                    obj.RefList.HasBeenSet = on;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1034,6 +1157,9 @@ namespace Loqui.Tests.Internals
                 case TestGenericObject_FieldIndex.Ref:
                     obj.Ref_Property.Unset(cmds);
                     break;
+                case TestGenericObject_FieldIndex.RefList:
+                    obj.RefList.Unset(cmds);
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1052,6 +1178,8 @@ namespace Loqui.Tests.Internals
                     return obj.RefBase_Property.HasBeenSet;
                 case TestGenericObject_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
+                case TestGenericObject_FieldIndex.RefList:
+                    return obj.RefList.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1070,6 +1198,8 @@ namespace Loqui.Tests.Internals
                     return obj.RefBase;
                 case TestGenericObject_FieldIndex.Ref:
                     return obj.Ref;
+                case TestGenericObject_FieldIndex.RefList:
+                    return obj.RefList;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1083,6 +1213,7 @@ namespace Loqui.Tests.Internals
         {
             item.RefBase_Property.Unset(cmds.ToUnsetParams());
             item.Ref_Property.Unset(cmds.ToUnsetParams());
+            item.RefList.Unset(cmds.ToUnsetParams());
         }
 
         public static TestGenericObject_Mask<bool> GetEqualsMask<T, RBase, R>(
@@ -1107,6 +1238,31 @@ namespace Loqui.Tests.Internals
             ret.RefBase = item.RefBase_Property.LoquiEqualsHelper(rhs.RefBase_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref = new MaskItem<bool, object>();
             ret.Ref.Overall = item.Ref_Property.Equals(rhs.Ref_Property, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
+            if (item.RefList.HasBeenSet == rhs.RefList.HasBeenSet)
+            {
+                if (item.RefList.HasBeenSet)
+                {
+                    ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                    ret.RefList.Specific = item.RefList.SelectAgainst<RBase, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
+                    {
+                        MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
+                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        return itemRet;
+                    }
+                    ), out ret.RefList.Overall);
+                    ret.RefList.Overall = ret.RefList.Overall && ret.RefList.Specific.All((b) => b.Overall);
+                }
+                else
+                {
+                    ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                    ret.RefList.Overall = true;
+                }
+            }
+            else
+            {
+                ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+                ret.RefList.Overall = false;
+            }
         }
 
         public static string ToString<T, RBase, R>(
@@ -1148,6 +1304,24 @@ namespace Loqui.Tests.Internals
                 {
                     item.Ref.ToString(fg, "Ref");
                 }
+                if (printMask?.RefList?.Overall ?? true)
+                {
+                    fg.AppendLine("RefList =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        foreach (var subItem in item.RefList)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.ToString(fg, "Item");
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
             }
             fg.AppendLine("]");
         }
@@ -1161,6 +1335,7 @@ namespace Loqui.Tests.Internals
             if (checkMask.RefBase.Overall.HasValue && checkMask.RefBase.Overall.Value != item.RefBase_Property.HasBeenSet) return false;
             if (checkMask.RefBase.Specific != null && (item.RefBase_Property.Item == null || !item.RefBase_Property.Item.HasBeenSet(checkMask.RefBase.Specific))) return false;
             if (checkMask.Ref.Overall.HasValue && checkMask.Ref.Overall.Value != item.Ref_Property.HasBeenSet) return false;
+            if (checkMask.RefList.Overall.HasValue && checkMask.RefList.Overall.Value != item.RefList.HasBeenSet) return false;
             return true;
         }
 
@@ -1171,6 +1346,7 @@ namespace Loqui.Tests.Internals
             var ret = new TestGenericObject_Mask<bool>();
             ret.RefBase = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefBase_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefBase_Property.Item));
             ret.Ref = new MaskItem<bool, object>(item.Ref_Property.HasBeenSet, null);
+            ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.RefList.HasBeenSet, item.RefList.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
             return ret;
         }
 
@@ -1242,6 +1418,31 @@ namespace Loqui.Tests.Internals
                             errorMask().Ref = subMask;
                         }
                     }
+                    if (item.RefList.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                        ListXmlTranslation<RBase, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.RefList),
+                            item: item.RefList,
+                            doMasks: doMasks,
+                            maskObj: out subMask,
+                            transl: (RBase subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            {
+                                ObjectToRefCommon.Write_XML(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: doMasks,
+                                    errorMask: out ObjectToRef_ErrorMask loquiMask);
+                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().RefList = subMask;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -1271,12 +1472,14 @@ namespace Loqui.Tests.Internals
         {
             this.RefBase = new MaskItem<T, ObjectToRef_Mask<T>>(initialValue, new ObjectToRef_Mask<T>(initialValue));
             this.Ref = new MaskItem<T, object>(initialValue, null);
+            this.RefList = new MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>>(initialValue, null);
         }
         #endregion
 
         #region Members
         public MaskItem<T, ObjectToRef_Mask<T>> RefBase { get; set; }
         public MaskItem<T, object> Ref { get; set; }
+        public MaskItem<T, IEnumerable<MaskItem<T, ObjectToRef_Mask<T>>>> RefList;
         #endregion
 
         #region Equals
@@ -1291,6 +1494,7 @@ namespace Loqui.Tests.Internals
             if (rhs == null) return false;
             if (!object.Equals(this.RefBase, rhs.RefBase)) return false;
             if (!object.Equals(this.Ref, rhs.Ref)) return false;
+            if (!object.Equals(this.RefList, rhs.RefList)) return false;
             return true;
         }
         public override int GetHashCode()
@@ -1298,6 +1502,7 @@ namespace Loqui.Tests.Internals
             int ret = 0;
             ret = ret.CombineHashCode(this.RefBase?.GetHashCode());
             ret = ret.CombineHashCode(this.Ref?.GetHashCode());
+            ret = ret.CombineHashCode(this.RefList?.GetHashCode());
             return ret;
         }
 
@@ -1315,6 +1520,18 @@ namespace Loqui.Tests.Internals
             {
                 if (!eval(this.Ref.Overall)) return false;
                 throw new NotImplementedException();
+            }
+            if (RefList != null)
+            {
+                if (!eval(this.RefList.Overall)) return false;
+                if (RefList.Specific != null)
+                {
+                    foreach (var item in RefList.Specific)
+                    {
+                        if (!eval(item.Overall)) return false;
+                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
+                    }
+                }
             }
             return true;
         }
@@ -1345,12 +1562,37 @@ namespace Loqui.Tests.Internals
                 obj.Ref.Overall = eval(this.Ref.Overall);
                 throw new NotImplementedException();
             }
+            if (RefList != null)
+            {
+                obj.RefList = new MaskItem<R, IEnumerable<MaskItem<R, ObjectToRef_Mask<R>>>>();
+                obj.RefList.Overall = eval(this.RefList.Overall);
+                if (RefList.Specific != null)
+                {
+                    List<MaskItem<R, ObjectToRef_Mask<R>>> l = new List<MaskItem<R, ObjectToRef_Mask<R>>>();
+                    obj.RefList.Specific = l;
+                    foreach (var item in RefList.Specific)
+                    {
+                        MaskItem<R, ObjectToRef_Mask<R>> mask = default(MaskItem<R, ObjectToRef_Mask<R>>);
+                        if (item != null)
+                        {
+                            mask = new MaskItem<R, ObjectToRef_Mask<R>>();
+                            mask.Overall = eval(item.Overall);
+                            if (item.Specific != null)
+                            {
+                                mask.Specific = item.Specific.Translate(eval);
+                            }
+                        }
+                        l.Add(mask);
+                    }
+                }
+            }
         }
         #endregion
 
         #region Clear Enumerables
         public virtual void ClearEnumerables()
         {
+            this.RefList.Specific = null;
         }
         #endregion
 
@@ -1381,6 +1623,31 @@ namespace Loqui.Tests.Internals
                 {
                     Ref.ToString(fg);
                 }
+                if (printMask?.RefList?.Overall ?? true)
+                {
+                    fg.AppendLine("RefList =>");
+                    fg.AppendLine("[");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (RefList.Overall != null)
+                        {
+                            fg.AppendLine(RefList.Overall.ToString());
+                        }
+                        if (RefList.Specific != null)
+                        {
+                            foreach (var subItem in RefList.Specific)
+                            {
+                                fg.AppendLine("[");
+                                using (new DepthWrapper(fg))
+                                {
+                                    subItem.ToString(fg);
+                                }
+                                fg.AppendLine("]");
+                            }
+                        }
+                    }
+                    fg.AppendLine("]");
+                }
             }
             fg.AppendLine("]");
         }
@@ -1406,6 +1673,7 @@ namespace Loqui.Tests.Internals
         }
         public MaskItem<Exception, ObjectToRef_ErrorMask> RefBase;
         public MaskItem<Exception, object> Ref;
+        public MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> RefList;
         #endregion
 
         #region IErrorMask
@@ -1419,6 +1687,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestGenericObject_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, object>(ex, null);
+                    break;
+                case TestGenericObject_FieldIndex.RefList:
+                    this.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(ex, null);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1435,6 +1706,9 @@ namespace Loqui.Tests.Internals
                     break;
                 case TestGenericObject_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, object>)obj;
+                    break;
+                case TestGenericObject_FieldIndex.RefList:
+                    this.RefList = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1480,6 +1754,31 @@ namespace Loqui.Tests.Internals
             {
                 Ref.ToString(fg);
             }
+            if (RefList != null)
+            {
+                fg.AppendLine("RefList =>");
+                fg.AppendLine("[");
+                using (new DepthWrapper(fg))
+                {
+                    if (RefList.Overall != null)
+                    {
+                        fg.AppendLine(RefList.Overall.ToString());
+                    }
+                    if (RefList.Specific != null)
+                    {
+                        foreach (var subItem in RefList.Specific)
+                        {
+                            fg.AppendLine("[");
+                            using (new DepthWrapper(fg))
+                            {
+                                subItem.ToString(fg);
+                            }
+                            fg.AppendLine("]");
+                        }
+                    }
+                }
+                fg.AppendLine("]");
+            }
         }
         #endregion
 
@@ -1489,6 +1788,7 @@ namespace Loqui.Tests.Internals
             var ret = new TestGenericObject_ErrorMask();
             ret.RefBase = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefBase.Overall.Combine(rhs.RefBase.Overall), this.RefBase.Specific.Combine(rhs.RefBase.Specific));
             ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), Loqui.Internal.CombineHelper.Combine(this.Ref.Specific, rhs.Ref.Specific));
+            ret.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.RefList.Overall.Combine(rhs.RefList.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.RefList.Specific.And(rhs.RefList.Specific)));
             return ret;
         }
         public static TestGenericObject_ErrorMask Combine(TestGenericObject_ErrorMask lhs, TestGenericObject_ErrorMask rhs)
@@ -1504,6 +1804,7 @@ namespace Loqui.Tests.Internals
         #region Members
         public CopyOption RefBase;
         public GetterCopyOption Ref;
+        public MaskItem<CopyOption, ObjectToRef_CopyMask> RefList;
         #endregion
 
     }
