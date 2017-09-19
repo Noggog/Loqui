@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
+  <Object name="TestGenericSpecification" GUID="61cec4c5-3aba-449a-9d61-1bb5f6ef4f25" ID="25">
+    <Fields>
+      <Ref name="TestGenericObject">
+        <Direct refName="TestGenericObject">
+          <GenericSpecification TypeToSpecify="T" Definition="ObjectToRef" />
+        </Direct>
+      </Ref>
+    </Fields>
+  </Object>
+</Loqui>

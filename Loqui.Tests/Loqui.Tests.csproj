@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding="us-ascii"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -199,6 +199,9 @@
     <Compile Include="Generated Test Objects\TestObject_Abstract_LoquiGenerated.cs">
       <DependentUpon>TestObject_Abstract.xml</DependentUpon>
     </Compile>
+    <Compile Include="Generated Test Objects\TestGenericSpecification_LoquiGenerated.cs">
+      <DependentUpon>TestGenericSpecification.xml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
@@ -219,6 +222,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TestGenericObject.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestGenericSpecification.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TestObject_Abstract.xml">
