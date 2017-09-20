@@ -47,6 +47,10 @@ namespace Loqui.Generation
         {
         }
 
+        public virtual void GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
         public virtual void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
         }

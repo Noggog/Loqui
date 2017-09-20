@@ -56,6 +56,14 @@ namespace Loqui
             Append("\n");
         }
 
+        public void AppendLines(IEnumerable<string> strs)
+        {
+            foreach (var str in strs)
+            {
+                AppendLine(str);
+            }
+        }
+
         public void AppendLine(string str, bool extraLine = false)
         {
             if (str.Contains("Write_XML(root: root)"))

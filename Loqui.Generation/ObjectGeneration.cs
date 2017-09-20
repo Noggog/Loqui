@@ -314,6 +314,8 @@ namespace Loqui.Generation
                     GenerateRaisePropertyChanged(fg);
 
                     GenerateCtor(fg);
+
+                    GenerateStaticCtor(fg);
                     // Generate fields
                     foreach (var field in Fields)
                     {
@@ -910,6 +912,26 @@ namespace Loqui.Generation
         }
 
         protected abstract void GenerateCtor(FileGeneration fg);
+
+        protected void GenerateStaticCtor(FileGeneration fg)
+        {
+            FileGeneration staticCtorFG = new FileGeneration();
+            foreach (var mod in this.gen.GenerationModules)
+            {
+                mod.GenerateInStaticCtor(this, staticCtorFG);
+            }
+            foreach (var field in this.Fields)
+            {
+                field.GenerateForStaticCtor(staticCtorFG);
+            }
+            if (staticCtorFG.Strings.Count == 0) return;
+            fg.AppendLine($"static {this.Name}()");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLines(staticCtorFG.Strings);
+            }
+            fg.AppendLine();
+        }
 
         protected abstract void GenerateClassLine(FileGeneration fg);
 
