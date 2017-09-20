@@ -132,7 +132,7 @@ namespace Loqui.Generation
             foreach (var genNode in Node.Elements(XName.Get("Generic", LoquiGenerator.Namespace)))
             {
                 var generic = new GenericDefinition();
-                var genName = genNode.GetAttribute("name");
+                generic.Name = genNode.GetAttribute("name");
                 var baseClass = genNode.Element(XName.Get("BaseClass", LoquiGenerator.Namespace));
                 if (baseClass != null)
                 {
@@ -142,7 +142,7 @@ namespace Loqui.Generation
                 {
                     generic.Add(where.Value);
                 }
-                this.Generics[genName] = generic;
+                this.Generics[generic.Name] = generic;
             }
 
             foreach (var interfNode in Node.Elements(XName.Get("Interface", LoquiGenerator.Namespace)))

@@ -11,6 +11,7 @@ namespace Loqui.Generation
         private readonly HashSet<string> _whereSet = new HashSet<string>();
         private readonly List<string> _whereList = new List<string>();
         public IEnumerable<string> Wheres => _whereList;
+        public string Name;
 
         public void Add(string where)
         {

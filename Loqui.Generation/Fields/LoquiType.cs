@@ -66,7 +66,6 @@ namespace Loqui.Generation
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType InterfaceType = LoquiInterfaceType.Direct;
         private string _generic;
-        private ObjectGeneration _genericBaseObject;
         public GenericDefinition Generics;
         public string ErrorMaskItemString => this.TargetObjectGeneration?.ErrorMask ?? "object";
         public string CopyMaskItemString => this.TargetObjectGeneration?.CopyMask ?? "object";
@@ -79,7 +78,7 @@ namespace Loqui.Generation
                     case LoquiRefType.Direct:
                         return this.RefGen.Obj;
                     case LoquiRefType.Generic:
-                        return this._genericBaseObject;
+                        return this.Generics.BaseObjectGeneration;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -376,7 +375,7 @@ namespace Loqui.Generation
 
             if (this.RefType != LoquiRefType.Generic || !this.Generics.Wheres.Any()) return;
             if (!this.ObjectGen.ProtoGen.ObjectGenerationsByName.TryGetValue(this.Generics.Wheres.First(), out var baseObjGen)) return;
-            this._genericBaseObject = baseObjGen;
+            this.Generics.BaseObjectGeneration = baseObjGen;
         }
 
         public override void GenerateForCopy(
@@ -466,7 +465,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(gen))
                     {
                         if (this.RefType == LoquiRefType.Generic
-                            && this._genericBaseObject == null)
+                            && this.Generics?.BaseObjectGeneration == null)
                         {
                             gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Reference)})");
                             using (new BraceWrapper(gen))
