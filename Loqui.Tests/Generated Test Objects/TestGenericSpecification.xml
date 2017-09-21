@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
   <Object name="TestGenericSpecification" GUID="61cec4c5-3aba-449a-9d61-1bb5f6ef4f25" ID="25">
+    <Generic name="RBase" >
+      <Where>ObjectToRef</Where>
+    </Generic>
+    <Generic name="R" >
+      <Where>ILoquiObjectGetter</Where>
+    </Generic>
     <Fields>
-      <Ref name="TestGenericObject">
+      <Ref name="TestGenericObjectSpecified">
         <Direct refName="TestGenericObject">
           <GenericSpecification TypeToSpecify="T" Definition="ObjectToRef" />
+          <GenericSpecification TypeToSpecify="R" Definition="ObjectToRef" />
+          <GenericSpecification TypeToSpecify="RBase" Definition="ObjectToRef" />
+        </Direct>
+      </Ref>
+      <Ref name="TestGenericObjectHalfSpecified">
+        <Direct refName="TestGenericObject">
+          <GenericSpecification TypeToSpecify="T" Definition="ObjectToRef" />
+          <GenericMapping TypeOnObject="R" TypeOnRef="R" />
         </Direct>
       </Ref>
     </Fields>

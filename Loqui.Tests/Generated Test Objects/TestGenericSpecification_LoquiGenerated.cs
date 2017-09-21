@@ -22,7 +22,9 @@ using Loqui.Xml;
 namespace Loqui.Tests
 {
     #region Class
-    public partial class TestGenericSpecification : ITestGenericSpecification, ILoquiObjectSetter, IEquatable<TestGenericSpecification>
+    public partial class TestGenericSpecification<RBase, R> : ITestGenericSpecification<RBase, R>, ILoquiObjectSetter, IEquatable<TestGenericSpecification<RBase, R>>
+        where RBase : ObjectToRef
+        where R : ILoquiObjectGetter
     {
         ILoquiRegistration ILoquiObject.Registration => TestGenericSpecification_Registration.Instance;
         public static TestGenericSpecification_Registration Registration => TestGenericSpecification_Registration.Instance;
@@ -35,19 +37,22 @@ namespace Loqui.Tests
         partial void CustomCtor();
         #endregion
 
-        #region TestGenericObject
-        public TestGenericObject TestGenericObject { get; set; }
+        #region TestGenericObjectSpecified
+        public TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef> TestGenericObjectSpecified { get; set; }
+        #endregion
+        #region TestGenericObjectHalfSpecified
+        public TestGenericObject<ObjectToRef, RBase, R> TestGenericObjectHalfSpecified { get; set; }
         #endregion
 
         #region Loqui Getter Interface
 
-        protected object GetNthObject(ushort index) => TestGenericSpecificationCommon.GetNthObject(index, this);
+        protected object GetNthObject(ushort index) => TestGenericSpecificationCommon.GetNthObject<RBase, R>(index, this);
         object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        protected bool GetNthObjectHasBeenSet(ushort index) => TestGenericSpecificationCommon.GetNthObjectHasBeenSet(index, this);
+        protected bool GetNthObjectHasBeenSet(ushort index) => TestGenericSpecificationCommon.GetNthObjectHasBeenSet<RBase, R>(index, this);
         bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericSpecificationCommon.UnsetNthObject(index, this, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericSpecificationCommon.UnsetNthObject<RBase, R>(index, this, cmds);
         void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
@@ -55,7 +60,7 @@ namespace Loqui.Tests
         #region Loqui Interface
         protected void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestGenericSpecificationCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestGenericSpecificationCommon.SetNthObjectHasBeenSet<RBase, R>(index, on, this);
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
@@ -90,21 +95,23 @@ namespace Loqui.Tests
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestGenericSpecification rhs)) return false;
+            if (!(obj is TestGenericSpecification<RBase, R> rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestGenericSpecification rhs)
+        public bool Equals(TestGenericSpecification<RBase, R> rhs)
         {
             if (rhs == null) return false;
-            if (!object.Equals(TestGenericObject, rhs.TestGenericObject)) return false;
+            if (!object.Equals(TestGenericObjectSpecified, rhs.TestGenericObjectSpecified)) return false;
+            if (!object.Equals(TestGenericObjectHalfSpecified, rhs.TestGenericObjectHalfSpecified)) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
             int ret = 0;
-            ret = HashHelper.GetHashCode(TestGenericObject).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(TestGenericObjectSpecified).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(TestGenericObjectHalfSpecified).CombineHashCode(ret);
             return ret;
         }
 
@@ -113,7 +120,7 @@ namespace Loqui.Tests
 
         #region XML Translation
         #region XML Create
-        public static TestGenericSpecification Create_XML(XElement root)
+        public static TestGenericSpecification<RBase, R> Create_XML(XElement root)
         {
             return Create_XML(
                 root: root,
@@ -121,7 +128,7 @@ namespace Loqui.Tests
                 errorMask: out var errorMask);
         }
 
-        public static TestGenericSpecification Create_XML(
+        public static TestGenericSpecification<RBase, R> Create_XML(
             XElement root,
             out TestGenericSpecification_ErrorMask errorMask)
         {
@@ -131,7 +138,7 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public static TestGenericSpecification Create_XML(
+        public static TestGenericSpecification<RBase, R> Create_XML(
             XElement root,
             bool doMasks,
             out TestGenericSpecification_ErrorMask errorMask)
@@ -145,13 +152,13 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static TestGenericSpecification Create_XML(string path)
+        public static TestGenericSpecification<RBase, R> Create_XML(string path)
         {
             var root = XDocument.Load(path).Root;
             return Create_XML(root: root);
         }
 
-        public static TestGenericSpecification Create_XML(
+        public static TestGenericSpecification<RBase, R> Create_XML(
             string path,
             out TestGenericSpecification_ErrorMask errorMask)
         {
@@ -161,13 +168,13 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public static TestGenericSpecification Create_XML(Stream stream)
+        public static TestGenericSpecification<RBase, R> Create_XML(Stream stream)
         {
             var root = XDocument.Load(stream).Root;
             return Create_XML(root: root);
         }
 
-        public static TestGenericSpecification Create_XML(
+        public static TestGenericSpecification<RBase, R> Create_XML(
             Stream stream,
             out TestGenericSpecification_ErrorMask errorMask)
         {
@@ -184,7 +191,7 @@ namespace Loqui.Tests
             XElement root,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestGenericSpecification, TestGenericSpecification_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestGenericSpecification<RBase, R>, TestGenericSpecification_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -198,7 +205,7 @@ namespace Loqui.Tests
             out TestGenericSpecification_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestGenericSpecification, TestGenericSpecification_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestGenericSpecification<RBase, R>, TestGenericSpecification_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -341,12 +348,12 @@ namespace Loqui.Tests
 
         #endregion
 
-        private static TestGenericSpecification Create_XML_Internal(
+        private static TestGenericSpecification<RBase, R> Create_XML_Internal(
             XElement root,
             bool doMasks,
             Func<TestGenericSpecification_ErrorMask> errorMask)
         {
-            var ret = new TestGenericSpecification();
+            var ret = new TestGenericSpecification<RBase, R>();
             try
             {
                 foreach (var elem in root.Elements())
@@ -368,7 +375,7 @@ namespace Loqui.Tests
         }
 
         protected static void Fill_XML_Internal(
-            TestGenericSpecification item,
+            TestGenericSpecification<RBase, R> item,
             XElement root,
             string name,
             bool doMasks,
@@ -376,16 +383,16 @@ namespace Loqui.Tests
         {
             switch (name)
             {
-                case "TestGenericObject":
+                case "TestGenericObjectSpecified":
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
                         TestGenericObject_ErrorMask loquiMask;
-                        TryGet<TestGenericObject> tryGet;
+                        TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>> tryGet;
                         var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.TestGenericObject"))
                         {
-                            tryGet = TryGet<TestGenericObject>.Succeed((TestGenericObject)TestGenericObject.Create_XML(
+                            tryGet = TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>>.Succeed((TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -405,17 +412,60 @@ namespace Loqui.Tests
                             tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                                 root: root,
                                 doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (TestGenericObject)o);
+                                maskObj: out var subErrorMaskObj).Bubble((o) => (TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)o);
                             loquiMask = (TestGenericObject_ErrorMask)subErrorMaskObj;
                         }
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
-                            item.TestGenericObject = tryGet.Value;
+                            item.TestGenericObjectSpecified = tryGet.Value;
                         }
                         if (doMasks && subMask != null)
                         {
-                            errorMask().TestGenericObject = subMask;
+                            errorMask().TestGenericObjectSpecified = subMask;
+                        }
+                    }
+                    break;
+                case "TestGenericObjectHalfSpecified":
+                    {
+                        MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
+                        TestGenericObject_ErrorMask loquiMask;
+                        TryGet<TestGenericObject<ObjectToRef, RBase, R>> tryGet;
+                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                        if (typeStr != null
+                            && typeStr.Equals("Loqui.Tests.TestGenericObject"))
+                        {
+                            tryGet = TryGet<TestGenericObject<ObjectToRef, RBase, R>>.Succeed((TestGenericObject<ObjectToRef, RBase, R>)TestGenericObject<ObjectToRef, RBase, R>.Create_XML(
+                                root: root,
+                                doMasks: doMasks,
+                                errorMask: out loquiMask));
+                        }
+                        else
+                        {
+                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
+                            if (register == null)
+                            {
+                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                                if (!doMasks) throw ex;
+                                subMask = new MaskItem<Exception, TestGenericObject_ErrorMask>(
+                                    ex,
+                                    null);
+                                break;
+                            }
+                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                                root: root,
+                                doMasks: doMasks,
+                                maskObj: out var subErrorMaskObj).Bubble((o) => (TestGenericObject<ObjectToRef, RBase, R>)o);
+                            loquiMask = (TestGenericObject_ErrorMask)subErrorMaskObj;
+                        }
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
+                        if (tryGet.Succeeded)
+                        {
+                            item.TestGenericObjectHalfSpecified = tryGet.Value;
+                        }
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().TestGenericObjectHalfSpecified = subMask;
                         }
                     }
                     break;
@@ -426,29 +476,29 @@ namespace Loqui.Tests
 
         #endregion
 
-        public TestGenericSpecification Copy(
+        public TestGenericSpecification<RBase, R> Copy(
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null)
+            ITestGenericSpecificationGetter<RBase, R> def = null)
         {
-            return TestGenericSpecification.Copy(
+            return TestGenericSpecification<RBase, R>.Copy(
                 this,
                 copyMask: copyMask,
                 def: def);
         }
 
-        public static TestGenericSpecification Copy(
-            ITestGenericSpecification item,
+        public static TestGenericSpecification<RBase, R> Copy(
+            ITestGenericSpecification<RBase, R> item,
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null)
+            ITestGenericSpecificationGetter<RBase, R> def = null)
         {
-            TestGenericSpecification ret;
-            if (item.GetType().Equals(typeof(TestGenericSpecification)))
+            TestGenericSpecification<RBase, R> ret;
+            if (item.GetType().Equals(typeof(TestGenericSpecification<RBase, R>)))
             {
-                ret = new TestGenericSpecification();
+                ret = new TestGenericSpecification<RBase, R>();
             }
             else
             {
-                ret = (TestGenericSpecification)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericSpecification<RBase, R>)Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -460,13 +510,13 @@ namespace Loqui.Tests
         public static CopyType CopyGeneric<CopyType>(
             CopyType item,
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null)
-            where CopyType : class, ITestGenericSpecification
+            ITestGenericSpecificationGetter<RBase, R> def = null)
+            where CopyType : class, ITestGenericSpecification<RBase, R>
         {
             CopyType ret;
-            if (item.GetType().Equals(typeof(TestGenericSpecification)))
+            if (item.GetType().Equals(typeof(TestGenericSpecification<RBase, R>)))
             {
-                ret = new TestGenericSpecification() as CopyType;
+                ret = new TestGenericSpecification<RBase, R>() as CopyType;
             }
             else
             {
@@ -482,12 +532,12 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static TestGenericSpecification Copy_ToLoqui(
-            ITestGenericSpecificationGetter item,
+        public static TestGenericSpecification<RBase, R> Copy_ToLoqui(
+            ITestGenericSpecificationGetter<RBase, R> item,
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null)
+            ITestGenericSpecificationGetter<RBase, R> def = null)
         {
-            var ret = new TestGenericSpecification();
+            var ret = new TestGenericSpecification<RBase, R>();
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -501,8 +551,11 @@ namespace Loqui.Tests
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    this.TestGenericObject = (TestGenericObject)obj;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    this.TestGenericObjectSpecified = (TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)obj;
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    this.TestGenericObjectHalfSpecified = (TestGenericObject<ObjectToRef, RBase, R>)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -523,9 +576,9 @@ namespace Loqui.Tests
         }
 
 
-        public static TestGenericSpecification Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestGenericSpecification<RBase, R> Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestGenericSpecification();
+            var ret = new TestGenericSpecification<RBase, R>();
             foreach (var pair in fields)
             {
                 CopyInInternal_TestGenericSpecification(ret, pair);
@@ -533,7 +586,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected static void CopyInInternal_TestGenericSpecification(TestGenericSpecification obj, KeyValuePair<ushort, object> pair)
+        protected static void CopyInInternal_TestGenericSpecification(TestGenericSpecification<RBase, R> obj, KeyValuePair<ushort, object> pair)
         {
             if (!EnumExt.TryParse(pair.Key, out TestGenericSpecification_FieldIndex enu))
             {
@@ -541,14 +594,17 @@ namespace Loqui.Tests
             }
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    obj.TestGenericObject = (TestGenericObject)pair.Value;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    obj.TestGenericObjectSpecified = (TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)pair.Value;
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    obj.TestGenericObjectHalfSpecified = (TestGenericObject<ObjectToRef, RBase, R>)pair.Value;
                     break;
                 default:
                     throw new ArgumentException($"Unknown enum type: {enu}");
             }
         }
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericSpecification obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestGenericSpecification<RBase, R> obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
@@ -557,16 +613,26 @@ namespace Loqui.Tests
     #endregion
 
     #region Interface
-    public interface ITestGenericSpecification : ITestGenericSpecificationGetter, ILoquiClass<ITestGenericSpecification, ITestGenericSpecificationGetter>, ILoquiClass<TestGenericSpecification, ITestGenericSpecificationGetter>
+    public interface ITestGenericSpecification<RBase, R> : ITestGenericSpecificationGetter<RBase, R>, ILoquiClass<ITestGenericSpecification<RBase, R>, ITestGenericSpecificationGetter<RBase, R>>, ILoquiClass<TestGenericSpecification<RBase, R>, ITestGenericSpecificationGetter<RBase, R>>
+        where RBase : ObjectToRef
+        where R : ILoquiObjectGetter
     {
-        new TestGenericObject TestGenericObject { get; set; }
+        new TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef> TestGenericObjectSpecified { get; set; }
+
+        new TestGenericObject<ObjectToRef, RBase, R> TestGenericObjectHalfSpecified { get; set; }
 
     }
 
-    public interface ITestGenericSpecificationGetter : ILoquiObject
+    public interface ITestGenericSpecificationGetter<RBase, R> : ILoquiObject
+        where RBase : ObjectToRef
+        where R : ILoquiObjectGetter
     {
-        #region TestGenericObject
-        TestGenericObject TestGenericObject { get; }
+        #region TestGenericObjectSpecified
+        TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef> TestGenericObjectSpecified { get; }
+
+        #endregion
+        #region TestGenericObjectHalfSpecified
+        TestGenericObject<ObjectToRef, RBase, R> TestGenericObjectHalfSpecified { get; }
 
         #endregion
 
@@ -581,7 +647,8 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestGenericSpecification_FieldIndex
     {
-        TestGenericObject = 0,
+        TestGenericObjectSpecified = 0,
+        TestGenericObjectHalfSpecified = 1,
     }
     #endregion
 
@@ -599,17 +666,17 @@ namespace Loqui.Tests.Internals
 
         public const string GUID = "61cec4c5-3aba-449a-9d61-1bb5f6ef4f25";
 
-        public const ushort FieldCount = 1;
+        public const ushort FieldCount = 2;
 
         public static readonly Type MaskType = typeof(TestGenericSpecification_Mask<>);
 
         public static readonly Type ErrorMaskType = typeof(TestGenericSpecification_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestGenericSpecification);
+        public static readonly Type ClassType = typeof(TestGenericSpecification<,>);
 
-        public static readonly Type GetterType = typeof(ITestGenericSpecificationGetter);
+        public static readonly Type GetterType = typeof(ITestGenericSpecificationGetter<,>);
 
-        public static readonly Type SetterType = typeof(ITestGenericSpecification);
+        public static readonly Type SetterType = typeof(ITestGenericSpecification<,>);
 
         public static readonly Type CommonType = typeof(TestGenericSpecificationCommon);
 
@@ -619,16 +686,18 @@ namespace Loqui.Tests.Internals
 
         public const string Namespace = "Loqui.Tests";
 
-        public const byte GenericCount = 0;
+        public const byte GenericCount = 2;
 
-        public static readonly Type GenericRegistrationType = null;
+        public static readonly Type GenericRegistrationType = typeof(TestGenericSpecification_Registration<,>);
 
         public static ushort? GetNameIndex(StringCaseAgnostic str)
         {
             switch (str.Upper)
             {
-                case "TESTGENERICOBJECT":
-                    return (ushort)TestGenericSpecification_FieldIndex.TestGenericObject;
+                case "TESTGENERICOBJECTSPECIFIED":
+                    return (ushort)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified;
+                case "TESTGENERICOBJECTHALFSPECIFIED":
+                    return (ushort)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified;
                 default:
                     return null;
             }
@@ -639,7 +708,8 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -651,7 +721,8 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -663,7 +734,8 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -675,8 +747,10 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    return "TestGenericObject";
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    return "TestGenericObjectSpecified";
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    return "TestGenericObjectHalfSpecified";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -687,7 +761,8 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -699,24 +774,15 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static Type GetNthType(ushort index)
-        {
-            TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
-            switch (enu)
-            {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    return typeof(TestGenericObject);
-                default:
-                    throw new ArgumentException($"Index is out of range: {index}");
-            }
-        }
+        public static Type GetNthType(ushort index) => throw new ArgumentException("Cannot get nth type for a generic object here.  Use generic registration instead.");
 
         #region Interface
         ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;
@@ -745,20 +811,44 @@ namespace Loqui.Tests.Internals
         #endregion
 
     }
+
+    public class TestGenericSpecification_Registration<RBase, R> : TestGenericSpecification_Registration
+        where RBase : ObjectToRef
+        where R : ILoquiObjectGetter
+    {
+        public static readonly TestGenericSpecification_Registration<RBase, R> GenericInstance = new TestGenericSpecification_Registration<RBase, R>();
+
+        public new static Type GetNthType(ushort index)
+        {
+            TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
+            switch (enu)
+            {
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    return typeof(TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>);
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    return typeof(TestGenericObject<ObjectToRef, RBase, R>);
+                default:
+                    throw new ArgumentException($"Index is out of range: {index}");
+            }
+        }
+
+    }
     #endregion
 
     #region Extensions
     public static class TestGenericSpecificationCommon
     {
         #region Copy Fields From
-        public static void CopyFieldsFrom(
-            this ITestGenericSpecification item,
-            ITestGenericSpecificationGetter rhs,
+        public static void CopyFieldsFrom<RBase, R>(
+            this ITestGenericSpecification<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs,
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null,
+            ITestGenericSpecificationGetter<RBase, R> def = null,
             NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
-            TestGenericSpecificationCommon.CopyFieldsFrom(
+            TestGenericSpecificationCommon.CopyFieldsFrom<RBase, R>(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -768,15 +858,17 @@ namespace Loqui.Tests.Internals
                 cmds: cmds);
         }
 
-        public static void CopyFieldsFrom(
-            this ITestGenericSpecification item,
-            ITestGenericSpecificationGetter rhs,
+        public static void CopyFieldsFrom<RBase, R>(
+            this ITestGenericSpecification<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs,
             out TestGenericSpecification_ErrorMask errorMask,
             TestGenericSpecification_CopyMask copyMask = null,
-            ITestGenericSpecificationGetter def = null,
+            ITestGenericSpecificationGetter<RBase, R> def = null,
             NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
-            TestGenericSpecificationCommon.CopyFieldsFrom(
+            TestGenericSpecificationCommon.CopyFieldsFrom<RBase, R>(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -786,14 +878,16 @@ namespace Loqui.Tests.Internals
                 cmds: cmds);
         }
 
-        public static void CopyFieldsFrom(
-            this ITestGenericSpecification item,
-            ITestGenericSpecificationGetter rhs,
-            ITestGenericSpecificationGetter def,
+        public static void CopyFieldsFrom<RBase, R>(
+            this ITestGenericSpecification<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs,
+            ITestGenericSpecificationGetter<RBase, R> def,
             bool doErrorMask,
             out TestGenericSpecification_ErrorMask errorMask,
             TestGenericSpecification_CopyMask copyMask,
             NotifyingFireParameters? cmds)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_ErrorMask retErrorMask = null;
             Func<TestGenericSpecification_ErrorMask> maskGetter = () =>
@@ -804,7 +898,7 @@ namespace Loqui.Tests.Internals
                 }
                 return retErrorMask;
             };
-            CopyFieldsFrom(
+            CopyFieldsFrom<RBase, R>(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -815,214 +909,308 @@ namespace Loqui.Tests.Internals
             errorMask = retErrorMask;
         }
 
-        public static void CopyFieldsFrom(
-            this ITestGenericSpecification item,
-            ITestGenericSpecificationGetter rhs,
-            ITestGenericSpecificationGetter def,
+        public static void CopyFieldsFrom<RBase, R>(
+            this ITestGenericSpecification<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs,
+            ITestGenericSpecificationGetter<RBase, R> def,
             bool doErrorMask,
             Func<TestGenericSpecification_ErrorMask> errorMask,
             TestGenericSpecification_CopyMask copyMask,
             NotifyingFireParameters? cmds)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
-            if (copyMask?.TestGenericObject.Overall != CopyOption.Skip)
+            if (copyMask?.TestGenericObjectSpecified.Overall != CopyOption.Skip)
             {
                 try
                 {
-                    switch (copyMask?.TestGenericObject.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.TestGenericObjectSpecified.Overall ?? CopyOption.Reference)
                     {
                         case CopyOption.Reference:
-                            item.TestGenericObject = rhs.TestGenericObject;
+                            item.TestGenericObjectSpecified = rhs.TestGenericObjectSpecified;
                             break;
                         case CopyOption.CopyIn:
                             TestGenericObjectCommon.CopyFieldsFrom(
-                                item: item.TestGenericObject,
-                                rhs: rhs.TestGenericObject,
-                                def: def?.TestGenericObject,
+                                item: item.TestGenericObjectSpecified,
+                                rhs: rhs.TestGenericObjectSpecified,
+                                def: def?.TestGenericObjectSpecified,
                                 doErrorMask: doErrorMask,
                                 errorMask: (doErrorMask ? new Func<TestGenericObject_ErrorMask>(() =>
                                 {
                                     var baseMask = errorMask();
-                                    if (baseMask.TestGenericObject.Specific == null)
+                                    if (baseMask.TestGenericObjectSpecified.Specific == null)
                                     {
-                                        baseMask.TestGenericObject = new MaskItem<Exception, TestGenericObject_ErrorMask>(null, new TestGenericObject_ErrorMask());
+                                        baseMask.TestGenericObjectSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(null, new TestGenericObject_ErrorMask());
                                     }
-                                    return baseMask.TestGenericObject.Specific;
+                                    return baseMask.TestGenericObjectSpecified.Specific;
                                 }
                                 ) : null),
-                                copyMask: copyMask?.TestGenericObject.Specific,
+                                copyMask: copyMask?.TestGenericObjectSpecified.Specific,
                                 cmds: cmds);
                             break;
                         case CopyOption.MakeCopy:
-                            if (rhs.TestGenericObject == null)
+                            if (rhs.TestGenericObjectSpecified == null)
                             {
-                                item.TestGenericObject = null;
+                                item.TestGenericObjectSpecified = null;
                             }
                             else
                             {
-                                item.TestGenericObject = TestGenericObject.Copy(
-                                    rhs.TestGenericObject,
-                                    copyMask?.TestGenericObject.Specific,
-                                    def?.TestGenericObject);
+                                item.TestGenericObjectSpecified = TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Copy(
+                                    rhs.TestGenericObjectSpecified,
+                                    copyMask?.TestGenericObjectSpecified.Specific,
+                                    def?.TestGenericObjectSpecified);
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObject.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectSpecified.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestGenericSpecification_FieldIndex.TestGenericObject, ex);
+                    errorMask().SetNthException((ushort)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified, ex);
+                }
+            }
+            if (copyMask?.TestGenericObjectHalfSpecified.Overall != CopyOption.Skip)
+            {
+                try
+                {
+                    switch (copyMask?.TestGenericObjectHalfSpecified.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.TestGenericObjectHalfSpecified = rhs.TestGenericObjectHalfSpecified;
+                            break;
+                        case CopyOption.CopyIn:
+                            TestGenericObjectCommon.CopyFieldsFrom(
+                                item: item.TestGenericObjectHalfSpecified,
+                                rhs: rhs.TestGenericObjectHalfSpecified,
+                                def: def?.TestGenericObjectHalfSpecified,
+                                doErrorMask: doErrorMask,
+                                errorMask: (doErrorMask ? new Func<TestGenericObject_ErrorMask>(() =>
+                                {
+                                    var baseMask = errorMask();
+                                    if (baseMask.TestGenericObjectHalfSpecified.Specific == null)
+                                    {
+                                        baseMask.TestGenericObjectHalfSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(null, new TestGenericObject_ErrorMask());
+                                    }
+                                    return baseMask.TestGenericObjectHalfSpecified.Specific;
+                                }
+                                ) : null),
+                                copyMask: copyMask?.TestGenericObjectHalfSpecified.Specific,
+                                cmds: cmds);
+                            break;
+                        case CopyOption.MakeCopy:
+                            if (rhs.TestGenericObjectHalfSpecified == null)
+                            {
+                                item.TestGenericObjectHalfSpecified = null;
+                            }
+                            else
+                            {
+                                item.TestGenericObjectHalfSpecified = TestGenericObject<ObjectToRef, RBase, R>.Copy(
+                                    rhs.TestGenericObjectHalfSpecified,
+                                    copyMask?.TestGenericObjectHalfSpecified.Specific,
+                                    def?.TestGenericObjectHalfSpecified);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectHalfSpecified.Overall}. Cannot execute copy.");
+                    }
+                }
+                catch (Exception ex)
+                when (doErrorMask)
+                {
+                    errorMask().SetNthException((ushort)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified, ex);
                 }
             }
         }
 
         #endregion
 
-        public static void SetNthObjectHasBeenSet(
+        public static void SetNthObjectHasBeenSet<RBase, R>(
             ushort index,
             bool on,
-            ITestGenericSpecification obj,
+            ITestGenericSpecification<RBase, R> obj,
             NotifyingFireParameters? cmds = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static void UnsetNthObject(
+        public static void UnsetNthObject<RBase, R>(
             ushort index,
-            ITestGenericSpecification obj,
+            ITestGenericSpecification<RBase, R> obj,
             NotifyingUnsetParameters? cmds = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    obj.TestGenericObject = default(TestGenericObject);
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    obj.TestGenericObjectSpecified = default(TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>);
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    obj.TestGenericObjectHalfSpecified = default(TestGenericObject<ObjectToRef, RBase, R>);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static bool GetNthObjectHasBeenSet(
+        public static bool GetNthObjectHasBeenSet<RBase, R>(
             ushort index,
-            ITestGenericSpecification obj)
+            ITestGenericSpecification<RBase, R> obj)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static object GetNthObject(
+        public static object GetNthObject<RBase, R>(
             ushort index,
-            ITestGenericSpecificationGetter obj)
+            ITestGenericSpecificationGetter<RBase, R> obj)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    return obj.TestGenericObject;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    return obj.TestGenericObjectSpecified;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    return obj.TestGenericObjectHalfSpecified;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
 
-        public static void Clear(
-            ITestGenericSpecification item,
+        public static void Clear<RBase, R>(
+            ITestGenericSpecification<RBase, R> item,
             NotifyingUnsetParameters? cmds = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
-            item.TestGenericObject = default(TestGenericObject);
+            item.TestGenericObjectSpecified = default(TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>);
+            item.TestGenericObjectHalfSpecified = default(TestGenericObject<ObjectToRef, RBase, R>);
         }
 
-        public static TestGenericSpecification_Mask<bool> GetEqualsMask(
-            this ITestGenericSpecificationGetter item,
-            ITestGenericSpecificationGetter rhs)
+        public static TestGenericSpecification_Mask<bool> GetEqualsMask<RBase, R>(
+            this ITestGenericSpecificationGetter<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             var ret = new TestGenericSpecification_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
 
-        public static void FillEqualsMask(
-            ITestGenericSpecificationGetter item,
-            ITestGenericSpecificationGetter rhs,
+        public static void FillEqualsMask<RBase, R>(
+            ITestGenericSpecificationGetter<RBase, R> item,
+            ITestGenericSpecificationGetter<RBase, R> rhs,
             TestGenericSpecification_Mask<bool> ret)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             if (rhs == null) return;
-            ret.TestGenericObject = new MaskItem<bool, TestGenericObject_Mask<bool>>();
-            ret.TestGenericObject.Specific = TestGenericObjectCommon.GetEqualsMask(item.TestGenericObject, rhs.TestGenericObject);
-            ret.TestGenericObject.Overall = ret.TestGenericObject.Specific.AllEqual((b) => b);
+            ret.TestGenericObjectSpecified = new MaskItem<bool, TestGenericObject_Mask<bool>>();
+            ret.TestGenericObjectSpecified.Specific = TestGenericObjectCommon.GetEqualsMask(item.TestGenericObjectSpecified, rhs.TestGenericObjectSpecified);
+            ret.TestGenericObjectSpecified.Overall = ret.TestGenericObjectSpecified.Specific.AllEqual((b) => b);
+            ret.TestGenericObjectHalfSpecified = new MaskItem<bool, TestGenericObject_Mask<bool>>();
+            ret.TestGenericObjectHalfSpecified.Specific = TestGenericObjectCommon.GetEqualsMask(item.TestGenericObjectHalfSpecified, rhs.TestGenericObjectHalfSpecified);
+            ret.TestGenericObjectHalfSpecified.Overall = ret.TestGenericObjectHalfSpecified.Specific.AllEqual((b) => b);
         }
 
-        public static string ToString(
-            this ITestGenericSpecificationGetter item,
+        public static string ToString<RBase, R>(
+            this ITestGenericSpecificationGetter<RBase, R> item,
             string name = null,
             TestGenericSpecification_Mask<bool> printMask = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             var fg = new FileGeneration();
             item.ToString(fg, name, printMask);
             return fg.ToString();
         }
 
-        public static void ToString(
-            this ITestGenericSpecificationGetter item,
+        public static void ToString<RBase, R>(
+            this ITestGenericSpecificationGetter<RBase, R> item,
             FileGeneration fg,
             string name = null,
             TestGenericSpecification_Mask<bool> printMask = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             if (name == null)
             {
-                fg.AppendLine($"{nameof(TestGenericSpecification)} =>");
+                fg.AppendLine($"{nameof(TestGenericSpecification<RBase, R>)} =>");
             }
             else
             {
-                fg.AppendLine($"{name} ({nameof(TestGenericSpecification)}) =>");
+                fg.AppendLine($"{name} ({nameof(TestGenericSpecification<RBase, R>)}) =>");
             }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (printMask?.TestGenericObject?.Overall ?? true)
+                if (printMask?.TestGenericObjectSpecified?.Overall ?? true)
                 {
-                    item.TestGenericObject.ToString(fg, "TestGenericObject");
+                    item.TestGenericObjectSpecified.ToString(fg, "TestGenericObjectSpecified");
+                }
+                if (printMask?.TestGenericObjectHalfSpecified?.Overall ?? true)
+                {
+                    item.TestGenericObjectHalfSpecified.ToString(fg, "TestGenericObjectHalfSpecified");
                 }
             }
             fg.AppendLine("]");
         }
 
-        public static bool HasBeenSet(
-            this ITestGenericSpecificationGetter item,
+        public static bool HasBeenSet<RBase, R>(
+            this ITestGenericSpecificationGetter<RBase, R> item,
             TestGenericSpecification_Mask<bool?> checkMask)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             return true;
         }
 
-        public static TestGenericSpecification_Mask<bool> GetHasBeenSetMask(ITestGenericSpecificationGetter item)
+        public static TestGenericSpecification_Mask<bool> GetHasBeenSetMask<RBase, R>(ITestGenericSpecificationGetter<RBase, R> item)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             var ret = new TestGenericSpecification_Mask<bool>();
-            ret.TestGenericObject = new MaskItem<bool, TestGenericObject_Mask<bool>>(true, TestGenericObjectCommon.GetHasBeenSetMask(item.TestGenericObject));
+            ret.TestGenericObjectSpecified = new MaskItem<bool, TestGenericObject_Mask<bool>>(true, TestGenericObjectCommon.GetHasBeenSetMask(item.TestGenericObjectSpecified));
+            ret.TestGenericObjectHalfSpecified = new MaskItem<bool, TestGenericObject_Mask<bool>>(true, TestGenericObjectCommon.GetHasBeenSetMask(item.TestGenericObjectHalfSpecified));
             return ret;
         }
 
         #region XML Translation
         #region XML Write
-        public static void Write_XML(
+        public static void Write_XML<RBase, R>(
             XmlWriter writer,
-            ITestGenericSpecificationGetter item,
+            ITestGenericSpecificationGetter<RBase, R> item,
             bool doMasks,
             out TestGenericSpecification_ErrorMask errorMask,
             string name = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             TestGenericSpecification_ErrorMask errMaskRet = null;
             Write_XML_Internal(
@@ -1034,12 +1222,14 @@ namespace Loqui.Tests.Internals
             errorMask = errMaskRet;
         }
 
-        private static void Write_XML_Internal(
+        private static void Write_XML_Internal<RBase, R>(
             XmlWriter writer,
-            ITestGenericSpecificationGetter item,
+            ITestGenericSpecificationGetter<RBase, R> item,
             bool doMasks,
             Func<TestGenericSpecification_ErrorMask> errorMask,
             string name = null)
+            where RBase : ObjectToRef
+            where R : ILoquiObjectGetter
         {
             try
             {
@@ -1053,14 +1243,28 @@ namespace Loqui.Tests.Internals
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
                         TestGenericObjectCommon.Write_XML(
                             writer: writer,
-                            item: item.TestGenericObject,
-                            name: nameof(item.TestGenericObject),
+                            item: item.TestGenericObjectSpecified,
+                            name: nameof(item.TestGenericObjectSpecified),
                             doMasks: doMasks,
                             errorMask: out TestGenericObject_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
                         if (doMasks && subMask != null)
                         {
-                            errorMask().TestGenericObject = subMask;
+                            errorMask().TestGenericObjectSpecified = subMask;
+                        }
+                    }
+                    {
+                        MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
+                        TestGenericObjectCommon.Write_XML(
+                            writer: writer,
+                            item: item.TestGenericObjectHalfSpecified,
+                            name: nameof(item.TestGenericObjectHalfSpecified),
+                            doMasks: doMasks,
+                            errorMask: out TestGenericObject_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
+                        if (doMasks && subMask != null)
+                        {
+                            errorMask().TestGenericObjectHalfSpecified = subMask;
                         }
                     }
                 }
@@ -1090,12 +1294,14 @@ namespace Loqui.Tests.Internals
 
         public TestGenericSpecification_Mask(T initialValue)
         {
-            this.TestGenericObject = new MaskItem<T, TestGenericObject_Mask<T>>(initialValue, new TestGenericObject_Mask<T>(initialValue));
+            this.TestGenericObjectSpecified = new MaskItem<T, TestGenericObject_Mask<T>>(initialValue, new TestGenericObject_Mask<T>(initialValue));
+            this.TestGenericObjectHalfSpecified = new MaskItem<T, TestGenericObject_Mask<T>>(initialValue, new TestGenericObject_Mask<T>(initialValue));
         }
         #endregion
 
         #region Members
-        public MaskItem<T, TestGenericObject_Mask<T>> TestGenericObject { get; set; }
+        public MaskItem<T, TestGenericObject_Mask<T>> TestGenericObjectSpecified { get; set; }
+        public MaskItem<T, TestGenericObject_Mask<T>> TestGenericObjectHalfSpecified { get; set; }
         #endregion
 
         #region Equals
@@ -1108,13 +1314,15 @@ namespace Loqui.Tests.Internals
         public bool Equals(TestGenericSpecification_Mask<T> rhs)
         {
             if (rhs == null) return false;
-            if (!object.Equals(this.TestGenericObject, rhs.TestGenericObject)) return false;
+            if (!object.Equals(this.TestGenericObjectSpecified, rhs.TestGenericObjectSpecified)) return false;
+            if (!object.Equals(this.TestGenericObjectHalfSpecified, rhs.TestGenericObjectHalfSpecified)) return false;
             return true;
         }
         public override int GetHashCode()
         {
             int ret = 0;
-            ret = ret.CombineHashCode(this.TestGenericObject?.GetHashCode());
+            ret = ret.CombineHashCode(this.TestGenericObjectSpecified?.GetHashCode());
+            ret = ret.CombineHashCode(this.TestGenericObjectHalfSpecified?.GetHashCode());
             return ret;
         }
 
@@ -1123,10 +1331,15 @@ namespace Loqui.Tests.Internals
         #region All Equal
         public bool AllEqual(Func<T, bool> eval)
         {
-            if (TestGenericObject != null)
+            if (TestGenericObjectSpecified != null)
             {
-                if (!eval(this.TestGenericObject.Overall)) return false;
-                if (TestGenericObject.Specific != null && !TestGenericObject.Specific.AllEqual(eval)) return false;
+                if (!eval(this.TestGenericObjectSpecified.Overall)) return false;
+                if (TestGenericObjectSpecified.Specific != null && !TestGenericObjectSpecified.Specific.AllEqual(eval)) return false;
+            }
+            if (TestGenericObjectHalfSpecified != null)
+            {
+                if (!eval(this.TestGenericObjectHalfSpecified.Overall)) return false;
+                if (TestGenericObjectHalfSpecified.Specific != null && !TestGenericObjectHalfSpecified.Specific.AllEqual(eval)) return false;
             }
             return true;
         }
@@ -1142,13 +1355,22 @@ namespace Loqui.Tests.Internals
 
         protected void Translate_InternalFill<R>(TestGenericSpecification_Mask<R> obj, Func<T, R> eval)
         {
-            if (this.TestGenericObject != null)
+            if (this.TestGenericObjectSpecified != null)
             {
-                obj.TestGenericObject = new MaskItem<R, TestGenericObject_Mask<R>>();
-                obj.TestGenericObject.Overall = eval(this.TestGenericObject.Overall);
-                if (this.TestGenericObject.Specific != null)
+                obj.TestGenericObjectSpecified = new MaskItem<R, TestGenericObject_Mask<R>>();
+                obj.TestGenericObjectSpecified.Overall = eval(this.TestGenericObjectSpecified.Overall);
+                if (this.TestGenericObjectSpecified.Specific != null)
                 {
-                    obj.TestGenericObject.Specific = this.TestGenericObject.Specific.Translate(eval);
+                    obj.TestGenericObjectSpecified.Specific = this.TestGenericObjectSpecified.Specific.Translate(eval);
+                }
+            }
+            if (this.TestGenericObjectHalfSpecified != null)
+            {
+                obj.TestGenericObjectHalfSpecified = new MaskItem<R, TestGenericObject_Mask<R>>();
+                obj.TestGenericObjectHalfSpecified.Overall = eval(this.TestGenericObjectHalfSpecified.Overall);
+                if (this.TestGenericObjectHalfSpecified.Specific != null)
+                {
+                    obj.TestGenericObjectHalfSpecified.Specific = this.TestGenericObjectHalfSpecified.Specific.Translate(eval);
                 }
             }
         }
@@ -1179,9 +1401,13 @@ namespace Loqui.Tests.Internals
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
-                if (printMask?.TestGenericObject?.Overall ?? true)
+                if (printMask?.TestGenericObjectSpecified?.Overall ?? true)
                 {
-                    TestGenericObject.ToString(fg);
+                    TestGenericObjectSpecified.ToString(fg);
+                }
+                if (printMask?.TestGenericObjectHalfSpecified?.Overall ?? true)
+                {
+                    TestGenericObjectHalfSpecified.ToString(fg);
                 }
             }
             fg.AppendLine("]");
@@ -1206,7 +1432,8 @@ namespace Loqui.Tests.Internals
                 return _warnings;
             }
         }
-        public MaskItem<Exception, TestGenericObject_ErrorMask> TestGenericObject;
+        public MaskItem<Exception, TestGenericObject_ErrorMask> TestGenericObjectSpecified;
+        public MaskItem<Exception, TestGenericObject_ErrorMask> TestGenericObjectHalfSpecified;
         #endregion
 
         #region IErrorMask
@@ -1215,8 +1442,11 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    this.TestGenericObject = new MaskItem<Exception, TestGenericObject_ErrorMask>(ex, null);
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    this.TestGenericObjectSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(ex, null);
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    this.TestGenericObjectHalfSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(ex, null);
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1228,8 +1458,11 @@ namespace Loqui.Tests.Internals
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericSpecification_FieldIndex.TestGenericObject:
-                    this.TestGenericObject = (MaskItem<Exception, TestGenericObject_ErrorMask>)obj;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectSpecified:
+                    this.TestGenericObjectSpecified = (MaskItem<Exception, TestGenericObject_ErrorMask>)obj;
+                    break;
+                case TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified:
+                    this.TestGenericObjectHalfSpecified = (MaskItem<Exception, TestGenericObject_ErrorMask>)obj;
                     break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -1267,9 +1500,13 @@ namespace Loqui.Tests.Internals
         }
         protected void ToString_FillInternal(FileGeneration fg)
         {
-            if (TestGenericObject != null)
+            if (TestGenericObjectSpecified != null)
             {
-                TestGenericObject.ToString(fg);
+                TestGenericObjectSpecified.ToString(fg);
+            }
+            if (TestGenericObjectHalfSpecified != null)
+            {
+                TestGenericObjectHalfSpecified.ToString(fg);
             }
         }
         #endregion
@@ -1278,7 +1515,8 @@ namespace Loqui.Tests.Internals
         public TestGenericSpecification_ErrorMask Combine(TestGenericSpecification_ErrorMask rhs)
         {
             var ret = new TestGenericSpecification_ErrorMask();
-            ret.TestGenericObject = new MaskItem<Exception, TestGenericObject_ErrorMask>(this.TestGenericObject.Overall.Combine(rhs.TestGenericObject.Overall), this.TestGenericObject.Specific.Combine(rhs.TestGenericObject.Specific));
+            ret.TestGenericObjectSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(this.TestGenericObjectSpecified.Overall.Combine(rhs.TestGenericObjectSpecified.Overall), this.TestGenericObjectSpecified.Specific.Combine(rhs.TestGenericObjectSpecified.Specific));
+            ret.TestGenericObjectHalfSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask>(this.TestGenericObjectHalfSpecified.Overall.Combine(rhs.TestGenericObjectHalfSpecified.Overall), this.TestGenericObjectHalfSpecified.Specific.Combine(rhs.TestGenericObjectHalfSpecified.Specific));
             return ret;
         }
         public static TestGenericSpecification_ErrorMask Combine(TestGenericSpecification_ErrorMask lhs, TestGenericSpecification_ErrorMask rhs)
@@ -1292,7 +1530,8 @@ namespace Loqui.Tests.Internals
     public class TestGenericSpecification_CopyMask
     {
         #region Members
-        public MaskItem<CopyOption, TestGenericObject_CopyMask> TestGenericObject;
+        public MaskItem<CopyOption, TestGenericObject_CopyMask> TestGenericObjectSpecified;
+        public MaskItem<CopyOption, TestGenericObject_CopyMask> TestGenericObjectHalfSpecified;
         #endregion
 
     }

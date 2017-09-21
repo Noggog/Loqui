@@ -115,6 +115,7 @@
     <Compile Include="Fields\WildcardType.cs" />
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
     <Compile Include="GenericDefinition.cs" />
+    <Compile Include="GenericSpecification.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
     <Compile Include="LoquiGenerator.cs" />
     <Compile Include="Modules\Mask\Fields\UnsafeMaskFieldGeneration.cs" />

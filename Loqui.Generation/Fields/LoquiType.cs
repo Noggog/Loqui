@@ -18,11 +18,11 @@ namespace Loqui.Generation
                         switch (this.InterfaceType)
                         {
                             case LoquiInterfaceType.Direct:
-                                return this.RefGen.Name;
+                                return $"{this.RefGen.Name}{this.GenericTypes}";
                             case LoquiInterfaceType.IGetter:
-                                return this.RefGen.Getter_InterfaceStr;
+                                return $"{this.RefGen.Getter_InterfaceStr}{this.GenericTypes}";
                             case LoquiInterfaceType.ISetter:
-                                return this.RefGen.InterfaceStr;
+                                return $"{this.RefGen.InterfaceStr}{this.GenericTypes}";
                             default:
                                 throw new NotImplementedException();
                         }
@@ -62,11 +62,13 @@ namespace Loqui.Generation
                 }
             }
         }
+        public string GenericTypes => _GenericTypes();
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType InterfaceType = LoquiInterfaceType.Direct;
         private string _generic;
-        public GenericDefinition Generics;
+        public GenericDefinition GenericDef;
+        public GenericSpecification GenericSpecification;
         public string ErrorMaskItemString => this.TargetObjectGeneration?.ErrorMask ?? "object";
         public string CopyMaskItemString => this.TargetObjectGeneration?.CopyMask ?? "object";
         public ObjectGeneration TargetObjectGeneration
@@ -78,7 +80,7 @@ namespace Loqui.Generation
                     case LoquiRefType.Direct:
                         return this.RefGen.Obj;
                     case LoquiRefType.Generic:
-                        return this.Generics.BaseObjectGeneration;
+                        return this.GenericDef.BaseObjectGeneration;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -354,13 +356,35 @@ namespace Loqui.Generation
                 }
                 r.Obj = refGen;
                 this.RefGen = r;
+
+                this.GenericSpecification = new GenericSpecification();
+                foreach (var specNode in refNode.Elements(XName.Get(Constants.GENERIC_SPECIFICATION, LoquiGenerator.Namespace)))
+                {
+                    this.GenericSpecification.Specifications.Add(
+                        specNode.Attribute(Constants.TYPE_TO_SPECIFY).Value,
+                        specNode.Attribute(Constants.DEFINITION).Value);
+                }
+                foreach (var mapNode in refNode.Elements(XName.Get(Constants.GENERIC_MAPPING, LoquiGenerator.Namespace)))
+                {
+                    this.GenericSpecification.Mappings.Add(
+                        mapNode.Attribute(Constants.TYPE_ON_REF).Value,
+                        mapNode.Attribute(Constants.TYPE_ON_OBJECT).Value);
+                }
+                foreach (var generic in this.RefGen.Obj.Generics)
+                {
+                    if (this.GenericSpecification.Specifications.ContainsKey(generic.Key)) continue;
+                    if (this.GenericSpecification.Mappings.ContainsKey(generic.Key)) continue;
+                    this.GenericSpecification.Mappings.Add(
+                        generic.Key,
+                        generic.Key);
+                }
             }
             else if (!string.IsNullOrWhiteSpace(genericName))
             {
                 this.RefType = LoquiRefType.Generic;
                 this._generic = genericName;
-                this.Generics = this.ObjectGen.Generics[this._generic];
-                this.Generics.Add(nameof(ILoquiObjectGetter));
+                this.GenericDef = this.ObjectGen.Generics[this._generic];
+                this.GenericDef.Add(nameof(ILoquiObjectGetter));
                 if (this.SingletonType == SingletonLevel.Singleton)
                 {
                     throw new ArgumentException("Cannot be a generic and singleton.");
@@ -373,9 +397,9 @@ namespace Loqui.Generation
 
             this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
 
-            if (this.RefType != LoquiRefType.Generic || !this.Generics.Wheres.Any()) return;
-            if (!this.ObjectGen.ProtoGen.ObjectGenerationsByName.TryGetValue(this.Generics.Wheres.First(), out var baseObjGen)) return;
-            this.Generics.BaseObjectGeneration = baseObjGen;
+            if (this.RefType != LoquiRefType.Generic || !this.GenericDef.Wheres.Any()) return;
+            if (!this.ObjectGen.ProtoGen.ObjectGenerationsByName.TryGetValue(this.GenericDef.Wheres.First(), out var baseObjGen)) return;
+            this.GenericDef.BaseObjectGeneration = baseObjGen;
         }
 
         public override void GenerateForCopy(
@@ -432,7 +456,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessorPrefix}.{this.Name} = {this.ObjectTypeName}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                $"{accessorPrefix}.{this.Name} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
                                 args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.{this.Name}.Specific");
@@ -465,7 +489,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(gen))
                     {
                         if (this.RefType == LoquiRefType.Generic
-                            && this.Generics?.BaseObjectGeneration == null)
+                            && this.GenericDef?.BaseObjectGeneration == null)
                         {
                             gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Reference)})");
                             using (new BraceWrapper(gen))
@@ -558,7 +582,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args2 = new ArgsWrapper(fg,
-                    $"return {this.ObjectTypeName}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                    $"return {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                 {
                     args2.Add($"r");
                     if (this.RefType == LoquiRefType.Direct)
@@ -802,6 +826,29 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Notifying == NotifyingOption.None ? "true" : $"{accessor}.HasBeenSet")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Notifying == NotifyingOption.None ? accessor : $"{accessor}.Item")}));");
             }
+        }
+
+        private string _GenericTypes()
+        {
+            if (this.GenericSpecification == null) return null;
+            if (this.RefGen.Obj.Generics.Count == 0) return null;
+            List<string> ret = new List<string>();
+            foreach (var gen in this.RefGen.Obj.Generics)
+            {
+                if (this.GenericSpecification.Specifications.TryGetValue(gen.Key, out var spec))
+                {
+                    ret.Add(spec);
+                }
+                else if (this.GenericSpecification.Mappings.TryGetValue(gen.Key, out var mapping))
+                {
+                    ret.Add(mapping);
+                }
+                else
+                {
+                    throw new ArgumentException("Generic specifications were missing some needing mappings.");
+                }
+            }
+            return $"<{string.Join(", ", ret)}>";
         }
     }
 }

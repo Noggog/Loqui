@@ -71,7 +71,7 @@ namespace Loqui.Generation
                 {
                     if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
                     using (var args = new ArgsWrapper(fg,
-                        $"var tmp = {loquiGen.TargetObjectGeneration.Name}.Create_XML"))
+                        $"var tmp = {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
                     {
                         args.Add($"root: {nodeAccessor}");
                         args.Add($"doMasks: {doMaskAccessor}");
@@ -147,7 +147,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"tryGet = TryGet<{typeGen.TypeName}>.Succeed(({typeGen.TypeName}){loquiGen.TargetObjectGeneration.Name}.Create_XML"))
+                        $"tryGet = TryGet<{typeGen.TypeName}>.Succeed(({typeGen.TypeName}){loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
                     {
                         args.Add($"root: {nodeAccessor}");
                         args.Add($"doMasks: {doMaskAccessor}");

@@ -949,15 +949,15 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RefSpecfyGenericType">
-    <xs:attribute name="TypeToSpecify" >
+  <xs:complexType name="RefSpecifyGenericType">
+    <xs:attribute name="TypeToSpecify" use="required" >
       <xs:annotation>
         <xs:documentation>
           Generic type name to specify.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Definition" >
+    <xs:attribute name="Definition" use="required" >
       <xs:annotation>
         <xs:documentation>
           Object to define the generic type to.
@@ -966,8 +966,25 @@
     </xs:attribute>
   </xs:complexType>
 
+  <xs:complexType name="RefMapGenericType">
+    <xs:attribute name="TypeOnRef" use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          Generic type on ref to map.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="TypeOnObject" use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          Generic type on containing object to map to.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
   <xs:complexType name="RefDirect" >
-    <xs:choice>
+    <xs:sequence>
       <xs:element type="xs:string" name="Generic" minOccurs="0" maxOccurs="unbounded" >
         <xs:annotation>
           <xs:documentation>
@@ -975,14 +992,21 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element type="RefSpecfyGenericType" name="GenericSpecification" minOccurs="0" maxOccurs="unbounded" >
+      <xs:element type="RefSpecifyGenericType" name="GenericSpecification" minOccurs="0" maxOccurs="unbounded" >
         <xs:annotation>
           <xs:documentation>
             The generic symbols to specify and define on the field.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-    </xs:choice>
+      <xs:element type="RefMapGenericType" name="GenericMapping" minOccurs="0" maxOccurs="unbounded" >
+        <xs:annotation>
+          <xs:documentation>
+            The generic symbols to map to generics on the containing object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
     <xs:attribute name="refName" use="required">
       <xs:annotation>
         <xs:documentation>
