@@ -67,6 +67,10 @@ namespace Loqui.Generation
         {
         }
 
+        public virtual void GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
         public virtual void Generate(ObjectGeneration obj)
         {
         }

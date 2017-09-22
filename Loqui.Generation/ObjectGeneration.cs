@@ -504,6 +504,11 @@ namespace Loqui.Generation
                         fg.AppendLine();
                     }
 
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        mod.GenerateInRegistration(this, fg);
+                    }
+
                     using (new RegionWrapper(fg, "Interface"))
                     {
                         fg.AppendLine($"ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;");
