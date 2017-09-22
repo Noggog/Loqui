@@ -36,6 +36,13 @@ namespace Loqui.Tests
         partial void CustomCtor();
         #endregion
 
+        static TestGenericObject()
+        {
+            RBase_XML_CREATE = XmlTranslator<RBase, ObjectToRef_ErrorMask>.GetCreateFunc();
+            R_XML_CREATE = XmlTranslator<R, object>.GetCreateFunc();
+            
+        }
+
         #region RefBase
         private readonly INotifyingItem<RBase> _RefBase = new NotifyingItem<RBase>();
         public INotifyingItem<RBase> RefBase_Property => this._RefBase;
@@ -184,13 +191,23 @@ namespace Loqui.Tests
             bool doMasks,
             out TestGenericObject_ErrorMask errorMask)
         {
+            var ret = Create_XML(
+                root: root,
+                doMasks: true);
+            errorMask = ret.ErrorMask;
+            return ret.Object;
+        }
+
+        public static (TestGenericObject<T, RBase, R> Object, TestGenericObject_ErrorMask ErrorMask) Create_XML(
+            XElement root,
+            bool doMasks)
+        {
             TestGenericObject_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_ErrorMask()) : default(Func<TestGenericObject_ErrorMask>));
-            errorMask = errMaskRet;
-            return ret;
+            return (ret, errMaskRet);
         }
 
         public static TestGenericObject<T, RBase, R> Create_XML(string path)
@@ -389,6 +406,9 @@ namespace Loqui.Tests
 
         #endregion
 
+        private static readonly XmlTranslator<RBase, ObjectToRef_ErrorMask>.CREATE_FUNC RBase_XML_CREATE;
+        private static readonly XmlTranslator<R, object>.CREATE_FUNC R_XML_CREATE;
+
         private static TestGenericObject<T, RBase, R> Create_XML_Internal(
             XElement root,
             bool doMasks,
@@ -433,7 +453,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
+                            tryGet = TryGet<RBase>.Succeed(RBase_XML_CREATE(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -494,7 +514,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<RBase>.Succeed((RBase)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<RBase>.Succeed(RBase_XML_CREATE(
                                         root: r,
                                         doMasks: listDoMasks,
                                         errorMask: out loquiMask));

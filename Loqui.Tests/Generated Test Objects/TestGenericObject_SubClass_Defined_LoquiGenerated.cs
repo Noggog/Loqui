@@ -129,13 +129,23 @@ namespace Loqui.Tests
             bool doMasks,
             out TestGenericObject_SubClass_Defined_ErrorMask errorMask)
         {
+            var ret = Create_XML(
+                root: root,
+                doMasks: true);
+            errorMask = ret.ErrorMask;
+            return ret.Object;
+        }
+
+        public static (TestGenericObject_SubClass_Defined<RBase> Object, TestGenericObject_SubClass_Defined_ErrorMask ErrorMask) Create_XML(
+            XElement root,
+            bool doMasks)
+        {
             TestGenericObject_SubClass_Defined_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_Defined_ErrorMask()) : default(Func<TestGenericObject_SubClass_Defined_ErrorMask>));
-            errorMask = errMaskRet;
-            return ret;
+            return (ret, errMaskRet);
         }
 
         public static TestGenericObject_SubClass_Defined<RBase> Create_XML(string path)

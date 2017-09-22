@@ -302,6 +302,28 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    using (var args = new ArgsWrapper(fg,
+                        $"var ret = Create_{ModuleNickname}"))
+                    {
+                        args.Add(this.MainAPI.ReaderPassArgs);
+                        args.Add("doMasks: true");
+                    }
+                    fg.AppendLine("errorMask = ret.ErrorMask;");
+                    fg.AppendLine("return ret.Object;");
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public static ({obj.ObjectName} Object, {obj.ErrorMask} ErrorMask) Create_{ModuleNickname}"))
+                {
+                    foreach (var item in this.MainAPI.ReaderAPI)
+                    {
+                        args.Add(item);
+                    }
+                    args.Add("bool doMasks");
+                }
+                using (new BraceWrapper(fg))
+                {
                     GenerateCreateSnippet(obj, fg);
                 }
                 fg.AppendLine();

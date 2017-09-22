@@ -146,8 +146,17 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    string createFuncName;
+                    if (loquiGen.GenericDef != null)
+                    {
+                        createFuncName = $"{loquiGen.GenericDef.Name}_XML_CREATE";
+                    }
+                    else
+                    {
+                        createFuncName = $"{loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML";
+                    }
                     using (var args = new ArgsWrapper(fg,
-                        $"tryGet = TryGet<{typeGen.TypeName}>.Succeed(({typeGen.TypeName}){loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
+                        $"tryGet = TryGet<{typeGen.TypeName}>.Succeed({createFuncName}"))
                     {
                         args.Add($"root: {nodeAccessor}");
                         args.Add($"doMasks: {doMaskAccessor}");

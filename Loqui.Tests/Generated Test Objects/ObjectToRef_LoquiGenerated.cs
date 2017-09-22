@@ -170,13 +170,23 @@ namespace Loqui.Tests
             bool doMasks,
             out ObjectToRef_ErrorMask errorMask)
         {
+            var ret = Create_XML(
+                root: root,
+                doMasks: true);
+            errorMask = ret.ErrorMask;
+            return ret.Object;
+        }
+
+        public static (ObjectToRef Object, ObjectToRef_ErrorMask ErrorMask) Create_XML(
+            XElement root,
+            bool doMasks)
+        {
             ObjectToRef_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new ObjectToRef_ErrorMask()) : default(Func<ObjectToRef_ErrorMask>));
-            errorMask = errMaskRet;
-            return ret;
+            return (ret, errMaskRet);
         }
 
         public static ObjectToRef Create_XML(string path)

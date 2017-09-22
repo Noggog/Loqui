@@ -135,13 +135,23 @@ namespace Loqui.Tests
             bool doMasks,
             out TestObject_PrivateCtor_ErrorMask errorMask)
         {
+            var ret = Create_XML(
+                root: root,
+                doMasks: true);
+            errorMask = ret.ErrorMask;
+            return ret.Object;
+        }
+
+        public static (TestObject_PrivateCtor Object, TestObject_PrivateCtor_ErrorMask ErrorMask) Create_XML(
+            XElement root,
+            bool doMasks)
+        {
             TestObject_PrivateCtor_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
-            errorMask = errMaskRet;
-            return ret;
+            return (ret, errMaskRet);
         }
 
         public static TestObject_PrivateCtor Create_XML(string path)

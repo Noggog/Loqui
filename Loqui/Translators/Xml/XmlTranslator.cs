@@ -1,14 +1,17 @@
 ﻿using Loqui.Translators;
 using Noggog;
 using Noggog.Notifying;
+using Noggog.Utility;
 using Noggog.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
@@ -63,6 +66,7 @@ namespace Loqui.Xml
     {
         private static NotifyingItem<GetResponse<IXmlTranslation<T, M>>> _translator = new NotifyingItem<GetResponse<IXmlTranslation<T, M>>>();
         public static INotifyingItemGetter<GetResponse<IXmlTranslation<T, M>>> Translator => _translator;
+        public delegate T CREATE_FUNC(XElement root, bool doMasks, out M errorMask);
 
         static XmlTranslator()
         {
@@ -79,6 +83,22 @@ namespace Loqui.Xml
                     var caster = change.New.Value as XmlTranslationCaster<T, M>;
                     _translator.Item = GetResponse<IXmlTranslation<T, M>>.Succeed(caster.Source);
                 });
+        }
+
+        public static CREATE_FUNC GetCreateFunc()
+        {
+            var f = DelegateBuilder.BuildDelegate<Func<XElement, bool, (T item, M mask)>>(
+                typeof(T).GetMethods()
+                .Where((methodInfo) => methodInfo.Name.Equals("Create_XML")
+                    && methodInfo.IsStatic
+                    && methodInfo.IsPublic)
+                .FirstOrDefault());
+            return (XElement root, bool doMasks, out M errorMask) =>
+            {
+                var ret = f(root, doMasks);
+                errorMask = ret.mask;
+                return ret.item;
+            };
         }
     }
 }

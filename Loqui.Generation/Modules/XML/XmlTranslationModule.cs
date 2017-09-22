@@ -170,13 +170,51 @@ namespace Loqui.Generation
             internalToDo("root");
         }
 
+        public override void GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg)
+        {
+            GenerateCreate_GenericFuncWiring(obj, fg);
+        }
+
         public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             base.GenerateInClass(obj, fg);
-            GenerateCreateExtras(obj, fg);
+            GenerateCreate_GenericFuncListings(obj, fg);
+            GenerateCreate_InternalFunctions(obj, fg);
         }
 
-        private void GenerateCreateExtras(ObjectGeneration obj, FileGeneration fg)
+        private List<LoquiType> GetGenericLoquis(ObjectGeneration obj)
+        {
+            return obj.Fields.Where((field) =>
+            {
+                if (!(field is LoquiType loqui)) return false;
+                if (loqui.GenericDef == null) return false;
+                return true;
+            })
+            .Select((field) => (LoquiType)field).ToList();
+        }
+
+        private void GenerateCreate_GenericFuncListings(ObjectGeneration obj, FileGeneration fg)
+        {
+            var genLoquis = GetGenericLoquis(obj);
+            if (genLoquis.Count == 0) return;
+            foreach (var loqui in genLoquis)
+            {
+                fg.AppendLine($"private static readonly {nameof(XmlTranslator)}<{loqui.GenericDef.Name}, {loqui.ErrorMaskItemString}>.CREATE_FUNC {loqui.GenericDef.Name}_XML_CREATE;");
+            }
+            fg.AppendLine();
+        }
+
+        private void GenerateCreate_GenericFuncWiring(ObjectGeneration obj, FileGeneration fg)
+        {
+            var genLoquis = GetGenericLoquis(obj);
+            if (genLoquis.Count == 0) return;
+            foreach (var loqui in genLoquis)
+            {
+                fg.AppendLine($"{loqui.GenericDef.Name}_XML_CREATE = {nameof(XmlTranslator)}<{loqui.GenericDef.Name}, {loqui.ErrorMaskItemString}>.{nameof(XmlTranslator<bool, bool>.GetCreateFunc)}();");
+            }
+        }
+
+        private void GenerateCreate_InternalFunctions(ObjectGeneration obj, FileGeneration fg)
         {
             if (!obj.Abstract)
             {
@@ -386,8 +424,7 @@ namespace Loqui.Generation
                 args.Add("doMasks: doMasks");
                 args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
             }
-            fg.AppendLine($"errorMask = errMaskRet;");
-            fg.AppendLine($"return ret;");
+            fg.AppendLine($"return (ret, errMaskRet);");
         }
 
         protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
@@ -409,7 +446,7 @@ namespace Loqui.Generation
                     }
 
                     if (!generator.ShouldGenerateWrite(field.Field)) continue;
-                    
+
                     if (field.Field.Notifying != NotifyingOption.None)
                     {
                         fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");

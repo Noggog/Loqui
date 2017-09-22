@@ -143,13 +143,23 @@ namespace Loqui.Tests
             bool doMasks,
             out TestGenericSpecification_ErrorMask errorMask)
         {
+            var ret = Create_XML(
+                root: root,
+                doMasks: true);
+            errorMask = ret.ErrorMask;
+            return ret.Object;
+        }
+
+        public static (TestGenericSpecification<RBase, R> Object, TestGenericSpecification_ErrorMask ErrorMask) Create_XML(
+            XElement root,
+            bool doMasks)
+        {
             TestGenericSpecification_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericSpecification_ErrorMask()) : default(Func<TestGenericSpecification_ErrorMask>));
-            errorMask = errMaskRet;
-            return ret;
+            return (ret, errMaskRet);
         }
 
         public static TestGenericSpecification<RBase, R> Create_XML(string path)
@@ -392,7 +402,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.TestGenericObject"))
                         {
-                            tryGet = TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>>.Succeed((TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Create_XML(
+                            tryGet = TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>>.Succeed(TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -435,7 +445,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.TestGenericObject"))
                         {
-                            tryGet = TryGet<TestGenericObject<ObjectToRef, RBase, R>>.Succeed((TestGenericObject<ObjectToRef, RBase, R>)TestGenericObject<ObjectToRef, RBase, R>.Create_XML(
+                            tryGet = TryGet<TestGenericObject<ObjectToRef, RBase, R>>.Succeed(TestGenericObject<ObjectToRef, RBase, R>.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));

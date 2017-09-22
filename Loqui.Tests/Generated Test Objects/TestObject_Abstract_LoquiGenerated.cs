@@ -2651,7 +2651,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                            tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2694,7 +2694,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                            tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2760,7 +2760,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<IObjectToRefGetter>.Succeed((IObjectToRefGetter)ObjectToRef.Create_XML(
+                            tryGet = TryGet<IObjectToRefGetter>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2803,7 +2803,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<IObjectToRefGetter>.Succeed((IObjectToRefGetter)ObjectToRef.Create_XML(
+                            tryGet = TryGet<IObjectToRefGetter>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2848,7 +2848,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<IObjectToRef>.Succeed((IObjectToRef)ObjectToRef.Create_XML(
+                            tryGet = TryGet<IObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2891,7 +2891,7 @@ namespace Loqui.Tests
                         if (typeStr != null
                             && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                         {
-                            tryGet = TryGet<IObjectToRef>.Succeed((IObjectToRef)ObjectToRef.Create_XML(
+                            tryGet = TryGet<IObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                 root: root,
                                 doMasks: doMasks,
                                 errorMask: out loquiMask));
@@ -2989,7 +2989,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: listDoMasks,
                                         errorMask: out loquiMask));
@@ -3075,7 +3075,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: dictDoMasks,
                                         errorMask: out loquiMask));
@@ -3110,7 +3110,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: dictDoMasks,
                                         errorMask: out loquiMask));
@@ -3162,7 +3162,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: dictDoMasks,
                                         errorMask: out loquiMask));
@@ -3231,7 +3231,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: dictDoMasks,
                                         errorMask: out loquiMask));
@@ -3283,7 +3283,7 @@ namespace Loqui.Tests
                                 if (typeStr != null
                                     && typeStr.Equals("Loqui.Tests.ObjectToRef"))
                                 {
-                                    tryGet = TryGet<ObjectToRef>.Succeed((ObjectToRef)ObjectToRef.Create_XML(
+                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
                                         root: r,
                                         doMasks: dictDoMasks,
                                         errorMask: out loquiMask));
