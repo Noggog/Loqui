@@ -437,12 +437,10 @@ namespace Loqui.Tests
                 case "RefBase":
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        ObjectToRef_ErrorMask loquiMask;
                         var tryGet = LoquiXmlTranslation<RBase, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: doMasks,
-                            mask: out loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            mask: out subMask);
                         item._RefBase.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
                         {
@@ -474,13 +472,10 @@ namespace Loqui.Tests
                             maskObj: out subMask,
                             transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
-                                ObjectToRef_ErrorMask loquiMask;
-                                var tryGet = LoquiXmlTranslation<RBase, ObjectToRef_ErrorMask>.Instance.Parse(
+                                return LoquiXmlTranslation<RBase, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: listDoMasks,
-                                    mask: out loquiMask);
-                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                                return tryGet;
+                                    mask: out listSubMask);
                             }
                             );
                         item._RefList.SetIfSucceeded(listTryGet);

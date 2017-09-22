@@ -396,12 +396,10 @@ namespace Loqui.Tests
                 case "TestGenericObjectSpecified":
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
-                        TestGenericObject_ErrorMask loquiMask;
                         var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: doMasks,
-                            mask: out loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
+                            mask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.TestGenericObjectSpecified = tryGet.Value;
@@ -415,12 +413,10 @@ namespace Loqui.Tests
                 case "TestGenericObjectHalfSpecified":
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
-                        TestGenericObject_ErrorMask loquiMask;
                         var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: doMasks,
-                            mask: out loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
+                            mask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.TestGenericObjectHalfSpecified = tryGet.Value;

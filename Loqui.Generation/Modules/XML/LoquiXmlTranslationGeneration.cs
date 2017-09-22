@@ -93,7 +93,13 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    GenerateCopyInRet(fg, typeGen, nodeAccessor, null, doMaskAccessor, maskAccessor);
+                    GenerateCopyInRet(
+                        fg: fg, 
+                        typeGen: typeGen, 
+                        nodeAccessor: nodeAccessor, 
+                        retAccessor: "var tryGet = ",
+                        doMaskAccessor: doMaskAccessor, 
+                        maskAccessor: maskAccessor);
                     if (itemAccessor.PropertyAccess != null)
                     {
                         fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet);");
@@ -136,18 +142,12 @@ namespace Loqui.Generation
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.TargetObjectGeneration != null)
             {
-                fg.AppendLine($"{loquiGen.TargetObjectGeneration.ErrorMask} loquiMask;");
                 using (var args = new ArgsWrapper(fg,
-                    $"var tryGet = LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.ErrorMaskItemString}>.Instance.Parse"))
+                    $"{retAccessor}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.ErrorMaskItemString}>.Instance.Parse"))
                 {
                     args.Add($"root: {nodeAccessor}");
                     args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"mask: out loquiMask");
-                }
-                fg.AppendLine($"{maskAccessor} = loquiMask == null ? null : new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>(null, loquiMask);");
-                if (retAccessor != null)
-                {
-                    fg.AppendLine($"{retAccessor}tryGet;");
+                    args.Add($"mask: out {maskAccessor}");
                 }
             }
             else
