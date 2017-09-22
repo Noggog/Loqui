@@ -44,7 +44,7 @@ namespace Loqui.Xml
                         }
                         continue;
                     }
-                    
+
                     if (registration.IsProtected(i.Value) && skipProtected) continue;
 
                     try
@@ -128,7 +128,7 @@ namespace Loqui.Xml
             copyIn(fields, item);
             mask = maskObj;
         }
-        
+
         public static CREATE_FUNC GetCreateFunc()
         {
             var f = DelegateBuilder.BuildDelegate<Func<XElement, bool, (T item, M mask)>>(
@@ -148,35 +148,44 @@ namespace Loqui.Xml
 
         public TryGet<T> Parse(XElement root, bool doMasks, out MaskItem<Exception, M> mask)
         {
-            var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-            if (typeStr != null
-                && typeStr.Equals(Registration.FullName))
+            try
             {
-                var ret = TryGet<T>.Succeed(CREATE.Value(
-                    root: root,
-                    doMasks: doMasks,
-                    errorMask: out var subMask));
-                mask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
-                return ret;
-            }
-            else
-            {
-                var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                if (register == null)
+                var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+                if (typeStr != null
+                    && typeStr.Equals(Registration.FullName))
                 {
-                    var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                    if (!doMasks) throw ex;
-                    mask = new MaskItem<Exception, M>(
-                        ex,
-                        default(M));
-                    return TryGet<T>.Failure;
+                    var ret = TryGet<T>.Succeed(CREATE.Value(
+                        root: root,
+                        doMasks: doMasks,
+                        errorMask: out var subMask));
+                    mask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
+                    return ret;
                 }
-                var tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                    root: root,
-                    doMasks: doMasks,
-                    maskObj: out var subErrorMaskObj).Bubble((o) => (T)o);
-                mask = subErrorMaskObj == null ? null : new MaskItem<Exception, M>(null, (M)subErrorMaskObj);
-                return tryGet;
+                else
+                {
+                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
+                    if (register == null)
+                    {
+                        var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                        if (!doMasks) throw ex;
+                        mask = new MaskItem<Exception, M>(
+                            ex,
+                            default(M));
+                        return TryGet<T>.Failure;
+                    }
+                    var tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                        root: root,
+                        doMasks: doMasks,
+                        maskObj: out var subErrorMaskObj).Bubble((o) => (T)o);
+                    mask = subErrorMaskObj == null ? null : new MaskItem<Exception, M>(null, (M)subErrorMaskObj);
+                    return tryGet;
+                }
+            }
+            catch (Exception ex)
+            when (doMasks)
+            {
+                mask = new MaskItem<Exception, M>(ex, default(M));
+                return TryGet<T>.Failure;
             }
         }
 
