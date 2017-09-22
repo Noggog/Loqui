@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>5c729da4974855aeae5040154909a80f31a550be</Sha>
+         <Sha>e32ccf0363977539f88233b65f7c916bad7a5c5f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-22-2017 11:53:34</CommitDate>
-         <Description>DelegateBuilder</Description>
+         <CommitDate>09-22-2017 13:50:38</CommitDate>
+         <Description>HasBeenSetItem.SetIfSucceeded upgraded to support trygets that are subclasses of target property</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

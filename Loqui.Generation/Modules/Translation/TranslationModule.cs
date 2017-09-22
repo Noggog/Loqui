@@ -306,7 +306,7 @@ namespace Loqui.Generation
                         $"var ret = Create_{ModuleNickname}"))
                     {
                         args.Add(this.MainAPI.ReaderPassArgs);
-                        args.Add("doMasks: true");
+                        args.Add("doMasks: doMasks");
                     }
                     fg.AppendLine("errorMask = ret.ErrorMask;");
                     fg.AppendLine("return ret.Object;");

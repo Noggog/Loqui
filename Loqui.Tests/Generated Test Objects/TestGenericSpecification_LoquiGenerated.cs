@@ -145,7 +145,7 @@ namespace Loqui.Tests
         {
             var ret = Create_XML(
                 root: root,
-                doMasks: true);
+                doMasks: doMasks);
             errorMask = ret.ErrorMask;
             return ret.Object;
         }
@@ -397,34 +397,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
                         TestGenericObject_ErrorMask loquiMask;
-                        TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.TestGenericObject"))
-                        {
-                            tryGet = TryGet<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>>.Succeed(TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, TestGenericObject_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>)o);
-                            loquiMask = (TestGenericObject_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
@@ -440,34 +416,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
                         TestGenericObject_ErrorMask loquiMask;
-                        TryGet<TestGenericObject<ObjectToRef, RBase, R>> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.TestGenericObject"))
-                        {
-                            tryGet = TryGet<TestGenericObject<ObjectToRef, RBase, R>>.Succeed(TestGenericObject<ObjectToRef, RBase, R>.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, TestGenericObject_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (TestGenericObject<ObjectToRef, RBase, R>)o);
-                            loquiMask = (TestGenericObject_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
                         if (tryGet.Succeeded)
                         {
@@ -1182,11 +1134,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.TestGenericObjectSpecified?.Overall ?? true)
                 {
-                    item.TestGenericObjectSpecified.ToString(fg, "TestGenericObjectSpecified");
+                    item.TestGenericObjectSpecified?.ToString(fg, "TestGenericObjectSpecified");
                 }
                 if (printMask?.TestGenericObjectHalfSpecified?.Overall ?? true)
                 {
-                    item.TestGenericObjectHalfSpecified.ToString(fg, "TestGenericObjectHalfSpecified");
+                    item.TestGenericObjectHalfSpecified?.ToString(fg, "TestGenericObjectHalfSpecified");
                 }
             }
             fg.AppendLine("]");

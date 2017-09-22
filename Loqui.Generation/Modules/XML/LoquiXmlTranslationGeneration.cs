@@ -137,65 +137,12 @@ namespace Loqui.Generation
             if (loquiGen.TargetObjectGeneration != null)
             {
                 fg.AppendLine($"{loquiGen.TargetObjectGeneration.ErrorMask} loquiMask;");
-                fg.AppendLine($"TryGet<{typeGen.TypeName}> tryGet;");
-                fg.AppendLine($"var typeStr = {nodeAccessor}.GetAttribute(XmlConstants.{nameof(XmlConstants.TYPE_ATTRIBUTE)});");
-                fg.AppendLine($"if (typeStr != null");
-                using (new DepthWrapper(fg))
+                using (var args = new ArgsWrapper(fg,
+                    $"var tryGet = LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.ErrorMaskItemString}>.Instance.Parse"))
                 {
-                    fg.AppendLine($"&& typeStr.Equals(\"{loquiGen.TargetObjectGeneration.FullName}\"))");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    string createFuncName;
-                    if (loquiGen.GenericDef != null)
-                    {
-                        createFuncName = $"{loquiGen.GenericDef.Name}_XML_CREATE";
-                    }
-                    else
-                    {
-                        createFuncName = $"{loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML";
-                    }
-                    using (var args = new ArgsWrapper(fg,
-                        $"tryGet = TryGet<{typeGen.TypeName}>.Succeed({createFuncName}"))
-                    {
-                        args.Add($"root: {nodeAccessor}");
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out loquiMask)");
-                    }
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? {nodeAccessor}.Name.LocalName);");
-                    fg.AppendLine("if (register == null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"var ex = new ArgumentException($\"Unknown Loqui type: {{{nodeAccessor}.Name.LocalName}}\");");
-                        fg.AppendLine($"if (!{doMaskAccessor}) throw ex;");
-                        using (var args = new ArgsWrapper(fg,
-                            $"{maskAccessor} = new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>"))
-                        {
-                            args.Add($"ex");
-                            args.Add("null");
-                        }
-                        if (retAccessor != null)
-                        {
-                            fg.AppendLine($"{retAccessor}TryGet<{loquiGen.ObjectTypeName}>.Fail(null);");
-                        }
-                        else
-                        {
-                            fg.AppendLine("break;");
-                        }
-                    }
-                    using (var args = new ArgsWrapper(fg,
-                        $"tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse",
-                        $".Bubble((o) => ({typeGen.TypeName})o)"))
-                    {
-                        args.Add("root: root");
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add("maskObj: out var subErrorMaskObj");
-                    }
-                    fg.AppendLine($"loquiMask = ({loquiGen.TargetObjectGeneration.ErrorMask})subErrorMaskObj;");
+                    args.Add($"root: {nodeAccessor}");
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"mask: out loquiMask");
                 }
                 fg.AppendLine($"{maskAccessor} = loquiMask == null ? null : new MaskItem<Exception, {loquiGen.ErrorMaskItemString}>(null, loquiMask);");
                 if (retAccessor != null)
@@ -220,8 +167,8 @@ namespace Loqui.Generation
         }
 
         public override XElement GenerateForXSD(
-            XElement rootElement, 
-            XElement choiceElement, 
+            XElement rootElement,
+            XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride = null)
         {

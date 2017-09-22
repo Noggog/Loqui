@@ -804,7 +804,7 @@ namespace Loqui.Generation
 
         public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
-            fg.AppendLine($"{accessor}.ToString({fgAccessor}, \"{name}\");");
+            fg.AppendLine($"{accessor}?.ToString({fgAccessor}, \"{name}\");");
         }
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)

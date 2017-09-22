@@ -1,5 +1,6 @@
 ﻿using Noggog;
 using Noggog.Notifying;
+using Noggog.Utility;
 using Noggog.Xml;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace Loqui.Xml
 {
     public class LoquiXmlTranslation<T, M> : IXmlTranslation<T, M>
         where T : ILoquiObjectGetter
-        where M : IErrorMask, new()
+        where M : class, IErrorMask, new()
     {
         public static readonly LoquiXmlTranslation<T, M> Instance = new LoquiXmlTranslation<T, M>();
         private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
+        private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
+        public delegate T CREATE_FUNC(XElement root, bool doMasks, out M errorMask);
+        private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             ILoquiRegistration registration,
@@ -124,47 +128,67 @@ namespace Loqui.Xml
             copyIn(fields, item);
             mask = maskObj;
         }
-
-        public TryGet<T> Parse(XElement root, bool doMasks, out M mask)
+        
+        public static CREATE_FUNC GetCreateFunc()
         {
-            var maskObj = default(M);
-            Func<IErrorMask> maskGet;
-            if (doMasks)
+            var f = DelegateBuilder.BuildDelegate<Func<XElement, bool, (T item, M mask)>>(
+                typeof(T).GetMethods()
+                .Where((methodInfo) => methodInfo.Name.Equals("Create_XML"))
+                .Where((methodInfo) => methodInfo.IsStatic
+                    && methodInfo.IsPublic)
+                .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(ValueTuple<T, M>)))
+                .First());
+            return (XElement root, bool doMasks, out M errorMask) =>
             {
-                maskGet = () =>
-                {
-                    if (maskObj == null)
-                    {
-                        maskObj = new M();
-                    }
-                    return maskObj;
-                };
+                var ret = f(root, doMasks);
+                errorMask = ret.mask;
+                return ret.item;
+            };
+        }
+
+        public TryGet<T> Parse(XElement root, bool doMasks, out MaskItem<Exception, M> mask)
+        {
+            var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+            if (typeStr != null
+                && typeStr.Equals(Registration.FullName))
+            {
+                var ret = TryGet<T>.Succeed(CREATE.Value(
+                    root: root,
+                    doMasks: doMasks,
+                    errorMask: out var subMask));
+                mask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
+                return ret;
             }
             else
             {
-                maskGet = null;
-            }
-            try
-            {
-                var regis = LoquiRegistration.GetRegister(typeof(T));
-                var fields = EnumerateObjects(
-                    regis,
-                    root,
-                    skipProtected: false,
+                var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
+                if (register == null)
+                {
+                    var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                    if (!doMasks) throw ex;
+                    mask = new MaskItem<Exception, M>(
+                        ex,
+                        default(M));
+                    return TryGet<T>.Failure;
+                }
+                var tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                    root: root,
                     doMasks: doMasks,
-                    mask: maskGet);
-                var create = LoquiRegistration.GetCreateFunc<T>();
-                var ret = create(fields);
-                mask = maskObj;
-                return TryGet<T>.Succeed(ret);
+                    maskObj: out var subErrorMaskObj).Bubble((o) => (T)o);
+                mask = subErrorMaskObj == null ? null : new MaskItem<Exception, M>(null, (M)subErrorMaskObj);
+                return tryGet;
             }
-            catch (Exception ex)
-            when (doMasks)
+        }
+
+        public TryGet<T> Parse(XElement root, bool doMasks, out M mask)
+        {
+            var ret = Parse(root, doMasks, out MaskItem<Exception, M> subMask);
+            if (subMask?.Overall != null)
             {
-                maskGet().Overall = ex;
-                mask = maskObj;
-                return TryGet<T>.Failure;
+                throw subMask.Overall;
             }
+            mask = subMask?.Specific;
+            return ret;
         }
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)

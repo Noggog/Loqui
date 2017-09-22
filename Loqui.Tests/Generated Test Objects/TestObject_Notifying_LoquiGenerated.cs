@@ -2296,7 +2296,7 @@ namespace Loqui.Tests
         {
             var ret = Create_XML(
                 root: root,
-                doMasks: true);
+                doMasks: doMasks);
             errorMask = ret.ErrorMask;
             return ret.Object;
         }
@@ -3824,34 +3824,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<ObjectToRef> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._Ref.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -3864,34 +3840,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<ObjectToRef> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -3927,34 +3879,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<IObjectToRefGetter> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<IObjectToRefGetter>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRefGetter)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._RefGetter.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -3967,34 +3895,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<IObjectToRefGetter> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<IObjectToRefGetter>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRefGetter)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -4009,34 +3913,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<IObjectToRef> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<IObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRef)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._RefSetter.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -4049,34 +3929,10 @@ namespace Loqui.Tests
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         ObjectToRef_ErrorMask loquiMask;
-                        TryGet<IObjectToRef> tryGet;
-                        var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                        if (typeStr != null
-                            && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                        {
-                            tryGet = TryGet<IObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                root: root,
-                                doMasks: doMasks,
-                                errorMask: out loquiMask));
-                        }
-                        else
-                        {
-                            var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                            if (register == null)
-                            {
-                                var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                                if (!doMasks) throw ex;
-                                subMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                    ex,
-                                    null);
-                                break;
-                            }
-                            tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                root: root,
-                                doMasks: doMasks,
-                                maskObj: out var subErrorMaskObj).Bubble((o) => (IObjectToRef)o);
-                            loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                        }
+                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                            root: root,
+                            doMasks: doMasks,
+                            mask: out loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         if (doMasks && subMask != null)
@@ -4141,34 +3997,10 @@ namespace Loqui.Tests
                             transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: listDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!listDoMasks) throw ex;
-                                        listSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: listDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: listDoMasks,
+                                    mask: out loquiMask);
                                 listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -4221,34 +4053,10 @@ namespace Loqui.Tests
                             keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: dictDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!dictDoMasks) throw ex;
-                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: dictDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: dictDoMasks,
+                                    mask: out loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -4256,34 +4064,10 @@ namespace Loqui.Tests
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: dictDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!dictDoMasks) throw ex;
-                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: dictDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: dictDoMasks,
+                                    mask: out loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -4305,34 +4089,10 @@ namespace Loqui.Tests
                             keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: dictDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!dictDoMasks) throw ex;
-                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: dictDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: dictDoMasks,
+                                    mask: out loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -4371,34 +4131,10 @@ namespace Loqui.Tests
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: dictDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!dictDoMasks) throw ex;
-                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: dictDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: dictDoMasks,
+                                    mask: out loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -4420,34 +4156,10 @@ namespace Loqui.Tests
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
                                 ObjectToRef_ErrorMask loquiMask;
-                                TryGet<ObjectToRef> tryGet;
-                                var typeStr = r.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                                if (typeStr != null
-                                    && typeStr.Equals("Loqui.Tests.ObjectToRef"))
-                                {
-                                    tryGet = TryGet<ObjectToRef>.Succeed(ObjectToRef.Create_XML(
-                                        root: r,
-                                        doMasks: dictDoMasks,
-                                        errorMask: out loquiMask));
-                                }
-                                else
-                                {
-                                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? r.Name.LocalName);
-                                    if (register == null)
-                                    {
-                                        var ex = new ArgumentException($"Unknown Loqui type: {r.Name.LocalName}");
-                                        if (!dictDoMasks) throw ex;
-                                        dictSubMask = new MaskItem<Exception, ObjectToRef_ErrorMask>(
-                                            ex,
-                                            null);
-                                        return TryGet<ObjectToRef>.Fail(null);
-                                    }
-                                    tryGet = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                                        root: root,
-                                        doMasks: dictDoMasks,
-                                        maskObj: out var subErrorMaskObj).Bubble((o) => (ObjectToRef)o);
-                                    loquiMask = (ObjectToRef_ErrorMask)subErrorMaskObj;
-                                }
+                                var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                    root: r,
+                                    doMasks: dictDoMasks,
+                                    mask: out loquiMask);
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                                 return tryGet;
                             }
@@ -11794,39 +11506,39 @@ namespace Loqui.Tests.Internals
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    item.Ref.ToString(fg, "Ref");
+                    item.Ref?.ToString(fg, "Ref");
                 }
                 if (printMask?.Ref_NotNull?.Overall ?? true)
                 {
-                    item.Ref_NotNull.ToString(fg, "Ref_NotNull");
+                    item.Ref_NotNull?.ToString(fg, "Ref_NotNull");
                 }
                 if (printMask?.Ref_Singleton?.Overall ?? true)
                 {
-                    item.Ref_Singleton.ToString(fg, "Ref_Singleton");
+                    item.Ref_Singleton?.ToString(fg, "Ref_Singleton");
                 }
                 if (printMask?.RefGetter?.Overall ?? true)
                 {
-                    item.RefGetter.ToString(fg, "RefGetter");
+                    item.RefGetter?.ToString(fg, "RefGetter");
                 }
                 if (printMask?.RefGetter_NotNull?.Overall ?? true)
                 {
-                    item.RefGetter_NotNull.ToString(fg, "RefGetter_NotNull");
+                    item.RefGetter_NotNull?.ToString(fg, "RefGetter_NotNull");
                 }
                 if (printMask?.RefGetter_Singleton?.Overall ?? true)
                 {
-                    item.RefGetter_Singleton.ToString(fg, "RefGetter_Singleton");
+                    item.RefGetter_Singleton?.ToString(fg, "RefGetter_Singleton");
                 }
                 if (printMask?.RefSetter?.Overall ?? true)
                 {
-                    item.RefSetter.ToString(fg, "RefSetter");
+                    item.RefSetter?.ToString(fg, "RefSetter");
                 }
                 if (printMask?.RefSetter_NotNull?.Overall ?? true)
                 {
-                    item.RefSetter_NotNull.ToString(fg, "RefSetter_NotNull");
+                    item.RefSetter_NotNull?.ToString(fg, "RefSetter_NotNull");
                 }
                 if (printMask?.RefSetter_Singleton?.Overall ?? true)
                 {
-                    item.RefSetter_Singleton.ToString(fg, "RefSetter_Singleton");
+                    item.RefSetter_Singleton?.ToString(fg, "RefSetter_Singleton");
                 }
                 if (printMask?.List?.Overall ?? true)
                 {
@@ -11857,7 +11569,7 @@ namespace Loqui.Tests.Internals
                             fg.AppendLine("[");
                             using (new DepthWrapper(fg))
                             {
-                                subItem.ToString(fg, "Item");
+                                subItem?.ToString(fg, "Item");
                             }
                             fg.AppendLine("]");
                         }
@@ -11894,8 +11606,8 @@ namespace Loqui.Tests.Internals
                             fg.AppendLine("[");
                             using (new DepthWrapper(fg))
                             {
-                                subItem.Key.ToString(fg, "Key");
-                                subItem.Value.ToString(fg, "Value");
+                                subItem.Key?.ToString(fg, "Key");
+                                subItem.Value?.ToString(fg, "Value");
                             }
                             fg.AppendLine("]");
                         }
@@ -11913,7 +11625,7 @@ namespace Loqui.Tests.Internals
                             fg.AppendLine("[");
                             using (new DepthWrapper(fg))
                             {
-                                subItem.Key.ToString(fg, "Key");
+                                subItem.Key?.ToString(fg, "Key");
                                 fg.AppendLine($"Value => {subItem.Value}");
                             }
                             fg.AppendLine("]");
@@ -11933,7 +11645,7 @@ namespace Loqui.Tests.Internals
                             using (new DepthWrapper(fg))
                             {
                                 fg.AppendLine($"Key => {subItem.Key}");
-                                subItem.Value.ToString(fg, "Value");
+                                subItem.Value?.ToString(fg, "Value");
                             }
                             fg.AppendLine("]");
                         }
@@ -11951,7 +11663,7 @@ namespace Loqui.Tests.Internals
                             fg.AppendLine("[");
                             using (new DepthWrapper(fg))
                             {
-                                subItem.ToString(fg, "Item");
+                                subItem?.ToString(fg, "Item");
                             }
                             fg.AppendLine("]");
                         }

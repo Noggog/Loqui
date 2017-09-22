@@ -131,7 +131,7 @@ namespace Loqui.Tests
         {
             var ret = Create_XML(
                 root: root,
-                doMasks: true);
+                doMasks: doMasks);
             errorMask = ret.ErrorMask;
             return ret.Object;
         }

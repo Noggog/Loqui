@@ -84,21 +84,5 @@ namespace Loqui.Xml
                     _translator.Item = GetResponse<IXmlTranslation<T, M>>.Succeed(caster.Source);
                 });
         }
-
-        public static CREATE_FUNC GetCreateFunc()
-        {
-            var f = DelegateBuilder.BuildDelegate<Func<XElement, bool, (T item, M mask)>>(
-                typeof(T).GetMethods()
-                .Where((methodInfo) => methodInfo.Name.Equals("Create_XML")
-                    && methodInfo.IsStatic
-                    && methodInfo.IsPublic)
-                .FirstOrDefault());
-            return (XElement root, bool doMasks, out M errorMask) =>
-            {
-                var ret = f(root, doMasks);
-                errorMask = ret.mask;
-                return ret.item;
-            };
-        }
     }
 }
