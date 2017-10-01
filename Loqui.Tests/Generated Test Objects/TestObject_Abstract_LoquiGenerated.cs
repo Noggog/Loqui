@@ -6305,7 +6305,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.Ref, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.Ref, ex);
                 }
             }
             if (copyMask?.Ref_NotNull.Overall != CopyOption.Skip)
@@ -6356,7 +6356,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.Ref_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.Ref_NotNull, ex);
                 }
             }
             if (copyMask?.Ref_Singleton.Overall ?? true)
@@ -6384,7 +6384,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.Ref_Singleton, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.Ref_Singleton, ex);
                 }
             }
             if (copyMask?.RefGetter.Overall != CopyOption.Skip)
@@ -6417,7 +6417,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefGetter, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefGetter, ex);
                 }
             }
             if (copyMask?.RefGetter_NotNull.Overall != CopyOption.Skip)
@@ -6450,7 +6450,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefGetter_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefGetter_NotNull, ex);
                 }
             }
             if (copyMask?.RefSetter.Overall != CopyOption.Skip)
@@ -6501,7 +6501,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefSetter, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefSetter, ex);
                 }
             }
             if (copyMask?.RefSetter_NotNull.Overall != CopyOption.Skip)
@@ -6552,7 +6552,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefSetter_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefSetter_NotNull, ex);
                 }
             }
             if (copyMask?.RefSetter_Singleton.Overall ?? true)
@@ -6580,7 +6580,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefSetter_Singleton, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefSetter_Singleton, ex);
                 }
             }
             if (copyMask?.List != CopyOption.Skip)
@@ -6595,7 +6595,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.List, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.List, ex);
                 }
             }
             if (copyMask?.RefList.Overall != CopyOption.Skip)
@@ -6627,7 +6627,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefList, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefList, ex);
                 }
             }
             if (copyMask?.Dict ?? true)
@@ -6642,7 +6642,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.Dict, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.Dict, ex);
                 }
             }
             if (copyMask?.RefDict.Overall ?? true)
@@ -6686,7 +6686,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.RefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.RefDict, ex);
                 }
             }
             if (copyMask?.KeyRefDict.Overall ?? true)
@@ -6718,7 +6718,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.KeyRefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.KeyRefDict, ex);
                 }
             }
             if (copyMask?.ValRefDict.Overall ?? true)
@@ -6750,7 +6750,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.ValRefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.ValRefDict, ex);
                 }
             }
             if (copyMask?.DictKeyedValue.Overall != CopyOption.Skip)
@@ -6778,7 +6778,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Abstract_FieldIndex.DictKeyedValue, ex);
+                    errorMask().SetNthException((int)TestObject_Abstract_FieldIndex.DictKeyedValue, ex);
                 }
             }
         }
@@ -12109,7 +12109,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region IErrorMask
-        public void SetNthException(ushort index, Exception ex)
+        public void SetNthException(int index, Exception ex)
         {
             TestObject_Abstract_FieldIndex enu = (TestObject_Abstract_FieldIndex)index;
             switch (enu)
@@ -12440,7 +12440,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public void SetNthMask(int index, object obj)
         {
             TestObject_Abstract_FieldIndex enu = (TestObject_Abstract_FieldIndex)index;
             switch (enu)

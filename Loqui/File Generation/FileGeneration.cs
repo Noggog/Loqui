@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("tryGet = TryGet<T>.Succeed((T)MajorRecord.Create_XML("))
+            if (str.Contains("MaskItem<Exception, IEnumerable<MaskItem<Exception, MajorRecord_ErrorMask>>> subMask;"))
             {
                 int wer = 23;
                 wer++;

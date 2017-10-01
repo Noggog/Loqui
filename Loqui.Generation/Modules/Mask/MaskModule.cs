@@ -229,7 +229,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "IErrorMask"))
                 {
-                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(ushort index, Exception ex)");
+                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthException(int index, Exception ex)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
@@ -251,7 +251,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(ushort index, object obj)");
+                    fg.AppendLine($"public{obj.FunctionOverride}void SetNthMask(int index, object obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");

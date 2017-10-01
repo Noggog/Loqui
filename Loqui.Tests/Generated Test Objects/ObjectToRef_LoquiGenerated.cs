@@ -901,7 +901,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.KeyField, ex);
+                    errorMask().SetNthException((int)ObjectToRef_FieldIndex.KeyField, ex);
                 }
             }
             if (copyMask?.SomeField ?? true)
@@ -916,7 +916,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)ObjectToRef_FieldIndex.SomeField, ex);
+                    errorMask().SetNthException((int)ObjectToRef_FieldIndex.SomeField, ex);
                 }
             }
         }
@@ -1285,7 +1285,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region IErrorMask
-        public void SetNthException(ushort index, Exception ex)
+        public void SetNthException(int index, Exception ex)
         {
             ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
             switch (enu)
@@ -1301,7 +1301,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public void SetNthMask(int index, object obj)
         {
             ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
             switch (enu)

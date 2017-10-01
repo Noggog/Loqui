@@ -8706,7 +8706,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region IErrorMask
-        public void SetNthException(ushort index, Exception ex)
+        public void SetNthException(int index, Exception ex)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
             switch (enu)
@@ -9037,7 +9037,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public void SetNthMask(int index, object obj)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
             switch (enu)

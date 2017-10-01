@@ -853,7 +853,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
                 }
             }
         }
@@ -1174,7 +1174,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region IErrorMask
-        public override void SetNthException(ushort index, Exception ex)
+        public override void SetNthException(int index, Exception ex)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)
@@ -1188,7 +1188,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public override void SetNthMask(ushort index, object obj)
+        public override void SetNthMask(int index, object obj)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)

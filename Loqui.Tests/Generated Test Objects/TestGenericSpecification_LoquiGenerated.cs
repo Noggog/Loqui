@@ -926,7 +926,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified, ex);
+                    errorMask().SetNthException((int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified, ex);
                 }
             }
             if (copyMask?.TestGenericObjectHalfSpecified.Overall != CopyOption.Skip)
@@ -977,7 +977,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doErrorMask)
                 {
-                    errorMask().SetNthException((ushort)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified, ex);
+                    errorMask().SetNthException((int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified, ex);
                 }
             }
         }
@@ -1395,7 +1395,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region IErrorMask
-        public void SetNthException(ushort index, Exception ex)
+        public void SetNthException(int index, Exception ex)
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)
@@ -1411,7 +1411,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public void SetNthMask(ushort index, object obj)
+        public void SetNthMask(int index, object obj)
         {
             TestGenericSpecification_FieldIndex enu = (TestGenericSpecification_FieldIndex)index;
             switch (enu)

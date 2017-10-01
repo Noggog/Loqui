@@ -2057,7 +2057,7 @@ namespace Loqui.Generation
             fg.AppendLine($"when ({doErrMaskAccessor})");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{errorMaskAccessor}().SetNthException((ushort){enumAccessor}, ex);");
+                fg.AppendLine($"{errorMaskAccessor}().SetNthException((int){enumAccessor}, ex);");
             }
         }
         #endregion

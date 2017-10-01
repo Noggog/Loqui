@@ -1070,7 +1070,7 @@ namespace Loqui.Tests.Internals
     public class TestGenericObject_SubClass_Defined_ErrorMask : TestGenericObject_ErrorMask
     {
         #region IErrorMask
-        public override void SetNthException(ushort index, Exception ex)
+        public override void SetNthException(int index, Exception ex)
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
@@ -1081,7 +1081,7 @@ namespace Loqui.Tests.Internals
             }
         }
 
-        public override void SetNthMask(ushort index, object obj)
+        public override void SetNthMask(int index, object obj)
         {
             TestGenericObject_SubClass_Defined_FieldIndex enu = (TestGenericObject_SubClass_Defined_FieldIndex)index;
             switch (enu)
