@@ -259,10 +259,13 @@ namespace Loqui.Generation
                                         },
                                         doMaskAccessor: "doMasks",
                                         maskAccessor: $"subMask");
-                                    fg.AppendLine("if (doMasks && subMask != null)");
-                                    using (new BraceWrapper(fg))
+                                    using (var args = new ArgsWrapper(fg,
+                                        $"ErrorMask.HandleErrorMask"))
                                     {
-                                        fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
+                                        args.Add("errorMask");
+                                        args.Add("doMasks");
+                                        args.Add($"(int){field.Field.IndexEnumName}");
+                                        args.Add("subMask");
                                     }
                                 }
                             }
@@ -425,10 +428,13 @@ namespace Loqui.Generation
                             doMaskAccessor: "doMasks",
                             maskAccessor: $"subMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
-                        fg.AppendLine("if (doMasks && subMask != null)");
-                        using (new BraceWrapper(fg))
+                        using (var args = new ArgsWrapper(fg,
+                            $"ErrorMask.HandleErrorMask"))
                         {
-                            fg.AppendLine($"errorMask().{field.Field.Name} = subMask;");
+                            args.Add("errorMask");
+                            args.Add("doMasks");
+                            args.Add($"(int){field.Field.IndexEnumName}");
+                            args.Add("subMask");
                         }
                     }
                 }

@@ -1230,10 +1230,11 @@ namespace Loqui.Tests
                         {
                             item._ByteArray = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArray = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArray,
+                            subMask);
                     }
                     break;
                 case "ByteArrayNull":
@@ -1247,10 +1248,11 @@ namespace Loqui.Tests
                         {
                             item._ByteArrayNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArrayNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNull,
+                            subMask);
                     }
                     break;
                 case "ByteArrayNotNull":
@@ -1264,10 +1266,11 @@ namespace Loqui.Tests
                         {
                             item._ByteArrayNotNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArrayNotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNotNull,
+                            subMask);
                     }
                     break;
                 case "ByteArraySingleton":
@@ -1281,10 +1284,11 @@ namespace Loqui.Tests
                         {
                             item._ByteArraySingleton = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArraySingleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArraySingleton,
+                            subMask);
                     }
                     break;
                 case "BoolN":
@@ -1298,10 +1302,11 @@ namespace Loqui.Tests
                         {
                             item.BoolN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().BoolN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.BoolN,
+                            subMask);
                     }
                     break;
                 case "Bool":
@@ -1315,10 +1320,11 @@ namespace Loqui.Tests
                         {
                             item.Bool = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Bool = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Bool,
+                            subMask);
                     }
                     break;
                 case "CharN":
@@ -1332,10 +1338,11 @@ namespace Loqui.Tests
                         {
                             item.CharN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().CharN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.CharN,
+                            subMask);
                     }
                     break;
                 case "Char":
@@ -1349,10 +1356,11 @@ namespace Loqui.Tests
                         {
                             item.Char = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Char = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Char,
+                            subMask);
                     }
                     break;
                 case "DateTimeNull":
@@ -1366,10 +1374,11 @@ namespace Loqui.Tests
                         {
                             item.DateTimeNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DateTimeNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DateTimeNull,
+                            subMask);
                     }
                     break;
                 case "DateTime":
@@ -1383,10 +1392,11 @@ namespace Loqui.Tests
                         {
                             item.DateTime = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DateTime = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DateTime,
+                            subMask);
                     }
                     break;
                 case "DoubleN":
@@ -1400,10 +1410,11 @@ namespace Loqui.Tests
                         {
                             item.DoubleN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DoubleN,
+                            subMask);
                     }
                     break;
                 case "DoubleN_Ranged":
@@ -1417,10 +1428,11 @@ namespace Loqui.Tests
                         {
                             item.DoubleN_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DoubleN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DoubleN_Ranged,
+                            subMask);
                     }
                     break;
                 case "Double":
@@ -1434,10 +1446,11 @@ namespace Loqui.Tests
                         {
                             item.Double = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Double = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Double,
+                            subMask);
                     }
                     break;
                 case "Double_Ranged":
@@ -1451,10 +1464,11 @@ namespace Loqui.Tests
                         {
                             item.Double_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Double_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Double_Ranged,
+                            subMask);
                     }
                     break;
                 case "FloatN":
@@ -1468,10 +1482,11 @@ namespace Loqui.Tests
                         {
                             item.FloatN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FloatN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FloatN,
+                            subMask);
                     }
                     break;
                 case "FloatN_Ranged":
@@ -1485,10 +1500,11 @@ namespace Loqui.Tests
                         {
                             item.FloatN_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FloatN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FloatN_Ranged,
+                            subMask);
                     }
                     break;
                 case "Float":
@@ -1502,10 +1518,11 @@ namespace Loqui.Tests
                         {
                             item.Float = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Float = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Float,
+                            subMask);
                     }
                     break;
                 case "Float_Ranged":
@@ -1519,10 +1536,11 @@ namespace Loqui.Tests
                         {
                             item.Float_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Float_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Float_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int16N":
@@ -1536,10 +1554,11 @@ namespace Loqui.Tests
                         {
                             item.Int16N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16N,
+                            subMask);
                     }
                     break;
                 case "Int16N_Ranged":
@@ -1553,10 +1572,11 @@ namespace Loqui.Tests
                         {
                             item.Int16N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16N_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int16":
@@ -1570,10 +1590,11 @@ namespace Loqui.Tests
                         {
                             item.Int16 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16,
+                            subMask);
                     }
                     break;
                 case "Int16_Ranged":
@@ -1587,10 +1608,11 @@ namespace Loqui.Tests
                         {
                             item.Int16_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int32N":
@@ -1604,10 +1626,11 @@ namespace Loqui.Tests
                         {
                             item.Int32N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32N,
+                            subMask);
                     }
                     break;
                 case "Int32N_Ranged":
@@ -1621,10 +1644,11 @@ namespace Loqui.Tests
                         {
                             item.Int32N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32N_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int32":
@@ -1638,10 +1662,11 @@ namespace Loqui.Tests
                         {
                             item.Int32 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32,
+                            subMask);
                     }
                     break;
                 case "Int32_Ranged":
@@ -1655,10 +1680,11 @@ namespace Loqui.Tests
                         {
                             item.Int32_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int64N":
@@ -1672,10 +1698,11 @@ namespace Loqui.Tests
                         {
                             item.Int64N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64N,
+                            subMask);
                     }
                     break;
                 case "Int64N_Ranged":
@@ -1689,10 +1716,11 @@ namespace Loqui.Tests
                         {
                             item.Int64N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64N_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int64":
@@ -1706,10 +1734,11 @@ namespace Loqui.Tests
                         {
                             item.Int64 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64,
+                            subMask);
                     }
                     break;
                 case "Int64_Ranged":
@@ -1723,10 +1752,11 @@ namespace Loqui.Tests
                         {
                             item.Int64_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int8N":
@@ -1740,10 +1770,11 @@ namespace Loqui.Tests
                         {
                             item.Int8N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8N,
+                            subMask);
                     }
                     break;
                 case "Int8N_Ranged":
@@ -1757,10 +1788,11 @@ namespace Loqui.Tests
                         {
                             item.Int8N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8N_Ranged,
+                            subMask);
                     }
                     break;
                 case "Int8":
@@ -1774,10 +1806,11 @@ namespace Loqui.Tests
                         {
                             item.Int8 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8,
+                            subMask);
                     }
                     break;
                 case "Int8_Ranged":
@@ -1791,10 +1824,11 @@ namespace Loqui.Tests
                         {
                             item.Int8_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8_Ranged,
+                            subMask);
                     }
                     break;
                 case "Unsafe":
@@ -1808,10 +1842,11 @@ namespace Loqui.Tests
                         {
                             item.Unsafe = (bool)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Unsafe = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Unsafe,
+                            subMask);
                     }
                     break;
                 case "UnsafeLoqui":
@@ -1825,10 +1860,11 @@ namespace Loqui.Tests
                         {
                             item.UnsafeLoqui = (ObjectToRef)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UnsafeLoqui = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UnsafeLoqui,
+                            subMask);
                     }
                     break;
                 case "UnsafeNull":
@@ -1842,10 +1878,11 @@ namespace Loqui.Tests
                         {
                             item.UnsafeNull = (ObjectToRef)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UnsafeNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UnsafeNull,
+                            subMask);
                     }
                     break;
                 case "P2IntN":
@@ -1859,10 +1896,11 @@ namespace Loqui.Tests
                         {
                             item.P2IntN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P2IntN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P2IntN,
+                            subMask);
                     }
                     break;
                 case "P2Int":
@@ -1876,10 +1914,11 @@ namespace Loqui.Tests
                         {
                             item.P2Int = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P2Int = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P2Int,
+                            subMask);
                     }
                     break;
                 case "P3DoubleN":
@@ -1893,10 +1932,11 @@ namespace Loqui.Tests
                         {
                             item.P3DoubleN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3DoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3DoubleN,
+                            subMask);
                     }
                     break;
                 case "P3Double":
@@ -1910,10 +1950,11 @@ namespace Loqui.Tests
                         {
                             item.P3Double = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3Double = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3Double,
+                            subMask);
                     }
                     break;
                 case "P3IntN":
@@ -1927,10 +1968,11 @@ namespace Loqui.Tests
                         {
                             item.P3IntN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3IntN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3IntN,
+                            subMask);
                     }
                     break;
                 case "P3Int":
@@ -1944,10 +1986,11 @@ namespace Loqui.Tests
                         {
                             item.P3Int = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3Int = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3Int,
+                            subMask);
                     }
                     break;
                 case "PercentN":
@@ -1961,10 +2004,11 @@ namespace Loqui.Tests
                         {
                             item.PercentN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().PercentN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.PercentN,
+                            subMask);
                     }
                     break;
                 case "Percent":
@@ -1978,10 +2022,11 @@ namespace Loqui.Tests
                         {
                             item.Percent = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Percent = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Percent,
+                            subMask);
                     }
                     break;
                 case "RangeInt8N":
@@ -1995,10 +2040,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt8N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8N,
+                            subMask);
                     }
                     break;
                 case "RangeInt8":
@@ -2012,10 +2058,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt8 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8,
+                            subMask);
                     }
                     break;
                 case "RangeInt16N":
@@ -2029,10 +2076,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt16N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16N,
+                            subMask);
                     }
                     break;
                 case "RangeInt16":
@@ -2046,10 +2094,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt16 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16,
+                            subMask);
                     }
                     break;
                 case "RangeInt32N":
@@ -2063,10 +2112,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt32N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32N,
+                            subMask);
                     }
                     break;
                 case "RangeInt32":
@@ -2080,10 +2130,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt32 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32,
+                            subMask);
                     }
                     break;
                 case "RangeInt64N":
@@ -2097,10 +2148,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt64N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64N,
+                            subMask);
                     }
                     break;
                 case "RangeInt64":
@@ -2114,10 +2166,11 @@ namespace Loqui.Tests
                         {
                             item.RangeInt64 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64,
+                            subMask);
                     }
                     break;
                 case "RangeUInt8N":
@@ -2131,10 +2184,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt8N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8N,
+                            subMask);
                     }
                     break;
                 case "RangeUInt8":
@@ -2148,10 +2202,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt8 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8,
+                            subMask);
                     }
                     break;
                 case "RangeUInt16N":
@@ -2165,10 +2220,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt16N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16N,
+                            subMask);
                     }
                     break;
                 case "RangeUInt16":
@@ -2182,10 +2238,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt16 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16,
+                            subMask);
                     }
                     break;
                 case "RangeUInt32N":
@@ -2199,10 +2256,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt32N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32N,
+                            subMask);
                     }
                     break;
                 case "RangeUInt32":
@@ -2216,10 +2274,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt32 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32,
+                            subMask);
                     }
                     break;
                 case "RangeUInt64N":
@@ -2233,10 +2292,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt64N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64N,
+                            subMask);
                     }
                     break;
                 case "RangeUInt64":
@@ -2250,10 +2310,11 @@ namespace Loqui.Tests
                         {
                             item.RangeUInt64 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64,
+                            subMask);
                     }
                     break;
                 case "String":
@@ -2267,10 +2328,11 @@ namespace Loqui.Tests
                         {
                             item.String = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().String = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.String,
+                            subMask);
                     }
                     break;
                 case "FilePath":
@@ -2284,10 +2346,11 @@ namespace Loqui.Tests
                         {
                             item.FilePath = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FilePath = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FilePath,
+                            subMask);
                     }
                     break;
                 case "FilePathNull":
@@ -2301,10 +2364,11 @@ namespace Loqui.Tests
                         {
                             item.FilePathNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FilePathNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FilePathNull,
+                            subMask);
                     }
                     break;
                 case "DirectoryPath":
@@ -2318,10 +2382,11 @@ namespace Loqui.Tests
                         {
                             item.DirectoryPath = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DirectoryPath = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPath,
+                            subMask);
                     }
                     break;
                 case "DirectoryPathNull":
@@ -2335,10 +2400,11 @@ namespace Loqui.Tests
                         {
                             item.DirectoryPathNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DirectoryPathNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPathNull,
+                            subMask);
                     }
                     break;
                 case "UDoubleN":
@@ -2352,10 +2418,11 @@ namespace Loqui.Tests
                         {
                             item.UDoubleN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN,
+                            subMask);
                     }
                     break;
                 case "UDoubleN_Ranged":
@@ -2369,10 +2436,11 @@ namespace Loqui.Tests
                         {
                             item.UDoubleN_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDoubleN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged,
+                            subMask);
                     }
                     break;
                 case "UDouble":
@@ -2386,10 +2454,11 @@ namespace Loqui.Tests
                         {
                             item.UDouble = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDouble = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDouble,
+                            subMask);
                     }
                     break;
                 case "UDouble_Ranged":
@@ -2403,10 +2472,11 @@ namespace Loqui.Tests
                         {
                             item.UDouble_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDouble_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDouble_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt16N":
@@ -2420,10 +2490,11 @@ namespace Loqui.Tests
                         {
                             item.UInt16N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16N,
+                            subMask);
                     }
                     break;
                 case "UInt16N_Ranged":
@@ -2437,10 +2508,11 @@ namespace Loqui.Tests
                         {
                             item.UInt16N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16N_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt16":
@@ -2454,10 +2526,11 @@ namespace Loqui.Tests
                         {
                             item.UInt16 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16,
+                            subMask);
                     }
                     break;
                 case "UInt16_Ranged":
@@ -2471,10 +2544,11 @@ namespace Loqui.Tests
                         {
                             item.UInt16_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt32N":
@@ -2488,10 +2562,11 @@ namespace Loqui.Tests
                         {
                             item.UInt32N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32N,
+                            subMask);
                     }
                     break;
                 case "UInt32N_Ranged":
@@ -2505,10 +2580,11 @@ namespace Loqui.Tests
                         {
                             item.UInt32N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32N_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt32":
@@ -2522,10 +2598,11 @@ namespace Loqui.Tests
                         {
                             item.UInt32 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32,
+                            subMask);
                     }
                     break;
                 case "UInt32_Ranged":
@@ -2539,10 +2616,11 @@ namespace Loqui.Tests
                         {
                             item.UInt32_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt64N":
@@ -2556,10 +2634,11 @@ namespace Loqui.Tests
                         {
                             item.UInt64N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64N,
+                            subMask);
                     }
                     break;
                 case "UInt64N_Ranged":
@@ -2573,10 +2652,11 @@ namespace Loqui.Tests
                         {
                             item.UInt64N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64N_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt64":
@@ -2590,10 +2670,11 @@ namespace Loqui.Tests
                         {
                             item.UInt64 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64,
+                            subMask);
                     }
                     break;
                 case "UInt64_Ranged":
@@ -2607,10 +2688,11 @@ namespace Loqui.Tests
                         {
                             item.UInt64_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt8N":
@@ -2624,10 +2706,11 @@ namespace Loqui.Tests
                         {
                             item.UInt8N = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8N,
+                            subMask);
                     }
                     break;
                 case "UInt8N_Ranged":
@@ -2641,10 +2724,11 @@ namespace Loqui.Tests
                         {
                             item.UInt8N_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8N_Ranged,
+                            subMask);
                     }
                     break;
                 case "UInt8":
@@ -2658,10 +2742,11 @@ namespace Loqui.Tests
                         {
                             item.UInt8 = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8,
+                            subMask);
                     }
                     break;
                 case "UInt8_Ranged":
@@ -2675,10 +2760,11 @@ namespace Loqui.Tests
                         {
                             item.UInt8_Ranged = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8_Ranged,
+                            subMask);
                     }
                     break;
                 case "Enum":
@@ -2693,10 +2779,11 @@ namespace Loqui.Tests
                         {
                             item.Enum = tryGet.Value.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Enum = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Enum,
+                            subMask);
                     }
                     break;
                 case "EnumNull":
@@ -2711,10 +2798,11 @@ namespace Loqui.Tests
                         {
                             item.EnumNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().EnumNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.EnumNull,
+                            subMask);
                     }
                     break;
                 case "WildCard":
@@ -2728,10 +2816,11 @@ namespace Loqui.Tests
                         {
                             item.WildCard = (Object)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCard = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCard,
+                            subMask);
                     }
                     break;
                 case "WildCardLoqui":
@@ -2745,10 +2834,11 @@ namespace Loqui.Tests
                         {
                             item.WildCardLoqui = (Object)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCardLoqui = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCardLoqui,
+                            subMask);
                     }
                     break;
                 case "WildCardNull":
@@ -2762,10 +2852,11 @@ namespace Loqui.Tests
                         {
                             item.WildCardNull = (Object)tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCardNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCardNull,
+                            subMask);
                     }
                     break;
                 case "Ref":
@@ -2779,10 +2870,11 @@ namespace Loqui.Tests
                         {
                             item.Ref = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref,
+                            subMask);
                     }
                     break;
                 case "Ref_NotNull":
@@ -2796,10 +2888,11 @@ namespace Loqui.Tests
                         {
                             item.Ref_NotNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref_NotNull,
+                            subMask);
                     }
                     break;
                 case "Ref_Singleton":
@@ -2819,10 +2912,11 @@ namespace Loqui.Tests
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref_Singleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref_Singleton,
+                            subMask);
                     }
                     break;
                 case "RefGetter":
@@ -2836,10 +2930,11 @@ namespace Loqui.Tests
                         {
                             item.RefGetter = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefGetter = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefGetter,
+                            subMask);
                     }
                     break;
                 case "RefGetter_NotNull":
@@ -2853,10 +2948,11 @@ namespace Loqui.Tests
                         {
                             item.RefGetter_NotNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefGetter_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull,
+                            subMask);
                     }
                     break;
                 case "RefGetter_Singleton":
@@ -2872,10 +2968,11 @@ namespace Loqui.Tests
                         {
                             item.RefSetter = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter,
+                            subMask);
                     }
                     break;
                 case "RefSetter_NotNull":
@@ -2889,10 +2986,11 @@ namespace Loqui.Tests
                         {
                             item.RefSetter_NotNull = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull,
+                            subMask);
                     }
                     break;
                 case "RefSetter_Singleton":
@@ -2912,10 +3010,11 @@ namespace Loqui.Tests
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter_Singleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_Singleton,
+                            subMask);
                     }
                     break;
                 case "List":
@@ -2938,10 +3037,11 @@ namespace Loqui.Tests
                         {
                             item._List.SetTo(listTryGet.Value);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().List = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.List,
+                            subMask);
                     }
                     break;
                 case "RefList":
@@ -2963,10 +3063,11 @@ namespace Loqui.Tests
                         {
                             item._RefList.SetTo(listTryGet.Value);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefList = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefList,
+                            subMask);
                     }
                     break;
                 case "Dict":
@@ -2997,10 +3098,11 @@ namespace Loqui.Tests
                         {
                             item._Dict.SetTo(dictTryGet.Value, cmds: null);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Dict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Dict,
+                            subMask);
                     }
                     break;
                 case "RefDict":
@@ -3030,10 +3132,11 @@ namespace Loqui.Tests
                         {
                             item._RefDict.SetTo(dictTryGet.Value, cmds: null);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefDict,
+                            subMask);
                     }
                     break;
                 case "KeyRefDict":
@@ -3064,10 +3167,11 @@ namespace Loqui.Tests
                         {
                             item._KeyRefDict.SetTo(dictTryGet.Value, cmds: null);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().KeyRefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.KeyRefDict,
+                            subMask);
                     }
                     break;
                 case "ValRefDict":
@@ -3097,10 +3201,11 @@ namespace Loqui.Tests
                         {
                             item._ValRefDict.SetTo(dictTryGet.Value, cmds: null);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ValRefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ValRefDict,
+                            subMask);
                     }
                     break;
                 case "DictKeyedValue":
@@ -3122,10 +3227,11 @@ namespace Loqui.Tests
                         {
                             item._DictKeyedValue.SetTo(dictTryGet.Value, cmds: null);
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DictKeyedValue = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DictKeyedValue,
+                            subMask);
                     }
                     break;
                 default:
@@ -7647,10 +7753,11 @@ namespace Loqui.Tests.Internals
                             item.ByteArray,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArray = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArray,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7660,10 +7767,11 @@ namespace Loqui.Tests.Internals
                             item.ByteArrayNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArrayNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7673,10 +7781,11 @@ namespace Loqui.Tests.Internals
                             item.ByteArrayNotNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArrayNotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNotNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7686,10 +7795,11 @@ namespace Loqui.Tests.Internals
                             item.ByteArraySingleton,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ByteArraySingleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ByteArraySingleton,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7699,10 +7809,11 @@ namespace Loqui.Tests.Internals
                             item.BoolN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().BoolN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.BoolN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7712,10 +7823,11 @@ namespace Loqui.Tests.Internals
                             item.Bool,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Bool = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Bool,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7725,10 +7837,11 @@ namespace Loqui.Tests.Internals
                             item.CharN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().CharN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.CharN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7738,10 +7851,11 @@ namespace Loqui.Tests.Internals
                             item.Char,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Char = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Char,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7751,10 +7865,11 @@ namespace Loqui.Tests.Internals
                             item.DateTimeNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DateTimeNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DateTimeNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7764,10 +7879,11 @@ namespace Loqui.Tests.Internals
                             item.DateTime,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DateTime = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DateTime,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7777,10 +7893,11 @@ namespace Loqui.Tests.Internals
                             item.DoubleN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DoubleN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7790,10 +7907,11 @@ namespace Loqui.Tests.Internals
                             item.DoubleN_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DoubleN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DoubleN_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7803,10 +7921,11 @@ namespace Loqui.Tests.Internals
                             item.Double,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Double = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Double,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7816,10 +7935,11 @@ namespace Loqui.Tests.Internals
                             item.Double_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Double_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Double_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7829,10 +7949,11 @@ namespace Loqui.Tests.Internals
                             item.FloatN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FloatN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FloatN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7842,10 +7963,11 @@ namespace Loqui.Tests.Internals
                             item.FloatN_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FloatN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FloatN_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7855,10 +7977,11 @@ namespace Loqui.Tests.Internals
                             item.Float,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Float = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Float,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7868,10 +7991,11 @@ namespace Loqui.Tests.Internals
                             item.Float_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Float_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Float_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7881,10 +8005,11 @@ namespace Loqui.Tests.Internals
                             item.Int16N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7894,10 +8019,11 @@ namespace Loqui.Tests.Internals
                             item.Int16N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7907,10 +8033,11 @@ namespace Loqui.Tests.Internals
                             item.Int16,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7920,10 +8047,11 @@ namespace Loqui.Tests.Internals
                             item.Int16_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int16_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int16_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7933,10 +8061,11 @@ namespace Loqui.Tests.Internals
                             item.Int32N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7946,10 +8075,11 @@ namespace Loqui.Tests.Internals
                             item.Int32N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7959,10 +8089,11 @@ namespace Loqui.Tests.Internals
                             item.Int32,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7972,10 +8103,11 @@ namespace Loqui.Tests.Internals
                             item.Int32_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int32_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int32_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7985,10 +8117,11 @@ namespace Loqui.Tests.Internals
                             item.Int64N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -7998,10 +8131,11 @@ namespace Loqui.Tests.Internals
                             item.Int64N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8011,10 +8145,11 @@ namespace Loqui.Tests.Internals
                             item.Int64,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8024,10 +8159,11 @@ namespace Loqui.Tests.Internals
                             item.Int64_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int64_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int64_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8037,10 +8173,11 @@ namespace Loqui.Tests.Internals
                             item.Int8N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8050,10 +8187,11 @@ namespace Loqui.Tests.Internals
                             item.Int8N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8063,10 +8201,11 @@ namespace Loqui.Tests.Internals
                             item.Int8,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8076,10 +8215,11 @@ namespace Loqui.Tests.Internals
                             item.Int8_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Int8_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Int8_Ranged,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8090,10 +8230,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Unsafe = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Unsafe,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8104,10 +8245,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UnsafeLoqui = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UnsafeLoqui,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8118,10 +8260,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UnsafeNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UnsafeNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8131,10 +8274,11 @@ namespace Loqui.Tests.Internals
                             item.P2IntN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P2IntN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P2IntN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8144,10 +8288,11 @@ namespace Loqui.Tests.Internals
                             item.P2Int,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P2Int = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P2Int,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8157,10 +8302,11 @@ namespace Loqui.Tests.Internals
                             item.P3DoubleN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3DoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3DoubleN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8170,10 +8316,11 @@ namespace Loqui.Tests.Internals
                             item.P3Double,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3Double = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3Double,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8183,10 +8330,11 @@ namespace Loqui.Tests.Internals
                             item.P3IntN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3IntN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3IntN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8196,10 +8344,11 @@ namespace Loqui.Tests.Internals
                             item.P3Int,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().P3Int = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.P3Int,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8209,10 +8358,11 @@ namespace Loqui.Tests.Internals
                             item.PercentN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().PercentN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.PercentN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8222,10 +8372,11 @@ namespace Loqui.Tests.Internals
                             item.Percent,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Percent = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Percent,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8235,10 +8386,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt8N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8248,10 +8400,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt8,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8261,10 +8414,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt16N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8274,10 +8428,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt16,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8287,10 +8442,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt32N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8300,10 +8456,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt32,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8313,10 +8470,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt64N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8326,10 +8484,11 @@ namespace Loqui.Tests.Internals
                             item.RangeInt64,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8339,10 +8498,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt8N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8352,10 +8512,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt8,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8365,10 +8526,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt16N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8378,10 +8540,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt16,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8391,10 +8554,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt32N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8404,10 +8568,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt32,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8417,10 +8582,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt64N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8430,10 +8596,11 @@ namespace Loqui.Tests.Internals
                             item.RangeUInt64,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RangeUInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8443,10 +8610,11 @@ namespace Loqui.Tests.Internals
                             item.String,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().String = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.String,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8456,10 +8624,11 @@ namespace Loqui.Tests.Internals
                             item.FilePath,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FilePath = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FilePath,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8469,10 +8638,11 @@ namespace Loqui.Tests.Internals
                             item.FilePathNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().FilePathNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.FilePathNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8482,10 +8652,11 @@ namespace Loqui.Tests.Internals
                             item.DirectoryPath,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DirectoryPath = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPath,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8495,10 +8666,11 @@ namespace Loqui.Tests.Internals
                             item.DirectoryPathNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DirectoryPathNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPathNull,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8508,10 +8680,11 @@ namespace Loqui.Tests.Internals
                             item.UDoubleN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDoubleN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8521,10 +8694,11 @@ namespace Loqui.Tests.Internals
                             item.UDoubleN_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDoubleN_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8534,10 +8708,11 @@ namespace Loqui.Tests.Internals
                             item.UDouble,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDouble = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDouble,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8547,10 +8722,11 @@ namespace Loqui.Tests.Internals
                             item.UDouble_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UDouble_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UDouble_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8560,10 +8736,11 @@ namespace Loqui.Tests.Internals
                             item.UInt16N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8573,10 +8750,11 @@ namespace Loqui.Tests.Internals
                             item.UInt16N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8586,10 +8764,11 @@ namespace Loqui.Tests.Internals
                             item.UInt16,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8599,10 +8778,11 @@ namespace Loqui.Tests.Internals
                             item.UInt16_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt16_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt16_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8612,10 +8792,11 @@ namespace Loqui.Tests.Internals
                             item.UInt32N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8625,10 +8806,11 @@ namespace Loqui.Tests.Internals
                             item.UInt32N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8638,10 +8820,11 @@ namespace Loqui.Tests.Internals
                             item.UInt32,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8651,10 +8834,11 @@ namespace Loqui.Tests.Internals
                             item.UInt32_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt32_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt32_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8664,10 +8848,11 @@ namespace Loqui.Tests.Internals
                             item.UInt64N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8677,10 +8862,11 @@ namespace Loqui.Tests.Internals
                             item.UInt64N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8690,10 +8876,11 @@ namespace Loqui.Tests.Internals
                             item.UInt64,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8703,10 +8890,11 @@ namespace Loqui.Tests.Internals
                             item.UInt64_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt64_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt64_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8716,10 +8904,11 @@ namespace Loqui.Tests.Internals
                             item.UInt8N,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8N = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8N,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8729,10 +8918,11 @@ namespace Loqui.Tests.Internals
                             item.UInt8N_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8N_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8N_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8742,10 +8932,11 @@ namespace Loqui.Tests.Internals
                             item.UInt8,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8 = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8755,10 +8946,11 @@ namespace Loqui.Tests.Internals
                             item.UInt8_Ranged,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().UInt8_Ranged = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.UInt8_Ranged,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8768,10 +8960,11 @@ namespace Loqui.Tests.Internals
                             item.Enum,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Enum = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Enum,
+                            subMask);
                     }
                     {
                         Exception subMask;
@@ -8781,10 +8974,11 @@ namespace Loqui.Tests.Internals
                             item.EnumNull,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().EnumNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.EnumNull,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8795,10 +8989,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCard = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCard,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8809,10 +9004,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCardLoqui = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCardLoqui,
+                            subMask);
                     }
                     {
                         object subMask;
@@ -8823,10 +9019,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (object)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().WildCardNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.WildCardNull,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8837,10 +9034,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8851,10 +9049,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref_NotNull,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8865,10 +9064,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref_Singleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Ref_Singleton,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8879,10 +9079,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefGetter = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefGetter,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8893,10 +9094,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefGetter_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8907,10 +9109,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefGetter_Singleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefGetter_Singleton,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8921,10 +9124,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8935,10 +9139,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter_NotNull = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
@@ -8949,10 +9154,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefSetter_Singleton = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_Singleton,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<Exception>> subMask;
@@ -8972,10 +9178,11 @@ namespace Loqui.Tests.Internals
                                     errorMask: out listSubMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().List = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.List,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
@@ -8996,10 +9203,11 @@ namespace Loqui.Tests.Internals
                                 listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefList = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefList,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
@@ -9029,10 +9237,11 @@ namespace Loqui.Tests.Internals
                                     errorMask: out dictSubMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Dict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.Dict,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
@@ -9064,10 +9273,11 @@ namespace Loqui.Tests.Internals
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.RefDict,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
@@ -9098,10 +9308,11 @@ namespace Loqui.Tests.Internals
                                     errorMask: out dictSubMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().KeyRefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.KeyRefDict,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
@@ -9132,10 +9343,11 @@ namespace Loqui.Tests.Internals
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().ValRefDict = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.ValRefDict,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
@@ -9156,10 +9368,11 @@ namespace Loqui.Tests.Internals
                                 dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().DictKeyedValue = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_ReadOnly_FieldIndex.DictKeyedValue,
+                            subMask);
                     }
                 }
             }

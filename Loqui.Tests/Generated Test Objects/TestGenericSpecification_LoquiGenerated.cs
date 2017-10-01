@@ -404,10 +404,11 @@ namespace Loqui.Tests
                         {
                             item.TestGenericObjectSpecified = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().TestGenericObjectSpecified = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
+                            subMask);
                     }
                     break;
                 case "TestGenericObjectHalfSpecified":
@@ -421,10 +422,11 @@ namespace Loqui.Tests
                         {
                             item.TestGenericObjectHalfSpecified = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().TestGenericObjectHalfSpecified = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
+                            subMask);
                     }
                     break;
                 default:
@@ -1206,10 +1208,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out TestGenericObject_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().TestGenericObjectSpecified = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
+                            subMask);
                     }
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask> subMask;
@@ -1220,10 +1223,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out TestGenericObject_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().TestGenericObjectHalfSpecified = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
+                            subMask);
                     }
                 }
             }

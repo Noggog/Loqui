@@ -442,10 +442,11 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             mask: out subMask);
                         item._RefBase.SetIfSucceeded(tryGet);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefBase = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.RefBase,
+                            subMask);
                     }
                     break;
                 case "Ref":
@@ -457,10 +458,11 @@ namespace Loqui.Tests
                             maskObj: out var unsafeMask);
                         item._Ref.SetIfSucceeded(tryGet.Bubble<R>(i => (R)i));
                         subMask = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.Ref,
+                            subMask);
                     }
                     break;
                 case "RefList":
@@ -479,10 +481,11 @@ namespace Loqui.Tests
                             }
                             );
                         item._RefList.SetIfSucceeded(listTryGet);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefList = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.RefList,
+                            subMask);
                     }
                     break;
                 default:
@@ -1355,10 +1358,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             errorMask: out ObjectToRef_ErrorMask loquiMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefBase = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.RefBase,
+                            subMask);
                     }
                     if (item.Ref_Property.HasBeenSet)
                     {
@@ -1370,10 +1374,11 @@ namespace Loqui.Tests.Internals
                             doMasks: doMasks,
                             maskObj: out var unsafeErrMask);
                         subMask = (MaskItem<Exception, object>)unsafeErrMask;
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().Ref = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.Ref,
+                            subMask);
                     }
                     if (item.RefList.HasBeenSet)
                     {
@@ -1395,10 +1400,11 @@ namespace Loqui.Tests.Internals
                                 listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                             }
                             );
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().RefList = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestGenericObject_FieldIndex.RefList,
+                            subMask);
                     }
                 }
             }

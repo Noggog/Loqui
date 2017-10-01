@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("MaskItem<Exception, IEnumerable<MaskItem<Exception, MajorRecord_ErrorMask>>> subMask;"))
+            if (str.Contains("ObjectToRef_FieldIndex"))
             {
                 int wer = 23;
                 wer++;

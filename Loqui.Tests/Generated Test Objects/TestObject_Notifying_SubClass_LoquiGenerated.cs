@@ -417,10 +417,11 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out subMask);
                         item._NewField.SetIfSucceeded(tryGet);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().NewField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
+                            subMask);
                     }
                     break;
                 default:
@@ -1042,10 +1043,11 @@ namespace Loqui.Tests.Internals
                             item.NewField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().NewField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
+                            subMask);
                     }
                 }
             }

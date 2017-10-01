@@ -428,10 +428,11 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out subMask);
                         item._KeyField.SetIfSucceeded(tryGet);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().KeyField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)ObjectToRef_FieldIndex.KeyField,
+                            subMask);
                     }
                     break;
                 case "SomeField":
@@ -442,10 +443,11 @@ namespace Loqui.Tests
                             doMasks: doMasks,
                             errorMask: out subMask);
                         item._SomeField.SetIfSucceeded(tryGet);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().SomeField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)ObjectToRef_FieldIndex.SomeField,
+                            subMask);
                     }
                     break;
                 default:
@@ -1120,10 +1122,11 @@ namespace Loqui.Tests.Internals
                             item.KeyField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().KeyField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)ObjectToRef_FieldIndex.KeyField,
+                            subMask);
                     }
                     if (item.SomeField_Property.HasBeenSet)
                     {
@@ -1134,10 +1137,11 @@ namespace Loqui.Tests.Internals
                             item.SomeField,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().SomeField = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)ObjectToRef_FieldIndex.SomeField,
+                            subMask);
                     }
                 }
             }

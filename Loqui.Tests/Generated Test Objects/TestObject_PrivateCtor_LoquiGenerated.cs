@@ -396,10 +396,11 @@ namespace Loqui.Tests
                         {
                             item.BoolN = tryGet.Value;
                         }
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().BoolN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_PrivateCtor_FieldIndex.BoolN,
+                            subMask);
                     }
                     break;
                 default:
@@ -991,10 +992,11 @@ namespace Loqui.Tests.Internals
                             item.BoolN,
                             doMasks: doMasks,
                             errorMask: out subMask);
-                        if (doMasks && subMask != null)
-                        {
-                            errorMask().BoolN = subMask;
-                        }
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            doMasks,
+                            (int)TestObject_PrivateCtor_FieldIndex.BoolN,
+                            subMask);
                     }
                 }
             }
