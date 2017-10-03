@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3b660698961fd4782bcafc10afd06846ee781692</Sha>
+         <Sha>6528f0ad5c1749bfdef5ddfc6da5dd36ff182f4b</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-30-2017 20:36:29</CommitDate>
-         <Description>NotifyingItem convenience methods for subscribe</Description>
+         <CommitDate>10-03-2017 00:03:47</CommitDate>
+         <Description>TypeExt unit test work</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

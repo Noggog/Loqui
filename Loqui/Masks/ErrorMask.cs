@@ -39,11 +39,11 @@ namespace Loqui
             throw new NotImplementedException();
         }
 
-        public static void HandleErrorMask<M>(
+        public static void HandleErrorMask<M, O>(
             Func<M> creator,
             bool doMasks,
             int index,
-            object errMaskObj)
+            O errMaskObj)
             where M : IErrorMask
         {
             if (!doMasks) return;
