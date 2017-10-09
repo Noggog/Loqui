@@ -34,12 +34,12 @@ namespace Loqui.Generation
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, "Exception")}(ex, null);");
+            fg.AppendLine($"this.{field.Name} = new {GetErrorMaskTypeStr(field)}(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
-            fg.AppendLine($"this.{field.Name} = ({GetMaskString(field as ContainerType, "Exception")})obj;");
+            fg.AppendLine($"this.{field.Name} = ({GetErrorMaskTypeStr(field)})obj;");
         }
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
@@ -191,7 +191,18 @@ namespace Loqui.Generation
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)
         {
-            return $"MaskItem<Exception, IEnumerable<{GetItemString(field as ContainerType, "Exception")}>>";
+            var contType = field as ContainerType;
+            LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
+            string itemStr;
+            if (loquiType == null)
+            {
+                itemStr = GetItemString(contType, "Exception");
+            }
+            else
+            {
+                itemStr = $"MaskItem<Exception, {loquiType.ErrorMaskItemString}>";
+            }
+            return $"MaskItem<Exception, IEnumerable<{itemStr}>>";
         }
 
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)

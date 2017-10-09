@@ -17,7 +17,7 @@ namespace Loqui.Generation
         public virtual string PropertyOrName => $"{(this.Notifying == NotifyingOption.None ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public abstract string ProtectedName { get; }
-        public string HasBeenSetAccessor => this.Property + ".HasBeenSet";
+        public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public bool RaisePropertyChanged;
@@ -162,7 +162,7 @@ namespace Loqui.Generation
         public override string ToString()
         {
             if (string.IsNullOrWhiteSpace(this.Name)) return base.ToString();
-            return $"{this.Name} {base.ToString()}";
+            return $"{base.ToString()}: {this.Name}";
         }
 
         public virtual void Resolve()

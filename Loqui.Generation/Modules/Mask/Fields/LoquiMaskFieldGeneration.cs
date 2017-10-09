@@ -52,7 +52,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.RefGen.Obj.CopyMask}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.CopyMaskItemString}> {field.Name};");
                 }
             }
             else

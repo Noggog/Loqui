@@ -6,6 +6,8 @@ namespace Loqui.Generation
 {
     public class MaskModule : GenerationModule
     {
+        public const string ErrMaskNickname = "ErrMask";
+        public const string CopyMaskNickname = "CopyMask";
         private Dictionary<Type, MaskModuleField> _fieldMapping = new Dictionary<Type, MaskModuleField>();
         public TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
 
@@ -196,8 +198,12 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-
+            
             fg.AppendLine($"public class {obj.ErrorMask} : {(obj.HasBaseObject ? $"{obj.BaseClass.ErrorMask}" : "IErrorMask")}");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLines(obj.GenericTypes_ErrorMaskWheres);
+            }
             using (new BraceWrapper(fg))
             {
                 using (new RegionWrapper(fg, "Members"))
@@ -287,7 +293,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public{obj.FunctionOverride}void ToString({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask} =>\");");
+                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask_BasicName} =>\");");
                         fg.AppendLine($"fg.AppendLine(\"[\");");
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
@@ -350,6 +356,10 @@ namespace Loqui.Generation
             }
 
             fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLines(obj.GenericTypes_CopyMaskWheres);
+            }
             using (new BraceWrapper(fg))
             {
                 using (new RegionWrapper(fg, "Members"))

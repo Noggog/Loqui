@@ -69,8 +69,50 @@ namespace Loqui.Generation
         private string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
-        public string ErrorMaskItemString => this.TargetObjectGeneration?.ErrorMask ?? "object";
-        public string CopyMaskItemString => this.TargetObjectGeneration?.CopyMask ?? "object";
+        public string ErrorMaskItemString
+        {
+            get
+            {
+                if (this.GenericDef != null)
+                {
+                    if (this.TargetObjectGeneration == null)
+                    {
+                        return "object";
+                    }
+                    else
+                    {
+                        return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
+                    }
+                }
+                else if (this.GenericSpecification != null)
+                {
+                    return this.TargetObjectGeneration.ErrorMask_Specified(this.GenericSpecification);
+                }
+                return this.TargetObjectGeneration.ErrorMask;
+            }
+        }
+        public string CopyMaskItemString
+        {
+            get
+            {
+                if (this.GenericDef != null)
+                {
+                    if (this.TargetObjectGeneration == null)
+                    {
+                        return "object";
+                    }
+                    else
+                    {
+                        return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
+                    }
+                }
+                else if (this.GenericSpecification != null)
+                {
+                    return this.TargetObjectGeneration.CopyMask_Specified(this.GenericSpecification);
+                }
+                return this.TargetObjectGeneration.CopyMask;
+            }
+        }
         public ObjectGeneration TargetObjectGeneration
         {
             get
@@ -614,14 +656,14 @@ namespace Loqui.Generation
                         args.Add($"doErrorMask: doErrorMask");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.RefGen.Obj.ErrorMask}>(() =>");
+                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.ErrorMaskItemString}>(() =>");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"var baseMask = errorMask();");
                                 gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
                                 using (new BraceWrapper(gen))
                                 {
-                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.RefGen.Obj.ErrorMask}>(null, new {this.RefGen.Obj.ErrorMask}());");
+                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.ErrorMaskItemString}>(null, new {this.ErrorMaskItemString}());");
                                 }
                                 gen.AppendLine($"return baseMask.{this.Name}.Specific;");
                             }
