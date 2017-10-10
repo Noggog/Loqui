@@ -176,7 +176,17 @@ namespace Loqui.Generation
         public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
         {
             ContainerType cont = field as ContainerType;
-            fg.AppendLine($"{retAccessor} = new {GetMaskString(cont, "Exception")}({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{GetItemString(cont, "Exception")}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+            LoquiType loquiType = cont.SubTypeGeneration as LoquiType;
+            string itemStr;
+            if (loquiType == null)
+            {
+                itemStr = GetItemString(cont, "Exception");
+            }
+            else
+            {
+                itemStr = $"MaskItem<Exception, {loquiType.MaskItemString(MaskType.Error)}>";
+            }
+            fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<{itemStr}>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{itemStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
         }
 
         public override string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor)
