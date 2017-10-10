@@ -199,7 +199,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
             
-            fg.AppendLine($"public class {obj.ErrorMask} : {(obj.HasBaseObject ? $"{obj.BaseClass.ErrorMask}" : "IErrorMask")}");
+            fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}");
             using (new DepthWrapper(fg))
             {
                 fg.AppendLines(obj.GenericTypes_ErrorMaskWheres);
@@ -293,7 +293,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public{obj.FunctionOverride}void ToString({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.AppendLine(\"{obj.ErrorMask_BasicName} =>\");");
+                        fg.AppendLine($"fg.AppendLine(\"{obj.Mask_BasicName(MaskType.Error)} =>\");");
                         fg.AppendLine($"fg.AppendLine(\"[\");");
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
@@ -335,10 +335,10 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Combine"))
                 {
-                    fg.AppendLine($"public {obj.ErrorMask} Combine({obj.ErrorMask} rhs)");
+                    fg.AppendLine($"public {obj.Mask(MaskType.Error)} Combine({obj.Mask(MaskType.Error)} rhs)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"var ret = new {obj.ErrorMask}();");
+                        fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error)}();");
                         foreach (var field in obj.Fields)
                         {
                             GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
@@ -346,7 +346,7 @@ namespace Loqui.Generation
                         fg.AppendLine("return ret;");
                     }
 
-                    fg.AppendLine($"public static {obj.ErrorMask} Combine({obj.ErrorMask} lhs, {obj.ErrorMask} rhs)");
+                    fg.AppendLine($"public static {obj.Mask(MaskType.Error)} Combine({obj.Mask(MaskType.Error)} lhs, {obj.Mask(MaskType.Error)} rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if (lhs != null && rhs != null) return lhs.Combine(rhs);");
@@ -355,7 +355,7 @@ namespace Loqui.Generation
                 }
             }
 
-            fg.AppendLine($"public class {obj.CopyMask}{(obj.HasBaseObject ? $" : {obj.BaseClass.CopyMask}" : string.Empty)}");
+            fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
             using (new DepthWrapper(fg))
             {
                 fg.AppendLines(obj.GenericTypes_CopyMaskWheres);

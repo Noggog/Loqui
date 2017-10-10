@@ -104,7 +104,7 @@ namespace Loqui.Generation
 
         public override void Load()
         {
-            this.Interfaces.Add($"ILoquiWriterSerializer<{this.ErrorMask}>");
+            this.Interfaces.Add($"ILoquiWriterSerializer<{this.Mask(MaskType.Error)}>");
 
             base.Load();
             foreach (var field in this.Fields)

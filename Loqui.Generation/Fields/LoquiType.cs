@@ -69,50 +69,6 @@ namespace Loqui.Generation
         private string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
-        public string ErrorMaskItemString
-        {
-            get
-            {
-                if (this.GenericDef != null)
-                {
-                    if (this.TargetObjectGeneration == null)
-                    {
-                        return "object";
-                    }
-                    else
-                    {
-                        return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
-                    }
-                }
-                else if (this.GenericSpecification != null)
-                {
-                    return this.TargetObjectGeneration.ErrorMask_Specified(this.GenericSpecification);
-                }
-                return this.TargetObjectGeneration.ErrorMask;
-            }
-        }
-        public string CopyMaskItemString
-        {
-            get
-            {
-                if (this.GenericDef != null)
-                {
-                    if (this.TargetObjectGeneration == null)
-                    {
-                        return "object";
-                    }
-                    else
-                    {
-                        return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
-                    }
-                }
-                else if (this.GenericSpecification != null)
-                {
-                    return this.TargetObjectGeneration.CopyMask_Specified(this.GenericSpecification);
-                }
-                return this.TargetObjectGeneration.CopyMask;
-            }
-        }
         public ObjectGeneration TargetObjectGeneration
         {
             get
@@ -173,6 +129,35 @@ namespace Loqui.Generation
         public string GetMaskString(string str)
         {
             return this.TargetObjectGeneration?.GetMaskString(str) ?? "object";
+        }
+
+        public string MaskItemString(MaskType type)
+        {
+            if (this.GenericDef != null)
+            {
+                if (this.TargetObjectGeneration == null)
+                {
+                    return "object";
+                }
+                else
+                {
+                    switch (type)
+                    {
+                        case MaskType.Error:
+                            return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
+                        case MaskType.Copy:
+                            return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
+                        case MaskType.Normal:
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
+            }
+            else if (this.GenericSpecification != null)
+            {
+                return this.TargetObjectGeneration.Mask_Specified(type, this.GenericSpecification);
+            }
+            return this.TargetObjectGeneration.Mask(type);
         }
 
         public override bool CopyNeedsTryCatch => true;
@@ -656,14 +641,14 @@ namespace Loqui.Generation
                         args.Add($"doErrorMask: doErrorMask");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.ErrorMaskItemString}>(() =>");
+                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.MaskItemString(MaskType.Error)}>(() =>");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"var baseMask = errorMask();");
                                 gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
                                 using (new BraceWrapper(gen))
                                 {
-                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.ErrorMaskItemString}>(null, new {this.ErrorMaskItemString}());");
+                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.MaskItemString(MaskType.Error)}>(null, new {this.MaskItemString(MaskType.Error)}());");
                                 }
                                 gen.AppendLine($"return baseMask.{this.Name}.Specific;");
                             }

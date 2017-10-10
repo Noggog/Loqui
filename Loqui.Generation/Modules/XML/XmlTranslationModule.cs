@@ -181,12 +181,12 @@ namespace Loqui.Generation
             if (!obj.Abstract)
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal{obj.GenericClause_Nickname(MaskModule.ErrMaskNickname)}",
+                    $"private static {obj.ObjectName} Create_{ModuleNickname}_Internal{obj.Mask_GenericClause(MaskType.Error)}",
                     wheres: obj.GenericTypes_ErrorMaskWheres))
                 {
                     args.Add("XElement root");
                     args.Add("bool doMasks");
-                    args.Add($"Func<{obj.ErrorMask}> errorMask");
+                    args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -220,14 +220,14 @@ namespace Loqui.Generation
             }
 
             using (var args = new FunctionWrapper(fg,
-                $"protected static void Fill_{ModuleNickname}_Internal{obj.GenericClause_Nickname(MaskModule.ErrMaskNickname)}",
+                $"protected static void Fill_{ModuleNickname}_Internal{obj.Mask_GenericClause(MaskType.Error)}",
                 wheres: obj.GenericTypes_ErrorMaskWheres))
             {
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");
                 args.Add("string name");
                 args.Add("bool doMasks");
-                args.Add($"Func<{obj.ErrorMask}> errorMask");
+                args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
             }
             using (new BraceWrapper(fg))
             {
@@ -358,7 +358,7 @@ namespace Loqui.Generation
         protected override void GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, bool usingErrorMask)
         {
             using (var args = new ArgsWrapper(fg,
-                $"LoquiXmlTranslation<{obj.ObjectName}, {(usingErrorMask ? obj.ErrorMask : obj.ErrorMask_GenericAssumed)}>.Instance.CopyIn"))
+                $"LoquiXmlTranslation<{obj.ObjectName}, {(usingErrorMask ? obj.Mask(MaskType.Error) : obj.Mask_GenericAssumed(MaskType.Error))}>.Instance.CopyIn"))
             using (new DepthWrapper(fg))
             {
                 foreach (var item in this.MainAPI.ReaderPassArgs)
@@ -383,13 +383,13 @@ namespace Loqui.Generation
 
         protected override void GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"{obj.ErrorMask} errMaskRet = null;");
+            fg.AppendLine($"{obj.Mask(MaskType.Error)} errMaskRet = null;");
             using (var args = new ArgsWrapper(fg,
                 $"var ret = Create_{ModuleNickname}_Internal"))
             {
                 args.Add("root: root");
                 args.Add("doMasks: doMasks");
-                args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.ErrorMask}()) : default(Func<{obj.ErrorMask}>)");
+                args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.Mask(MaskType.Error)}()) : default(Func<{obj.Mask(MaskType.Error)}>)");
             }
             fg.AppendLine($"return (ret, errMaskRet);");
         }

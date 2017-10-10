@@ -61,16 +61,16 @@ namespace Loqui.Generation
                     }
                     else if (keyLoquiType != null && valueLoquiType != null)
                     {
-                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.RefGen.Obj.CopyMask} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.RefGen.Obj.CopyMask} Mask)>> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.RefGen.Obj.Mask(MaskType.Copy)} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.RefGen.Obj.Mask(MaskType.Copy)} Mask)>> {field.Name};");
                     }
                     else
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.RefGen.Obj.CopyMask} Mask)> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.RefGen.Obj.Mask(MaskType.Copy)} Mask)> {field.Name};");
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.RefGen.Obj.CopyMask}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.RefGen.Obj.Mask(MaskType.Copy)}> {field.Name};");
                     break;
                 default:
                     break;
