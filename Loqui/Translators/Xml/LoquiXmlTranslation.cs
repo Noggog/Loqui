@@ -22,6 +22,8 @@ namespace Loqui.Xml
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
         public delegate T CREATE_FUNC(XElement root, bool doMasks, out M errorMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
+        public delegate void WRITE_FUNC(XmlWriter writer, T item, string name, bool doMasks, out M errorMask);
+        private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             ILoquiRegistration registration,
@@ -143,6 +145,21 @@ namespace Loqui.Xml
                 var ret = f(root, doMasks);
                 errorMask = ret.mask;
                 return ret.item;
+            };
+        }
+
+        public static WRITE_FUNC GetWriteFunc()
+        {
+            var f = DelegateBuilder.BuildDelegate<Func<XmlWriter, T, string, bool, M>>(
+                typeof(T).GetMethods()
+                .Where((methodInfo) => methodInfo.Name.Equals("Write_XML"))
+                .Where((methodInfo) => methodInfo.IsStatic
+                    && methodInfo.IsPublic)
+                .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(M)))
+                .First());
+            return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+            {
+                errorMask = f(writer, item, name, doMasks);
             };
         }
 
