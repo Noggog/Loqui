@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -7,10 +8,24 @@ namespace Loqui.Generation
         public override string TypeName => $"NotifyingList<{this.ItemTypeName}>";
         public override bool CopyNeedsTryCatch => true;
         public override string SetToName => $"IEnumerable<{this.ItemTypeName}>";
+        public int? MaxValue;
+
+        public override void Load(XElement node, bool requireName = true)
+        {
+            base.Load(node, requireName);
+            this.MaxValue = node.GetAttribute<int?>("maxSize", null);
+        }
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
+            if (MaxValue.HasValue)
+            {
+                fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingListBounded<{ItemTypeName}>(max: {MaxValue});");
+            }
+            else
+            {
+                fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
+            }
             fg.AppendLine($"public INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }

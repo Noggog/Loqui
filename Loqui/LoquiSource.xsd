@@ -1183,6 +1183,7 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:group ref="FieldOptions" minOccurs="1" maxOccurs="1" />
+        <xs:attribute name="maxSize" type="xs:int" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
