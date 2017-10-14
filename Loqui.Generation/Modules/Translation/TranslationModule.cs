@@ -700,6 +700,37 @@ namespace Loqui.Generation
                         }
                     }
                 }
+
+                if (!obj.Abstract)
+                {
+                    using (var args = new FunctionWrapper(fg,
+                        $"private static {obj.Mask(MaskType.Error)} Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
+                        wheres: obj.GenericTypes_ErrorMaskWheres))
+                    {
+                        foreach (var item in this.MainAPI.WriterAPI.API)
+                        {
+                            args.Add(item);
+                        }
+                        args.Add($"{obj.ObjectName} item");
+                        args.Add($"bool doMasks");
+                        foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
+                        {
+                            args.Add(item);
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{obj.ExtCommonName}.Write_{ModuleNickname}{obj.GenericTypes_ErrMask}"))
+                        {
+                            args.Add("writer: writer");
+                            args.Add("item: item");
+                            args.Add("doMasks: doMasks");
+                            args.Add("errorMask: out var errorMask");
+                        }
+                        fg.AppendLine("return errorMask;");
+                    }
+                }
             }
         }
     }
