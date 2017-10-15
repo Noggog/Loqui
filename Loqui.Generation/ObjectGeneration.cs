@@ -40,7 +40,6 @@ namespace Loqui.Generation
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
         public string EmptyGenerics => (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
         public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
-        public virtual string FunctionOverride => " ";
         public virtual string NewOverride => " ";
         public virtual string ProtectedKeyword => "protected";
         public ushort? ID;
@@ -952,7 +951,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GenericTypes}(index, this);");
+                fg.AppendLine($"protected{this.FunctionOverride()}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GenericTypes}(index, this);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);");
@@ -961,7 +960,7 @@ namespace Loqui.Generation
 
                 using (new LineWrapper(fg))
                 {
-                    fg.Append($"protected{this.FunctionOverride}bool GetNthObjectHasBeenSet(ushort index) => ");
+                    fg.Append($"protected{this.FunctionOverride()}bool GetNthObjectHasBeenSet(ushort index) => ");
                     if (this is ClassGeneration)
                     {
                         fg.Append($"{this.ExtCommonName}.GetNthObjectHasBeenSet{this.GenericTypes}(index, this);");
@@ -977,7 +976,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
+                fg.AppendLine($"protected{this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);");
@@ -990,7 +989,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Loqui Interface"))
             {
-                fg.AppendLine($"protected{this.FunctionOverride}void SetNthObjectHasBeenSet(ushort index, bool on)");
+                fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{this.ExtCommonName}.SetNthObjectHasBeenSet{this.GenericTypes}(index, on, this);");
@@ -1007,11 +1006,11 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"public static ProtocolKey Loqui_ProtocolKey_Static => new ProtocolKey({ProtoGen.Protocol.Namespace});");
 
-            fg.AppendLine($"public{FunctionOverride}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
+            fg.AppendLine($"public{this.FunctionOverride()}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
 
             fg.AppendLine($"public static ObjectKey Loqui_ObjectKey_Static => new ObjectKey(protocolKey: Loqui_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
 
-            fg.AppendLine($"public{FunctionOverride}ObjectKey Loqui_ObjectKey => Loqui_ObjectKey_Static;");
+            fg.AppendLine($"public{this.FunctionOverride()}ObjectKey Loqui_ObjectKey => Loqui_ObjectKey_Static;");
         }
 
         private void GenerateGetNthObject(FileGeneration fg)
@@ -1095,7 +1094,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine("void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);");
             }
-            fg.AppendLine($"protected{FunctionOverride}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
@@ -1725,7 +1724,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public{this.FunctionOverride}void ToString"))
+                        $"public{this.FunctionOverride()}void ToString"))
                     {
                         args.Add($"FileGeneration fg");
                         args.Add($"string name = null");
@@ -1778,7 +1777,7 @@ namespace Loqui.Generation
 
         protected virtual void GenerateCopy_ToObject(FileGeneration fg)
         {
-            fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride}object Copy_ToObject(object def = null)");
+            fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride()}object Copy_ToObject(object def = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var ret = new {this.ObjectName}();");
@@ -1922,7 +1921,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"public{FunctionOverride}void Clear(NotifyingUnsetParameters? cmds = null)");
+                fg.AppendLine($"public{this.FunctionOverride()}void Clear(NotifyingUnsetParameters? cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("CallClearPartial_Internal(cmds);");
@@ -2328,6 +2327,11 @@ namespace Loqui.Generation
             {
                 yield return (i + startIndex, this.Fields[i]);
             }
+        }
+
+        public virtual string FunctionOverride(bool overrideIfAbstract = true)
+        {
+            return " ";
         }
 
         public IEnumerable<ObjectGeneration> BaseClassTrail()

@@ -114,7 +114,7 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Copy In"))
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public{obj.FunctionOverride}void CopyIn_{ModuleNickname}"))
+                    $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI)
                     {
@@ -490,15 +490,13 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                        $"errorMask = ({obj.Mask(MaskType.Error)})this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
                     {
                         foreach (var item in this.MainAPI.WriterPassArgs)
                         {
                             args.Add(item);
                         }
-                        args.Add($"item: this");
                         args.Add($"doMasks: true");
-                        args.Add($"errorMask: out errorMask");
                     }
                 }
                 fg.AppendLine();
@@ -562,7 +560,7 @@ namespace Loqui.Generation
                     if (obj.HasLoquiGenerics)
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public{obj.FunctionOverride}void Write_{ModuleNickname}"))
+                            $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
                         {
                             foreach (var item in this.MainAPI.WriterAPI)
                             {
@@ -584,7 +582,7 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.FunctionOverride}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
+                        $"public{obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                         wheres: obj.GenericTypes_ErrorMaskWheres))
                     {
                         foreach (var item in this.MainAPI.WriterAPI)
@@ -595,15 +593,13 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{obj.ExtCommonName}.Write_{ModuleNickname}"))
+                            $"this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
                         {
                             foreach (var item in this.MainAPI.WriterPassArgs)
                             {
                                 args.Add(item);
                             }
-                            args.Add($"item: this");
                             args.Add($"doMasks: false");
-                            args.Add($"errorMask: out {obj.Mask(MaskType.Error)} errorMask");
                         }
                     }
                     fg.AppendLine();
@@ -613,7 +609,7 @@ namespace Loqui.Generation
                         if (obj.HasLoquiGenerics)
                         {
                             using (var args = new FunctionWrapper(fg,
-                                $"public{obj.FunctionOverride}void Write_{ModuleNickname}"))
+                                $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
                             {
                                 foreach (var item in minorAPI.WriterAPI)
                                 {
@@ -635,7 +631,7 @@ namespace Loqui.Generation
                         }
 
                         using (var args = new FunctionWrapper(fg,
-                            $"public{obj.FunctionOverride}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
+                            $"public{obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                             wheres: obj.GenericTypes_ErrorMaskWheres))
                         {
                             foreach (var item in minorAPI.WriterAPI)
@@ -701,35 +697,31 @@ namespace Loqui.Generation
                     }
                 }
 
-                if (!obj.Abstract)
+                using (var args = new FunctionWrapper(fg,
+                    $"protected{obj.FunctionOverride()}object Write_{ModuleNickname}_Internal{obj.Mask_GenericClause(MaskType.Error)}",
+                    wheres: obj.GenericTypes_ErrorMaskWheres))
                 {
-                    using (var args = new FunctionWrapper(fg,
-                        $"private static {obj.Mask(MaskType.Error)} Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                        wheres: obj.GenericTypes_ErrorMaskWheres))
+                    foreach (var item in this.MainAPI.WriterAPI.API)
                     {
-                        foreach (var item in this.MainAPI.WriterAPI.API)
-                        {
-                            args.Add(item);
-                        }
-                        args.Add($"{obj.ObjectName} item");
-                        args.Add($"bool doMasks");
-                        foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
-                        {
-                            args.Add(item);
-                        }
+                        args.Add(item);
                     }
-                    using (new BraceWrapper(fg))
+                    args.Add($"bool doMasks");
+                    foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                     {
-                        using (var args = new ArgsWrapper(fg,
-                            $"{obj.ExtCommonName}.Write_{ModuleNickname}{obj.GenericTypes_ErrMask}"))
-                        {
-                            args.Add("writer: writer");
-                            args.Add("item: item");
-                            args.Add("doMasks: doMasks");
-                            args.Add("errorMask: out var errorMask");
-                        }
-                        fg.AppendLine("return errorMask;");
+                        args.Add(item);
                     }
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{obj.ExtCommonName}.Write_{ModuleNickname}{obj.GenericTypes_ErrMask}"))
+                    {
+                        args.Add("writer: writer");
+                        args.Add("item: this");
+                        args.Add("doMasks: doMasks");
+                        args.Add("errorMask: out var errorMask");
+                    }
+                    fg.AppendLine("return errorMask;");
                 }
             }
         }

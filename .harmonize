@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>40bbce6b5de5e14df5e74ec4c75b09f814d761fd</Sha>
+         <Sha>4397573a77d9e4a67ee9b6e42462a45ecf05e6ec</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>10-13-2017 22:21:27</CommitDate>
-         <Description>NotifyingListBounded</Description>
+         <CommitDate>10-15-2017 14:14:27</CommitDate>
+         <Description>Delegate builder for generic non statics</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

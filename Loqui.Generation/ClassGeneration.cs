@@ -14,24 +14,6 @@ namespace Loqui.Generation
         public string BaseClassStr { get; set; }
         public List<ClassGeneration> DerivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => DerivativeClasses.Count > 0; 
-        public override string FunctionOverride
-        {
-            get
-            {
-                if (this.HasBaseObject)
-                {
-                    return " override ";
-                }
-                if (this.HasDerivativeClasses)
-                {
-                    return " virtual ";
-                }
-                else
-                {
-                    return " ";
-                }
-            }
-        }
         public override string NewOverride => HasBaseObject ? " new " : " ";
 
         public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
@@ -111,6 +93,22 @@ namespace Loqui.Generation
                     fg.AppendLine("CustomCtor();");
                 }
                 fg.AppendLine("partial void CustomCtor();");
+            }
+        }
+
+        public override string FunctionOverride(bool overrideIfAbstract = true)
+        {
+            if (this.HasBaseObject && (overrideIfAbstract || !this.BaseClass.Abstract))
+            {
+                return " override ";
+            }
+            if (this.HasDerivativeClasses)
+            {
+                return " virtual ";
+            }
+            else
+            {
+                return " ";
             }
         }
     }

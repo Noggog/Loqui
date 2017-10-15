@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("ObjectToRef_FieldIndex"))
+            if (str.Contains("TES4Common.Write_XML("))
             {
                 int wer = 23;
                 wer++;
