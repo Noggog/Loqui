@@ -51,5 +51,21 @@ namespace Loqui
             var mask = creator();
             mask.SetNthMask(index, errMaskObj);
         }
+
+        public static void HandleException<M>(
+            Func<M> creator,
+            bool doMasks,
+            int index,
+            Exception ex)
+            where M : IErrorMask
+        {
+            if (!doMasks)
+            {
+                if (ex == null) return;
+                throw ex;
+            }
+            var mask = creator();
+            mask.SetNthException(index, ex);
+        }
     }
 }
