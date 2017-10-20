@@ -134,6 +134,10 @@ namespace Loqui.Generation
             yield return "System.IO";
             yield return "Noggog.Xml";
             yield return "Loqui.Xml";
+            foreach (var item in base.RequiredUsingStatements())
+            {
+                yield return item;
+            }
         }
 
         private void ConvertFromStreamOut(FileGeneration fg, InternalTranslation internalToDo)

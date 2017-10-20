@@ -21,7 +21,7 @@ namespace Loqui.Generation
         {
             this.Gen = gen;
         }
-
+        
         public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
             where T : TypeGeneration
         {
@@ -75,7 +75,7 @@ namespace Loqui.Generation
 
         public override IEnumerable<string> RequiredUsingStatements()
         {
-            yield break;
+            yield return "System.Diagnostics";
         }
 
         public override void Modify(LoquiGenerator gen)
@@ -251,6 +251,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Create"))
             {
+                fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
                     $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
                 {
@@ -271,6 +272,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
+                fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
                     $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                     wheres: obj.GenericTypes_ErrorMaskWheres))
@@ -293,6 +295,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
+                fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
                     $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                     wheres: obj.GenericTypes_ErrorMaskWheres))
@@ -317,6 +320,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
+                fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
                     $"public static ({obj.ObjectName} Object, {obj.Mask(MaskType.Error)} ErrorMask) Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                     wheres: obj.GenericTypes_ErrorMaskWheres))
