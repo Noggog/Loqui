@@ -47,7 +47,7 @@ namespace Loqui.Xml
                     {
                         ret.Add(get.Value);
                     }
-                    else
+                    if (subMaskObj != null)
                     {
                         if (!doMasks)
                         { // This shouldn't actually throw, as subparse is expected to throw if doMasks is off
