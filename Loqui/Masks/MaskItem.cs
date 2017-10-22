@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Loqui
 {
@@ -11,6 +12,7 @@ namespace Loqui
         {
         }
         
+        [DebuggerStepThrough]
         public MaskItem(
             T overall,
             V specific)
