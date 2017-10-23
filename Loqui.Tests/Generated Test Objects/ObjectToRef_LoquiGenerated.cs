@@ -1281,7 +1281,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class ObjectToRef_ErrorMask : IErrorMask
+    public class ObjectToRef_ErrorMask : IErrorMask, IErrorMask<ObjectToRef_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }

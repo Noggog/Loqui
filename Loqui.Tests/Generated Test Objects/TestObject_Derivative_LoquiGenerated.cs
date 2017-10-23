@@ -2790,7 +2790,7 @@ namespace Loqui.Tests
                             errorMask: out subMask).Bubble((o) => o.Value);
                         if (tryGet.Succeeded)
                         {
-                            item.Enum = tryGet.Value.Value;
+                            item.Enum = tryGet.Value;
                         }
                         ErrorMask.HandleErrorMask(
                             errorMask,

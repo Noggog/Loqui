@@ -13,4 +13,10 @@ namespace Loqui
         void SetNthException(int index, Exception ex);
         void SetNthMask(int index, object maskObj);
     }
+
+    public interface IErrorMask<M>
+        where M : IErrorMask<M>
+    {
+        M Combine(M rhs);
+    }
 }

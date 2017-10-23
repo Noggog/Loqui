@@ -2790,7 +2790,7 @@ namespace Loqui.Tests
                             errorMask: out subMask).Bubble((o) => o.Value);
                         if (tryGet.Succeeded)
                         {
-                            item.Enum = tryGet.Value.Value;
+                            item.Enum = tryGet.Value;
                         }
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -9040,7 +9040,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.Ref,
                             name: nameof(item.Ref),
@@ -9055,7 +9055,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.Ref_NotNull,
                             name: nameof(item.Ref_NotNull),
@@ -9070,7 +9070,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.Ref_Singleton,
                             name: nameof(item.Ref_Singleton),
@@ -9085,7 +9085,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefGetter,
                             name: nameof(item.RefGetter),
@@ -9100,7 +9100,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefGetter_NotNull,
                             name: nameof(item.RefGetter_NotNull),
@@ -9115,7 +9115,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefGetter_Singleton,
                             name: nameof(item.RefGetter_Singleton),
@@ -9130,7 +9130,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefSetter,
                             name: nameof(item.RefSetter),
@@ -9145,7 +9145,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefSetter_NotNull,
                             name: nameof(item.RefSetter_NotNull),
@@ -9160,7 +9160,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                        LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                             writer: writer,
                             item: item.RefSetter_Singleton,
                             name: nameof(item.RefSetter_Singleton),
@@ -9207,7 +9207,7 @@ namespace Loqui.Tests.Internals
                             maskObj: out subMask,
                             transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
@@ -9266,7 +9266,7 @@ namespace Loqui.Tests.Internals
                             maskObj: out subMask,
                             keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
@@ -9277,7 +9277,7 @@ namespace Loqui.Tests.Internals
                             ,
                             valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
@@ -9302,7 +9302,7 @@ namespace Loqui.Tests.Internals
                             maskObj: out subMask,
                             keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
@@ -9347,7 +9347,7 @@ namespace Loqui.Tests.Internals
                             ,
                             valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
@@ -9372,7 +9372,7 @@ namespace Loqui.Tests.Internals
                             maskObj: out subMask,
                             valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
-                                LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                                     writer: writer,
                                     item: subItem,
                                     name: "Item",
