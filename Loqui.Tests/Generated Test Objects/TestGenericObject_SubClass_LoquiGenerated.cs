@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.IO;
 using Noggog.Xml;
 using Loqui.Xml;
+using System.Diagnostics;
 
 namespace Loqui.Tests
 {
@@ -109,6 +110,7 @@ namespace Loqui.Tests
 
         #region XML Translation
         #region XML Create
+        [DebuggerStepThrough]
         public new static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(XElement root)
         {
             return Create_XML(
@@ -117,6 +119,7 @@ namespace Loqui.Tests
                 errorMask: out var errorMask);
         }
 
+        [DebuggerStepThrough]
         public static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(
             XElement root,
             out TestGenericObject_SubClass_ErrorMask errorMask)
@@ -127,6 +130,7 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        [DebuggerStepThrough]
         public static TestGenericObject_SubClass<S, T, RBase, R> Create_XML(
             XElement root,
             bool doMasks,
@@ -139,6 +143,7 @@ namespace Loqui.Tests
             return ret.Object;
         }
 
+        [DebuggerStepThrough]
         public static (TestGenericObject_SubClass<S, T, RBase, R> Object, TestGenericObject_SubClass_ErrorMask ErrorMask) Create_XML(
             XElement root,
             bool doMasks)
@@ -195,7 +200,7 @@ namespace Loqui.Tests
                 item: this,
                 skipProtected: true,
                 doMasks: false,
-                mask: out TestGenericObject_SubClass_ErrorMask errorMask,
+                mask: out var errorMask,
                 cmds: cmds);
         }
 
@@ -259,7 +264,7 @@ namespace Loqui.Tests
 
         public override void CopyIn_XML(
             XElement root,
-            out TestGenericObject_ErrorMask errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
             NotifyingFireParameters? cmds = null)
         {
             this.CopyIn_XML(
@@ -272,23 +277,23 @@ namespace Loqui.Tests
         #endregion
 
         #region XML Write
-        public virtual void Write_XML(
+        public virtual void Write_XML<RBase_ErrMask>(
             XmlWriter writer,
-            out TestGenericObject_SubClass_ErrorMask errorMask,
+            out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, new()
         {
-            TestGenericObject_SubClassCommon.Write_XML(
+            errorMask = (TestGenericObject_SubClass_ErrorMask<RBase_ErrMask>)this.Write_XML_Internal<RBase_ErrMask>(
                 writer: writer,
                 name: name,
-                item: this,
-                doMasks: true,
-                errorMask: out errorMask);
+                doMasks: true);
         }
 
-        public virtual void Write_XML(
+        public virtual void Write_XML<RBase_ErrMask>(
             string path,
-            out TestGenericObject_SubClass_ErrorMask errorMask,
+            out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, new()
         {
             using (var writer = new XmlTextWriter(path, Encoding.ASCII))
             {
@@ -301,10 +306,11 @@ namespace Loqui.Tests
             }
         }
 
-        public virtual void Write_XML(
+        public virtual void Write_XML<RBase_ErrMask>(
             Stream stream,
-            out TestGenericObject_SubClass_ErrorMask errorMask,
+            out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, new()
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
             {
@@ -318,44 +324,56 @@ namespace Loqui.Tests
         }
 
         #region Base Class Trickdown Overrides
-        public override void Write_XML(
+        public override void Write_XML<RBase_ErrMask>(
             XmlWriter writer,
-            out TestGenericObject_ErrorMask errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
                 writer: writer,
                 name: name,
-                errorMask: out TestGenericObject_SubClass_ErrorMask errMask);
+                errorMask: out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errMask);
             errorMask = errMask;
         }
 
-        public override void Write_XML(
+        public override void Write_XML<RBase_ErrMask>(
             string path,
-            out TestGenericObject_ErrorMask errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
                 path: path,
                 name: name,
-                errorMask: out TestGenericObject_SubClass_ErrorMask errMask);
+                errorMask: out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errMask);
             errorMask = errMask;
         }
 
-        public override void Write_XML(
+        public override void Write_XML<RBase_ErrMask>(
             Stream stream,
-            out TestGenericObject_ErrorMask errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
                 stream: stream,
                 name: name,
-                errorMask: out TestGenericObject_SubClass_ErrorMask errMask);
+                errorMask: out TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> errMask);
             errorMask = errMask;
         }
 
         #endregion
 
+        protected override object Write_XML_Internal<RBase_ErrMask>(
+            XmlWriter writer,
+            bool doMasks,
+            string name = null)
+        {
+            TestGenericObject_SubClassCommon.Write_XML<S, T, RBase, R>(
+                writer: writer,
+                item: this,
+                doMasks: doMasks,
+                errorMask: out var errorMask);
+            return errorMask;
+        }
         #endregion
 
         private static TestGenericObject_SubClass<S, T, RBase, R> Create_XML_Internal(
@@ -452,7 +470,7 @@ namespace Loqui.Tests
             {
                 ret = (CopyType)Activator.CreateInstance(item.GetType());
             }
-            ret.CopyFieldsFrom(
+            ret.CopyFieldsFrom<S, T, RBase, R>(
                 item,
                 copyMask: copyMask,
                 doErrorMask: false,
@@ -1130,7 +1148,8 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestGenericObject_SubClass_ErrorMask : TestGenericObject_ErrorMask
+    public class TestGenericObject_SubClass_ErrorMask<RBase_ErrMask> : TestGenericObject_ErrorMask<RBase_ErrMask>
+        where RBase_ErrMask : ObjectToRef_ErrorMask, new()
     {
         #region IErrorMask
         public override void SetNthException(int index, Exception ex)
@@ -1204,7 +1223,8 @@ namespace Loqui.Tests.Internals
         #endregion
 
     }
-    public class TestGenericObject_SubClass_CopyMask : TestGenericObject_CopyMask
+    public class TestGenericObject_SubClass_CopyMask<RBase_CopyMask> : TestGenericObject_CopyMask<RBase_CopyMask>
+        where RBase_CopyMask : ObjectToRef_CopyMask, new()
     {
     }
     #endregion

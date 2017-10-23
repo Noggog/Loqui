@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using System.IO;
 using Noggog.Xml;
 using Loqui.Xml;
+using System.Diagnostics;
 
 namespace Loqui.Tests
 {
@@ -2168,6 +2169,7 @@ namespace Loqui.Tests
 
         #region XML Translation
         #region XML Create
+        [DebuggerStepThrough]
         public static TestObject_Notifying_Derivative Create_XML(XElement root)
         {
             return Create_XML(
@@ -2176,6 +2178,7 @@ namespace Loqui.Tests
                 errorMask: out var errorMask);
         }
 
+        [DebuggerStepThrough]
         public static TestObject_Notifying_Derivative Create_XML(
             XElement root,
             out TestObject_Notifying_Derivative_ErrorMask errorMask)
@@ -2186,6 +2189,7 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        [DebuggerStepThrough]
         public static TestObject_Notifying_Derivative Create_XML(
             XElement root,
             bool doMasks,
@@ -2198,6 +2202,7 @@ namespace Loqui.Tests
             return ret.Object;
         }
 
+        [DebuggerStepThrough]
         public static (TestObject_Notifying_Derivative Object, TestObject_Notifying_Derivative_ErrorMask ErrorMask) Create_XML(
             XElement root,
             bool doMasks)
@@ -2254,7 +2259,7 @@ namespace Loqui.Tests
                 item: this,
                 skipProtected: true,
                 doMasks: false,
-                mask: out TestObject_Notifying_Derivative_ErrorMask errorMask,
+                mask: out var errorMask,
                 cmds: cmds);
         }
 
@@ -2324,12 +2329,10 @@ namespace Loqui.Tests
             out TestObject_Notifying_Derivative_ErrorMask errorMask,
             string name = null)
         {
-            TestObject_Notifying_DerivativeCommon.Write_XML(
+            errorMask = (TestObject_Notifying_Derivative_ErrorMask)this.Write_XML_Internal(
                 writer: writer,
                 name: name,
-                item: this,
-                doMasks: true,
-                errorMask: out errorMask);
+                doMasks: true);
         }
 
         public virtual void Write_XML(
@@ -2368,12 +2371,10 @@ namespace Loqui.Tests
             XmlWriter writer,
             string name = null)
         {
-            TestObject_Notifying_DerivativeCommon.Write_XML(
+            this.Write_XML_Internal(
                 writer: writer,
                 name: name,
-                item: this,
-                doMasks: false,
-                errorMask: out TestObject_Notifying_Derivative_ErrorMask errorMask);
+                doMasks: false);
         }
 
         public void Write_XML(
@@ -2404,6 +2405,18 @@ namespace Loqui.Tests
             }
         }
 
+        protected object Write_XML_Internal(
+            XmlWriter writer,
+            bool doMasks,
+            string name = null)
+        {
+            TestObject_Notifying_DerivativeCommon.Write_XML(
+                writer: writer,
+                item: this,
+                doMasks: doMasks,
+                errorMask: out var errorMask);
+            return errorMask;
+        }
         #endregion
 
         private static TestObject_Notifying_Derivative Create_XML_Internal(
@@ -3738,8 +3751,8 @@ namespace Loqui.Tests
                             root,
                             nullable: false,
                             doMasks: doMasks,
-                            errorMask: out subMask);
-                        item._Enum.SetIfSucceeded(tryGet.Bubble<TestEnum>((i) => i.Value));
+                            errorMask: out subMask).Bubble((o) => o.Value);
+                        item._Enum.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
                             doMasks,
