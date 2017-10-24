@@ -15,6 +15,7 @@ namespace Loqui.Generation
             SingleTypeGen = new LoquiType();
             SingleTypeGen.SetObjectGeneration(this.ObjectGen);
             SingleTypeGen.Load(node, false);
+            SingleTypeGen.Name = null;
             singleType = true;
             isLoquiSingle = SingleTypeGen as LoquiType != null;
         }

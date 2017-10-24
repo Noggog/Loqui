@@ -90,7 +90,6 @@ namespace Loqui.Generation
             if (this.isLoquiSingle)
             {
                 LoquiType loqui = this.SubTypeGeneration as LoquiType;
-                loqui.Name = this.Name;
                 using (var args = new ArgsWrapper(fg,
                     $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
