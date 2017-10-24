@@ -874,7 +874,7 @@ namespace Loqui.Generation
                                     fg,
                                     accessorPrefix,
                                     rhsAccessorPrefix,
-                                    copyMaskAccessor,
+                                    $"{copyMaskAccessor}?.{item.Field.Name}",
                                     defaultFallbackAccessor,
                                     cmdsAccessor: cmdsAccessor,
                                     protectedMembers: false);
@@ -887,7 +887,7 @@ namespace Loqui.Generation
                                 fg,
                                 accessorPrefix,
                                 rhsAccessorPrefix,
-                                copyMaskAccessor,
+                                $"{copyMaskAccessor}.{item.Field.Name}",
                                 defaultFallbackAccessor,
                                 cmdsAccessor: cmdsAccessor,
                                 protectedMembers: false);
