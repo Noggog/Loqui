@@ -5,16 +5,26 @@ namespace Loqui
     public class DepthWrapper : IDisposable
     {
         FileGeneration fg;
+        bool doIt;
 
-        public DepthWrapper(FileGeneration fg)
+        public DepthWrapper(
+            FileGeneration fg,
+            bool doIt = true)
         {
             this.fg = fg;
-            this.fg.Depth++;
+            this.doIt = doIt;
+            if (doIt)
+            {
+                this.fg.Depth++;
+            }
         }
 
         public void Dispose()
         {
-            this.fg.Depth--;
+            if (doIt)
+            {
+                this.fg.Depth--;
+            }
         }
     }
 }
