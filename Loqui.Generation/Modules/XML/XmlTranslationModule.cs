@@ -258,11 +258,7 @@ namespace Loqui.Generation
                                         fg: fg,
                                         typeGen: field.Field,
                                         nodeAccessor: "root",
-                                        itemAccessor: new Accessor()
-                                        {
-                                            DirectAccess = $"item.{field.Field.ProtectedName}",
-                                            PropertyAccess = field.Field.Notifying == NotifyingOption.None ? null : $"item.{field.Field.ProtectedProperty}"
-                                        },
+                                        itemAccessor: new Accessor(field.Field, "item.", protectedAccess: true),
                                         doMaskAccessor: "doMasks",
                                         maskAccessor: $"subMask");
                                     using (var args = new ArgsWrapper(fg,

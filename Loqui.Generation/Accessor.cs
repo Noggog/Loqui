@@ -10,5 +10,24 @@ namespace Loqui.Generation
     {
         public string DirectAccess;
         public string PropertyAccess;
+        public string PropertyOrDirectAccess => this.PropertyAccess ?? this.DirectAccess;
+
+        public Accessor()
+        {
+        }
+
+        public Accessor(string direct)
+        {
+            this.DirectAccess = direct;
+        }
+
+        public Accessor(
+            TypeGeneration typeGen,
+            string accessor,
+            bool protectedAccess = false)
+        {
+            this.DirectAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedName : typeGen.Name)}";
+            this.PropertyAccess = typeGen.Notifying == NotifyingOption.None ? null : $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
+        }
     }
 }
