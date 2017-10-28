@@ -172,7 +172,7 @@
       <xs:element name="DateTimeNull" type="DateTime" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="RefDirect" type="RefDirectField" />
-      <xs:element name="RefList" type="RefDirectField" />
+      <xs:element name="RefList" type="RefListField" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
       <xs:element name="Array2D" type="List" />
@@ -267,7 +267,7 @@
       <xs:element name="DateTimeNull" type="NDateTime" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="RefDirect" type="NRefDirectField" />
-      <xs:element name="RefList" type="NRefDirectField" />
+      <xs:element name="RefList" type="NRefListField" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
       <xs:element name="Array2D" type="NList" />
@@ -1040,6 +1040,22 @@
   <xs:complexType name="NRefDirectField" >
     <xs:complexContent>
       <xs:extension base="RefDirectField">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RefListField" >
+    <xs:complexContent>
+      <xs:extension base="RefDirectField">
+        <xs:attribute name="maxSize" type="xs:int" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NRefListField" >
+    <xs:complexContent>
+      <xs:extension base="RefListField">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
