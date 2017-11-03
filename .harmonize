@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>a53b52eaea810400a6304e660a0e42035383b929</Sha>
+         <Sha>0d6bd0cf8f81a91f21a2d18339138eadf28e23c6</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>10-21-2017 20:59:49</CommitDate>
-         <Description>DebuggerStepThroughs</Description>
+         <CommitDate>11-03-2017 18:44:56</CommitDate>
+         <Description>IterateMarkLast</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
