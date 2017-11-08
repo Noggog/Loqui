@@ -59,9 +59,9 @@ namespace Loqui
             Exception ex)
             where M : IErrorMask
         {
+            if (ex == null) return;
             if (!doMasks)
             {
-                if (ex == null) return;
                 throw ex;
             }
             var mask = creator();
