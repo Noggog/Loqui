@@ -9,6 +9,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Noggog;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -85,6 +86,18 @@ namespace Loqui.Generation
         public IEnumerable<TypeGeneration> AllFields => this.HasBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
+
+        protected TaskCompletionSource<List<ObjectGeneration>> _directlyInheritingObjectsTcs = new TaskCompletionSource<List<ObjectGeneration>>();
+        protected Task<List<ObjectGeneration>> _directlyInheritingObjects => _directlyInheritingObjectsTcs.Task;
+        public async Task<IEnumerable<ObjectGeneration>> InheritingObjects()
+        {
+            List<ObjectGeneration> ret = new List<ObjectGeneration>();
+            var objs = await _directlyInheritingObjects;
+            ret.AddRange(objs);
+            ret.AddRange((await Task.WhenAll(
+                objs.Select(async (o) => await o.InheritingObjects()))).SelectMany((i) => i));
+            return ret;
+        }
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {
@@ -2140,16 +2153,20 @@ namespace Loqui.Generation
             }
         }
 
-        public virtual void Resolve()
+        public virtual async Task Resolve()
         {
+            List<ObjectGeneration> directlyInheritingObjs = new List<ObjectGeneration>();
+            foreach (var obj in this.ProtoGen.Gen.ObjectGenerations)
+            {
+                if (!obj.HasBaseObject) continue;
+                if (!object.ReferenceEquals(obj.BaseClass, this)) continue;
+                directlyInheritingObjs.Add(obj);
+            }
+            this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
+
             foreach (var field in this.Fields.ToList())
             {
                 field.Resolve();
-            }
-
-            foreach (var module in this.gen.GenerationModules)
-            {
-                module.Resolve(this);
             }
 
             if (this.HasRaisedPropertyChanged)
@@ -2197,6 +2214,8 @@ namespace Loqui.Generation
                     this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
                 }
             }
+
+            await Task.WhenAll(this.gen.GenerationModules.Select((mod) => mod.Resolve(this)));
         }
 
         public void RegenerateAndStampSourceXML()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -130,7 +131,7 @@ namespace Loqui.Generation
             }
         }
 
-        public void Generate()
+        public async Task Generate()
         {
             foreach (var obj in ObjectGenerationsByID.Values)
             {
@@ -145,10 +146,8 @@ namespace Loqui.Generation
                 obj.Load();
             }
 
-            foreach (var obj in ObjectGenerationsByID.Values)
-            {
-                obj.Resolve();
-            }
+
+            await Task.WhenAll(this.ObjectGenerationsByID.Values.Select((obj) => obj.Resolve()));
 
             foreach (var obj in ObjectGenerationsByID.Values)
             {

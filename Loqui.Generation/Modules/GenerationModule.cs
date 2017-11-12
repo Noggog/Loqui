@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -75,7 +76,7 @@ namespace Loqui.Generation
         {
         }
 
-        public virtual void Resolve(ObjectGeneration obj)
+        public virtual async Task Resolve(ObjectGeneration obj)
         {
         }
     }

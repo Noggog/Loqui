@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Noggog;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -23,6 +24,7 @@ namespace Loqui.Generation
         public List<GenerationModule> GenerationModules = new List<GenerationModule>();
         public DirectoryInfo CommonGenerationFolder;
         public Dictionary<DirectoryPath, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<DirectoryPath, List<ObjectGeneration>>();
+        public IEnumerable<ObjectGeneration> ObjectGenerations => this.ObjectGenerationsByDir.Values.SelectMany((v) => v);
         public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
@@ -244,7 +246,7 @@ namespace Loqui.Generation
             return this.targetData.TryGetValue(protocol, out protoGen);
         }
 
-        public void Generate()
+        public async Task Generate()
         {
             this.LoadSpecificFolders(this.sourceFolders);
             this.LoadSpecificFile(this.sourceFiles);
@@ -256,10 +258,7 @@ namespace Loqui.Generation
 
             ResolveIDs();
 
-            foreach (var protoGen in this.targetData.Values)
-            {
-                protoGen.Generate();
-            }
+            await Task.WhenAll(this.targetData.Values.Select((protoGen) => protoGen.Generate()));
 
             foreach (var file in this.projectsToModify)
             {
