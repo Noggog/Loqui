@@ -418,6 +418,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in this.IterateFields())
                     {
+                        if (!field.Field.GenerateTypicalItems) continue;
                         fg.AppendLine($"{field.Field.Name} = {field.Index},");
                     }
                 }
@@ -449,7 +450,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public const string GUID = \"{this.GUID}\";");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const ushort FieldCount = {this.Fields.Count};");
+                    fg.AppendLine($"public const ushort FieldCount = {this.Fields.Where((f) => f.GenerateTypicalItems).Count()};");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly Type MaskType = typeof({this.GetMaskString("")});");
@@ -648,12 +649,13 @@ namespace Loqui.Generation
                 fg.AppendLine($"using (new DepthWrapper(fg))");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in this.IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        fg.AppendLine($"if ({gen.MaskModule.GetMaskModule(item.Field.GetType()).GenerateBoolMaskCheck(item.Field, "printMask")})");
+                        if (!item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"if ({gen.MaskModule.GetMaskModule(item.GetType()).GenerateBoolMaskCheck(item, "printMask")})");
                         using (new BraceWrapper(fg))
                         {
-                            item.Field.GenerateToString(fg, item.Field.Name, $"item.{item.Field.Name}", "fg");
+                            item.GenerateToString(fg, item.Name, $"item.{item.Name}", "fg");
                         }
                     }
                 }
@@ -1028,12 +1030,13 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (!item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            item.Field.GenerateGetNth(fg, "obj");
+                            item.GenerateGetNth(fg, "obj");
                         }
                     }
 
@@ -1072,13 +1075,14 @@ namespace Loqui.Generation
                         }
                     }
 
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        if (item.Field.Notifying == NotifyingOption.None) continue;
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (item.Notifying == NotifyingOption.None) continue;
+                        if (!item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return obj.{item.Field.HasBeenSetAccessor};");
+                            fg.AppendLine($"return obj.{item.HasBeenSetAccessor};");
                         }
                     }
 
@@ -1114,16 +1118,16 @@ namespace Loqui.Generation
                             fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
                         }
                     }
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (item.Derivative || !item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            item.Field.GenerateSetNth(
+                            item.GenerateSetNth(
                                 fg,
                                 accessorPrefix: $"this",
-                                rhsAccessorPrefix: $"({item.Field.SetToName})obj",
+                                rhsAccessorPrefix: $"({item.SetToName})obj",
                                 cmdsAccessor: "cmds",
                                 internalUse: false);
                         }
@@ -1165,19 +1169,19 @@ namespace Loqui.Generation
                             fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
                         }
                     }
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (item.Derivative || !item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (!internalUse && item.Field.Protected)
+                            if (!internalUse && item.Protected)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
                             }
                             else
                             {
-                                item.Field.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
+                                item.GenerateSetNthHasBeenSet(fg, "obj", "on", internalUse);
                             }
                         }
                     }
@@ -1217,20 +1221,20 @@ namespace Loqui.Generation
                             fg.AppendLine("throw new ArgumentException($\"Tried to unset at a derivative index {index}\");");
                         }
                     }
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        if (item.Field.Derivative) continue;
+                        if (item.Derivative || !item.GenerateTypicalItems) continue;
 
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            if (item.Field.Protected)
+                            if (item.Protected)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
                             }
                             else
                             {
-                                item.Field.GenerateUnsetNth(fg, "obj", "cmds");
+                                item.GenerateUnsetNth(fg, "obj", "cmds");
                             }
                         }
                     }
@@ -1291,6 +1295,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
+                            if (!item.Field.GenerateTypicalItems) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -1331,6 +1336,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
+                            if (!item.Field.GenerateTypicalItems) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -1371,6 +1377,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
+                            if (!item.Field.GenerateTypicalItems) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -1394,12 +1401,13 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (!item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return typeof({item.Field.TypeName});");
+                            fg.AppendLine($"return typeof({item.TypeName});");
                         }
                     }
 
@@ -1418,12 +1426,13 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (!item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"return \"{item.Field.Name}\";");
+                            fg.AppendLine($"return \"{item.Name}\";");
                         }
                     }
 
@@ -1464,6 +1473,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
+                            if (!item.Field.GenerateTypicalItems) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -1588,7 +1598,9 @@ namespace Loqui.Generation
                 {
                     for (int i = 0; i < this.Fields.Count; i++)
                     {
-                        fg.AppendLine($"case \"{this.Fields[i].Name.ToUpper()}\":");
+                        var field = this.Fields[i];
+                        if (string.IsNullOrWhiteSpace(field.Name)) continue;
+                        fg.AppendLine($"case \"{field.Name.ToUpper()}\":");
                         using (new DepthWrapper(fg))
                         {
                             fg.AppendLine($"return (ushort){this.FieldIndexName}.{this.Fields[i].Name};");
@@ -1643,6 +1655,7 @@ namespace Loqui.Generation
                         }
                         foreach (var field in Fields)
                         {
+                            if (!field.GenerateTypicalItems) continue;
                             if (!HasKeyField() || field.KeyField)
                             {
                                 if (field.Notifying == NotifyingOption.None)
@@ -1670,6 +1683,7 @@ namespace Loqui.Generation
                         fg.AppendLine("int ret = 0;");
                         foreach (var field in Fields)
                         {
+                            if (!field.GenerateTypicalItems) continue;
                             if (!HasKeyField() || field.KeyField)
                             {
                                 if (field.Notifying == NotifyingOption.None)
@@ -1990,16 +2004,16 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var item in IterateFields())
+                    foreach (var item in this.Fields)
                     {
-                        if (item.Field.Derivative) continue;
-                        fg.AppendLine($"case {item.Field.IndexEnumName}:");
+                        if (item.Derivative || !item.GenerateTypicalItems) continue;
+                        fg.AppendLine($"case {item.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            item.Field.GenerateSetNth(
+                            item.GenerateSetNth(
                                 fg,
                                 accessorPrefix: $"obj",
-                                rhsAccessorPrefix: $"({item.Field.SetToName})pair.Value",
+                                rhsAccessorPrefix: $"({item.SetToName})pair.Value",
                                 cmdsAccessor: "null",
                                 internalUse: true);
                         }
@@ -2046,6 +2060,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
+                            if (!item.Field.GenerateTypicalItems) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))

@@ -49,6 +49,7 @@
     <Compile Include="Fields\ClassType.cs" />
     <Compile Include="Fields\FieldBatchPointerType.cs" />
     <Compile Include="Fields\LoquiListType.cs" />
+    <Compile Include="Fields\NothingType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\ByteArrayType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DateTimeNullType.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Modules\Xml\EnumXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\DictXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\ListXmlTranslationGeneration.cs" />
+    <Compile Include="Modules\Xml\NothingXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\UnsafeXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\LoquiXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\PrimitiveXmlTranslationGeneration.cs" />

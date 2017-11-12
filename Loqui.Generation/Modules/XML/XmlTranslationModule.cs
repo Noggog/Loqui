@@ -87,6 +87,7 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
             this._typeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
+            this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
                     api: new string[] { "XmlWriter writer" },
@@ -238,27 +239,28 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (name)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in obj.IterateFields())
+                    foreach (var field in obj.Fields)
                     {
-                        if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
+                        if (!field.GenerateTypicalItems) continue;
+                        if (!this.TryGetTypeGeneration(field.GetType(), out var generator))
                         {
-                            throw new ArgumentException("Unsupported type generator: " + field.Field);
+                            throw new ArgumentException("Unsupported type generator: " + field);
                         }
 
-                        fg.AppendLine($"case \"{field.Field.Name}\":");
+                        fg.AppendLine($"case \"{field.Name}\":");
                         using (new DepthWrapper(fg))
                         {
-                            if (generator.ShouldGenerateCopyIn(field.Field))
+                            if (generator.ShouldGenerateCopyIn(field))
                             {
                                 using (new BraceWrapper(fg))
                                 {
-                                    var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                                    var maskType = this.Gen.MaskModule.GetMaskModule(field.GetType()).GetErrorMaskTypeStr(field);
                                     fg.AppendLine($"{maskType} subMask;");
                                     generator.GenerateCopyIn(
                                         fg: fg,
-                                        typeGen: field.Field,
+                                        typeGen: field,
                                         nodeAccessor: "root",
-                                        itemAccessor: new Accessor(field.Field, "item.", protectedAccess: true),
+                                        itemAccessor: new Accessor(field, "item.", protectedAccess: true),
                                         doMaskAccessor: "doMasks",
                                         maskAccessor: $"subMask");
                                     using (var args = new ArgsWrapper(fg,
@@ -266,7 +268,7 @@ namespace Loqui.Generation
                                     {
                                         args.Add("errorMask");
                                         args.Add("doMasks");
-                                        args.Add($"(int){field.Field.IndexEnumName}");
+                                        args.Add($"(int){field.IndexEnumName}");
                                         args.Add("subMask");
                                     }
                                 }

@@ -120,6 +120,7 @@ namespace Loqui.Generation
             AddTypeAssociation<DateTimeType>("DateTime");
             AddTypeAssociation<DateTimeNullType>("DateTimeNull");
             AddTypeAssociation<ByteArrayType>("ByteArray");
+            AddTypeAssociation<NothingType>("Nothing");
         }
 
         public void AddTypeAssociation<T>(StringCaseAgnostic key, bool overrideExisting = false)

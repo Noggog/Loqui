@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("TES4Common.Write_XML("))
+            if (str.Contains("public const int NumStructFields = 4;"))
             {
                 int wer = 23;
                 wer++;

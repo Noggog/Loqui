@@ -21,6 +21,7 @@ namespace Loqui.Generation
         public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
+        public virtual bool GenerateTypicalItems => true;
         public bool RaisePropertyChanged;
         public bool Protected;
         private bool _copy;

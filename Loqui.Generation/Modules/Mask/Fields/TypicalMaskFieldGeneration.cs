@@ -6,6 +6,7 @@ namespace Loqui.Generation
     {
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
+            if (!field.GenerateTypicalItems) return;
             fg.AppendLine($"public {typeStr} {field.Name};");
         }
 
@@ -21,16 +22,19 @@ namespace Loqui.Generation
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
         {
+            if (!field.GenerateTypicalItems) return;
             fg.AppendLine($"public bool {field.Name};");
         }
 
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
         {
+            if (!field.GenerateTypicalItems) return;
             fg.AppendLine($"if (!eval(this.{field.Name})) return false;");
         }
 
         public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
         {
+            if (!field.GenerateTypicalItems) return;
             fg.AppendLine($"{retAccessor} = eval({rhsAccessor});");
         }
 
@@ -46,6 +50,7 @@ namespace Loqui.Generation
 
         public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
         {
+            if (!field.GenerateTypicalItems) return;
             fg.AppendLine($"this.{field.Name} = {valueStr};");
         }
 

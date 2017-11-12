@@ -183,6 +183,7 @@
       <xs:element name="FilePathNull" type="String" />
       <xs:element name="DirectoryPath" type="String" />
       <xs:element name="DirectoryPathNull" type="String" />
+      <xs:element name="Nothing" type="Nothing" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -278,6 +279,7 @@
       <xs:element name="FilePathNull" type="NString" />
       <xs:element name="DirectoryPath" type="NString" />
       <xs:element name="DirectoryPathNull" type="NString" />
+      <xs:element name="Nothing" type="Nothing" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -741,6 +743,13 @@
     <xs:complexContent>
       <xs:extension base="String">
         <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Nothing" >
+    <xs:complexContent>
+      <xs:extension base="Field">
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

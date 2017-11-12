@@ -89,6 +89,7 @@ namespace Loqui.Generation
                         fg.AppendLine("int ret = 0;");
                         foreach (var field in obj.Fields)
                         {
+                            if (!field.GenerateTypicalItems) continue;
                             fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
                         }
                         if (obj.HasBaseObject)
@@ -184,12 +185,13 @@ namespace Loqui.Generation
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.IterateFields())
+                            foreach (var item in obj.Fields)
                             {
-                                fg.AppendLine($"if ({GetMaskModule(item.Field.GetType()).GenerateBoolMaskCheck(item.Field, "printMask")})");
+                                if (!item.GenerateTypicalItems) continue;
+                                fg.AppendLine($"if ({GetMaskModule(item.GetType()).GenerateBoolMaskCheck(item, "printMask")})");
                                 using (new BraceWrapper(fg))
                                 {
-                                    GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                    GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
                                 }
                             }
                         }
@@ -242,12 +244,13 @@ namespace Loqui.Generation
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.IterateFields())
+                            foreach (var item in obj.Fields)
                             {
-                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Field.Name}:");
+                                if (!item.GenerateTypicalItems) continue;
+                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
-                                    GetMaskModule(item.Field.GetType()).GenerateSetException(fg, item.Field);
+                                    GetMaskModule(item.GetType()).GenerateSetException(fg, item);
                                     fg.AppendLine("break;");
                                 }
                             }
@@ -264,12 +267,13 @@ namespace Loqui.Generation
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.IterateFields())
+                            foreach (var item in obj.Fields)
                             {
-                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Field.Name}:");
+                                if (!item.GenerateTypicalItems) continue;
+                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
-                                    GetMaskModule(item.Field.GetType()).GenerateSetMask(fg, item.Field);
+                                    GetMaskModule(item.GetType()).GenerateSetMask(fg, item);
                                     fg.AppendLine("break;");
                                 }
                             }
@@ -322,12 +326,13 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine("base.ToString_FillInternal(fg);");
                         }
-                        foreach (var item in obj.IterateFields())
+                        foreach (var item in obj.Fields)
                         {
-                            fg.AppendLine($"if ({item.Field.Name} != null)");
+                            if (!item.GenerateTypicalItems) continue;
+                            fg.AppendLine($"if ({item.Name} != null)");
                             using (new BraceWrapper(fg))
                             {
-                                GetMaskModule(item.Field.GetType()).GenerateForErrorMaskToString(fg, item.Field, item.Field.Name, true);
+                                GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
                             }
                         }
                     }
@@ -341,6 +346,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error)}();");
                         foreach (var field in obj.Fields)
                         {
+                            if (!field.GenerateTypicalItems) continue;
                             GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
                         }
                         fg.AppendLine("return ret;");
