@@ -40,7 +40,14 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var tryGet = ", doMaskAccessor, maskAccessor);
+            using (var args = new ArgsWrapper(fg,
+                $"var tryGet = EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
+            {
+                args.Add(nodeAccessor);
+                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
+                args.Add($"doMasks: {doMaskAccessor}");
+                args.Add($"errorMask: out {maskAccessor}");
+            }
             if (itemAccessor.PropertyAccess != null)
             {
                 fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet{(eType.Nullable ? string.Empty : $".Bubble((o) => o.Value)")});");
@@ -65,10 +72,9 @@ namespace Loqui.Generation
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
+                $"{retAccessor}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor);
-                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
                 args.Add($"doMasks: {doMaskAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }

@@ -21,7 +21,7 @@ namespace Loqui.Generation
         {
             this.fg = fg;
             this.initialLine = initialLine;
-            this.wheres = wheres;
+            this.wheres = wheres ?? new string[0];
         }
 
         public void Add(string line)

@@ -532,7 +532,7 @@ namespace Loqui.Generation
                         if (this.RefType == LoquiRefType.Generic
                             && this.GenericDef?.BaseObjectGeneration == null)
                         {
-                            gen.AppendLine($"switch ({copyMaskAccessor}?{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Reference)})");
+                            gen.AppendLine($"switch ({copyMaskAccessor}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Reference)})");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"case {nameof(GetterCopyOption)}.{nameof(CopyOption.Reference)}:");
@@ -566,7 +566,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"default:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(GetterCopyOption)} {{{copyMaskAccessor}?.{(this.RefType == LoquiRefType.Direct ? $".Overall" : string.Empty)}}}. Cannot execute copy.\");");
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(GetterCopyOption)} {{{copyMaskAccessor}{(this.RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                                 }
                             }
                         }
@@ -585,7 +585,7 @@ namespace Loqui.Generation
             FileGeneration fg,
             string copyMaskAccessor)
         {
-            fg.AppendLine($"switch ({copyMaskAccessor}?{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+            fg.AppendLine($"switch ({copyMaskAccessor}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
@@ -610,7 +610,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"default:");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}?{(this.RefType == LoquiRefType.Direct ? $".Overall" : string.Empty)}}}. Cannot execute copy.\");");
+                    fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(this.RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                 }
             }
         }
