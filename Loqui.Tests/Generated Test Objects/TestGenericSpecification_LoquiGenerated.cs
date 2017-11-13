@@ -334,7 +334,17 @@ namespace Loqui.Tests
             XmlWriter writer,
             string name = null)
         {
-            this.Write_XML_Internal<ObjectToRef_ErrorMask>(
+            Write_XML<ObjectToRef_ErrorMask>(
+                writer: writer,
+                name: name);
+        }
+
+        public void Write_XML<RBase_ErrMask>(
+            XmlWriter writer,
+            string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
+        {
+            this.Write_XML_Internal<RBase_ErrMask>(
                 writer: writer,
                 name: name,
                 doMasks: false);
@@ -343,6 +353,16 @@ namespace Loqui.Tests
         public void Write_XML(
             string path,
             string name = null)
+        {
+            Write_XML<ObjectToRef_ErrorMask>(
+                path: path,
+                name: name);
+        }
+
+        public void Write_XML<RBase_ErrMask>(
+            string path,
+            string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
             using (var writer = new XmlTextWriter(path, Encoding.ASCII))
             {
@@ -357,6 +377,16 @@ namespace Loqui.Tests
         public void Write_XML(
             Stream stream,
             string name = null)
+        {
+            Write_XML<ObjectToRef_ErrorMask>(
+                stream: stream,
+                name: name);
+        }
+
+        public void Write_XML<RBase_ErrMask>(
+            Stream stream,
+            string name = null)
+            where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
             {
@@ -500,8 +530,8 @@ namespace Loqui.Tests
             CopyType item,
             TestGenericSpecification_CopyMask<RBase_CopyMask> copyMask = null,
             ITestGenericSpecificationGetter<RBase, R> def = null)
-            where CopyType : class, ITestGenericSpecification<RBase, R>
             where RBase_CopyMask : ObjectToRef_CopyMask, new()
+            where CopyType : class, ITestGenericSpecification<RBase, R>
         {
             CopyType ret;
             if (item.GetType().Equals(typeof(TestGenericSpecification<RBase, R>)))
@@ -1241,7 +1271,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>> subMask;
-                        LoquiXmlTranslation<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Write(
+                        LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Write(
                             writer: writer,
                             item: item.TestGenericObjectSpecified,
                             name: nameof(item.TestGenericObjectSpecified),
@@ -1256,7 +1286,7 @@ namespace Loqui.Tests.Internals
                     }
                     {
                         MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>> subMask;
-                        LoquiXmlTranslation<TestGenericObject<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Write(
+                        LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Write(
                             writer: writer,
                             item: item.TestGenericObjectHalfSpecified,
                             name: nameof(item.TestGenericObjectHalfSpecified),
@@ -1418,7 +1448,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestGenericSpecification_ErrorMask<RBase_ErrMask> : IErrorMask
+    public class TestGenericSpecification_ErrorMask<RBase_ErrMask> : IErrorMask, IErrorMask<TestGenericSpecification_ErrorMask<RBase_ErrMask>>
         where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
     {
         #region Members
@@ -1518,8 +1548,8 @@ namespace Loqui.Tests.Internals
         public TestGenericSpecification_ErrorMask<RBase_ErrMask> Combine(TestGenericSpecification_ErrorMask<RBase_ErrMask> rhs)
         {
             var ret = new TestGenericSpecification_ErrorMask<RBase_ErrMask>();
-            ret.TestGenericObjectSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>(this.TestGenericObjectSpecified.Overall.Combine(rhs.TestGenericObjectSpecified.Overall), this.TestGenericObjectSpecified.Specific.Combine(rhs.TestGenericObjectSpecified.Specific));
-            ret.TestGenericObjectHalfSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>>(this.TestGenericObjectHalfSpecified.Overall.Combine(rhs.TestGenericObjectHalfSpecified.Overall), this.TestGenericObjectHalfSpecified.Specific.Combine(rhs.TestGenericObjectHalfSpecified.Specific));
+            ret.TestGenericObjectSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>(this.TestGenericObjectSpecified.Overall.Combine(rhs.TestGenericObjectSpecified.Overall), ((IErrorMask<TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>)this.TestGenericObjectSpecified.Specific).Combine(rhs.TestGenericObjectSpecified.Specific));
+            ret.TestGenericObjectHalfSpecified = new MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>>(this.TestGenericObjectHalfSpecified.Overall.Combine(rhs.TestGenericObjectHalfSpecified.Overall), ((IErrorMask<TestGenericObject_ErrorMask<RBase_ErrMask>>)this.TestGenericObjectHalfSpecified.Specific).Combine(rhs.TestGenericObjectHalfSpecified.Specific));
             return ret;
         }
         public static TestGenericSpecification_ErrorMask<RBase_ErrMask> Combine(TestGenericSpecification_ErrorMask<RBase_ErrMask> lhs, TestGenericSpecification_ErrorMask<RBase_ErrMask> rhs)

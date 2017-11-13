@@ -35,6 +35,7 @@ namespace Loqui.Generation
         public ObjectGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
+        public bool HasNewGenerics => this.HasBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
         public bool IsTopClass => BaseClass == null;
         public HashSet<string> Interfaces = new HashSet<string>();
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
@@ -56,14 +57,16 @@ namespace Loqui.Generation
         public string RegistrationName => $"{this.Name}_Registration";
         public string Getter_InterfaceStr_NoGenerics => $"I{Name}Getter";
         public string Setter_InterfaceStr_NoGenerics => $"I{this.Name}";
-        public string Getter_InterfaceStr => this.Getter_InterfaceStr_NoGenerics + GenericTypes;
+        public string Getter_InterfaceStr => $"{this.Getter_InterfaceStr_NoGenerics}{GenericTypes}";
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
-        public string[] GenericTypes_ErrorMaskWheres => Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => $"where {g.Key}_{MaskModule.ErrMaskNickname} : {g.Value.BaseObjectGeneration.Mask(MaskType.Error)}, new()").ToArray();
+        public string[] GenericTypes_ErrorMaskWheres => Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => $"where {g.Key}_{MaskModule.ErrMaskNickname} : {g.Value.BaseObjectGeneration.Mask(MaskType.Error)}, IErrorMask<{g.Key}_{MaskModule.ErrMaskNickname}>, new()").ToArray();
         public string[] GenericTypes_CopyMaskWheres => Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => $"where {g.Key}_{MaskModule.CopyMaskNickname} : {g.Value.BaseObjectGeneration.Mask(MaskType.Copy)}, new()").ToArray();
         public string[] All_Wheres => this.GenerateWhereClauses().And(GenericTypes_ErrorMaskWheres).And(GenericTypes_CopyMaskWheres).ToArray();
-        public string BaseGenericTypes { get; private set; }
+        public string BaseGenericTypes => GenerateGenericClause(BaseGenerics.Select((g) => g.Value));
         public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
+        public string BaseGenericTypes_ErrMask_CopyMask => GenerateGenericClause(BaseGenerics.Where((g) => this.BaseGenerics.ContainsKey(g.Key)).Select((g) => g.Value).And(BaseGenericTypes_Nickname(MaskType.Error)).And(BaseGenericTypes_Nickname(MaskType.Copy)));
         public string GenericTypes_CopyMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key).And(GenericTypes_Nickname(MaskType.Copy)))}";
+        public string GenericTypes_SubTypeAssumedErrMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key).And(GenericTypes_Assumed(MaskType.Error, onlyAssumeSubclass: true)))}";
         public string GenericTypes_AssumedErrMask_CopyMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key).And(GenericTypes_Assumed(MaskType.Error)).And(GenericTypes_Nickname(MaskType.Copy)))}";
         public string GenericTypes_ErrMask_CopyMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key).And(GenericTypes_Nickname(MaskType.Error)).And(GenericTypes_Nickname(MaskType.Copy)))}";
         public string GenericTypes_ErrMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key).And(GenericTypes_Nickname(MaskType.Error)))}";
@@ -846,7 +849,7 @@ namespace Loqui.Generation
             if (this.HasBaseObject)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.BaseClass.ExtCommonName}.CopyFieldsFrom{this.BaseGenericTypes}"))
+                    $"{this.BaseClass.ExtCommonName}.CopyFieldsFrom{this.BaseGenericTypes_ErrMask_CopyMask}"))
                 {
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
@@ -2143,6 +2146,13 @@ namespace Loqui.Generation
                 this.Interfaces.Add(nameof(INotifyPropertyChanged));
             }
 
+            foreach (var gen in this.Generics.Values)
+            {
+                if (!gen.Wheres.Any()) continue;
+                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(gen.Wheres.First(), out var baseObjGen)) continue;
+                gen.BaseObjectGeneration = baseObjGen;
+            }
+
             if (this.HasBaseObject)
             {
                 foreach (var baseGen in this.BaseClass.Generics)
@@ -2175,11 +2185,6 @@ namespace Loqui.Generation
                     {
                         throw new ArgumentException("Need to define Where or Defined node.");
                     }
-                }
-
-                if (this.BaseGenerics.Count > 0)
-                {
-                    this.BaseGenericTypes = $"<{string.Join(", ", BaseGenerics.Select((g) => g.Value))}>";
                 }
             }
         }
@@ -2232,36 +2237,52 @@ namespace Loqui.Generation
             return $"{this.Mask_BasicName(type)}{GenerateGenericClause(GenericTypes_Nickname(type, specifications.Specifications.ToArray()))}";
         }
 
+        public string SpecifyGeneric(MaskType maskType, KeyValuePair<string, GenericDefinition> g, params KeyValuePair<string, string>[] specifications)
+        {
+            var specification = specifications.FirstOrDefault((spec) => spec.Key == g.Key);
+            if (specification.Value == null)
+            {
+                string nickName;
+                switch (maskType)
+                {
+                    case MaskType.Normal:
+                        nickName = string.Empty;
+                        break;
+                    case MaskType.Error:
+                        nickName = $"_{MaskModule.ErrMaskNickname}";
+                        break;
+                    case MaskType.Copy:
+                        nickName = $"_{MaskModule.CopyMaskNickname}";
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                return $"{g.Key}{nickName}";
+            }
+            else
+            {
+                var targetObj = this.ProtoGen.ObjectGenerationsByName[specification.Value];
+                return targetObj.Mask(maskType);
+            }
+        }
+
         public IEnumerable<string> GenericTypes_Nickname(MaskType maskType, params KeyValuePair<string, string>[] specifications)
         {
             return Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) =>
             {
-                var specification = specifications.FirstOrDefault((spec) => spec.Key == g.Key);
-                if (specification.Value == null)
-                {
-                    string nickName;
-                    switch (maskType)
-                    {
-                        case MaskType.Normal:
-                            nickName = string.Empty;
-                            break;
-                        case MaskType.Error:
-                            nickName = $"_{MaskModule.ErrMaskNickname}";
-                            break;
-                        case MaskType.Copy:
-                            nickName = $"_{MaskModule.CopyMaskNickname}";
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    return $"{g.Key}{nickName}";
-                }
-                else
-                {
-                    var targetObj = this.ProtoGen.ObjectGenerationsByName[specification.Value];
-                    return targetObj.Mask(maskType);
-                }
+                return SpecifyGeneric(maskType, g, specifications);
             });
+        }
+
+        public IEnumerable<string> BaseGenericTypes_Nickname(MaskType maskType, params KeyValuePair<string, string>[] specifications)
+        {
+            return Generics
+                .Where((g) => g.Value.BaseObjectGeneration != null)
+                .Where((g) => this.BaseGenerics.ContainsKey(g.Key))
+                .Select((g) =>
+                {
+                    return SpecifyGeneric(maskType, g, specifications);
+                });
         }
 
         public string Mask_BasicName(MaskType type)
@@ -2293,19 +2314,31 @@ namespace Loqui.Generation
             }
         }
 
-        public IEnumerable<string> GenericTypes_Assumed(MaskType type)
+        public IEnumerable<string> GenericTypes_Assumed(MaskType type, bool onlyAssumeSubclass = false)
         {
-            return Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => g.Value.BaseObjectGeneration.Mask(type));
+            return Generics
+                .Where((g) => g.Value.BaseObjectGeneration != null)
+                .Select((g) =>
+                {
+                    if (!onlyAssumeSubclass || !this.BaseGenerics.ContainsKey(g.Key))
+                    {
+                        return g.Value.BaseObjectGeneration.Mask(type);
+                    }
+                    else
+                    {
+                        return SpecifyGeneric(type, g);
+                    }
+                });
         }
 
-        public string GenericClause_Assumed(MaskType type)
+        public string GenericClause_Assumed(MaskType type, bool onlyAssumeSubclass = false)
         {
-            return GenerateGenericClause(GenericTypes_Assumed(type));
+            return GenerateGenericClause(GenericTypes_Assumed(type, onlyAssumeSubclass));
         }
 
-        public string Mask_GenericAssumed(MaskType type)
+        public string Mask_GenericAssumed(MaskType type, bool onlyAssumeSubclass = false)
         {
-            return $"{this.Mask_BasicName(type)}{GenericClause_Assumed(type)}";
+            return $"{this.Mask_BasicName(type)}{GenericClause_Assumed(type, onlyAssumeSubclass)}";
         }
 
         public string Mask_Unspecified(MaskType type)
@@ -2313,12 +2346,27 @@ namespace Loqui.Generation
             return $"{this.Mask_BasicName(type)}{GenerateGenericClause(Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => string.Empty))}";
         }
 
-        public string GenericBaseObject_Masks(MaskType type)
+        public string BaseMask_GenericClausesAssumed(MaskType type)
         {
             return GenerateGenericClause(Generics.Where((g) => g.Value.BaseObjectGeneration != null).Select((g) => g.Value.BaseObjectGeneration.Mask(type)));
         }
         
         public string Mask_GenericClause(MaskType type) => GenerateGenericClause(GenericTypes_Nickname(type));
+
+        public string BaseMask_GenericClause(MaskType type)
+        {
+            if (!this.HasBaseObject)
+            {
+                return Mask_GenericClause(type);
+            }
+            return GenerateGenericClause(Generics
+                .Where((g) => g.Value.BaseObjectGeneration != null)
+                .Where((g) => this.BaseGenerics.ContainsKey(g.Key))
+                .Select((g) =>
+                {
+                    return SpecifyGeneric(type, g);
+                }));
+        }
 
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFields()
         {

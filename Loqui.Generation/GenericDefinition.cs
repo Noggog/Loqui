@@ -35,6 +35,7 @@ namespace Loqui.Generation
             {
                 MustBeClass = this.MustBeClass
             };
+            ret.BaseObjectGeneration = this.BaseObjectGeneration;
             ret._whereSet.Add(this._whereSet);
             ret._whereList.AddRange(this._whereList);
             return ret;

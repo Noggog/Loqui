@@ -145,7 +145,6 @@
     <Compile Include="ObjectGeneration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolGeneration.cs" />
-    <Compile Include="Ref.cs" />
     <Compile Include="Enums\LoquiInterfaceType.cs" />
     <Compile Include="FileGeneration\RegionWrapper.cs" />
     <Compile Include="StructGeneration.cs" />

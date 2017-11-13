@@ -199,7 +199,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
             
-            fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}");
+            fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}, IErrorMask<{obj.Mask(MaskType.Error)}>");
             using (new DepthWrapper(fg))
             {
                 fg.AppendLines(obj.GenericTypes_ErrorMaskWheres);

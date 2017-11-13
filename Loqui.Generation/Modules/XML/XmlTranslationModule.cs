@@ -202,7 +202,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"Fill_{ModuleNickname}_Internal"))
+                                $"Fill_{ModuleNickname}_Internal{obj.Mask_GenericClause(MaskType.Error)}"))
                             {
                                 args.Add("item: ret");
                                 args.Add("root: elem");
@@ -285,7 +285,7 @@ namespace Loqui.Generation
                         if (obj.HasBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal"))
+                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.BaseMask_GenericClause(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
                                 args.Add("root: root");
@@ -389,7 +389,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{obj.Mask(MaskType.Error)} errMaskRet = null;");
             using (var args = new ArgsWrapper(fg,
-                $"var ret = Create_{ModuleNickname}_Internal"))
+                $"var ret = Create_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
             {
                 args.Add("root: root");
                 args.Add("doMasks: doMasks");

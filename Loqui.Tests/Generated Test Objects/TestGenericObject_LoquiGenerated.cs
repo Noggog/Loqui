@@ -204,7 +204,7 @@ namespace Loqui.Tests
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
             TestGenericObject_ErrorMask<RBase_ErrMask> errMaskRet = null;
-            var ret = Create_XML_Internal(
+            var ret = Create_XML_Internal<RBase_ErrMask>(
                 root: root,
                 doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_ErrorMask<RBase_ErrMask>()) : default(Func<TestGenericObject_ErrorMask<RBase_ErrMask>>));
@@ -465,7 +465,7 @@ namespace Loqui.Tests
             {
                 foreach (var elem in root.Elements())
                 {
-                    Fill_XML_Internal(
+                    Fill_XML_Internal<RBase_ErrMask>(
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
@@ -1391,7 +1391,7 @@ namespace Loqui.Tests.Internals
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
             TestGenericObject_ErrorMask<RBase_ErrMask> errMaskRet = null;
-            Write_XML_Internal(
+            Write_XML_Internal<T, RBase, R, RBase_ErrMask>(
                 writer: writer,
                 name: name,
                 item: item,

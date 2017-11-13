@@ -4166,8 +4166,8 @@ namespace Loqui.Tests
                             root,
                             nullable: false,
                             doMasks: doMasks,
-                            errorMask: out subMask).Bubble((o) => o.Value);
-                        item._Enum.SetIfSucceeded(tryGet);
+                            errorMask: out subMask);
+                        item._Enum.SetIfSucceeded(tryGet.Bubble((o) => o.Value));
                         ErrorMask.HandleErrorMask(
                             errorMask,
                             doMasks,
@@ -12953,7 +12953,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestObject_HasBeenSet_ReadOnly_RPC_ErrorMask : IErrorMask
+    public class TestObject_HasBeenSet_ReadOnly_RPC_ErrorMask : IErrorMask, IErrorMask<TestObject_HasBeenSet_ReadOnly_RPC_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }
@@ -14489,15 +14489,15 @@ namespace Loqui.Tests.Internals
             ret.WildCard = this.WildCard ?? rhs.WildCard;
             ret.WildCardLoqui = this.WildCardLoqui ?? rhs.WildCardLoqui;
             ret.WildCardNull = this.WildCardNull ?? rhs.WildCardNull;
-            ret.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref.Overall.Combine(rhs.Ref.Overall), this.Ref.Specific.Combine(rhs.Ref.Specific));
-            ret.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_NotNull.Overall.Combine(rhs.Ref_NotNull.Overall), this.Ref_NotNull.Specific.Combine(rhs.Ref_NotNull.Specific));
-            ret.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_Singleton.Overall.Combine(rhs.Ref_Singleton.Overall), this.Ref_Singleton.Specific.Combine(rhs.Ref_Singleton.Specific));
-            ret.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter.Overall.Combine(rhs.RefGetter.Overall), this.RefGetter.Specific.Combine(rhs.RefGetter.Specific));
-            ret.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_NotNull.Overall.Combine(rhs.RefGetter_NotNull.Overall), this.RefGetter_NotNull.Specific.Combine(rhs.RefGetter_NotNull.Specific));
-            ret.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_Singleton.Overall.Combine(rhs.RefGetter_Singleton.Overall), this.RefGetter_Singleton.Specific.Combine(rhs.RefGetter_Singleton.Specific));
-            ret.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter.Overall.Combine(rhs.RefSetter.Overall), this.RefSetter.Specific.Combine(rhs.RefSetter.Specific));
-            ret.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_NotNull.Overall.Combine(rhs.RefSetter_NotNull.Overall), this.RefSetter_NotNull.Specific.Combine(rhs.RefSetter_NotNull.Specific));
-            ret.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_Singleton.Overall.Combine(rhs.RefSetter_Singleton.Overall), this.RefSetter_Singleton.Specific.Combine(rhs.RefSetter_Singleton.Specific));
+            ret.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref.Overall.Combine(rhs.Ref.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.Ref.Specific).Combine(rhs.Ref.Specific));
+            ret.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_NotNull.Overall.Combine(rhs.Ref_NotNull.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.Ref_NotNull.Specific).Combine(rhs.Ref_NotNull.Specific));
+            ret.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.Ref_Singleton.Overall.Combine(rhs.Ref_Singleton.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.Ref_Singleton.Specific).Combine(rhs.Ref_Singleton.Specific));
+            ret.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter.Overall.Combine(rhs.RefGetter.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefGetter.Specific).Combine(rhs.RefGetter.Specific));
+            ret.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_NotNull.Overall.Combine(rhs.RefGetter_NotNull.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefGetter_NotNull.Specific).Combine(rhs.RefGetter_NotNull.Specific));
+            ret.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefGetter_Singleton.Overall.Combine(rhs.RefGetter_Singleton.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefGetter_Singleton.Specific).Combine(rhs.RefGetter_Singleton.Specific));
+            ret.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter.Overall.Combine(rhs.RefSetter.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefSetter.Specific).Combine(rhs.RefSetter.Specific));
+            ret.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_NotNull.Overall.Combine(rhs.RefSetter_NotNull.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefSetter_NotNull.Specific).Combine(rhs.RefSetter_NotNull.Specific));
+            ret.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(this.RefSetter_Singleton.Overall.Combine(rhs.RefSetter_Singleton.Overall), ((IErrorMask<ObjectToRef_ErrorMask>)this.RefSetter_Singleton.Specific).Combine(rhs.RefSetter_Singleton.Specific));
             ret.List = new MaskItem<Exception, IEnumerable<Exception>>(this.List.Overall.Combine(rhs.List.Overall), new List<Exception>(this.List.Specific.And(rhs.List.Specific)));
             ret.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.RefList.Overall.Combine(rhs.RefList.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.RefList.Specific.And(rhs.RefList.Specific)));
             ret.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(this.Dict.Overall.Combine(rhs.Dict.Overall), new List<KeyValuePair<Exception, Exception>>(this.Dict.Specific.And(rhs.Dict.Specific)));

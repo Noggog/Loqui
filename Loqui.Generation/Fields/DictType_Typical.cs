@@ -93,7 +93,7 @@ namespace Loqui.Generation
         {
             LoquiType keyLoquiType = this.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
-            var item2 = $"KeyValuePair<{(keyLoquiType == null ? "Exception" : keyLoquiType.RefGen.Obj.GetMaskString("Exception"))}, {(valueLoquiType == null ? "Exception" : valueLoquiType.RefGen.Obj.GetMaskString("Exception"))}>";
+            var item2 = $"KeyValuePair<{(keyLoquiType == null ? "Exception" : keyLoquiType.TargetObjectGeneration.GetMaskString("Exception"))}, {(valueLoquiType == null ? "Exception" : valueLoquiType.TargetObjectGeneration.GetMaskString("Exception"))}>";
 
             fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
         }

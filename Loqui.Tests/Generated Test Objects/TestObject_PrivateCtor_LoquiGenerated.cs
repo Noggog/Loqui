@@ -1126,7 +1126,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestObject_PrivateCtor_ErrorMask : IErrorMask
+    public class TestObject_PrivateCtor_ErrorMask : IErrorMask, IErrorMask<TestObject_PrivateCtor_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }

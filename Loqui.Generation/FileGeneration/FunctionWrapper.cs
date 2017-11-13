@@ -28,16 +28,24 @@ namespace Loqui.Generation
             args.Add(line);
         }
 
+        private void AppendWheres()
+        {
+            if (wheres != null)
+            {
+                foreach (var where in wheres)
+                {
+                    fg.AppendLine($"{where}");
+                }
+            }
+        }
+
         public void Dispose()
         {
             if (args.Count == 0)
             {
                 fg.AppendLine($"{initialLine}()");
                 this.fg.Depth++;
-                foreach (var where in wheres)
-                {
-                    fg.AppendLine($"{where}");
-                }
+                AppendWheres();
                 this.fg.Depth--;
                 return;
             }
@@ -45,10 +53,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{initialLine}({args[0]})");
                 this.fg.Depth++;
-                foreach (var where in wheres)
-                {
-                    fg.AppendLine($"{where}");
-                }
+                AppendWheres();
                 this.fg.Depth--;
                 return;
             }
@@ -65,10 +70,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine($"{args[args.Count - 1]})");
             }
-            foreach (var where in wheres)
-            {
-                fg.AppendLine($"{where}");
-            }
+            AppendWheres();
             this.fg.Depth--;
         }
     }

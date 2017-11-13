@@ -1184,7 +1184,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestObject_Notifying_SubClass_ErrorMask : TestObject_Notifying_ErrorMask
+    public class TestObject_Notifying_SubClass_ErrorMask : TestObject_Notifying_ErrorMask, IErrorMask<TestObject_Notifying_SubClass_ErrorMask>
     {
         #region Members
         public Exception NewField;
