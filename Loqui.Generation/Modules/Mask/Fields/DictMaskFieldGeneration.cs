@@ -13,8 +13,8 @@ namespace Loqui.Generation
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
-            string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.RefGen.Obj.GetMaskString(typeStr)}>")}";
-            string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.RefGen.Obj.GetMaskString(typeStr)}>")}";
+            string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.TargetObjectGeneration.GetMaskString(typeStr)}>")}";
+            string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.TargetObjectGeneration.GetMaskString(typeStr)}>")}";
 
             string itemStr;
             switch (dictType.Mode)
@@ -61,16 +61,16 @@ namespace Loqui.Generation
                     }
                     else if (keyLoquiType != null && valueLoquiType != null)
                     {
-                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.RefGen.Obj.Mask(MaskType.Copy)} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.RefGen.Obj.Mask(MaskType.Copy)} Mask)>> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)} Mask)>> {field.Name};");
                     }
                     else
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.RefGen.Obj.Mask(MaskType.Copy)} Mask)> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.TargetObjectGeneration.Mask(MaskType.Copy)} Mask)> {field.Name};");
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.RefGen.Obj.Mask(MaskType.Copy)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)}> {field.Name};");
                     break;
                 default:
                     break;

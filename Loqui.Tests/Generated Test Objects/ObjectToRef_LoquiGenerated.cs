@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.IO;
 using Noggog.Xml;
 using Loqui.Xml;
+using System.Diagnostics;
 
 namespace Loqui.Tests
 {
@@ -147,6 +148,7 @@ namespace Loqui.Tests
 
         #region XML Translation
         #region XML Create
+        [DebuggerStepThrough]
         public static ObjectToRef Create_XML(XElement root)
         {
             return Create_XML(
@@ -155,6 +157,7 @@ namespace Loqui.Tests
                 errorMask: out var errorMask);
         }
 
+        [DebuggerStepThrough]
         public static ObjectToRef Create_XML(
             XElement root,
             out ObjectToRef_ErrorMask errorMask)
@@ -165,6 +168,7 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
+        [DebuggerStepThrough]
         public static ObjectToRef Create_XML(
             XElement root,
             bool doMasks,
@@ -177,6 +181,7 @@ namespace Loqui.Tests
             return ret.Object;
         }
 
+        [DebuggerStepThrough]
         public static (ObjectToRef Object, ObjectToRef_ErrorMask ErrorMask) Create_XML(
             XElement root,
             bool doMasks)
@@ -233,7 +238,7 @@ namespace Loqui.Tests
                 item: this,
                 skipProtected: true,
                 doMasks: false,
-                mask: out ObjectToRef_ErrorMask errorMask,
+                mask: out var errorMask,
                 cmds: cmds);
         }
 
@@ -303,12 +308,10 @@ namespace Loqui.Tests
             out ObjectToRef_ErrorMask errorMask,
             string name = null)
         {
-            ObjectToRefCommon.Write_XML(
+            errorMask = (ObjectToRef_ErrorMask)this.Write_XML_Internal(
                 writer: writer,
                 name: name,
-                item: this,
-                doMasks: true,
-                errorMask: out errorMask);
+                doMasks: true);
         }
 
         public virtual void Write_XML(
@@ -347,12 +350,10 @@ namespace Loqui.Tests
             XmlWriter writer,
             string name = null)
         {
-            ObjectToRefCommon.Write_XML(
+            this.Write_XML_Internal(
                 writer: writer,
                 name: name,
-                item: this,
-                doMasks: false,
-                errorMask: out ObjectToRef_ErrorMask errorMask);
+                doMasks: false);
         }
 
         public void Write_XML(
@@ -383,6 +384,18 @@ namespace Loqui.Tests
             }
         }
 
+        protected object Write_XML_Internal(
+            XmlWriter writer,
+            bool doMasks,
+            string name = null)
+        {
+            ObjectToRefCommon.Write_XML(
+                writer: writer,
+                item: this,
+                doMasks: doMasks,
+                errorMask: out var errorMask);
+            return errorMask;
+        }
         #endregion
 
         private static ObjectToRef Create_XML_Internal(
@@ -1268,7 +1281,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class ObjectToRef_ErrorMask : IErrorMask
+    public class ObjectToRef_ErrorMask : IErrorMask, IErrorMask<ObjectToRef_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }

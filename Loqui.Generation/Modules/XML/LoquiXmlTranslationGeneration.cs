@@ -23,7 +23,7 @@ namespace Loqui.Generation
             if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Write"))
+                    $"LoquiXmlTranslation<{loquiGen.Getter_InterfaceStr}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Write"))
                 {
                     args.Add($"writer: {writerAccessor}");
                     args.Add($"item: {itemAccessor}");

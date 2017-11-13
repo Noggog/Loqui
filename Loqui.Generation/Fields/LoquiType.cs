@@ -7,7 +7,6 @@ namespace Loqui.Generation
 {
     public class LoquiType : PrimitiveType
     {
-        public Ref RefGen { get; protected set; }
         public override string TypeName
         {
             get
@@ -18,11 +17,11 @@ namespace Loqui.Generation
                         switch (this.InterfaceType)
                         {
                             case LoquiInterfaceType.Direct:
-                                return $"{this.RefGen.Name}{this.GenericTypes}";
+                                return $"{this._TargetObjectGeneration.Name}{this.GenericTypes}";
                             case LoquiInterfaceType.IGetter:
-                                return $"{this.RefGen.Getter_InterfaceStr}{this.GenericTypes}";
+                                return $"{this.Getter_InterfaceStr}{this.GenericTypes}";
                             case LoquiInterfaceType.ISetter:
-                                return $"{this.RefGen.InterfaceStr}{this.GenericTypes}";
+                                return $"{this.InterfaceStr}{this.GenericTypes}";
                             default:
                                 throw new NotImplementedException();
                         }
@@ -54,7 +53,37 @@ namespace Loqui.Generation
                 switch (RefType)
                 {
                     case LoquiRefType.Direct:
-                        return this.RefGen.Name;
+                        return this._TargetObjectGeneration.Name;
+                    case LoquiRefType.Generic:
+                        return _generic;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+        public string Getter_InterfaceStr
+        {
+            get
+            {
+                switch (RefType)
+                {
+                    case LoquiRefType.Direct:
+                        return this._TargetObjectGeneration.Getter_InterfaceStr_NoGenerics + GenericTypes;
+                    case LoquiRefType.Generic:
+                        return _generic;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+        public string InterfaceStr
+        {
+            get
+            {
+                switch (RefType)
+                {
+                    case LoquiRefType.Direct:
+                        return this._TargetObjectGeneration.Setter_InterfaceStr_NoGenerics + GenericTypes;
                     case LoquiRefType.Generic:
                         return _generic;
                     default:
@@ -69,6 +98,7 @@ namespace Loqui.Generation
         private string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
+        private ObjectGeneration _TargetObjectGeneration;
         public ObjectGeneration TargetObjectGeneration
         {
             get
@@ -76,7 +106,7 @@ namespace Loqui.Generation
                 switch (RefType)
                 {
                     case LoquiRefType.Direct:
-                        return this.RefGen.Obj;
+                        return _TargetObjectGeneration;
                     case LoquiRefType.Generic:
                         return this.GenericDef.BaseObjectGeneration;
                     default:
@@ -87,6 +117,20 @@ namespace Loqui.Generation
         public string SingletonObjectName => $"_{this.Name}_Object";
         public override Type Type => throw new NotImplementedException();
         public string RefName;
+        public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
+
+        public enum LoquiRefType
+        {
+            Direct,
+            Generic
+        }
+
+        public enum SingletonLevel
+        {
+            None,
+            NotNull,
+            Singleton
+        }
 
         public override string SkipCheck(string copyMaskAccessor)
         {
@@ -110,20 +154,6 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
-        }
-        public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
-
-        public enum LoquiRefType
-        {
-            Direct,
-            Generic
-        }
-
-        public enum SingletonLevel
-        {
-            None,
-            NotNull,
-            Singleton
         }
 
         public string GetMaskString(string str)
@@ -267,14 +297,14 @@ namespace Loqui.Generation
                             fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemConvertWrapper<{TypeName}>(");
                             using (new DepthWrapper(fg))
                             {
-                                fg.AppendLine($"defaultVal: new {this.RefGen.Name}(),");
+                                fg.AppendLine($"defaultVal: new {this._TargetObjectGeneration.Name}(),");
                                 fg.AppendLine("incomingConverter: (change) =>");
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine("if (change.New == null)");
                                     using (new BraceWrapper(fg))
                                     {
-                                        fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(new {this.RefGen.Name}());");
+                                        fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(new {this._TargetObjectGeneration.Name}());");
                                     }
                                     fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(change.New);");
                                 }
@@ -364,25 +394,13 @@ namespace Loqui.Generation
 
             if (!string.IsNullOrWhiteSpace(this.RefName))
             {
-                var r = new Ref();
                 this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
 
-                var genElems = refNode?.Elements(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace)).ToList();
-                if (genElems?.Count > 0)
-                {
-                    r = new GenRef()
-                    {
-                        Generics = genElems.Select((e) => e.Value).ToList()
-                    };
-                }
-
                 this.RefType = LoquiRefType.Direct;
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.RefName, out ObjectGeneration refGen))
+                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.RefName, out _TargetObjectGeneration))
                 {
                     throw new ArgumentException("Loqui type cannot be found: " + this.RefName);
                 }
-                r.Obj = refGen;
-                this.RefGen = r;
 
                 this.GenericSpecification = new GenericSpecification();
                 foreach (var specNode in refNode.Elements(XName.Get(Constants.GENERIC_SPECIFICATION, LoquiGenerator.Namespace)))
@@ -397,7 +415,7 @@ namespace Loqui.Generation
                         mapNode.Attribute(Constants.TYPE_ON_REF).Value,
                         mapNode.Attribute(Constants.TYPE_ON_OBJECT).Value);
                 }
-                foreach (var generic in this.RefGen.Obj.Generics)
+                foreach (var generic in this.TargetObjectGeneration.Generics)
                 {
                     if (this.GenericSpecification.Specifications.ContainsKey(generic.Key)) continue;
                     if (this.GenericSpecification.Mappings.ContainsKey(generic.Key)) continue;
@@ -423,10 +441,6 @@ namespace Loqui.Generation
             }
 
             this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
-
-            if (this.RefType != LoquiRefType.Generic || !this.GenericDef.Wheres.Any()) return;
-            if (!this.ObjectGen.ProtoGen.ObjectGenerationsByName.TryGetValue(this.GenericDef.Wheres.First(), out var baseObjGen)) return;
-            this.GenericDef.BaseObjectGeneration = baseObjGen;
         }
 
         public override void GenerateForCopy(
@@ -439,9 +453,9 @@ namespace Loqui.Generation
             bool protectedMembers)
         {
 
-            if (RefGen?.Obj is StructGeneration)
+            if (_TargetObjectGeneration is StructGeneration)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = new {this.RefGen.Obj.Name}({rhsAccessorPrefix}.{this.Name});");
+                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = new {this.TargetObjectGeneration.Name}({rhsAccessorPrefix}.{this.Name});");
                 return;
             }
 
@@ -631,7 +645,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.RefGen?.Obj.ExtCommonName}.CopyFieldsFrom"))
+                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom"))
                 {
                     args.Add($"item: item.{this.Name}");
                     args.Add($"rhs: rhs.{this.Name}");
@@ -692,7 +706,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{this.RefGen.Obj.ExtCommonName}.Clear({identifier}.{this.Name}, cmds.ToUnsetParams());");
+                fg.AppendLine($"{this.TargetObjectGeneration.ExtCommonName}.Clear({identifier}.{this.Name}, cmds.ToUnsetParams());");
                 fg.AppendLine("break;");
             }
         }
@@ -758,7 +772,7 @@ namespace Loqui.Generation
         {
             if (RefType == LoquiRefType.Direct)
             {
-                yield return RefGen.Obj.Namespace;
+                yield return TargetObjectGeneration.Namespace;
             }
         }
 
@@ -772,7 +786,7 @@ namespace Loqui.Generation
 
         public override string GenerateACopy(string rhsAccessor)
         {
-            return $"{this.RefGen.ObjectName}.Copy({rhsAccessor})";
+            return $"{this._TargetObjectGeneration.ObjectName}.Copy({rhsAccessor})";
         }
 
         public string GenerateMaskString(string type)
@@ -858,9 +872,9 @@ namespace Loqui.Generation
         private string _GenericTypes()
         {
             if (this.GenericSpecification == null) return null;
-            if (this.RefGen.Obj.Generics.Count == 0) return null;
+            if (this.TargetObjectGeneration.Generics.Count == 0) return null;
             List<string> ret = new List<string>();
-            foreach (var gen in this.RefGen.Obj.Generics)
+            foreach (var gen in this.TargetObjectGeneration.Generics)
             {
                 if (this.GenericSpecification.Specifications.TryGetValue(gen.Key, out var spec))
                 {

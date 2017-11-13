@@ -13,7 +13,7 @@ using System.Xml.Linq;
 namespace Loqui.Xml
 {
     public class LoquiXmlTranslation<T, M> : IXmlTranslation<T, M>
-        where T : ILoquiObjectGetter
+        where T : ILoquiObject
         where M : class, IErrorMask, new()
     {
         public static readonly LoquiXmlTranslation<T, M> Instance = new LoquiXmlTranslation<T, M>();
@@ -219,68 +219,7 @@ namespace Loqui.Xml
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
         {
-            using (new ElementWrapper(writer, name))
-            {
-                mask = default(M);
-
-                try
-                {
-                    writer.WriteAttributeString(XmlConstants.TYPE_ATTRIBUTE, ElementName);
-                    for (ushort i = 0; i < item.Registration.FieldCount; i++)
-                    {
-                        try
-                        {
-                            if (!item.GetNthObjectHasBeenSet(i)) continue;
-
-                            var type = item.Registration.GetNthType(i);
-                            if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object, object> translator))
-                            {
-                                throw new ArgumentException($"No XML Translator found for {type}");
-                            }
-                            translator.Write(writer, item.Registration.GetNthName(i), item.GetNthObject(i), doMasks, out var subMaskObj);
-
-                            if (subMaskObj != null)
-                            {
-                                if (mask == null)
-                                {
-                                    mask = new M();
-                                }
-                                mask.SetNthMask(i, subMaskObj);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (doMasks)
-                            {
-                                if (mask == null)
-                                {
-                                    mask = new M();
-                                }
-                                mask.SetNthException(i, ex);
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (doMasks)
-                    {
-                        if (mask == null)
-                        {
-                            mask = new M();
-                        }
-                        mask.Overall = ex;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
+            WRITE.Value(writer, item, name, doMasks, out mask);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Loqui.Generation
             }
 
             this.KeyAccessorString = keyAccessorAttr.Value;
-            this.KeyTypeGen = this.ValueTypeGen.RefGen.Obj.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
+            this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
             if (this.KeyTypeGen == null)
             {
                 throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
@@ -77,7 +77,7 @@ namespace Loqui.Generation
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception, bool key)
         {
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
-            var valStr = valueLoquiType == null ? "Exception" : $"Tuple<Exception, {valueLoquiType.RefGen.Obj.GetMaskString("Exception")}>";
+            var valStr = valueLoquiType == null ? "Exception" : $"Tuple<Exception, {valueLoquiType.TargetObjectGeneration.GetMaskString("Exception")}>";
 
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }

@@ -48,7 +48,7 @@ namespace Loqui.Generation
                 if (loqui.SingletonType == SingletonLevel.Singleton)
                 {
                     if (loqui.InterfaceType == LoquiInterfaceType.IGetter) return;
-                    fg.AppendLine($"public MaskItem<bool, {loqui.RefGen.Obj.Mask(MaskType.Copy)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Copy)}> {field.Name};");
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (!IsUnknownGeneric(loqui))
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), {accessor}.Specific.Combine({rhsAccessor}.Specific));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), ((IErrorMask<{loqui.MaskItemString(MaskType.Error)}>){accessor}.Specific).Combine({rhsAccessor}.Specific));");
             }
             else
             {
