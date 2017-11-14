@@ -891,5 +891,29 @@ namespace Loqui.Generation
             }
             return $"<{string.Join(", ", ret)}>";
         }
+
+        public LoquiType Spawn(ObjectGeneration target)
+        {
+            switch (RefType)
+            {
+                case LoquiRefType.Direct:
+                    break;
+                case LoquiRefType.Generic:
+                default:
+                    throw new NotImplementedException();
+            }
+            var ret = new LoquiType()
+            {
+                _TargetObjectGeneration = target,
+                RefName = target.Name,
+                Name = this.Name
+            };
+            ret.SetObjectGeneration(this.ObjectGen);
+            foreach (var custom in this.CustomData)
+            {
+                ret.CustomData[custom.Key] = custom.Value;
+            }
+            return ret;
+        }
     }
 }
