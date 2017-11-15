@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public abstract class ClassType : TypicalTypeGeneration
     {
-        public bool Nullable;
+        public bool Nullable = true;
         public bool Singleton;
         public bool Readonly;
         public override bool Copy => base.Copy && !this.Singleton;
@@ -35,8 +35,8 @@ namespace Loqui.Generation
         public override void Load(XElement node, bool requireName = true)
         {
             base.Load(node, requireName);
-            this.Singleton = node.GetAttribute<bool>("singleton", false);
-            this.Nullable = node.GetAttribute<bool>("nullable", true && !this.Singleton);
+            this.Singleton = node.GetAttribute<bool>("singleton", this.Singleton);
+            this.Nullable = node.GetAttribute<bool>("nullable", this.Nullable && !this.Singleton);
             if (this.Singleton && this.Nullable)
             {
                 throw new ArgumentException("A class type cannot be both nullable and a singleton.");
@@ -70,6 +70,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
+            if (!this.IntegrateField) return;
             switch (this.Notifying)
             {
                 case NotifyingOption.None:

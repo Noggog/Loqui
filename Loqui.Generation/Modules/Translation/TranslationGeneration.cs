@@ -9,7 +9,7 @@ namespace Loqui.Generation
     public class TranslationGeneration
     {
         public MaskModule MaskModule;
-        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.GenerateTypicalItems;
-        public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.GenerateTypicalItems;
+        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField;
+        public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.IntegrateField;
     }
 }

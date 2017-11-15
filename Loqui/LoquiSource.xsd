@@ -385,6 +385,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="IGetterExport" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Whether to use the getter interface for export functions
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="ObjectType">
@@ -541,6 +548,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="IGetterExport" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Whether to use the getter interface for export functions
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="Namespaces">
@@ -692,6 +706,13 @@
       <xs:annotation>
         <xs:documentation>
           If false, only the interface member will be defined.  The actual class member will be left up to the user to implement.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="hidden" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to generate field as part as the loqui systems.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

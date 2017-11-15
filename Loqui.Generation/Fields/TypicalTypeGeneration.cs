@@ -167,6 +167,7 @@ namespace Loqui.Generation
 
         protected virtual void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
+            if (!this.IntegrateField) return;
             using (var args = new ArgsWrapper(fg,
                 $"{prepend} = {(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory<{TypeName}>"))
             {
@@ -184,7 +185,7 @@ namespace Loqui.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (this.Protected) return;
+            if (this.Protected || !this.IntegrateField) return;
             fg.AppendLine($"new {TypeName} {this.Name} {{ get; {(Protected ? string.Empty : "set; ")}}}");
             switch (this.Notifying)
             {
@@ -204,6 +205,7 @@ namespace Loqui.Generation
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
             switch (this.Notifying)
             {
@@ -230,6 +232,7 @@ namespace Loqui.Generation
             string cmdsAccessor,
             bool protectedMembers)
         {
+            if (!this.IntegrateField) return;
             if (this.Notifying == NotifyingOption.None)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
@@ -275,7 +278,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            if (this.Protected) return;
+            if (this.Protected || !this.IntegrateField) return;
             switch (this.Notifying)
             {
                 case NotifyingOption.None:
@@ -308,6 +311,7 @@ namespace Loqui.Generation
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
         {
+            if (!this.IntegrateField) return;
             if (!this.Protected)
             {
                 if (this.Notifying == NotifyingOption.None)
@@ -331,11 +335,13 @@ namespace Loqui.Generation
 
         public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"if ({this.Name} != {rhsAccessor}.{this.Name}) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
+            if (!this.IntegrateField) return;
             if (this.Notifying == NotifyingOption.None)
             {
                 fg.AppendLine($"{retAccessor} = {accessor} == {rhsAccessor};");
@@ -348,21 +354,25 @@ namespace Loqui.Generation
 
         public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor}}}\");");
         }
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor}.HasBeenSet) return false;");
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
         {
+            if (!this.IntegrateField) return;
             if (this.Notifying == NotifyingOption.None)
             {
                 fg.AppendLine($"{retAccessor} = true;");

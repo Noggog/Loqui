@@ -413,7 +413,14 @@ namespace Loqui.Generation
                 {
                     args.Add(item);
                 }
-                args.Add($"{obj.Getter_InterfaceStr} item");
+                if (obj.ExportWithIGetter)
+                {
+                    args.Add($"{obj.Getter_InterfaceStr} item");
+                }
+                else
+                {
+                    args.Add($"{obj.ObjectName} item");
+                }
                 args.Add($"bool doMasks");
                 args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
                 foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
@@ -447,7 +454,14 @@ namespace Loqui.Generation
                 {
                     args.Add(item);
                 }
-                args.Add($"{obj.Getter_InterfaceStr} item");
+                if (obj.ExportWithIGetter)
+                {
+                    args.Add($"{obj.Getter_InterfaceStr} item");
+                }
+                else
+                {
+                    args.Add($"{obj.ObjectName} item");
+                }
                 args.Add($"bool doMasks");
                 args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
                 foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)

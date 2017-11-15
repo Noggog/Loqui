@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class NothingType : TypeGeneration
     {
-        public override bool GenerateTypicalItems => false;
+        public override bool IntegrateField => false;
 
         public override string TypeName => null;
 

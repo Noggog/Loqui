@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public const int NumStructFields = 4;"))
+            if (str.Contains("private static void Write_Binary_Internal("))
             {
                 int wer = 23;
                 wer++;

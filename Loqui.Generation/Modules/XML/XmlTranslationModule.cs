@@ -241,7 +241,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in obj.Fields)
                     {
-                        if (!field.GenerateTypicalItems) continue;
+                        if (!field.IntegrateField) continue;
                         if (!this.TryGetTypeGeneration(field.GetType(), out var generator))
                         {
                             throw new ArgumentException("Unsupported type generator: " + field);

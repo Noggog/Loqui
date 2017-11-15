@@ -21,7 +21,7 @@ namespace Loqui.Generation
         public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
-        public virtual bool GenerateTypicalItems => true;
+        public virtual bool IntegrateField { get; set; } = true;
         public bool RaisePropertyChanged;
         public bool Protected;
         private bool _copy;
@@ -56,8 +56,9 @@ namespace Loqui.Generation
 
         protected void LoadTypeGenerationFromNode(XElement node, bool requireName = true)
         {
-            node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
+            node.TransferAttribute<bool>(Constants.HIDDEN_FIELD, i => this.IntegrateField = !i);
             Name = node.GetAttribute<string>(Constants.NAME);
+            node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
             node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
             this.Protected = node.GetAttribute<bool>(Constants.PROTECTED, this.ObjectGen.ProtectedDefault || Derivative);
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Protected);

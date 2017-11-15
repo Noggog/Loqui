@@ -89,7 +89,7 @@ namespace Loqui.Generation
                         fg.AppendLine("int ret = 0;");
                         foreach (var field in obj.Fields)
                         {
-                            if (!field.GenerateTypicalItems) continue;
+                            if (!field.IntegrateField) continue;
                             fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
                         }
                         if (obj.HasBaseObject)
@@ -187,7 +187,7 @@ namespace Loqui.Generation
                         {
                             foreach (var item in obj.Fields)
                             {
-                                if (!item.GenerateTypicalItems) continue;
+                                if (!item.IntegrateField) continue;
                                 fg.AppendLine($"if ({GetMaskModule(item.GetType()).GenerateBoolMaskCheck(item, "printMask")})");
                                 using (new BraceWrapper(fg))
                                 {
@@ -246,7 +246,7 @@ namespace Loqui.Generation
                         {
                             foreach (var item in obj.Fields)
                             {
-                                if (!item.GenerateTypicalItems) continue;
+                                if (!item.IntegrateField) continue;
                                 fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
@@ -269,7 +269,7 @@ namespace Loqui.Generation
                         {
                             foreach (var item in obj.Fields)
                             {
-                                if (!item.GenerateTypicalItems) continue;
+                                if (!item.IntegrateField) continue;
                                 fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
                                 using (new DepthWrapper(fg))
                                 {
@@ -328,7 +328,7 @@ namespace Loqui.Generation
                         }
                         foreach (var item in obj.Fields)
                         {
-                            if (!item.GenerateTypicalItems) continue;
+                            if (!item.IntegrateField) continue;
                             fg.AppendLine($"if ({item.Name} != null)");
                             using (new BraceWrapper(fg))
                             {
@@ -346,7 +346,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error)}();");
                         foreach (var field in obj.Fields)
                         {
-                            if (!field.GenerateTypicalItems) continue;
+                            if (!field.IntegrateField) continue;
                             GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
                         }
                         fg.AppendLine("return ret;");

@@ -9,7 +9,7 @@ namespace Loqui.Generation
         public abstract void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr);
         public virtual void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {
-            if (!field.GenerateTypicalItems) return;
+            if (!field.IntegrateField) return;
             fg.AppendLine($"public {GetErrorMaskTypeStr(field)} {field.Name};");
         }
         public virtual void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
@@ -22,7 +22,7 @@ namespace Loqui.Generation
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field);
         public virtual void GenerateForEqual(FileGeneration fg, TypeGeneration field, string rhsAccessor)
         {
-            if (!field.GenerateTypicalItems) return;
+            if (!field.IntegrateField) return;
             fg.AppendLine($"if (!object.Equals(this.{field.Name}, {rhsAccessor})) return false;");
         }
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);

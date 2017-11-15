@@ -11,6 +11,7 @@ namespace Loqui.Generation
         public const string KEY_FIELD = "keyField";
         public const string NAME = "name";
         public const string DERIVATIVE = "derivative";
+        public const string HIDDEN_FIELD = "hidden";
         public const string PROTECTED = "protected";
         public const string COPY = "copy";
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
@@ -35,5 +36,21 @@ namespace Loqui.Generation
         public const string DEFINITION = "Definition";
         public const string TYPE_ON_REF = "TypeOnRef";
         public const string TYPE_ON_OBJECT = "TypeOnObject";
+        public const string GENERATE_CLASS = "generateClass";
+        public const string GENERATE_EQUALS = "generateEquals";
+        public const string GENERATE_TO_STRING = "generateToString";
+        public const string PUBLIC_CTOR = "publicCtor";
+        public const string VERSION = "version";
+        public const string INTERFACE_TYPE_DEFAULT = "interfaceTypeDefault";
+        public const string PROTECTED_DEFAULT = "protectedDefault";
+        public const string DERIVATIVE_DEFAULT = "derivativeDefault";
+        public const string RAISEPROPERTYCHANGED_DEFAULT = "raisePropertyChangedDefault";
+        public const string DISABLE = "disable";
+        public const string NAMESPACES = "Namespaces";
+        public const string BASE_CLASS = "BaseClass";
+        public const string WHERE = "Where";
+        public const string INTERFACE = "Interface";
+        public const string FIELDS = "Fields";
+        public const string IGETTER_EXPORT = "IGetterExport";
     }
 }
