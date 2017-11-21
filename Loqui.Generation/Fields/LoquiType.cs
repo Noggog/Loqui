@@ -652,10 +652,10 @@ namespace Loqui.Generation
                     args.Add($"def: def?.{this.Name}");
                     if (this.RefType == LoquiRefType.Direct)
                     {
-                        args.Add($"doErrorMask: doErrorMask");
+                        args.Add($"doMasks: doMasks");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"errorMask: (doErrorMask ? new Func<{this.MaskItemString(MaskType.Error)}>(() =>");
+                            gen.AppendLine($"errorMask: (doMasks ? new Func<{this.MaskItemString(MaskType.Error)}>(() =>");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"var baseMask = errorMask();");

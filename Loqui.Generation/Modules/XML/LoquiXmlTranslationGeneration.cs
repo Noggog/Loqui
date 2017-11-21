@@ -85,7 +85,7 @@ namespace Loqui.Generation
                         args.Add("def: null");
                         args.Add("cmds: null");
                         args.Add("copyMask: null");
-                        args.Add($"doErrorMask: {doMaskAccessor}");
+                        args.Add($"doMasks: {doMaskAccessor}");
                         args.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} copyMask");
                     }
                     fg.AppendLine($"var loquiMask = {loquiGen.MaskItemString(MaskType.Error)}.Combine(createMask, copyMask);");

@@ -750,7 +750,7 @@ namespace Loqui.Generation
                         args.Add("item: item");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
-                        args.Add("doErrorMask: false");
+                        args.Add("doMasks: false");
                         args.Add("errorMask: null");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
@@ -777,7 +777,7 @@ namespace Loqui.Generation
                         args.Add("item: item");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
-                        args.Add("doErrorMask: true");
+                        args.Add("doMasks: true");
                         args.Add("errorMask: out errorMask");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
@@ -792,7 +792,7 @@ namespace Loqui.Generation
                     args.Add($"this {this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
-                    args.Add($"bool doErrorMask");
+                    args.Add($"bool doMasks");
                     args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                     args.Add($"NotifyingFireParameters? cmds");
@@ -816,7 +816,7 @@ namespace Loqui.Generation
                         args.Add("item: item");
                         args.Add("rhs: rhs");
                         args.Add("def: def");
-                        args.Add("doErrorMask: true");
+                        args.Add("doMasks: true");
                         args.Add("errorMask: maskGetter");
                         args.Add("copyMask: copyMask");
                         args.Add("cmds: cmds");
@@ -832,7 +832,7 @@ namespace Loqui.Generation
                     args.Add($"this {this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
-                    args.Add($"bool doErrorMask");
+                    args.Add($"bool doMasks");
                     args.Add($"Func<{this.Mask(MaskType.Error)}> errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                     args.Add($"NotifyingFireParameters? cmds");
@@ -844,7 +844,7 @@ namespace Loqui.Generation
                         "item",
                         "rhs",
                         defaultFallbackAccessor: "def",
-                        doErrMaskAccessor: "doErrorMask",
+                        doErrMaskAccessor: "doMasks",
                         errMaskAccessor: "errorMask",
                         copyMaskAccessor: "copyMask",
                         cmdsAccessor: "cmds");
@@ -1902,7 +1902,7 @@ namespace Loqui.Generation
                 {
                     args.Add("item");
                     args.Add("copyMask: copyMask");
-                    args.Add("doErrorMask: false");
+                    args.Add("doMasks: false");
                     args.Add("errorMask: null");
                     args.Add("cmds: null");
                     args.Add("def: def");
