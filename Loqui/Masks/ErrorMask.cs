@@ -41,12 +41,10 @@ namespace Loqui
 
         public static void HandleErrorMask<M, O>(
             Func<M> creator,
-            bool doMasks,
             int index,
             O errMaskObj)
             where M : IErrorMask
         {
-            if (!doMasks) return;
             if (errMaskObj == null) return;
             var mask = creator();
             mask.SetNthMask(index, errMaskObj);
@@ -54,13 +52,12 @@ namespace Loqui
 
         public static void HandleException<M>(
             Func<M> creator,
-            bool doMasks,
             int index,
             Exception ex)
             where M : IErrorMask
         {
             if (ex == null) return;
-            if (!doMasks)
+            if (creator == null)
             {
                 throw ex;
             }

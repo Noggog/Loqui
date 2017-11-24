@@ -167,7 +167,6 @@ namespace Loqui.Tests
             TestObject_Notifying_SubClass_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_SubClass_ErrorMask()) : default(Func<TestObject_Notifying_SubClass_ErrorMask>));
             return (ret, errMaskRet);
         }
@@ -391,7 +390,6 @@ namespace Loqui.Tests
 
         private static TestObject_Notifying_SubClass Create_XML_Internal(
             XElement root,
-            bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
         {
             var ret = new TestObject_Notifying_SubClass();
@@ -403,12 +401,11 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }
@@ -419,7 +416,6 @@ namespace Loqui.Tests
             TestObject_Notifying_SubClass item,
             XElement root,
             string name,
-            bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask)
         {
             switch (name)
@@ -429,12 +425,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._NewField.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
                             subMask);
                     }
@@ -444,7 +439,6 @@ namespace Loqui.Tests
                         item: item,
                         root: root,
                         name: name,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                     break;
             }
@@ -501,7 +495,7 @@ namespace Loqui.Tests
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 cmds: null,
                 def: def);
@@ -773,7 +767,7 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class TestObject_Notifying_SubClassCommon
+    public static partial class TestObject_Notifying_SubClassCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
@@ -787,7 +781,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -805,7 +799,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -815,7 +809,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_SubClass item,
             ITestObject_Notifying_SubClassGetter rhs,
             ITestObject_Notifying_SubClassGetter def,
-            bool doErrorMask,
+            bool doMasks,
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -833,7 +827,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -844,7 +838,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_SubClass item,
             ITestObject_Notifying_SubClassGetter rhs,
             ITestObject_Notifying_SubClassGetter def,
-            bool doErrorMask,
+            bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -853,7 +847,7 @@ namespace Loqui.Tests.Internals
                 item,
                 rhs,
                 def,
-                doErrorMask,
+                doMasks,
                 errorMask,
                 copyMask,
                 cmds);
@@ -867,7 +861,7 @@ namespace Loqui.Tests.Internals
                         cmds);
                 }
                 catch (Exception ex)
-                when (doErrorMask)
+                when (doMasks)
                 {
                     errorMask().SetNthException((int)TestObject_Notifying_SubClass_FieldIndex.NewField, ex);
                 }
@@ -1029,7 +1023,6 @@ namespace Loqui.Tests.Internals
                 writer: writer,
                 name: name,
                 item: item,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_SubClass_ErrorMask()) : default(Func<TestObject_Notifying_SubClass_ErrorMask>));
             errorMask = errMaskRet;
         }
@@ -1037,7 +1030,6 @@ namespace Loqui.Tests.Internals
         private static void Write_XML_Internal(
             XmlWriter writer,
             ITestObject_Notifying_SubClassGetter item,
-            bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask,
             string name = null)
         {
@@ -1056,18 +1048,17 @@ namespace Loqui.Tests.Internals
                             writer,
                             nameof(item.NewField),
                             item.NewField,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
                             subMask);
                     }
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }

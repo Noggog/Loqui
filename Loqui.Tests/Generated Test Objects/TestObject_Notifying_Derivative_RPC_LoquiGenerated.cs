@@ -2546,7 +2546,6 @@ namespace Loqui.Tests
             TestObject_Notifying_Derivative_RPC_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_Derivative_RPC_ErrorMask()) : default(Func<TestObject_Notifying_Derivative_RPC_ErrorMask>));
             return (ret, errMaskRet);
         }
@@ -2757,7 +2756,6 @@ namespace Loqui.Tests
 
         private static TestObject_Notifying_Derivative_RPC Create_XML_Internal(
             XElement root,
-            bool doMasks,
             Func<TestObject_Notifying_Derivative_RPC_ErrorMask> errorMask)
         {
             var ret = new TestObject_Notifying_Derivative_RPC();
@@ -2769,12 +2767,11 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }
@@ -2785,7 +2782,6 @@ namespace Loqui.Tests
             TestObject_Notifying_Derivative_RPC item,
             XElement root,
             string name,
-            bool doMasks,
             Func<TestObject_Notifying_Derivative_RPC_ErrorMask> errorMask)
         {
             switch (name)
@@ -2795,12 +2791,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._ByteArray.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArray,
                             subMask);
                     }
@@ -2810,12 +2805,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._ByteArrayNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArrayNull,
                             subMask);
                     }
@@ -2825,12 +2819,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._ByteArrayNotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArrayNotNull,
                             subMask);
                     }
@@ -2840,12 +2833,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteArrayXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._ByteArraySingleton.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArraySingleton,
                             subMask);
                     }
@@ -2855,12 +2847,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._BoolN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN,
                             subMask);
                     }
@@ -2870,12 +2861,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Bool.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Bool,
                             subMask);
                     }
@@ -2885,12 +2875,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = CharXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._CharN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.CharN,
                             subMask);
                     }
@@ -2900,12 +2889,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = CharXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Char.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Char,
                             subMask);
                     }
@@ -2915,12 +2903,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DateTimeXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DateTimeNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DateTimeNull,
                             subMask);
                     }
@@ -2930,12 +2917,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DateTimeXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DateTime.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DateTime,
                             subMask);
                     }
@@ -2945,12 +2931,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN,
                             subMask);
                     }
@@ -2960,12 +2945,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged,
                             subMask);
                     }
@@ -2975,12 +2959,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Double,
                             subMask);
                     }
@@ -2990,12 +2973,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Double_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Double_Ranged,
                             subMask);
                     }
@@ -3005,12 +2987,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._FloatN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.FloatN,
                             subMask);
                     }
@@ -3020,12 +3001,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._FloatN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.FloatN_Ranged,
                             subMask);
                     }
@@ -3035,12 +3015,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Float.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Float,
                             subMask);
                     }
@@ -3050,12 +3029,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Float_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Float_Ranged,
                             subMask);
                     }
@@ -3065,12 +3043,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int16N,
                             subMask);
                     }
@@ -3080,12 +3057,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int16N_Ranged,
                             subMask);
                     }
@@ -3095,12 +3071,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int16,
                             subMask);
                     }
@@ -3110,12 +3085,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int16_Ranged,
                             subMask);
                     }
@@ -3125,12 +3099,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int32N,
                             subMask);
                     }
@@ -3140,12 +3113,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int32N_Ranged,
                             subMask);
                     }
@@ -3155,12 +3127,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int32,
                             subMask);
                     }
@@ -3170,12 +3141,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int32_Ranged,
                             subMask);
                     }
@@ -3185,12 +3155,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int64N,
                             subMask);
                     }
@@ -3200,12 +3169,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int64N_Ranged,
                             subMask);
                     }
@@ -3215,12 +3183,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int64,
                             subMask);
                     }
@@ -3230,12 +3197,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int64_Ranged,
                             subMask);
                     }
@@ -3245,12 +3211,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int8N,
                             subMask);
                     }
@@ -3260,12 +3225,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int8N_Ranged,
                             subMask);
                     }
@@ -3275,12 +3239,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int8,
                             subMask);
                     }
@@ -3290,12 +3253,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Int8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Int8_Ranged,
                             subMask);
                     }
@@ -3305,12 +3267,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._Unsafe.SetIfSucceeded(tryGet.Bubble<bool>(i => (bool)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Unsafe,
                             subMask);
                     }
@@ -3320,12 +3281,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._UnsafeLoqui.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UnsafeLoqui,
                             subMask);
                     }
@@ -3335,12 +3295,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._UnsafeNull.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UnsafeNull,
                             subMask);
                     }
@@ -3350,12 +3309,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P2IntXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P2IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P2IntN,
                             subMask);
                     }
@@ -3365,12 +3323,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P2IntXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P2Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P2Int,
                             subMask);
                     }
@@ -3380,12 +3337,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3DoubleXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P3DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P3DoubleN,
                             subMask);
                     }
@@ -3395,12 +3351,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3DoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P3Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P3Double,
                             subMask);
                     }
@@ -3410,12 +3365,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3IntXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P3IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P3IntN,
                             subMask);
                     }
@@ -3425,12 +3379,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = P3IntXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._P3Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.P3Int,
                             subMask);
                     }
@@ -3440,12 +3393,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = PercentXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._PercentN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.PercentN,
                             subMask);
                     }
@@ -3455,12 +3407,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = PercentXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Percent.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Percent,
                             subMask);
                     }
@@ -3470,12 +3421,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt8XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt8N,
                             subMask);
                     }
@@ -3485,12 +3435,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt8,
                             subMask);
                     }
@@ -3500,12 +3449,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt16N,
                             subMask);
                     }
@@ -3515,12 +3463,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt16,
                             subMask);
                     }
@@ -3530,12 +3477,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt32N,
                             subMask);
                     }
@@ -3545,12 +3491,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt32,
                             subMask);
                     }
@@ -3560,12 +3505,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt64N,
                             subMask);
                     }
@@ -3575,12 +3519,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt64,
                             subMask);
                     }
@@ -3590,12 +3533,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt8N,
                             subMask);
                     }
@@ -3605,12 +3547,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt8XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt8,
                             subMask);
                     }
@@ -3620,12 +3561,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt16N,
                             subMask);
                     }
@@ -3635,12 +3575,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt16,
                             subMask);
                     }
@@ -3650,12 +3589,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt32N,
                             subMask);
                     }
@@ -3665,12 +3603,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt32,
                             subMask);
                     }
@@ -3680,12 +3617,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt64N,
                             subMask);
                     }
@@ -3695,12 +3631,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = RangeUInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._RangeUInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt64,
                             subMask);
                     }
@@ -3710,12 +3645,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = StringXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._String.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.String,
                             subMask);
                     }
@@ -3725,12 +3659,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FilePathXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._FilePath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.FilePath,
                             subMask);
                     }
@@ -3740,12 +3673,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = FilePathXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._FilePathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.FilePathNull,
                             subMask);
                     }
@@ -3755,12 +3687,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DirectoryPathXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DirectoryPath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DirectoryPath,
                             subMask);
                     }
@@ -3770,12 +3701,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._DirectoryPathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DirectoryPathNull,
                             subMask);
                     }
@@ -3785,12 +3715,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UDoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UDoubleN,
                             subMask);
                     }
@@ -3800,12 +3729,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UDoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UDoubleN_Ranged,
                             subMask);
                     }
@@ -3815,12 +3743,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UDouble.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UDouble,
                             subMask);
                     }
@@ -3830,12 +3757,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UDouble_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UDouble_Ranged,
                             subMask);
                     }
@@ -3845,12 +3771,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16N,
                             subMask);
                     }
@@ -3860,12 +3785,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16N_Ranged,
                             subMask);
                     }
@@ -3875,12 +3799,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16,
                             subMask);
                     }
@@ -3890,12 +3813,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16_Ranged,
                             subMask);
                     }
@@ -3905,12 +3827,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32N,
                             subMask);
                     }
@@ -3920,12 +3841,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32N_Ranged,
                             subMask);
                     }
@@ -3935,12 +3855,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32,
                             subMask);
                     }
@@ -3950,12 +3869,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32_Ranged,
                             subMask);
                     }
@@ -3965,12 +3883,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64N,
                             subMask);
                     }
@@ -3980,12 +3897,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64N_Ranged,
                             subMask);
                     }
@@ -3995,12 +3911,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64,
                             subMask);
                     }
@@ -4010,12 +3925,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64_Ranged,
                             subMask);
                     }
@@ -4025,12 +3939,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8N,
                             subMask);
                     }
@@ -4040,12 +3953,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8N_Ranged,
                             subMask);
                     }
@@ -4055,12 +3967,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8,
                             subMask);
                     }
@@ -4070,12 +3981,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._UInt8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8_Ranged,
                             subMask);
                     }
@@ -4086,12 +3996,11 @@ namespace Loqui.Tests
                         var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
                             root,
                             nullable: false,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._Enum.SetIfSucceeded(tryGet.Bubble((o) => o.Value));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Enum,
                             subMask);
                     }
@@ -4102,12 +4011,11 @@ namespace Loqui.Tests
                         var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
                             root,
                             nullable: true,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._EnumNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.EnumNull,
                             subMask);
                     }
@@ -4117,12 +4025,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._WildCard.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.WildCard,
                             subMask);
                     }
@@ -4132,12 +4039,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._WildCardLoqui.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.WildCardLoqui,
                             subMask);
                     }
@@ -4147,12 +4053,11 @@ namespace Loqui.Tests
                         object subMask;
                         var tryGet = WildcardXmlTranslation.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask);
                         item._WildCardNull.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.WildCardNull,
                             subMask);
                     }
@@ -4162,12 +4067,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._Ref.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Ref,
                             subMask);
                     }
@@ -4177,12 +4081,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Ref_NotNull,
                             subMask);
                     }
@@ -4192,7 +4095,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tmp = ObjectToRef.Create_XML(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
                             item: item._Ref_Singleton_Object,
@@ -4200,13 +4103,12 @@ namespace Loqui.Tests
                             def: null,
                             cmds: null,
                             copyMask: null,
-                            doErrorMask: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Ref_Singleton,
                             subMask);
                     }
@@ -4216,12 +4118,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._RefGetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter,
                             subMask);
                     }
@@ -4231,12 +4132,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter_NotNull,
                             subMask);
                     }
@@ -4248,12 +4148,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._RefSetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter,
                             subMask);
                     }
@@ -4263,12 +4162,11 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             mask: out subMask);
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_NotNull,
                             subMask);
                     }
@@ -4278,7 +4176,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
                         var tmp = ObjectToRef.Create_XML(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out ObjectToRef_ErrorMask createMask);
                         ObjectToRefCommon.CopyFieldsFrom(
                             item: item._RefSetter_Singleton_Object,
@@ -4286,13 +4184,12 @@ namespace Loqui.Tests
                             def: null,
                             cmds: null,
                             copyMask: null,
-                            doErrorMask: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out ObjectToRef_ErrorMask copyMask);
                         var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_Singleton,
                             subMask);
                     }
@@ -4302,7 +4199,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<Exception>> subMask;
                         var listTryGet = ListXmlTranslation<Boolean, Exception>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             transl: (XElement r, bool listDoMasks, out Exception listSubMask) =>
                             {
@@ -4316,7 +4213,6 @@ namespace Loqui.Tests
                         item._List.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.List,
                             subMask);
                     }
@@ -4326,7 +4222,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
                         var listTryGet = ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                             {
@@ -4339,7 +4235,6 @@ namespace Loqui.Tests
                         item._RefList.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefList,
                             subMask);
                     }
@@ -4349,7 +4244,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
                         var dictTryGet = DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
                             {
@@ -4371,7 +4266,6 @@ namespace Loqui.Tests
                         item._Dict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.Dict,
                             subMask);
                     }
@@ -4381,7 +4275,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
                         var dictTryGet = DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
@@ -4402,7 +4296,6 @@ namespace Loqui.Tests
                         item._RefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.RefDict,
                             subMask);
                     }
@@ -4412,7 +4305,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
                         var dictTryGet = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
@@ -4434,7 +4327,6 @@ namespace Loqui.Tests
                         item._KeyRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.KeyRefDict,
                             subMask);
                     }
@@ -4444,7 +4336,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
                         var dictTryGet = DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
                             {
@@ -4465,7 +4357,6 @@ namespace Loqui.Tests
                         item._ValRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.ValRefDict,
                             subMask);
                     }
@@ -4475,7 +4366,7 @@ namespace Loqui.Tests
                         MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
                         var dictTryGet = KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
                             root: root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             maskObj: out subMask,
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                             {
@@ -4488,7 +4379,6 @@ namespace Loqui.Tests
                         item._DictKeyedValue.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_Notifying_Derivative_RPC_FieldIndex.DictKeyedValue,
                             subMask);
                     }
@@ -4549,7 +4439,7 @@ namespace Loqui.Tests
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 cmds: null,
                 def: def);
@@ -6714,7 +6604,7 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class TestObject_Notifying_Derivative_RPCCommon
+    public static partial class TestObject_Notifying_Derivative_RPCCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
@@ -6728,7 +6618,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -6746,7 +6636,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -6756,7 +6646,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_Derivative_RPC item,
             ITestObject_Notifying_Derivative_RPCGetter rhs,
             ITestObject_Notifying_Derivative_RPCGetter def,
-            bool doErrorMask,
+            bool doMasks,
             out TestObject_Notifying_Derivative_RPC_ErrorMask errorMask,
             TestObject_Notifying_Derivative_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -6774,7 +6664,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -6785,7 +6675,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_Derivative_RPC item,
             ITestObject_Notifying_Derivative_RPCGetter rhs,
             ITestObject_Notifying_Derivative_RPCGetter def,
-            bool doErrorMask,
+            bool doMasks,
             Func<TestObject_Notifying_Derivative_RPC_ErrorMask> errorMask,
             TestObject_Notifying_Derivative_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -8599,7 +8489,6 @@ namespace Loqui.Tests.Internals
                 writer: writer,
                 name: name,
                 item: item,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_Derivative_RPC_ErrorMask()) : default(Func<TestObject_Notifying_Derivative_RPC_ErrorMask>));
             errorMask = errMaskRet;
         }
@@ -8607,7 +8496,6 @@ namespace Loqui.Tests.Internals
         private static void Write_XML_Internal(
             XmlWriter writer,
             ITestObject_Notifying_Derivative_RPCGetter item,
-            bool doMasks,
             Func<TestObject_Notifying_Derivative_RPC_ErrorMask> errorMask,
             string name = null)
         {
@@ -8622,7 +8510,7 @@ namespace Loqui.Tests.Internals
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }

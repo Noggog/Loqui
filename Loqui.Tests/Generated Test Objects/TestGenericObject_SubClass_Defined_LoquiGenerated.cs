@@ -151,7 +151,6 @@ namespace Loqui.Tests
             TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask> errMaskRet = null;
             var ret = Create_XML_Internal<RBase_ErrMask>(
                 root: root,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>()) : default(Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>>));
             return (ret, errMaskRet);
         }
@@ -383,7 +382,6 @@ namespace Loqui.Tests
 
         private static TestGenericObject_SubClass_Defined<RBase> Create_XML_Internal<RBase_ErrMask>(
             XElement root,
-            bool doMasks,
             Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>> errorMask)
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
@@ -396,12 +394,11 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }
@@ -412,7 +409,6 @@ namespace Loqui.Tests
             TestGenericObject_SubClass_Defined<RBase> item,
             XElement root,
             string name,
-            bool doMasks,
             Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>> errorMask)
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
@@ -423,7 +419,6 @@ namespace Loqui.Tests
                         item: item,
                         root: root,
                         name: name,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                     break;
             }
@@ -483,7 +478,7 @@ namespace Loqui.Tests
             ret.CopyFieldsFrom<RBase, ObjectToRef_ErrorMask, RBase_CopyMask>(
                 item,
                 copyMask: copyMask,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 cmds: null,
                 def: def);
@@ -732,7 +727,7 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class TestGenericObject_SubClass_DefinedCommon
+    public static partial class TestGenericObject_SubClass_DefinedCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom<RBase, RBase_CopyMask>(
@@ -748,7 +743,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -769,7 +764,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -779,7 +774,7 @@ namespace Loqui.Tests.Internals
             this ITestGenericObject_SubClass_Defined<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
             ITestGenericObject_SubClass_DefinedGetter<RBase> def,
-            bool doErrorMask,
+            bool doMasks,
             out TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask> errorMask,
             TestGenericObject_SubClass_Defined_CopyMask<RBase_CopyMask> copyMask,
             NotifyingFireParameters? cmds)
@@ -800,7 +795,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -811,7 +806,7 @@ namespace Loqui.Tests.Internals
             this ITestGenericObject_SubClass_Defined<RBase> item,
             ITestGenericObject_SubClass_DefinedGetter<RBase> rhs,
             ITestGenericObject_SubClass_DefinedGetter<RBase> def,
-            bool doErrorMask,
+            bool doMasks,
             Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>> errorMask,
             TestGenericObject_SubClass_Defined_CopyMask<RBase_CopyMask> copyMask,
             NotifyingFireParameters? cmds)
@@ -823,7 +818,7 @@ namespace Loqui.Tests.Internals
                 item,
                 rhs,
                 def,
-                doErrorMask,
+                doMasks,
                 errorMask,
                 copyMask,
                 cmds);
@@ -979,7 +974,6 @@ namespace Loqui.Tests.Internals
                 writer: writer,
                 name: name,
                 item: item,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>()) : default(Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>>));
             errorMask = errMaskRet;
         }
@@ -987,7 +981,6 @@ namespace Loqui.Tests.Internals
         private static void Write_XML_Internal<RBase, RBase_ErrMask>(
             XmlWriter writer,
             ITestGenericObject_SubClass_DefinedGetter<RBase> item,
-            bool doMasks,
             Func<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>> errorMask,
             string name = null)
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -1004,7 +997,7 @@ namespace Loqui.Tests.Internals
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }

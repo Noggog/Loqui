@@ -154,7 +154,6 @@ namespace Loqui.Tests
             TestObject_PrivateCtor_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
             return (ret, errMaskRet);
         }
@@ -365,7 +364,6 @@ namespace Loqui.Tests
 
         private static TestObject_PrivateCtor Create_XML_Internal(
             XElement root,
-            bool doMasks,
             Func<TestObject_PrivateCtor_ErrorMask> errorMask)
         {
             var ret = new TestObject_PrivateCtor();
@@ -377,12 +375,11 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }
@@ -393,7 +390,6 @@ namespace Loqui.Tests
             TestObject_PrivateCtor item,
             XElement root,
             string name,
-            bool doMasks,
             Func<TestObject_PrivateCtor_ErrorMask> errorMask)
         {
             switch (name)
@@ -403,7 +399,7 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.Parse(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
@@ -411,7 +407,6 @@ namespace Loqui.Tests
                         }
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_PrivateCtor_FieldIndex.BoolN,
                             subMask);
                     }
@@ -472,7 +467,7 @@ namespace Loqui.Tests
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 cmds: null,
                 def: def);
@@ -745,7 +740,7 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class TestObject_PrivateCtorCommon
+    public static partial class TestObject_PrivateCtorCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
@@ -759,7 +754,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -777,7 +772,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -787,7 +782,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_PrivateCtor item,
             ITestObject_PrivateCtorGetter rhs,
             ITestObject_PrivateCtorGetter def,
-            bool doErrorMask,
+            bool doMasks,
             out TestObject_PrivateCtor_ErrorMask errorMask,
             TestObject_PrivateCtor_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -805,7 +800,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -816,7 +811,7 @@ namespace Loqui.Tests.Internals
             this ITestObject_PrivateCtor item,
             ITestObject_PrivateCtorGetter rhs,
             ITestObject_PrivateCtorGetter def,
-            bool doErrorMask,
+            bool doMasks,
             Func<TestObject_PrivateCtor_ErrorMask> errorMask,
             TestObject_PrivateCtor_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -977,7 +972,6 @@ namespace Loqui.Tests.Internals
                 writer: writer,
                 name: name,
                 item: item,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_PrivateCtor_ErrorMask()) : default(Func<TestObject_PrivateCtor_ErrorMask>));
             errorMask = errMaskRet;
         }
@@ -985,7 +979,6 @@ namespace Loqui.Tests.Internals
         private static void Write_XML_Internal(
             XmlWriter writer,
             ITestObject_PrivateCtorGetter item,
-            bool doMasks,
             Func<TestObject_PrivateCtor_ErrorMask> errorMask,
             string name = null)
         {
@@ -1003,18 +996,17 @@ namespace Loqui.Tests.Internals
                             writer,
                             nameof(item.BoolN),
                             item.BoolN,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)TestObject_PrivateCtor_FieldIndex.BoolN,
                             subMask);
                     }
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }

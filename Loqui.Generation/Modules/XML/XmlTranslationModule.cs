@@ -190,7 +190,6 @@ namespace Loqui.Generation
                     wheres: obj.GenericTypes_ErrorMaskWheres))
                 {
                     args.Add("XElement root");
-                    args.Add("bool doMasks");
                     args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
                 }
                 using (new BraceWrapper(fg))
@@ -208,13 +207,12 @@ namespace Loqui.Generation
                                 args.Add("item: ret");
                                 args.Add("root: elem");
                                 args.Add("name: elem.Name.LocalName");
-                                args.Add("doMasks: doMasks");
                                 args.Add("errorMask: errorMask");
                             }
                         }
                     }
                     fg.AppendLine("catch (Exception ex)");
-                    fg.AppendLine("when (doMasks)");
+                    fg.AppendLine("when (errorMask != null)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("errorMask().Overall = ex;");
@@ -231,7 +229,6 @@ namespace Loqui.Generation
                 args.Add($"{obj.ObjectName} item");
                 args.Add("XElement root");
                 args.Add("string name");
-                args.Add("bool doMasks");
                 args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
             }
             using (new BraceWrapper(fg))
@@ -261,13 +258,12 @@ namespace Loqui.Generation
                                         typeGen: field,
                                         nodeAccessor: "root",
                                         itemAccessor: new Accessor(field, "item.", protectedAccess: true),
-                                        doMaskAccessor: "doMasks",
+                                        doMaskAccessor: "errorMask != null",
                                         maskAccessor: $"subMask");
                                     using (var args = new ArgsWrapper(fg,
                                         $"ErrorMask.HandleErrorMask"))
                                     {
                                         args.Add("errorMask");
-                                        args.Add("doMasks");
                                         args.Add($"(int){field.IndexEnumName}");
                                         args.Add("subMask");
                                     }
@@ -288,7 +284,6 @@ namespace Loqui.Generation
                                 args.Add("item: item");
                                 args.Add("root: root");
                                 args.Add("name: name");
-                                args.Add("doMasks: doMasks");
                                 args.Add("errorMask: errorMask");
                             }
                         }
@@ -390,7 +385,6 @@ namespace Loqui.Generation
                 $"var ret = Create_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
             {
                 args.Add("root: root");
-                args.Add("doMasks: doMasks");
                 args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.Mask(MaskType.Error)}()) : default(Func<{obj.Mask(MaskType.Error)}>)");
             }
             fg.AppendLine($"return (ret, errMaskRet);");
@@ -429,14 +423,13 @@ namespace Loqui.Generation
                             typeGen: field.Field,
                             writerAccessor: "writer",
                             itemAccessor: $"item.{field.Field.Name}",
-                            doMaskAccessor: "doMasks",
+                            doMaskAccessor: "errorMask != null",
                             maskAccessor: $"subMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
                         using (var args = new ArgsWrapper(fg,
                             $"ErrorMask.HandleErrorMask"))
                         {
                             args.Add("errorMask");
-                            args.Add("doMasks");
                             args.Add($"(int){field.Field.IndexEnumName}");
                             args.Add("subMask");
                         }

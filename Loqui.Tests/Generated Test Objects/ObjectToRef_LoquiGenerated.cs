@@ -189,7 +189,6 @@ namespace Loqui.Tests
             ObjectToRef_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new ObjectToRef_ErrorMask()) : default(Func<ObjectToRef_ErrorMask>));
             return (ret, errMaskRet);
         }
@@ -400,7 +399,6 @@ namespace Loqui.Tests
 
         private static ObjectToRef Create_XML_Internal(
             XElement root,
-            bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask)
         {
             var ret = new ObjectToRef();
@@ -412,12 +410,11 @@ namespace Loqui.Tests
                         item: ret,
                         root: elem,
                         name: elem.Name.LocalName,
-                        doMasks: doMasks,
                         errorMask: errorMask);
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }
@@ -428,7 +425,6 @@ namespace Loqui.Tests
             ObjectToRef item,
             XElement root,
             string name,
-            bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask)
         {
             switch (name)
@@ -438,12 +434,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._KeyField.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)ObjectToRef_FieldIndex.KeyField,
                             subMask);
                     }
@@ -453,12 +448,11 @@ namespace Loqui.Tests
                         Exception subMask;
                         var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
                             root,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         item._SomeField.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)ObjectToRef_FieldIndex.SomeField,
                             subMask);
                     }
@@ -519,7 +513,7 @@ namespace Loqui.Tests
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 cmds: null,
                 def: def);
@@ -828,7 +822,7 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static class ObjectToRefCommon
+    public static partial class ObjectToRefCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
@@ -842,7 +836,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: false,
+                doMasks: false,
                 errorMask: null,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -860,7 +854,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: out errorMask,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -870,7 +864,7 @@ namespace Loqui.Tests.Internals
             this IObjectToRef item,
             IObjectToRefGetter rhs,
             IObjectToRefGetter def,
-            bool doErrorMask,
+            bool doMasks,
             out ObjectToRef_ErrorMask errorMask,
             ObjectToRef_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -888,7 +882,7 @@ namespace Loqui.Tests.Internals
                 item: item,
                 rhs: rhs,
                 def: def,
-                doErrorMask: true,
+                doMasks: true,
                 errorMask: maskGetter,
                 copyMask: copyMask,
                 cmds: cmds);
@@ -899,7 +893,7 @@ namespace Loqui.Tests.Internals
             this IObjectToRef item,
             IObjectToRefGetter rhs,
             IObjectToRefGetter def,
-            bool doErrorMask,
+            bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask,
             ObjectToRef_CopyMask copyMask,
             NotifyingFireParameters? cmds)
@@ -914,7 +908,7 @@ namespace Loqui.Tests.Internals
                         cmds);
                 }
                 catch (Exception ex)
-                when (doErrorMask)
+                when (doMasks)
                 {
                     errorMask().SetNthException((int)ObjectToRef_FieldIndex.KeyField, ex);
                 }
@@ -929,7 +923,7 @@ namespace Loqui.Tests.Internals
                         cmds);
                 }
                 catch (Exception ex)
-                when (doErrorMask)
+                when (doMasks)
                 {
                     errorMask().SetNthException((int)ObjectToRef_FieldIndex.SomeField, ex);
                 }
@@ -1106,7 +1100,6 @@ namespace Loqui.Tests.Internals
                 writer: writer,
                 name: name,
                 item: item,
-                doMasks: doMasks,
                 errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new ObjectToRef_ErrorMask()) : default(Func<ObjectToRef_ErrorMask>));
             errorMask = errMaskRet;
         }
@@ -1114,7 +1107,6 @@ namespace Loqui.Tests.Internals
         private static void Write_XML_Internal(
             XmlWriter writer,
             IObjectToRefGetter item,
-            bool doMasks,
             Func<ObjectToRef_ErrorMask> errorMask,
             string name = null)
         {
@@ -1133,11 +1125,10 @@ namespace Loqui.Tests.Internals
                             writer,
                             nameof(item.KeyField),
                             item.KeyField,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)ObjectToRef_FieldIndex.KeyField,
                             subMask);
                     }
@@ -1148,18 +1139,17 @@ namespace Loqui.Tests.Internals
                             writer,
                             nameof(item.SomeField),
                             item.SomeField,
-                            doMasks: doMasks,
+                            doMasks: errorMask != null,
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            doMasks,
                             (int)ObjectToRef_FieldIndex.SomeField,
                             subMask);
                     }
                 }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
                 errorMask().Overall = ex;
             }

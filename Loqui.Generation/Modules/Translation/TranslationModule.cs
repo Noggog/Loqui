@@ -439,7 +439,6 @@ namespace Loqui.Generation
                         args.Add(item);
                     }
                     args.Add("item: item");
-                    args.Add("doMasks: doMasks");
                     args.Add($"errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new {obj.Mask(MaskType.Error)}()) : default(Func<{obj.Mask(MaskType.Error)}>)");
                 }
                 fg.AppendLine($"errorMask = errMaskRet;");
@@ -462,7 +461,6 @@ namespace Loqui.Generation
                 {
                     args.Add($"{obj.ObjectName} item");
                 }
-                args.Add($"bool doMasks");
                 args.Add($"Func<{obj.Mask(MaskType.Error)}> errorMask");
                 foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                 {
@@ -477,7 +475,7 @@ namespace Loqui.Generation
                     GenerateWriteSnippet(obj, fg);
                 }
                 fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (doMasks)");
+                fg.AppendLine("when (errorMask != null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("errorMask().Overall = ex;");
