@@ -68,9 +68,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
-            subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);
+            subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
         }
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)

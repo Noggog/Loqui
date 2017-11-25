@@ -66,7 +66,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("private static void Write_Binary_Internal("))
+            if (str.Contains("public static readonly RecordType DATA_HEADER = new RecordType(\"DATA\");"))
             {
                 int wer = 23;
                 wer++;

@@ -112,7 +112,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse);
 
-        public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse);
+        public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier);
 
         public abstract void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor);
 
@@ -130,11 +130,35 @@ namespace Loqui.Generation
 
         public virtual void GenerateForStaticCtor(FileGeneration fg) { }
 
+        public virtual void GenerateGetNameIndex(FileGeneration fg)
+        {
+            if (!this.IntegrateField) return;
+            fg.AppendLine($"return (ushort){this.ObjectGen.FieldIndexName}.{this.Name};");
+        }
+
+        public virtual void GenerateGetNthName(FileGeneration fg)
+        {
+            if (!this.IntegrateField) return;
+            fg.AppendLine($"return \"{this.Name}\";");
+        }
+
+        public virtual void GenerateGetNthType(FileGeneration fg)
+        {
+            if (!this.IntegrateField) return;
+            fg.AppendLine($"return typeof({this.TypeName});");
+        }
+
         public abstract void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor);
 
         public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor);
 
         public abstract void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor);
+
+        public virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
+        {
+            if (!this.IntegrateField) return;
+            fg.AppendLine($"return obj.{this.HasBeenSetAccessor};");
+        }
 
         public virtual string GetName(bool internalUse, bool property)
         {

@@ -184,6 +184,7 @@
       <xs:element name="DirectoryPath" type="String" />
       <xs:element name="DirectoryPathNull" type="String" />
       <xs:element name="Nothing" type="Nothing" />
+      <xs:element name="MarkerSet" type="MarkerSet" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -280,6 +281,7 @@
       <xs:element name="DirectoryPath" type="NString" />
       <xs:element name="DirectoryPathNull" type="NString" />
       <xs:element name="Nothing" type="Nothing" />
+      <xs:element name="MarkerSet" type="MarkerSet" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -1264,6 +1266,13 @@
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MarkerSet">
+    <xs:choice minOccurs="0" maxOccurs="unbounded" >
+      <xs:element name="Fields" type="FieldsType" minOccurs="0" maxOccurs="1" />
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string" />
   </xs:complexType>
 
 </xs:schema>

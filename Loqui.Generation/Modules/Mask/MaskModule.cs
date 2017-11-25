@@ -22,6 +22,52 @@ namespace Loqui.Generation
             _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
         }
 
+        public void GenerateForErrorMaskToStringForField(FileGeneration fg, ObjectGeneration obj, TypeGeneration field)
+        {
+            if (field.IntegrateField)
+            {
+                fg.AppendLine($"if ({GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask")})");
+            }
+            using (new BraceWrapper(fg, doIt: field.IntegrateField))
+            {
+                GetMaskModule(field.GetType()).GenerateForErrorMaskToString(fg, field, field.Name, true);
+            }
+        }
+
+        public void GenerateSetExceptionForField(FileGeneration fg, TypeGeneration field)
+        {
+            if (field.IntegrateField)
+            {
+                fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
+                using (new DepthWrapper(fg))
+                {
+                    GetMaskModule(field.GetType()).GenerateSetException(fg, field);
+                    fg.AppendLine("break;");
+                }
+            }
+            else
+            {
+                GetMaskModule(field.GetType()).GenerateSetException(fg, field);
+            }
+        }
+
+        public void GenerateSetSetNthMaskForField(FileGeneration fg, TypeGeneration field)
+        {
+            if (field.IntegrateField)
+            {
+                fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
+                using (new DepthWrapper(fg))
+                {
+                    GetMaskModule(field.GetType()).GenerateSetMask(fg, field);
+                    fg.AppendLine("break;");
+                }
+            }
+            else
+            {
+                GetMaskModule(field.GetType()).GenerateSetMask(fg, field);
+            }
+        }
+
         public override void Generate(ObjectGeneration obj, FileGeneration fg)
         {
             foreach (var item in _fieldMapping.Values)
@@ -43,7 +89,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public {obj.Name}_Mask(T initialValue)");
                     using (new BraceWrapper(fg))
                     {
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForCtor(fg, field, "initialValue");
                         }
@@ -52,7 +98,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Members"))
                 {
-                    foreach (var field in obj.Fields)
+                    foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
                     }
@@ -76,7 +122,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"if (!base.Equals(rhs)) return false;");
                         }
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForEqual(fg, field, $"rhs.{field.Name}");
                         }
@@ -87,10 +133,9 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("int ret = 0;");
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
-                            if (!field.IntegrateField) continue;
-                            fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
+                            GetMaskModule(field.GetType()).GenerateForHashCode(fg, field, $"rhs.{field.Name}");
                         }
                         if (obj.HasBaseObject)
                         {
@@ -110,7 +155,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"if (!base.AllEqual(eval)) return false;");
                         }
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field);
                         }
@@ -136,7 +181,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"base.Translate_InternalFill(obj, eval);");
                         }
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"obj.{field.Name}", $"this.{field.Name}");
                         }
@@ -152,7 +197,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"base.ClearEnumerables();");
                         }
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForClearEnumerable(fg, field);
                         }
@@ -185,14 +230,9 @@ namespace Loqui.Generation
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.Fields)
+                            foreach (var item in obj.IterateFields())
                             {
-                                if (!item.IntegrateField) continue;
-                                fg.AppendLine($"if ({GetMaskModule(item.GetType()).GenerateBoolMaskCheck(item, "printMask")})");
-                                using (new BraceWrapper(fg))
-                                {
-                                    GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
-                                }
+                                this.GenerateForErrorMaskToStringForField(fg, obj, item);
                             }
                         }
                         fg.AppendLine($"fg.AppendLine(\"]\");");
@@ -229,7 +269,7 @@ namespace Loqui.Generation
                             }
                         }
                     }
-                    foreach (var field in obj.Fields)
+                    foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForErrorMask(fg, field);
                     }
@@ -244,15 +284,9 @@ namespace Loqui.Generation
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.Fields)
+                            foreach (var item in obj.IterateFields())
                             {
-                                if (!item.IntegrateField) continue;
-                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
-                                using (new DepthWrapper(fg))
-                                {
-                                    GetMaskModule(item.GetType()).GenerateSetException(fg, item);
-                                    fg.AppendLine("break;");
-                                }
+                                GenerateSetExceptionForField(fg, item);
                             }
 
                             GenerateStandardDefault(fg, obj, "SetNthException", "index", false, "ex");
@@ -267,15 +301,9 @@ namespace Loqui.Generation
                         fg.AppendLine("switch (enu)");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.Fields)
+                            foreach (var item in obj.IterateFields())
                             {
-                                if (!item.IntegrateField) continue;
-                                fg.AppendLine($"case {obj.FieldIndexName}.{item.Name}:");
-                                using (new DepthWrapper(fg))
-                                {
-                                    GetMaskModule(item.GetType()).GenerateSetMask(fg, item);
-                                    fg.AppendLine("break;");
-                                }
+                                GenerateSetSetNthMaskForField(fg, item);
                             }
 
                             GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
@@ -326,14 +354,9 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine("base.ToString_FillInternal(fg);");
                         }
-                        foreach (var item in obj.Fields)
+                        foreach (var item in obj.IterateFields())
                         {
-                            if (!item.IntegrateField) continue;
-                            fg.AppendLine($"if ({item.Name} != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
-                            }
+                            GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
                         }
                     }
                 }
@@ -344,9 +367,8 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error)}();");
-                        foreach (var field in obj.Fields)
+                        foreach (var field in obj.IterateFields())
                         {
-                            if (!field.IntegrateField) continue;
                             GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
                         }
                         fg.AppendLine("return ret;");
@@ -370,7 +392,7 @@ namespace Loqui.Generation
             {
                 using (new RegionWrapper(fg, "Members"))
                 {
-                    foreach (var field in obj.Fields)
+                    foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
                     }

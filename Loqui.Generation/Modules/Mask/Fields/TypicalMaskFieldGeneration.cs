@@ -12,11 +12,13 @@ namespace Loqui.Generation
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
+            if (!field.IntegrateField) return;
             fg.AppendLine($"this.{field.Name} = ex;");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
+            if (!field.IntegrateField) return;
             fg.AppendLine($"this.{field.Name} = (Exception)obj;");
         }
 
@@ -40,6 +42,7 @@ namespace Loqui.Generation
 
         public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
         {
+            if (!field.IntegrateField) return;
             fg.AppendLine($"{retAccessor} = {accessor}.Combine({rhsAccessor});");
         }
 

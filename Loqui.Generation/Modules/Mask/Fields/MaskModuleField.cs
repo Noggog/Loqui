@@ -14,7 +14,8 @@ namespace Loqui.Generation
         }
         public virtual void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}.ToStringSafe()}}\");");
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}}}\");");
         }
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
@@ -24,6 +25,11 @@ namespace Loqui.Generation
         {
             if (!field.IntegrateField) return;
             fg.AppendLine($"if (!object.Equals(this.{field.Name}, {rhsAccessor})) return false;");
+        }
+        public virtual void GenerateForHashCode(FileGeneration fg, TypeGeneration field, string rhsAccessor)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
         }
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
         public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);
