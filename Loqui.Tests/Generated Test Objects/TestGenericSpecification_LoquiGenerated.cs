@@ -952,7 +952,7 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    switch (copyMask?.TestGenericObjectSpecified.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.TestGenericObjectSpecified?.Overall ?? CopyOption.Reference)
                     {
                         case CopyOption.Reference:
                             item.TestGenericObjectSpecified = rhs.TestGenericObjectSpecified;
@@ -985,12 +985,12 @@ namespace Loqui.Tests.Internals
                             {
                                 item.TestGenericObjectSpecified = TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>.Copy(
                                     rhs.TestGenericObjectSpecified,
-                                    copyMask?.TestGenericObjectSpecified.Specific,
+                                    copyMask?.TestGenericObjectSpecified?.Specific,
                                     def?.TestGenericObjectSpecified);
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectSpecified.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectSpecified?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -1003,7 +1003,7 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    switch (copyMask?.TestGenericObjectHalfSpecified.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.TestGenericObjectHalfSpecified?.Overall ?? CopyOption.Reference)
                     {
                         case CopyOption.Reference:
                             item.TestGenericObjectHalfSpecified = rhs.TestGenericObjectHalfSpecified;
@@ -1036,12 +1036,12 @@ namespace Loqui.Tests.Internals
                             {
                                 item.TestGenericObjectHalfSpecified = TestGenericObject<ObjectToRef, RBase, R>.Copy(
                                     rhs.TestGenericObjectHalfSpecified,
-                                    copyMask?.TestGenericObjectHalfSpecified.Specific,
+                                    copyMask?.TestGenericObjectHalfSpecified?.Specific,
                                     def?.TestGenericObjectHalfSpecified);
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectHalfSpecified.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectHalfSpecified?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
