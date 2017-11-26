@@ -711,11 +711,11 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
             if (this.SingletonType != SingletonLevel.Singleton)
             {
-                base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier, internalUse);
+                base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
                 return;
             }
             fg.AppendLine($"throw new ArgumentException(\"Cannot mark set status of a singleton: {this.Name}\");");

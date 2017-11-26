@@ -19,6 +19,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"if (!{this.Name}.EqualsFast({rhsAccessor}.{this.Name})) return false;");
         }
         

@@ -59,7 +59,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
             throw new NotImplementedException();
         }
@@ -94,7 +94,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException($"Field batch did not exist {this.BatchName} in protocol {protoGen.Protocol.Namespace}");
             }
-            var index = this.ObjectGen.Fields.IndexOf(this);
+            var index = this.ObjectGen.IterateFields().ToList().IndexOf(this);
             if (index == -1)
             {
                 throw new ArgumentException("Could not find self in object's field list.");

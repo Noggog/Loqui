@@ -86,7 +86,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in this.Fields)
+                    foreach (var field in this.IterateFields())
                     {
                         field.GenerateForCtor(fg);
                     }

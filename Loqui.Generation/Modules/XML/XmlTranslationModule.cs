@@ -236,9 +236,8 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (name)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in obj.Fields)
+                    foreach (var field in obj.IterateFields())
                     {
-                        if (!field.IntegrateField) continue;
                         if (!this.TryGetTypeGeneration(field.GetType(), out var generator))
                         {
                             throw new ArgumentException("Unsupported type generator: " + field);
@@ -325,7 +324,7 @@ namespace Loqui.Generation
                 new XAttribute("maxOccurs", "unbounded"));
             typeElement.Add(choiceElement);
             root.Add(typeElement);
-            foreach (var field in obj.Fields)
+            foreach (var field in obj.IterateFields())
             {
                 if (!this.TryGetTypeGeneration(field.GetType(), out var xmlGen))
                 {
@@ -401,7 +400,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
                 }
 
-                foreach (var field in obj.IterateFields())
+                foreach (var field in obj.IterateFieldIndices())
                 {
                     if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                     {

@@ -98,11 +98,11 @@ namespace Loqui.Generation
             fg.AppendLine($"{errorMaskMemberAccessor}?.{this.Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
             if (!this.Protected)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(internalUse)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{identifier}.{this.GetName(internalUse: false)}.HasBeenSet = {onIdentifier};");
             }
             fg.AppendLine("break;");
         }

@@ -24,7 +24,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"public {this.Name}(");
                 List<string> lines = new List<string>();
-                foreach (var field in this.Fields)
+                foreach (var field in this.IterateFields())
                 {
                     lines.Add($"{field.TypeName} {field.Name} = default({field.TypeName})");
                 }
@@ -49,7 +49,7 @@ namespace Loqui.Generation
 
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in this.Fields)
+                    foreach (var field in this.IterateFields())
                     {
                         fg.AppendLine($"this.{field.Name} = {field.Name};");
                     }
@@ -61,7 +61,7 @@ namespace Loqui.Generation
             fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "private")} {this.Name}({this.Getter_InterfaceStr} rhs)");
             using (new BraceWrapper(fg))
             {
-                foreach (var field in this.Fields)
+                foreach (var field in this.IterateFields())
                 {
                     fg.AppendLine($"this.{field.Name} = {field.GenerateACopy("rhs." + field.Name)};");
                 }
@@ -107,7 +107,7 @@ namespace Loqui.Generation
             this.Interfaces.Add($"ILoquiWriterSerializer<{this.Mask(MaskType.Error)}>");
 
             base.Load();
-            foreach (var field in this.Fields)
+            foreach (var field in this.IterateFields())
             {
                 field.Notifying = NotifyingOption.None;
                 field.Protected = true;
@@ -137,7 +137,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"return new {this.ObjectName}(");
                 List<string> lines = new List<string>();
-                foreach (var field in this.Fields)
+                foreach (var field in this.IterateFields())
                 {
                     lines.Add($"{field.Name}: {field.GenerateACopy("item." + field.Name)}");
                 }
@@ -168,7 +168,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override void GenerateSetNthObjectHasBeenSet(FileGeneration fg, bool internalUse)
+        protected override void GenerateSetNthObjectHasBeenSet(FileGeneration fg)
         {
         }
 

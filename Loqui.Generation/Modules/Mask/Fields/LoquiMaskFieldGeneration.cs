@@ -76,8 +76,9 @@ namespace Loqui.Generation
 
         public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
+            if (!field.IntegrateField) return;
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"{accessor}.ToString(fg);");
+            fg.AppendLine($"{accessor}?.ToString(fg);");
         }
 
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)

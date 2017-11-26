@@ -257,6 +257,7 @@ namespace Loqui.Generation
 
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
         {
+            if (!this.IntegrateField) return;
             if (this.Notifying == NotifyingOption.None)
             {
                 fg.AppendLine($"{accessorPrefix}.{this.ProtectedName} = {rhsAccessorPrefix};");
@@ -297,11 +298,13 @@ namespace Loqui.Generation
 
         public override void GenerateGetNth(FileGeneration fg, string identifier)
         {
+            if (!this.IntegrateField) return;
             fg.AppendLine($"return {identifier}.{this.Name};");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier, bool internalUse)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
+            if (!this.IntegrateField) return;
             if (!this.Protected && this.Notifying != NotifyingOption.None)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false, property: true)}.HasBeenSet = {onIdentifier};");
