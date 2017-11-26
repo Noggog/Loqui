@@ -202,7 +202,7 @@ namespace Loqui.Generation
                         if (this.KeyIsLoqui)
                         {
                             gen.AppendLine($"{this.KeyTypeGen.TypeName} key;");
-                            gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                            gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
@@ -214,7 +214,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"key = k.Copy(copyMask: {copyMaskAccessor}?.{this.Name}.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Mask);");
+                                    gen.AppendLine($"key = k.Copy(copyMask: {copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Mask);");
                                     gen.AppendLine($"break;");
                                 }
                                 gen.AppendLine($"default:");
@@ -227,7 +227,7 @@ namespace Loqui.Generation
                         if (this.ValueIsLoqui)
                         {
                             gen.AppendLine($"{this.ValueTypeGen.TypeName} val;");
-                            gen.AppendLine($"switch ({copyMaskAccessor}?.{this.Name}.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                            gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
@@ -239,7 +239,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"val = v.Copy({copyMaskAccessor}?.{this.Name}.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Mask, d);");
+                                    gen.AppendLine($"val = v.Copy({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Mask, d);");
                                     gen.AppendLine($"break;");
                                 }
                                 gen.AppendLine($"default:");

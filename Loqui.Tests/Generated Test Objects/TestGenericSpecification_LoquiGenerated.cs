@@ -984,7 +984,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectSpecified?.TestGenericObjectSpecified.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectSpecified?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -1035,7 +1035,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectHalfSpecified?.TestGenericObjectHalfSpecified.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.TestGenericObjectHalfSpecified?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)

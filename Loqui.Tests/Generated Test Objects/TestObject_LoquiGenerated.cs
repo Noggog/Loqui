@@ -6520,7 +6520,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref?.Ref.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6571,7 +6571,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref_NotNull?.Ref_NotNull.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref_NotNull?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6632,7 +6632,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter?.RefGetter.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6665,7 +6665,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter_NotNull?.RefGetter_NotNull.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter_NotNull?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6716,7 +6716,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter?.RefSetter.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6767,7 +6767,7 @@ namespace Loqui.Tests.Internals
                             }
                             break;
                         default:
-                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter_NotNull?.RefSetter_NotNull.Overall}. Cannot execute copy.");
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter_NotNull?.Overall}. Cannot execute copy.");
                     }
                 }
                 catch (Exception ex)
@@ -6877,25 +6877,25 @@ namespace Loqui.Tests.Internals
                         (k, v, d) =>
                         {
                             ObjectToRef key;
-                            switch (copyMask?.RefDict?.RefDict.Specific.Key.Type ?? RefCopyType.Reference)
+                            switch (copyMask?.RefDict?.Specific.Key.Type ?? RefCopyType.Reference)
                             {
                                 case RefCopyType.Reference:
                                     key = k;
                                     break;
                                 case RefCopyType.MakeCopy:
-                                    key = k.Copy(copyMask: copyMask?.RefDict?.RefDict.Specific.Key.Mask);
+                                    key = k.Copy(copyMask: copyMask?.RefDict?.Specific.Key.Mask);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");
                             }
                             ObjectToRef val;
-                            switch (copyMask?.RefDict?.RefDict.Specific.Value.Type ?? RefCopyType.Reference)
+                            switch (copyMask?.RefDict?.Specific.Value.Type ?? RefCopyType.Reference)
                             {
                                 case RefCopyType.Reference:
                                     val = v;
                                     break;
                                 case RefCopyType.MakeCopy:
-                                    val = v.Copy(copyMask?.RefDict?.RefDict.Specific.Value.Mask, d);
+                                    val = v.Copy(copyMask?.RefDict?.Specific.Value.Mask, d);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.RefDict.Overall}. Cannot execute copy.");
@@ -6921,13 +6921,13 @@ namespace Loqui.Tests.Internals
                         (k, v, d) =>
                         {
                             ObjectToRef key;
-                            switch (copyMask?.KeyRefDict?.KeyRefDict.Specific.Type ?? RefCopyType.Reference)
+                            switch (copyMask?.KeyRefDict?.Specific.Type ?? RefCopyType.Reference)
                             {
                                 case RefCopyType.Reference:
                                     key = k;
                                     break;
                                 case RefCopyType.MakeCopy:
-                                    key = k.Copy(copyMask: copyMask?.KeyRefDict?.KeyRefDict.Specific.Mask);
+                                    key = k.Copy(copyMask: copyMask?.KeyRefDict?.Specific.Mask);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.KeyRefDict.Overall}. Cannot execute copy.");
@@ -6953,13 +6953,13 @@ namespace Loqui.Tests.Internals
                         (k, v, d) =>
                         {
                             ObjectToRef val;
-                            switch (copyMask?.ValRefDict?.ValRefDict.Specific.Type ?? RefCopyType.Reference)
+                            switch (copyMask?.ValRefDict?.Specific.Type ?? RefCopyType.Reference)
                             {
                                 case RefCopyType.Reference:
                                     val = v;
                                     break;
                                 case RefCopyType.MakeCopy:
-                                    val = v.Copy(copyMask?.ValRefDict?.ValRefDict.Specific.Mask, d);
+                                    val = v.Copy(copyMask?.ValRefDict?.Specific.Mask, d);
                                     break;
                                 default:
                                     throw new NotImplementedException($"Unknown RefCopyType {copyMask?.ValRefDict.Overall}. Cannot execute copy.");
