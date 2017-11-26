@@ -1109,7 +1109,7 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.BoolN ?? true)
                 {
-                    fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
+                    fg.AppendLine($"BoolN => {BoolN}");
                 }
             }
             fg.AppendLine("]");
@@ -1195,10 +1195,7 @@ namespace Loqui.Tests.Internals
         }
         protected void ToString_FillInternal(FileGeneration fg)
         {
-            if (BoolN != null)
-            {
-                fg.AppendLine($"BoolN => {BoolN.ToStringSafe()}");
-            }
+            fg.AppendLine($"BoolN => {BoolN}");
         }
         #endregion
 

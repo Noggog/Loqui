@@ -1258,11 +1258,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.KeyField ?? true)
                 {
-                    fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
+                    fg.AppendLine($"KeyField => {KeyField}");
                 }
                 if (printMask?.SomeField ?? true)
                 {
-                    fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
+                    fg.AppendLine($"SomeField => {SomeField}");
                 }
             }
             fg.AppendLine("]");
@@ -1355,14 +1355,8 @@ namespace Loqui.Tests.Internals
         }
         protected void ToString_FillInternal(FileGeneration fg)
         {
-            if (KeyField != null)
-            {
-                fg.AppendLine($"KeyField => {KeyField.ToStringSafe()}");
-            }
-            if (SomeField != null)
-            {
-                fg.AppendLine($"SomeField => {SomeField.ToStringSafe()}");
-            }
+            fg.AppendLine($"KeyField => {KeyField}");
+            fg.AppendLine($"SomeField => {SomeField}");
         }
         #endregion
 

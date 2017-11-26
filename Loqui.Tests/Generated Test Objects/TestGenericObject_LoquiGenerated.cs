@@ -1638,11 +1638,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.RefBase?.Overall ?? true)
                 {
-                    RefBase.ToString(fg);
+                    RefBase?.ToString(fg);
                 }
                 if (printMask?.Ref?.Overall ?? true)
                 {
-                    Ref.ToString(fg);
+                    Ref?.ToString(fg);
                 }
                 if (printMask?.RefList?.Overall ?? true)
                 {
@@ -1661,7 +1661,7 @@ namespace Loqui.Tests.Internals
                                 fg.AppendLine("[");
                                 using (new DepthWrapper(fg))
                                 {
-                                    subItem.ToString(fg);
+                                    subItem?.ToString(fg);
                                 }
                                 fg.AppendLine("]");
                             }
@@ -1768,39 +1768,30 @@ namespace Loqui.Tests.Internals
         }
         protected virtual void ToString_FillInternal(FileGeneration fg)
         {
-            if (RefBase != null)
+            RefBase?.ToString(fg);
+            Ref?.ToString(fg);
+            fg.AppendLine("RefList =>");
+            fg.AppendLine("[");
+            using (new DepthWrapper(fg))
             {
-                RefBase.ToString(fg);
-            }
-            if (Ref != null)
-            {
-                Ref.ToString(fg);
-            }
-            if (RefList != null)
-            {
-                fg.AppendLine("RefList =>");
-                fg.AppendLine("[");
-                using (new DepthWrapper(fg))
+                if (RefList.Overall != null)
                 {
-                    if (RefList.Overall != null)
+                    fg.AppendLine(RefList.Overall.ToString());
+                }
+                if (RefList.Specific != null)
+                {
+                    foreach (var subItem in RefList.Specific)
                     {
-                        fg.AppendLine(RefList.Overall.ToString());
-                    }
-                    if (RefList.Specific != null)
-                    {
-                        foreach (var subItem in RefList.Specific)
+                        fg.AppendLine("[");
+                        using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("[");
-                            using (new DepthWrapper(fg))
-                            {
-                                subItem.ToString(fg);
-                            }
-                            fg.AppendLine("]");
+                            subItem?.ToString(fg);
                         }
+                        fg.AppendLine("]");
                     }
                 }
-                fg.AppendLine("]");
             }
+            fg.AppendLine("]");
         }
         #endregion
 

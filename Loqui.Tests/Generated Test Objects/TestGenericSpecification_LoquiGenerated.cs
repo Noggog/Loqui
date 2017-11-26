@@ -1425,11 +1425,11 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.TestGenericObjectSpecified?.Overall ?? true)
                 {
-                    TestGenericObjectSpecified.ToString(fg);
+                    TestGenericObjectSpecified?.ToString(fg);
                 }
                 if (printMask?.TestGenericObjectHalfSpecified?.Overall ?? true)
                 {
-                    TestGenericObjectHalfSpecified.ToString(fg);
+                    TestGenericObjectHalfSpecified?.ToString(fg);
                 }
             }
             fg.AppendLine("]");
@@ -1523,14 +1523,8 @@ namespace Loqui.Tests.Internals
         }
         protected void ToString_FillInternal(FileGeneration fg)
         {
-            if (TestGenericObjectSpecified != null)
-            {
-                TestGenericObjectSpecified.ToString(fg);
-            }
-            if (TestGenericObjectHalfSpecified != null)
-            {
-                TestGenericObjectHalfSpecified.ToString(fg);
-            }
+            TestGenericObjectSpecified?.ToString(fg);
+            TestGenericObjectHalfSpecified?.ToString(fg);
         }
         #endregion
 

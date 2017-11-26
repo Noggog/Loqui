@@ -1166,7 +1166,7 @@ namespace Loqui.Tests.Internals
             {
                 if (printMask?.NewField ?? true)
                 {
-                    fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
+                    fg.AppendLine($"NewField => {NewField}");
                 }
             }
             fg.AppendLine("]");
@@ -1242,10 +1242,7 @@ namespace Loqui.Tests.Internals
         protected override void ToString_FillInternal(FileGeneration fg)
         {
             base.ToString_FillInternal(fg);
-            if (NewField != null)
-            {
-                fg.AppendLine($"NewField => {NewField.ToStringSafe()}");
-            }
+            fg.AppendLine($"NewField => {NewField}");
         }
         #endregion
 
