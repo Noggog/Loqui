@@ -120,6 +120,7 @@
     <Compile Include="Fields\TypicalWholeNumberTypeGeneration.cs" />
     <Compile Include="Fields\WildcardType.cs" />
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
+    <Compile Include="FileGeneration\IfWrapper.cs" />
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="GenericSpecification.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
