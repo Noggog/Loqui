@@ -2439,7 +2439,7 @@ namespace Loqui.Generation
 
         public IEnumerable<TypeGeneration> IterateFields(
             bool nonIntegrated = false,
-            bool expandSets = true)
+            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True)
         {
             return IterateFieldIndices(
                 nonIntegrated: nonIntegrated,
@@ -2448,7 +2448,7 @@ namespace Loqui.Generation
 
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFieldIndices(
             bool nonIntegrated = false,
-            bool expandSets = true)
+            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True)
         {
             int i = this.StartingIndex;
             foreach (var field in this.Fields)
@@ -2457,17 +2457,27 @@ namespace Loqui.Generation
                 {
                     if (field is SetMarkerType set)
                     {
-                        if (expandSets)
+                        switch (expandSets)
                         {
-                            foreach (var subField in set.IterateFields(
-                                nonIntegrated: nonIntegrated,
-                                expandSets: expandSets))
-                            {
-                                yield return (subField.Index + i, subField.Field);
-                            }
-                            i += set.SubFields.Count;
+                            case SetMarkerType.ExpandSets.False:
+                                continue;
+                            case SetMarkerType.ExpandSets.FalseAndInclude:
+                                yield return (-1, field);
+                                continue;
+                            case SetMarkerType.ExpandSets.True:
+                            case SetMarkerType.ExpandSets.TrueAndInclude:
+                                foreach (var subField in set.IterateFields(
+                                    nonIntegrated: nonIntegrated,
+                                    expandSets: expandSets))
+                                {
+                                    yield return (subField.Index + i, subField.Field);
+                                }
+                                i += set.SubFields.Count;
+                                break;
+                            default:
+                                throw new NotImplementedException();
                         }
-                        else if (nonIntegrated)
+                        if (expandSets == SetMarkerType.ExpandSets.TrueAndInclude)
                         {
                             yield return (-1, field);
                         }

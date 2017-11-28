@@ -9,6 +9,7 @@ namespace Loqui.Generation
 {
     public class SetMarkerType : TypeGeneration
     {
+        public enum ExpandSets { False, FalseAndInclude, True, TrueAndInclude }
 
         public override string TypeName => nameof(SetMarkerType);
 
@@ -22,7 +23,7 @@ namespace Loqui.Generation
 
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFields(
             bool nonIntegrated = false,
-            bool expandSets = true)
+            ExpandSets expandSets = ExpandSets.True)
         {
             for (int i = 0; i < this.SubFields.Count; i++)
             {
