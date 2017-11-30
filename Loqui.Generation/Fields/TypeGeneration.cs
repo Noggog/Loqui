@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -49,7 +50,7 @@ namespace Loqui.Generation
             this.Protected = this.ObjectGen.ProtectedDefault;
         }
 
-        public virtual void Load(XElement node, bool requireName = true)
+        public virtual async Task Load(XElement node, bool requireName = true)
         {
             LoadTypeGenerationFromNode(node, requireName);
         }
@@ -192,7 +193,7 @@ namespace Loqui.Generation
             return $"{base.ToString()}: {this.Name}";
         }
 
-        public virtual void Resolve()
+        public virtual async Task Resolve()
         {
             this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
         }

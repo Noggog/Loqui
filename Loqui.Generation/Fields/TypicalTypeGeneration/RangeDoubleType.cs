@@ -1,5 +1,6 @@
 ﻿using Noggog;
 using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -10,9 +11,9 @@ namespace Loqui.Generation
 
         public override Type Type => typeof(RangeDouble);
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
 
             if (!HasDefault) return;
 

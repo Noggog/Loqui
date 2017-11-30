@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -26,13 +27,13 @@ namespace Loqui.Generation
 
         public string GetterTypeName => this.ValueTypeGen.TypeName;
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             this.node = node;
         }
 
-        public override void Resolve()
+        public override async Task Resolve()
         {
             var keyedValNode = node.Element(XName.Get(Constants.KEYED_VALUE, LoquiGenerator.Namespace));
             if (keyedValNode == null)
@@ -40,13 +41,13 @@ namespace Loqui.Generation
                 throw new ArgumentException("Dict had no keyed value element.");
             }
 
-            if (ObjectGen.LoadField(
+            var valType = await ObjectGen.LoadField(
                 keyedValNode.Elements().FirstOrDefault(),
-                false,
-                out TypeGeneration valType)
-                && valType is LoquiType)
+                false);
+            if (valType.Succeeded
+                && valType.Value is LoquiType)
             {
-                this.ValueTypeGen = valType as LoquiType;
+                this.ValueTypeGen = valType.Value as LoquiType;
             }
             else
             {
@@ -65,7 +66,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
             }
-            base.Resolve();
+            await base.Resolve();
 
             if (KeyTypeGen is ContainerType
                 || KeyTypeGen is DictType)

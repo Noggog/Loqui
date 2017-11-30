@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -22,9 +23,9 @@ namespace Loqui.Generation
             this.Nullable = nullable;
         }
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             EnumName = node.GetAttribute<string>(
                 "enumName",
                 throwException: true);

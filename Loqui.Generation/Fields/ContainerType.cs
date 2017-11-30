@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -30,23 +31,30 @@ namespace Loqui.Generation
 
         public string GetterTypeName => (this.isLoquiSingle ? LoquiTypeSingleton.TypeName : ItemTypeName);
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
 
             if (!node.Elements().Any())
             {
                 throw new ArgumentException("List had no elements.");
             }
-
-            if (node.Elements().Any()
-                && ObjectGen.LoadField(
-                    node.Elements().First(),
-                    false,
-                    out SingleTypeGen))
+            
+            if (node.Elements().Any())
             {
-                singleType = true;
-                isLoquiSingle = SingleTypeGen as LoquiType != null;
+                var typeGen = await ObjectGen.LoadField(
+                    node.Elements().First(),
+                    false);
+                if (typeGen.Succeeded)
+                {
+                    SingleTypeGen = typeGen.Value;
+                    singleType = true;
+                    isLoquiSingle = SingleTypeGen as LoquiType != null;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
             else
             {

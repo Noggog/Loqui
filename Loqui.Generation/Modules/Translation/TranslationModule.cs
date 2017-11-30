@@ -78,23 +78,23 @@ namespace Loqui.Generation
             yield return "System.Diagnostics";
         }
 
-        public override void Modify(LoquiGenerator gen)
+        public override async Task Modify(LoquiGenerator gen)
         {
         }
 
-        public override void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
-        public override void Generate(ObjectGeneration obj, FileGeneration fg)
+        public override async Task Generate(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
-        public override void Generate(ObjectGeneration obj)
+        public override async Task Generate(ObjectGeneration obj)
         {
         }
 
-        public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             if (!obj.Abstract)
             {
@@ -395,7 +395,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
             using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
             {

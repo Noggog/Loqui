@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -45,9 +46,9 @@ namespace Loqui.Generation
             subDictGenerator.AddMaskException(fg, errorMaskMemberAccessor, exception, key);
         }
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
 
             var keyedValueNode = node.Element(XName.Get("KeyedValue", LoquiGenerator.Namespace));
             if (keyedValueNode != null)
@@ -55,7 +56,7 @@ namespace Loqui.Generation
                 var dictType = new DictType_KeyedValue();
                 dictType.SetObjectGeneration(this.ObjectGen);
                 subGenerator = dictType;
-                subGenerator.Load(node, requireName);
+                await subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
             }
             else
@@ -63,7 +64,7 @@ namespace Loqui.Generation
                 var dictType = new DictType_Typical();
                 dictType.SetObjectGeneration(this.ObjectGen);
                 subGenerator = dictType;
-                subGenerator.Load(node, requireName);
+                await subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
             }
         }
@@ -125,9 +126,9 @@ namespace Loqui.Generation
             return subGenerator.GenerateACopy(rhsAccessor);
         }
 
-        public override void Resolve()
+        public override async Task Resolve()
         {
-            subGenerator.Resolve();
+            await subGenerator.Resolve();
         }
 
         public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)

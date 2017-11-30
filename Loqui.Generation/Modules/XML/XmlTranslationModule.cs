@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -119,7 +120,7 @@ namespace Loqui.Generation
                 });
         }
 
-        public override void PostLoad(ObjectGeneration obj)
+        public override async Task PostLoad(ObjectGeneration obj)
         {
             foreach (var gen in _typeGenerations.Values)
             {
@@ -175,9 +176,9 @@ namespace Loqui.Generation
             internalToDo("root");
         }
 
-        public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
-            base.GenerateInClass(obj, fg);
+            await base.GenerateInClass(obj, fg);
             GenerateCreate_InternalFunctions(obj, fg);
         }
 
@@ -293,7 +294,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public override void Generate(ObjectGeneration obj)
+        public override async Task Generate(ObjectGeneration obj)
         {
             GenerateXSD(obj);
         }

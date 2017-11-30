@@ -9,12 +9,12 @@ namespace Loqui.Generation
 {
     public class LoquiListType : ListType
     {
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
             LoadTypeGenerationFromNode(node, requireName);
             SingleTypeGen = new LoquiType();
             SingleTypeGen.SetObjectGeneration(this.ObjectGen);
-            SingleTypeGen.Load(node, false);
+            await SingleTypeGen.Load(node, false);
             SingleTypeGen.Name = null;
             singleType = true;
             isLoquiSingle = SingleTypeGen as LoquiType != null;

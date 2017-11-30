@@ -42,9 +42,9 @@ namespace Loqui.Generation
 
         public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name} ?? true";
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             HasDefault = node.TryGetAttribute("default", out DefaultValue);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -9,9 +10,9 @@ namespace Loqui.Generation
         public override string TypeName => _typeName;
         public override Type Type => throw new NotImplementedException();
 
-        public override void Load(XElement root, bool requireName = true)
+        public override async Task Load(XElement root, bool requireName = true)
         {
-            base.Load(root, requireName);
+            await base.Load(root, requireName);
             var typeNode = root.Element(XName.Get(Constants.TARGET_TYPE, LoquiGenerator.Namespace));
             if (typeNode == null)
             {

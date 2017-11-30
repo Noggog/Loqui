@@ -251,10 +251,7 @@ namespace Loqui.Generation
             this.LoadSpecificFolders(this.sourceFolders);
             this.LoadSpecificFile(this.sourceFiles);
 
-            foreach (var mod in this.GenerationModules)
-            {
-                mod.Modify(this);
-            }
+            await Task.WhenAll(this.GenerationModules.Select((m) => m.Modify(this)));
 
             ResolveIDs();
 

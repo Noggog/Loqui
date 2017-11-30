@@ -41,9 +41,9 @@ namespace Loqui.Generation
             return $"new byte[{this.Length.Value}]";
         }
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             this.Length = node.GetAttribute<int?>("length", null);
             if (this.Length == null
                 && !this.Nullable)

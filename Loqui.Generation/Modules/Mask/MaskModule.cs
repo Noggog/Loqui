@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -68,7 +69,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void Generate(ObjectGeneration obj, FileGeneration fg)
+        public override async Task Generate(ObjectGeneration obj, FileGeneration fg)
         {
             foreach (var item in _fieldMapping.Values)
             {
@@ -400,11 +401,11 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
-        public override void GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
@@ -413,7 +414,7 @@ namespace Loqui.Generation
             yield break;
         }
 
-        public override void Modify(LoquiGenerator gen)
+        public override async Task Modify(LoquiGenerator gen)
         {
         }
 
@@ -452,7 +453,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
@@ -474,7 +475,7 @@ namespace Loqui.Generation
             return fieldGen;
         }
 
-        public override void Generate(ObjectGeneration obj)
+        public override async Task Generate(ObjectGeneration obj)
         {
         }
     }

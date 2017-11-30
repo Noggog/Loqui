@@ -32,9 +32,9 @@ namespace Loqui.Generation
 
         public abstract string GetNewForNonNullable();
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             this.Singleton = node.GetAttribute<bool>("singleton", this.Singleton);
             this.Nullable = node.GetAttribute<bool>("nullable", this.Nullable && !this.Singleton);
             if (this.Singleton && this.Nullable)

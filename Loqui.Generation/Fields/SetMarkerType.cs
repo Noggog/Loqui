@@ -31,16 +31,17 @@ namespace Loqui.Generation
             }
         }
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
             var fieldsNode = node.Element(XName.Get(Constants.FIELDS, LoquiGenerator.Namespace));
             if (fieldsNode != null)
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    if (this.ObjectGen.LoadField(fieldNode, true, out TypeGeneration typeGen))
+                    var typeGen = await this.ObjectGen.LoadField(fieldNode, true);
+                    if (typeGen.Succeeded)
                     {
-                        this.SubFields.Add(typeGen);
+                        this.SubFields.Add(typeGen.Value);
                     }
                 }
             }

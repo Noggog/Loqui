@@ -125,7 +125,7 @@ namespace Loqui.Generation
             RequiredNamespaces.Add("Noggog.Notifying");
         }
 
-        public virtual void Load()
+        public virtual async Task Load()
         {
             Node.TransferAttribute<bool>(Constants.GENERATE_CLASS, (i) => GenerateClass = i);
             Node.TransferAttribute<bool>(Constants.GENERATE_EQUALS, (i) => GenerateEquals = i);
@@ -178,9 +178,10 @@ namespace Loqui.Generation
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    if (LoadField(fieldNode, true, out TypeGeneration typeGen))
+                    var typeGen = await LoadField(fieldNode, true);
+                    if (typeGen.Succeeded)
                     {
-                        Fields.Add(typeGen);
+                        Fields.Add(typeGen.Value);
                     }
                 }
             }
@@ -190,32 +191,28 @@ namespace Loqui.Generation
                 interf.Modify(this);
             }
 
-            foreach (var mods in this.gen.GenerationModules)
-            {
-                mods.PostLoad(this);
-            }
+            await Task.WhenAll(this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
         }
 
-        public bool LoadField(XElement fieldNode, bool requireName, out TypeGeneration typeGen)
+        public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName)
         {
             if (fieldNode.NodeType == System.Xml.XmlNodeType.Comment)
             {
-                typeGen = null;
-                return false;
+                return TryGet<TypeGeneration>.Failure;
             }
 
-            if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out typeGen))
+            if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out var typeGen))
             {
                 throw new ArgumentException($"Unknown field type: {fieldNode.Name.LocalName}");
             }
 
             typeGen.SetObjectGeneration(this);
-            typeGen.Load(fieldNode, requireName);
-            LoadField(typeGen, fieldNode, add: false);
-            return true;
+            await typeGen.Load(fieldNode, requireName);
+            await LoadField(typeGen, fieldNode, add: false);
+            return TryGet<TypeGeneration>.Succeed(typeGen);
         }
 
-        public void LoadField(TypeGeneration typeGen, XElement fieldNode = null, bool add = true)
+        public async Task LoadField(TypeGeneration typeGen, XElement fieldNode = null, bool add = true)
         {
             if (this.Fields.Any((f) => f.Name?.Equals(typeGen.Name) ?? false))
             {
@@ -226,14 +223,11 @@ namespace Loqui.Generation
                 typeGen.SetObjectGeneration(this);
                 this.Fields.Add(typeGen);
             }
-            foreach (var module in this.gen.GenerationModules)
-            {
-                module.PostFieldLoad(this, typeGen, fieldNode);
-            }
+            await Task.WhenAll(this.gen.GenerationModules.Select((m) => m.PostFieldLoad(this, typeGen, fieldNode)));
             typeGen.FinalizeField();
         }
 
-        public void Generate()
+        public async Task Generate()
         {
             if (this.Disabled != DisabledLevel.Enabled) return;
             FileGeneration fg = new FileGeneration();
@@ -249,19 +243,19 @@ namespace Loqui.Generation
             {
                 if (GenerateClass)
                 {
-                    GenerateClassFile(fg);
+                    await GenerateClassFile(fg);
                 }
 
-                GenerateInterfaces(fg);
+                await GenerateInterfaces(fg);
             }
             fg.AppendLine();
 
             using (new NamespaceWrapper(fg, this.InternalNamespace))
             {
                 GenerateEnumIndex(fg);
-                GenerateRegistration(fg);
-                GenerateInterfaceExtensions(fg);
-                GenerateTranslations(fg);
+                await GenerateRegistration(fg);
+                await GenerateInterfaceExtensions(fg);
+                await GenerateTranslations(fg);
                 GenerateLoquiInterfaces(fg);
             }
 
@@ -331,7 +325,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateClassFile(FileGeneration fg)
+        private async Task GenerateClassFile(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Class"))
             {
@@ -347,7 +341,7 @@ namespace Loqui.Generation
 
                     GenerateCtor(fg);
 
-                    GenerateStaticCtor(fg);
+                    await GenerateStaticCtor(fg);
                     // Generate fields
                     foreach (var field in this.IterateFieldIndices())
                     {
@@ -365,7 +359,7 @@ namespace Loqui.Generation
 
                     GenerateEqualsSection(fg);
 
-                    GenerateModules(fg);
+                    await GenerateModules(fg);
 
                     GenerateInterfacesInClass(fg);
 
@@ -380,16 +374,16 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateInterfaces(FileGeneration fg)
+        private async Task GenerateInterfaces(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Interface"))
             {
-                GenerateSetterInterface(fg);
-                GenerateGetterInterface(fg);
+                await GenerateSetterInterface(fg);
+                await GenerateGetterInterface(fg);
             }
         }
 
-        protected virtual void GenerateSetterInterface(FileGeneration fg)
+        protected virtual async Task GenerateSetterInterface(FileGeneration fg)
         {
             // Interface
             fg.AppendLine($"public interface {this.InterfaceStr} : {this.Getter_InterfaceStr}{(this.HasBaseObject ? ", " + this.BaseClass.InterfaceStr_Generic(this.BaseGenericTypes) : string.Empty)}, ILoquiClass<{this.InterfaceStr}, {this.Getter_InterfaceStr}>, ILoquiClass<{this.ObjectName}, {this.Getter_InterfaceStr}>");
@@ -404,7 +398,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected virtual void GenerateGetterInterface(FileGeneration fg)
+        protected virtual async Task GenerateGetterInterface(FileGeneration fg)
         {
             // Getter 
             fg.AppendLine($"public interface {this.Getter_InterfaceStr} : {(this.HasBaseObject ? this.BaseClass.Getter_InterfaceStr_Generic(this.BaseGenericTypes) : nameof(ILoquiObject))}");
@@ -425,7 +419,7 @@ namespace Loqui.Generation
                 {
                     using (new RegionWrapper(fg, mod.RegionString))
                     {
-                        mod.GenerateInInterfaceGetter(this, fg);
+                        await mod.GenerateInInterfaceGetter(this, fg);
                     }
                 }
             }
@@ -448,7 +442,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected void GenerateRegistration(FileGeneration fg)
+        protected async Task GenerateRegistration(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Registration"))
             {
@@ -535,7 +529,7 @@ namespace Loqui.Generation
 
                     foreach (var mod in this.gen.GenerationModules)
                     {
-                        mod.GenerateInRegistration(this, fg);
+                        await mod.GenerateInRegistration(this, fg);
                     }
 
                     using (new RegionWrapper(fg, "Interface"))
@@ -583,7 +577,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateInterfaceExtensions(FileGeneration fg)
+        private async Task GenerateInterfaceExtensions(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Extensions"))
             {
@@ -622,13 +616,13 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, mod.RegionString))
                         {
-                            mod.GenerateInCommonExt(this, fg);
+                            await mod.GenerateInCommonExt(this, fg);
                         }
                     }
                 }
             }
         }
-        
+
         private void GenerateCommonToString(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
@@ -948,12 +942,12 @@ namespace Loqui.Generation
 
         protected abstract void GenerateCtor(FileGeneration fg);
 
-        protected void GenerateStaticCtor(FileGeneration fg)
+        protected async Task GenerateStaticCtor(FileGeneration fg)
         {
             FileGeneration staticCtorFG = new FileGeneration();
             foreach (var mod in this.gen.GenerationModules)
             {
-                mod.GenerateInStaticCtor(this, staticCtorFG);
+                await mod.GenerateInStaticCtor(this, staticCtorFG);
             }
             foreach (var field in this.IterateFields())
             {
@@ -1224,7 +1218,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
         }
-        
+
         protected virtual void GenerateUnsetNthObject(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
@@ -1427,7 +1421,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
         }
-        
+
         private void GenerateGetNthType(FileGeneration fg, bool generic)
         {
             fg.AppendLine($"public{(generic ? " new " : " ")}static Type GetNthType(ushort index)");
@@ -1809,7 +1803,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateModules(FileGeneration fg)
+        private async Task GenerateModules(FileGeneration fg)
         {
             if (this.gen.GenerationModules.Count > 0)
             {
@@ -1817,7 +1811,7 @@ namespace Loqui.Generation
                 {
                     using (new RegionWrapper(fg, transl.RegionString))
                     {
-                        transl.GenerateInClass(this, fg);
+                        await transl.GenerateInClass(this, fg);
                     }
                 }
             }
@@ -2137,7 +2131,7 @@ namespace Loqui.Generation
         }
         #endregion
 
-        private void GenerateTranslations(FileGeneration fg)
+        private async Task GenerateTranslations(FileGeneration fg)
         {
             if (this.gen.GenerationModules.Count == 0) return;
             using (new RegionWrapper(fg, "Modules"))
@@ -2146,12 +2140,13 @@ namespace Loqui.Generation
                 {
                     using (new RegionWrapper(fg, translGen.RegionString))
                     {
-                        translGen.Generate(this, fg);
+                        await translGen.Generate(this, fg);
                     }
                     fg.AppendLine();
-
-                    translGen.Generate(this);
                 }
+
+                await Task.WhenAll(this.gen.GenerationModules
+                    .Select((g) => g.Generate(this)));
             }
         }
 
@@ -2202,10 +2197,7 @@ namespace Loqui.Generation
             }
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
-            foreach (var field in this.IterateFields().ToList())
-            {
-                field.Resolve();
-            }
+            await Task.WhenAll(this.IterateFields().ToList().Select((f) => f.Resolve()));
 
             if (this.HasRaisedPropertyChanged)
             {

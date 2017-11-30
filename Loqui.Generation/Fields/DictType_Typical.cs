@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -37,9 +38,9 @@ namespace Loqui.Generation
 
         public string GetterTypeName => (this.ValueIsLoqui ? $"I{TypeName}Getter" : TypeName);
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
 
             var keyNode = node.Element(XName.Get("Key", LoquiGenerator.Namespace));
             if (keyNode == null)
@@ -47,12 +48,12 @@ namespace Loqui.Generation
                 throw new ArgumentException("Dict had no key element.");
             }
 
-            if (ObjectGen.LoadField(
-                    keyNode.Elements().FirstOrDefault(),
-                    false,
-                    out KeyTypeGen))
+            var KeyTypeGen = await ObjectGen.LoadField(
+                keyNode.Elements().FirstOrDefault(),
+                false);
+            if (KeyTypeGen.Succeeded)
             {
-                KeyIsLoqui = KeyTypeGen as LoquiType != null;
+                KeyIsLoqui = KeyTypeGen.Value as LoquiType != null;
             }
             else
             {
@@ -65,25 +66,25 @@ namespace Loqui.Generation
                 throw new ArgumentException("Dict had no value element.");
             }
 
-            if (ObjectGen.LoadField(
-                    valNode.Elements().FirstOrDefault(),
-                    false,
-                    out ValueTypeGen))
+            var ValueTypeGen = await ObjectGen.LoadField(
+                valNode.Elements().FirstOrDefault(),
+                false);
+            if (ValueTypeGen.Succeeded)
             {
-                ValueIsLoqui = ValueTypeGen is LoquiType;
+                ValueIsLoqui = ValueTypeGen.Value is LoquiType;
             }
             else
             {
                 throw new NotImplementedException();
             }
 
-            if (KeyTypeGen is ContainerType
-                || KeyTypeGen is DictType)
+            if (KeyTypeGen.Value is ContainerType
+                || KeyTypeGen.Value is DictType)
             {
                 throw new NotImplementedException();
             }
-            if (ValueTypeGen is ContainerType
-                || ValueTypeGen is DictType)
+            if (ValueTypeGen.Value is ContainerType
+                || ValueTypeGen.Value is DictType)
             {
                 throw new NotImplementedException();
             }

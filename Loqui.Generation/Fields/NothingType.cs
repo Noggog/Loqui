@@ -82,7 +82,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
         }
 

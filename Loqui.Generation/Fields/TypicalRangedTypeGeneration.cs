@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -14,9 +15,9 @@ namespace Loqui.Generation
         public virtual string RangeTypeName => $"Range{this.TypeName.TrimEnd("?")}";
         public string RangeMemberName => $"{this.Name}_Range";
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
-            base.Load(node, requireName);
+            await base.Load(node, requireName);
             if (node.GetAttribute(Constants.MIN) != null)
             {
                 HasRange = node.TryGetAttribute(Constants.MIN, out Min);

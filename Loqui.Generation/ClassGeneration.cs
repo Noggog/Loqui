@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -21,7 +22,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void Load()
+        public override async Task Load()
         {
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
@@ -44,7 +45,7 @@ namespace Loqui.Generation
                 }
             }
 
-            base.Load();
+            await base.Load();
         }
 
         protected override void GenerateClassLine(FileGeneration fg)

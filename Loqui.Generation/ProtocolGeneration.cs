@@ -133,25 +133,21 @@ namespace Loqui.Generation
 
         public async Task Generate()
         {
-            foreach (var obj in ObjectGenerationsByID.Values)
-            {
-                foreach (var mods in this.Gen.GenerationModules)
-                {
-                    mods.PreLoad(obj);
-                }
-            }
+            await Task.WhenAll(
+                this.ObjectGenerationsByID.Values
+                    .SelectMany((obj) => this.Gen.GenerationModules
+                        .Select((m) => m.PreLoad(obj))));
 
             foreach (var obj in ObjectGenerationsByID.Values)
             {
-                obj.Load();
+                await obj.Load();
             }
-
-
+            
             await Task.WhenAll(this.ObjectGenerationsByID.Values.Select((obj) => obj.Resolve()));
 
             foreach (var obj in ObjectGenerationsByID.Values)
             {
-                obj.Generate();
+                await obj.Generate();
                 obj.RegenerateAndStampSourceXML();
             }
 

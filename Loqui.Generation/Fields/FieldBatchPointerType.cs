@@ -75,16 +75,16 @@ namespace Loqui.Generation
         }
         #endregion
 
-        public override void Load(XElement node, bool requireName = true)
+        public override async Task Load(XElement node, bool requireName = true)
         {
             this._derivative = false;
             this.BatchName = node.GetAttribute<string>("name", throwException: true);
             this.ProtocolID = node.GetAttribute("protocol", throwException: false);
         }
 
-        public override void Resolve()
+        public override async Task Resolve()
         {
-            base.Resolve();
+            await base.Resolve();
             var protoID = this.ProtocolID ?? this.ObjectGen.ProtoGen.Protocol.Namespace;
             if (!this.ObjectGen.ProtoGen.Gen.TryGetProtocol(new ProtocolKey(protoID), out var protoGen))
             {
@@ -105,10 +105,11 @@ namespace Loqui.Generation
             }
             foreach (var field in batch.Fields)
             {
-                if (this.ObjectGen.LoadField(field.Node, true, out var typeGen))
+                var typeGen = await this.ObjectGen.LoadField(field.Node, true);
+                if (typeGen.Succeeded)
                 {
-                    this.ObjectGen.Fields.Insert(index++, typeGen);
-                    typeGen.Resolve();
+                    this.ObjectGen.Fields.Insert(index++, typeGen.Value);
+                    await typeGen.Value.Resolve();
                 }
             }
             if (!this.ObjectGen.Fields.Remove(this))

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -102,11 +103,11 @@ namespace Loqui.Generation
             fg.AppendLine($"return Equals(rhs);");
         }
 
-        public override void Load()
+        public override async Task Load()
         {
             this.Interfaces.Add($"ILoquiWriterSerializer<{this.Mask(MaskType.Error)}>");
 
-            base.Load();
+            await base.Load();
             foreach (var field in this.IterateFields())
             {
                 field.Notifying = NotifyingOption.None;
@@ -118,7 +119,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override void GenerateSetterInterface(FileGeneration fg)
+        protected override async Task GenerateSetterInterface(FileGeneration fg)
         {
         }
 
