@@ -9,6 +9,7 @@ namespace Loqui.Generation
         public override string TypeName => $"NotifyingList<{this.ItemTypeName}>";
         public override bool CopyNeedsTryCatch => true;
         public override string SetToName => $"IEnumerable<{this.ItemTypeName}>";
+        public override bool IsEnumerable => true;
         public int? MaxValue;
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -220,6 +221,11 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<bool>>({accessor}.HasBeenSet, null);");
             }
+        }
+
+        public override bool IsNullable()
+        {
+            return false;
         }
     }
 }

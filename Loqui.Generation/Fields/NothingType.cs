@@ -17,6 +17,8 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => false;
 
+        public override bool IsEnumerable => false;
+
         public override string GenerateACopy(string rhsAccessor)
         {
             return null;
@@ -94,6 +96,11 @@ namespace Loqui.Generation
         public override string SkipCheck(string copyMaskAccessor)
         {
             return null;
+        }
+
+        public override bool IsNullable()
+        {
+            throw new ArgumentException();
         }
     }
 }

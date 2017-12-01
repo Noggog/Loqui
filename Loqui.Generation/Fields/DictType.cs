@@ -33,6 +33,7 @@ namespace Loqui.Generation
         public override string Property => subGenerator.Property;
         public override string ProtectedName => subGenerator.ProtectedName;
         public override string TypeName => subGenerator.TypeName;
+        public override bool IsEnumerable => true;
 
         public override string SkipCheck(string copyMaskAccessor) => subGenerator.SkipCheck(copyMaskAccessor);
 
@@ -159,6 +160,11 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
         {
             subGenerator.GenerateForHasBeenSetMaskGetter(fg, accessor, retAccessor);
+        }
+
+        public override bool IsNullable()
+        {
+            return false;
         }
     }
 }

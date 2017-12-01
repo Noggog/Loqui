@@ -15,6 +15,7 @@ namespace Loqui.Generation
         public string KeyAccessorString { get; protected set; }
         public DictMode Mode => DictMode.KeyedValue;
 
+        public override bool IsEnumerable => true;
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
         public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
@@ -315,6 +316,11 @@ namespace Loqui.Generation
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
             fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor}.HasBeenSet, {accessor}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+        }
+
+        public override bool IsNullable()
+        {
+            return false;
         }
     }
 }

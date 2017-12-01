@@ -916,5 +916,10 @@ namespace Loqui.Generation
             }
             return ret;
         }
+
+        public override bool IsNullable()
+        {
+            return this.SingletonType == SingletonLevel.None;
+        }
     }
 }

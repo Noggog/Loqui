@@ -11,6 +11,7 @@ namespace Loqui.Generation
     {
         public int? Length;
         public override Type Type => typeof(byte[]);
+        public override bool IsEnumerable => true;
 
         public override void GenerateForClass(FileGeneration fg)
         {

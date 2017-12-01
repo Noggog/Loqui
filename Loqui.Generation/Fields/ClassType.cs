@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public abstract class ClassType : TypicalTypeGeneration
     {
-        public bool Nullable = true;
+        public bool Nullable { get; set; } = true;
         public bool Singleton;
         public bool Readonly;
         public override bool Copy => base.Copy && !this.Singleton;
@@ -155,6 +155,11 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public override bool IsNullable()
+        {
+            return this.Nullable;
         }
     }
 }

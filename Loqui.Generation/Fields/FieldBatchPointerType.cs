@@ -11,6 +11,7 @@ namespace Loqui.Generation
     {
         public string BatchName { get; private set; }
         public string ProtocolID { get; private set; }
+        public override bool IsEnumerable => throw new ArgumentException();
 
         #region Type Generation Abstract
         public override string TypeName => throw new NotImplementedException();
@@ -144,6 +145,11 @@ namespace Loqui.Generation
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsNullable()
         {
             throw new NotImplementedException();
         }

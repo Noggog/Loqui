@@ -10,7 +10,6 @@ namespace Loqui.Generation
         public string Max;
         public bool RangeThrowException;
         public bool HasRange;
-        public bool Nullable;
 
         public virtual string RangeTypeName => $"Range{this.TypeName.TrimEnd("?")}";
         public string RangeMemberName => $"{this.Name}_Range";
@@ -26,11 +25,10 @@ namespace Loqui.Generation
             {
                 HasRange = node.TryGetAttribute(Constants.MAX, out Max);
             }
-            this.Nullable = this.TypeName.EndsWith("?");
             RangeThrowException = node.GetAttribute<bool>(Constants.RANGE_THROW_EXCEPTION, false);
         }
 
-        protected string InRangeCheckerString => $"{(this.Nullable ? "?" : string.Empty)}.{(this.RangeThrowException ? "" : "Put")}InRange({RangeMemberName}.Min, {RangeMemberName}.Max)";
+        protected string InRangeCheckerString => $"{(this.IsNullable() ? "?" : string.Empty)}.{(this.RangeThrowException ? "" : "Put")}InRange({RangeMemberName}.Min, {RangeMemberName}.Max)";
 
         public override void GenerateForClass(FileGeneration fg)
         {

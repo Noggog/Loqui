@@ -29,6 +29,7 @@ namespace Loqui.Generation
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
+        public abstract bool IsEnumerable { get; }
         private NotifyingOption _notifying;
         public NotifyingOption Notifying
         {
@@ -71,6 +72,8 @@ namespace Loqui.Generation
                 throw new ArgumentException("Type field needs a name.");
             }
         }
+
+        public abstract bool IsNullable();
 
         public void FinalizeField()
         {

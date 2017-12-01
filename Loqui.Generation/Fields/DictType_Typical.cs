@@ -19,6 +19,7 @@ namespace Loqui.Generation
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
         public override bool CopyNeedsTryCatch => true;
+        public override bool IsEnumerable => true;
         public override string SkipCheck(string copyMaskAccessor)
         {
             if (KeyTypeGen is LoquiType
@@ -493,6 +494,11 @@ namespace Loqui.Generation
                     }
                 }
             }
+        }
+
+        public override bool IsNullable()
+        {
+            return false;
         }
     }
 }

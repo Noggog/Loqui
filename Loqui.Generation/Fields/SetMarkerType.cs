@@ -21,6 +21,8 @@ namespace Loqui.Generation
 
         public override bool IntegrateField => false;
 
+        public override bool IsEnumerable => throw new NotImplementedException();
+
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFields(
             bool nonIntegrated = false,
             ExpandSets expandSets = ExpandSets.True)
@@ -149,6 +151,11 @@ namespace Loqui.Generation
         }
 
         public override string SkipCheck(string copyMaskAccessor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsNullable()
         {
             throw new NotImplementedException();
         }
