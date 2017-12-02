@@ -138,10 +138,9 @@ namespace Loqui.Generation
                     .SelectMany((obj) => this.Gen.GenerationModules
                         .Select((m) => m.PreLoad(obj))));
 
-            foreach (var obj in ObjectGenerationsByID.Values)
-            {
-                await obj.Load();
-            }
+            await Task.WhenAll(
+                ObjectGenerationsByID.Values
+                    .Select((obj) => obj.Load()));
             
             await Task.WhenAll(this.ObjectGenerationsByID.Values.Select((obj) => obj.Resolve()));
 

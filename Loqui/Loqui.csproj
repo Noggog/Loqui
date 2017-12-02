@@ -51,6 +51,7 @@
     <Compile Include="Extensions\ExceptionExt.cs" />
     <Compile Include="Extensions\IHasBeenSetExt.cs" />
     <Compile Include="File Generation\BraceWrapper.cs" />
+    <Compile Include="File Generation\CommaWrapper.cs" />
     <Compile Include="File Generation\DepthWrapper.cs" />
     <Compile Include="File Generation\FileGeneration.cs" />
     <Compile Include="File Generation\LineWrapper.cs" />

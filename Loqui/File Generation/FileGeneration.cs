@@ -64,6 +64,22 @@ namespace Loqui
             }
         }
 
+        public void AppendLines(IEnumerable<string> strs, string delimeter)
+        {
+            foreach (var str in strs.IterateMarkLast())
+            {
+                if (str.Last)
+                {
+                    AppendLine(str.Item);
+                }
+                else
+                {
+                    Append(str.Item);
+                    Append(delimeter);
+                }
+            }
+        }
+
         public void AppendLine(string str, bool extraLine = false)
         {
             if (str.Contains("public static readonly RecordType DATA_HEADER = new RecordType(\"DATA\");"))
