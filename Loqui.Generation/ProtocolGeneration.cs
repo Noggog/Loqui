@@ -16,11 +16,12 @@ namespace Loqui.Generation
         public Dictionary<StringCaseAgnostic, FieldBatch> FieldBatchesByName = new Dictionary<StringCaseAgnostic, FieldBatch>();
         public bool Empty => ObjectGenerationsByID.Count == 0;
         public LoquiGenerator Gen { get; private set; }
-        public DirectoryInfo DefFileLocationOverride { get; private set; }
-        public DirectoryInfo DefFileLocation => this.DefFileLocationOverride ?? this.Gen.CommonGenerationFolder;
+        public DirectoryInfo GenerationFolder { get; private set; }
+        public DirectoryInfo DefFileLocation => this.GenerationFolder ?? this.Gen.CommonGenerationFolder;
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
+        public string DefaultNamespace;
         public NotifyingOption NotifyingDefault;
         public bool RaisePropertyChangedDefault = true;
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
@@ -28,16 +29,17 @@ namespace Loqui.Generation
         public ProtocolGeneration(
             LoquiGenerator gen,
             ProtocolKey protocol,
-            DirectoryInfo defFileLocation = null)
+            DirectoryInfo defSearchableFolder = null)
         {
             this.Protocol = protocol;
             this.Gen = gen;
             this.NotifyingDefault = gen.NotifyingDefault;
-            this.DefFileLocationOverride = defFileLocation;
+            this.GenerationFolder = defSearchableFolder;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
             this.ProtectedDefault = gen.ProtectedDefault;
             this.DerivativeDefault = gen.DerivativeDefault;
             this.RaisePropertyChangedDefault = gen.RaisePropertyChangedDefault;
+            this.Gen.AddSearchableFolder(defSearchableFolder);
         }
 
         public void LoadInitialObjects(IEnumerable<System.Tuple<XDocument, FileInfo>> xmlDocs)
@@ -50,7 +52,7 @@ namespace Loqui.Generation
                 var xmlDoc = xmlDocTuple.Item1;
                 XElement objNode = xmlDoc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
 
-                string namespaceStr = this.Gen.DefaultNamespace;
+                string namespaceStr = this.DefaultNamespace ?? this.Gen.DefaultNamespace;
                 XElement namespaceNode = objNode.Element(XName.Get("Namespace", LoquiGenerator.Namespace));
                 if (namespaceNode != null)
                 {

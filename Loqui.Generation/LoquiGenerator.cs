@@ -37,7 +37,7 @@ namespace Loqui.Generation
         public MaskModule MaskModule = new MaskModule();
         public XmlTranslationModule XmlTranslation;
 
-        public LoquiGenerator(DirectoryInfo commonGenerationFolder, bool typical = true)
+        public LoquiGenerator(DirectoryInfo commonGenerationFolder = null, bool typical = true)
         {
             this.CommonGenerationFolder = commonGenerationFolder;
             if (typical)
@@ -152,9 +152,10 @@ namespace Loqui.Generation
             }
         }
 
-        public void AddProtocol(ProtocolGeneration protoGen)
+        public ProtocolGeneration AddProtocol(ProtocolGeneration protoGen)
         {
             this.targetData[protoGen.Protocol] = protoGen;
+            return protoGen;
         }
 
         public void AddProjectToModify(FileInfo projFile)
@@ -164,6 +165,7 @@ namespace Loqui.Generation
 
         public void AddSearchableFolder(DirectoryInfo dir)
         {
+            if (dir == null) return;
             AddSpecificFolders(dir);
             foreach (var d in dir.GetDirectories())
             {
@@ -212,21 +214,18 @@ namespace Loqui.Generation
                         var loquiNode = t.Item1.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
                         if (loquiNode == null) return false;
                         var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
-                        string nameSpace;
+                        string protoNamespace;
                         if (protoNode == null
                             && !string.IsNullOrWhiteSpace(this.ProtocolDefault.Namespace))
                         {
-                            nameSpace = this.ProtocolDefault.Namespace;
+                            protoNamespace = this.ProtocolDefault.Namespace;
                         }
                         else
                         {
-                            if (!protoNode.TryGetAttribute("Namespace", out nameSpace))
-                            {
-                                throw new ArgumentException();
-                            }
+                            protoNamespace = protoNode.GetAttribute("Namespace");
                         }
 
-                        return protocolGen.Protocol.Namespace.Equals(nameSpace);
+                        return protoNamespace == null || protocolGen.Protocol.Namespace.Equals(protoNamespace);
                     }));
             }
         }
