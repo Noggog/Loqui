@@ -35,7 +35,7 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.Singleton = node.GetAttribute<bool>("singleton", this.Singleton);
+            this.Singleton = node.GetAttribute<bool>(Constants.SINGLETON, this.Singleton);
             this.Nullable = node.GetAttribute<bool>("nullable", this.Nullable && !this.Singleton);
             if (this.Singleton && this.Nullable)
             {
