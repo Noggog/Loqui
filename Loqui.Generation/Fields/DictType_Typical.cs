@@ -49,12 +49,13 @@ namespace Loqui.Generation
                 throw new ArgumentException("Dict had no key element.");
             }
 
-            var KeyTypeGen = await ObjectGen.LoadField(
+            var keyTypeGen = await ObjectGen.LoadField(
                 keyNode.Elements().FirstOrDefault(),
                 false);
-            if (KeyTypeGen.Succeeded)
+            if (keyTypeGen.Succeeded)
             {
-                KeyIsLoqui = KeyTypeGen.Value as LoquiType != null;
+                this.KeyTypeGen = keyTypeGen.Value;
+                KeyIsLoqui = keyTypeGen.Value as LoquiType != null;
             }
             else
             {
@@ -67,25 +68,26 @@ namespace Loqui.Generation
                 throw new ArgumentException("Dict had no value element.");
             }
 
-            var ValueTypeGen = await ObjectGen.LoadField(
+            var valueTypeGen = await ObjectGen.LoadField(
                 valNode.Elements().FirstOrDefault(),
                 false);
-            if (ValueTypeGen.Succeeded)
+            if (valueTypeGen.Succeeded)
             {
-                ValueIsLoqui = ValueTypeGen.Value is LoquiType;
+                this.ValueTypeGen = valueTypeGen.Value;
+                ValueIsLoqui = valueTypeGen.Value is LoquiType;
             }
             else
             {
                 throw new NotImplementedException();
             }
 
-            if (KeyTypeGen.Value is ContainerType
-                || KeyTypeGen.Value is DictType)
+            if (keyTypeGen.Value is ContainerType
+                || keyTypeGen.Value is DictType)
             {
                 throw new NotImplementedException();
             }
-            if (ValueTypeGen.Value is ContainerType
-                || ValueTypeGen.Value is DictType)
+            if (valueTypeGen.Value is ContainerType
+                || valueTypeGen.Value is DictType)
             {
                 throw new NotImplementedException();
             }
