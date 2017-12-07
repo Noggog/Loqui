@@ -26,7 +26,8 @@ namespace Loqui.Generation
         public bool GenerateEquals { get; protected set; } = true;
         public bool GenerateToString { get; protected set; } = true;
         public bool GeneratePublicBasicCtor { get; protected set; } = true;
-        public abstract NotifyingOption NotifyingDefault { get; }
+        public abstract bool NotifyingDefault { get; }
+        public abstract bool HasBeenSetDefault { get; }
         public LoquiInterfaceType InterfaceTypeDefault;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
@@ -696,7 +697,7 @@ namespace Loqui.Generation
             {
                 foreach (var field in this.IterateFieldIndices())
                 {
-                    if (field.Field.Notifying == NotifyingOption.None) continue;
+                    if (field.Field.Bare) continue;
                     field.Field.GenerateForHasBeenSetCheck(fg, $"item.{field.Field.Property}", $"checkMask.{field.Field.Name}");
                 }
                 fg.AppendLine("return true;");
@@ -1081,7 +1082,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     var nonNotifying = IterateFieldIndices()
-                        .Where((f) => f.Field.Notifying == NotifyingOption.None).ToList();
+                        .Where((f) => f.Field.Bare).ToList();
                     if (nonNotifying.Count > 0)
                     {
                         foreach (var item in nonNotifying)
@@ -1098,7 +1099,7 @@ namespace Loqui.Generation
                     {
                         if (field.IntegrateField)
                         {
-                            if (field.Notifying == NotifyingOption.None) continue;
+                            if (field.Bare) continue;
                             fg.AppendLine($"case {field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg, doIt: field.IntegrateField))
@@ -1693,7 +1694,7 @@ namespace Loqui.Generation
                         {
                             if (!HasKeyField() || field.KeyField)
                             {
-                                if (field.Notifying == NotifyingOption.None)
+                                if (field.Bare)
                                 {
                                     field.GenerateForEquals(fg, "rhs");
                                 }
@@ -1724,7 +1725,7 @@ namespace Loqui.Generation
                         {
                             if (!HasKeyField() || field.KeyField)
                             {
-                                if (field.Notifying == NotifyingOption.None)
+                                if (field.Bare)
                                 {
                                     field.GenerateForHash(fg, "ret");
                                 }

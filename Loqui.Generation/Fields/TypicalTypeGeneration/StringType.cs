@@ -15,7 +15,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            if (this.Notifying == NotifyingOption.None)
+            if (this.Bare)
             {
                 fg.AppendLine($"{retAccessor} = object.Equals({accessor}, {rhsAccessor});");
             }

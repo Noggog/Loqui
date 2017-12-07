@@ -22,7 +22,8 @@ namespace Loqui.Generation
         public bool ProtectedDefault;
         public bool DerivativeDefault;
         public string DefaultNamespace;
-        public NotifyingOption NotifyingDefault;
+        public bool NotifyingDefault;
+        public bool HasBeenSetDefault;
         public bool RaisePropertyChangedDefault = true;
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
 
@@ -34,6 +35,7 @@ namespace Loqui.Generation
             this.Protocol = protocol;
             this.Gen = gen;
             this.NotifyingDefault = gen.NotifyingDefault;
+            this.HasBeenSetDefault = gen.HasBeenSetDefault;
             this.GenerationFolder = defSearchableFolder;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
             this.ProtectedDefault = gen.ProtectedDefault;

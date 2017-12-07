@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
   <Protocol Namespace="LoquiTests" />
-  <Object name="TestObject_Notifying_RPC" notifyingDefault="Notifying" raisePropertyChangedDefault="true" GUID="7ba65986-3bcf-477c-91a0-2b87e88e7754" ID="23">
+  <Object name="TestObject_Notifying_RPC" notifyingDefault="True" hasBeenSetDefault="True" raisePropertyChangedDefault="true" GUID="7ba65986-3bcf-477c-91a0-2b87e88e7754" ID="23">
     <Fields>
       <FieldBatch name="TypicalFields" />
     </Fields>

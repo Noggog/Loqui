@@ -15,7 +15,7 @@ namespace Loqui.Generation
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
-        public virtual string PropertyOrName => $"{(this.Notifying == NotifyingOption.None ? Name : Property)}";
+        public virtual string PropertyOrName => $"{(this.Bare ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name);
         public abstract string ProtectedName { get; }
@@ -30,12 +30,9 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        private NotifyingOption _notifying;
-        public NotifyingOption Notifying
-        {
-            get => this.ObjectGen is StructGeneration ? NotifyingOption.None : _notifying;
-            set => _notifying = value;
-        }
+        public bool Notifying;
+        public bool HasBeenSet;
+        public bool Bare => !this.Notifying && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
         public TypeGeneration()
@@ -46,7 +43,8 @@ namespace Loqui.Generation
         {
             this.ObjectGen = obj;
             this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
-            this._notifying = this.ObjectGen.NotifyingDefault;
+            this.Notifying = this.ObjectGen.NotifyingDefault;
+            this.HasBeenSet = this.ObjectGen.HasBeenSetDefault;
             this._derivative = this.ObjectGen.DerivativeDefault;
             this.Protected = this.ObjectGen.ProtectedDefault;
         }
@@ -66,7 +64,8 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Protected);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
-            node.TransferAttribute<NotifyingOption>(Constants.NOTIFYING, i => this.Notifying = i);
+            node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.Notifying = i);
+            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSet = i);
             if (requireName && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");

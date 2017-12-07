@@ -10,8 +10,10 @@ namespace Loqui.Generation
     {
         private bool _abstract;
         public override bool Abstract => _abstract;
-        private NotifyingOption _notifyingDefault;
-        public override NotifyingOption NotifyingDefault => _notifyingDefault;
+        private bool _notifyingDefault;
+        public override bool NotifyingDefault => _notifyingDefault;
+        private bool _hasBeenSetDefault;
+        public override bool HasBeenSetDefault => _hasBeenSetDefault;
         public string BaseClassStr { get; set; }
         public List<ClassGeneration> DerivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => DerivativeClasses.Count > 0; 
@@ -26,8 +28,9 @@ namespace Loqui.Generation
         {
             BaseClassStr = Node.GetAttribute("baseClass");
             _abstract = Node.GetAttribute<bool>("abstract", false);
-            _notifyingDefault = Node.GetAttribute<NotifyingOption>("notifyingDefault", this.ProtoGen.NotifyingDefault);
-            
+            _notifyingDefault = Node.GetAttribute<bool>("notifyingDefault", this.ProtoGen.NotifyingDefault);
+            _hasBeenSetDefault = Node.GetAttribute<bool>("hasBeenSetDefault", this.ProtoGen.HasBeenSetDefault);
+
             this.Interfaces.Add($"ILoquiObjectSetter");
 
             if (!string.IsNullOrWhiteSpace(this.BaseClassStr))

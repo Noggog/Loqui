@@ -644,11 +644,9 @@ namespace Loqui.Tests
     {
         #region TestGenericObjectSpecified
         TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef> TestGenericObjectSpecified { get; }
-
         #endregion
         #region TestGenericObjectHalfSpecified
         TestGenericObject<ObjectToRef, RBase, R> TestGenericObjectHalfSpecified { get; }
-
         #endregion
 
     }

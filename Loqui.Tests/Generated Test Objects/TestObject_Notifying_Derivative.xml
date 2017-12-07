@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
   <Protocol Namespace="LoquiTests" />
-  <Object name="TestObject_Notifying_Derivative" notifyingDefault="Notifying" derivativeDefault="true" GUID="a2d50f09-643c-4263-a8d1-272110470337" ID="13">
+  <Object name="TestObject_Notifying_Derivative" notifyingDefault="True" hasBeenSetDefault="True" derivativeDefault="true" GUID="a2d50f09-643c-4263-a8d1-272110470337" ID="13">
     <Fields>
       <FieldBatch name="TypicalFields" />
     </Fields>

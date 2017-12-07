@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Object name="TestObject" notifyingDefault="None" GUID="b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7" ID="7">
+  <Object name="TestObject" notifyingDefault="False" hasBeenSetDefault="False" GUID="b62b10f3-41c2-40b2-a9fd-90cfbd1bd2c7" ID="7">
     <Fields>
       <FieldBatch name="TypicalFields" />
     </Fields>

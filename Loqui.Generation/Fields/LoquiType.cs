@@ -197,98 +197,24 @@ namespace Loqui.Generation
         {
             base.GenerateForCtor(fg);
 
-            switch (this.Notifying)
+            if (!this.Bare)
             {
-                case NotifyingOption.HasBeenSet:
-                case NotifyingOption.Notifying:
-                    if ((!this.TrueReadOnly
-                        && this.RaisePropertyChanged)
-                        || (this.Notifying != NotifyingOption.None
-                            && this.SingletonType == SingletonLevel.Singleton))
-                    {
-                        GenerateNotifyingConstruction(fg, $"_{this.Name}");
-                    }
-                    break;
-                default:
-                    break;
+                if ((!this.TrueReadOnly
+                    && this.RaisePropertyChanged)
+                    || (!this.Bare
+                        && this.SingletonType == SingletonLevel.Singleton))
+                {
+                    GenerateNotifyingConstruction(fg, $"_{this.Name}");
+                }
             }
         }
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            switch (this.Notifying)
+            if (this.Notifying)
             {
-                case NotifyingOption.None:
-                    switch (this.SingletonType)
-                    {
-                        case SingletonLevel.None:
-                            if (this.RaisePropertyChanged)
-                            {
-                                fg.AppendLine($"private {TypeName} _{this.Name};");
-                                fg.AppendLine($"public {TypeName} {this.Name}");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"get => _{this.Name};");
-                                    fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
-                                }
-                            }
-                            else
-                            {
-                                fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
-                            }
-                            break;
-                        case SingletonLevel.NotNull:
-                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.ObjectTypeName}();");
-                            fg.AppendLine($"public {this.TypeName} {this.Name}");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.ObjectTypeName}();");
-                            }
-                            break;
-                        case SingletonLevel.Singleton:
-                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
-                            fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    break;
-                case NotifyingOption.HasBeenSet:
-                    if (this.SingletonType == SingletonLevel.Singleton)
-                    {
-                        fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
-                    }
-                    if (this.RaisePropertyChanged
-                        || this.SingletonType == SingletonLevel.Singleton)
-                    {
-                        fg.AppendLine(GetNotifyingProperty() + ";");
-                    }
-                    else
-                    {
-                        GenerateNotifyingCtor(fg);
-                    }
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this.{this.ProtectedName};");
-                        if (this.SingletonType != SingletonLevel.Singleton)
-                        {
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
-                        }
-                    }
-                    if (this.Protected)
-                    {
-                        fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.ProtectedProperty};");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
-                    }
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
-                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
-                    break;
-                case NotifyingOption.Notifying:
+                if (this.HasBeenSet)
+                {
                     switch (this.SingletonType)
                     {
                         case SingletonLevel.None:
@@ -327,16 +253,93 @@ namespace Loqui.Generation
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    break;
-                default:
+                }
+                else
+                {
                     throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
+                    if (this.SingletonType == SingletonLevel.Singleton)
+                    {
+                        fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                    }
+                    if (this.RaisePropertyChanged
+                        || this.SingletonType == SingletonLevel.Singleton)
+                    {
+                        fg.AppendLine(GetNotifyingProperty() + ";");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg);
+                    }
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this.{this.ProtectedName};");
+                        if (this.SingletonType != SingletonLevel.Singleton)
+                        {
+                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
+                        }
+                    }
+                    if (this.Protected)
+                    {
+                        fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.ProtectedProperty};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
+                    }
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
+                }
+                else
+                {
+                    switch (this.SingletonType)
+                    {
+                        case SingletonLevel.None:
+                            if (this.RaisePropertyChanged)
+                            {
+                                fg.AppendLine($"private {TypeName} _{this.Name};");
+                                fg.AppendLine($"public {TypeName} {this.Name}");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"get => _{this.Name};");
+                                    fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                                }
+                            }
+                            else
+                            {
+                                fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                            }
+                            break;
+                        case SingletonLevel.NotNull:
+                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"public {this.TypeName} {this.Name}");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"get => _{this.Name};");
+                                fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.ObjectTypeName}();");
+                            }
+                            break;
+                        case SingletonLevel.Singleton:
+                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
             }
         }
 
         protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {(this.Notifying == NotifyingOption.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
+                $"{prepend} = {(this.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
             {
                 switch (this.SingletonType)
                 {
@@ -466,7 +469,7 @@ namespace Loqui.Generation
                 return;
             }
 
-            if (this.Notifying == NotifyingOption.None)
+            if (this.Bare)
             {
                 fg.AppendLine($"switch ({copyMaskAccessor}?.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
                 using (new BraceWrapper(fg))
@@ -521,7 +524,7 @@ namespace Loqui.Generation
             {
                 args.Add($"{rhsAccessorPrefix}.{this.Property}");
                 args.Add($"{defaultFallbackAccessor}?.{this.Property}");
-                if (this.Notifying == NotifyingOption.Notifying)
+                if (this.Notifying)
                 {
                     args.Add($"cmds");
                 }
@@ -725,18 +728,27 @@ namespace Loqui.Generation
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
-            switch (this.Notifying)
+            if (this.Notifying)
             {
-                case NotifyingOption.None:
-                    break;
-                case NotifyingOption.HasBeenSet:
-                    fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                    break;
-                case NotifyingOption.Notifying:
+                if (this.HasBeenSet)
+                {
                     fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                    break;
-                default:
+                }
+                else
+                {
                     throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
+                    fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                }
+                else
+                {
+                    return;
+                }
             }
             fg.AppendLine();
         }
@@ -817,7 +829,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            if (this.Notifying == NotifyingOption.None)
+            if (this.Bare)
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
                 if (this.TargetObjectGeneration == null)
@@ -862,11 +874,11 @@ namespace Loqui.Generation
         {
             if (this.TargetObjectGeneration == null)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Notifying == NotifyingOption.None ? "true" : $"{accessor}.HasBeenSet")}, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Bare ? "true" : $"{accessor}.HasBeenSet")}, null);");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Notifying == NotifyingOption.None ? "true" : $"{accessor}.HasBeenSet")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Notifying == NotifyingOption.None ? accessor : $"{accessor}.Item")}));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Bare ? "true" : $"{accessor}.HasBeenSet")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Bare ? accessor : $"{accessor}.Item")}));");
             }
         }
 

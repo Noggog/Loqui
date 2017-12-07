@@ -17,6 +17,7 @@ namespace Loqui.Generation
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
         public const string RAISE_PROPERTY_CHANGED = "raisePropertyChanged";
         public const string NOTIFYING = "notifying";
+        public const string HAS_BEEN_SET = "hasBeenSet";
         public const string MIN = "min";
         public const string MAX = "max";
         public const string RANGE_THROW_EXCEPTION = "rangeThrowException";

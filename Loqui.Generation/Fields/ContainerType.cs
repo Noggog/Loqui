@@ -115,7 +115,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            if (this.Notifying == NotifyingOption.None)
+            if (this.Bare)
             {
                 this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
             }

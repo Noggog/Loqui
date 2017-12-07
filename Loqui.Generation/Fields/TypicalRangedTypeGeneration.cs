@@ -37,26 +37,40 @@ namespace Loqui.Generation
                 base.GenerateForClass(fg);
                 return;
             }
-            switch (this.Notifying)
+            if (this.Notifying)
             {
-                case NotifyingOption.None:
-                    fg.AppendLine($"private {TypeName} _{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name}");
+                if (this.HasBeenSet)
+                {
+                    if (this.RaisePropertyChanged)
+                    {
+                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg);
+                    }
+                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => _{this.Name};");
-                        fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"this._{ this.Name} = value{InRangeCheckerString};");
-                            if (this.RaisePropertyChanged)
-                            {
-                                fg.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
-                            }
-                        }
+                        fg.AppendLine($"get => this._{ this.Name}.Item;");
+                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                     }
-                    break;
-                case NotifyingOption.HasBeenSet:
+                    if (!this.Protected)
+                    {
+                        fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
                     if (!this.TrueReadOnly)
                     {
                         if (this.RaisePropertyChanged)
@@ -83,31 +97,25 @@ namespace Loqui.Generation
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                     }
-                    break;
-                case NotifyingOption.Notifying:
-                    if (this.RaisePropertyChanged)
-                    {
-                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
-                    }
-                    else
-                    {
-                        GenerateNotifyingCtor(fg);
-                    }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                }
+                else
+                {
+                    fg.AppendLine($"private {TypeName} _{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
+                        fg.AppendLine($"get => _{this.Name};");
+                        fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"this._{ this.Name} = value{InRangeCheckerString};");
+                            if (this.RaisePropertyChanged)
+                            {
+                                fg.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
+                            }
+                        }
                     }
-                    if (!this.Protected)
-                    {
-                        fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    break;
-                default:
-                    throw new NotImplementedException();
+                }
             }
 
             if (this.HasRange)

@@ -410,7 +410,7 @@ namespace Loqui.Generation
 
                     if (!generator.ShouldGenerateWrite(field.Field)) continue;
 
-                    if (field.Field.Notifying != NotifyingOption.None)
+                    if (!field.Field.Bare)
                     {
                         fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
                     }

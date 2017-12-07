@@ -13,22 +13,7 @@ namespace Loqui.Generation
         public bool Singleton;
         public bool Readonly;
         public override bool Copy => base.Copy && !this.Singleton;
-        public override string ProtectedName
-        {
-            get
-            {
-                switch (this.Notifying)
-                {
-                    case NotifyingOption.None:
-                        return $"_{this.Name}";
-                    case NotifyingOption.HasBeenSet:
-                    case NotifyingOption.Notifying:
-                        return $"{this.ProtectedProperty}.Item";
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-        }
+        public override string ProtectedName => this.Notifying ? $"{this.ProtectedProperty}.Item" : $"_{this.Name}";
 
         public abstract string GetNewForNonNullable();
 
@@ -71,9 +56,69 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
-            switch (this.Notifying)
+            if (this.Notifying)
             {
-                case NotifyingOption.None:
+                if (this.HasBeenSet)
+                {
+                    if (this.RaisePropertyChanged)
+                    {
+                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg);
+                    }
+                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this._{ this.Name}.Item;");
+                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                    }
+                    if (!this.Protected)
+                    {
+                        fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
+                    if (!this.TrueReadOnly)
+                    {
+                        if (this.RaisePropertyChanged)
+                        {
+                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
+                        }
+                        else
+                        {
+                            GenerateNotifyingCtor(fg);
+                        }
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => this._{ this.Name}.Item;");
+                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        }
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                    }
+                }
+                else
+                {
                     fg.AppendLine($"private {TypeName} _{this.Name}{(this.Nullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
                     fg.AppendLine($"public {TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
@@ -101,59 +146,7 @@ namespace Loqui.Generation
                             }
                         }
                     }
-                    break;
-                case NotifyingOption.HasBeenSet:
-                    if (!this.TrueReadOnly)
-                    {
-                        if (this.RaisePropertyChanged)
-                        {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
-                        }
-                        else
-                        {
-                            GenerateNotifyingCtor(fg);
-                        }
-                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"get => this._{ this.Name}.Item;");
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
-                        }
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
-                    }
-                    break;
-                case NotifyingOption.Notifying:
-                    if (this.RaisePropertyChanged)
-                    {
-                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
-                    }
-                    else
-                    {
-                        GenerateNotifyingCtor(fg);
-                    }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
-                    }
-                    if (!this.Protected)
-                    {
-                        fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    break;
-                default:
-                    throw new NotImplementedException();
+                }
             }
         }
 
