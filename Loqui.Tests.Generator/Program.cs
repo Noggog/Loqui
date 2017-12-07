@@ -30,7 +30,7 @@ namespace Loqui.Tests.Generator
                     gen,
                     gen.ProtocolDefault));
 
-            gen.Generate();
+            gen.Generate().Wait();
         }
     }
 }
