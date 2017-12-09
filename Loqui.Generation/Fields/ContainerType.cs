@@ -113,7 +113,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!{this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (this.Bare)
             {
@@ -153,7 +153,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{maskStr} itemRet;");
-                    LoquiTypeSingleton.GenerateForEqualsMask(fg, "l", "r", "itemRet");
+                    LoquiTypeSingleton.GenerateForEqualsMask(fg, new Accessor("l"), new Accessor("r"), "itemRet");
                     fg.AppendLine("return itemRet;");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");

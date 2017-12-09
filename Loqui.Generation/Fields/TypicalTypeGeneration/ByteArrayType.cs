@@ -24,16 +24,16 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!{this.Name}.EqualsFast({rhsAccessor}.{this.Name})) return false;");
         }
         
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (!this.IntegrateField) return;
-            if (this.Bare)
+            if (this.HasBeenSet)
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.EqualsFast({rhsAccessor});");
+                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l.EqualsFast(r));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => l.EqualsFast(r));");
+                fg.AppendLine($"{retAccessor} = {accessor.DirectAccess}.EqualsFast({rhsAccessor.DirectAccess});");
             }
         }
 

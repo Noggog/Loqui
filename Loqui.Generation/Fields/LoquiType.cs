@@ -820,18 +820,18 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!object.Equals({this.Name}, {rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (this.Bare)
             {
                 fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
                 if (this.TargetObjectGeneration == null)
                 {
-                    fg.AppendLine($"{retAccessor}.Overall = object.Equals({accessor}, {rhsAccessor});");
+                    fg.AppendLine($"{retAccessor}.Overall = object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor}, {rhsAccessor});");
+                    fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
                     fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual((b) => b);");
                 }
             }
@@ -840,11 +840,11 @@ namespace Loqui.Generation
                 if (this.TargetObjectGeneration == null)
                 {
                     fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
-                    fg.AppendLine($"{retAccessor}.Overall = {accessor}.Equals({rhsAccessor}, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));");
+                    fg.AppendLine($"{retAccessor}.Overall = {accessor.PropertyOrDirectAccess}.Equals({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));");
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = {accessor}.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({rhsAccessor}, (loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs));");
+                    fg.AppendLine($"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs));");
                 }
             }
         }

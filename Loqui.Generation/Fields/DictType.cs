@@ -137,7 +137,7 @@ namespace Loqui.Generation
             subGenerator.GenerateForEquals(fg, rhsAccessor);
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
         }

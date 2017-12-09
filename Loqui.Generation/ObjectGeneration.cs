@@ -1556,7 +1556,11 @@ namespace Loqui.Generation
                 {
                     if (!HasKeyField() || field.KeyField)
                     {
-                        field.GenerateForEqualsMask(fg, $"item.{field.PropertyOrName}", $"rhs.{field.PropertyOrName}", $"ret.{field.Name}");
+                        field.GenerateForEqualsMask(
+                            fg,
+                            new Accessor(field, $"item."),
+                            new Accessor(field, "rhs."),
+                            $"ret.{field.Name}");
                     }
                 }
                 if (this.HasBaseObject)

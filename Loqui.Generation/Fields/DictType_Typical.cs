@@ -319,7 +319,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!{this.Name}.SequenceEqual({rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (this.Bare)
             {
@@ -365,8 +365,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
                     fg.AppendLine($"{valMaskStr} valItemRet;");
-                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
-                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    keyLoqui.GenerateForEqualsMask(fg, new Accessor("l.Key"), new Accessor("r.Key"), "keyItemRet");
+                    valLoqui.GenerateForEqualsMask(fg, new Accessor("l.Value"), new Accessor("r.Value"), "valItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
@@ -381,7 +381,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
                     fg.AppendLine($"bool valItemRet = object.Equals(l.Value, r.Value);");
-                    keyLoqui.GenerateForEqualsMask(fg, "l.Key", "r.Key", "keyItemRet");
+                    keyLoqui.GenerateForEqualsMask(fg, new Accessor("l.Key"), new Accessor("r.Key"), "keyItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");
@@ -396,7 +396,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"bool keyItemRet = object.Equals(l.Key, r.Key);");
                     fg.AppendLine($"{valMaskStr} valItemRet;");
-                    valLoqui.GenerateForEqualsMask(fg, "l.Value", "r.Value", "valItemRet");
+                    valLoqui.GenerateForEqualsMask(fg, new Accessor("l.Value"), new Accessor("r.Value"), "valItemRet");
                     fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
                 }
                 fg.AppendLine($"), out {retAccessor}.Overall);");

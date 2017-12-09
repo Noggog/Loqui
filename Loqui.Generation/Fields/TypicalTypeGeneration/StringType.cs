@@ -13,15 +13,15 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!object.Equals({this.Name}, {rhsAccessor}.{this.Name})) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (this.Bare)
             {
-                fg.AppendLine($"{retAccessor} = object.Equals({accessor}, {rhsAccessor});");
+                fg.AppendLine($"{retAccessor} = object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => object.Equals(l, r));");
+                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => object.Equals(l, r));");
             }
         }
     }

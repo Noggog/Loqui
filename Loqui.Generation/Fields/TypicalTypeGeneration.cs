@@ -304,7 +304,7 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name} = default({this.TypeName});");
+                    fg.AppendLine($"{accessorPrefix}.{this.Property}.Unset();");
                 }
                 else
                 {
@@ -359,16 +359,16 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({this.Name} != {rhsAccessor}.{this.Name}) return false;");
         }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (!this.IntegrateField) return;
-            if (this.Bare)
+            if (this.HasBeenSet)
             {
-                fg.AppendLine($"{retAccessor} = {accessor} == {rhsAccessor};");
+                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l == r);");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.Equals({rhsAccessor}, (l, r) => l == r);");
+                fg.AppendLine($"{retAccessor} = {accessor.DirectAccess} == {rhsAccessor.DirectAccess};");
             }
         }
 

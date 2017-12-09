@@ -125,7 +125,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForEquals(FileGeneration fg, string rhsAccessor);
 
-        public abstract void GenerateForEqualsMask(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor);
+        public abstract void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor);
 
         public abstract void GenerateForHash(FileGeneration fg, string hashResultAccessor);
 
@@ -160,7 +160,14 @@ namespace Loqui.Generation
         public virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"return obj.{this.HasBeenSetAccessor};");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"return obj.{this.HasBeenSetAccessor};");
+            }
+            else
+            {
+                fg.AppendLine("return true;");
+            }
         }
 
         public virtual string GetName(bool internalUse, bool property)
