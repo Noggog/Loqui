@@ -33,6 +33,12 @@ namespace Loqui
             LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_RPC_Registration.Instance);
             LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Abstract_Registration.Instance);
             LoquiRegistration.Register(Loqui.Tests.Internals.TestGenericSpecification_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_Derivative_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_Derivative_RPC_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_ReadOnly_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration.Instance);
+            LoquiRegistration.Register(Loqui.Tests.Internals.TestObject_Notifying_HasBeenSet_RPC_Registration.Instance);
         }
     }
 }

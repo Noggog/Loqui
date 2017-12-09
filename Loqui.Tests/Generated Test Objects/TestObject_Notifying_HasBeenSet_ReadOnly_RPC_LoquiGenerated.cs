@@ -13,7 +13,6 @@ using Noggog;
 using Noggog.Notifying;
 using Loqui.Tests.Internals;
 using Loqui.Tests;
-using System.ComponentModel;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -24,362 +23,22 @@ using System.Diagnostics;
 namespace Loqui.Tests
 {
     #region Class
-    public partial class TestObject_HasBeenSet_Derivative_RPC : ITestObject_HasBeenSet_Derivative_RPC, ILoquiObjectSetter, INotifyPropertyChanged, IEquatable<TestObject_HasBeenSet_Derivative_RPC>
+    public partial class TestObject_Notifying_HasBeenSet_ReadOnly_RPC : ITestObject_Notifying_HasBeenSet_ReadOnly_RPC, ILoquiObjectSetter, IEquatable<TestObject_Notifying_HasBeenSet_ReadOnly_RPC>
     {
-        ILoquiRegistration ILoquiObject.Registration => TestObject_HasBeenSet_Derivative_RPC_Registration.Instance;
-        public static TestObject_HasBeenSet_Derivative_RPC_Registration Registration => TestObject_HasBeenSet_Derivative_RPC_Registration.Instance;
-
-        #region PropertyChangedHandler
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string name)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
+        ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration.Instance;
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration Registration => TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration.Instance;
 
         #region Ctor
-        public TestObject_HasBeenSet_Derivative_RPC()
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC()
         {
-            _ByteArray = HasBeenSetItem.Factory<Byte[]>(
-                onSet: (i) => this.OnPropertyChanged(nameof(ByteArray)),
-                markAsSet: false,
-                noNullFallback: () => new byte[4]);
-            _ByteArrayNull = HasBeenSetItem.Factory<Byte[]>(
-                onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNull)),
-                markAsSet: false);
-            _ByteArrayNotNull = HasBeenSetItem.Factory<Byte[]>(
-                onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNotNull)),
-                markAsSet: false,
-                noNullFallback: () => new byte[3]);
-            _ByteArraySingleton = HasBeenSetItem.Factory<Byte[]>(
-                onSet: (i) => this.OnPropertyChanged(nameof(ByteArraySingleton)),
-                markAsSet: true,
-                noNullFallback: () => new byte[3]);
-            _BoolN = HasBeenSetItem.Factory<Boolean?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(BoolN)),
-                markAsSet: false);
-            _Bool = HasBeenSetItem.Factory<Boolean>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Bool)),
-                markAsSet: false);
-            _CharN = HasBeenSetItem.Factory<Char?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(CharN)),
-                markAsSet: false);
-            _Char = HasBeenSetItem.Factory<Char>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Char)),
-                markAsSet: false);
-            _DateTimeNull = HasBeenSetItem.Factory<DateTime?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DateTimeNull)),
-                markAsSet: false);
-            _DateTime = HasBeenSetItem.Factory<DateTime>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DateTime)),
-                markAsSet: false);
-            _DoubleN = HasBeenSetItem.Factory<Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DoubleN)),
-                markAsSet: false);
-            _DoubleN_Ranged = HasBeenSetItem.Factory<Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DoubleN_Ranged)),
-                markAsSet: false);
-            _Double = HasBeenSetItem.Factory<Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Double)),
-                markAsSet: false);
-            _Double_Ranged = HasBeenSetItem.Factory<Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Double_Ranged)),
-                markAsSet: false);
-            _FloatN = HasBeenSetItem.Factory<Single?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FloatN)),
-                markAsSet: false);
-            _FloatN_Ranged = HasBeenSetItem.Factory<Single?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FloatN_Ranged)),
-                markAsSet: false);
-            _Float = HasBeenSetItem.Factory<Single>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Float)),
-                markAsSet: false);
-            _Float_Ranged = HasBeenSetItem.Factory<Single>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Float_Ranged)),
-                markAsSet: false);
-            _Int16N = HasBeenSetItem.Factory<Int16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16N)),
-                markAsSet: false);
-            _Int16N_Ranged = HasBeenSetItem.Factory<Int16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16N_Ranged)),
-                markAsSet: false);
-            _Int16 = HasBeenSetItem.Factory<Int16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16)),
-                markAsSet: false);
-            _Int16_Ranged = HasBeenSetItem.Factory<Int16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16_Ranged)),
-                markAsSet: false);
-            _Int32N = HasBeenSetItem.Factory<Int32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32N)),
-                markAsSet: false);
-            _Int32N_Ranged = HasBeenSetItem.Factory<Int32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32N_Ranged)),
-                markAsSet: false);
-            _Int32 = HasBeenSetItem.Factory<Int32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32)),
-                markAsSet: false);
-            _Int32_Ranged = HasBeenSetItem.Factory<Int32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32_Ranged)),
-                markAsSet: false);
-            _Int64N = HasBeenSetItem.Factory<Int64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64N)),
-                markAsSet: false);
-            _Int64N_Ranged = HasBeenSetItem.Factory<Int64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64N_Ranged)),
-                markAsSet: false);
-            _Int64 = HasBeenSetItem.Factory<Int64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64)),
-                markAsSet: false);
-            _Int64_Ranged = HasBeenSetItem.Factory<Int64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64_Ranged)),
-                markAsSet: false);
-            _Int8N = HasBeenSetItem.Factory<SByte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8N)),
-                markAsSet: false);
-            _Int8N_Ranged = HasBeenSetItem.Factory<SByte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8N_Ranged)),
-                markAsSet: false);
-            _Int8 = HasBeenSetItem.Factory<SByte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8)),
-                markAsSet: false);
-            _Int8_Ranged = HasBeenSetItem.Factory<SByte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8_Ranged)),
-                markAsSet: false);
-            _Unsafe = HasBeenSetItem.Factory<bool>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Unsafe)),
-                markAsSet: false);
-            _UnsafeLoqui = HasBeenSetItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UnsafeLoqui)),
-                markAsSet: false);
-            _UnsafeNull = HasBeenSetItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UnsafeNull)),
-                markAsSet: false);
-            _P2IntN = HasBeenSetItem.Factory<P2Int?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P2IntN)),
-                markAsSet: false);
-            _P2Int = HasBeenSetItem.Factory<P2Int>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P2Int)),
-                markAsSet: false);
-            _P3DoubleN = HasBeenSetItem.Factory<P3Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3DoubleN)),
-                markAsSet: false);
-            _P3Double = HasBeenSetItem.Factory<P3Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3Double)),
-                markAsSet: false);
-            _P3IntN = HasBeenSetItem.Factory<P3Int?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3IntN)),
-                markAsSet: false);
-            _P3Int = HasBeenSetItem.Factory<P3Int>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3Int)),
-                markAsSet: false);
-            _PercentN = HasBeenSetItem.Factory<Percent?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(PercentN)),
-                markAsSet: false);
-            _Percent = HasBeenSetItem.Factory<Percent>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Percent)),
-                markAsSet: false);
-            _RangeInt8N = HasBeenSetItem.Factory<RangeInt8?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8N)),
-                markAsSet: false);
-            _RangeInt8 = HasBeenSetItem.Factory<RangeInt8>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8)),
-                markAsSet: false);
-            _RangeInt16N = HasBeenSetItem.Factory<RangeInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16N)),
-                markAsSet: false);
-            _RangeInt16 = HasBeenSetItem.Factory<RangeInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16)),
-                markAsSet: false);
-            _RangeInt32N = HasBeenSetItem.Factory<RangeInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32N)),
-                markAsSet: false);
-            _RangeInt32 = HasBeenSetItem.Factory<RangeInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32)),
-                markAsSet: false);
-            _RangeInt64N = HasBeenSetItem.Factory<RangeInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64N)),
-                markAsSet: false);
-            _RangeInt64 = HasBeenSetItem.Factory<RangeInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64)),
-                markAsSet: false);
-            _RangeUInt8N = HasBeenSetItem.Factory<RangeUInt8?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8N)),
-                markAsSet: false);
-            _RangeUInt8 = HasBeenSetItem.Factory<RangeUInt8>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8)),
-                markAsSet: false);
-            _RangeUInt16N = HasBeenSetItem.Factory<RangeUInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16N)),
-                markAsSet: false);
-            _RangeUInt16 = HasBeenSetItem.Factory<RangeUInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16)),
-                markAsSet: false);
-            _RangeUInt32N = HasBeenSetItem.Factory<RangeUInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32N)),
-                markAsSet: false);
-            _RangeUInt32 = HasBeenSetItem.Factory<RangeUInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32)),
-                markAsSet: false);
-            _RangeUInt64N = HasBeenSetItem.Factory<RangeUInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64N)),
-                markAsSet: false);
-            _RangeUInt64 = HasBeenSetItem.Factory<RangeUInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64)),
-                markAsSet: false);
-            _String = HasBeenSetItem.Factory<String>(
-                onSet: (i) => this.OnPropertyChanged(nameof(String)),
-                markAsSet: false);
-            _FilePath = HasBeenSetItem.Factory<FilePath>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FilePath)),
-                markAsSet: false);
-            _FilePathNull = HasBeenSetItem.Factory<FilePath?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FilePathNull)),
-                markAsSet: false);
-            _DirectoryPath = HasBeenSetItem.Factory<DirectoryPath>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPath)),
-                markAsSet: false);
-            _DirectoryPathNull = HasBeenSetItem.Factory<DirectoryPath?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPathNull)),
-                markAsSet: false);
-            _UDoubleN = HasBeenSetItem.Factory<UDouble?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN)),
-                markAsSet: false);
-            _UDoubleN_Ranged = HasBeenSetItem.Factory<UDouble?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN_Ranged)),
-                markAsSet: false);
-            _UDouble = HasBeenSetItem.Factory<UDouble>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDouble)),
-                markAsSet: false);
-            _UDouble_Ranged = HasBeenSetItem.Factory<UDouble>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDouble_Ranged)),
-                markAsSet: false);
-            _UInt16N = HasBeenSetItem.Factory<UInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16N)),
-                markAsSet: false);
-            _UInt16N_Ranged = HasBeenSetItem.Factory<UInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16N_Ranged)),
-                markAsSet: false);
-            _UInt16 = HasBeenSetItem.Factory<UInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16)),
-                markAsSet: false);
-            _UInt16_Ranged = HasBeenSetItem.Factory<UInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16_Ranged)),
-                markAsSet: false);
-            _UInt32N = HasBeenSetItem.Factory<UInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32N)),
-                markAsSet: false);
-            _UInt32N_Ranged = HasBeenSetItem.Factory<UInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32N_Ranged)),
-                markAsSet: false);
-            _UInt32 = HasBeenSetItem.Factory<UInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32)),
-                markAsSet: false);
-            _UInt32_Ranged = HasBeenSetItem.Factory<UInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32_Ranged)),
-                markAsSet: false);
-            _UInt64N = HasBeenSetItem.Factory<UInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64N)),
-                markAsSet: false);
-            _UInt64N_Ranged = HasBeenSetItem.Factory<UInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64N_Ranged)),
-                markAsSet: false);
-            _UInt64 = HasBeenSetItem.Factory<UInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64)),
-                markAsSet: false);
-            _UInt64_Ranged = HasBeenSetItem.Factory<UInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64_Ranged)),
-                markAsSet: false);
-            _UInt8N = HasBeenSetItem.Factory<Byte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8N)),
-                markAsSet: false);
-            _UInt8N_Ranged = HasBeenSetItem.Factory<Byte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8N_Ranged)),
-                markAsSet: false);
-            _UInt8 = HasBeenSetItem.Factory<Byte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8)),
-                markAsSet: false);
-            _UInt8_Ranged = HasBeenSetItem.Factory<Byte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8_Ranged)),
-                markAsSet: false);
-            _Enum = HasBeenSetItem.Factory<TestEnum>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Enum)),
-                markAsSet: false);
-            _EnumNull = HasBeenSetItem.Factory<TestEnum?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(EnumNull)),
-                markAsSet: false);
-            _WildCard = HasBeenSetItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCard)),
-                markAsSet: false);
-            _WildCardLoqui = HasBeenSetItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCardLoqui)),
-                markAsSet: false);
-            _WildCardNull = HasBeenSetItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCardNull)),
-                markAsSet: false);
-            _Ref = HasBeenSetItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
-                markAsSet: false);
-            _Ref = HasBeenSetItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
-                markAsSet: false);
-            _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
-                markAsSet: false);
-            _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
-                markAsSet: false);
-            _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
-            _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
-                defaultVal: _Ref_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
-                markAsSet: true);
-            _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
-                markAsSet: false);
-            _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
-                markAsSet: false);
-            _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
-            _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
-            _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
-            _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
-                defaultVal: _RefGetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
-                markAsSet: true);
-            _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
-                markAsSet: false);
-            _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
-                markAsSet: false);
-            _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
-            _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
-            _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
-                markAsSet: true);
-            _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
-                defaultVal: _RefSetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
             CustomCtor();
         }
@@ -387,1117 +46,1044 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArray;
-        public IHasBeenSetItem<Byte[]> ByteArray_Property => _ByteArray;
+        protected readonly INotifyingItem<Byte[]> _ByteArray = NotifyingSetItem.Factory<Byte[]>(
+            markAsSet: false,
+            noNullFallback: () => new byte[4]);
+        public INotifyingSetItemGetter<Byte[]> ByteArray_Property => _ByteArray;
         public Byte[] ByteArray
         {
             get => this._ByteArray.Item;
             protected set => this._ByteArray.Set(value);
         }
-        Byte[] ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArray => this.ByteArray;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArray_Property => this.ByteArray_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNull;
-        public IHasBeenSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingSetItem.Factory<Byte[]>(markAsSet: false);
+        public INotifyingSetItemGetter<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
             get => this._ByteArrayNull.Item;
             protected set => this._ByteArrayNull.Set(value);
         }
-        Byte[] ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArrayNull => this.ByteArrayNull;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNotNull;
-        public IHasBeenSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingSetItem.Factory<Byte[]>(
+            markAsSet: false,
+            noNullFallback: () => new byte[3]);
+        public INotifyingSetItemGetter<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
         public Byte[] ByteArrayNotNull
         {
             get => this._ByteArrayNotNull.Item;
             protected set => this._ByteArrayNotNull.Set(value);
         }
-        Byte[] ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArrayNotNull => this.ByteArrayNotNull;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArraySingleton;
-        public IHasBeenSetItem<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
+        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingSetItem.Factory<Byte[]>(
+            markAsSet: true,
+            noNullFallback: () => new byte[3]);
+        public INotifyingSetItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
         public Byte[] ByteArraySingleton
         {
             get => this._ByteArraySingleton.Item;
             protected set => this._ByteArraySingleton.Set(value);
         }
-        Byte[] ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArraySingleton => this.ByteArraySingleton;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_Derivative_RPCGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
-        protected readonly IHasBeenSetItem<Boolean?> _BoolN;
-        public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
+        protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingSetItem.Factory<Boolean?>(markAsSet: false);
+        public INotifyingSetItemGetter<Boolean?> BoolN_Property => _BoolN;
         public Boolean? BoolN
         {
             get => this._BoolN.Item;
             protected set => this._BoolN.Set(value);
         }
-        Boolean? ITestObject_HasBeenSet_Derivative_RPCGetter.BoolN => this.BoolN;
-        IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSet_Derivative_RPCGetter.BoolN_Property => this.BoolN_Property;
+        INotifyingSetItemGetter<Boolean?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
-        protected readonly IHasBeenSetItem<Boolean> _Bool;
-        public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
+        protected readonly INotifyingItem<Boolean> _Bool = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        public INotifyingSetItemGetter<Boolean> Bool_Property => _Bool;
         public Boolean Bool
         {
             get => this._Bool.Item;
             protected set => this._Bool.Set(value);
         }
-        Boolean ITestObject_HasBeenSet_Derivative_RPCGetter.Bool => this.Bool;
-        IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSet_Derivative_RPCGetter.Bool_Property => this.Bool_Property;
+        INotifyingSetItemGetter<Boolean> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
-        protected readonly IHasBeenSetItem<Char?> _CharN;
-        public IHasBeenSetItem<Char?> CharN_Property => _CharN;
+        protected readonly INotifyingItem<Char?> _CharN = NotifyingSetItem.Factory<Char?>(markAsSet: false);
+        public INotifyingSetItemGetter<Char?> CharN_Property => _CharN;
         public Char? CharN
         {
             get => this._CharN.Item;
             protected set => this._CharN.Set(value);
         }
-        Char? ITestObject_HasBeenSet_Derivative_RPCGetter.CharN => this.CharN;
-        IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSet_Derivative_RPCGetter.CharN_Property => this.CharN_Property;
+        INotifyingSetItemGetter<Char?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
-        protected readonly IHasBeenSetItem<Char> _Char;
-        public IHasBeenSetItem<Char> Char_Property => _Char;
+        protected readonly INotifyingItem<Char> _Char = NotifyingSetItem.Factory<Char>(markAsSet: false);
+        public INotifyingSetItemGetter<Char> Char_Property => _Char;
         public Char Char
         {
             get => this._Char.Item;
             protected set => this._Char.Set(value);
         }
-        Char ITestObject_HasBeenSet_Derivative_RPCGetter.Char => this.Char;
-        IHasBeenSetItemGetter<Char> ITestObject_HasBeenSet_Derivative_RPCGetter.Char_Property => this.Char_Property;
+        INotifyingSetItemGetter<Char> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
-        protected readonly IHasBeenSetItem<DateTime?> _DateTimeNull;
-        public IHasBeenSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
+        protected readonly INotifyingItem<DateTime?> _DateTimeNull = NotifyingSetItem.Factory<DateTime?>(markAsSet: false);
+        public INotifyingSetItemGetter<DateTime?> DateTimeNull_Property => _DateTimeNull;
         public DateTime? DateTimeNull
         {
             get => this._DateTimeNull.Item;
             protected set => this._DateTimeNull.Set(value);
         }
-        DateTime? ITestObject_HasBeenSet_Derivative_RPCGetter.DateTimeNull => this.DateTimeNull;
-        IHasBeenSetItemGetter<DateTime?> ITestObject_HasBeenSet_Derivative_RPCGetter.DateTimeNull_Property => this.DateTimeNull_Property;
+        INotifyingSetItemGetter<DateTime?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
-        protected readonly IHasBeenSetItem<DateTime> _DateTime;
-        public IHasBeenSetItem<DateTime> DateTime_Property => _DateTime;
+        protected readonly INotifyingItem<DateTime> _DateTime = NotifyingSetItem.Factory<DateTime>(markAsSet: false);
+        public INotifyingSetItemGetter<DateTime> DateTime_Property => _DateTime;
         public DateTime DateTime
         {
             get => this._DateTime.Item;
             protected set => this._DateTime.Set(value);
         }
-        DateTime ITestObject_HasBeenSet_Derivative_RPCGetter.DateTime => this.DateTime;
-        IHasBeenSetItemGetter<DateTime> ITestObject_HasBeenSet_Derivative_RPCGetter.DateTime_Property => this.DateTime_Property;
+        INotifyingSetItemGetter<DateTime> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
-        protected readonly IHasBeenSetItem<Double?> _DoubleN;
-        public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
+        protected readonly INotifyingItem<Double?> _DoubleN = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        public INotifyingSetItemGetter<Double?> DoubleN_Property => _DoubleN;
         public Double? DoubleN
         {
             get => this._DoubleN.Item;
             protected set => this._DoubleN.Set(value);
         }
-        Double? ITestObject_HasBeenSet_Derivative_RPCGetter.DoubleN => this.DoubleN;
-        IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSet_Derivative_RPCGetter.DoubleN_Property => this.DoubleN_Property;
+        INotifyingSetItemGetter<Double?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region DoubleN_Ranged
-        protected readonly IHasBeenSetItem<Double?> _DoubleN_Ranged;
-        public IHasBeenSetItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
+        protected readonly INotifyingItem<Double?> _DoubleN_Ranged = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        public INotifyingSetItemGetter<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
         public Double? DoubleN_Ranged
         {
             get => this._DoubleN_Ranged.Item;
             protected set => this._DoubleN_Ranged.Set(value?.PutInRange(DoubleN_Ranged_Range.Min, DoubleN_Ranged_Range.Max));
         }
-        Double? ITestObject_HasBeenSet_Derivative_RPCGetter.DoubleN_Ranged => this.DoubleN_Ranged;
-        IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSet_Derivative_RPCGetter.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
+        INotifyingSetItemGetter<Double?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
         public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region Double
-        protected readonly IHasBeenSetItem<Double> _Double;
-        public IHasBeenSetItem<Double> Double_Property => _Double;
+        protected readonly INotifyingItem<Double> _Double = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        public INotifyingSetItemGetter<Double> Double_Property => _Double;
         public Double Double
         {
             get => this._Double.Item;
             protected set => this._Double.Set(value);
         }
-        Double ITestObject_HasBeenSet_Derivative_RPCGetter.Double => this.Double;
-        IHasBeenSetItemGetter<Double> ITestObject_HasBeenSet_Derivative_RPCGetter.Double_Property => this.Double_Property;
+        INotifyingSetItemGetter<Double> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Double_Property => this.Double_Property;
         #endregion
         #region Double_Ranged
-        protected readonly IHasBeenSetItem<Double> _Double_Ranged;
-        public IHasBeenSetItem<Double> Double_Ranged_Property => _Double_Ranged;
+        protected readonly INotifyingItem<Double> _Double_Ranged = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        public INotifyingSetItemGetter<Double> Double_Ranged_Property => _Double_Ranged;
         public Double Double_Ranged
         {
             get => this._Double_Ranged.Item;
             protected set => this._Double_Ranged.Set(value.PutInRange(Double_Ranged_Range.Min, Double_Ranged_Range.Max));
         }
-        Double ITestObject_HasBeenSet_Derivative_RPCGetter.Double_Ranged => this.Double_Ranged;
-        IHasBeenSetItemGetter<Double> ITestObject_HasBeenSet_Derivative_RPCGetter.Double_Ranged_Property => this.Double_Ranged_Property;
+        INotifyingSetItemGetter<Double> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Double_Ranged_Property => this.Double_Ranged_Property;
         public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
-        protected readonly IHasBeenSetItem<Single?> _FloatN;
-        public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
+        protected readonly INotifyingItem<Single?> _FloatN = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        public INotifyingSetItemGetter<Single?> FloatN_Property => _FloatN;
         public Single? FloatN
         {
             get => this._FloatN.Item;
             protected set => this._FloatN.Set(value);
         }
-        Single? ITestObject_HasBeenSet_Derivative_RPCGetter.FloatN => this.FloatN;
-        IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSet_Derivative_RPCGetter.FloatN_Property => this.FloatN_Property;
+        INotifyingSetItemGetter<Single?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region FloatN_Ranged
-        protected readonly IHasBeenSetItem<Single?> _FloatN_Ranged;
-        public IHasBeenSetItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
+        protected readonly INotifyingItem<Single?> _FloatN_Ranged = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        public INotifyingSetItemGetter<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
         public Single? FloatN_Ranged
         {
             get => this._FloatN_Ranged.Item;
             protected set => this._FloatN_Ranged.Set(value?.PutInRange(FloatN_Ranged_Range.Min, FloatN_Ranged_Range.Max));
         }
-        Single? ITestObject_HasBeenSet_Derivative_RPCGetter.FloatN_Ranged => this.FloatN_Ranged;
-        IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSet_Derivative_RPCGetter.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
+        INotifyingSetItemGetter<Single?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
         public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Float
-        protected readonly IHasBeenSetItem<Single> _Float;
-        public IHasBeenSetItem<Single> Float_Property => _Float;
+        protected readonly INotifyingItem<Single> _Float = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        public INotifyingSetItemGetter<Single> Float_Property => _Float;
         public Single Float
         {
             get => this._Float.Item;
             protected set => this._Float.Set(value);
         }
-        Single ITestObject_HasBeenSet_Derivative_RPCGetter.Float => this.Float;
-        IHasBeenSetItemGetter<Single> ITestObject_HasBeenSet_Derivative_RPCGetter.Float_Property => this.Float_Property;
+        INotifyingSetItemGetter<Single> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Float_Property => this.Float_Property;
         #endregion
         #region Float_Ranged
-        protected readonly IHasBeenSetItem<Single> _Float_Ranged;
-        public IHasBeenSetItem<Single> Float_Ranged_Property => _Float_Ranged;
+        protected readonly INotifyingItem<Single> _Float_Ranged = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        public INotifyingSetItemGetter<Single> Float_Ranged_Property => _Float_Ranged;
         public Single Float_Ranged
         {
             get => this._Float_Ranged.Item;
             protected set => this._Float_Ranged.Set(value.PutInRange(Float_Ranged_Range.Min, Float_Ranged_Range.Max));
         }
-        Single ITestObject_HasBeenSet_Derivative_RPCGetter.Float_Ranged => this.Float_Ranged;
-        IHasBeenSetItemGetter<Single> ITestObject_HasBeenSet_Derivative_RPCGetter.Float_Ranged_Property => this.Float_Ranged_Property;
+        INotifyingSetItemGetter<Single> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Float_Ranged_Property => this.Float_Ranged_Property;
         public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
-        protected readonly IHasBeenSetItem<Int16?> _Int16N;
-        public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
+        protected readonly INotifyingItem<Int16?> _Int16N = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int16?> Int16N_Property => _Int16N;
         public Int16? Int16N
         {
             get => this._Int16N.Item;
             protected set => this._Int16N.Set(value);
         }
-        Int16? ITestObject_HasBeenSet_Derivative_RPCGetter.Int16N => this.Int16N;
-        IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int16N_Property => this.Int16N_Property;
+        INotifyingSetItemGetter<Int16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16N_Ranged
-        protected readonly IHasBeenSetItem<Int16?> _Int16N_Ranged;
-        public IHasBeenSetItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
+        protected readonly INotifyingItem<Int16?> _Int16N_Ranged = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
         public Int16? Int16N_Ranged
         {
             get => this._Int16N_Ranged.Item;
             protected set => this._Int16N_Ranged.Set(value?.PutInRange(Int16N_Ranged_Range.Min, Int16N_Ranged_Range.Max));
         }
-        Int16? ITestObject_HasBeenSet_Derivative_RPCGetter.Int16N_Ranged => this.Int16N_Ranged;
-        IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
+        INotifyingSetItemGetter<Int16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
         public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int16
-        protected readonly IHasBeenSetItem<Int16> _Int16;
-        public IHasBeenSetItem<Int16> Int16_Property => _Int16;
+        protected readonly INotifyingItem<Int16> _Int16 = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        public INotifyingSetItemGetter<Int16> Int16_Property => _Int16;
         public Int16 Int16
         {
             get => this._Int16.Item;
             protected set => this._Int16.Set(value);
         }
-        Int16 ITestObject_HasBeenSet_Derivative_RPCGetter.Int16 => this.Int16;
-        IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSet_Derivative_RPCGetter.Int16_Property => this.Int16_Property;
+        INotifyingSetItemGetter<Int16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int16_Ranged
-        protected readonly IHasBeenSetItem<Int16> _Int16_Ranged;
-        public IHasBeenSetItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
+        protected readonly INotifyingItem<Int16> _Int16_Ranged = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        public INotifyingSetItemGetter<Int16> Int16_Ranged_Property => _Int16_Ranged;
         public Int16 Int16_Ranged
         {
             get => this._Int16_Ranged.Item;
             protected set => this._Int16_Ranged.Set(value.PutInRange(Int16_Ranged_Range.Min, Int16_Ranged_Range.Max));
         }
-        Int16 ITestObject_HasBeenSet_Derivative_RPCGetter.Int16_Ranged => this.Int16_Ranged;
-        IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSet_Derivative_RPCGetter.Int16_Ranged_Property => this.Int16_Ranged_Property;
+        INotifyingSetItemGetter<Int16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int16_Ranged_Property => this.Int16_Ranged_Property;
         public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
-        protected readonly IHasBeenSetItem<Int32?> _Int32N;
-        public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
+        protected readonly INotifyingItem<Int32?> _Int32N = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int32?> Int32N_Property => _Int32N;
         public Int32? Int32N
         {
             get => this._Int32N.Item;
             protected set => this._Int32N.Set(value);
         }
-        Int32? ITestObject_HasBeenSet_Derivative_RPCGetter.Int32N => this.Int32N;
-        IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int32N_Property => this.Int32N_Property;
+        INotifyingSetItemGetter<Int32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32N_Ranged
-        protected readonly IHasBeenSetItem<Int32?> _Int32N_Ranged;
-        public IHasBeenSetItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
+        protected readonly INotifyingItem<Int32?> _Int32N_Ranged = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
         public Int32? Int32N_Ranged
         {
             get => this._Int32N_Ranged.Item;
             protected set => this._Int32N_Ranged.Set(value?.PutInRange(Int32N_Ranged_Range.Min, Int32N_Ranged_Range.Max));
         }
-        Int32? ITestObject_HasBeenSet_Derivative_RPCGetter.Int32N_Ranged => this.Int32N_Ranged;
-        IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
+        INotifyingSetItemGetter<Int32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
         public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int32
-        protected readonly IHasBeenSetItem<Int32> _Int32;
-        public IHasBeenSetItem<Int32> Int32_Property => _Int32;
+        protected readonly INotifyingItem<Int32> _Int32 = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingSetItemGetter<Int32> Int32_Property => _Int32;
         public Int32 Int32
         {
             get => this._Int32.Item;
             protected set => this._Int32.Set(value);
         }
-        Int32 ITestObject_HasBeenSet_Derivative_RPCGetter.Int32 => this.Int32;
-        IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSet_Derivative_RPCGetter.Int32_Property => this.Int32_Property;
+        INotifyingSetItemGetter<Int32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int32_Ranged
-        protected readonly IHasBeenSetItem<Int32> _Int32_Ranged;
-        public IHasBeenSetItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
+        protected readonly INotifyingItem<Int32> _Int32_Ranged = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingSetItemGetter<Int32> Int32_Ranged_Property => _Int32_Ranged;
         public Int32 Int32_Ranged
         {
             get => this._Int32_Ranged.Item;
             protected set => this._Int32_Ranged.Set(value.PutInRange(Int32_Ranged_Range.Min, Int32_Ranged_Range.Max));
         }
-        Int32 ITestObject_HasBeenSet_Derivative_RPCGetter.Int32_Ranged => this.Int32_Ranged;
-        IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSet_Derivative_RPCGetter.Int32_Ranged_Property => this.Int32_Ranged_Property;
+        INotifyingSetItemGetter<Int32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int32_Ranged_Property => this.Int32_Ranged_Property;
         public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
-        protected readonly IHasBeenSetItem<Int64?> _Int64N;
-        public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
+        protected readonly INotifyingItem<Int64?> _Int64N = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int64?> Int64N_Property => _Int64N;
         public Int64? Int64N
         {
             get => this._Int64N.Item;
             protected set => this._Int64N.Set(value);
         }
-        Int64? ITestObject_HasBeenSet_Derivative_RPCGetter.Int64N => this.Int64N;
-        IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int64N_Property => this.Int64N_Property;
+        INotifyingSetItemGetter<Int64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64N_Ranged
-        protected readonly IHasBeenSetItem<Int64?> _Int64N_Ranged;
-        public IHasBeenSetItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
+        protected readonly INotifyingItem<Int64?> _Int64N_Ranged = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        public INotifyingSetItemGetter<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
         public Int64? Int64N_Ranged
         {
             get => this._Int64N_Ranged.Item;
             protected set => this._Int64N_Ranged.Set(value?.PutInRange(Int64N_Ranged_Range.Min, Int64N_Ranged_Range.Max));
         }
-        Int64? ITestObject_HasBeenSet_Derivative_RPCGetter.Int64N_Ranged => this.Int64N_Ranged;
-        IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
+        INotifyingSetItemGetter<Int64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
         public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int64
-        protected readonly IHasBeenSetItem<Int64> _Int64;
-        public IHasBeenSetItem<Int64> Int64_Property => _Int64;
+        protected readonly INotifyingItem<Int64> _Int64 = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        public INotifyingSetItemGetter<Int64> Int64_Property => _Int64;
         public Int64 Int64
         {
             get => this._Int64.Item;
             protected set => this._Int64.Set(value);
         }
-        Int64 ITestObject_HasBeenSet_Derivative_RPCGetter.Int64 => this.Int64;
-        IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSet_Derivative_RPCGetter.Int64_Property => this.Int64_Property;
+        INotifyingSetItemGetter<Int64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int64_Ranged
-        protected readonly IHasBeenSetItem<Int64> _Int64_Ranged;
-        public IHasBeenSetItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
+        protected readonly INotifyingItem<Int64> _Int64_Ranged = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        public INotifyingSetItemGetter<Int64> Int64_Ranged_Property => _Int64_Ranged;
         public Int64 Int64_Ranged
         {
             get => this._Int64_Ranged.Item;
             protected set => this._Int64_Ranged.Set(value.PutInRange(Int64_Ranged_Range.Min, Int64_Ranged_Range.Max));
         }
-        Int64 ITestObject_HasBeenSet_Derivative_RPCGetter.Int64_Ranged => this.Int64_Ranged;
-        IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSet_Derivative_RPCGetter.Int64_Ranged_Property => this.Int64_Ranged_Property;
+        INotifyingSetItemGetter<Int64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int64_Ranged_Property => this.Int64_Ranged_Property;
         public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
-        protected readonly IHasBeenSetItem<SByte?> _Int8N;
-        public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
+        protected readonly INotifyingItem<SByte?> _Int8N = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        public INotifyingSetItemGetter<SByte?> Int8N_Property => _Int8N;
         public SByte? Int8N
         {
             get => this._Int8N.Item;
             protected set => this._Int8N.Set(value);
         }
-        SByte? ITestObject_HasBeenSet_Derivative_RPCGetter.Int8N => this.Int8N;
-        IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int8N_Property => this.Int8N_Property;
+        INotifyingSetItemGetter<SByte?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8N_Ranged
-        protected readonly IHasBeenSetItem<SByte?> _Int8N_Ranged;
-        public IHasBeenSetItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
+        protected readonly INotifyingItem<SByte?> _Int8N_Ranged = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        public INotifyingSetItemGetter<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
         public SByte? Int8N_Ranged
         {
             get => this._Int8N_Ranged.Item;
             protected set => this._Int8N_Ranged.Set(value?.PutInRange(Int8N_Ranged_Range.Min, Int8N_Ranged_Range.Max));
         }
-        SByte? ITestObject_HasBeenSet_Derivative_RPCGetter.Int8N_Ranged => this.Int8N_Ranged;
-        IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSet_Derivative_RPCGetter.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
+        INotifyingSetItemGetter<SByte?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
         public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Int8
-        protected readonly IHasBeenSetItem<SByte> _Int8;
-        public IHasBeenSetItem<SByte> Int8_Property => _Int8;
+        protected readonly INotifyingItem<SByte> _Int8 = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        public INotifyingSetItemGetter<SByte> Int8_Property => _Int8;
         public SByte Int8
         {
             get => this._Int8.Item;
             protected set => this._Int8.Set(value);
         }
-        SByte ITestObject_HasBeenSet_Derivative_RPCGetter.Int8 => this.Int8;
-        IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSet_Derivative_RPCGetter.Int8_Property => this.Int8_Property;
+        INotifyingSetItemGetter<SByte> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Int8_Ranged
-        protected readonly IHasBeenSetItem<SByte> _Int8_Ranged;
-        public IHasBeenSetItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
+        protected readonly INotifyingItem<SByte> _Int8_Ranged = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        public INotifyingSetItemGetter<SByte> Int8_Ranged_Property => _Int8_Ranged;
         public SByte Int8_Ranged
         {
             get => this._Int8_Ranged.Item;
             protected set => this._Int8_Ranged.Set(value.PutInRange(Int8_Ranged_Range.Min, Int8_Ranged_Range.Max));
         }
-        SByte ITestObject_HasBeenSet_Derivative_RPCGetter.Int8_Ranged => this.Int8_Ranged;
-        IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSet_Derivative_RPCGetter.Int8_Ranged_Property => this.Int8_Ranged_Property;
+        INotifyingSetItemGetter<SByte> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Int8_Ranged_Property => this.Int8_Ranged_Property;
         public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
-        protected readonly IHasBeenSetItem<bool> _Unsafe;
-        public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
+        protected readonly INotifyingItem<bool> _Unsafe = NotifyingSetItem.Factory<bool>(markAsSet: false);
+        public INotifyingSetItemGetter<bool> Unsafe_Property => _Unsafe;
         public bool Unsafe
         {
             get => this._Unsafe.Item;
             protected set => this._Unsafe.Set(value);
         }
-        bool ITestObject_HasBeenSet_Derivative_RPCGetter.Unsafe => this.Unsafe;
-        IHasBeenSetItemGetter<bool> ITestObject_HasBeenSet_Derivative_RPCGetter.Unsafe_Property => this.Unsafe_Property;
+        INotifyingSetItemGetter<bool> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeLoqui;
-        public IHasBeenSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
+        protected readonly INotifyingItem<ObjectToRef> _UnsafeLoqui = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        public INotifyingSetItemGetter<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
         public ObjectToRef UnsafeLoqui
         {
             get => this._UnsafeLoqui.Item;
             protected set => this._UnsafeLoqui.Set(value);
         }
-        ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.UnsafeLoqui => this.UnsafeLoqui;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeNull;
-        public IHasBeenSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
+        protected readonly INotifyingItem<ObjectToRef> _UnsafeNull = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        public INotifyingSetItemGetter<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
         public ObjectToRef UnsafeNull
         {
             get => this._UnsafeNull.Item;
             protected set => this._UnsafeNull.Set(value);
         }
-        ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.UnsafeNull => this.UnsafeNull;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.UnsafeNull_Property => this.UnsafeNull_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
-        protected readonly IHasBeenSetItem<P2Int?> _P2IntN;
-        public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
+        protected readonly INotifyingItem<P2Int?> _P2IntN = NotifyingSetItem.Factory<P2Int?>(markAsSet: false);
+        public INotifyingSetItemGetter<P2Int?> P2IntN_Property => _P2IntN;
         public P2Int? P2IntN
         {
             get => this._P2IntN.Item;
             protected set => this._P2IntN.Set(value);
         }
-        P2Int? ITestObject_HasBeenSet_Derivative_RPCGetter.P2IntN => this.P2IntN;
-        IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSet_Derivative_RPCGetter.P2IntN_Property => this.P2IntN_Property;
+        INotifyingSetItemGetter<P2Int?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
-        protected readonly IHasBeenSetItem<P2Int> _P2Int;
-        public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
+        protected readonly INotifyingItem<P2Int> _P2Int = NotifyingSetItem.Factory<P2Int>(markAsSet: false);
+        public INotifyingSetItemGetter<P2Int> P2Int_Property => _P2Int;
         public P2Int P2Int
         {
             get => this._P2Int.Item;
             protected set => this._P2Int.Set(value);
         }
-        P2Int ITestObject_HasBeenSet_Derivative_RPCGetter.P2Int => this.P2Int;
-        IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSet_Derivative_RPCGetter.P2Int_Property => this.P2Int_Property;
+        INotifyingSetItemGetter<P2Int> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
-        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN;
-        public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        protected readonly INotifyingItem<P3Double?> _P3DoubleN = NotifyingSetItem.Factory<P3Double?>(markAsSet: false);
+        public INotifyingSetItemGetter<P3Double?> P3DoubleN_Property => _P3DoubleN;
         public P3Double? P3DoubleN
         {
             get => this._P3DoubleN.Item;
             protected set => this._P3DoubleN.Set(value);
         }
-        P3Double? ITestObject_HasBeenSet_Derivative_RPCGetter.P3DoubleN => this.P3DoubleN;
-        IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSet_Derivative_RPCGetter.P3DoubleN_Property => this.P3DoubleN_Property;
+        INotifyingSetItemGetter<P3Double?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
-        protected readonly IHasBeenSetItem<P3Double> _P3Double;
-        public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
+        protected readonly INotifyingItem<P3Double> _P3Double = NotifyingSetItem.Factory<P3Double>(markAsSet: false);
+        public INotifyingSetItemGetter<P3Double> P3Double_Property => _P3Double;
         public P3Double P3Double
         {
             get => this._P3Double.Item;
             protected set => this._P3Double.Set(value);
         }
-        P3Double ITestObject_HasBeenSet_Derivative_RPCGetter.P3Double => this.P3Double;
-        IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSet_Derivative_RPCGetter.P3Double_Property => this.P3Double_Property;
+        INotifyingSetItemGetter<P3Double> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
-        protected readonly IHasBeenSetItem<P3Int?> _P3IntN;
-        public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
+        protected readonly INotifyingItem<P3Int?> _P3IntN = NotifyingSetItem.Factory<P3Int?>(markAsSet: false);
+        public INotifyingSetItemGetter<P3Int?> P3IntN_Property => _P3IntN;
         public P3Int? P3IntN
         {
             get => this._P3IntN.Item;
             protected set => this._P3IntN.Set(value);
         }
-        P3Int? ITestObject_HasBeenSet_Derivative_RPCGetter.P3IntN => this.P3IntN;
-        IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSet_Derivative_RPCGetter.P3IntN_Property => this.P3IntN_Property;
+        INotifyingSetItemGetter<P3Int?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
-        protected readonly IHasBeenSetItem<P3Int> _P3Int;
-        public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
+        protected readonly INotifyingItem<P3Int> _P3Int = NotifyingSetItem.Factory<P3Int>(markAsSet: false);
+        public INotifyingSetItemGetter<P3Int> P3Int_Property => _P3Int;
         public P3Int P3Int
         {
             get => this._P3Int.Item;
             protected set => this._P3Int.Set(value);
         }
-        P3Int ITestObject_HasBeenSet_Derivative_RPCGetter.P3Int => this.P3Int;
-        IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSet_Derivative_RPCGetter.P3Int_Property => this.P3Int_Property;
+        INotifyingSetItemGetter<P3Int> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
-        protected readonly IHasBeenSetItem<Percent?> _PercentN;
-        public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
+        protected readonly INotifyingItem<Percent?> _PercentN = NotifyingSetItem.Factory<Percent?>(markAsSet: false);
+        public INotifyingSetItemGetter<Percent?> PercentN_Property => _PercentN;
         public Percent? PercentN
         {
             get => this._PercentN.Item;
             protected set => this._PercentN.Set(value);
         }
-        Percent? ITestObject_HasBeenSet_Derivative_RPCGetter.PercentN => this.PercentN;
-        IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSet_Derivative_RPCGetter.PercentN_Property => this.PercentN_Property;
+        INotifyingSetItemGetter<Percent?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
-        protected readonly IHasBeenSetItem<Percent> _Percent;
-        public IHasBeenSetItem<Percent> Percent_Property => _Percent;
+        protected readonly INotifyingItem<Percent> _Percent = NotifyingSetItem.Factory<Percent>(markAsSet: false);
+        public INotifyingSetItemGetter<Percent> Percent_Property => _Percent;
         public Percent Percent
         {
             get => this._Percent.Item;
             protected set => this._Percent.Set(value);
         }
-        Percent ITestObject_HasBeenSet_Derivative_RPCGetter.Percent => this.Percent;
-        IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSet_Derivative_RPCGetter.Percent_Property => this.Percent_Property;
+        INotifyingSetItemGetter<Percent> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
-        protected readonly IHasBeenSetItem<RangeInt8?> _RangeInt8N;
-        public IHasBeenSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
+        protected readonly INotifyingItem<RangeInt8?> _RangeInt8N = NotifyingSetItem.Factory<RangeInt8?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
         public RangeInt8? RangeInt8N
         {
             get => this._RangeInt8N.Item;
             protected set => this._RangeInt8N.Set(value);
         }
-        RangeInt8? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt8N => this.RangeInt8N;
-        IHasBeenSetItemGetter<RangeInt8?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt8N_Property => this.RangeInt8N_Property;
+        INotifyingSetItemGetter<RangeInt8?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
-        protected readonly IHasBeenSetItem<RangeInt8> _RangeInt8;
-        public IHasBeenSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
+        protected readonly INotifyingItem<RangeInt8> _RangeInt8 = NotifyingSetItem.Factory<RangeInt8>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt8> RangeInt8_Property => _RangeInt8;
         public RangeInt8 RangeInt8
         {
             get => this._RangeInt8.Item;
             protected set => this._RangeInt8.Set(value);
         }
-        RangeInt8 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt8 => this.RangeInt8;
-        IHasBeenSetItemGetter<RangeInt8> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt8_Property => this.RangeInt8_Property;
+        INotifyingSetItemGetter<RangeInt8> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
-        protected readonly IHasBeenSetItem<RangeInt16?> _RangeInt16N;
-        public IHasBeenSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
+        protected readonly INotifyingItem<RangeInt16?> _RangeInt16N = NotifyingSetItem.Factory<RangeInt16?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
         public RangeInt16? RangeInt16N
         {
             get => this._RangeInt16N.Item;
             protected set => this._RangeInt16N.Set(value);
         }
-        RangeInt16? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt16N => this.RangeInt16N;
-        IHasBeenSetItemGetter<RangeInt16?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt16N_Property => this.RangeInt16N_Property;
+        INotifyingSetItemGetter<RangeInt16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
-        protected readonly IHasBeenSetItem<RangeInt16> _RangeInt16;
-        public IHasBeenSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
+        protected readonly INotifyingItem<RangeInt16> _RangeInt16 = NotifyingSetItem.Factory<RangeInt16>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt16> RangeInt16_Property => _RangeInt16;
         public RangeInt16 RangeInt16
         {
             get => this._RangeInt16.Item;
             protected set => this._RangeInt16.Set(value);
         }
-        RangeInt16 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt16 => this.RangeInt16;
-        IHasBeenSetItemGetter<RangeInt16> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt16_Property => this.RangeInt16_Property;
+        INotifyingSetItemGetter<RangeInt16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
-        protected readonly IHasBeenSetItem<RangeInt32?> _RangeInt32N;
-        public IHasBeenSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
+        protected readonly INotifyingItem<RangeInt32?> _RangeInt32N = NotifyingSetItem.Factory<RangeInt32?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
         public RangeInt32? RangeInt32N
         {
             get => this._RangeInt32N.Item;
             protected set => this._RangeInt32N.Set(value);
         }
-        RangeInt32? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt32N => this.RangeInt32N;
-        IHasBeenSetItemGetter<RangeInt32?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt32N_Property => this.RangeInt32N_Property;
+        INotifyingSetItemGetter<RangeInt32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
-        protected readonly IHasBeenSetItem<RangeInt32> _RangeInt32;
-        public IHasBeenSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
+        protected readonly INotifyingItem<RangeInt32> _RangeInt32 = NotifyingSetItem.Factory<RangeInt32>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt32> RangeInt32_Property => _RangeInt32;
         public RangeInt32 RangeInt32
         {
             get => this._RangeInt32.Item;
             protected set => this._RangeInt32.Set(value);
         }
-        RangeInt32 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt32 => this.RangeInt32;
-        IHasBeenSetItemGetter<RangeInt32> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt32_Property => this.RangeInt32_Property;
+        INotifyingSetItemGetter<RangeInt32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
-        protected readonly IHasBeenSetItem<RangeInt64?> _RangeInt64N;
-        public IHasBeenSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
+        protected readonly INotifyingItem<RangeInt64?> _RangeInt64N = NotifyingSetItem.Factory<RangeInt64?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
         public RangeInt64? RangeInt64N
         {
             get => this._RangeInt64N.Item;
             protected set => this._RangeInt64N.Set(value);
         }
-        RangeInt64? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt64N => this.RangeInt64N;
-        IHasBeenSetItemGetter<RangeInt64?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt64N_Property => this.RangeInt64N_Property;
+        INotifyingSetItemGetter<RangeInt64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
-        protected readonly IHasBeenSetItem<RangeInt64> _RangeInt64;
-        public IHasBeenSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
+        protected readonly INotifyingItem<RangeInt64> _RangeInt64 = NotifyingSetItem.Factory<RangeInt64>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeInt64> RangeInt64_Property => _RangeInt64;
         public RangeInt64 RangeInt64
         {
             get => this._RangeInt64.Item;
             protected set => this._RangeInt64.Set(value);
         }
-        RangeInt64 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt64 => this.RangeInt64;
-        IHasBeenSetItemGetter<RangeInt64> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeInt64_Property => this.RangeInt64_Property;
+        INotifyingSetItemGetter<RangeInt64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
-        protected readonly IHasBeenSetItem<RangeUInt8?> _RangeUInt8N;
-        public IHasBeenSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
+        protected readonly INotifyingItem<RangeUInt8?> _RangeUInt8N = NotifyingSetItem.Factory<RangeUInt8?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
         public RangeUInt8? RangeUInt8N
         {
             get => this._RangeUInt8N.Item;
             protected set => this._RangeUInt8N.Set(value);
         }
-        RangeUInt8? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt8N => this.RangeUInt8N;
-        IHasBeenSetItemGetter<RangeUInt8?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
+        INotifyingSetItemGetter<RangeUInt8?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
-        protected readonly IHasBeenSetItem<RangeUInt8> _RangeUInt8;
-        public IHasBeenSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
+        protected readonly INotifyingItem<RangeUInt8> _RangeUInt8 = NotifyingSetItem.Factory<RangeUInt8>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
         public RangeUInt8 RangeUInt8
         {
             get => this._RangeUInt8.Item;
             protected set => this._RangeUInt8.Set(value);
         }
-        RangeUInt8 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt8 => this.RangeUInt8;
-        IHasBeenSetItemGetter<RangeUInt8> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt8_Property => this.RangeUInt8_Property;
+        INotifyingSetItemGetter<RangeUInt8> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
-        protected readonly IHasBeenSetItem<RangeUInt16?> _RangeUInt16N;
-        public IHasBeenSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
+        protected readonly INotifyingItem<RangeUInt16?> _RangeUInt16N = NotifyingSetItem.Factory<RangeUInt16?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
         public RangeUInt16? RangeUInt16N
         {
             get => this._RangeUInt16N.Item;
             protected set => this._RangeUInt16N.Set(value);
         }
-        RangeUInt16? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt16N => this.RangeUInt16N;
-        IHasBeenSetItemGetter<RangeUInt16?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
+        INotifyingSetItemGetter<RangeUInt16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
-        protected readonly IHasBeenSetItem<RangeUInt16> _RangeUInt16;
-        public IHasBeenSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
+        protected readonly INotifyingItem<RangeUInt16> _RangeUInt16 = NotifyingSetItem.Factory<RangeUInt16>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
         public RangeUInt16 RangeUInt16
         {
             get => this._RangeUInt16.Item;
             protected set => this._RangeUInt16.Set(value);
         }
-        RangeUInt16 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt16 => this.RangeUInt16;
-        IHasBeenSetItemGetter<RangeUInt16> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt16_Property => this.RangeUInt16_Property;
+        INotifyingSetItemGetter<RangeUInt16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
-        protected readonly IHasBeenSetItem<RangeUInt32?> _RangeUInt32N;
-        public IHasBeenSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
+        protected readonly INotifyingItem<RangeUInt32?> _RangeUInt32N = NotifyingSetItem.Factory<RangeUInt32?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
         public RangeUInt32? RangeUInt32N
         {
             get => this._RangeUInt32N.Item;
             protected set => this._RangeUInt32N.Set(value);
         }
-        RangeUInt32? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt32N => this.RangeUInt32N;
-        IHasBeenSetItemGetter<RangeUInt32?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
+        INotifyingSetItemGetter<RangeUInt32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
-        protected readonly IHasBeenSetItem<RangeUInt32> _RangeUInt32;
-        public IHasBeenSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
+        protected readonly INotifyingItem<RangeUInt32> _RangeUInt32 = NotifyingSetItem.Factory<RangeUInt32>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
         public RangeUInt32 RangeUInt32
         {
             get => this._RangeUInt32.Item;
             protected set => this._RangeUInt32.Set(value);
         }
-        RangeUInt32 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt32 => this.RangeUInt32;
-        IHasBeenSetItemGetter<RangeUInt32> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt32_Property => this.RangeUInt32_Property;
+        INotifyingSetItemGetter<RangeUInt32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
-        protected readonly IHasBeenSetItem<RangeUInt64?> _RangeUInt64N;
-        public IHasBeenSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
+        protected readonly INotifyingItem<RangeUInt64?> _RangeUInt64N = NotifyingSetItem.Factory<RangeUInt64?>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
         public RangeUInt64? RangeUInt64N
         {
             get => this._RangeUInt64N.Item;
             protected set => this._RangeUInt64N.Set(value);
         }
-        RangeUInt64? ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt64N => this.RangeUInt64N;
-        IHasBeenSetItemGetter<RangeUInt64?> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
+        INotifyingSetItemGetter<RangeUInt64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
-        protected readonly IHasBeenSetItem<RangeUInt64> _RangeUInt64;
-        public IHasBeenSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
+        protected readonly INotifyingItem<RangeUInt64> _RangeUInt64 = NotifyingSetItem.Factory<RangeUInt64>(markAsSet: false);
+        public INotifyingSetItemGetter<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
         public RangeUInt64 RangeUInt64
         {
             get => this._RangeUInt64.Item;
             protected set => this._RangeUInt64.Set(value);
         }
-        RangeUInt64 ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt64 => this.RangeUInt64;
-        IHasBeenSetItemGetter<RangeUInt64> ITestObject_HasBeenSet_Derivative_RPCGetter.RangeUInt64_Property => this.RangeUInt64_Property;
+        INotifyingSetItemGetter<RangeUInt64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
-        protected readonly IHasBeenSetItem<String> _String;
-        public IHasBeenSetItem<String> String_Property => _String;
+        protected readonly INotifyingItem<String> _String = NotifyingSetItem.Factory<String>(markAsSet: false);
+        public INotifyingSetItemGetter<String> String_Property => _String;
         public String String
         {
             get => this._String.Item;
             protected set => this._String.Set(value);
         }
-        String ITestObject_HasBeenSet_Derivative_RPCGetter.String => this.String;
-        IHasBeenSetItemGetter<String> ITestObject_HasBeenSet_Derivative_RPCGetter.String_Property => this.String_Property;
+        INotifyingSetItemGetter<String> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
-        protected readonly IHasBeenSetItem<FilePath> _FilePath;
-        public IHasBeenSetItem<FilePath> FilePath_Property => _FilePath;
+        protected readonly INotifyingItem<FilePath> _FilePath = NotifyingSetItem.Factory<FilePath>(markAsSet: false);
+        public INotifyingSetItemGetter<FilePath> FilePath_Property => _FilePath;
         public FilePath FilePath
         {
             get => this._FilePath.Item;
             protected set => this._FilePath.Set(value);
         }
-        FilePath ITestObject_HasBeenSet_Derivative_RPCGetter.FilePath => this.FilePath;
-        IHasBeenSetItemGetter<FilePath> ITestObject_HasBeenSet_Derivative_RPCGetter.FilePath_Property => this.FilePath_Property;
+        INotifyingSetItemGetter<FilePath> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
-        protected readonly IHasBeenSetItem<FilePath?> _FilePathNull;
-        public IHasBeenSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
+        protected readonly INotifyingItem<FilePath?> _FilePathNull = NotifyingSetItem.Factory<FilePath?>(markAsSet: false);
+        public INotifyingSetItemGetter<FilePath?> FilePathNull_Property => _FilePathNull;
         public FilePath? FilePathNull
         {
             get => this._FilePathNull.Item;
             protected set => this._FilePathNull.Set(value);
         }
-        FilePath? ITestObject_HasBeenSet_Derivative_RPCGetter.FilePathNull => this.FilePathNull;
-        IHasBeenSetItemGetter<FilePath?> ITestObject_HasBeenSet_Derivative_RPCGetter.FilePathNull_Property => this.FilePathNull_Property;
+        INotifyingSetItemGetter<FilePath?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
-        protected readonly IHasBeenSetItem<DirectoryPath> _DirectoryPath;
-        public IHasBeenSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
+        protected readonly INotifyingItem<DirectoryPath> _DirectoryPath = NotifyingSetItem.Factory<DirectoryPath>(markAsSet: false);
+        public INotifyingSetItemGetter<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
         public DirectoryPath DirectoryPath
         {
             get => this._DirectoryPath.Item;
             protected set => this._DirectoryPath.Set(value);
         }
-        DirectoryPath ITestObject_HasBeenSet_Derivative_RPCGetter.DirectoryPath => this.DirectoryPath;
-        IHasBeenSetItemGetter<DirectoryPath> ITestObject_HasBeenSet_Derivative_RPCGetter.DirectoryPath_Property => this.DirectoryPath_Property;
+        INotifyingSetItemGetter<DirectoryPath> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
-        protected readonly IHasBeenSetItem<DirectoryPath?> _DirectoryPathNull;
-        public IHasBeenSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
+        protected readonly INotifyingItem<DirectoryPath?> _DirectoryPathNull = NotifyingSetItem.Factory<DirectoryPath?>(markAsSet: false);
+        public INotifyingSetItemGetter<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
         public DirectoryPath? DirectoryPathNull
         {
             get => this._DirectoryPathNull.Item;
             protected set => this._DirectoryPathNull.Set(value);
         }
-        DirectoryPath? ITestObject_HasBeenSet_Derivative_RPCGetter.DirectoryPathNull => this.DirectoryPathNull;
-        IHasBeenSetItemGetter<DirectoryPath?> ITestObject_HasBeenSet_Derivative_RPCGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
+        INotifyingSetItemGetter<DirectoryPath?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN;
-        public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
+        protected readonly INotifyingItem<UDouble?> _UDoubleN = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        public INotifyingSetItemGetter<UDouble?> UDoubleN_Property => _UDoubleN;
         public UDouble? UDoubleN
         {
             get => this._UDoubleN.Item;
             protected set => this._UDoubleN.Set(value);
         }
-        UDouble? ITestObject_HasBeenSet_Derivative_RPCGetter.UDoubleN => this.UDoubleN;
-        IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSet_Derivative_RPCGetter.UDoubleN_Property => this.UDoubleN_Property;
+        INotifyingSetItemGetter<UDouble?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDoubleN_Ranged
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN_Ranged;
-        public IHasBeenSetItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
+        protected readonly INotifyingItem<UDouble?> _UDoubleN_Ranged = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        public INotifyingSetItemGetter<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
         public UDouble? UDoubleN_Ranged
         {
             get => this._UDoubleN_Ranged.Item;
             protected set => this._UDoubleN_Ranged.Set(value?.PutInRange(UDoubleN_Ranged_Range.Min, UDoubleN_Ranged_Range.Max));
         }
-        UDouble? ITestObject_HasBeenSet_Derivative_RPCGetter.UDoubleN_Ranged => this.UDoubleN_Ranged;
-        IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSet_Derivative_RPCGetter.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
+        INotifyingSetItemGetter<UDouble?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
         public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UDouble
-        protected readonly IHasBeenSetItem<UDouble> _UDouble;
-        public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
+        protected readonly INotifyingItem<UDouble> _UDouble = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        public INotifyingSetItemGetter<UDouble> UDouble_Property => _UDouble;
         public UDouble UDouble
         {
             get => this._UDouble.Item;
             protected set => this._UDouble.Set(value);
         }
-        UDouble ITestObject_HasBeenSet_Derivative_RPCGetter.UDouble => this.UDouble;
-        IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSet_Derivative_RPCGetter.UDouble_Property => this.UDouble_Property;
+        INotifyingSetItemGetter<UDouble> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UDouble_Ranged
-        protected readonly IHasBeenSetItem<UDouble> _UDouble_Ranged;
-        public IHasBeenSetItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
+        protected readonly INotifyingItem<UDouble> _UDouble_Ranged = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        public INotifyingSetItemGetter<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
         public UDouble UDouble_Ranged
         {
             get => this._UDouble_Ranged.Item;
             protected set => this._UDouble_Ranged.Set(value.PutInRange(UDouble_Ranged_Range.Min, UDouble_Ranged_Range.Max));
         }
-        UDouble ITestObject_HasBeenSet_Derivative_RPCGetter.UDouble_Ranged => this.UDouble_Ranged;
-        IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSet_Derivative_RPCGetter.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
+        INotifyingSetItemGetter<UDouble> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
         public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N;
-        public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
+        protected readonly INotifyingItem<UInt16?> _UInt16N = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt16?> UInt16N_Property => _UInt16N;
         public UInt16? UInt16N
         {
             get => this._UInt16N.Item;
             protected set => this._UInt16N.Set(value);
         }
-        UInt16? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16N => this.UInt16N;
-        IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16N_Property => this.UInt16N_Property;
+        INotifyingSetItemGetter<UInt16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16N_Ranged
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N_Ranged;
-        public IHasBeenSetItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
+        protected readonly INotifyingItem<UInt16?> _UInt16N_Ranged = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
         public UInt16? UInt16N_Ranged
         {
             get => this._UInt16N_Ranged.Item;
             protected set => this._UInt16N_Ranged.Set(value?.PutInRange(UInt16N_Ranged_Range.Min, UInt16N_Ranged_Range.Max));
         }
-        UInt16? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16N_Ranged => this.UInt16N_Ranged;
-        IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
+        INotifyingSetItemGetter<UInt16?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
         public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt16
-        protected readonly IHasBeenSetItem<UInt16> _UInt16;
-        public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
+        protected readonly INotifyingItem<UInt16> _UInt16 = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt16> UInt16_Property => _UInt16;
         public UInt16 UInt16
         {
             get => this._UInt16.Item;
             protected set => this._UInt16.Set(value);
         }
-        UInt16 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16 => this.UInt16;
-        IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16_Property => this.UInt16_Property;
+        INotifyingSetItemGetter<UInt16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt16_Ranged
-        protected readonly IHasBeenSetItem<UInt16> _UInt16_Ranged;
-        public IHasBeenSetItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
+        protected readonly INotifyingItem<UInt16> _UInt16_Ranged = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
         public UInt16 UInt16_Ranged
         {
             get => this._UInt16_Ranged.Item;
             protected set => this._UInt16_Ranged.Set(value.PutInRange(UInt16_Ranged_Range.Min, UInt16_Ranged_Range.Max));
         }
-        UInt16 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16_Ranged => this.UInt16_Ranged;
-        IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
+        INotifyingSetItemGetter<UInt16> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
         public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N;
-        public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
+        protected readonly INotifyingItem<UInt32?> _UInt32N = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt32?> UInt32N_Property => _UInt32N;
         public UInt32? UInt32N
         {
             get => this._UInt32N.Item;
             protected set => this._UInt32N.Set(value);
         }
-        UInt32? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32N => this.UInt32N;
-        IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32N_Property => this.UInt32N_Property;
+        INotifyingSetItemGetter<UInt32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32N_Ranged
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N_Ranged;
-        public IHasBeenSetItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
+        protected readonly INotifyingItem<UInt32?> _UInt32N_Ranged = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
         public UInt32? UInt32N_Ranged
         {
             get => this._UInt32N_Ranged.Item;
             protected set => this._UInt32N_Ranged.Set(value?.PutInRange(UInt32N_Ranged_Range.Min, UInt32N_Ranged_Range.Max));
         }
-        UInt32? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32N_Ranged => this.UInt32N_Ranged;
-        IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
+        INotifyingSetItemGetter<UInt32?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
         public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt32
-        protected readonly IHasBeenSetItem<UInt32> _UInt32;
-        public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
+        protected readonly INotifyingItem<UInt32> _UInt32 = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt32> UInt32_Property => _UInt32;
         public UInt32 UInt32
         {
             get => this._UInt32.Item;
             protected set => this._UInt32.Set(value);
         }
-        UInt32 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32 => this.UInt32;
-        IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32_Property => this.UInt32_Property;
+        INotifyingSetItemGetter<UInt32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt32_Ranged
-        protected readonly IHasBeenSetItem<UInt32> _UInt32_Ranged;
-        public IHasBeenSetItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
+        protected readonly INotifyingItem<UInt32> _UInt32_Ranged = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
         public UInt32 UInt32_Ranged
         {
             get => this._UInt32_Ranged.Item;
             protected set => this._UInt32_Ranged.Set(value.PutInRange(UInt32_Ranged_Range.Min, UInt32_Ranged_Range.Max));
         }
-        UInt32 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32_Ranged => this.UInt32_Ranged;
-        IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
+        INotifyingSetItemGetter<UInt32> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
         public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N;
-        public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
+        protected readonly INotifyingItem<UInt64?> _UInt64N = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt64?> UInt64N_Property => _UInt64N;
         public UInt64? UInt64N
         {
             get => this._UInt64N.Item;
             protected set => this._UInt64N.Set(value);
         }
-        UInt64? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64N => this.UInt64N;
-        IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64N_Property => this.UInt64N_Property;
+        INotifyingSetItemGetter<UInt64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64N_Ranged
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N_Ranged;
-        public IHasBeenSetItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
+        protected readonly INotifyingItem<UInt64?> _UInt64N_Ranged = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
         public UInt64? UInt64N_Ranged
         {
             get => this._UInt64N_Ranged.Item;
             protected set => this._UInt64N_Ranged.Set(value?.PutInRange(UInt64N_Ranged_Range.Min, UInt64N_Ranged_Range.Max));
         }
-        UInt64? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64N_Ranged => this.UInt64N_Ranged;
-        IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
+        INotifyingSetItemGetter<UInt64?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
         public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt64
-        protected readonly IHasBeenSetItem<UInt64> _UInt64;
-        public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
+        protected readonly INotifyingItem<UInt64> _UInt64 = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt64> UInt64_Property => _UInt64;
         public UInt64 UInt64
         {
             get => this._UInt64.Item;
             protected set => this._UInt64.Set(value);
         }
-        UInt64 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64 => this.UInt64;
-        IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64_Property => this.UInt64_Property;
+        INotifyingSetItemGetter<UInt64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt64_Ranged
-        protected readonly IHasBeenSetItem<UInt64> _UInt64_Ranged;
-        public IHasBeenSetItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
+        protected readonly INotifyingItem<UInt64> _UInt64_Ranged = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        public INotifyingSetItemGetter<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
         public UInt64 UInt64_Ranged
         {
             get => this._UInt64_Ranged.Item;
             protected set => this._UInt64_Ranged.Set(value.PutInRange(UInt64_Ranged_Range.Min, UInt64_Ranged_Range.Max));
         }
-        UInt64 ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64_Ranged => this.UInt64_Ranged;
-        IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
+        INotifyingSetItemGetter<UInt64> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
         public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N;
-        public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
+        protected readonly INotifyingItem<Byte?> _UInt8N = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        public INotifyingSetItemGetter<Byte?> UInt8N_Property => _UInt8N;
         public Byte? UInt8N
         {
             get => this._UInt8N.Item;
             protected set => this._UInt8N.Set(value);
         }
-        Byte? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8N => this.UInt8N;
-        IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8N_Property => this.UInt8N_Property;
+        INotifyingSetItemGetter<Byte?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8N_Ranged
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N_Ranged;
-        public IHasBeenSetItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
+        protected readonly INotifyingItem<Byte?> _UInt8N_Ranged = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        public INotifyingSetItemGetter<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
         public Byte? UInt8N_Ranged
         {
             get => this._UInt8N_Ranged.Item;
             protected set => this._UInt8N_Ranged.Set(value?.PutInRange(UInt8N_Ranged_Range.Min, UInt8N_Ranged_Range.Max));
         }
-        Byte? ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8N_Ranged => this.UInt8N_Ranged;
-        IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
+        INotifyingSetItemGetter<Byte?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
         public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region UInt8
-        protected readonly IHasBeenSetItem<Byte> _UInt8;
-        public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
+        protected readonly INotifyingItem<Byte> _UInt8 = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        public INotifyingSetItemGetter<Byte> UInt8_Property => _UInt8;
         public Byte UInt8
         {
             get => this._UInt8.Item;
             protected set => this._UInt8.Set(value);
         }
-        Byte ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8 => this.UInt8;
-        IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8_Property => this.UInt8_Property;
+        INotifyingSetItemGetter<Byte> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region UInt8_Ranged
-        protected readonly IHasBeenSetItem<Byte> _UInt8_Ranged;
-        public IHasBeenSetItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
+        protected readonly INotifyingItem<Byte> _UInt8_Ranged = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        public INotifyingSetItemGetter<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
         public Byte UInt8_Ranged
         {
             get => this._UInt8_Ranged.Item;
             protected set => this._UInt8_Ranged.Set(value.PutInRange(UInt8_Ranged_Range.Min, UInt8_Ranged_Range.Max));
         }
-        Byte ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8_Ranged => this.UInt8_Ranged;
-        IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSet_Derivative_RPCGetter.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
+        INotifyingSetItemGetter<Byte> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
         public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
-        protected readonly IHasBeenSetItem<TestEnum> _Enum;
-        public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
+        protected readonly INotifyingItem<TestEnum> _Enum = NotifyingSetItem.Factory<TestEnum>(markAsSet: false);
+        public INotifyingSetItemGetter<TestEnum> Enum_Property => _Enum;
         public TestEnum Enum
         {
             get => this._Enum.Item;
             protected set => this._Enum.Set(value);
         }
-        TestEnum ITestObject_HasBeenSet_Derivative_RPCGetter.Enum => this.Enum;
-        IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSet_Derivative_RPCGetter.Enum_Property => this.Enum_Property;
+        INotifyingSetItemGetter<TestEnum> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
-        protected readonly IHasBeenSetItem<TestEnum?> _EnumNull;
-        public IHasBeenSetItem<TestEnum?> EnumNull_Property => _EnumNull;
+        protected readonly INotifyingItem<TestEnum?> _EnumNull = NotifyingSetItem.Factory<TestEnum?>(markAsSet: false);
+        public INotifyingSetItemGetter<TestEnum?> EnumNull_Property => _EnumNull;
         public TestEnum? EnumNull
         {
             get => this._EnumNull.Item;
             protected set => this._EnumNull.Set(value);
         }
-        TestEnum? ITestObject_HasBeenSet_Derivative_RPCGetter.EnumNull => this.EnumNull;
-        IHasBeenSetItemGetter<TestEnum?> ITestObject_HasBeenSet_Derivative_RPCGetter.EnumNull_Property => this.EnumNull_Property;
+        INotifyingSetItemGetter<TestEnum?> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.EnumNull_Property => this.EnumNull_Property;
         #endregion
         #region WildCard
-        protected readonly IHasBeenSetItem<Object> _WildCard;
-        public IHasBeenSetItemGetter<Object> WildCard_Property => _WildCard;
-        public Object WildCard => this._WildCard;
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSet_Derivative_RPCGetter.WildCard_Property => this.WildCard_Property;
+        protected readonly INotifyingSetItem<Object> _WildCard = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItemGetter<Object> WildCard_Property => _WildCard;
+        public Object WildCard { get => _WildCard.Item; protected set => _WildCard.Item = value; }
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.WildCard_Property => this.WildCard_Property;
         #endregion
         #region WildCardLoqui
-        protected readonly IHasBeenSetItem<Object> _WildCardLoqui;
-        public IHasBeenSetItemGetter<Object> WildCardLoqui_Property => _WildCardLoqui;
-        public Object WildCardLoqui => this._WildCardLoqui;
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSet_Derivative_RPCGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
+        protected readonly INotifyingSetItem<Object> _WildCardLoqui = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItemGetter<Object> WildCardLoqui_Property => _WildCardLoqui;
+        public Object WildCardLoqui { get => _WildCardLoqui.Item; protected set => _WildCardLoqui.Item = value; }
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
         #endregion
         #region WildCardNull
-        protected readonly IHasBeenSetItem<Object> _WildCardNull;
-        public IHasBeenSetItemGetter<Object> WildCardNull_Property => _WildCardNull;
-        public Object WildCardNull => this._WildCardNull;
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSet_Derivative_RPCGetter.WildCardNull_Property => this.WildCardNull_Property;
+        protected readonly INotifyingSetItem<Object> _WildCardNull = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItemGetter<Object> WildCardNull_Property => _WildCardNull;
+        public Object WildCardNull { get => _WildCardNull.Item; protected set => _WildCardNull.Item = value; }
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.WildCardNull_Property => this.WildCardNull_Property;
         #endregion
         #region Ref
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref;
-        public ObjectToRef Ref
-        {
-            get => this._Ref.Item;
-            protected set => this._Ref.Item = value;
-        }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_Property => this._Ref;
-        ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref => this._Ref.Item;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Property => this._Ref;
+        private readonly INotifyingSetItem<ObjectToRef> _Ref = new NotifyingSetItem<ObjectToRef>();
+        public INotifyingSetItemGetter<ObjectToRef> Ref_Property => this._Ref;
+        ObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref => this.Ref;
+        public ObjectToRef Ref { get => _Ref.Item; }
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref_Property => this.Ref_Property;
         #endregion
         #region Ref_NotNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull;
-        public ObjectToRef Ref_NotNull
-        {
-            get => this._Ref_NotNull.Item;
-            protected set => this._Ref_NotNull.Item = value;
-        }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
-        ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_NotNull => this._Ref_NotNull.Item;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_NotNull_Property => this._Ref_NotNull;
+        private readonly INotifyingSetItem<ObjectToRef> _Ref_NotNull = new NotifyingSetItemConvertWrapper<ObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<ObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<ObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItemGetter<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
+        ObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref_NotNull => this.Ref_NotNull;
+        public ObjectToRef Ref_NotNull { get => _Ref_NotNull.Item; }
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
-        public ObjectToRef Ref_Singleton
-        {
-            get => this._Ref_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
-        ObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Singleton => this._Ref_Singleton_Object;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
+        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
+        ObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref_Singleton => this.Ref_Singleton;
+        public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
         #endregion
         #region RefGetter
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter;
-        public IObjectToRefGetter RefGetter
-        {
-            get => this._RefGetter.Item;
-            protected set => this._RefGetter.Item = value;
-        }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
-        IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter => this._RefGetter.Item;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Property => this._RefGetter;
+        private readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter = new NotifyingSetItem<IObjectToRefGetter>();
+        public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter => this.RefGetter;
+        public IObjectToRefGetter RefGetter { get => _RefGetter.Item; }
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
         #region RefGetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull;
-        public IObjectToRefGetter RefGetter_NotNull
-        {
-            get => this._RefGetter_NotNull.Item;
-            protected set => this._RefGetter_NotNull.Item = value;
-        }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
-        IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_NotNull => this._RefGetter_NotNull.Item;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        private readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_NotNull = new NotifyingSetItemConvertWrapper<IObjectToRefGetter>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRefGetter>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRefGetter>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter_NotNull => this.RefGetter_NotNull;
+        public IObjectToRefGetter RefGetter_NotNull { get => _RefGetter_NotNull.Item; }
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
-        public IObjectToRefGetter RefGetter_Singleton
-        {
-            get => this._RefGetter_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
-        IObjectToRefGetter ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_Derivative_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
+        public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         #endregion
         #region RefSetter
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter;
-        public IObjectToRef RefSetter
-        {
-            get => this._RefSetter.Item;
-            protected set => this._RefSetter.Item = value;
-        }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
-        IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter => this._RefSetter.Item;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Property => this._RefSetter;
+        private readonly INotifyingSetItem<IObjectToRef> _RefSetter = new NotifyingSetItem<IObjectToRef>();
+        public INotifyingSetItemGetter<IObjectToRef> RefSetter_Property => this._RefSetter;
+        IObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter => this.RefSetter;
+        public IObjectToRef RefSetter { get => _RefSetter.Item; }
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
         #region RefSetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull;
-        public IObjectToRef RefSetter_NotNull
-        {
-            get => this._RefSetter_NotNull.Item;
-            protected set => this._RefSetter_NotNull.Item = value;
-        }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
-        IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_NotNull => this._RefSetter_NotNull.Item;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        private readonly INotifyingSetItem<IObjectToRef> _RefSetter_NotNull = new NotifyingSetItemConvertWrapper<IObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItemGetter<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        IObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter_NotNull => this.RefSetter_NotNull;
+        public IObjectToRef RefSetter_NotNull { get => _RefSetter_NotNull.Item; }
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
-        public IObjectToRef RefSetter_Singleton
-        {
-            get => this._RefSetter_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
-        IObjectToRef ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        IObjectToRef ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
+        public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         #region Interface Members
-        INotifyingListGetter<Boolean> ITestObject_HasBeenSet_Derivative_RPCGetter.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.List => _List;
         #endregion
 
         #endregion
@@ -1505,7 +1091,7 @@ namespace Loqui.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefList => _RefList;
         #endregion
 
         #endregion
@@ -1513,7 +1099,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, Boolean> _Dict = new NotifyingDictionary<String, Boolean>();
         public INotifyingDictionary<String, Boolean> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<String, Boolean> ITestObject_HasBeenSet_Derivative_RPCGetter.Dict => _Dict;
+        INotifyingDictionaryGetter<String, Boolean> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.Dict => _Dict;
         #endregion
 
         #endregion
@@ -1521,7 +1107,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.RefDict => _RefDict;
         #endregion
 
         #endregion
@@ -1529,7 +1115,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, Boolean> _KeyRefDict = new NotifyingDictionary<ObjectToRef, Boolean>();
         public INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get { return _KeyRefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_HasBeenSet_Derivative_RPCGetter.KeyRefDict => _KeyRefDict;
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.KeyRefDict => _KeyRefDict;
         #endregion
 
         #endregion
@@ -1537,7 +1123,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, ObjectToRef> _ValRefDict = new NotifyingDictionary<String, ObjectToRef>();
         public INotifyingDictionary<String, ObjectToRef> ValRefDict { get { return _ValRefDict; } }
         #region Interface Members
-        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.ValRefDict => _ValRefDict;
+        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.ValRefDict => _ValRefDict;
         #endregion
 
         #endregion
@@ -1545,20 +1131,20 @@ namespace Loqui.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_HasBeenSet_Derivative_RPCGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
 
         #endregion
 
         #region Loqui Getter Interface
 
-        protected object GetNthObject(ushort index) => TestObject_HasBeenSet_Derivative_RPCCommon.GetNthObject(index, this);
+        protected object GetNthObject(ushort index) => TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.GetNthObject(index, this);
         object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_HasBeenSet_Derivative_RPCCommon.GetNthObjectHasBeenSet(index, this);
+        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.GetNthObjectHasBeenSet(index, this);
         bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_HasBeenSet_Derivative_RPCCommon.UnsetNthObject(index, this, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.UnsetNthObject(index, this, cmds);
         void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
@@ -1566,7 +1152,7 @@ namespace Loqui.Tests
         #region Loqui Interface
         protected void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObject_HasBeenSet_Derivative_RPCCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.SetNthObjectHasBeenSet(index, on, this);
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
@@ -1575,37 +1161,37 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return TestObject_HasBeenSet_Derivative_RPCCommon.ToString(this, printMask: null);
+            return TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.ToString(this, printMask: null);
         }
 
         public string ToString(
             string name = null,
-            TestObject_HasBeenSet_Derivative_RPC_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> printMask = null)
         {
-            return TestObject_HasBeenSet_Derivative_RPCCommon.ToString(this, name: name, printMask: printMask);
+            return TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.ToString(this, name: name, printMask: printMask);
         }
 
         public void ToString(
             FileGeneration fg,
             string name = null)
         {
-            TestObject_HasBeenSet_Derivative_RPCCommon.ToString(this, fg, name: name, printMask: null);
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
 
-        public TestObject_HasBeenSet_Derivative_RPC_Mask<bool> GetHasBeenSetMask()
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> GetHasBeenSetMask()
         {
-            return TestObject_HasBeenSet_Derivative_RPCCommon.GetHasBeenSetMask(this);
+            return TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.GetHasBeenSetMask(this);
         }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_HasBeenSet_Derivative_RPC rhs)) return false;
+            if (!(obj is TestObject_Notifying_HasBeenSet_ReadOnly_RPC rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_HasBeenSet_Derivative_RPC rhs)
+        public bool Equals(TestObject_Notifying_HasBeenSet_ReadOnly_RPC rhs)
         {
             if (rhs == null) return false;
             if (ByteArray_Property.HasBeenSet != rhs.ByteArray_Property.HasBeenSet) return false;
@@ -2586,7 +2172,7 @@ namespace Loqui.Tests
         #region XML Translation
         #region XML Create
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(XElement root)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(XElement root)
         {
             return Create_XML(
                 root: root,
@@ -2595,9 +2181,9 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(
             XElement root,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask)
         {
             return Create_XML(
                 root: root,
@@ -2606,10 +2192,10 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(
             XElement root,
             bool doMasks,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask)
         {
             var ret = Create_XML(
                 root: root,
@@ -2619,26 +2205,26 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static (TestObject_HasBeenSet_Derivative_RPC Object, TestObject_HasBeenSet_Derivative_RPC_ErrorMask ErrorMask) Create_XML(
+        public static (TestObject_Notifying_HasBeenSet_ReadOnly_RPC Object, TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask ErrorMask) Create_XML(
             XElement root,
             bool doMasks)
         {
-            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask()) : default(Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask>));
             return (ret, errMaskRet);
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(string path)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(string path)
         {
             var root = XDocument.Load(path).Root;
             return Create_XML(root: root);
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(
             string path,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask)
         {
             var root = XDocument.Load(path).Root;
             return Create_XML(
@@ -2646,15 +2232,15 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(Stream stream)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(Stream stream)
         {
             var root = XDocument.Load(stream).Root;
             return Create_XML(root: root);
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create_XML(
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML(
             Stream stream,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask)
         {
             var root = XDocument.Load(stream).Root;
             return Create_XML(
@@ -2669,7 +2255,7 @@ namespace Loqui.Tests
             XElement root,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestObject_Notifying_HasBeenSet_ReadOnly_RPC, TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -2680,10 +2266,10 @@ namespace Loqui.Tests
 
         public virtual void CopyIn_XML(
             XElement root,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestObject_HasBeenSet_Derivative_RPC, TestObject_HasBeenSet_Derivative_RPC_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestObject_Notifying_HasBeenSet_ReadOnly_RPC, TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -2704,7 +2290,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
             var root = XDocument.Load(path).Root;
@@ -2726,7 +2312,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
             var root = XDocument.Load(stream).Root;
@@ -2741,10 +2327,10 @@ namespace Loqui.Tests
         #region XML Write
         public virtual void Write_XML(
             XmlWriter writer,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             string name = null)
         {
-            errorMask = (TestObject_HasBeenSet_Derivative_RPC_ErrorMask)this.Write_XML_Internal(
+            errorMask = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask)this.Write_XML_Internal(
                 writer: writer,
                 name: name,
                 doMasks: true);
@@ -2752,7 +2338,7 @@ namespace Loqui.Tests
 
         public virtual void Write_XML(
             string path,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             string name = null)
         {
             using (var writer = new XmlTextWriter(path, Encoding.ASCII))
@@ -2768,7 +2354,7 @@ namespace Loqui.Tests
 
         public virtual void Write_XML(
             Stream stream,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             string name = null)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
@@ -2825,7 +2411,7 @@ namespace Loqui.Tests
             bool doMasks,
             string name = null)
         {
-            TestObject_HasBeenSet_Derivative_RPCCommon.Write_XML(
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.Write_XML(
                 writer: writer,
                 item: this,
                 doMasks: doMasks,
@@ -2834,11 +2420,11 @@ namespace Loqui.Tests
         }
         #endregion
 
-        private static TestObject_HasBeenSet_Derivative_RPC Create_XML_Internal(
+        private static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create_XML_Internal(
             XElement root,
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
+            Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask> errorMask)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC();
             try
             {
                 foreach (var elem in root.Elements())
@@ -2859,10 +2445,10 @@ namespace Loqui.Tests
         }
 
         protected static void Fill_XML_Internal(
-            TestObject_HasBeenSet_Derivative_RPC item,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
             XElement root,
             string name,
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask)
+            Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask> errorMask)
         {
             switch (name)
             {
@@ -2876,7 +2462,7 @@ namespace Loqui.Tests
                         item._ByteArray.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray,
                             subMask);
                     }
                     break;
@@ -2890,7 +2476,7 @@ namespace Loqui.Tests
                         item._ByteArrayNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull,
                             subMask);
                     }
                     break;
@@ -2904,7 +2490,7 @@ namespace Loqui.Tests
                         item._ByteArrayNotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull,
                             subMask);
                     }
                     break;
@@ -2918,7 +2504,7 @@ namespace Loqui.Tests
                         item._ByteArraySingleton.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton,
                             subMask);
                     }
                     break;
@@ -2932,7 +2518,7 @@ namespace Loqui.Tests
                         item._BoolN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN,
                             subMask);
                     }
                     break;
@@ -2946,7 +2532,7 @@ namespace Loqui.Tests
                         item._Bool.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool,
                             subMask);
                     }
                     break;
@@ -2960,7 +2546,7 @@ namespace Loqui.Tests
                         item._CharN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN,
                             subMask);
                     }
                     break;
@@ -2974,7 +2560,7 @@ namespace Loqui.Tests
                         item._Char.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char,
                             subMask);
                     }
                     break;
@@ -2988,7 +2574,7 @@ namespace Loqui.Tests
                         item._DateTimeNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull,
                             subMask);
                     }
                     break;
@@ -3002,7 +2588,7 @@ namespace Loqui.Tests
                         item._DateTime.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime,
                             subMask);
                     }
                     break;
@@ -3016,7 +2602,7 @@ namespace Loqui.Tests
                         item._DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN,
                             subMask);
                     }
                     break;
@@ -3030,7 +2616,7 @@ namespace Loqui.Tests
                         item._DoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged,
                             subMask);
                     }
                     break;
@@ -3044,7 +2630,7 @@ namespace Loqui.Tests
                         item._Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double,
                             subMask);
                     }
                     break;
@@ -3058,7 +2644,7 @@ namespace Loqui.Tests
                         item._Double_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged,
                             subMask);
                     }
                     break;
@@ -3072,7 +2658,7 @@ namespace Loqui.Tests
                         item._FloatN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN,
                             subMask);
                     }
                     break;
@@ -3086,7 +2672,7 @@ namespace Loqui.Tests
                         item._FloatN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged,
                             subMask);
                     }
                     break;
@@ -3100,7 +2686,7 @@ namespace Loqui.Tests
                         item._Float.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float,
                             subMask);
                     }
                     break;
@@ -3114,7 +2700,7 @@ namespace Loqui.Tests
                         item._Float_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged,
                             subMask);
                     }
                     break;
@@ -3128,7 +2714,7 @@ namespace Loqui.Tests
                         item._Int16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N,
                             subMask);
                     }
                     break;
@@ -3142,7 +2728,7 @@ namespace Loqui.Tests
                         item._Int16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged,
                             subMask);
                     }
                     break;
@@ -3156,7 +2742,7 @@ namespace Loqui.Tests
                         item._Int16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16,
                             subMask);
                     }
                     break;
@@ -3170,7 +2756,7 @@ namespace Loqui.Tests
                         item._Int16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged,
                             subMask);
                     }
                     break;
@@ -3184,7 +2770,7 @@ namespace Loqui.Tests
                         item._Int32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N,
                             subMask);
                     }
                     break;
@@ -3198,7 +2784,7 @@ namespace Loqui.Tests
                         item._Int32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged,
                             subMask);
                     }
                     break;
@@ -3212,7 +2798,7 @@ namespace Loqui.Tests
                         item._Int32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32,
                             subMask);
                     }
                     break;
@@ -3226,7 +2812,7 @@ namespace Loqui.Tests
                         item._Int32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged,
                             subMask);
                     }
                     break;
@@ -3240,7 +2826,7 @@ namespace Loqui.Tests
                         item._Int64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N,
                             subMask);
                     }
                     break;
@@ -3254,7 +2840,7 @@ namespace Loqui.Tests
                         item._Int64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged,
                             subMask);
                     }
                     break;
@@ -3268,7 +2854,7 @@ namespace Loqui.Tests
                         item._Int64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64,
                             subMask);
                     }
                     break;
@@ -3282,7 +2868,7 @@ namespace Loqui.Tests
                         item._Int64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged,
                             subMask);
                     }
                     break;
@@ -3296,7 +2882,7 @@ namespace Loqui.Tests
                         item._Int8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N,
                             subMask);
                     }
                     break;
@@ -3310,7 +2896,7 @@ namespace Loqui.Tests
                         item._Int8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged,
                             subMask);
                     }
                     break;
@@ -3324,7 +2910,7 @@ namespace Loqui.Tests
                         item._Int8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8,
                             subMask);
                     }
                     break;
@@ -3338,7 +2924,7 @@ namespace Loqui.Tests
                         item._Int8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged,
                             subMask);
                     }
                     break;
@@ -3352,7 +2938,7 @@ namespace Loqui.Tests
                         item._Unsafe.SetIfSucceeded(tryGet.Bubble<bool>(i => (bool)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe,
                             subMask);
                     }
                     break;
@@ -3366,7 +2952,7 @@ namespace Loqui.Tests
                         item._UnsafeLoqui.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui,
                             subMask);
                     }
                     break;
@@ -3380,7 +2966,7 @@ namespace Loqui.Tests
                         item._UnsafeNull.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull,
                             subMask);
                     }
                     break;
@@ -3394,7 +2980,7 @@ namespace Loqui.Tests
                         item._P2IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN,
                             subMask);
                     }
                     break;
@@ -3408,7 +2994,7 @@ namespace Loqui.Tests
                         item._P2Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int,
                             subMask);
                     }
                     break;
@@ -3422,7 +3008,7 @@ namespace Loqui.Tests
                         item._P3DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN,
                             subMask);
                     }
                     break;
@@ -3436,7 +3022,7 @@ namespace Loqui.Tests
                         item._P3Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double,
                             subMask);
                     }
                     break;
@@ -3450,7 +3036,7 @@ namespace Loqui.Tests
                         item._P3IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN,
                             subMask);
                     }
                     break;
@@ -3464,7 +3050,7 @@ namespace Loqui.Tests
                         item._P3Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int,
                             subMask);
                     }
                     break;
@@ -3478,7 +3064,7 @@ namespace Loqui.Tests
                         item._PercentN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN,
                             subMask);
                     }
                     break;
@@ -3492,7 +3078,7 @@ namespace Loqui.Tests
                         item._Percent.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent,
                             subMask);
                     }
                     break;
@@ -3506,7 +3092,7 @@ namespace Loqui.Tests
                         item._RangeInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N,
                             subMask);
                     }
                     break;
@@ -3520,7 +3106,7 @@ namespace Loqui.Tests
                         item._RangeInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8,
                             subMask);
                     }
                     break;
@@ -3534,7 +3120,7 @@ namespace Loqui.Tests
                         item._RangeInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N,
                             subMask);
                     }
                     break;
@@ -3548,7 +3134,7 @@ namespace Loqui.Tests
                         item._RangeInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16,
                             subMask);
                     }
                     break;
@@ -3562,7 +3148,7 @@ namespace Loqui.Tests
                         item._RangeInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N,
                             subMask);
                     }
                     break;
@@ -3576,7 +3162,7 @@ namespace Loqui.Tests
                         item._RangeInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32,
                             subMask);
                     }
                     break;
@@ -3590,7 +3176,7 @@ namespace Loqui.Tests
                         item._RangeInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N,
                             subMask);
                     }
                     break;
@@ -3604,7 +3190,7 @@ namespace Loqui.Tests
                         item._RangeInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64,
                             subMask);
                     }
                     break;
@@ -3618,7 +3204,7 @@ namespace Loqui.Tests
                         item._RangeUInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N,
                             subMask);
                     }
                     break;
@@ -3632,7 +3218,7 @@ namespace Loqui.Tests
                         item._RangeUInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8,
                             subMask);
                     }
                     break;
@@ -3646,7 +3232,7 @@ namespace Loqui.Tests
                         item._RangeUInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N,
                             subMask);
                     }
                     break;
@@ -3660,7 +3246,7 @@ namespace Loqui.Tests
                         item._RangeUInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16,
                             subMask);
                     }
                     break;
@@ -3674,7 +3260,7 @@ namespace Loqui.Tests
                         item._RangeUInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N,
                             subMask);
                     }
                     break;
@@ -3688,7 +3274,7 @@ namespace Loqui.Tests
                         item._RangeUInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32,
                             subMask);
                     }
                     break;
@@ -3702,7 +3288,7 @@ namespace Loqui.Tests
                         item._RangeUInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N,
                             subMask);
                     }
                     break;
@@ -3716,7 +3302,7 @@ namespace Loqui.Tests
                         item._RangeUInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64,
                             subMask);
                     }
                     break;
@@ -3730,7 +3316,7 @@ namespace Loqui.Tests
                         item._String.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String,
                             subMask);
                     }
                     break;
@@ -3744,7 +3330,7 @@ namespace Loqui.Tests
                         item._FilePath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath,
                             subMask);
                     }
                     break;
@@ -3758,7 +3344,7 @@ namespace Loqui.Tests
                         item._FilePathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull,
                             subMask);
                     }
                     break;
@@ -3772,7 +3358,7 @@ namespace Loqui.Tests
                         item._DirectoryPath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath,
                             subMask);
                     }
                     break;
@@ -3786,7 +3372,7 @@ namespace Loqui.Tests
                         item._DirectoryPathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull,
                             subMask);
                     }
                     break;
@@ -3800,7 +3386,7 @@ namespace Loqui.Tests
                         item._UDoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN,
                             subMask);
                     }
                     break;
@@ -3814,7 +3400,7 @@ namespace Loqui.Tests
                         item._UDoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged,
                             subMask);
                     }
                     break;
@@ -3828,7 +3414,7 @@ namespace Loqui.Tests
                         item._UDouble.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble,
                             subMask);
                     }
                     break;
@@ -3842,7 +3428,7 @@ namespace Loqui.Tests
                         item._UDouble_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged,
                             subMask);
                     }
                     break;
@@ -3856,7 +3442,7 @@ namespace Loqui.Tests
                         item._UInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N,
                             subMask);
                     }
                     break;
@@ -3870,7 +3456,7 @@ namespace Loqui.Tests
                         item._UInt16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged,
                             subMask);
                     }
                     break;
@@ -3884,7 +3470,7 @@ namespace Loqui.Tests
                         item._UInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16,
                             subMask);
                     }
                     break;
@@ -3898,7 +3484,7 @@ namespace Loqui.Tests
                         item._UInt16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged,
                             subMask);
                     }
                     break;
@@ -3912,7 +3498,7 @@ namespace Loqui.Tests
                         item._UInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N,
                             subMask);
                     }
                     break;
@@ -3926,7 +3512,7 @@ namespace Loqui.Tests
                         item._UInt32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged,
                             subMask);
                     }
                     break;
@@ -3940,7 +3526,7 @@ namespace Loqui.Tests
                         item._UInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32,
                             subMask);
                     }
                     break;
@@ -3954,7 +3540,7 @@ namespace Loqui.Tests
                         item._UInt32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged,
                             subMask);
                     }
                     break;
@@ -3968,7 +3554,7 @@ namespace Loqui.Tests
                         item._UInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N,
                             subMask);
                     }
                     break;
@@ -3982,7 +3568,7 @@ namespace Loqui.Tests
                         item._UInt64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged,
                             subMask);
                     }
                     break;
@@ -3996,7 +3582,7 @@ namespace Loqui.Tests
                         item._UInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64,
                             subMask);
                     }
                     break;
@@ -4010,7 +3596,7 @@ namespace Loqui.Tests
                         item._UInt64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged,
                             subMask);
                     }
                     break;
@@ -4024,7 +3610,7 @@ namespace Loqui.Tests
                         item._UInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N,
                             subMask);
                     }
                     break;
@@ -4038,7 +3624,7 @@ namespace Loqui.Tests
                         item._UInt8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged,
                             subMask);
                     }
                     break;
@@ -4052,7 +3638,7 @@ namespace Loqui.Tests
                         item._UInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8,
                             subMask);
                     }
                     break;
@@ -4066,7 +3652,7 @@ namespace Loqui.Tests
                         item._UInt8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged,
                             subMask);
                     }
                     break;
@@ -4081,7 +3667,7 @@ namespace Loqui.Tests
                         item._Enum.SetIfSucceeded(tryGet.Bubble((o) => o.Value));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum,
                             subMask);
                     }
                     break;
@@ -4096,7 +3682,7 @@ namespace Loqui.Tests
                         item._EnumNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull,
                             subMask);
                     }
                     break;
@@ -4110,7 +3696,7 @@ namespace Loqui.Tests
                         item._WildCard.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard,
                             subMask);
                     }
                     break;
@@ -4124,7 +3710,7 @@ namespace Loqui.Tests
                         item._WildCardLoqui.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui,
                             subMask);
                     }
                     break;
@@ -4138,7 +3724,7 @@ namespace Loqui.Tests
                         item._WildCardNull.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull,
                             subMask);
                     }
                     break;
@@ -4152,7 +3738,7 @@ namespace Loqui.Tests
                         item._Ref.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref,
                             subMask);
                     }
                     break;
@@ -4166,7 +3752,7 @@ namespace Loqui.Tests
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull,
                             subMask);
                     }
                     break;
@@ -4189,7 +3775,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton,
                             subMask);
                     }
                     break;
@@ -4203,7 +3789,7 @@ namespace Loqui.Tests
                         item._RefGetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter,
                             subMask);
                     }
                     break;
@@ -4217,7 +3803,7 @@ namespace Loqui.Tests
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull,
                             subMask);
                     }
                     break;
@@ -4233,7 +3819,7 @@ namespace Loqui.Tests
                         item._RefSetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter,
                             subMask);
                     }
                     break;
@@ -4247,7 +3833,7 @@ namespace Loqui.Tests
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull,
                             subMask);
                     }
                     break;
@@ -4270,7 +3856,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton,
                             subMask);
                     }
                     break;
@@ -4293,7 +3879,7 @@ namespace Loqui.Tests
                         item._List.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List,
                             subMask);
                     }
                     break;
@@ -4315,7 +3901,7 @@ namespace Loqui.Tests
                         item._RefList.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList,
                             subMask);
                     }
                     break;
@@ -4346,7 +3932,7 @@ namespace Loqui.Tests
                         item._Dict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict,
                             subMask);
                     }
                     break;
@@ -4376,7 +3962,7 @@ namespace Loqui.Tests
                         item._RefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict,
                             subMask);
                     }
                     break;
@@ -4407,7 +3993,7 @@ namespace Loqui.Tests
                         item._KeyRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict,
                             subMask);
                     }
                     break;
@@ -4437,7 +4023,7 @@ namespace Loqui.Tests
                         item._ValRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict,
                             subMask);
                     }
                     break;
@@ -4459,7 +4045,7 @@ namespace Loqui.Tests
                         item._DictKeyedValue.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue,
                             subMask);
                     }
                     break;
@@ -4470,29 +4056,29 @@ namespace Loqui.Tests
 
         #endregion
 
-        public TestObject_HasBeenSet_Derivative_RPC Copy(
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null)
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC Copy(
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null)
         {
-            return TestObject_HasBeenSet_Derivative_RPC.Copy(
+            return TestObject_Notifying_HasBeenSet_ReadOnly_RPC.Copy(
                 this,
                 copyMask: copyMask,
                 def: def);
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Copy(
-            ITestObject_HasBeenSet_Derivative_RPC item,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Copy(
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null)
         {
-            TestObject_HasBeenSet_Derivative_RPC ret;
-            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_Derivative_RPC)))
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC)))
             {
-                ret = new TestObject_HasBeenSet_Derivative_RPC();
+                ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC();
             }
             else
             {
-                ret = (TestObject_HasBeenSet_Derivative_RPC)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC)Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -4503,14 +4089,14 @@ namespace Loqui.Tests
 
         public static CopyType CopyGeneric<CopyType>(
             CopyType item,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null)
-            where CopyType : class, ITestObject_HasBeenSet_Derivative_RPC
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null)
+            where CopyType : class, ITestObject_Notifying_HasBeenSet_ReadOnly_RPC
         {
             CopyType ret;
-            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_Derivative_RPC)))
+            if (item.GetType().Equals(typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC)))
             {
-                ret = new TestObject_HasBeenSet_Derivative_RPC() as CopyType;
+                ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC() as CopyType;
             }
             else
             {
@@ -4526,12 +4112,12 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC Copy_ToLoqui(
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Copy_ToLoqui(
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC();
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -4542,117 +4128,545 @@ namespace Loqui.Tests
         void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
-                    throw new ArgumentException($"Tried to set at a derivative index {index}");
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                    this._ByteArray.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                    this._ByteArrayNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                    this._ByteArrayNotNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                    this._ByteArraySingleton.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                    this._BoolN.Set(
+                        (Boolean?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                    this._Bool.Set(
+                        (Boolean)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                    this._CharN.Set(
+                        (Char?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                    this._Char.Set(
+                        (Char)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                    this._DateTimeNull.Set(
+                        (DateTime?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                    this._DateTime.Set(
+                        (DateTime)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                    this._DoubleN.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                    this._DoubleN_Ranged.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                    this._Double.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                    this._Double_Ranged.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                    this._FloatN.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                    this._FloatN_Ranged.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                    this._Float.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                    this._Float_Ranged.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                    this._Int16N.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                    this._Int16N_Ranged.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                    this._Int16.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                    this._Int16_Ranged.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                    this._Int32N.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                    this._Int32N_Ranged.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                    this._Int32.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                    this._Int32_Ranged.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                    this._Int64N.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                    this._Int64N_Ranged.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                    this._Int64.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                    this._Int64_Ranged.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                    this._Int8N.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                    this._Int8N_Ranged.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                    this._Int8.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                    this._Int8_Ranged.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                    this._Unsafe.Set(
+                        (bool)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                    this._UnsafeLoqui.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                    this._UnsafeNull.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                    this._P2IntN.Set(
+                        (P2Int?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                    this._P2Int.Set(
+                        (P2Int)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                    this._P3DoubleN.Set(
+                        (P3Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                    this._P3Double.Set(
+                        (P3Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                    this._P3IntN.Set(
+                        (P3Int?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                    this._P3Int.Set(
+                        (P3Int)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                    this._PercentN.Set(
+                        (Percent?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                    this._Percent.Set(
+                        (Percent)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                    this._RangeInt8N.Set(
+                        (RangeInt8?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                    this._RangeInt8.Set(
+                        (RangeInt8)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                    this._RangeInt16N.Set(
+                        (RangeInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                    this._RangeInt16.Set(
+                        (RangeInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                    this._RangeInt32N.Set(
+                        (RangeInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                    this._RangeInt32.Set(
+                        (RangeInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                    this._RangeInt64N.Set(
+                        (RangeInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                    this._RangeInt64.Set(
+                        (RangeInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                    this._RangeUInt8N.Set(
+                        (RangeUInt8?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                    this._RangeUInt8.Set(
+                        (RangeUInt8)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                    this._RangeUInt16N.Set(
+                        (RangeUInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                    this._RangeUInt16.Set(
+                        (RangeUInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                    this._RangeUInt32N.Set(
+                        (RangeUInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                    this._RangeUInt32.Set(
+                        (RangeUInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                    this._RangeUInt64N.Set(
+                        (RangeUInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                    this._RangeUInt64.Set(
+                        (RangeUInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                    this._String.Set(
+                        (String)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                    this._FilePath.Set(
+                        (FilePath)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                    this._FilePathNull.Set(
+                        (FilePath?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                    this._DirectoryPath.Set(
+                        (DirectoryPath)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                    this._DirectoryPathNull.Set(
+                        (DirectoryPath?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                    this._UDoubleN.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                    this._UDoubleN_Ranged.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                    this._UDouble.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                    this._UDouble_Ranged.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                    this._UInt16N.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                    this._UInt16N_Ranged.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                    this._UInt16.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                    this._UInt16_Ranged.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                    this._UInt32N.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                    this._UInt32N_Ranged.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                    this._UInt32.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                    this._UInt32_Ranged.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                    this._UInt64N.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                    this._UInt64N_Ranged.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                    this._UInt64.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                    this._UInt64_Ranged.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                    this._UInt8N.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                    this._UInt8N_Ranged.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                    this._UInt8.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                    this._UInt8_Ranged.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                    this._Enum.Set(
+                        (TestEnum)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    this._EnumNull.Set(
+                        (TestEnum?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                    this._WildCard.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                    this._WildCardLoqui.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                    this._WildCardNull.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                    this._Ref.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                    this._Ref_NotNull.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                    this._RefGetter.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                    this._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                    throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                    this._RefSetter.Set(
+                        (IObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                    this._RefSetter_NotNull.Set(
+                        (IObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                    this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                    this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                    this.Dict.SetTo(
+                        ((NotifyingDictionary<String, Boolean>)obj).Select(
+                            (i) => new KeyValuePair<String, Boolean>(
+                                i.Key,
+                                i.Value)),
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                    this.RefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
+                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                i.Key.Copy(),
+                                i.Value.Copy())),
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                    this.KeyRefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, Boolean>)obj).Select(
+                            (i) => new KeyValuePair<ObjectToRef, Boolean>(
+                                i.Key.Copy(),
+                                i.Value)),
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                    this.ValRefDict.SetTo(
+                        ((NotifyingDictionary<String, ObjectToRef>)obj).Select(
+                            (i) => new KeyValuePair<String, ObjectToRef>(
+                                i.Key,
+                                i.Value.Copy())),
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    this.DictKeyedValue.SetTo(
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
+                        cmds);
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -4668,33 +4682,570 @@ namespace Loqui.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             CallClearPartial_Internal(cmds);
-            TestObject_HasBeenSet_Derivative_RPCCommon.Clear(this, cmds);
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.Clear(this, cmds);
         }
 
 
-        public static TestObject_HasBeenSet_Derivative_RPC Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC();
             foreach (var pair in fields)
             {
-                CopyInInternal_TestObject_HasBeenSet_Derivative_RPC(ret, pair);
+                CopyInInternal_TestObject_Notifying_HasBeenSet_ReadOnly_RPC(ret, pair);
             }
             return ret;
         }
 
-        protected static void CopyInInternal_TestObject_HasBeenSet_Derivative_RPC(TestObject_HasBeenSet_Derivative_RPC obj, KeyValuePair<ushort, object> pair)
+        protected static void CopyInInternal_TestObject_Notifying_HasBeenSet_ReadOnly_RPC(TestObject_Notifying_HasBeenSet_ReadOnly_RPC obj, KeyValuePair<ushort, object> pair)
         {
-            if (!EnumExt.TryParse(pair.Key, out TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu))
+            if (!EnumExt.TryParse(pair.Key, out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu))
             {
                 throw new ArgumentException($"Unknown index: {pair.Key}");
             }
             switch (enu)
             {
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                    obj._ByteArray.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                    obj._ByteArrayNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                    obj._ByteArrayNotNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                    obj._ByteArraySingleton.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                    obj._BoolN.Set(
+                        (Boolean?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                    obj._Bool.Set(
+                        (Boolean)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                    obj._CharN.Set(
+                        (Char?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                    obj._Char.Set(
+                        (Char)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                    obj._DateTimeNull.Set(
+                        (DateTime?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                    obj._DateTime.Set(
+                        (DateTime)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                    obj._DoubleN.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                    obj._DoubleN_Ranged.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                    obj._Double.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                    obj._Double_Ranged.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                    obj._FloatN.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                    obj._FloatN_Ranged.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                    obj._Float.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                    obj._Float_Ranged.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                    obj._Int16N.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                    obj._Int16N_Ranged.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                    obj._Int16.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                    obj._Int16_Ranged.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                    obj._Int32N.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                    obj._Int32N_Ranged.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                    obj._Int32.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                    obj._Int32_Ranged.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                    obj._Int64N.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                    obj._Int64N_Ranged.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                    obj._Int64.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                    obj._Int64_Ranged.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                    obj._Int8N.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                    obj._Int8N_Ranged.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                    obj._Int8.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                    obj._Int8_Ranged.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                    obj._Unsafe.Set(
+                        (bool)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                    obj._UnsafeLoqui.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                    obj._UnsafeNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                    obj._P2IntN.Set(
+                        (P2Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                    obj._P2Int.Set(
+                        (P2Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                    obj._P3DoubleN.Set(
+                        (P3Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                    obj._P3Double.Set(
+                        (P3Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                    obj._P3IntN.Set(
+                        (P3Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                    obj._P3Int.Set(
+                        (P3Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                    obj._PercentN.Set(
+                        (Percent?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                    obj._Percent.Set(
+                        (Percent)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                    obj._RangeInt8N.Set(
+                        (RangeInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                    obj._RangeInt8.Set(
+                        (RangeInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                    obj._RangeInt16N.Set(
+                        (RangeInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                    obj._RangeInt16.Set(
+                        (RangeInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                    obj._RangeInt32N.Set(
+                        (RangeInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                    obj._RangeInt32.Set(
+                        (RangeInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                    obj._RangeInt64N.Set(
+                        (RangeInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                    obj._RangeInt64.Set(
+                        (RangeInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                    obj._RangeUInt8N.Set(
+                        (RangeUInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                    obj._RangeUInt8.Set(
+                        (RangeUInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                    obj._RangeUInt16N.Set(
+                        (RangeUInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                    obj._RangeUInt16.Set(
+                        (RangeUInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                    obj._RangeUInt32N.Set(
+                        (RangeUInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                    obj._RangeUInt32.Set(
+                        (RangeUInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                    obj._RangeUInt64N.Set(
+                        (RangeUInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                    obj._RangeUInt64.Set(
+                        (RangeUInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                    obj._String.Set(
+                        (String)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                    obj._FilePath.Set(
+                        (FilePath)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                    obj._FilePathNull.Set(
+                        (FilePath?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                    obj._DirectoryPath.Set(
+                        (DirectoryPath)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                    obj._DirectoryPathNull.Set(
+                        (DirectoryPath?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                    obj._UDoubleN.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                    obj._UDoubleN_Ranged.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                    obj._UDouble.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                    obj._UDouble_Ranged.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                    obj._UInt16N.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                    obj._UInt16N_Ranged.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                    obj._UInt16.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                    obj._UInt16_Ranged.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                    obj._UInt32N.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                    obj._UInt32N_Ranged.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                    obj._UInt32.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                    obj._UInt32_Ranged.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                    obj._UInt64N.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                    obj._UInt64N_Ranged.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                    obj._UInt64.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                    obj._UInt64_Ranged.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                    obj._UInt8N.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                    obj._UInt8N_Ranged.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                    obj._UInt8.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                    obj._UInt8_Ranged.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                    obj._Enum.Set(
+                        (TestEnum)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    obj._EnumNull.Set(
+                        (TestEnum?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                    obj._WildCard.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                    obj._WildCardLoqui.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                    obj._WildCardNull.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                    obj._Ref.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                    obj._Ref_NotNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                    obj._RefGetter.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                    obj._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                    obj._RefSetter.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                    obj._RefSetter_NotNull.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                    obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                    obj._RefList.SetTo((IEnumerable<ObjectToRef>)pair.Value, null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                    obj.Dict.SetTo(
+                        ((NotifyingDictionary<String, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, Boolean>(
+                                i.Key,
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                    obj.RefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
+                                i.Key.Copy(),
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                    obj.KeyRefDict.SetTo(
+                        ((NotifyingDictionary<ObjectToRef, Boolean>)pair.Value).Select(
+                            (i) => new KeyValuePair<ObjectToRef, Boolean>(
+                                i.Key.Copy(),
+                                i.Value)),
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                    obj.ValRefDict.SetTo(
+                        ((NotifyingDictionary<String, ObjectToRef>)pair.Value).Select(
+                            (i) => new KeyValuePair<String, ObjectToRef>(
+                                i.Key,
+                                i.Value.Copy())),
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    obj.DictKeyedValue.SetTo(
+                        ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)pair.Value),
+                        null);
+                    break;
                 default:
                     throw new ArgumentException($"Unknown enum type: {enu}");
             }
         }
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_HasBeenSet_Derivative_RPC obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_HasBeenSet_ReadOnly_RPC obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
@@ -4703,510 +5254,510 @@ namespace Loqui.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject_HasBeenSet_Derivative_RPC : ITestObject_HasBeenSet_Derivative_RPCGetter, ILoquiClass<ITestObject_HasBeenSet_Derivative_RPC, ITestObject_HasBeenSet_Derivative_RPCGetter>, ILoquiClass<TestObject_HasBeenSet_Derivative_RPC, ITestObject_HasBeenSet_Derivative_RPCGetter>
+    public interface ITestObject_Notifying_HasBeenSet_ReadOnly_RPC : ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter, ILoquiClass<ITestObject_Notifying_HasBeenSet_ReadOnly_RPC, ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter>, ILoquiClass<TestObject_Notifying_HasBeenSet_ReadOnly_RPC, ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter>
     {
     }
 
-    public interface ITestObject_HasBeenSet_Derivative_RPCGetter : ILoquiObject
+    public interface ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter : ILoquiObject
     {
         #region ByteArray
         Byte[] ByteArray { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArray_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArray_Property { get; }
 
         #endregion
         #region ByteArrayNull
         Byte[] ByteArrayNull { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArrayNull_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArrayNull_Property { get; }
 
         #endregion
         #region ByteArrayNotNull
         Byte[] ByteArrayNotNull { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArrayNotNull_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArrayNotNull_Property { get; }
 
         #endregion
         #region ByteArraySingleton
         Byte[] ByteArraySingleton { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArraySingleton_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArraySingleton_Property { get; }
 
         #endregion
         #region BoolN
         Boolean? BoolN { get; }
-        IHasBeenSetItemGetter<Boolean?> BoolN_Property { get; }
+        INotifyingSetItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
         #region Bool
         Boolean Bool { get; }
-        IHasBeenSetItemGetter<Boolean> Bool_Property { get; }
+        INotifyingSetItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
         #region CharN
         Char? CharN { get; }
-        IHasBeenSetItemGetter<Char?> CharN_Property { get; }
+        INotifyingSetItemGetter<Char?> CharN_Property { get; }
 
         #endregion
         #region Char
         Char Char { get; }
-        IHasBeenSetItemGetter<Char> Char_Property { get; }
+        INotifyingSetItemGetter<Char> Char_Property { get; }
 
         #endregion
         #region DateTimeNull
         DateTime? DateTimeNull { get; }
-        IHasBeenSetItemGetter<DateTime?> DateTimeNull_Property { get; }
+        INotifyingSetItemGetter<DateTime?> DateTimeNull_Property { get; }
 
         #endregion
         #region DateTime
         DateTime DateTime { get; }
-        IHasBeenSetItemGetter<DateTime> DateTime_Property { get; }
+        INotifyingSetItemGetter<DateTime> DateTime_Property { get; }
 
         #endregion
         #region DoubleN
         Double? DoubleN { get; }
-        IHasBeenSetItemGetter<Double?> DoubleN_Property { get; }
+        INotifyingSetItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
         #region DoubleN_Ranged
         Double? DoubleN_Ranged { get; }
-        IHasBeenSetItemGetter<Double?> DoubleN_Ranged_Property { get; }
+        INotifyingSetItemGetter<Double?> DoubleN_Ranged_Property { get; }
 
         #endregion
         #region Double
         Double Double { get; }
-        IHasBeenSetItemGetter<Double> Double_Property { get; }
+        INotifyingSetItemGetter<Double> Double_Property { get; }
 
         #endregion
         #region Double_Ranged
         Double Double_Ranged { get; }
-        IHasBeenSetItemGetter<Double> Double_Ranged_Property { get; }
+        INotifyingSetItemGetter<Double> Double_Ranged_Property { get; }
 
         #endregion
         #region FloatN
         Single? FloatN { get; }
-        IHasBeenSetItemGetter<Single?> FloatN_Property { get; }
+        INotifyingSetItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
         #region FloatN_Ranged
         Single? FloatN_Ranged { get; }
-        IHasBeenSetItemGetter<Single?> FloatN_Ranged_Property { get; }
+        INotifyingSetItemGetter<Single?> FloatN_Ranged_Property { get; }
 
         #endregion
         #region Float
         Single Float { get; }
-        IHasBeenSetItemGetter<Single> Float_Property { get; }
+        INotifyingSetItemGetter<Single> Float_Property { get; }
 
         #endregion
         #region Float_Ranged
         Single Float_Ranged { get; }
-        IHasBeenSetItemGetter<Single> Float_Ranged_Property { get; }
+        INotifyingSetItemGetter<Single> Float_Ranged_Property { get; }
 
         #endregion
         #region Int16N
         Int16? Int16N { get; }
-        IHasBeenSetItemGetter<Int16?> Int16N_Property { get; }
+        INotifyingSetItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
         #region Int16N_Ranged
         Int16? Int16N_Ranged { get; }
-        IHasBeenSetItemGetter<Int16?> Int16N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int16?> Int16N_Ranged_Property { get; }
 
         #endregion
         #region Int16
         Int16 Int16 { get; }
-        IHasBeenSetItemGetter<Int16> Int16_Property { get; }
+        INotifyingSetItemGetter<Int16> Int16_Property { get; }
 
         #endregion
         #region Int16_Ranged
         Int16 Int16_Ranged { get; }
-        IHasBeenSetItemGetter<Int16> Int16_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int16> Int16_Ranged_Property { get; }
 
         #endregion
         #region Int32N
         Int32? Int32N { get; }
-        IHasBeenSetItemGetter<Int32?> Int32N_Property { get; }
+        INotifyingSetItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
         #region Int32N_Ranged
         Int32? Int32N_Ranged { get; }
-        IHasBeenSetItemGetter<Int32?> Int32N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int32?> Int32N_Ranged_Property { get; }
 
         #endregion
         #region Int32
         Int32 Int32 { get; }
-        IHasBeenSetItemGetter<Int32> Int32_Property { get; }
+        INotifyingSetItemGetter<Int32> Int32_Property { get; }
 
         #endregion
         #region Int32_Ranged
         Int32 Int32_Ranged { get; }
-        IHasBeenSetItemGetter<Int32> Int32_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int32> Int32_Ranged_Property { get; }
 
         #endregion
         #region Int64N
         Int64? Int64N { get; }
-        IHasBeenSetItemGetter<Int64?> Int64N_Property { get; }
+        INotifyingSetItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
         #region Int64N_Ranged
         Int64? Int64N_Ranged { get; }
-        IHasBeenSetItemGetter<Int64?> Int64N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int64?> Int64N_Ranged_Property { get; }
 
         #endregion
         #region Int64
         Int64 Int64 { get; }
-        IHasBeenSetItemGetter<Int64> Int64_Property { get; }
+        INotifyingSetItemGetter<Int64> Int64_Property { get; }
 
         #endregion
         #region Int64_Ranged
         Int64 Int64_Ranged { get; }
-        IHasBeenSetItemGetter<Int64> Int64_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int64> Int64_Ranged_Property { get; }
 
         #endregion
         #region Int8N
         SByte? Int8N { get; }
-        IHasBeenSetItemGetter<SByte?> Int8N_Property { get; }
+        INotifyingSetItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
         #region Int8N_Ranged
         SByte? Int8N_Ranged { get; }
-        IHasBeenSetItemGetter<SByte?> Int8N_Ranged_Property { get; }
+        INotifyingSetItemGetter<SByte?> Int8N_Ranged_Property { get; }
 
         #endregion
         #region Int8
         SByte Int8 { get; }
-        IHasBeenSetItemGetter<SByte> Int8_Property { get; }
+        INotifyingSetItemGetter<SByte> Int8_Property { get; }
 
         #endregion
         #region Int8_Ranged
         SByte Int8_Ranged { get; }
-        IHasBeenSetItemGetter<SByte> Int8_Ranged_Property { get; }
+        INotifyingSetItemGetter<SByte> Int8_Ranged_Property { get; }
 
         #endregion
         #region Unsafe
         bool Unsafe { get; }
-        IHasBeenSetItemGetter<bool> Unsafe_Property { get; }
+        INotifyingSetItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
         #region UnsafeLoqui
         ObjectToRef UnsafeLoqui { get; }
-        IHasBeenSetItemGetter<ObjectToRef> UnsafeLoqui_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> UnsafeLoqui_Property { get; }
 
         #endregion
         #region UnsafeNull
         ObjectToRef UnsafeNull { get; }
-        IHasBeenSetItemGetter<ObjectToRef> UnsafeNull_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> UnsafeNull_Property { get; }
 
         #endregion
         #region P2IntN
         P2Int? P2IntN { get; }
-        IHasBeenSetItemGetter<P2Int?> P2IntN_Property { get; }
+        INotifyingSetItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
         #region P2Int
         P2Int P2Int { get; }
-        IHasBeenSetItemGetter<P2Int> P2Int_Property { get; }
+        INotifyingSetItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
-        IHasBeenSetItemGetter<P3Double?> P3DoubleN_Property { get; }
+        INotifyingSetItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
         #region P3Double
         P3Double P3Double { get; }
-        IHasBeenSetItemGetter<P3Double> P3Double_Property { get; }
+        INotifyingSetItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
         #region P3IntN
         P3Int? P3IntN { get; }
-        IHasBeenSetItemGetter<P3Int?> P3IntN_Property { get; }
+        INotifyingSetItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
         #region P3Int
         P3Int P3Int { get; }
-        IHasBeenSetItemGetter<P3Int> P3Int_Property { get; }
+        INotifyingSetItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
         #region PercentN
         Percent? PercentN { get; }
-        IHasBeenSetItemGetter<Percent?> PercentN_Property { get; }
+        INotifyingSetItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
         #region Percent
         Percent Percent { get; }
-        IHasBeenSetItemGetter<Percent> Percent_Property { get; }
+        INotifyingSetItemGetter<Percent> Percent_Property { get; }
 
         #endregion
         #region RangeInt8N
         RangeInt8? RangeInt8N { get; }
-        IHasBeenSetItemGetter<RangeInt8?> RangeInt8N_Property { get; }
+        INotifyingSetItemGetter<RangeInt8?> RangeInt8N_Property { get; }
 
         #endregion
         #region RangeInt8
         RangeInt8 RangeInt8 { get; }
-        IHasBeenSetItemGetter<RangeInt8> RangeInt8_Property { get; }
+        INotifyingSetItemGetter<RangeInt8> RangeInt8_Property { get; }
 
         #endregion
         #region RangeInt16N
         RangeInt16? RangeInt16N { get; }
-        IHasBeenSetItemGetter<RangeInt16?> RangeInt16N_Property { get; }
+        INotifyingSetItemGetter<RangeInt16?> RangeInt16N_Property { get; }
 
         #endregion
         #region RangeInt16
         RangeInt16 RangeInt16 { get; }
-        IHasBeenSetItemGetter<RangeInt16> RangeInt16_Property { get; }
+        INotifyingSetItemGetter<RangeInt16> RangeInt16_Property { get; }
 
         #endregion
         #region RangeInt32N
         RangeInt32? RangeInt32N { get; }
-        IHasBeenSetItemGetter<RangeInt32?> RangeInt32N_Property { get; }
+        INotifyingSetItemGetter<RangeInt32?> RangeInt32N_Property { get; }
 
         #endregion
         #region RangeInt32
         RangeInt32 RangeInt32 { get; }
-        IHasBeenSetItemGetter<RangeInt32> RangeInt32_Property { get; }
+        INotifyingSetItemGetter<RangeInt32> RangeInt32_Property { get; }
 
         #endregion
         #region RangeInt64N
         RangeInt64? RangeInt64N { get; }
-        IHasBeenSetItemGetter<RangeInt64?> RangeInt64N_Property { get; }
+        INotifyingSetItemGetter<RangeInt64?> RangeInt64N_Property { get; }
 
         #endregion
         #region RangeInt64
         RangeInt64 RangeInt64 { get; }
-        IHasBeenSetItemGetter<RangeInt64> RangeInt64_Property { get; }
+        INotifyingSetItemGetter<RangeInt64> RangeInt64_Property { get; }
 
         #endregion
         #region RangeUInt8N
         RangeUInt8? RangeUInt8N { get; }
-        IHasBeenSetItemGetter<RangeUInt8?> RangeUInt8N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt8?> RangeUInt8N_Property { get; }
 
         #endregion
         #region RangeUInt8
         RangeUInt8 RangeUInt8 { get; }
-        IHasBeenSetItemGetter<RangeUInt8> RangeUInt8_Property { get; }
+        INotifyingSetItemGetter<RangeUInt8> RangeUInt8_Property { get; }
 
         #endregion
         #region RangeUInt16N
         RangeUInt16? RangeUInt16N { get; }
-        IHasBeenSetItemGetter<RangeUInt16?> RangeUInt16N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt16?> RangeUInt16N_Property { get; }
 
         #endregion
         #region RangeUInt16
         RangeUInt16 RangeUInt16 { get; }
-        IHasBeenSetItemGetter<RangeUInt16> RangeUInt16_Property { get; }
+        INotifyingSetItemGetter<RangeUInt16> RangeUInt16_Property { get; }
 
         #endregion
         #region RangeUInt32N
         RangeUInt32? RangeUInt32N { get; }
-        IHasBeenSetItemGetter<RangeUInt32?> RangeUInt32N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt32?> RangeUInt32N_Property { get; }
 
         #endregion
         #region RangeUInt32
         RangeUInt32 RangeUInt32 { get; }
-        IHasBeenSetItemGetter<RangeUInt32> RangeUInt32_Property { get; }
+        INotifyingSetItemGetter<RangeUInt32> RangeUInt32_Property { get; }
 
         #endregion
         #region RangeUInt64N
         RangeUInt64? RangeUInt64N { get; }
-        IHasBeenSetItemGetter<RangeUInt64?> RangeUInt64N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt64?> RangeUInt64N_Property { get; }
 
         #endregion
         #region RangeUInt64
         RangeUInt64 RangeUInt64 { get; }
-        IHasBeenSetItemGetter<RangeUInt64> RangeUInt64_Property { get; }
+        INotifyingSetItemGetter<RangeUInt64> RangeUInt64_Property { get; }
 
         #endregion
         #region String
         String String { get; }
-        IHasBeenSetItemGetter<String> String_Property { get; }
+        INotifyingSetItemGetter<String> String_Property { get; }
 
         #endregion
         #region FilePath
         FilePath FilePath { get; }
-        IHasBeenSetItemGetter<FilePath> FilePath_Property { get; }
+        INotifyingSetItemGetter<FilePath> FilePath_Property { get; }
 
         #endregion
         #region FilePathNull
         FilePath? FilePathNull { get; }
-        IHasBeenSetItemGetter<FilePath?> FilePathNull_Property { get; }
+        INotifyingSetItemGetter<FilePath?> FilePathNull_Property { get; }
 
         #endregion
         #region DirectoryPath
         DirectoryPath DirectoryPath { get; }
-        IHasBeenSetItemGetter<DirectoryPath> DirectoryPath_Property { get; }
+        INotifyingSetItemGetter<DirectoryPath> DirectoryPath_Property { get; }
 
         #endregion
         #region DirectoryPathNull
         DirectoryPath? DirectoryPathNull { get; }
-        IHasBeenSetItemGetter<DirectoryPath?> DirectoryPathNull_Property { get; }
+        INotifyingSetItemGetter<DirectoryPath?> DirectoryPathNull_Property { get; }
 
         #endregion
         #region UDoubleN
         UDouble? UDoubleN { get; }
-        IHasBeenSetItemGetter<UDouble?> UDoubleN_Property { get; }
+        INotifyingSetItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
         #region UDoubleN_Ranged
         UDouble? UDoubleN_Ranged { get; }
-        IHasBeenSetItemGetter<UDouble?> UDoubleN_Ranged_Property { get; }
+        INotifyingSetItemGetter<UDouble?> UDoubleN_Ranged_Property { get; }
 
         #endregion
         #region UDouble
         UDouble UDouble { get; }
-        IHasBeenSetItemGetter<UDouble> UDouble_Property { get; }
+        INotifyingSetItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
         #region UDouble_Ranged
         UDouble UDouble_Ranged { get; }
-        IHasBeenSetItemGetter<UDouble> UDouble_Ranged_Property { get; }
+        INotifyingSetItemGetter<UDouble> UDouble_Ranged_Property { get; }
 
         #endregion
         #region UInt16N
         UInt16? UInt16N { get; }
-        IHasBeenSetItemGetter<UInt16?> UInt16N_Property { get; }
+        INotifyingSetItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
         #region UInt16N_Ranged
         UInt16? UInt16N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt16?> UInt16N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt16?> UInt16N_Ranged_Property { get; }
 
         #endregion
         #region UInt16
         UInt16 UInt16 { get; }
-        IHasBeenSetItemGetter<UInt16> UInt16_Property { get; }
+        INotifyingSetItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
         #region UInt16_Ranged
         UInt16 UInt16_Ranged { get; }
-        IHasBeenSetItemGetter<UInt16> UInt16_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt16> UInt16_Ranged_Property { get; }
 
         #endregion
         #region UInt32N
         UInt32? UInt32N { get; }
-        IHasBeenSetItemGetter<UInt32?> UInt32N_Property { get; }
+        INotifyingSetItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
         #region UInt32N_Ranged
         UInt32? UInt32N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt32?> UInt32N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt32?> UInt32N_Ranged_Property { get; }
 
         #endregion
         #region UInt32
         UInt32 UInt32 { get; }
-        IHasBeenSetItemGetter<UInt32> UInt32_Property { get; }
+        INotifyingSetItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
         #region UInt32_Ranged
         UInt32 UInt32_Ranged { get; }
-        IHasBeenSetItemGetter<UInt32> UInt32_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt32> UInt32_Ranged_Property { get; }
 
         #endregion
         #region UInt64N
         UInt64? UInt64N { get; }
-        IHasBeenSetItemGetter<UInt64?> UInt64N_Property { get; }
+        INotifyingSetItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
         #region UInt64N_Ranged
         UInt64? UInt64N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt64?> UInt64N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt64?> UInt64N_Ranged_Property { get; }
 
         #endregion
         #region UInt64
         UInt64 UInt64 { get; }
-        IHasBeenSetItemGetter<UInt64> UInt64_Property { get; }
+        INotifyingSetItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
         #region UInt64_Ranged
         UInt64 UInt64_Ranged { get; }
-        IHasBeenSetItemGetter<UInt64> UInt64_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt64> UInt64_Ranged_Property { get; }
 
         #endregion
         #region UInt8N
         Byte? UInt8N { get; }
-        IHasBeenSetItemGetter<Byte?> UInt8N_Property { get; }
+        INotifyingSetItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
         #region UInt8N_Ranged
         Byte? UInt8N_Ranged { get; }
-        IHasBeenSetItemGetter<Byte?> UInt8N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Byte?> UInt8N_Ranged_Property { get; }
 
         #endregion
         #region UInt8
         Byte UInt8 { get; }
-        IHasBeenSetItemGetter<Byte> UInt8_Property { get; }
+        INotifyingSetItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
         #region UInt8_Ranged
         Byte UInt8_Ranged { get; }
-        IHasBeenSetItemGetter<Byte> UInt8_Ranged_Property { get; }
+        INotifyingSetItemGetter<Byte> UInt8_Ranged_Property { get; }
 
         #endregion
         #region Enum
         TestEnum Enum { get; }
-        IHasBeenSetItemGetter<TestEnum> Enum_Property { get; }
+        INotifyingSetItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
         #region EnumNull
         TestEnum? EnumNull { get; }
-        IHasBeenSetItemGetter<TestEnum?> EnumNull_Property { get; }
+        INotifyingSetItemGetter<TestEnum?> EnumNull_Property { get; }
 
         #endregion
         #region WildCard
         Object WildCard { get; }
-        IHasBeenSetItemGetter<Object> WildCard_Property { get; }
+        INotifyingSetItemGetter<Object> WildCard_Property { get; }
 
         #endregion
         #region WildCardLoqui
         Object WildCardLoqui { get; }
-        IHasBeenSetItemGetter<Object> WildCardLoqui_Property { get; }
+        INotifyingSetItemGetter<Object> WildCardLoqui_Property { get; }
 
         #endregion
         #region WildCardNull
         Object WildCardNull { get; }
-        IHasBeenSetItemGetter<Object> WildCardNull_Property { get; }
+        INotifyingSetItemGetter<Object> WildCardNull_Property { get; }
 
         #endregion
         #region Ref
         ObjectToRef Ref { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
         #region Ref_NotNull
         ObjectToRef Ref_NotNull { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
 
         #endregion
         #region Ref_Singleton
         ObjectToRef Ref_Singleton { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
 
         #endregion
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
         #region RefGetter_NotNull
         IObjectToRefGetter RefGetter_NotNull { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
 
         #endregion
         #region RefGetter_Singleton
         IObjectToRefGetter RefGetter_Singleton { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
 
         #endregion
         #region RefSetter
         IObjectToRef RefSetter { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
         #region RefSetter_NotNull
         IObjectToRef RefSetter_NotNull { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
 
         #endregion
         #region RefSetter_Singleton
         IObjectToRef RefSetter_Singleton { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
 
         #endregion
         #region List
@@ -5240,7 +5791,7 @@ namespace Loqui.Tests
 namespace Loqui.Tests.Internals
 {
     #region Field Index
-    public enum TestObject_HasBeenSet_Derivative_RPC_FieldIndex
+    public enum TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex
     {
         ByteArray = 0,
         ByteArrayNull = 1,
@@ -5353,36 +5904,36 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Registration
-    public class TestObject_HasBeenSet_Derivative_RPC_Registration : ILoquiRegistration
+    public class TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration : ILoquiRegistration
     {
-        public static readonly TestObject_HasBeenSet_Derivative_RPC_Registration Instance = new TestObject_HasBeenSet_Derivative_RPC_Registration();
+        public static readonly TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration Instance = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Registration();
 
         public static ProtocolKey ProtocolKey => ProtocolDefinition_LoquiTests.ProtocolKey;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_LoquiTests.ProtocolKey,
-            msgID: 18,
+            msgID: 30,
             version: 0);
 
-        public const string GUID = "f287fc31-009b-4ca5-9cd3-dbfa1ebab116";
+        public const string GUID = "c58e6d03-ad6b-406b-8166-50b2c800a38b";
 
         public const ushort FieldCount = 107;
 
-        public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Derivative_RPC_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_HasBeenSet_Derivative_RPC_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject_HasBeenSet_Derivative_RPC);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC);
 
-        public static readonly Type GetterType = typeof(ITestObject_HasBeenSet_Derivative_RPCGetter);
+        public static readonly Type GetterType = typeof(ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter);
 
-        public static readonly Type SetterType = typeof(ITestObject_HasBeenSet_Derivative_RPC);
+        public static readonly Type SetterType = typeof(ITestObject_Notifying_HasBeenSet_ReadOnly_RPC);
 
-        public static readonly Type CommonType = typeof(TestObject_HasBeenSet_Derivative_RPCCommon);
+        public static readonly Type CommonType = typeof(TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon);
 
-        public const string FullName = "Loqui.Tests.TestObject_HasBeenSet_Derivative_RPC";
+        public const string FullName = "Loqui.Tests.TestObject_Notifying_HasBeenSet_ReadOnly_RPC";
 
-        public const string Name = "TestObject_HasBeenSet_Derivative_RPC";
+        public const string Name = "TestObject_Notifying_HasBeenSet_ReadOnly_RPC";
 
         public const string Namespace = "Loqui.Tests";
 
@@ -5395,219 +5946,219 @@ namespace Loqui.Tests.Internals
             switch (str.Upper)
             {
                 case "BYTEARRAY":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray;
                 case "BYTEARRAYNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull;
                 case "BYTEARRAYNOTNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull;
                 case "BYTEARRAYSINGLETON":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton;
                 case "BOOLN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN;
                 case "BOOL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool;
                 case "CHARN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN;
                 case "CHAR":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char;
                 case "DATETIMENULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull;
                 case "DATETIME":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime;
                 case "DOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN;
                 case "DOUBLEN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged;
                 case "DOUBLE":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double;
                 case "DOUBLE_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged;
                 case "FLOATN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN;
                 case "FLOATN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged;
                 case "FLOAT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float;
                 case "FLOAT_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged;
                 case "INT16N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N;
                 case "INT16N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged;
                 case "INT16":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16;
                 case "INT16_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged;
                 case "INT32N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N;
                 case "INT32N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged;
                 case "INT32":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32;
                 case "INT32_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged;
                 case "INT64N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N;
                 case "INT64N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged;
                 case "INT64":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64;
                 case "INT64_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged;
                 case "INT8N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N;
                 case "INT8N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged;
                 case "INT8":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8;
                 case "INT8_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged;
                 case "UNSAFE":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe;
                 case "UNSAFELOQUI":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui;
                 case "UNSAFENULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull;
                 case "P2INTN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN;
                 case "P2INT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int;
                 case "P3DOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN;
                 case "P3DOUBLE":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double;
                 case "P3INTN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN;
                 case "P3INT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int;
                 case "PERCENTN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN;
                 case "PERCENT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent;
                 case "RANGEINT8N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N;
                 case "RANGEINT8":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8;
                 case "RANGEINT16N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N;
                 case "RANGEINT16":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16;
                 case "RANGEINT32N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N;
                 case "RANGEINT32":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32;
                 case "RANGEINT64N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N;
                 case "RANGEINT64":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64;
                 case "RANGEUINT8N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N;
                 case "RANGEUINT8":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8;
                 case "RANGEUINT16N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N;
                 case "RANGEUINT16":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16;
                 case "RANGEUINT32N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N;
                 case "RANGEUINT32":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32;
                 case "RANGEUINT64N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N;
                 case "RANGEUINT64":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64;
                 case "STRING":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String;
                 case "FILEPATH":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath;
                 case "FILEPATHNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull;
                 case "DIRECTORYPATH":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath;
                 case "DIRECTORYPATHNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull;
                 case "UDOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN;
                 case "UDOUBLEN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged;
                 case "UDOUBLE":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble;
                 case "UDOUBLE_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged;
                 case "UINT16N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N;
                 case "UINT16N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged;
                 case "UINT16":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16;
                 case "UINT16_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged;
                 case "UINT32N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N;
                 case "UINT32N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged;
                 case "UINT32":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32;
                 case "UINT32_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged;
                 case "UINT64N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N;
                 case "UINT64N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged;
                 case "UINT64":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64;
                 case "UINT64_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged;
                 case "UINT8N":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N;
                 case "UINT8N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged;
                 case "UINT8":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8;
                 case "UINT8_RANGED":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged;
                 case "ENUM":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum;
                 case "ENUMNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull;
                 case "WILDCARD":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard;
                 case "WILDCARDLOQUI":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui;
                 case "WILDCARDNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull;
                 case "REF":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref;
                 case "REF_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull;
                 case "REF_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton;
                 case "REFGETTER":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter;
                 case "REFGETTER_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull;
                 case "REFGETTER_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton;
                 case "REFSETTER":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter;
                 case "REFSETTER_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull;
                 case "REFSETTER_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton;
                 case "LIST":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List;
                 case "REFLIST":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList;
                 case "DICT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict;
                 case "REFDICT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict;
                 case "KEYREFDICT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict;
                 case "VALREFDICT":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict;
                 case "DICTKEYEDVALUE":
-                    return (ushort)TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue;
+                    return (ushort)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue;
                 default:
                     return null;
             }
@@ -5615,117 +6166,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return true;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5734,117 +6285,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsLoqui(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return true;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5853,117 +6404,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return true;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -5972,222 +6523,222 @@ namespace Loqui.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     return "ByteArray";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     return "ByteArrayNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     return "ByteArrayNotNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     return "ByteArraySingleton";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     return "BoolN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     return "Bool";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     return "CharN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     return "Char";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     return "DateTimeNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     return "DateTime";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     return "DoubleN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     return "DoubleN_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     return "Double";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     return "Double_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     return "FloatN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     return "FloatN_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     return "Float";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     return "Float_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     return "Int16N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     return "Int16N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     return "Int16";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     return "Int16_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     return "Int32N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     return "Int32N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     return "Int32";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     return "Int32_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     return "Int64N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     return "Int64N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     return "Int64";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     return "Int64_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     return "Int8N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     return "Int8N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     return "Int8";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     return "Int8_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     return "Unsafe";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     return "UnsafeLoqui";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     return "UnsafeNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     return "P2IntN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     return "P2Int";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return "P3DoubleN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     return "P3Double";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     return "P3IntN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     return "P3Int";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     return "PercentN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     return "Percent";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     return "RangeInt8N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     return "RangeInt8";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     return "RangeInt16N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     return "RangeInt16";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     return "RangeInt32N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     return "RangeInt32";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     return "RangeInt64N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     return "RangeInt64";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     return "RangeUInt8N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     return "RangeUInt8";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     return "RangeUInt16N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     return "RangeUInt16";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     return "RangeUInt32N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     return "RangeUInt32";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     return "RangeUInt64N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     return "RangeUInt64";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     return "String";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     return "FilePath";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     return "FilePathNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     return "DirectoryPath";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     return "DirectoryPathNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return "UDoubleN";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     return "UDoubleN_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     return "UDouble";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     return "UDouble_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     return "UInt16N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     return "UInt16N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     return "UInt16";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     return "UInt16_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     return "UInt32N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     return "UInt32N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     return "UInt32";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     return "UInt32_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     return "UInt64N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     return "UInt64N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     return "UInt64";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     return "UInt64_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     return "UInt8N";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     return "UInt8N_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     return "UInt8";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     return "UInt8_Ranged";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return "Enum";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     return "EnumNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return "WildCard";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     return "WildCardLoqui";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     return "WildCardNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     return "Ref";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return "Ref_NotNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return "Ref_Singleton";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     return "RefGetter";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return "RefGetter_NotNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return "RefGetter_Singleton";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     return "RefSetter";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return "RefSetter_NotNull";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return "RefSetter_Singleton";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     return "List";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return "RefList";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     return "Dict";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     return "RefDict";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     return "KeyRefDict";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     return "ValRefDict";
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6196,117 +6747,117 @@ namespace Loqui.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
-                    return true;
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -6314,116 +6865,116 @@ namespace Loqui.Tests.Internals
 
         public static bool IsProtected(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6432,222 +6983,222 @@ namespace Loqui.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     return typeof(Boolean?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     return typeof(Boolean);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     return typeof(Char?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     return typeof(Char);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     return typeof(DateTime?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     return typeof(DateTime);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     return typeof(Double?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     return typeof(Double?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     return typeof(Double);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     return typeof(Double);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     return typeof(Single?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     return typeof(Single?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     return typeof(Single);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     return typeof(Single);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     return typeof(Int16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     return typeof(Int16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     return typeof(Int16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     return typeof(Int16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     return typeof(Int32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     return typeof(Int32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     return typeof(Int32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     return typeof(Int32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     return typeof(Int64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     return typeof(Int64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     return typeof(Int64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     return typeof(Int64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     return typeof(SByte?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     return typeof(SByte?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     return typeof(SByte);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     return typeof(SByte);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     return typeof(bool);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     return typeof(P2Int?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     return typeof(P2Int);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return typeof(P3Double?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     return typeof(P3Double);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     return typeof(P3Int?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     return typeof(P3Int);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     return typeof(Percent?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     return typeof(Percent);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     return typeof(RangeInt8?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     return typeof(RangeInt8);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     return typeof(RangeInt16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     return typeof(RangeInt16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     return typeof(RangeInt32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     return typeof(RangeInt32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     return typeof(RangeInt64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     return typeof(RangeInt64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     return typeof(RangeUInt8?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     return typeof(RangeUInt8);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     return typeof(RangeUInt16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     return typeof(RangeUInt16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     return typeof(RangeUInt32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     return typeof(RangeUInt32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     return typeof(RangeUInt64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     return typeof(RangeUInt64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     return typeof(String);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     return typeof(FilePath);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     return typeof(FilePath?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     return typeof(DirectoryPath);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     return typeof(DirectoryPath?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     return typeof(UDouble?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     return typeof(UDouble);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     return typeof(UDouble);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     return typeof(UInt16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     return typeof(UInt16?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     return typeof(UInt16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     return typeof(UInt16);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     return typeof(UInt32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     return typeof(UInt32?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     return typeof(UInt32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     return typeof(UInt32);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     return typeof(UInt64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     return typeof(UInt64?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     return typeof(UInt64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     return typeof(UInt64);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     return typeof(Byte?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     return typeof(Byte?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     return typeof(Byte);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     return typeof(Byte);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return typeof(TestEnum);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     return typeof(TestEnum?);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return typeof(Object);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     return typeof(Object);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     return typeof(Object);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     return typeof(NotifyingList<Boolean>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     return typeof(NotifyingDictionary<String, Boolean>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, Boolean>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     return typeof(NotifyingDictionary<String, ObjectToRef>);
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6684,17 +7235,17 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static partial class TestObject_HasBeenSet_Derivative_RPCCommon
+    public static partial class TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet_Derivative_RPC item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_Derivative_RPCCommon.CopyFieldsFrom(
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.CopyFieldsFrom(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -6705,14 +7256,14 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet_Derivative_RPC item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def = null,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_Derivative_RPCCommon.CopyFieldsFrom(
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPCCommon.CopyFieldsFrom(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -6723,20 +7274,20 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet_Derivative_RPC item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def,
             bool doMasks,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            TestObject_HasBeenSet_Derivative_RPC_ErrorMask retErrorMask = null;
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> maskGetter = () =>
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask retErrorMask = null;
+            Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask> maskGetter = () =>
             {
                 if (retErrorMask == null)
                 {
-                    retErrorMask = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask();
+                    retErrorMask = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask();
                 }
                 return retErrorMask;
             };
@@ -6752,12 +7303,12 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet_Derivative_RPC item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
-            ITestObject_HasBeenSet_Derivative_RPCGetter def,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter def,
             bool doMasks,
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask,
-            TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask,
+            Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask> errorMask,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
         }
@@ -6767,120 +7318,226 @@ namespace Loqui.Tests.Internals
         public static void SetNthObjectHasBeenSet(
             ushort index,
             bool on,
-            ITestObject_HasBeenSet_Derivative_RPC obj,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPC obj,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
-                    throw new ArgumentException($"Tried to set at a derivative index {index}");
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -6888,120 +7545,226 @@ namespace Loqui.Tests.Internals
 
         public static void UnsetNthObject(
             ushort index,
-            ITestObject_HasBeenSet_Derivative_RPC obj,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPC obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
-                    throw new ArgumentException($"Tried to unset at a derivative index {index}");
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
+                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -7009,224 +7772,224 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthObjectHasBeenSet(
             ushort index,
-            ITestObject_HasBeenSet_Derivative_RPC obj)
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPC obj)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     return obj.ByteArray_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     return obj.ByteArrayNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     return obj.ByteArrayNotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     return obj.ByteArraySingleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     return obj.Bool_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     return obj.CharN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     return obj.Char_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     return obj.DateTimeNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     return obj.DateTime_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     return obj.DoubleN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     return obj.Double_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     return obj.Double_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     return obj.FloatN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     return obj.FloatN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     return obj.Float_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     return obj.Float_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     return obj.Int16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     return obj.Int16N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     return obj.Int16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     return obj.Int16_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     return obj.Int32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     return obj.Int32N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     return obj.Int32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     return obj.Int32_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     return obj.Int64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     return obj.Int64N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     return obj.Int64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     return obj.Int64_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     return obj.Int8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     return obj.Int8N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     return obj.Int8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     return obj.Int8_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     return obj.UnsafeLoqui_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     return obj.UnsafeNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     return obj.P2IntN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     return obj.P2Int_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     return obj.P3Double_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     return obj.P3IntN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     return obj.P3Int_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     return obj.PercentN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     return obj.Percent_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     return obj.RangeInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     return obj.RangeInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     return obj.RangeInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     return obj.RangeInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     return obj.RangeInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     return obj.RangeInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     return obj.RangeInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     return obj.RangeInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     return obj.RangeUInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     return obj.RangeUInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     return obj.RangeUInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     return obj.RangeUInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     return obj.RangeUInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     return obj.RangeUInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     return obj.RangeUInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     return obj.RangeUInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     return obj.String_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     return obj.FilePath_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     return obj.FilePathNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     return obj.DirectoryPath_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     return obj.DirectoryPathNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     return obj.UDoubleN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     return obj.UDouble_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     return obj.UDouble_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     return obj.UInt16N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     return obj.UInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     return obj.UInt16_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     return obj.UInt32N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     return obj.UInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     return obj.UInt32_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     return obj.UInt64N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     return obj.UInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     return obj.UInt64_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     return obj.UInt8N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     return obj.UInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     return obj.UInt8_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     return obj.EnumNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     return obj.WildCardLoqui_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     return obj.WildCardNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     return obj.List.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return obj.RefList.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     return obj.Dict.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     return obj.RefDict.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     return obj.KeyRefDict.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     return obj.ValRefDict.HasBeenSet;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -7235,224 +7998,224 @@ namespace Loqui.Tests.Internals
 
         public static object GetNthObject(
             ushort index,
-            ITestObject_HasBeenSet_Derivative_RPCGetter obj)
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter obj)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     return obj.ByteArray;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     return obj.ByteArrayNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     return obj.ByteArrayNotNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     return obj.ByteArraySingleton;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     return obj.BoolN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     return obj.Bool;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     return obj.CharN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     return obj.Char;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     return obj.DateTimeNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     return obj.DateTime;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     return obj.DoubleN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     return obj.DoubleN_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     return obj.Double;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     return obj.Double_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     return obj.FloatN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     return obj.FloatN_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     return obj.Float;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     return obj.Float_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     return obj.Int16N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     return obj.Int16N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     return obj.Int16;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     return obj.Int16_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     return obj.Int32N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     return obj.Int32N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     return obj.Int32;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     return obj.Int32_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     return obj.Int64N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     return obj.Int64N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     return obj.Int64;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     return obj.Int64_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     return obj.Int8N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     return obj.Int8N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     return obj.Int8;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     return obj.Int8_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     return obj.Unsafe;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     return obj.UnsafeLoqui;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     return obj.UnsafeNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     return obj.P2IntN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     return obj.P2Int;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     return obj.P3Double;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     return obj.P3IntN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     return obj.P3Int;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     return obj.PercentN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     return obj.Percent;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     return obj.RangeInt8N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     return obj.RangeInt8;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     return obj.RangeInt16N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     return obj.RangeInt16;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     return obj.RangeInt32N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     return obj.RangeInt32;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     return obj.RangeInt64N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     return obj.RangeInt64;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     return obj.RangeUInt8N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     return obj.RangeUInt8;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     return obj.RangeUInt16N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     return obj.RangeUInt16;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     return obj.RangeUInt32N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     return obj.RangeUInt32;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     return obj.RangeUInt64N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     return obj.RangeUInt64;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     return obj.String;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     return obj.FilePath;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     return obj.FilePathNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     return obj.DirectoryPath;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     return obj.DirectoryPathNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     return obj.UDoubleN_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     return obj.UDouble;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     return obj.UDouble_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     return obj.UInt16N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     return obj.UInt16N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     return obj.UInt16;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     return obj.UInt16_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     return obj.UInt32N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     return obj.UInt32N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     return obj.UInt32;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     return obj.UInt32_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     return obj.UInt64N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     return obj.UInt64N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     return obj.UInt64;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     return obj.UInt64_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     return obj.UInt8N;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     return obj.UInt8N_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     return obj.UInt8;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     return obj.UInt8_Ranged;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     return obj.Enum;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     return obj.EnumNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     return obj.WildCard;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     return obj.WildCardLoqui;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     return obj.WildCardNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     return obj.Ref;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     return obj.RefGetter;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     return obj.RefSetter;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     return obj.List;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     return obj.RefList;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     return obj.Dict;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     return obj.RefDict;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     return obj.KeyRefDict;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     return obj.ValRefDict;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -7460,24 +8223,24 @@ namespace Loqui.Tests.Internals
         }
 
         public static void Clear(
-            ITestObject_HasBeenSet_Derivative_RPC item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPC item,
             NotifyingUnsetParameters? cmds = null)
         {
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC_Mask<bool> GetEqualsMask(
-            this ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> GetEqualsMask(
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC_Mask<bool>();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
 
         public static void FillEqualsMask(
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            ITestObject_HasBeenSet_Derivative_RPCGetter rhs,
-            TestObject_HasBeenSet_Derivative_RPC_Mask<bool> ret)
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter rhs,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> ret)
         {
             if (rhs == null) return;
             ret.ByteArray = item.ByteArray_Property.Equals(rhs.ByteArray_Property, (l, r) => l.EqualsFast(r));
@@ -7750,9 +8513,9 @@ namespace Loqui.Tests.Internals
         }
 
         public static string ToString(
-            this ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
             string name = null,
-            TestObject_HasBeenSet_Derivative_RPC_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
             item.ToString(fg, name, printMask);
@@ -7760,18 +8523,18 @@ namespace Loqui.Tests.Internals
         }
 
         public static void ToString(
-            this ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
             FileGeneration fg,
             string name = null,
-            TestObject_HasBeenSet_Derivative_RPC_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> printMask = null)
         {
             if (name == null)
             {
-                fg.AppendLine($"{nameof(TestObject_HasBeenSet_Derivative_RPC)} =>");
+                fg.AppendLine($"{nameof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC)} =>");
             }
             else
             {
-                fg.AppendLine($"{name} ({nameof(TestObject_HasBeenSet_Derivative_RPC)}) =>");
+                fg.AppendLine($"{name} ({nameof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC)}) =>");
             }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
@@ -8311,8 +9074,8 @@ namespace Loqui.Tests.Internals
         }
 
         public static bool HasBeenSet(
-            this ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            TestObject_HasBeenSet_Derivative_RPC_Mask<bool?> checkMask)
+            this ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool?> checkMask)
         {
             if (checkMask.ByteArray.HasValue && checkMask.ByteArray.Value != item.ByteArray_Property.HasBeenSet) return false;
             if (checkMask.ByteArrayNull.HasValue && checkMask.ByteArrayNull.Value != item.ByteArrayNull_Property.HasBeenSet) return false;
@@ -8433,9 +9196,9 @@ namespace Loqui.Tests.Internals
             return true;
         }
 
-        public static TestObject_HasBeenSet_Derivative_RPC_Mask<bool> GetHasBeenSetMask(ITestObject_HasBeenSet_Derivative_RPCGetter item)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC_Mask<bool>();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool>();
             ret.ByteArray = item.ByteArray_Property.HasBeenSet;
             ret.ByteArrayNull = item.ByteArrayNull_Property.HasBeenSet;
             ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.HasBeenSet;
@@ -8559,33 +9322,1662 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML(
             XmlWriter writer,
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
             bool doMasks,
-            out TestObject_HasBeenSet_Derivative_RPC_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errorMask,
             string name = null)
         {
-            TestObject_HasBeenSet_Derivative_RPC_ErrorMask errMaskRet = null;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask errMaskRet = null;
             Write_XML_Internal(
                 writer: writer,
                 name: name,
                 item: item,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask()) : default(Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>));
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask()) : default(Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask>));
             errorMask = errMaskRet;
         }
 
         private static void Write_XML_Internal(
             XmlWriter writer,
-            ITestObject_HasBeenSet_Derivative_RPCGetter item,
-            Func<TestObject_HasBeenSet_Derivative_RPC_ErrorMask> errorMask,
+            ITestObject_Notifying_HasBeenSet_ReadOnly_RPCGetter item,
+            Func<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask> errorMask,
             string name = null)
         {
             try
             {
-                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_HasBeenSet_Derivative_RPC"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_Notifying_HasBeenSet_ReadOnly_RPC"))
                 {
                     if (name != null)
                     {
-                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_HasBeenSet_Derivative_RPC");
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_HasBeenSet_ReadOnly_RPC");
+                    }
+                    if (item.ByteArray_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArray),
+                            item.ByteArray,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray,
+                            subMask);
+                    }
+                    if (item.ByteArrayNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArrayNull),
+                            item.ByteArrayNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull,
+                            subMask);
+                    }
+                    if (item.ByteArrayNotNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArrayNotNull),
+                            item.ByteArrayNotNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull,
+                            subMask);
+                    }
+                    if (item.ByteArraySingleton_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteArrayXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.ByteArraySingleton),
+                            item.ByteArraySingleton,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton,
+                            subMask);
+                    }
+                    if (item.BoolN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        BooleanXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.BoolN),
+                            item.BoolN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN,
+                            subMask);
+                    }
+                    if (item.Bool_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        BooleanXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Bool),
+                            item.Bool,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool,
+                            subMask);
+                    }
+                    if (item.CharN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        CharXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.CharN),
+                            item.CharN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN,
+                            subMask);
+                    }
+                    if (item.Char_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        CharXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Char),
+                            item.Char,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char,
+                            subMask);
+                    }
+                    if (item.DateTimeNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DateTimeXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DateTimeNull),
+                            item.DateTimeNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull,
+                            subMask);
+                    }
+                    if (item.DateTime_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DateTimeXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DateTime),
+                            item.DateTime,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime,
+                            subMask);
+                    }
+                    if (item.DoubleN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DoubleN),
+                            item.DoubleN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN,
+                            subMask);
+                    }
+                    if (item.DoubleN_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DoubleN_Ranged),
+                            item.DoubleN_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged,
+                            subMask);
+                    }
+                    if (item.Double_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Double),
+                            item.Double,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double,
+                            subMask);
+                    }
+                    if (item.Double_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Double_Ranged),
+                            item.Double_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged,
+                            subMask);
+                    }
+                    if (item.FloatN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FloatXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.FloatN),
+                            item.FloatN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN,
+                            subMask);
+                    }
+                    if (item.FloatN_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FloatXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.FloatN_Ranged),
+                            item.FloatN_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged,
+                            subMask);
+                    }
+                    if (item.Float_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FloatXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Float),
+                            item.Float,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float,
+                            subMask);
+                    }
+                    if (item.Float_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FloatXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Float_Ranged),
+                            item.Float_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged,
+                            subMask);
+                    }
+                    if (item.Int16N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int16N),
+                            item.Int16N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N,
+                            subMask);
+                    }
+                    if (item.Int16N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int16N_Ranged),
+                            item.Int16N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged,
+                            subMask);
+                    }
+                    if (item.Int16_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int16),
+                            item.Int16,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16,
+                            subMask);
+                    }
+                    if (item.Int16_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int16_Ranged),
+                            item.Int16_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged,
+                            subMask);
+                    }
+                    if (item.Int32N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int32N),
+                            item.Int32N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N,
+                            subMask);
+                    }
+                    if (item.Int32N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int32N_Ranged),
+                            item.Int32N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged,
+                            subMask);
+                    }
+                    if (item.Int32_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int32),
+                            item.Int32,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32,
+                            subMask);
+                    }
+                    if (item.Int32_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int32_Ranged),
+                            item.Int32_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged,
+                            subMask);
+                    }
+                    if (item.Int64N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int64N),
+                            item.Int64N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N,
+                            subMask);
+                    }
+                    if (item.Int64N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int64N_Ranged),
+                            item.Int64N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged,
+                            subMask);
+                    }
+                    if (item.Int64_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int64),
+                            item.Int64,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64,
+                            subMask);
+                    }
+                    if (item.Int64_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int64_Ranged),
+                            item.Int64_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged,
+                            subMask);
+                    }
+                    if (item.Int8N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int8N),
+                            item.Int8N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N,
+                            subMask);
+                    }
+                    if (item.Int8N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int8N_Ranged),
+                            item.Int8N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged,
+                            subMask);
+                    }
+                    if (item.Int8_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int8),
+                            item.Int8,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8,
+                            subMask);
+                    }
+                    if (item.Int8_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        Int8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Int8_Ranged),
+                            item.Int8_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged,
+                            subMask);
+                    }
+                    if (item.Unsafe_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.Unsafe),
+                            item: item.Unsafe,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe,
+                            subMask);
+                    }
+                    if (item.UnsafeLoqui_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.UnsafeLoqui),
+                            item: item.UnsafeLoqui,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui,
+                            subMask);
+                    }
+                    if (item.UnsafeNull_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.UnsafeNull),
+                            item: item.UnsafeNull,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull,
+                            subMask);
+                    }
+                    if (item.P2IntN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P2IntXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P2IntN),
+                            item.P2IntN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN,
+                            subMask);
+                    }
+                    if (item.P2Int_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P2IntXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P2Int),
+                            item.P2Int,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int,
+                            subMask);
+                    }
+                    if (item.P3DoubleN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P3DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P3DoubleN),
+                            item.P3DoubleN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN,
+                            subMask);
+                    }
+                    if (item.P3Double_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P3DoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P3Double),
+                            item.P3Double,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double,
+                            subMask);
+                    }
+                    if (item.P3IntN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P3IntXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P3IntN),
+                            item.P3IntN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN,
+                            subMask);
+                    }
+                    if (item.P3Int_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        P3IntXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.P3Int),
+                            item.P3Int,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int,
+                            subMask);
+                    }
+                    if (item.PercentN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        PercentXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.PercentN),
+                            item.PercentN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN,
+                            subMask);
+                    }
+                    if (item.Percent_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        PercentXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.Percent),
+                            item.Percent,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent,
+                            subMask);
+                    }
+                    if (item.RangeInt8N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt8N),
+                            item.RangeInt8N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N,
+                            subMask);
+                    }
+                    if (item.RangeInt8_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt8),
+                            item.RangeInt8,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8,
+                            subMask);
+                    }
+                    if (item.RangeInt16N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt16N),
+                            item.RangeInt16N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N,
+                            subMask);
+                    }
+                    if (item.RangeInt16_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt16),
+                            item.RangeInt16,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16,
+                            subMask);
+                    }
+                    if (item.RangeInt32N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt32N),
+                            item.RangeInt32N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N,
+                            subMask);
+                    }
+                    if (item.RangeInt32_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt32),
+                            item.RangeInt32,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32,
+                            subMask);
+                    }
+                    if (item.RangeInt64N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt64N),
+                            item.RangeInt64N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N,
+                            subMask);
+                    }
+                    if (item.RangeInt64_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeInt64),
+                            item.RangeInt64,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64,
+                            subMask);
+                    }
+                    if (item.RangeUInt8N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt8N),
+                            item.RangeUInt8N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N,
+                            subMask);
+                    }
+                    if (item.RangeUInt8_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt8XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt8),
+                            item.RangeUInt8,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8,
+                            subMask);
+                    }
+                    if (item.RangeUInt16N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt16N),
+                            item.RangeUInt16N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N,
+                            subMask);
+                    }
+                    if (item.RangeUInt16_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt16),
+                            item.RangeUInt16,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16,
+                            subMask);
+                    }
+                    if (item.RangeUInt32N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt32N),
+                            item.RangeUInt32N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N,
+                            subMask);
+                    }
+                    if (item.RangeUInt32_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt32),
+                            item.RangeUInt32,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32,
+                            subMask);
+                    }
+                    if (item.RangeUInt64N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt64N),
+                            item.RangeUInt64N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N,
+                            subMask);
+                    }
+                    if (item.RangeUInt64_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        RangeUInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.RangeUInt64),
+                            item.RangeUInt64,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64,
+                            subMask);
+                    }
+                    if (item.String_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        StringXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.String),
+                            item.String,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String,
+                            subMask);
+                    }
+                    if (item.FilePath_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FilePathXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.FilePath),
+                            item.FilePath,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath,
+                            subMask);
+                    }
+                    if (item.FilePathNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        FilePathXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.FilePathNull),
+                            item.FilePathNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull,
+                            subMask);
+                    }
+                    if (item.DirectoryPath_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DirectoryPathXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DirectoryPath),
+                            item.DirectoryPath,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath,
+                            subMask);
+                    }
+                    if (item.DirectoryPathNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        DirectoryPathXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.DirectoryPathNull),
+                            item.DirectoryPathNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull,
+                            subMask);
+                    }
+                    if (item.UDoubleN_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UDoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UDoubleN),
+                            item.UDoubleN,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN,
+                            subMask);
+                    }
+                    if (item.UDoubleN_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UDoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UDoubleN_Ranged),
+                            item.UDoubleN_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged,
+                            subMask);
+                    }
+                    if (item.UDouble_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UDoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UDouble),
+                            item.UDouble,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble,
+                            subMask);
+                    }
+                    if (item.UDouble_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UDoubleXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UDouble_Ranged),
+                            item.UDouble_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt16N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt16N),
+                            item.UInt16N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N,
+                            subMask);
+                    }
+                    if (item.UInt16N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt16N_Ranged),
+                            item.UInt16N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt16_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt16),
+                            item.UInt16,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16,
+                            subMask);
+                    }
+                    if (item.UInt16_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt16XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt16_Ranged),
+                            item.UInt16_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt32N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt32N),
+                            item.UInt32N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N,
+                            subMask);
+                    }
+                    if (item.UInt32N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt32N_Ranged),
+                            item.UInt32N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt32_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt32),
+                            item.UInt32,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32,
+                            subMask);
+                    }
+                    if (item.UInt32_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt32XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt32_Ranged),
+                            item.UInt32_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt64N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt64N),
+                            item.UInt64N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N,
+                            subMask);
+                    }
+                    if (item.UInt64N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt64N_Ranged),
+                            item.UInt64N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt64_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt64),
+                            item.UInt64,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64,
+                            subMask);
+                    }
+                    if (item.UInt64_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        UInt64XmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt64_Ranged),
+                            item.UInt64_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt8N_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt8N),
+                            item.UInt8N,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N,
+                            subMask);
+                    }
+                    if (item.UInt8N_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt8N_Ranged),
+                            item.UInt8N_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged,
+                            subMask);
+                    }
+                    if (item.UInt8_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt8),
+                            item.UInt8,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8,
+                            subMask);
+                    }
+                    if (item.UInt8_Ranged_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        ByteXmlTranslation.Instance.Write(
+                            writer,
+                            nameof(item.UInt8_Ranged),
+                            item.UInt8_Ranged,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged,
+                            subMask);
+                    }
+                    if (item.Enum_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        EnumXmlTranslation<TestEnum>.Instance.Write(
+                            writer,
+                            nameof(item.Enum),
+                            item.Enum,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum,
+                            subMask);
+                    }
+                    if (item.EnumNull_Property.HasBeenSet)
+                    {
+                        Exception subMask;
+                        EnumXmlTranslation<TestEnum>.Instance.Write(
+                            writer,
+                            nameof(item.EnumNull),
+                            item.EnumNull,
+                            doMasks: errorMask != null,
+                            errorMask: out subMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull,
+                            subMask);
+                    }
+                    if (item.WildCard_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCard),
+                            item: item.WildCard,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard,
+                            subMask);
+                    }
+                    if (item.WildCardLoqui_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCardLoqui),
+                            item: item.WildCardLoqui,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui,
+                            subMask);
+                    }
+                    if (item.WildCardNull_Property.HasBeenSet)
+                    {
+                        object subMask;
+                        WildcardXmlTranslation.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.WildCardNull),
+                            item: item.WildCardNull,
+                            doMasks: errorMask != null,
+                            maskObj: out var unsafeErrMask);
+                        subMask = (object)unsafeErrMask;
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull,
+                            subMask);
+                    }
+                    if (item.Ref_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.Ref,
+                            name: nameof(item.Ref),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref,
+                            subMask);
+                    }
+                    if (item.Ref_NotNull_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.Ref_NotNull,
+                            name: nameof(item.Ref_NotNull),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull,
+                            subMask);
+                    }
+                    if (item.Ref_Singleton_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.Ref_Singleton,
+                            name: nameof(item.Ref_Singleton),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton,
+                            subMask);
+                    }
+                    if (item.RefGetter_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefGetter,
+                            name: nameof(item.RefGetter),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter,
+                            subMask);
+                    }
+                    if (item.RefGetter_NotNull_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefGetter_NotNull,
+                            name: nameof(item.RefGetter_NotNull),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull,
+                            subMask);
+                    }
+                    if (item.RefGetter_Singleton_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefGetter_Singleton,
+                            name: nameof(item.RefGetter_Singleton),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton,
+                            subMask);
+                    }
+                    if (item.RefSetter_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefSetter,
+                            name: nameof(item.RefSetter),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter,
+                            subMask);
+                    }
+                    if (item.RefSetter_NotNull_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefSetter_NotNull,
+                            name: nameof(item.RefSetter_NotNull),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull,
+                            subMask);
+                    }
+                    if (item.RefSetter_Singleton_Property.HasBeenSet)
+                    {
+                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            writer: writer,
+                            item: item.RefSetter_Singleton,
+                            name: nameof(item.RefSetter_Singleton),
+                            doMasks: errorMask != null,
+                            mask: out ObjectToRef_ErrorMask loquiMask);
+                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton,
+                            subMask);
+                    }
+                    if (item.List.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<Exception>> subMask;
+                        ListXmlTranslation<Boolean, Exception>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.List),
+                            item: item.List,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            transl: (Boolean subItem, bool listDoMasks, out Exception listSubMask) =>
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    "Item",
+                                    subItem,
+                                    doMasks: errorMask != null,
+                                    errorMask: out listSubMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List,
+                            subMask);
+                    }
+                    if (item.RefList.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                        ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.RefList),
+                            item: item.RefList,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: errorMask != null,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList,
+                            subMask);
+                    }
+                    if (item.Dict.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
+                        DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.Dict),
+                            items: item.Dict,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
+                            {
+                                StringXmlTranslation.Instance.Write(
+                                    writer,
+                                    "Item",
+                                    subItem,
+                                    doMasks: dictDoMask,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    "Item",
+                                    subItem,
+                                    doMasks: dictDoMask,
+                                    errorMask: out dictSubMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict,
+                            subMask);
+                    }
+                    if (item.RefDict.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
+                        DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.RefDict),
+                            items: item.RefDict,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: dictDoMask,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            ,
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: dictDoMask,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict,
+                            subMask);
+                    }
+                    if (item.KeyRefDict.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
+                        DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.KeyRefDict),
+                            items: item.KeyRefDict,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: dictDoMask,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            ,
+                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
+                            {
+                                BooleanXmlTranslation.Instance.Write(
+                                    writer,
+                                    "Item",
+                                    subItem,
+                                    doMasks: dictDoMask,
+                                    errorMask: out dictSubMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict,
+                            subMask);
+                    }
+                    if (item.ValRefDict.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
+                        DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.ValRefDict),
+                            items: item.ValRefDict,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
+                            {
+                                StringXmlTranslation.Instance.Write(
+                                    writer,
+                                    "Item",
+                                    subItem,
+                                    doMasks: dictDoMask,
+                                    errorMask: out dictSubMask);
+                            }
+                            ,
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: dictDoMask,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict,
+                            subMask);
+                    }
+                    if (item.DictKeyedValue.HasBeenSet)
+                    {
+                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                        KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                            writer: writer,
+                            name: nameof(item.DictKeyedValue),
+                            items: item.DictKeyedValue.Values,
+                            doMasks: errorMask != null,
+                            maskObj: out subMask,
+                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                            {
+                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                    writer: writer,
+                                    item: subItem,
+                                    name: "Item",
+                                    doMasks: dictDoMask,
+                                    mask: out ObjectToRef_ErrorMask loquiMask);
+                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                            }
+                            );
+                        ErrorMask.HandleErrorMask(
+                            errorMask,
+                            (int)TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue,
+                            subMask);
                     }
                 }
             }
@@ -8605,14 +10997,14 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_HasBeenSet_Derivative_RPC_Mask<T> : IMask<T>, IEquatable<TestObject_HasBeenSet_Derivative_RPC_Mask<T>>
+    public class TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<T> : IMask<T>, IEquatable<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<T>>
     {
         #region Ctors
-        public TestObject_HasBeenSet_Derivative_RPC_Mask()
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask()
         {
         }
 
-        public TestObject_HasBeenSet_Derivative_RPC_Mask(T initialValue)
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask(T initialValue)
         {
             this.ByteArray = initialValue;
             this.ByteArrayNull = initialValue;
@@ -8837,11 +11229,11 @@ namespace Loqui.Tests.Internals
         #region Equals
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_HasBeenSet_Derivative_RPC_Mask<T> rhs)) return false;
+            if (!(obj is TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<T> rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_HasBeenSet_Derivative_RPC_Mask<T> rhs)
+        public bool Equals(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<T> rhs)
         {
             if (rhs == null) return false;
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
@@ -9311,14 +11703,14 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public TestObject_HasBeenSet_Derivative_RPC_Mask<R> Translate<R>(Func<T, R> eval)
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<R> Translate<R>(Func<T, R> eval)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC_Mask<R>();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<R>();
             this.Translate_InternalFill(ret, eval);
             return ret;
         }
 
-        protected void Translate_InternalFill<R>(TestObject_HasBeenSet_Derivative_RPC_Mask<R> obj, Func<T, R> eval)
+        protected void Translate_InternalFill<R>(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<R> obj, Func<T, R> eval)
         {
             obj.ByteArray = eval(this.ByteArray);
             obj.ByteArrayNull = eval(this.ByteArrayNull);
@@ -9678,16 +12070,16 @@ namespace Loqui.Tests.Internals
             return ToString(printMask: null);
         }
 
-        public string ToString(TestObject_HasBeenSet_Derivative_RPC_Mask<bool> printMask = null)
+        public string ToString(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
             ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg, TestObject_HasBeenSet_Derivative_RPC_Mask<bool> printMask = null)
+        public void ToString(FileGeneration fg, TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(TestObject_HasBeenSet_Derivative_RPC_Mask<T>)} =>");
+            fg.AppendLine($"{nameof(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -10317,7 +12709,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestObject_HasBeenSet_Derivative_RPC_ErrorMask : IErrorMask, IErrorMask<TestObject_HasBeenSet_Derivative_RPC_ErrorMask>
+    public class TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask : IErrorMask, IErrorMask<TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }
@@ -10445,328 +12837,328 @@ namespace Loqui.Tests.Internals
         #region IErrorMask
         public void SetNthException(int index, Exception ex)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     this.ByteArray = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     this.ByteArrayNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     this.ByteArrayNotNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     this.ByteArraySingleton = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     this.Bool = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     this.CharN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     this.Char = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     this.DateTimeNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     this.DateTime = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     this.DoubleN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     this.Double = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     this.Double_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     this.FloatN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     this.FloatN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     this.Float = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     this.Float_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     this.Int16N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     this.Int16N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     this.Int16 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     this.Int16_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     this.Int32N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     this.Int32N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     this.Int32 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     this.Int32_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     this.Int64N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     this.Int64N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     this.Int64 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     this.Int64_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     this.Int8N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     this.Int8N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     this.Int8 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     this.Int8_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     this.Unsafe = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     this.UnsafeLoqui = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     this.UnsafeNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     this.P2IntN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     this.P2Int = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     this.P3DoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     this.P3Double = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     this.P3IntN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     this.P3Int = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     this.PercentN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     this.Percent = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     this.RangeInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     this.RangeInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     this.RangeInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     this.RangeInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     this.RangeInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     this.RangeInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     this.RangeInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     this.RangeInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     this.RangeUInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     this.RangeUInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     this.RangeUInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     this.RangeUInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     this.RangeUInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     this.RangeUInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     this.RangeUInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     this.RangeUInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     this.String = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     this.FilePath = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     this.FilePathNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     this.DirectoryPath = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     this.DirectoryPathNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     this.UDoubleN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     this.UDouble = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     this.UDouble_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     this.UInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     this.UInt16N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     this.UInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     this.UInt16_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     this.UInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     this.UInt32N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     this.UInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     this.UInt32_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     this.UInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     this.UInt64N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     this.UInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     this.UInt64_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     this.UInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     this.UInt8N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     this.UInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     this.UInt8_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     this.EnumNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     this.WildCardLoqui = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     this.WildCardNull = ex;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     this.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     this.KeyRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     this.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(ex, null);
                     break;
                 default:
@@ -10776,328 +13168,328 @@ namespace Loqui.Tests.Internals
 
         public void SetNthMask(int index, object obj)
         {
-            TestObject_HasBeenSet_Derivative_RPC_FieldIndex enu = (TestObject_HasBeenSet_Derivative_RPC_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArray:
                     this.ByteArray = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNull:
                     this.ByteArrayNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArrayNotNull:
                     this.ByteArrayNotNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ByteArraySingleton:
                     this.ByteArraySingleton = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Bool:
                     this.Bool = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.CharN:
                     this.CharN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Char:
                     this.Char = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTimeNull:
                     this.DateTimeNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DateTime:
                     this.DateTime = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DoubleN_Ranged:
                     this.DoubleN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double:
                     this.Double = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Double_Ranged:
                     this.Double_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN:
                     this.FloatN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FloatN_Ranged:
                     this.FloatN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float:
                     this.Float = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Float_Ranged:
                     this.Float_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N:
                     this.Int16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16N_Ranged:
                     this.Int16N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16:
                     this.Int16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int16_Ranged:
                     this.Int16_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N:
                     this.Int32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32N_Ranged:
                     this.Int32N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32:
                     this.Int32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int32_Ranged:
                     this.Int32_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N:
                     this.Int64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64N_Ranged:
                     this.Int64N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64:
                     this.Int64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int64_Ranged:
                     this.Int64_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N:
                     this.Int8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8N_Ranged:
                     this.Int8N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8:
                     this.Int8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Int8_Ranged:
                     this.Int8_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Unsafe:
                     this.Unsafe = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeLoqui:
                     this.UnsafeLoqui = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UnsafeNull:
                     this.UnsafeNull = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2IntN:
                     this.P2IntN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P2Int:
                     this.P2Int = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3DoubleN:
                     this.P3DoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Double:
                     this.P3Double = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3IntN:
                     this.P3IntN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.P3Int:
                     this.P3Int = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.PercentN:
                     this.PercentN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Percent:
                     this.Percent = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8N:
                     this.RangeInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt8:
                     this.RangeInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16N:
                     this.RangeInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt16:
                     this.RangeInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32N:
                     this.RangeInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt32:
                     this.RangeInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64N:
                     this.RangeInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeInt64:
                     this.RangeInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8N:
                     this.RangeUInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt8:
                     this.RangeUInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16N:
                     this.RangeUInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt16:
                     this.RangeUInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32N:
                     this.RangeUInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt32:
                     this.RangeUInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64N:
                     this.RangeUInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RangeUInt64:
                     this.RangeUInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.String:
                     this.String = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePath:
                     this.FilePath = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.FilePathNull:
                     this.FilePathNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPath:
                     this.DirectoryPath = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DirectoryPathNull:
                     this.DirectoryPathNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDoubleN_Ranged:
                     this.UDoubleN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble:
                     this.UDouble = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UDouble_Ranged:
                     this.UDouble_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N:
                     this.UInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16N_Ranged:
                     this.UInt16N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16:
                     this.UInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt16_Ranged:
                     this.UInt16_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N:
                     this.UInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32N_Ranged:
                     this.UInt32N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32:
                     this.UInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt32_Ranged:
                     this.UInt32_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N:
                     this.UInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64N_Ranged:
                     this.UInt64N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64:
                     this.UInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt64_Ranged:
                     this.UInt64_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N:
                     this.UInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8N_Ranged:
                     this.UInt8N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8:
                     this.UInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.UInt8_Ranged:
                     this.UInt8_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.EnumNull:
                     this.EnumNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCard:
                     this.WildCard = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardLoqui:
                     this.WildCardLoqui = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.WildCardNull:
                     this.WildCardNull = obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefList:
                     this.RefList = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.Dict:
                     this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.KeyRefDict:
                     this.KeyRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.ValRefDict:
                     this.ValRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>)obj;
                     break;
-                case TestObject_HasBeenSet_Derivative_RPC_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_ReadOnly_RPC_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>)obj;
                     break;
                 default:
@@ -11116,7 +13508,7 @@ namespace Loqui.Tests.Internals
 
         public void ToString(FileGeneration fg)
         {
-            fg.AppendLine("TestObject_HasBeenSet_Derivative_RPC_ErrorMask =>");
+            fg.AppendLine("TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -11438,9 +13830,9 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Combine
-        public TestObject_HasBeenSet_Derivative_RPC_ErrorMask Combine(TestObject_HasBeenSet_Derivative_RPC_ErrorMask rhs)
+        public TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask Combine(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask rhs)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC_ErrorMask();
+            var ret = new TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask();
             ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
             ret.ByteArrayNull = this.ByteArrayNull.Combine(rhs.ByteArrayNull);
             ret.ByteArrayNotNull = this.ByteArrayNotNull.Combine(rhs.ByteArrayNotNull);
@@ -11550,7 +13942,7 @@ namespace Loqui.Tests.Internals
             ret.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.DictKeyedValue.Overall.Combine(rhs.DictKeyedValue.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.DictKeyedValue.Specific.And(rhs.DictKeyedValue.Specific)));
             return ret;
         }
-        public static TestObject_HasBeenSet_Derivative_RPC_ErrorMask Combine(TestObject_HasBeenSet_Derivative_RPC_ErrorMask lhs, TestObject_HasBeenSet_Derivative_RPC_ErrorMask rhs)
+        public static TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask Combine(TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask lhs, TestObject_Notifying_HasBeenSet_ReadOnly_RPC_ErrorMask rhs)
         {
             if (lhs != null && rhs != null) return lhs.Combine(rhs);
             return lhs ?? rhs;
@@ -11558,7 +13950,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
     }
-    public class TestObject_HasBeenSet_Derivative_RPC_CopyMask
+    public class TestObject_Notifying_HasBeenSet_ReadOnly_RPC_CopyMask
     {
         #region Members
         public bool ByteArray;

@@ -194,7 +194,8 @@ namespace Loqui.Generation
                 interf.Modify(this);
             }
 
-            await Task.WhenAll(this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
+            await Task.WhenAll(
+                this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
         }
 
         public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName)
@@ -1084,7 +1085,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     var nonNotifying = IterateFieldIndices()
-                        .Where((f) => f.Field.Bare).ToList();
+                        .Where((f) => !f.Field.HasBeenSet).ToList();
                     if (nonNotifying.Count > 0)
                     {
                         foreach (var item in nonNotifying)
@@ -1097,7 +1098,7 @@ namespace Loqui.Generation
                         }
                     }
 
-                    foreach (var field in this.IterateFields())
+                    foreach (var field in this.IterateFields().Where((field) => field.HasBeenSet))
                     {
                         if (field.IntegrateField)
                         {
@@ -1706,9 +1707,16 @@ namespace Loqui.Generation
                                 }
                                 else if (field.IntegrateField)
                                 {
-                                    fg.AppendLine($"if ({field.HasBeenSetAccessor} != rhs.{field.HasBeenSetAccessor}) return false;");
-                                    fg.AppendLine($"if ({field.HasBeenSetAccessor})");
-                                    using (new BraceWrapper(fg))
+                                    if (field.HasBeenSet)
+                                    {
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor} != rhs.{field.HasBeenSetAccessor}) return false;");
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor})");
+                                        using (new BraceWrapper(fg))
+                                        {
+                                            field.GenerateForEquals(fg, "rhs");
+                                        }
+                                    }
+                                    else
                                     {
                                         field.GenerateForEquals(fg, "rhs");
                                     }
@@ -1737,8 +1745,11 @@ namespace Loqui.Generation
                                 }
                                 else if (field.IntegrateField)
                                 {
-                                    fg.AppendLine($"if ({field.HasBeenSetAccessor})");
-                                    using (new BraceWrapper(fg))
+                                    if (field.HasBeenSet)
+                                    {
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor})");
+                                    }
+                                    using (new BraceWrapper(fg, doIt: field.HasBeenSet))
                                     {
                                         field.GenerateForHash(fg, "ret");
                                     }

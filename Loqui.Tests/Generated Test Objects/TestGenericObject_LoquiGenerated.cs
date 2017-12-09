@@ -38,20 +38,20 @@ namespace Loqui.Tests
         #endregion
 
         #region RefBase
-        private readonly INotifyingItem<RBase> _RefBase = new NotifyingItem<RBase>();
-        public INotifyingItem<RBase> RefBase_Property => this._RefBase;
+        private readonly INotifyingSetItem<RBase> _RefBase = new NotifyingSetItem<RBase>();
+        public INotifyingSetItem<RBase> RefBase_Property => this._RefBase;
         RBase ITestGenericObjectGetter<T, RBase, R>.RefBase => this.RefBase;
         public RBase RefBase { get => _RefBase.Item; set => _RefBase.Item = value; }
-        INotifyingItem<RBase> ITestGenericObject<T, RBase, R>.RefBase_Property => this.RefBase_Property;
-        INotifyingItemGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefBase_Property => this.RefBase_Property;
+        INotifyingSetItem<RBase> ITestGenericObject<T, RBase, R>.RefBase_Property => this.RefBase_Property;
+        INotifyingSetItemGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefBase_Property => this.RefBase_Property;
         #endregion
         #region Ref
-        private readonly INotifyingItem<R> _Ref = new NotifyingItem<R>();
-        public INotifyingItem<R> Ref_Property => this._Ref;
+        private readonly INotifyingSetItem<R> _Ref = new NotifyingSetItem<R>();
+        public INotifyingSetItem<R> Ref_Property => this._Ref;
         R ITestGenericObjectGetter<T, RBase, R>.Ref => this.Ref;
         public R Ref { get => _Ref.Item; set => _Ref.Item = value; }
-        INotifyingItem<R> ITestGenericObject<T, RBase, R>.Ref_Property => this.Ref_Property;
-        INotifyingItemGetter<R> ITestGenericObjectGetter<T, RBase, R>.Ref_Property => this.Ref_Property;
+        INotifyingSetItem<R> ITestGenericObject<T, RBase, R>.Ref_Property => this.Ref_Property;
+        INotifyingSetItemGetter<R> ITestGenericObjectGetter<T, RBase, R>.Ref_Property => this.Ref_Property;
         #endregion
         #region RefList
         private readonly INotifyingList<RBase> _RefList = new NotifyingList<RBase>();
@@ -705,10 +705,10 @@ namespace Loqui.Tests
         where R : ILoquiObject, ILoquiObjectGetter
     {
         new RBase RefBase { get; set; }
-        new INotifyingItem<RBase> RefBase_Property { get; }
+        new INotifyingSetItem<RBase> RefBase_Property { get; }
 
         new R Ref { get; set; }
-        new INotifyingItem<R> Ref_Property { get; }
+        new INotifyingSetItem<R> Ref_Property { get; }
 
         new INotifyingList<RBase> RefList { get; }
     }
@@ -719,12 +719,12 @@ namespace Loqui.Tests
     {
         #region RefBase
         RBase RefBase { get; }
-        INotifyingItemGetter<RBase> RefBase_Property { get; }
+        INotifyingSetItemGetter<RBase> RefBase_Property { get; }
 
         #endregion
         #region Ref
         R Ref { get; }
-        INotifyingItemGetter<R> Ref_Property { get; }
+        INotifyingSetItemGetter<R> Ref_Property { get; }
 
         #endregion
         #region RefList
@@ -1256,9 +1256,9 @@ namespace Loqui.Tests.Internals
             where R : ILoquiObject, ILoquiObjectGetter
         {
             if (rhs == null) return;
-            ret.RefBase = item.RefBase_Property.LoquiEqualsHelper(rhs.RefBase_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefBase = item.RefBase.LoquiEqualsHelper(rhs.RefBase, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref = new MaskItem<bool, object>();
-            ret.Ref.Overall = item.Ref_Property.Equals(rhs.Ref_Property, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
+            ret.Ref.Overall = item.Ref.Equals(rhs.Ref, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
             if (item.RefList.HasBeenSet == rhs.RefList.HasBeenSet)
             {
                 if (item.RefList.HasBeenSet)

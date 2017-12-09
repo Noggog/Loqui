@@ -1259,34 +1259,30 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestGenericSpecification");
                     }
-                    {
-                        MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>> subMask;
-                        LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Write(
-                            writer: writer,
-                            item: item.TestGenericObjectSpecified,
-                            name: nameof(item.TestGenericObjectSpecified),
-                            doMasks: errorMask != null,
-                            mask: out TestGenericObject_ErrorMask<ObjectToRef_ErrorMask> loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>> subMask;
-                        LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Write(
-                            writer: writer,
-                            item: item.TestGenericObjectHalfSpecified,
-                            name: nameof(item.TestGenericObjectHalfSpecified),
-                            doMasks: errorMask != null,
-                            mask: out TestGenericObject_ErrorMask<RBase_ErrMask> loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
-                            subMask);
-                    }
+                    MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>> subMask;
+                    LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Write(
+                        writer: writer,
+                        item: item.TestGenericObjectSpecified,
+                        name: nameof(item.TestGenericObjectSpecified),
+                        doMasks: errorMask != null,
+                        mask: out TestGenericObject_ErrorMask<ObjectToRef_ErrorMask> loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
+                        subMask);
+                    MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>> subMask;
+                    LoquiXmlTranslation<ITestGenericObjectGetter<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Write(
+                        writer: writer,
+                        item: item.TestGenericObjectHalfSpecified,
+                        name: nameof(item.TestGenericObjectHalfSpecified),
+                        doMasks: errorMask != null,
+                        mask: out TestGenericObject_ErrorMask<RBase_ErrMask> loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
+                        subMask);
                 }
             }
             catch (Exception ex)

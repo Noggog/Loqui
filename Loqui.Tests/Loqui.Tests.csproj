@@ -202,6 +202,24 @@
     <Compile Include="Generated Test Objects\TestGenericSpecification_LoquiGenerated.cs">
       <DependentUpon>TestGenericSpecification.xml</DependentUpon>
     </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet_Derivative.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_RPC_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet_Derivative_RPC.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet_ReadOnly.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_RPC_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet_ReadOnly_RPC.xml</DependentUpon>
+    </Compile>
+    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_RPC_LoquiGenerated.cs">
+      <DependentUpon>TestObject_Notifying_HasBeenSet_RPC.xml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
@@ -228,6 +246,24 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TestObject_Abstract.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_RPC.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_RPC.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_RPC.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Generated Test Objects\TypicalFields.xml">

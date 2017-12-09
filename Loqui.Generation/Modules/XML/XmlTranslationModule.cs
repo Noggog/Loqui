@@ -410,11 +410,11 @@ namespace Loqui.Generation
 
                     if (!generator.ShouldGenerateWrite(field.Field)) continue;
 
-                    if (!field.Field.Bare)
+                    if (field.Field.HasBeenSet)
                     {
                         fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
                     }
-                    using (new BraceWrapper(fg))
+                    using (new BraceWrapper(fg, doIt: field.Field.HasBeenSet))
                     {
                         var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
                         fg.AppendLine($"{maskType} subMask;");

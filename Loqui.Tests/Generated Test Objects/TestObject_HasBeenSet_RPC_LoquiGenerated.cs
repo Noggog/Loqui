@@ -43,7 +43,8 @@ namespace Loqui.Tests
         {
             _ByteArray = HasBeenSetItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArray)),
-                markAsSet: false);
+                markAsSet: false,
+                noNullFallback: () => new byte[4]);
             _ByteArrayNull = HasBeenSetItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNull)),
                 markAsSet: false);
@@ -7659,8 +7660,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.ByteArray_Property.SetToWithDefault(
-                        rhs.ByteArray_Property,
-                        def?.ByteArray_Property);
+                        rhs: rhs.ByteArray_Property,
+                        def: def?.ByteArray_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7673,8 +7674,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.ByteArrayNull_Property.SetToWithDefault(
-                        rhs.ByteArrayNull_Property,
-                        def?.ByteArrayNull_Property);
+                        rhs: rhs.ByteArrayNull_Property,
+                        def: def?.ByteArrayNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7687,8 +7688,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.ByteArrayNotNull_Property.SetToWithDefault(
-                        rhs.ByteArrayNotNull_Property,
-                        def?.ByteArrayNotNull_Property);
+                        rhs: rhs.ByteArrayNotNull_Property,
+                        def: def?.ByteArrayNotNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7701,8 +7702,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.BoolN_Property.SetToWithDefault(
-                        rhs.BoolN_Property,
-                        def?.BoolN_Property);
+                        rhs: rhs.BoolN_Property,
+                        def: def?.BoolN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7715,8 +7716,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Bool_Property.SetToWithDefault(
-                        rhs.Bool_Property,
-                        def?.Bool_Property);
+                        rhs: rhs.Bool_Property,
+                        def: def?.Bool_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7729,8 +7730,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.CharN_Property.SetToWithDefault(
-                        rhs.CharN_Property,
-                        def?.CharN_Property);
+                        rhs: rhs.CharN_Property,
+                        def: def?.CharN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7743,8 +7744,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Char_Property.SetToWithDefault(
-                        rhs.Char_Property,
-                        def?.Char_Property);
+                        rhs: rhs.Char_Property,
+                        def: def?.Char_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7757,8 +7758,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DateTimeNull_Property.SetToWithDefault(
-                        rhs.DateTimeNull_Property,
-                        def?.DateTimeNull_Property);
+                        rhs: rhs.DateTimeNull_Property,
+                        def: def?.DateTimeNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7771,8 +7772,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DateTime_Property.SetToWithDefault(
-                        rhs.DateTime_Property,
-                        def?.DateTime_Property);
+                        rhs: rhs.DateTime_Property,
+                        def: def?.DateTime_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7785,8 +7786,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DoubleN_Property.SetToWithDefault(
-                        rhs.DoubleN_Property,
-                        def?.DoubleN_Property);
+                        rhs: rhs.DoubleN_Property,
+                        def: def?.DoubleN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7799,8 +7800,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DoubleN_Ranged_Property.SetToWithDefault(
-                        rhs.DoubleN_Ranged_Property,
-                        def?.DoubleN_Ranged_Property);
+                        rhs: rhs.DoubleN_Ranged_Property,
+                        def: def?.DoubleN_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7813,8 +7814,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Double_Property.SetToWithDefault(
-                        rhs.Double_Property,
-                        def?.Double_Property);
+                        rhs: rhs.Double_Property,
+                        def: def?.Double_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7827,8 +7828,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Double_Ranged_Property.SetToWithDefault(
-                        rhs.Double_Ranged_Property,
-                        def?.Double_Ranged_Property);
+                        rhs: rhs.Double_Ranged_Property,
+                        def: def?.Double_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7841,8 +7842,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.FloatN_Property.SetToWithDefault(
-                        rhs.FloatN_Property,
-                        def?.FloatN_Property);
+                        rhs: rhs.FloatN_Property,
+                        def: def?.FloatN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7855,8 +7856,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.FloatN_Ranged_Property.SetToWithDefault(
-                        rhs.FloatN_Ranged_Property,
-                        def?.FloatN_Ranged_Property);
+                        rhs: rhs.FloatN_Ranged_Property,
+                        def: def?.FloatN_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7869,8 +7870,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Float_Property.SetToWithDefault(
-                        rhs.Float_Property,
-                        def?.Float_Property);
+                        rhs: rhs.Float_Property,
+                        def: def?.Float_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7883,8 +7884,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Float_Ranged_Property.SetToWithDefault(
-                        rhs.Float_Ranged_Property,
-                        def?.Float_Ranged_Property);
+                        rhs: rhs.Float_Ranged_Property,
+                        def: def?.Float_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7897,8 +7898,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int16N_Property.SetToWithDefault(
-                        rhs.Int16N_Property,
-                        def?.Int16N_Property);
+                        rhs: rhs.Int16N_Property,
+                        def: def?.Int16N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7911,8 +7912,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int16N_Ranged_Property.SetToWithDefault(
-                        rhs.Int16N_Ranged_Property,
-                        def?.Int16N_Ranged_Property);
+                        rhs: rhs.Int16N_Ranged_Property,
+                        def: def?.Int16N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7925,8 +7926,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int16_Property.SetToWithDefault(
-                        rhs.Int16_Property,
-                        def?.Int16_Property);
+                        rhs: rhs.Int16_Property,
+                        def: def?.Int16_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7939,8 +7940,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int16_Ranged_Property.SetToWithDefault(
-                        rhs.Int16_Ranged_Property,
-                        def?.Int16_Ranged_Property);
+                        rhs: rhs.Int16_Ranged_Property,
+                        def: def?.Int16_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7953,8 +7954,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int32N_Property.SetToWithDefault(
-                        rhs.Int32N_Property,
-                        def?.Int32N_Property);
+                        rhs: rhs.Int32N_Property,
+                        def: def?.Int32N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7967,8 +7968,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int32N_Ranged_Property.SetToWithDefault(
-                        rhs.Int32N_Ranged_Property,
-                        def?.Int32N_Ranged_Property);
+                        rhs: rhs.Int32N_Ranged_Property,
+                        def: def?.Int32N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7981,8 +7982,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int32_Property.SetToWithDefault(
-                        rhs.Int32_Property,
-                        def?.Int32_Property);
+                        rhs: rhs.Int32_Property,
+                        def: def?.Int32_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -7995,8 +7996,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int32_Ranged_Property.SetToWithDefault(
-                        rhs.Int32_Ranged_Property,
-                        def?.Int32_Ranged_Property);
+                        rhs: rhs.Int32_Ranged_Property,
+                        def: def?.Int32_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8009,8 +8010,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int64N_Property.SetToWithDefault(
-                        rhs.Int64N_Property,
-                        def?.Int64N_Property);
+                        rhs: rhs.Int64N_Property,
+                        def: def?.Int64N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8023,8 +8024,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int64N_Ranged_Property.SetToWithDefault(
-                        rhs.Int64N_Ranged_Property,
-                        def?.Int64N_Ranged_Property);
+                        rhs: rhs.Int64N_Ranged_Property,
+                        def: def?.Int64N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8037,8 +8038,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int64_Property.SetToWithDefault(
-                        rhs.Int64_Property,
-                        def?.Int64_Property);
+                        rhs: rhs.Int64_Property,
+                        def: def?.Int64_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8051,8 +8052,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int64_Ranged_Property.SetToWithDefault(
-                        rhs.Int64_Ranged_Property,
-                        def?.Int64_Ranged_Property);
+                        rhs: rhs.Int64_Ranged_Property,
+                        def: def?.Int64_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8065,8 +8066,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int8N_Property.SetToWithDefault(
-                        rhs.Int8N_Property,
-                        def?.Int8N_Property);
+                        rhs: rhs.Int8N_Property,
+                        def: def?.Int8N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8079,8 +8080,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int8N_Ranged_Property.SetToWithDefault(
-                        rhs.Int8N_Ranged_Property,
-                        def?.Int8N_Ranged_Property);
+                        rhs: rhs.Int8N_Ranged_Property,
+                        def: def?.Int8N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8093,8 +8094,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int8_Property.SetToWithDefault(
-                        rhs.Int8_Property,
-                        def?.Int8_Property);
+                        rhs: rhs.Int8_Property,
+                        def: def?.Int8_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8107,8 +8108,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Int8_Ranged_Property.SetToWithDefault(
-                        rhs.Int8_Ranged_Property,
-                        def?.Int8_Ranged_Property);
+                        rhs: rhs.Int8_Ranged_Property,
+                        def: def?.Int8_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8121,8 +8122,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Unsafe_Property.SetToWithDefault(
-                        rhs.Unsafe_Property,
-                        def?.Unsafe_Property);
+                        rhs: rhs.Unsafe_Property,
+                        def: def?.Unsafe_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8135,8 +8136,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UnsafeLoqui_Property.SetToWithDefault(
-                        rhs.UnsafeLoqui_Property,
-                        def?.UnsafeLoqui_Property);
+                        rhs: rhs.UnsafeLoqui_Property,
+                        def: def?.UnsafeLoqui_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8149,8 +8150,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UnsafeNull_Property.SetToWithDefault(
-                        rhs.UnsafeNull_Property,
-                        def?.UnsafeNull_Property);
+                        rhs: rhs.UnsafeNull_Property,
+                        def: def?.UnsafeNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8163,8 +8164,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P2IntN_Property.SetToWithDefault(
-                        rhs.P2IntN_Property,
-                        def?.P2IntN_Property);
+                        rhs: rhs.P2IntN_Property,
+                        def: def?.P2IntN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8177,8 +8178,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P2Int_Property.SetToWithDefault(
-                        rhs.P2Int_Property,
-                        def?.P2Int_Property);
+                        rhs: rhs.P2Int_Property,
+                        def: def?.P2Int_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8191,8 +8192,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P3DoubleN_Property.SetToWithDefault(
-                        rhs.P3DoubleN_Property,
-                        def?.P3DoubleN_Property);
+                        rhs: rhs.P3DoubleN_Property,
+                        def: def?.P3DoubleN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8205,8 +8206,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P3Double_Property.SetToWithDefault(
-                        rhs.P3Double_Property,
-                        def?.P3Double_Property);
+                        rhs: rhs.P3Double_Property,
+                        def: def?.P3Double_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8219,8 +8220,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P3IntN_Property.SetToWithDefault(
-                        rhs.P3IntN_Property,
-                        def?.P3IntN_Property);
+                        rhs: rhs.P3IntN_Property,
+                        def: def?.P3IntN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8233,8 +8234,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.P3Int_Property.SetToWithDefault(
-                        rhs.P3Int_Property,
-                        def?.P3Int_Property);
+                        rhs: rhs.P3Int_Property,
+                        def: def?.P3Int_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8247,8 +8248,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.PercentN_Property.SetToWithDefault(
-                        rhs.PercentN_Property,
-                        def?.PercentN_Property);
+                        rhs: rhs.PercentN_Property,
+                        def: def?.PercentN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8261,8 +8262,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Percent_Property.SetToWithDefault(
-                        rhs.Percent_Property,
-                        def?.Percent_Property);
+                        rhs: rhs.Percent_Property,
+                        def: def?.Percent_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8275,8 +8276,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt8N_Property.SetToWithDefault(
-                        rhs.RangeInt8N_Property,
-                        def?.RangeInt8N_Property);
+                        rhs: rhs.RangeInt8N_Property,
+                        def: def?.RangeInt8N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8289,8 +8290,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt8_Property.SetToWithDefault(
-                        rhs.RangeInt8_Property,
-                        def?.RangeInt8_Property);
+                        rhs: rhs.RangeInt8_Property,
+                        def: def?.RangeInt8_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8303,8 +8304,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt16N_Property.SetToWithDefault(
-                        rhs.RangeInt16N_Property,
-                        def?.RangeInt16N_Property);
+                        rhs: rhs.RangeInt16N_Property,
+                        def: def?.RangeInt16N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8317,8 +8318,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt16_Property.SetToWithDefault(
-                        rhs.RangeInt16_Property,
-                        def?.RangeInt16_Property);
+                        rhs: rhs.RangeInt16_Property,
+                        def: def?.RangeInt16_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8331,8 +8332,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt32N_Property.SetToWithDefault(
-                        rhs.RangeInt32N_Property,
-                        def?.RangeInt32N_Property);
+                        rhs: rhs.RangeInt32N_Property,
+                        def: def?.RangeInt32N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8345,8 +8346,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt32_Property.SetToWithDefault(
-                        rhs.RangeInt32_Property,
-                        def?.RangeInt32_Property);
+                        rhs: rhs.RangeInt32_Property,
+                        def: def?.RangeInt32_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8359,8 +8360,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt64N_Property.SetToWithDefault(
-                        rhs.RangeInt64N_Property,
-                        def?.RangeInt64N_Property);
+                        rhs: rhs.RangeInt64N_Property,
+                        def: def?.RangeInt64N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8373,8 +8374,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeInt64_Property.SetToWithDefault(
-                        rhs.RangeInt64_Property,
-                        def?.RangeInt64_Property);
+                        rhs: rhs.RangeInt64_Property,
+                        def: def?.RangeInt64_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8387,8 +8388,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt8N_Property.SetToWithDefault(
-                        rhs.RangeUInt8N_Property,
-                        def?.RangeUInt8N_Property);
+                        rhs: rhs.RangeUInt8N_Property,
+                        def: def?.RangeUInt8N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8401,8 +8402,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt8_Property.SetToWithDefault(
-                        rhs.RangeUInt8_Property,
-                        def?.RangeUInt8_Property);
+                        rhs: rhs.RangeUInt8_Property,
+                        def: def?.RangeUInt8_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8415,8 +8416,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt16N_Property.SetToWithDefault(
-                        rhs.RangeUInt16N_Property,
-                        def?.RangeUInt16N_Property);
+                        rhs: rhs.RangeUInt16N_Property,
+                        def: def?.RangeUInt16N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8429,8 +8430,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt16_Property.SetToWithDefault(
-                        rhs.RangeUInt16_Property,
-                        def?.RangeUInt16_Property);
+                        rhs: rhs.RangeUInt16_Property,
+                        def: def?.RangeUInt16_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8443,8 +8444,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt32N_Property.SetToWithDefault(
-                        rhs.RangeUInt32N_Property,
-                        def?.RangeUInt32N_Property);
+                        rhs: rhs.RangeUInt32N_Property,
+                        def: def?.RangeUInt32N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8457,8 +8458,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt32_Property.SetToWithDefault(
-                        rhs.RangeUInt32_Property,
-                        def?.RangeUInt32_Property);
+                        rhs: rhs.RangeUInt32_Property,
+                        def: def?.RangeUInt32_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8471,8 +8472,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt64N_Property.SetToWithDefault(
-                        rhs.RangeUInt64N_Property,
-                        def?.RangeUInt64N_Property);
+                        rhs: rhs.RangeUInt64N_Property,
+                        def: def?.RangeUInt64N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8485,8 +8486,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RangeUInt64_Property.SetToWithDefault(
-                        rhs.RangeUInt64_Property,
-                        def?.RangeUInt64_Property);
+                        rhs: rhs.RangeUInt64_Property,
+                        def: def?.RangeUInt64_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8499,8 +8500,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.String_Property.SetToWithDefault(
-                        rhs.String_Property,
-                        def?.String_Property);
+                        rhs: rhs.String_Property,
+                        def: def?.String_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8513,8 +8514,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.FilePath_Property.SetToWithDefault(
-                        rhs.FilePath_Property,
-                        def?.FilePath_Property);
+                        rhs: rhs.FilePath_Property,
+                        def: def?.FilePath_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8527,8 +8528,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.FilePathNull_Property.SetToWithDefault(
-                        rhs.FilePathNull_Property,
-                        def?.FilePathNull_Property);
+                        rhs: rhs.FilePathNull_Property,
+                        def: def?.FilePathNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8541,8 +8542,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DirectoryPath_Property.SetToWithDefault(
-                        rhs.DirectoryPath_Property,
-                        def?.DirectoryPath_Property);
+                        rhs: rhs.DirectoryPath_Property,
+                        def: def?.DirectoryPath_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8555,8 +8556,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.DirectoryPathNull_Property.SetToWithDefault(
-                        rhs.DirectoryPathNull_Property,
-                        def?.DirectoryPathNull_Property);
+                        rhs: rhs.DirectoryPathNull_Property,
+                        def: def?.DirectoryPathNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8569,8 +8570,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UDoubleN_Property.SetToWithDefault(
-                        rhs.UDoubleN_Property,
-                        def?.UDoubleN_Property);
+                        rhs: rhs.UDoubleN_Property,
+                        def: def?.UDoubleN_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8583,8 +8584,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UDoubleN_Ranged_Property.SetToWithDefault(
-                        rhs.UDoubleN_Ranged_Property,
-                        def?.UDoubleN_Ranged_Property);
+                        rhs: rhs.UDoubleN_Ranged_Property,
+                        def: def?.UDoubleN_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8597,8 +8598,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UDouble_Property.SetToWithDefault(
-                        rhs.UDouble_Property,
-                        def?.UDouble_Property);
+                        rhs: rhs.UDouble_Property,
+                        def: def?.UDouble_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8611,8 +8612,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UDouble_Ranged_Property.SetToWithDefault(
-                        rhs.UDouble_Ranged_Property,
-                        def?.UDouble_Ranged_Property);
+                        rhs: rhs.UDouble_Ranged_Property,
+                        def: def?.UDouble_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8625,8 +8626,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt16N_Property.SetToWithDefault(
-                        rhs.UInt16N_Property,
-                        def?.UInt16N_Property);
+                        rhs: rhs.UInt16N_Property,
+                        def: def?.UInt16N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8639,8 +8640,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt16N_Ranged_Property.SetToWithDefault(
-                        rhs.UInt16N_Ranged_Property,
-                        def?.UInt16N_Ranged_Property);
+                        rhs: rhs.UInt16N_Ranged_Property,
+                        def: def?.UInt16N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8653,8 +8654,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt16_Property.SetToWithDefault(
-                        rhs.UInt16_Property,
-                        def?.UInt16_Property);
+                        rhs: rhs.UInt16_Property,
+                        def: def?.UInt16_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8667,8 +8668,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt16_Ranged_Property.SetToWithDefault(
-                        rhs.UInt16_Ranged_Property,
-                        def?.UInt16_Ranged_Property);
+                        rhs: rhs.UInt16_Ranged_Property,
+                        def: def?.UInt16_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8681,8 +8682,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt32N_Property.SetToWithDefault(
-                        rhs.UInt32N_Property,
-                        def?.UInt32N_Property);
+                        rhs: rhs.UInt32N_Property,
+                        def: def?.UInt32N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8695,8 +8696,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt32N_Ranged_Property.SetToWithDefault(
-                        rhs.UInt32N_Ranged_Property,
-                        def?.UInt32N_Ranged_Property);
+                        rhs: rhs.UInt32N_Ranged_Property,
+                        def: def?.UInt32N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8709,8 +8710,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt32_Property.SetToWithDefault(
-                        rhs.UInt32_Property,
-                        def?.UInt32_Property);
+                        rhs: rhs.UInt32_Property,
+                        def: def?.UInt32_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8723,8 +8724,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt32_Ranged_Property.SetToWithDefault(
-                        rhs.UInt32_Ranged_Property,
-                        def?.UInt32_Ranged_Property);
+                        rhs: rhs.UInt32_Ranged_Property,
+                        def: def?.UInt32_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8737,8 +8738,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt64N_Property.SetToWithDefault(
-                        rhs.UInt64N_Property,
-                        def?.UInt64N_Property);
+                        rhs: rhs.UInt64N_Property,
+                        def: def?.UInt64N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8751,8 +8752,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt64N_Ranged_Property.SetToWithDefault(
-                        rhs.UInt64N_Ranged_Property,
-                        def?.UInt64N_Ranged_Property);
+                        rhs: rhs.UInt64N_Ranged_Property,
+                        def: def?.UInt64N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8765,8 +8766,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt64_Property.SetToWithDefault(
-                        rhs.UInt64_Property,
-                        def?.UInt64_Property);
+                        rhs: rhs.UInt64_Property,
+                        def: def?.UInt64_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8779,8 +8780,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt64_Ranged_Property.SetToWithDefault(
-                        rhs.UInt64_Ranged_Property,
-                        def?.UInt64_Ranged_Property);
+                        rhs: rhs.UInt64_Ranged_Property,
+                        def: def?.UInt64_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8793,8 +8794,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt8N_Property.SetToWithDefault(
-                        rhs.UInt8N_Property,
-                        def?.UInt8N_Property);
+                        rhs: rhs.UInt8N_Property,
+                        def: def?.UInt8N_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8807,8 +8808,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt8N_Ranged_Property.SetToWithDefault(
-                        rhs.UInt8N_Ranged_Property,
-                        def?.UInt8N_Ranged_Property);
+                        rhs: rhs.UInt8N_Ranged_Property,
+                        def: def?.UInt8N_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8821,8 +8822,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt8_Property.SetToWithDefault(
-                        rhs.UInt8_Property,
-                        def?.UInt8_Property);
+                        rhs: rhs.UInt8_Property,
+                        def: def?.UInt8_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8835,8 +8836,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.UInt8_Ranged_Property.SetToWithDefault(
-                        rhs.UInt8_Ranged_Property,
-                        def?.UInt8_Ranged_Property);
+                        rhs: rhs.UInt8_Ranged_Property,
+                        def: def?.UInt8_Ranged_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8849,8 +8850,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.Enum_Property.SetToWithDefault(
-                        rhs.Enum_Property,
-                        def?.Enum_Property);
+                        rhs: rhs.Enum_Property,
+                        def: def?.Enum_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8863,8 +8864,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.EnumNull_Property.SetToWithDefault(
-                        rhs.EnumNull_Property,
-                        def?.EnumNull_Property);
+                        rhs: rhs.EnumNull_Property,
+                        def: def?.EnumNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8877,8 +8878,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.WildCard_Property.SetToWithDefault(
-                        rhs.WildCard_Property,
-                        def?.WildCard_Property);
+                        rhs: rhs.WildCard_Property,
+                        def: def?.WildCard_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8891,8 +8892,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.WildCardLoqui_Property.SetToWithDefault(
-                        rhs.WildCardLoqui_Property,
-                        def?.WildCardLoqui_Property);
+                        rhs: rhs.WildCardLoqui_Property,
+                        def: def?.WildCardLoqui_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8905,8 +8906,8 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.WildCardNull_Property.SetToWithDefault(
-                        rhs.WildCardNull_Property,
-                        def?.WildCardNull_Property);
+                        rhs: rhs.WildCardNull_Property,
+                        def: def?.WildCardNull_Property);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -10761,18 +10762,18 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.WildCard = Loqui.Generation.Accessor.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardLoqui = Loqui.Generation.Accessor.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardNull = Loqui.Generation.Accessor.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
+            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)

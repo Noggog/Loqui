@@ -36,7 +36,7 @@ namespace Loqui.Tests
         #endregion
 
         #region NewField
-        protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>(markAsSet: false);
+        protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>();
         public INotifyingItem<Boolean> NewField_Property => _NewField;
         public Boolean NewField
         {
@@ -102,21 +102,14 @@ namespace Loqui.Tests
         {
             if (rhs == null) return false;
             if (!base.Equals(rhs)) return false;
-            if (NewField_Property.HasBeenSet != rhs.NewField_Property.HasBeenSet) return false;
-            if (NewField_Property.HasBeenSet)
-            {
-                if (NewField != rhs.NewField) return false;
-            }
+            if (NewField != rhs.NewField) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
             int ret = 0;
-            if (NewField_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(NewField).CombineHashCode(ret);
-            }
+            ret = HashHelper.GetHashCode(NewField).CombineHashCode(ret);
             ret = ret.CombineHashCode(base.GetHashCode());
             return ret;
         }
@@ -855,10 +848,9 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.NewField_Property.SetToWithDefault(
-                        rhs.NewField_Property,
-                        def?.NewField_Property,
-                        cmds);
+                    item.NewField_Property.Set(
+                        value: rhs.NewField,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -913,7 +905,7 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_SubClass_FieldIndex.NewField:
-                    return obj.NewField_Property.HasBeenSet;
+                    return true;
                 default:
                     return TestObject_NotifyingCommon.GetNthObjectHasBeenSet(index, obj);
             }
@@ -937,7 +929,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_SubClass item,
             NotifyingUnsetParameters? cmds = null)
         {
-            item.NewField_Property.Unset(cmds.ToUnsetParams());
+            item.NewField = default(Boolean);
         }
 
         public static TestObject_Notifying_SubClass_Mask<bool> GetEqualsMask(
@@ -955,7 +947,7 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_SubClass_Mask<bool> ret)
         {
             if (rhs == null) return;
-            ret.NewField = item.NewField_Property.Equals(rhs.NewField_Property, (l, r) => l == r);
+            ret.NewField = item.NewField == rhs.NewField;
             TestObject_NotifyingCommon.FillEqualsMask(item, rhs, ret);
         }
 
@@ -1005,7 +997,7 @@ namespace Loqui.Tests.Internals
         public static TestObject_Notifying_SubClass_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_SubClassGetter item)
         {
             var ret = new TestObject_Notifying_SubClass_Mask<bool>();
-            ret.NewField = item.NewField_Property.HasBeenSet;
+            ret.NewField = true;
             return ret;
         }
 
@@ -1041,20 +1033,17 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_SubClass");
                     }
-                    if (item.NewField_Property.HasBeenSet)
-                    {
-                        Exception subMask;
-                        BooleanXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.NewField),
-                            item.NewField,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
-                            subMask);
-                    }
+                    Exception subMask;
+                    BooleanXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.NewField),
+                        item.NewField,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
+                        subMask);
                 }
             }
             catch (Exception ex)

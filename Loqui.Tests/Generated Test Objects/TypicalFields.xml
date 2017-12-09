@@ -3,8 +3,8 @@
   <Protocol Namespace="LoquiTests" />
   <FieldBatch name="TypicalFields">
     <Fields>
-      <ByteArray name="ByteArray" />
-      <ByteArray name="ByteArrayNull" />
+      <ByteArray name="ByteArray" nullable="NotNull" length="4" />
+      <ByteArray name="ByteArrayNull" nullable="None" />
       <ByteArray name="ByteArrayNotNull" nullable="NotNull" length="3" />
       <ByteArray name="ByteArraySingleton" nullable="Singleton" length="3" />
       <BoolNull name="BoolN" />

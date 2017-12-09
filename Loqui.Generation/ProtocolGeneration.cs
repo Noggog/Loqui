@@ -146,13 +146,16 @@ namespace Loqui.Generation
                 ObjectGenerationsByID.Values
                     .Select((obj) => TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load)));
             
-            await Task.WhenAll(this.ObjectGenerationsByID.Values.Select((obj) => obj.Resolve()));
+            await Task.WhenAll(
+                this.ObjectGenerationsByID.Values
+                    .Select((obj) => obj.Resolve()));
 
-            foreach (var obj in ObjectGenerationsByID.Values)
-            {
-                await obj.Generate();
-                obj.RegenerateAndStampSourceXML();
-            }
+            await Task.WhenAll(this.ObjectGenerationsByID.Values
+                .Select(async (obj) =>
+                {
+                    await obj.Generate();
+                    obj.RegenerateAndStampSourceXML();
+                }));
 
             GenerateDefFile();
         }

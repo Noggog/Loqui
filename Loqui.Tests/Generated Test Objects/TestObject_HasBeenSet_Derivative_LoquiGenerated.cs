@@ -46,7 +46,9 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArray = HasBeenSetItem.Factory<Byte[]>(markAsSet: false);
+        protected readonly IHasBeenSetItem<Byte[]> _ByteArray = HasBeenSetItem.Factory<Byte[]>(
+            markAsSet: false,
+            noNullFallback: () => new byte[4]);
         public IHasBeenSetItem<Byte[]> ByteArray_Property => _ByteArray;
         public Byte[] ByteArray
         {
@@ -7235,18 +7237,18 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.WildCard = Loqui.Generation.Accessor.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardLoqui = Loqui.Generation.Accessor.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardNull = Loqui.Generation.Accessor.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
+            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)

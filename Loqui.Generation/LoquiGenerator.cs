@@ -255,7 +255,9 @@ namespace Loqui.Generation
 
             ResolveIDs();
 
-            await Task.WhenAll(this.targetData.Values.Select((protoGen) => protoGen.Generate()));
+            await Task.WhenAll(
+                this.targetData.Values
+                    .Select((protoGen) => protoGen.Generate()));
 
             foreach (var file in this.projectsToModify)
             {

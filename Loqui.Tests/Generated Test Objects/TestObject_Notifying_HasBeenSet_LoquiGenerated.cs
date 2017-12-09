@@ -23,21 +23,21 @@ using System.Diagnostics;
 namespace Loqui.Tests
 {
     #region Class
-    public partial class TestObject_HasBeenSet : ITestObject_HasBeenSet, ILoquiObjectSetter, IEquatable<TestObject_HasBeenSet>
+    public partial class TestObject_Notifying_HasBeenSet : ITestObject_Notifying_HasBeenSet, ILoquiObjectSetter, IEquatable<TestObject_Notifying_HasBeenSet>
     {
-        ILoquiRegistration ILoquiObject.Registration => TestObject_HasBeenSet_Registration.Instance;
-        public static TestObject_HasBeenSet_Registration Registration => TestObject_HasBeenSet_Registration.Instance;
+        ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_HasBeenSet_Registration.Instance;
+        public static TestObject_Notifying_HasBeenSet_Registration Registration => TestObject_Notifying_HasBeenSet_Registration.Instance;
 
         #region Ctor
-        public TestObject_HasBeenSet()
+        public TestObject_Notifying_HasBeenSet()
         {
-            _Ref_Singleton = HasBeenSetItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 markAsSet: true);
-            _RefGetter_Singleton = HasBeenSetItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 markAsSet: true);
-            _RefSetter_Singleton = HasBeenSetItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 markAsSet: true);
             CustomCtor();
@@ -46,1143 +46,1141 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArray = HasBeenSetItem.Factory<Byte[]>(
+        protected readonly INotifyingItem<Byte[]> _ByteArray = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[4]);
-        public IHasBeenSetItem<Byte[]> ByteArray_Property => _ByteArray;
+        public INotifyingSetItem<Byte[]> ByteArray_Property => _ByteArray;
         public Byte[] ByteArray
         {
             get => this._ByteArray.Item;
             set => this._ByteArray.Set(value);
         }
-        Byte[] ITestObject_HasBeenSetGetter.ByteArray => this.ByteArray;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArray_Property => this.ByteArray_Property;
+        INotifyingSetItem<Byte[]> ITestObject_Notifying_HasBeenSet.ByteArray_Property => this.ByteArray_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNull = HasBeenSetItem.Factory<Byte[]>(markAsSet: false);
-        public IHasBeenSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingSetItem.Factory<Byte[]>(markAsSet: false);
+        public INotifyingSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
             get => this._ByteArrayNull.Item;
             set => this._ByteArrayNull.Set(value);
         }
-        Byte[] ITestObject_HasBeenSetGetter.ByteArrayNull => this.ByteArrayNull;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
+        INotifyingSetItem<Byte[]> ITestObject_Notifying_HasBeenSet.ByteArrayNull_Property => this.ByteArrayNull_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNotNull = HasBeenSetItem.Factory<Byte[]>(
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[3]);
-        public IHasBeenSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
+        public INotifyingSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
         public Byte[] ByteArrayNotNull
         {
             get => this._ByteArrayNotNull.Item;
             set => this._ByteArrayNotNull.Set(value);
         }
-        Byte[] ITestObject_HasBeenSetGetter.ByteArrayNotNull => this.ByteArrayNotNull;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
+        INotifyingSetItem<Byte[]> ITestObject_Notifying_HasBeenSet.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArraySingleton = HasBeenSetItem.Factory<Byte[]>(
+        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: true,
             noNullFallback: () => new byte[3]);
-        public IHasBeenSetItem<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
+        public INotifyingSetItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
         public Byte[] ByteArraySingleton
         {
             get => this._ByteArraySingleton.Item;
             protected set => this._ByteArraySingleton.Set(value);
         }
-        Byte[] ITestObject_HasBeenSetGetter.ByteArraySingleton => this.ByteArraySingleton;
-        IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
+        INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
-        protected readonly IHasBeenSetItem<Boolean?> _BoolN = HasBeenSetItem.Factory<Boolean?>(markAsSet: false);
-        public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
+        protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingSetItem.Factory<Boolean?>(markAsSet: false);
+        public INotifyingSetItem<Boolean?> BoolN_Property => _BoolN;
         public Boolean? BoolN
         {
             get => this._BoolN.Item;
             set => this._BoolN.Set(value);
         }
-        Boolean? ITestObject_HasBeenSetGetter.BoolN => this.BoolN;
-        IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
+        INotifyingSetItem<Boolean?> ITestObject_Notifying_HasBeenSet.BoolN_Property => this.BoolN_Property;
+        INotifyingSetItemGetter<Boolean?> ITestObject_Notifying_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
-        protected readonly IHasBeenSetItem<Boolean> _Bool = HasBeenSetItem.Factory<Boolean>(markAsSet: false);
-        public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
+        protected readonly INotifyingItem<Boolean> _Bool = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        public INotifyingSetItem<Boolean> Bool_Property => _Bool;
         public Boolean Bool
         {
             get => this._Bool.Item;
             set => this._Bool.Set(value);
         }
-        Boolean ITestObject_HasBeenSetGetter.Bool => this.Bool;
-        IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSetGetter.Bool_Property => this.Bool_Property;
+        INotifyingSetItem<Boolean> ITestObject_Notifying_HasBeenSet.Bool_Property => this.Bool_Property;
+        INotifyingSetItemGetter<Boolean> ITestObject_Notifying_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
-        protected readonly IHasBeenSetItem<Char?> _CharN = HasBeenSetItem.Factory<Char?>(markAsSet: false);
-        public IHasBeenSetItem<Char?> CharN_Property => _CharN;
+        protected readonly INotifyingItem<Char?> _CharN = NotifyingSetItem.Factory<Char?>(markAsSet: false);
+        public INotifyingSetItem<Char?> CharN_Property => _CharN;
         public Char? CharN
         {
             get => this._CharN.Item;
             set => this._CharN.Set(value);
         }
-        Char? ITestObject_HasBeenSetGetter.CharN => this.CharN;
-        IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSetGetter.CharN_Property => this.CharN_Property;
+        INotifyingSetItem<Char?> ITestObject_Notifying_HasBeenSet.CharN_Property => this.CharN_Property;
+        INotifyingSetItemGetter<Char?> ITestObject_Notifying_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
-        protected readonly IHasBeenSetItem<Char> _Char = HasBeenSetItem.Factory<Char>(markAsSet: false);
-        public IHasBeenSetItem<Char> Char_Property => _Char;
+        protected readonly INotifyingItem<Char> _Char = NotifyingSetItem.Factory<Char>(markAsSet: false);
+        public INotifyingSetItem<Char> Char_Property => _Char;
         public Char Char
         {
             get => this._Char.Item;
             set => this._Char.Set(value);
         }
-        Char ITestObject_HasBeenSetGetter.Char => this.Char;
-        IHasBeenSetItemGetter<Char> ITestObject_HasBeenSetGetter.Char_Property => this.Char_Property;
+        INotifyingSetItem<Char> ITestObject_Notifying_HasBeenSet.Char_Property => this.Char_Property;
+        INotifyingSetItemGetter<Char> ITestObject_Notifying_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
-        protected readonly IHasBeenSetItem<DateTime?> _DateTimeNull = HasBeenSetItem.Factory<DateTime?>(markAsSet: false);
-        public IHasBeenSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
+        protected readonly INotifyingItem<DateTime?> _DateTimeNull = NotifyingSetItem.Factory<DateTime?>(markAsSet: false);
+        public INotifyingSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
         public DateTime? DateTimeNull
         {
             get => this._DateTimeNull.Item;
             set => this._DateTimeNull.Set(value);
         }
-        DateTime? ITestObject_HasBeenSetGetter.DateTimeNull => this.DateTimeNull;
-        IHasBeenSetItemGetter<DateTime?> ITestObject_HasBeenSetGetter.DateTimeNull_Property => this.DateTimeNull_Property;
+        INotifyingSetItem<DateTime?> ITestObject_Notifying_HasBeenSet.DateTimeNull_Property => this.DateTimeNull_Property;
+        INotifyingSetItemGetter<DateTime?> ITestObject_Notifying_HasBeenSetGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
-        protected readonly IHasBeenSetItem<DateTime> _DateTime = HasBeenSetItem.Factory<DateTime>(markAsSet: false);
-        public IHasBeenSetItem<DateTime> DateTime_Property => _DateTime;
+        protected readonly INotifyingItem<DateTime> _DateTime = NotifyingSetItem.Factory<DateTime>(markAsSet: false);
+        public INotifyingSetItem<DateTime> DateTime_Property => _DateTime;
         public DateTime DateTime
         {
             get => this._DateTime.Item;
             set => this._DateTime.Set(value);
         }
-        DateTime ITestObject_HasBeenSetGetter.DateTime => this.DateTime;
-        IHasBeenSetItemGetter<DateTime> ITestObject_HasBeenSetGetter.DateTime_Property => this.DateTime_Property;
+        INotifyingSetItem<DateTime> ITestObject_Notifying_HasBeenSet.DateTime_Property => this.DateTime_Property;
+        INotifyingSetItemGetter<DateTime> ITestObject_Notifying_HasBeenSetGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
-        protected readonly IHasBeenSetItem<Double?> _DoubleN = HasBeenSetItem.Factory<Double?>(markAsSet: false);
-        public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
+        protected readonly INotifyingItem<Double?> _DoubleN = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        public INotifyingSetItem<Double?> DoubleN_Property => _DoubleN;
         public Double? DoubleN
         {
             get => this._DoubleN.Item;
             set => this._DoubleN.Set(value);
         }
-        Double? ITestObject_HasBeenSetGetter.DoubleN => this.DoubleN;
-        IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
+        INotifyingSetItem<Double?> ITestObject_Notifying_HasBeenSet.DoubleN_Property => this.DoubleN_Property;
+        INotifyingSetItemGetter<Double?> ITestObject_Notifying_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region DoubleN_Ranged
-        protected readonly IHasBeenSetItem<Double?> _DoubleN_Ranged = HasBeenSetItem.Factory<Double?>(markAsSet: false);
-        public IHasBeenSetItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
+        protected readonly INotifyingItem<Double?> _DoubleN_Ranged = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        public INotifyingItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
         public Double? DoubleN_Ranged
         {
             get => this._DoubleN_Ranged.Item;
             set => this._DoubleN_Ranged.Set(value?.PutInRange(DoubleN_Ranged_Range.Min, DoubleN_Ranged_Range.Max));
         }
-        Double? ITestObject_HasBeenSetGetter.DoubleN_Ranged => this.DoubleN_Ranged;
-        IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
+        INotifyingSetItem<Double?> ITestObject_Notifying_HasBeenSet.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
+        INotifyingSetItemGetter<Double?> ITestObject_Notifying_HasBeenSetGetter.DoubleN_Ranged_Property => this.DoubleN_Ranged_Property;
         public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region Double
-        protected readonly IHasBeenSetItem<Double> _Double = HasBeenSetItem.Factory<Double>(markAsSet: false);
-        public IHasBeenSetItem<Double> Double_Property => _Double;
+        protected readonly INotifyingItem<Double> _Double = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        public INotifyingSetItem<Double> Double_Property => _Double;
         public Double Double
         {
             get => this._Double.Item;
             set => this._Double.Set(value);
         }
-        Double ITestObject_HasBeenSetGetter.Double => this.Double;
-        IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Property => this.Double_Property;
+        INotifyingSetItem<Double> ITestObject_Notifying_HasBeenSet.Double_Property => this.Double_Property;
+        INotifyingSetItemGetter<Double> ITestObject_Notifying_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
         #region Double_Ranged
-        protected readonly IHasBeenSetItem<Double> _Double_Ranged = HasBeenSetItem.Factory<Double>(markAsSet: false);
-        public IHasBeenSetItem<Double> Double_Ranged_Property => _Double_Ranged;
+        protected readonly INotifyingItem<Double> _Double_Ranged = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        public INotifyingItem<Double> Double_Ranged_Property => _Double_Ranged;
         public Double Double_Ranged
         {
             get => this._Double_Ranged.Item;
             set => this._Double_Ranged.Set(value.PutInRange(Double_Ranged_Range.Min, Double_Ranged_Range.Max));
         }
-        Double ITestObject_HasBeenSetGetter.Double_Ranged => this.Double_Ranged;
-        IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Ranged_Property => this.Double_Ranged_Property;
+        INotifyingSetItem<Double> ITestObject_Notifying_HasBeenSet.Double_Ranged_Property => this.Double_Ranged_Property;
+        INotifyingSetItemGetter<Double> ITestObject_Notifying_HasBeenSetGetter.Double_Ranged_Property => this.Double_Ranged_Property;
         public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
-        protected readonly IHasBeenSetItem<Single?> _FloatN = HasBeenSetItem.Factory<Single?>(markAsSet: false);
-        public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
+        protected readonly INotifyingItem<Single?> _FloatN = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        public INotifyingSetItem<Single?> FloatN_Property => _FloatN;
         public Single? FloatN
         {
             get => this._FloatN.Item;
             set => this._FloatN.Set(value);
         }
-        Single? ITestObject_HasBeenSetGetter.FloatN => this.FloatN;
-        IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
+        INotifyingSetItem<Single?> ITestObject_Notifying_HasBeenSet.FloatN_Property => this.FloatN_Property;
+        INotifyingSetItemGetter<Single?> ITestObject_Notifying_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region FloatN_Ranged
-        protected readonly IHasBeenSetItem<Single?> _FloatN_Ranged = HasBeenSetItem.Factory<Single?>(markAsSet: false);
-        public IHasBeenSetItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
+        protected readonly INotifyingItem<Single?> _FloatN_Ranged = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        public INotifyingItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
         public Single? FloatN_Ranged
         {
             get => this._FloatN_Ranged.Item;
             set => this._FloatN_Ranged.Set(value?.PutInRange(FloatN_Ranged_Range.Min, FloatN_Ranged_Range.Max));
         }
-        Single? ITestObject_HasBeenSetGetter.FloatN_Ranged => this.FloatN_Ranged;
-        IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
+        INotifyingSetItem<Single?> ITestObject_Notifying_HasBeenSet.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
+        INotifyingSetItemGetter<Single?> ITestObject_Notifying_HasBeenSetGetter.FloatN_Ranged_Property => this.FloatN_Ranged_Property;
         public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Float
-        protected readonly IHasBeenSetItem<Single> _Float = HasBeenSetItem.Factory<Single>(markAsSet: false);
-        public IHasBeenSetItem<Single> Float_Property => _Float;
+        protected readonly INotifyingItem<Single> _Float = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        public INotifyingSetItem<Single> Float_Property => _Float;
         public Single Float
         {
             get => this._Float.Item;
             set => this._Float.Set(value);
         }
-        Single ITestObject_HasBeenSetGetter.Float => this.Float;
-        IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Property => this.Float_Property;
+        INotifyingSetItem<Single> ITestObject_Notifying_HasBeenSet.Float_Property => this.Float_Property;
+        INotifyingSetItemGetter<Single> ITestObject_Notifying_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
         #region Float_Ranged
-        protected readonly IHasBeenSetItem<Single> _Float_Ranged = HasBeenSetItem.Factory<Single>(markAsSet: false);
-        public IHasBeenSetItem<Single> Float_Ranged_Property => _Float_Ranged;
+        protected readonly INotifyingItem<Single> _Float_Ranged = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        public INotifyingItem<Single> Float_Ranged_Property => _Float_Ranged;
         public Single Float_Ranged
         {
             get => this._Float_Ranged.Item;
             set => this._Float_Ranged.Set(value.PutInRange(Float_Ranged_Range.Min, Float_Ranged_Range.Max));
         }
-        Single ITestObject_HasBeenSetGetter.Float_Ranged => this.Float_Ranged;
-        IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Ranged_Property => this.Float_Ranged_Property;
+        INotifyingSetItem<Single> ITestObject_Notifying_HasBeenSet.Float_Ranged_Property => this.Float_Ranged_Property;
+        INotifyingSetItemGetter<Single> ITestObject_Notifying_HasBeenSetGetter.Float_Ranged_Property => this.Float_Ranged_Property;
         public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
-        protected readonly IHasBeenSetItem<Int16?> _Int16N = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
-        public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
+        protected readonly INotifyingItem<Int16?> _Int16N = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        public INotifyingSetItem<Int16?> Int16N_Property => _Int16N;
         public Int16? Int16N
         {
             get => this._Int16N.Item;
             set => this._Int16N.Set(value);
         }
-        Int16? ITestObject_HasBeenSetGetter.Int16N => this.Int16N;
-        IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
+        INotifyingSetItem<Int16?> ITestObject_Notifying_HasBeenSet.Int16N_Property => this.Int16N_Property;
+        INotifyingSetItemGetter<Int16?> ITestObject_Notifying_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16N_Ranged
-        protected readonly IHasBeenSetItem<Int16?> _Int16N_Ranged = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
-        public IHasBeenSetItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
+        protected readonly INotifyingItem<Int16?> _Int16N_Ranged = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        public INotifyingItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
         public Int16? Int16N_Ranged
         {
             get => this._Int16N_Ranged.Item;
             set => this._Int16N_Ranged.Set(value?.PutInRange(Int16N_Ranged_Range.Min, Int16N_Ranged_Range.Max));
         }
-        Int16? ITestObject_HasBeenSetGetter.Int16N_Ranged => this.Int16N_Ranged;
-        IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
+        INotifyingSetItem<Int16?> ITestObject_Notifying_HasBeenSet.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
+        INotifyingSetItemGetter<Int16?> ITestObject_Notifying_HasBeenSetGetter.Int16N_Ranged_Property => this.Int16N_Ranged_Property;
         public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int16
-        protected readonly IHasBeenSetItem<Int16> _Int16 = HasBeenSetItem.Factory<Int16>(markAsSet: false);
-        public IHasBeenSetItem<Int16> Int16_Property => _Int16;
+        protected readonly INotifyingItem<Int16> _Int16 = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        public INotifyingSetItem<Int16> Int16_Property => _Int16;
         public Int16 Int16
         {
             get => this._Int16.Item;
             set => this._Int16.Set(value);
         }
-        Int16 ITestObject_HasBeenSetGetter.Int16 => this.Int16;
-        IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Property => this.Int16_Property;
+        INotifyingSetItem<Int16> ITestObject_Notifying_HasBeenSet.Int16_Property => this.Int16_Property;
+        INotifyingSetItemGetter<Int16> ITestObject_Notifying_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int16_Ranged
-        protected readonly IHasBeenSetItem<Int16> _Int16_Ranged = HasBeenSetItem.Factory<Int16>(markAsSet: false);
-        public IHasBeenSetItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
+        protected readonly INotifyingItem<Int16> _Int16_Ranged = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        public INotifyingItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
         public Int16 Int16_Ranged
         {
             get => this._Int16_Ranged.Item;
             set => this._Int16_Ranged.Set(value.PutInRange(Int16_Ranged_Range.Min, Int16_Ranged_Range.Max));
         }
-        Int16 ITestObject_HasBeenSetGetter.Int16_Ranged => this.Int16_Ranged;
-        IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Ranged_Property => this.Int16_Ranged_Property;
+        INotifyingSetItem<Int16> ITestObject_Notifying_HasBeenSet.Int16_Ranged_Property => this.Int16_Ranged_Property;
+        INotifyingSetItemGetter<Int16> ITestObject_Notifying_HasBeenSetGetter.Int16_Ranged_Property => this.Int16_Ranged_Property;
         public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
-        protected readonly IHasBeenSetItem<Int32?> _Int32N = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
-        public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
+        protected readonly INotifyingItem<Int32?> _Int32N = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        public INotifyingSetItem<Int32?> Int32N_Property => _Int32N;
         public Int32? Int32N
         {
             get => this._Int32N.Item;
             set => this._Int32N.Set(value);
         }
-        Int32? ITestObject_HasBeenSetGetter.Int32N => this.Int32N;
-        IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
+        INotifyingSetItem<Int32?> ITestObject_Notifying_HasBeenSet.Int32N_Property => this.Int32N_Property;
+        INotifyingSetItemGetter<Int32?> ITestObject_Notifying_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32N_Ranged
-        protected readonly IHasBeenSetItem<Int32?> _Int32N_Ranged = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
-        public IHasBeenSetItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
+        protected readonly INotifyingItem<Int32?> _Int32N_Ranged = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        public INotifyingItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
         public Int32? Int32N_Ranged
         {
             get => this._Int32N_Ranged.Item;
             set => this._Int32N_Ranged.Set(value?.PutInRange(Int32N_Ranged_Range.Min, Int32N_Ranged_Range.Max));
         }
-        Int32? ITestObject_HasBeenSetGetter.Int32N_Ranged => this.Int32N_Ranged;
-        IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
+        INotifyingSetItem<Int32?> ITestObject_Notifying_HasBeenSet.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
+        INotifyingSetItemGetter<Int32?> ITestObject_Notifying_HasBeenSetGetter.Int32N_Ranged_Property => this.Int32N_Ranged_Property;
         public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int32
-        protected readonly IHasBeenSetItem<Int32> _Int32 = HasBeenSetItem.Factory<Int32>(markAsSet: false);
-        public IHasBeenSetItem<Int32> Int32_Property => _Int32;
+        protected readonly INotifyingItem<Int32> _Int32 = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingSetItem<Int32> Int32_Property => _Int32;
         public Int32 Int32
         {
             get => this._Int32.Item;
             set => this._Int32.Set(value);
         }
-        Int32 ITestObject_HasBeenSetGetter.Int32 => this.Int32;
-        IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Property => this.Int32_Property;
+        INotifyingSetItem<Int32> ITestObject_Notifying_HasBeenSet.Int32_Property => this.Int32_Property;
+        INotifyingSetItemGetter<Int32> ITestObject_Notifying_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int32_Ranged
-        protected readonly IHasBeenSetItem<Int32> _Int32_Ranged = HasBeenSetItem.Factory<Int32>(markAsSet: false);
-        public IHasBeenSetItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
+        protected readonly INotifyingItem<Int32> _Int32_Ranged = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
         public Int32 Int32_Ranged
         {
             get => this._Int32_Ranged.Item;
             set => this._Int32_Ranged.Set(value.PutInRange(Int32_Ranged_Range.Min, Int32_Ranged_Range.Max));
         }
-        Int32 ITestObject_HasBeenSetGetter.Int32_Ranged => this.Int32_Ranged;
-        IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Ranged_Property => this.Int32_Ranged_Property;
+        INotifyingSetItem<Int32> ITestObject_Notifying_HasBeenSet.Int32_Ranged_Property => this.Int32_Ranged_Property;
+        INotifyingSetItemGetter<Int32> ITestObject_Notifying_HasBeenSetGetter.Int32_Ranged_Property => this.Int32_Ranged_Property;
         public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
-        protected readonly IHasBeenSetItem<Int64?> _Int64N = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
-        public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
+        protected readonly INotifyingItem<Int64?> _Int64N = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        public INotifyingSetItem<Int64?> Int64N_Property => _Int64N;
         public Int64? Int64N
         {
             get => this._Int64N.Item;
             set => this._Int64N.Set(value);
         }
-        Int64? ITestObject_HasBeenSetGetter.Int64N => this.Int64N;
-        IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
+        INotifyingSetItem<Int64?> ITestObject_Notifying_HasBeenSet.Int64N_Property => this.Int64N_Property;
+        INotifyingSetItemGetter<Int64?> ITestObject_Notifying_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64N_Ranged
-        protected readonly IHasBeenSetItem<Int64?> _Int64N_Ranged = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
-        public IHasBeenSetItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
+        protected readonly INotifyingItem<Int64?> _Int64N_Ranged = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        public INotifyingItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
         public Int64? Int64N_Ranged
         {
             get => this._Int64N_Ranged.Item;
             set => this._Int64N_Ranged.Set(value?.PutInRange(Int64N_Ranged_Range.Min, Int64N_Ranged_Range.Max));
         }
-        Int64? ITestObject_HasBeenSetGetter.Int64N_Ranged => this.Int64N_Ranged;
-        IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
+        INotifyingSetItem<Int64?> ITestObject_Notifying_HasBeenSet.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
+        INotifyingSetItemGetter<Int64?> ITestObject_Notifying_HasBeenSetGetter.Int64N_Ranged_Property => this.Int64N_Ranged_Property;
         public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int64
-        protected readonly IHasBeenSetItem<Int64> _Int64 = HasBeenSetItem.Factory<Int64>(markAsSet: false);
-        public IHasBeenSetItem<Int64> Int64_Property => _Int64;
+        protected readonly INotifyingItem<Int64> _Int64 = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        public INotifyingSetItem<Int64> Int64_Property => _Int64;
         public Int64 Int64
         {
             get => this._Int64.Item;
             set => this._Int64.Set(value);
         }
-        Int64 ITestObject_HasBeenSetGetter.Int64 => this.Int64;
-        IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Property => this.Int64_Property;
+        INotifyingSetItem<Int64> ITestObject_Notifying_HasBeenSet.Int64_Property => this.Int64_Property;
+        INotifyingSetItemGetter<Int64> ITestObject_Notifying_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int64_Ranged
-        protected readonly IHasBeenSetItem<Int64> _Int64_Ranged = HasBeenSetItem.Factory<Int64>(markAsSet: false);
-        public IHasBeenSetItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
+        protected readonly INotifyingItem<Int64> _Int64_Ranged = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        public INotifyingItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
         public Int64 Int64_Ranged
         {
             get => this._Int64_Ranged.Item;
             set => this._Int64_Ranged.Set(value.PutInRange(Int64_Ranged_Range.Min, Int64_Ranged_Range.Max));
         }
-        Int64 ITestObject_HasBeenSetGetter.Int64_Ranged => this.Int64_Ranged;
-        IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Ranged_Property => this.Int64_Ranged_Property;
+        INotifyingSetItem<Int64> ITestObject_Notifying_HasBeenSet.Int64_Ranged_Property => this.Int64_Ranged_Property;
+        INotifyingSetItemGetter<Int64> ITestObject_Notifying_HasBeenSetGetter.Int64_Ranged_Property => this.Int64_Ranged_Property;
         public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
-        protected readonly IHasBeenSetItem<SByte?> _Int8N = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
-        public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
+        protected readonly INotifyingItem<SByte?> _Int8N = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        public INotifyingSetItem<SByte?> Int8N_Property => _Int8N;
         public SByte? Int8N
         {
             get => this._Int8N.Item;
             set => this._Int8N.Set(value);
         }
-        SByte? ITestObject_HasBeenSetGetter.Int8N => this.Int8N;
-        IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
+        INotifyingSetItem<SByte?> ITestObject_Notifying_HasBeenSet.Int8N_Property => this.Int8N_Property;
+        INotifyingSetItemGetter<SByte?> ITestObject_Notifying_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8N_Ranged
-        protected readonly IHasBeenSetItem<SByte?> _Int8N_Ranged = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
-        public IHasBeenSetItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
+        protected readonly INotifyingItem<SByte?> _Int8N_Ranged = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        public INotifyingItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
         public SByte? Int8N_Ranged
         {
             get => this._Int8N_Ranged.Item;
             set => this._Int8N_Ranged.Set(value?.PutInRange(Int8N_Ranged_Range.Min, Int8N_Ranged_Range.Max));
         }
-        SByte? ITestObject_HasBeenSetGetter.Int8N_Ranged => this.Int8N_Ranged;
-        IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
+        INotifyingSetItem<SByte?> ITestObject_Notifying_HasBeenSet.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
+        INotifyingSetItemGetter<SByte?> ITestObject_Notifying_HasBeenSetGetter.Int8N_Ranged_Property => this.Int8N_Ranged_Property;
         public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Int8
-        protected readonly IHasBeenSetItem<SByte> _Int8 = HasBeenSetItem.Factory<SByte>(markAsSet: false);
-        public IHasBeenSetItem<SByte> Int8_Property => _Int8;
+        protected readonly INotifyingItem<SByte> _Int8 = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        public INotifyingSetItem<SByte> Int8_Property => _Int8;
         public SByte Int8
         {
             get => this._Int8.Item;
             set => this._Int8.Set(value);
         }
-        SByte ITestObject_HasBeenSetGetter.Int8 => this.Int8;
-        IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Property => this.Int8_Property;
+        INotifyingSetItem<SByte> ITestObject_Notifying_HasBeenSet.Int8_Property => this.Int8_Property;
+        INotifyingSetItemGetter<SByte> ITestObject_Notifying_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Int8_Ranged
-        protected readonly IHasBeenSetItem<SByte> _Int8_Ranged = HasBeenSetItem.Factory<SByte>(markAsSet: false);
-        public IHasBeenSetItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
+        protected readonly INotifyingItem<SByte> _Int8_Ranged = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        public INotifyingItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
         public SByte Int8_Ranged
         {
             get => this._Int8_Ranged.Item;
             set => this._Int8_Ranged.Set(value.PutInRange(Int8_Ranged_Range.Min, Int8_Ranged_Range.Max));
         }
-        SByte ITestObject_HasBeenSetGetter.Int8_Ranged => this.Int8_Ranged;
-        IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Ranged_Property => this.Int8_Ranged_Property;
+        INotifyingSetItem<SByte> ITestObject_Notifying_HasBeenSet.Int8_Ranged_Property => this.Int8_Ranged_Property;
+        INotifyingSetItemGetter<SByte> ITestObject_Notifying_HasBeenSetGetter.Int8_Ranged_Property => this.Int8_Ranged_Property;
         public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
-        protected readonly IHasBeenSetItem<bool> _Unsafe = HasBeenSetItem.Factory<bool>(markAsSet: false);
-        public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
+        protected readonly INotifyingItem<bool> _Unsafe = NotifyingSetItem.Factory<bool>(markAsSet: false);
+        public INotifyingSetItem<bool> Unsafe_Property => _Unsafe;
         public bool Unsafe
         {
             get => this._Unsafe.Item;
             set => this._Unsafe.Set(value);
         }
-        bool ITestObject_HasBeenSetGetter.Unsafe => this.Unsafe;
-        IHasBeenSetItemGetter<bool> ITestObject_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
+        INotifyingSetItem<bool> ITestObject_Notifying_HasBeenSet.Unsafe_Property => this.Unsafe_Property;
+        INotifyingSetItemGetter<bool> ITestObject_Notifying_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeLoqui = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
-        public IHasBeenSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
+        protected readonly INotifyingItem<ObjectToRef> _UnsafeLoqui = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        public INotifyingSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
         public ObjectToRef UnsafeLoqui
         {
             get => this._UnsafeLoqui.Item;
             set => this._UnsafeLoqui.Set(value);
         }
-        ObjectToRef ITestObject_HasBeenSetGetter.UnsafeLoqui => this.UnsafeLoqui;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
+        INotifyingSetItem<ObjectToRef> ITestObject_Notifying_HasBeenSet.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeNull = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
-        public IHasBeenSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
+        protected readonly INotifyingItem<ObjectToRef> _UnsafeNull = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        public INotifyingSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
         public ObjectToRef UnsafeNull
         {
             get => this._UnsafeNull.Item;
             set => this._UnsafeNull.Set(value);
         }
-        ObjectToRef ITestObject_HasBeenSetGetter.UnsafeNull => this.UnsafeNull;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.UnsafeNull_Property => this.UnsafeNull_Property;
+        INotifyingSetItem<ObjectToRef> ITestObject_Notifying_HasBeenSet.UnsafeNull_Property => this.UnsafeNull_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
-        protected readonly IHasBeenSetItem<P2Int?> _P2IntN = HasBeenSetItem.Factory<P2Int?>(markAsSet: false);
-        public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
+        protected readonly INotifyingItem<P2Int?> _P2IntN = NotifyingSetItem.Factory<P2Int?>(markAsSet: false);
+        public INotifyingSetItem<P2Int?> P2IntN_Property => _P2IntN;
         public P2Int? P2IntN
         {
             get => this._P2IntN.Item;
             set => this._P2IntN.Set(value);
         }
-        P2Int? ITestObject_HasBeenSetGetter.P2IntN => this.P2IntN;
-        IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
+        INotifyingSetItem<P2Int?> ITestObject_Notifying_HasBeenSet.P2IntN_Property => this.P2IntN_Property;
+        INotifyingSetItemGetter<P2Int?> ITestObject_Notifying_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
-        protected readonly IHasBeenSetItem<P2Int> _P2Int = HasBeenSetItem.Factory<P2Int>(markAsSet: false);
-        public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
+        protected readonly INotifyingItem<P2Int> _P2Int = NotifyingSetItem.Factory<P2Int>(markAsSet: false);
+        public INotifyingSetItem<P2Int> P2Int_Property => _P2Int;
         public P2Int P2Int
         {
             get => this._P2Int.Item;
             set => this._P2Int.Set(value);
         }
-        P2Int ITestObject_HasBeenSetGetter.P2Int => this.P2Int;
-        IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
+        INotifyingSetItem<P2Int> ITestObject_Notifying_HasBeenSet.P2Int_Property => this.P2Int_Property;
+        INotifyingSetItemGetter<P2Int> ITestObject_Notifying_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
-        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = HasBeenSetItem.Factory<P3Double?>(markAsSet: false);
-        public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        protected readonly INotifyingItem<P3Double?> _P3DoubleN = NotifyingSetItem.Factory<P3Double?>(markAsSet: false);
+        public INotifyingSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
         public P3Double? P3DoubleN
         {
             get => this._P3DoubleN.Item;
             set => this._P3DoubleN.Set(value);
         }
-        P3Double? ITestObject_HasBeenSetGetter.P3DoubleN => this.P3DoubleN;
-        IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
+        INotifyingSetItem<P3Double?> ITestObject_Notifying_HasBeenSet.P3DoubleN_Property => this.P3DoubleN_Property;
+        INotifyingSetItemGetter<P3Double?> ITestObject_Notifying_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
-        protected readonly IHasBeenSetItem<P3Double> _P3Double = HasBeenSetItem.Factory<P3Double>(markAsSet: false);
-        public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
+        protected readonly INotifyingItem<P3Double> _P3Double = NotifyingSetItem.Factory<P3Double>(markAsSet: false);
+        public INotifyingSetItem<P3Double> P3Double_Property => _P3Double;
         public P3Double P3Double
         {
             get => this._P3Double.Item;
             set => this._P3Double.Set(value);
         }
-        P3Double ITestObject_HasBeenSetGetter.P3Double => this.P3Double;
-        IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
+        INotifyingSetItem<P3Double> ITestObject_Notifying_HasBeenSet.P3Double_Property => this.P3Double_Property;
+        INotifyingSetItemGetter<P3Double> ITestObject_Notifying_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
-        protected readonly IHasBeenSetItem<P3Int?> _P3IntN = HasBeenSetItem.Factory<P3Int?>(markAsSet: false);
-        public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
+        protected readonly INotifyingItem<P3Int?> _P3IntN = NotifyingSetItem.Factory<P3Int?>(markAsSet: false);
+        public INotifyingSetItem<P3Int?> P3IntN_Property => _P3IntN;
         public P3Int? P3IntN
         {
             get => this._P3IntN.Item;
             set => this._P3IntN.Set(value);
         }
-        P3Int? ITestObject_HasBeenSetGetter.P3IntN => this.P3IntN;
-        IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
+        INotifyingSetItem<P3Int?> ITestObject_Notifying_HasBeenSet.P3IntN_Property => this.P3IntN_Property;
+        INotifyingSetItemGetter<P3Int?> ITestObject_Notifying_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
-        protected readonly IHasBeenSetItem<P3Int> _P3Int = HasBeenSetItem.Factory<P3Int>(markAsSet: false);
-        public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
+        protected readonly INotifyingItem<P3Int> _P3Int = NotifyingSetItem.Factory<P3Int>(markAsSet: false);
+        public INotifyingSetItem<P3Int> P3Int_Property => _P3Int;
         public P3Int P3Int
         {
             get => this._P3Int.Item;
             set => this._P3Int.Set(value);
         }
-        P3Int ITestObject_HasBeenSetGetter.P3Int => this.P3Int;
-        IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
+        INotifyingSetItem<P3Int> ITestObject_Notifying_HasBeenSet.P3Int_Property => this.P3Int_Property;
+        INotifyingSetItemGetter<P3Int> ITestObject_Notifying_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
-        protected readonly IHasBeenSetItem<Percent?> _PercentN = HasBeenSetItem.Factory<Percent?>(markAsSet: false);
-        public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
+        protected readonly INotifyingItem<Percent?> _PercentN = NotifyingSetItem.Factory<Percent?>(markAsSet: false);
+        public INotifyingSetItem<Percent?> PercentN_Property => _PercentN;
         public Percent? PercentN
         {
             get => this._PercentN.Item;
             set => this._PercentN.Set(value);
         }
-        Percent? ITestObject_HasBeenSetGetter.PercentN => this.PercentN;
-        IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
+        INotifyingSetItem<Percent?> ITestObject_Notifying_HasBeenSet.PercentN_Property => this.PercentN_Property;
+        INotifyingSetItemGetter<Percent?> ITestObject_Notifying_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
-        protected readonly IHasBeenSetItem<Percent> _Percent = HasBeenSetItem.Factory<Percent>(markAsSet: false);
-        public IHasBeenSetItem<Percent> Percent_Property => _Percent;
+        protected readonly INotifyingItem<Percent> _Percent = NotifyingSetItem.Factory<Percent>(markAsSet: false);
+        public INotifyingSetItem<Percent> Percent_Property => _Percent;
         public Percent Percent
         {
             get => this._Percent.Item;
             set => this._Percent.Set(value);
         }
-        Percent ITestObject_HasBeenSetGetter.Percent => this.Percent;
-        IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSetGetter.Percent_Property => this.Percent_Property;
+        INotifyingSetItem<Percent> ITestObject_Notifying_HasBeenSet.Percent_Property => this.Percent_Property;
+        INotifyingSetItemGetter<Percent> ITestObject_Notifying_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
-        protected readonly IHasBeenSetItem<RangeInt8?> _RangeInt8N = HasBeenSetItem.Factory<RangeInt8?>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
+        protected readonly INotifyingItem<RangeInt8?> _RangeInt8N = NotifyingSetItem.Factory<RangeInt8?>(markAsSet: false);
+        public INotifyingSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
         public RangeInt8? RangeInt8N
         {
             get => this._RangeInt8N.Item;
             set => this._RangeInt8N.Set(value);
         }
-        RangeInt8? ITestObject_HasBeenSetGetter.RangeInt8N => this.RangeInt8N;
-        IHasBeenSetItemGetter<RangeInt8?> ITestObject_HasBeenSetGetter.RangeInt8N_Property => this.RangeInt8N_Property;
+        INotifyingSetItem<RangeInt8?> ITestObject_Notifying_HasBeenSet.RangeInt8N_Property => this.RangeInt8N_Property;
+        INotifyingSetItemGetter<RangeInt8?> ITestObject_Notifying_HasBeenSetGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
-        protected readonly IHasBeenSetItem<RangeInt8> _RangeInt8 = HasBeenSetItem.Factory<RangeInt8>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
+        protected readonly INotifyingItem<RangeInt8> _RangeInt8 = NotifyingSetItem.Factory<RangeInt8>(markAsSet: false);
+        public INotifyingSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
         public RangeInt8 RangeInt8
         {
             get => this._RangeInt8.Item;
             set => this._RangeInt8.Set(value);
         }
-        RangeInt8 ITestObject_HasBeenSetGetter.RangeInt8 => this.RangeInt8;
-        IHasBeenSetItemGetter<RangeInt8> ITestObject_HasBeenSetGetter.RangeInt8_Property => this.RangeInt8_Property;
+        INotifyingSetItem<RangeInt8> ITestObject_Notifying_HasBeenSet.RangeInt8_Property => this.RangeInt8_Property;
+        INotifyingSetItemGetter<RangeInt8> ITestObject_Notifying_HasBeenSetGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
-        protected readonly IHasBeenSetItem<RangeInt16?> _RangeInt16N = HasBeenSetItem.Factory<RangeInt16?>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
+        protected readonly INotifyingItem<RangeInt16?> _RangeInt16N = NotifyingSetItem.Factory<RangeInt16?>(markAsSet: false);
+        public INotifyingSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
         public RangeInt16? RangeInt16N
         {
             get => this._RangeInt16N.Item;
             set => this._RangeInt16N.Set(value);
         }
-        RangeInt16? ITestObject_HasBeenSetGetter.RangeInt16N => this.RangeInt16N;
-        IHasBeenSetItemGetter<RangeInt16?> ITestObject_HasBeenSetGetter.RangeInt16N_Property => this.RangeInt16N_Property;
+        INotifyingSetItem<RangeInt16?> ITestObject_Notifying_HasBeenSet.RangeInt16N_Property => this.RangeInt16N_Property;
+        INotifyingSetItemGetter<RangeInt16?> ITestObject_Notifying_HasBeenSetGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
-        protected readonly IHasBeenSetItem<RangeInt16> _RangeInt16 = HasBeenSetItem.Factory<RangeInt16>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
+        protected readonly INotifyingItem<RangeInt16> _RangeInt16 = NotifyingSetItem.Factory<RangeInt16>(markAsSet: false);
+        public INotifyingSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
         public RangeInt16 RangeInt16
         {
             get => this._RangeInt16.Item;
             set => this._RangeInt16.Set(value);
         }
-        RangeInt16 ITestObject_HasBeenSetGetter.RangeInt16 => this.RangeInt16;
-        IHasBeenSetItemGetter<RangeInt16> ITestObject_HasBeenSetGetter.RangeInt16_Property => this.RangeInt16_Property;
+        INotifyingSetItem<RangeInt16> ITestObject_Notifying_HasBeenSet.RangeInt16_Property => this.RangeInt16_Property;
+        INotifyingSetItemGetter<RangeInt16> ITestObject_Notifying_HasBeenSetGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
-        protected readonly IHasBeenSetItem<RangeInt32?> _RangeInt32N = HasBeenSetItem.Factory<RangeInt32?>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
+        protected readonly INotifyingItem<RangeInt32?> _RangeInt32N = NotifyingSetItem.Factory<RangeInt32?>(markAsSet: false);
+        public INotifyingSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
         public RangeInt32? RangeInt32N
         {
             get => this._RangeInt32N.Item;
             set => this._RangeInt32N.Set(value);
         }
-        RangeInt32? ITestObject_HasBeenSetGetter.RangeInt32N => this.RangeInt32N;
-        IHasBeenSetItemGetter<RangeInt32?> ITestObject_HasBeenSetGetter.RangeInt32N_Property => this.RangeInt32N_Property;
+        INotifyingSetItem<RangeInt32?> ITestObject_Notifying_HasBeenSet.RangeInt32N_Property => this.RangeInt32N_Property;
+        INotifyingSetItemGetter<RangeInt32?> ITestObject_Notifying_HasBeenSetGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
-        protected readonly IHasBeenSetItem<RangeInt32> _RangeInt32 = HasBeenSetItem.Factory<RangeInt32>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
+        protected readonly INotifyingItem<RangeInt32> _RangeInt32 = NotifyingSetItem.Factory<RangeInt32>(markAsSet: false);
+        public INotifyingSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
         public RangeInt32 RangeInt32
         {
             get => this._RangeInt32.Item;
             set => this._RangeInt32.Set(value);
         }
-        RangeInt32 ITestObject_HasBeenSetGetter.RangeInt32 => this.RangeInt32;
-        IHasBeenSetItemGetter<RangeInt32> ITestObject_HasBeenSetGetter.RangeInt32_Property => this.RangeInt32_Property;
+        INotifyingSetItem<RangeInt32> ITestObject_Notifying_HasBeenSet.RangeInt32_Property => this.RangeInt32_Property;
+        INotifyingSetItemGetter<RangeInt32> ITestObject_Notifying_HasBeenSetGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
-        protected readonly IHasBeenSetItem<RangeInt64?> _RangeInt64N = HasBeenSetItem.Factory<RangeInt64?>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
+        protected readonly INotifyingItem<RangeInt64?> _RangeInt64N = NotifyingSetItem.Factory<RangeInt64?>(markAsSet: false);
+        public INotifyingSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
         public RangeInt64? RangeInt64N
         {
             get => this._RangeInt64N.Item;
             set => this._RangeInt64N.Set(value);
         }
-        RangeInt64? ITestObject_HasBeenSetGetter.RangeInt64N => this.RangeInt64N;
-        IHasBeenSetItemGetter<RangeInt64?> ITestObject_HasBeenSetGetter.RangeInt64N_Property => this.RangeInt64N_Property;
+        INotifyingSetItem<RangeInt64?> ITestObject_Notifying_HasBeenSet.RangeInt64N_Property => this.RangeInt64N_Property;
+        INotifyingSetItemGetter<RangeInt64?> ITestObject_Notifying_HasBeenSetGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
-        protected readonly IHasBeenSetItem<RangeInt64> _RangeInt64 = HasBeenSetItem.Factory<RangeInt64>(markAsSet: false);
-        public IHasBeenSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
+        protected readonly INotifyingItem<RangeInt64> _RangeInt64 = NotifyingSetItem.Factory<RangeInt64>(markAsSet: false);
+        public INotifyingSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
         public RangeInt64 RangeInt64
         {
             get => this._RangeInt64.Item;
             set => this._RangeInt64.Set(value);
         }
-        RangeInt64 ITestObject_HasBeenSetGetter.RangeInt64 => this.RangeInt64;
-        IHasBeenSetItemGetter<RangeInt64> ITestObject_HasBeenSetGetter.RangeInt64_Property => this.RangeInt64_Property;
+        INotifyingSetItem<RangeInt64> ITestObject_Notifying_HasBeenSet.RangeInt64_Property => this.RangeInt64_Property;
+        INotifyingSetItemGetter<RangeInt64> ITestObject_Notifying_HasBeenSetGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
-        protected readonly IHasBeenSetItem<RangeUInt8?> _RangeUInt8N = HasBeenSetItem.Factory<RangeUInt8?>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
+        protected readonly INotifyingItem<RangeUInt8?> _RangeUInt8N = NotifyingSetItem.Factory<RangeUInt8?>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
         public RangeUInt8? RangeUInt8N
         {
             get => this._RangeUInt8N.Item;
             set => this._RangeUInt8N.Set(value);
         }
-        RangeUInt8? ITestObject_HasBeenSetGetter.RangeUInt8N => this.RangeUInt8N;
-        IHasBeenSetItemGetter<RangeUInt8?> ITestObject_HasBeenSetGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
+        INotifyingSetItem<RangeUInt8?> ITestObject_Notifying_HasBeenSet.RangeUInt8N_Property => this.RangeUInt8N_Property;
+        INotifyingSetItemGetter<RangeUInt8?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
-        protected readonly IHasBeenSetItem<RangeUInt8> _RangeUInt8 = HasBeenSetItem.Factory<RangeUInt8>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
+        protected readonly INotifyingItem<RangeUInt8> _RangeUInt8 = NotifyingSetItem.Factory<RangeUInt8>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
         public RangeUInt8 RangeUInt8
         {
             get => this._RangeUInt8.Item;
             set => this._RangeUInt8.Set(value);
         }
-        RangeUInt8 ITestObject_HasBeenSetGetter.RangeUInt8 => this.RangeUInt8;
-        IHasBeenSetItemGetter<RangeUInt8> ITestObject_HasBeenSetGetter.RangeUInt8_Property => this.RangeUInt8_Property;
+        INotifyingSetItem<RangeUInt8> ITestObject_Notifying_HasBeenSet.RangeUInt8_Property => this.RangeUInt8_Property;
+        INotifyingSetItemGetter<RangeUInt8> ITestObject_Notifying_HasBeenSetGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
-        protected readonly IHasBeenSetItem<RangeUInt16?> _RangeUInt16N = HasBeenSetItem.Factory<RangeUInt16?>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
+        protected readonly INotifyingItem<RangeUInt16?> _RangeUInt16N = NotifyingSetItem.Factory<RangeUInt16?>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
         public RangeUInt16? RangeUInt16N
         {
             get => this._RangeUInt16N.Item;
             set => this._RangeUInt16N.Set(value);
         }
-        RangeUInt16? ITestObject_HasBeenSetGetter.RangeUInt16N => this.RangeUInt16N;
-        IHasBeenSetItemGetter<RangeUInt16?> ITestObject_HasBeenSetGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
+        INotifyingSetItem<RangeUInt16?> ITestObject_Notifying_HasBeenSet.RangeUInt16N_Property => this.RangeUInt16N_Property;
+        INotifyingSetItemGetter<RangeUInt16?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
-        protected readonly IHasBeenSetItem<RangeUInt16> _RangeUInt16 = HasBeenSetItem.Factory<RangeUInt16>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
+        protected readonly INotifyingItem<RangeUInt16> _RangeUInt16 = NotifyingSetItem.Factory<RangeUInt16>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
         public RangeUInt16 RangeUInt16
         {
             get => this._RangeUInt16.Item;
             set => this._RangeUInt16.Set(value);
         }
-        RangeUInt16 ITestObject_HasBeenSetGetter.RangeUInt16 => this.RangeUInt16;
-        IHasBeenSetItemGetter<RangeUInt16> ITestObject_HasBeenSetGetter.RangeUInt16_Property => this.RangeUInt16_Property;
+        INotifyingSetItem<RangeUInt16> ITestObject_Notifying_HasBeenSet.RangeUInt16_Property => this.RangeUInt16_Property;
+        INotifyingSetItemGetter<RangeUInt16> ITestObject_Notifying_HasBeenSetGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
-        protected readonly IHasBeenSetItem<RangeUInt32?> _RangeUInt32N = HasBeenSetItem.Factory<RangeUInt32?>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
+        protected readonly INotifyingItem<RangeUInt32?> _RangeUInt32N = NotifyingSetItem.Factory<RangeUInt32?>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
         public RangeUInt32? RangeUInt32N
         {
             get => this._RangeUInt32N.Item;
             set => this._RangeUInt32N.Set(value);
         }
-        RangeUInt32? ITestObject_HasBeenSetGetter.RangeUInt32N => this.RangeUInt32N;
-        IHasBeenSetItemGetter<RangeUInt32?> ITestObject_HasBeenSetGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
+        INotifyingSetItem<RangeUInt32?> ITestObject_Notifying_HasBeenSet.RangeUInt32N_Property => this.RangeUInt32N_Property;
+        INotifyingSetItemGetter<RangeUInt32?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
-        protected readonly IHasBeenSetItem<RangeUInt32> _RangeUInt32 = HasBeenSetItem.Factory<RangeUInt32>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
+        protected readonly INotifyingItem<RangeUInt32> _RangeUInt32 = NotifyingSetItem.Factory<RangeUInt32>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
         public RangeUInt32 RangeUInt32
         {
             get => this._RangeUInt32.Item;
             set => this._RangeUInt32.Set(value);
         }
-        RangeUInt32 ITestObject_HasBeenSetGetter.RangeUInt32 => this.RangeUInt32;
-        IHasBeenSetItemGetter<RangeUInt32> ITestObject_HasBeenSetGetter.RangeUInt32_Property => this.RangeUInt32_Property;
+        INotifyingSetItem<RangeUInt32> ITestObject_Notifying_HasBeenSet.RangeUInt32_Property => this.RangeUInt32_Property;
+        INotifyingSetItemGetter<RangeUInt32> ITestObject_Notifying_HasBeenSetGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
-        protected readonly IHasBeenSetItem<RangeUInt64?> _RangeUInt64N = HasBeenSetItem.Factory<RangeUInt64?>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
+        protected readonly INotifyingItem<RangeUInt64?> _RangeUInt64N = NotifyingSetItem.Factory<RangeUInt64?>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
         public RangeUInt64? RangeUInt64N
         {
             get => this._RangeUInt64N.Item;
             set => this._RangeUInt64N.Set(value);
         }
-        RangeUInt64? ITestObject_HasBeenSetGetter.RangeUInt64N => this.RangeUInt64N;
-        IHasBeenSetItemGetter<RangeUInt64?> ITestObject_HasBeenSetGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
+        INotifyingSetItem<RangeUInt64?> ITestObject_Notifying_HasBeenSet.RangeUInt64N_Property => this.RangeUInt64N_Property;
+        INotifyingSetItemGetter<RangeUInt64?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
-        protected readonly IHasBeenSetItem<RangeUInt64> _RangeUInt64 = HasBeenSetItem.Factory<RangeUInt64>(markAsSet: false);
-        public IHasBeenSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
+        protected readonly INotifyingItem<RangeUInt64> _RangeUInt64 = NotifyingSetItem.Factory<RangeUInt64>(markAsSet: false);
+        public INotifyingSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
         public RangeUInt64 RangeUInt64
         {
             get => this._RangeUInt64.Item;
             set => this._RangeUInt64.Set(value);
         }
-        RangeUInt64 ITestObject_HasBeenSetGetter.RangeUInt64 => this.RangeUInt64;
-        IHasBeenSetItemGetter<RangeUInt64> ITestObject_HasBeenSetGetter.RangeUInt64_Property => this.RangeUInt64_Property;
+        INotifyingSetItem<RangeUInt64> ITestObject_Notifying_HasBeenSet.RangeUInt64_Property => this.RangeUInt64_Property;
+        INotifyingSetItemGetter<RangeUInt64> ITestObject_Notifying_HasBeenSetGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
-        protected readonly IHasBeenSetItem<String> _String = HasBeenSetItem.Factory<String>(markAsSet: false);
-        public IHasBeenSetItem<String> String_Property => _String;
+        protected readonly INotifyingItem<String> _String = NotifyingSetItem.Factory<String>(markAsSet: false);
+        public INotifyingSetItem<String> String_Property => _String;
         public String String
         {
             get => this._String.Item;
             set => this._String.Set(value);
         }
-        String ITestObject_HasBeenSetGetter.String => this.String;
-        IHasBeenSetItemGetter<String> ITestObject_HasBeenSetGetter.String_Property => this.String_Property;
+        INotifyingSetItem<String> ITestObject_Notifying_HasBeenSet.String_Property => this.String_Property;
+        INotifyingSetItemGetter<String> ITestObject_Notifying_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
-        protected readonly IHasBeenSetItem<FilePath> _FilePath = HasBeenSetItem.Factory<FilePath>(markAsSet: false);
-        public IHasBeenSetItem<FilePath> FilePath_Property => _FilePath;
+        protected readonly INotifyingItem<FilePath> _FilePath = NotifyingSetItem.Factory<FilePath>(markAsSet: false);
+        public INotifyingSetItem<FilePath> FilePath_Property => _FilePath;
         public FilePath FilePath
         {
             get => this._FilePath.Item;
             set => this._FilePath.Set(value);
         }
-        FilePath ITestObject_HasBeenSetGetter.FilePath => this.FilePath;
-        IHasBeenSetItemGetter<FilePath> ITestObject_HasBeenSetGetter.FilePath_Property => this.FilePath_Property;
+        INotifyingSetItem<FilePath> ITestObject_Notifying_HasBeenSet.FilePath_Property => this.FilePath_Property;
+        INotifyingSetItemGetter<FilePath> ITestObject_Notifying_HasBeenSetGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
-        protected readonly IHasBeenSetItem<FilePath?> _FilePathNull = HasBeenSetItem.Factory<FilePath?>(markAsSet: false);
-        public IHasBeenSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
+        protected readonly INotifyingItem<FilePath?> _FilePathNull = NotifyingSetItem.Factory<FilePath?>(markAsSet: false);
+        public INotifyingSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
         public FilePath? FilePathNull
         {
             get => this._FilePathNull.Item;
             set => this._FilePathNull.Set(value);
         }
-        FilePath? ITestObject_HasBeenSetGetter.FilePathNull => this.FilePathNull;
-        IHasBeenSetItemGetter<FilePath?> ITestObject_HasBeenSetGetter.FilePathNull_Property => this.FilePathNull_Property;
+        INotifyingSetItem<FilePath?> ITestObject_Notifying_HasBeenSet.FilePathNull_Property => this.FilePathNull_Property;
+        INotifyingSetItemGetter<FilePath?> ITestObject_Notifying_HasBeenSetGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
-        protected readonly IHasBeenSetItem<DirectoryPath> _DirectoryPath = HasBeenSetItem.Factory<DirectoryPath>(markAsSet: false);
-        public IHasBeenSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
+        protected readonly INotifyingItem<DirectoryPath> _DirectoryPath = NotifyingSetItem.Factory<DirectoryPath>(markAsSet: false);
+        public INotifyingSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
         public DirectoryPath DirectoryPath
         {
             get => this._DirectoryPath.Item;
             set => this._DirectoryPath.Set(value);
         }
-        DirectoryPath ITestObject_HasBeenSetGetter.DirectoryPath => this.DirectoryPath;
-        IHasBeenSetItemGetter<DirectoryPath> ITestObject_HasBeenSetGetter.DirectoryPath_Property => this.DirectoryPath_Property;
+        INotifyingSetItem<DirectoryPath> ITestObject_Notifying_HasBeenSet.DirectoryPath_Property => this.DirectoryPath_Property;
+        INotifyingSetItemGetter<DirectoryPath> ITestObject_Notifying_HasBeenSetGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
-        protected readonly IHasBeenSetItem<DirectoryPath?> _DirectoryPathNull = HasBeenSetItem.Factory<DirectoryPath?>(markAsSet: false);
-        public IHasBeenSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
+        protected readonly INotifyingItem<DirectoryPath?> _DirectoryPathNull = NotifyingSetItem.Factory<DirectoryPath?>(markAsSet: false);
+        public INotifyingSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
         public DirectoryPath? DirectoryPathNull
         {
             get => this._DirectoryPathNull.Item;
             set => this._DirectoryPathNull.Set(value);
         }
-        DirectoryPath? ITestObject_HasBeenSetGetter.DirectoryPathNull => this.DirectoryPathNull;
-        IHasBeenSetItemGetter<DirectoryPath?> ITestObject_HasBeenSetGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
+        INotifyingSetItem<DirectoryPath?> ITestObject_Notifying_HasBeenSet.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
+        INotifyingSetItemGetter<DirectoryPath?> ITestObject_Notifying_HasBeenSetGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
-        public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
+        protected readonly INotifyingItem<UDouble?> _UDoubleN = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        public INotifyingSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
         public UDouble? UDoubleN
         {
             get => this._UDoubleN.Item;
             set => this._UDoubleN.Set(value);
         }
-        UDouble? ITestObject_HasBeenSetGetter.UDoubleN => this.UDoubleN;
-        IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
+        INotifyingSetItem<UDouble?> ITestObject_Notifying_HasBeenSet.UDoubleN_Property => this.UDoubleN_Property;
+        INotifyingSetItemGetter<UDouble?> ITestObject_Notifying_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDoubleN_Ranged
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN_Ranged = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
-        public IHasBeenSetItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
+        protected readonly INotifyingItem<UDouble?> _UDoubleN_Ranged = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        public INotifyingItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
         public UDouble? UDoubleN_Ranged
         {
             get => this._UDoubleN_Ranged.Item;
             set => this._UDoubleN_Ranged.Set(value?.PutInRange(UDoubleN_Ranged_Range.Min, UDoubleN_Ranged_Range.Max));
         }
-        UDouble? ITestObject_HasBeenSetGetter.UDoubleN_Ranged => this.UDoubleN_Ranged;
-        IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
+        INotifyingSetItem<UDouble?> ITestObject_Notifying_HasBeenSet.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
+        INotifyingSetItemGetter<UDouble?> ITestObject_Notifying_HasBeenSetGetter.UDoubleN_Ranged_Property => this.UDoubleN_Ranged_Property;
         public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UDouble
-        protected readonly IHasBeenSetItem<UDouble> _UDouble = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
-        public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
+        protected readonly INotifyingItem<UDouble> _UDouble = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        public INotifyingSetItem<UDouble> UDouble_Property => _UDouble;
         public UDouble UDouble
         {
             get => this._UDouble.Item;
             set => this._UDouble.Set(value);
         }
-        UDouble ITestObject_HasBeenSetGetter.UDouble => this.UDouble;
-        IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
+        INotifyingSetItem<UDouble> ITestObject_Notifying_HasBeenSet.UDouble_Property => this.UDouble_Property;
+        INotifyingSetItemGetter<UDouble> ITestObject_Notifying_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UDouble_Ranged
-        protected readonly IHasBeenSetItem<UDouble> _UDouble_Ranged = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
-        public IHasBeenSetItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
+        protected readonly INotifyingItem<UDouble> _UDouble_Ranged = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        public INotifyingItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
         public UDouble UDouble_Ranged
         {
             get => this._UDouble_Ranged.Item;
             set => this._UDouble_Ranged.Set(value.PutInRange(UDouble_Ranged_Range.Min, UDouble_Ranged_Range.Max));
         }
-        UDouble ITestObject_HasBeenSetGetter.UDouble_Ranged => this.UDouble_Ranged;
-        IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
+        INotifyingSetItem<UDouble> ITestObject_Notifying_HasBeenSet.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
+        INotifyingSetItemGetter<UDouble> ITestObject_Notifying_HasBeenSetGetter.UDouble_Ranged_Property => this.UDouble_Ranged_Property;
         public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
-        public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
+        protected readonly INotifyingItem<UInt16?> _UInt16N = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        public INotifyingSetItem<UInt16?> UInt16N_Property => _UInt16N;
         public UInt16? UInt16N
         {
             get => this._UInt16N.Item;
             set => this._UInt16N.Set(value);
         }
-        UInt16? ITestObject_HasBeenSetGetter.UInt16N => this.UInt16N;
-        IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
+        INotifyingSetItem<UInt16?> ITestObject_Notifying_HasBeenSet.UInt16N_Property => this.UInt16N_Property;
+        INotifyingSetItemGetter<UInt16?> ITestObject_Notifying_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16N_Ranged
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N_Ranged = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
-        public IHasBeenSetItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
+        protected readonly INotifyingItem<UInt16?> _UInt16N_Ranged = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        public INotifyingItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
         public UInt16? UInt16N_Ranged
         {
             get => this._UInt16N_Ranged.Item;
             set => this._UInt16N_Ranged.Set(value?.PutInRange(UInt16N_Ranged_Range.Min, UInt16N_Ranged_Range.Max));
         }
-        UInt16? ITestObject_HasBeenSetGetter.UInt16N_Ranged => this.UInt16N_Ranged;
-        IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
+        INotifyingSetItem<UInt16?> ITestObject_Notifying_HasBeenSet.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
+        INotifyingSetItemGetter<UInt16?> ITestObject_Notifying_HasBeenSetGetter.UInt16N_Ranged_Property => this.UInt16N_Ranged_Property;
         public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt16
-        protected readonly IHasBeenSetItem<UInt16> _UInt16 = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
-        public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
+        protected readonly INotifyingItem<UInt16> _UInt16 = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        public INotifyingSetItem<UInt16> UInt16_Property => _UInt16;
         public UInt16 UInt16
         {
             get => this._UInt16.Item;
             set => this._UInt16.Set(value);
         }
-        UInt16 ITestObject_HasBeenSetGetter.UInt16 => this.UInt16;
-        IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
+        INotifyingSetItem<UInt16> ITestObject_Notifying_HasBeenSet.UInt16_Property => this.UInt16_Property;
+        INotifyingSetItemGetter<UInt16> ITestObject_Notifying_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt16_Ranged
-        protected readonly IHasBeenSetItem<UInt16> _UInt16_Ranged = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
-        public IHasBeenSetItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
+        protected readonly INotifyingItem<UInt16> _UInt16_Ranged = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        public INotifyingItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
         public UInt16 UInt16_Ranged
         {
             get => this._UInt16_Ranged.Item;
             set => this._UInt16_Ranged.Set(value.PutInRange(UInt16_Ranged_Range.Min, UInt16_Ranged_Range.Max));
         }
-        UInt16 ITestObject_HasBeenSetGetter.UInt16_Ranged => this.UInt16_Ranged;
-        IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
+        INotifyingSetItem<UInt16> ITestObject_Notifying_HasBeenSet.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
+        INotifyingSetItemGetter<UInt16> ITestObject_Notifying_HasBeenSetGetter.UInt16_Ranged_Property => this.UInt16_Ranged_Property;
         public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
-        public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
+        protected readonly INotifyingItem<UInt32?> _UInt32N = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        public INotifyingSetItem<UInt32?> UInt32N_Property => _UInt32N;
         public UInt32? UInt32N
         {
             get => this._UInt32N.Item;
             set => this._UInt32N.Set(value);
         }
-        UInt32? ITestObject_HasBeenSetGetter.UInt32N => this.UInt32N;
-        IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
+        INotifyingSetItem<UInt32?> ITestObject_Notifying_HasBeenSet.UInt32N_Property => this.UInt32N_Property;
+        INotifyingSetItemGetter<UInt32?> ITestObject_Notifying_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32N_Ranged
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N_Ranged = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
-        public IHasBeenSetItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
+        protected readonly INotifyingItem<UInt32?> _UInt32N_Ranged = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        public INotifyingItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
         public UInt32? UInt32N_Ranged
         {
             get => this._UInt32N_Ranged.Item;
             set => this._UInt32N_Ranged.Set(value?.PutInRange(UInt32N_Ranged_Range.Min, UInt32N_Ranged_Range.Max));
         }
-        UInt32? ITestObject_HasBeenSetGetter.UInt32N_Ranged => this.UInt32N_Ranged;
-        IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
+        INotifyingSetItem<UInt32?> ITestObject_Notifying_HasBeenSet.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
+        INotifyingSetItemGetter<UInt32?> ITestObject_Notifying_HasBeenSetGetter.UInt32N_Ranged_Property => this.UInt32N_Ranged_Property;
         public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt32
-        protected readonly IHasBeenSetItem<UInt32> _UInt32 = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
-        public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
+        protected readonly INotifyingItem<UInt32> _UInt32 = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        public INotifyingSetItem<UInt32> UInt32_Property => _UInt32;
         public UInt32 UInt32
         {
             get => this._UInt32.Item;
             set => this._UInt32.Set(value);
         }
-        UInt32 ITestObject_HasBeenSetGetter.UInt32 => this.UInt32;
-        IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
+        INotifyingSetItem<UInt32> ITestObject_Notifying_HasBeenSet.UInt32_Property => this.UInt32_Property;
+        INotifyingSetItemGetter<UInt32> ITestObject_Notifying_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt32_Ranged
-        protected readonly IHasBeenSetItem<UInt32> _UInt32_Ranged = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
-        public IHasBeenSetItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
+        protected readonly INotifyingItem<UInt32> _UInt32_Ranged = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        public INotifyingItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
         public UInt32 UInt32_Ranged
         {
             get => this._UInt32_Ranged.Item;
             set => this._UInt32_Ranged.Set(value.PutInRange(UInt32_Ranged_Range.Min, UInt32_Ranged_Range.Max));
         }
-        UInt32 ITestObject_HasBeenSetGetter.UInt32_Ranged => this.UInt32_Ranged;
-        IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
+        INotifyingSetItem<UInt32> ITestObject_Notifying_HasBeenSet.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
+        INotifyingSetItemGetter<UInt32> ITestObject_Notifying_HasBeenSetGetter.UInt32_Ranged_Property => this.UInt32_Ranged_Property;
         public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
-        public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
+        protected readonly INotifyingItem<UInt64?> _UInt64N = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        public INotifyingSetItem<UInt64?> UInt64N_Property => _UInt64N;
         public UInt64? UInt64N
         {
             get => this._UInt64N.Item;
             set => this._UInt64N.Set(value);
         }
-        UInt64? ITestObject_HasBeenSetGetter.UInt64N => this.UInt64N;
-        IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
+        INotifyingSetItem<UInt64?> ITestObject_Notifying_HasBeenSet.UInt64N_Property => this.UInt64N_Property;
+        INotifyingSetItemGetter<UInt64?> ITestObject_Notifying_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64N_Ranged
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N_Ranged = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
-        public IHasBeenSetItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
+        protected readonly INotifyingItem<UInt64?> _UInt64N_Ranged = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        public INotifyingItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
         public UInt64? UInt64N_Ranged
         {
             get => this._UInt64N_Ranged.Item;
             set => this._UInt64N_Ranged.Set(value?.PutInRange(UInt64N_Ranged_Range.Min, UInt64N_Ranged_Range.Max));
         }
-        UInt64? ITestObject_HasBeenSetGetter.UInt64N_Ranged => this.UInt64N_Ranged;
-        IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
+        INotifyingSetItem<UInt64?> ITestObject_Notifying_HasBeenSet.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
+        INotifyingSetItemGetter<UInt64?> ITestObject_Notifying_HasBeenSetGetter.UInt64N_Ranged_Property => this.UInt64N_Ranged_Property;
         public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt64
-        protected readonly IHasBeenSetItem<UInt64> _UInt64 = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
-        public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
+        protected readonly INotifyingItem<UInt64> _UInt64 = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        public INotifyingSetItem<UInt64> UInt64_Property => _UInt64;
         public UInt64 UInt64
         {
             get => this._UInt64.Item;
             set => this._UInt64.Set(value);
         }
-        UInt64 ITestObject_HasBeenSetGetter.UInt64 => this.UInt64;
-        IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
+        INotifyingSetItem<UInt64> ITestObject_Notifying_HasBeenSet.UInt64_Property => this.UInt64_Property;
+        INotifyingSetItemGetter<UInt64> ITestObject_Notifying_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt64_Ranged
-        protected readonly IHasBeenSetItem<UInt64> _UInt64_Ranged = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
-        public IHasBeenSetItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
+        protected readonly INotifyingItem<UInt64> _UInt64_Ranged = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        public INotifyingItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
         public UInt64 UInt64_Ranged
         {
             get => this._UInt64_Ranged.Item;
             set => this._UInt64_Ranged.Set(value.PutInRange(UInt64_Ranged_Range.Min, UInt64_Ranged_Range.Max));
         }
-        UInt64 ITestObject_HasBeenSetGetter.UInt64_Ranged => this.UInt64_Ranged;
-        IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
+        INotifyingSetItem<UInt64> ITestObject_Notifying_HasBeenSet.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
+        INotifyingSetItemGetter<UInt64> ITestObject_Notifying_HasBeenSetGetter.UInt64_Ranged_Property => this.UInt64_Ranged_Property;
         public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
-        public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
+        protected readonly INotifyingItem<Byte?> _UInt8N = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        public INotifyingSetItem<Byte?> UInt8N_Property => _UInt8N;
         public Byte? UInt8N
         {
             get => this._UInt8N.Item;
             set => this._UInt8N.Set(value);
         }
-        Byte? ITestObject_HasBeenSetGetter.UInt8N => this.UInt8N;
-        IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
+        INotifyingSetItem<Byte?> ITestObject_Notifying_HasBeenSet.UInt8N_Property => this.UInt8N_Property;
+        INotifyingSetItemGetter<Byte?> ITestObject_Notifying_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8N_Ranged
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N_Ranged = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
-        public IHasBeenSetItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
+        protected readonly INotifyingItem<Byte?> _UInt8N_Ranged = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        public INotifyingItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
         public Byte? UInt8N_Ranged
         {
             get => this._UInt8N_Ranged.Item;
             set => this._UInt8N_Ranged.Set(value?.PutInRange(UInt8N_Ranged_Range.Min, UInt8N_Ranged_Range.Max));
         }
-        Byte? ITestObject_HasBeenSetGetter.UInt8N_Ranged => this.UInt8N_Ranged;
-        IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
+        INotifyingSetItem<Byte?> ITestObject_Notifying_HasBeenSet.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
+        INotifyingSetItemGetter<Byte?> ITestObject_Notifying_HasBeenSetGetter.UInt8N_Ranged_Property => this.UInt8N_Ranged_Property;
         public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region UInt8
-        protected readonly IHasBeenSetItem<Byte> _UInt8 = HasBeenSetItem.Factory<Byte>(markAsSet: false);
-        public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
+        protected readonly INotifyingItem<Byte> _UInt8 = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        public INotifyingSetItem<Byte> UInt8_Property => _UInt8;
         public Byte UInt8
         {
             get => this._UInt8.Item;
             set => this._UInt8.Set(value);
         }
-        Byte ITestObject_HasBeenSetGetter.UInt8 => this.UInt8;
-        IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
+        INotifyingSetItem<Byte> ITestObject_Notifying_HasBeenSet.UInt8_Property => this.UInt8_Property;
+        INotifyingSetItemGetter<Byte> ITestObject_Notifying_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region UInt8_Ranged
-        protected readonly IHasBeenSetItem<Byte> _UInt8_Ranged = HasBeenSetItem.Factory<Byte>(markAsSet: false);
-        public IHasBeenSetItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
+        protected readonly INotifyingItem<Byte> _UInt8_Ranged = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        public INotifyingItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
         public Byte UInt8_Ranged
         {
             get => this._UInt8_Ranged.Item;
             set => this._UInt8_Ranged.Set(value.PutInRange(UInt8_Ranged_Range.Min, UInt8_Ranged_Range.Max));
         }
-        Byte ITestObject_HasBeenSetGetter.UInt8_Ranged => this.UInt8_Ranged;
-        IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
+        INotifyingSetItem<Byte> ITestObject_Notifying_HasBeenSet.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
+        INotifyingSetItemGetter<Byte> ITestObject_Notifying_HasBeenSetGetter.UInt8_Ranged_Property => this.UInt8_Ranged_Property;
         public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
-        protected readonly IHasBeenSetItem<TestEnum> _Enum = HasBeenSetItem.Factory<TestEnum>(markAsSet: false);
-        public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
+        protected readonly INotifyingItem<TestEnum> _Enum = NotifyingSetItem.Factory<TestEnum>(markAsSet: false);
+        public INotifyingSetItem<TestEnum> Enum_Property => _Enum;
         public TestEnum Enum
         {
             get => this._Enum.Item;
             set => this._Enum.Set(value);
         }
-        TestEnum ITestObject_HasBeenSetGetter.Enum => this.Enum;
-        IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSetGetter.Enum_Property => this.Enum_Property;
+        INotifyingSetItem<TestEnum> ITestObject_Notifying_HasBeenSet.Enum_Property => this.Enum_Property;
+        INotifyingSetItemGetter<TestEnum> ITestObject_Notifying_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
-        protected readonly IHasBeenSetItem<TestEnum?> _EnumNull = HasBeenSetItem.Factory<TestEnum?>(markAsSet: false);
-        public IHasBeenSetItem<TestEnum?> EnumNull_Property => _EnumNull;
+        protected readonly INotifyingItem<TestEnum?> _EnumNull = NotifyingSetItem.Factory<TestEnum?>(markAsSet: false);
+        public INotifyingSetItem<TestEnum?> EnumNull_Property => _EnumNull;
         public TestEnum? EnumNull
         {
             get => this._EnumNull.Item;
             set => this._EnumNull.Set(value);
         }
-        TestEnum? ITestObject_HasBeenSetGetter.EnumNull => this.EnumNull;
-        IHasBeenSetItemGetter<TestEnum?> ITestObject_HasBeenSetGetter.EnumNull_Property => this.EnumNull_Property;
+        INotifyingSetItem<TestEnum?> ITestObject_Notifying_HasBeenSet.EnumNull_Property => this.EnumNull_Property;
+        INotifyingSetItemGetter<TestEnum?> ITestObject_Notifying_HasBeenSetGetter.EnumNull_Property => this.EnumNull_Property;
         #endregion
         #region WildCard
-        protected readonly IHasBeenSetItem<Object> _WildCard = HasBeenSetItem.Factory<Object>(markAsSet: false);
-        public IHasBeenSetItem<Object> WildCard_Property => _WildCard;
-        Object ITestObject_HasBeenSetGetter.WildCard => this.WildCard;
-        public Object WildCard
-        {
-            get => this._WildCard.Item;
-            set => this._WildCard.Item = WildcardLink.Validate(value);
-        }
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
+        protected readonly INotifyingSetItem<Object> _WildCard = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItem<Object> WildCard_Property => _WildCard;
+        public Object WildCard { get => _WildCard.Item; set => _WildCard.Item = value; }
+        INotifyingSetItem<Object> ITestObject_Notifying_HasBeenSet.WildCard_Property => this.WildCard_Property;
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
         #endregion
         #region WildCardLoqui
-        protected readonly IHasBeenSetItem<Object> _WildCardLoqui = HasBeenSetItem.Factory<Object>(markAsSet: false);
-        public IHasBeenSetItem<Object> WildCardLoqui_Property => _WildCardLoqui;
-        Object ITestObject_HasBeenSetGetter.WildCardLoqui => this.WildCardLoqui;
-        public Object WildCardLoqui
-        {
-            get => this._WildCardLoqui.Item;
-            set => this._WildCardLoqui.Item = WildcardLink.Validate(value);
-        }
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
+        protected readonly INotifyingSetItem<Object> _WildCardLoqui = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItem<Object> WildCardLoqui_Property => _WildCardLoqui;
+        public Object WildCardLoqui { get => _WildCardLoqui.Item; set => _WildCardLoqui.Item = value; }
+        INotifyingSetItem<Object> ITestObject_Notifying_HasBeenSet.WildCardLoqui_Property => this.WildCardLoqui_Property;
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSetGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
         #endregion
         #region WildCardNull
-        protected readonly IHasBeenSetItem<Object> _WildCardNull = HasBeenSetItem.Factory<Object>(markAsSet: false);
-        public IHasBeenSetItem<Object> WildCardNull_Property => _WildCardNull;
-        Object ITestObject_HasBeenSetGetter.WildCardNull => this.WildCardNull;
-        public Object WildCardNull
-        {
-            get => this._WildCardNull.Item;
-            set => this._WildCardNull.Item = WildcardLink.Validate(value);
-        }
-        IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCardNull_Property => this.WildCardNull_Property;
+        protected readonly INotifyingSetItem<Object> _WildCardNull = new NotifyingSetItemConvertWrapper<Object>(
+            (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
+            default(Object),
+            markAsSet: false
+        );
+        public INotifyingSetItem<Object> WildCardNull_Property => _WildCardNull;
+        public Object WildCardNull { get => _WildCardNull.Item; set => _WildCardNull.Item = value; }
+        INotifyingSetItem<Object> ITestObject_Notifying_HasBeenSet.WildCardNull_Property => this.WildCardNull_Property;
+        INotifyingSetItemGetter<Object> ITestObject_Notifying_HasBeenSetGetter.WildCardNull_Property => this.WildCardNull_Property;
         #endregion
         #region Ref
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
-        public ObjectToRef Ref
-        {
-            get => this._Ref.Item;
-            set => this._Ref.Item = value;
-        }
-        public IHasBeenSetItem<ObjectToRef> Ref_Property => _Ref;
-        ObjectToRef ITestObject_HasBeenSetGetter.Ref => this._Ref.Item;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Property => this._Ref;
+        private readonly INotifyingSetItem<ObjectToRef> _Ref = new NotifyingSetItem<ObjectToRef>();
+        public INotifyingSetItem<ObjectToRef> Ref_Property => this._Ref;
+        ObjectToRef ITestObject_Notifying_HasBeenSetGetter.Ref => this.Ref;
+        public ObjectToRef Ref { get => _Ref.Item; set => _Ref.Item = value; }
+        INotifyingSetItem<ObjectToRef> ITestObject_Notifying_HasBeenSet.Ref_Property => this.Ref_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.Ref_Property => this.Ref_Property;
         #endregion
         #region Ref_NotNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(markAsSet: false);
-        public ObjectToRef Ref_NotNull
-        {
-            get => this._Ref_NotNull.Item;
-            set => this._Ref_NotNull.Item = value;
-        }
-        public IHasBeenSetItem<ObjectToRef> Ref_NotNull_Property => _Ref_NotNull;
-        ObjectToRef ITestObject_HasBeenSetGetter.Ref_NotNull => this._Ref_NotNull.Item;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_NotNull_Property => this._Ref_NotNull;
+        private readonly INotifyingSetItem<ObjectToRef> _Ref_NotNull = new NotifyingSetItemConvertWrapper<ObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<ObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<ObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItem<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
+        ObjectToRef ITestObject_Notifying_HasBeenSetGetter.Ref_NotNull => this.Ref_NotNull;
+        public ObjectToRef Ref_NotNull { get => _Ref_NotNull.Item; set => _Ref_NotNull.Item = value; }
+        INotifyingSetItem<ObjectToRef> ITestObject_Notifying_HasBeenSet.Ref_NotNull_Property => this.Ref_NotNull_Property;
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.Ref_NotNull_Property => this.Ref_NotNull_Property;
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
-        public ObjectToRef Ref_Singleton
-        {
-            get => this._Ref_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
-        ObjectToRef ITestObject_HasBeenSetGetter.Ref_Singleton => this._Ref_Singleton_Object;
-        IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Singleton_Property => this._Ref_Singleton;
+        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
+        ObjectToRef ITestObject_Notifying_HasBeenSetGetter.Ref_Singleton => this.Ref_Singleton;
+        public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
+        INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
         #endregion
         #region RefGetter
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(markAsSet: false);
-        public IObjectToRefGetter RefGetter
-        {
-            get => this._RefGetter.Item;
-            set => this._RefGetter.Item = value;
-        }
-        public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Property => _RefGetter;
-        IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter => this._RefGetter.Item;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Property => this._RefGetter;
+        private readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter = new NotifyingSetItem<IObjectToRefGetter>();
+        public INotifyingSetItem<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSetGetter.RefGetter => this.RefGetter;
+        public IObjectToRefGetter RefGetter { get => _RefGetter.Item; set => _RefGetter.Item = value; }
+        INotifyingSetItem<IObjectToRefGetter> ITestObject_Notifying_HasBeenSet.RefGetter_Property => this.RefGetter_Property;
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSetGetter.RefGetter_Property => this.RefGetter_Property;
         #endregion
         #region RefGetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
-            noNullFallback: () => new ObjectToRef(),
-            markAsSet: false);
-        public IObjectToRefGetter RefGetter_NotNull
-        {
-            get => this._RefGetter_NotNull.Item;
-            set => this._RefGetter_NotNull.Item = value;
-        }
-        public IHasBeenSetItem<IObjectToRefGetter> RefGetter_NotNull_Property => _RefGetter_NotNull;
-        IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter_NotNull => this._RefGetter_NotNull.Item;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        private readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_NotNull = new NotifyingSetItemConvertWrapper<IObjectToRefGetter>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRefGetter>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRefGetter>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItem<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSetGetter.RefGetter_NotNull => this.RefGetter_NotNull;
+        public IObjectToRefGetter RefGetter_NotNull { get => _RefGetter_NotNull.Item; set => _RefGetter_NotNull.Item = value; }
+        INotifyingSetItem<IObjectToRefGetter> ITestObject_Notifying_HasBeenSet.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSetGetter.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
-        public IObjectToRefGetter RefGetter_Singleton
-        {
-            get => this._RefGetter_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
-        IObjectToRefGetter ITestObject_HasBeenSetGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
-        IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        IObjectToRefGetter ITestObject_Notifying_HasBeenSetGetter.RefGetter_Singleton => this.RefGetter_Singleton;
+        public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
+        INotifyingSetItemGetter<IObjectToRefGetter> ITestObject_Notifying_HasBeenSetGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         #endregion
         #region RefSetter
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(markAsSet: false);
-        public IObjectToRef RefSetter
-        {
-            get => this._RefSetter.Item;
-            set => this._RefSetter.Item = value;
-        }
-        public IHasBeenSetItem<IObjectToRef> RefSetter_Property => _RefSetter;
-        IObjectToRef ITestObject_HasBeenSetGetter.RefSetter => this._RefSetter.Item;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Property => this._RefSetter;
+        private readonly INotifyingSetItem<IObjectToRef> _RefSetter = new NotifyingSetItem<IObjectToRef>();
+        public INotifyingSetItem<IObjectToRef> RefSetter_Property => this._RefSetter;
+        IObjectToRef ITestObject_Notifying_HasBeenSetGetter.RefSetter => this.RefSetter;
+        public IObjectToRef RefSetter { get => _RefSetter.Item; set => _RefSetter.Item = value; }
+        INotifyingSetItem<IObjectToRef> ITestObject_Notifying_HasBeenSet.RefSetter_Property => this.RefSetter_Property;
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSetGetter.RefSetter_Property => this.RefSetter_Property;
         #endregion
         #region RefSetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
-            noNullFallback: () => new ObjectToRef(),
-            markAsSet: false);
-        public IObjectToRef RefSetter_NotNull
-        {
-            get => this._RefSetter_NotNull.Item;
-            set => this._RefSetter_NotNull.Item = value;
-        }
-        public IHasBeenSetItem<IObjectToRef> RefSetter_NotNull_Property => _RefSetter_NotNull;
-        IObjectToRef ITestObject_HasBeenSetGetter.RefSetter_NotNull => this._RefSetter_NotNull.Item;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        private readonly INotifyingSetItem<IObjectToRef> _RefSetter_NotNull = new NotifyingSetItemConvertWrapper<IObjectToRef>(
+            defaultVal: new ObjectToRef(),
+            incomingConverter: (change) =>
+            {
+                if (change.New == null)
+                {
+                    return TryGet<IObjectToRef>.Succeed(new ObjectToRef());
+                }
+                return TryGet<IObjectToRef>.Succeed(change.New);
+            }
+        );
+        public INotifyingSetItem<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        IObjectToRef ITestObject_Notifying_HasBeenSetGetter.RefSetter_NotNull => this.RefSetter_NotNull;
+        public IObjectToRef RefSetter_NotNull { get => _RefSetter_NotNull.Item; set => _RefSetter_NotNull.Item = value; }
+        INotifyingSetItem<IObjectToRef> ITestObject_Notifying_HasBeenSet.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSetGetter.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
-        public IObjectToRef RefSetter_Singleton
-        {
-            get => this._RefSetter_Singleton_Object;
-        }
-        public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
-        IObjectToRef ITestObject_HasBeenSetGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
-        IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        IObjectToRef ITestObject_Notifying_HasBeenSetGetter.RefSetter_Singleton => this.RefSetter_Singleton;
+        public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
+        INotifyingSetItemGetter<IObjectToRef> ITestObject_Notifying_HasBeenSetGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
         #region Interface Members
-        INotifyingList<Boolean> ITestObject_HasBeenSet.List => _List;
-        INotifyingListGetter<Boolean> ITestObject_HasBeenSetGetter.List => _List;
+        INotifyingList<Boolean> ITestObject_Notifying_HasBeenSet.List => _List;
+        INotifyingListGetter<Boolean> ITestObject_Notifying_HasBeenSetGetter.List => _List;
         #endregion
 
         #endregion
@@ -1190,8 +1188,8 @@ namespace Loqui.Tests
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
         #region Interface Members
-        INotifyingList<ObjectToRef> ITestObject_HasBeenSet.RefList => _RefList;
-        INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSetGetter.RefList => _RefList;
+        INotifyingList<ObjectToRef> ITestObject_Notifying_HasBeenSet.RefList => _RefList;
+        INotifyingListGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.RefList => _RefList;
         #endregion
 
         #endregion
@@ -1199,8 +1197,8 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, Boolean> _Dict = new NotifyingDictionary<String, Boolean>();
         public INotifyingDictionary<String, Boolean> Dict { get { return _Dict; } }
         #region Interface Members
-        INotifyingDictionary<String, Boolean> ITestObject_HasBeenSet.Dict => _Dict;
-        INotifyingDictionaryGetter<String, Boolean> ITestObject_HasBeenSetGetter.Dict => _Dict;
+        INotifyingDictionary<String, Boolean> ITestObject_Notifying_HasBeenSet.Dict => _Dict;
+        INotifyingDictionaryGetter<String, Boolean> ITestObject_Notifying_HasBeenSetGetter.Dict => _Dict;
         #endregion
 
         #endregion
@@ -1208,8 +1206,8 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
-        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_HasBeenSet.RefDict => _RefDict;
-        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_HasBeenSetGetter.RefDict => _RefDict;
+        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_Notifying_HasBeenSet.RefDict => _RefDict;
+        INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.RefDict => _RefDict;
         #endregion
 
         #endregion
@@ -1217,8 +1215,8 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, Boolean> _KeyRefDict = new NotifyingDictionary<ObjectToRef, Boolean>();
         public INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get { return _KeyRefDict; } }
         #region Interface Members
-        INotifyingDictionary<ObjectToRef, Boolean> ITestObject_HasBeenSet.KeyRefDict => _KeyRefDict;
-        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_HasBeenSetGetter.KeyRefDict => _KeyRefDict;
+        INotifyingDictionary<ObjectToRef, Boolean> ITestObject_Notifying_HasBeenSet.KeyRefDict => _KeyRefDict;
+        INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_Notifying_HasBeenSetGetter.KeyRefDict => _KeyRefDict;
         #endregion
 
         #endregion
@@ -1226,8 +1224,8 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, ObjectToRef> _ValRefDict = new NotifyingDictionary<String, ObjectToRef>();
         public INotifyingDictionary<String, ObjectToRef> ValRefDict { get { return _ValRefDict; } }
         #region Interface Members
-        INotifyingDictionary<String, ObjectToRef> ITestObject_HasBeenSet.ValRefDict => _ValRefDict;
-        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_HasBeenSetGetter.ValRefDict => _ValRefDict;
+        INotifyingDictionary<String, ObjectToRef> ITestObject_Notifying_HasBeenSet.ValRefDict => _ValRefDict;
+        INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.ValRefDict => _ValRefDict;
         #endregion
 
         #endregion
@@ -1235,21 +1233,21 @@ namespace Loqui.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
-        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject_HasBeenSet.DictKeyedValue => _DictKeyedValue;
-        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_HasBeenSetGetter.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject_Notifying_HasBeenSet.DictKeyedValue => _DictKeyedValue;
+        INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
 
         #endregion
 
         #region Loqui Getter Interface
 
-        protected object GetNthObject(ushort index) => TestObject_HasBeenSetCommon.GetNthObject(index, this);
+        protected object GetNthObject(ushort index) => TestObject_Notifying_HasBeenSetCommon.GetNthObject(index, this);
         object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);
 
-        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_HasBeenSetCommon.GetNthObjectHasBeenSet(index, this);
+        protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_HasBeenSetCommon.GetNthObjectHasBeenSet(index, this);
         bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_HasBeenSetCommon.UnsetNthObject(index, this, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_HasBeenSetCommon.UnsetNthObject(index, this, cmds);
         void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
@@ -1257,7 +1255,7 @@ namespace Loqui.Tests
         #region Loqui Interface
         protected void SetNthObjectHasBeenSet(ushort index, bool on)
         {
-            TestObject_HasBeenSetCommon.SetNthObjectHasBeenSet(index, on, this);
+            TestObject_Notifying_HasBeenSetCommon.SetNthObjectHasBeenSet(index, on, this);
         }
         void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);
 
@@ -1266,37 +1264,37 @@ namespace Loqui.Tests
         #region To String
         public override string ToString()
         {
-            return TestObject_HasBeenSetCommon.ToString(this, printMask: null);
+            return TestObject_Notifying_HasBeenSetCommon.ToString(this, printMask: null);
         }
 
         public string ToString(
             string name = null,
-            TestObject_HasBeenSet_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_Mask<bool> printMask = null)
         {
-            return TestObject_HasBeenSetCommon.ToString(this, name: name, printMask: printMask);
+            return TestObject_Notifying_HasBeenSetCommon.ToString(this, name: name, printMask: printMask);
         }
 
         public void ToString(
             FileGeneration fg,
             string name = null)
         {
-            TestObject_HasBeenSetCommon.ToString(this, fg, name: name, printMask: null);
+            TestObject_Notifying_HasBeenSetCommon.ToString(this, fg, name: name, printMask: null);
         }
 
         #endregion
 
-        public TestObject_HasBeenSet_Mask<bool> GetHasBeenSetMask()
+        public TestObject_Notifying_HasBeenSet_Mask<bool> GetHasBeenSetMask()
         {
-            return TestObject_HasBeenSetCommon.GetHasBeenSetMask(this);
+            return TestObject_Notifying_HasBeenSetCommon.GetHasBeenSetMask(this);
         }
         #region Equals and Hash
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_HasBeenSet rhs)) return false;
+            if (!(obj is TestObject_Notifying_HasBeenSet rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_HasBeenSet rhs)
+        public bool Equals(TestObject_Notifying_HasBeenSet rhs)
         {
             if (rhs == null) return false;
             if (ByteArray_Property.HasBeenSet != rhs.ByteArray_Property.HasBeenSet) return false;
@@ -2277,7 +2275,7 @@ namespace Loqui.Tests
         #region XML Translation
         #region XML Create
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet Create_XML(XElement root)
+        public static TestObject_Notifying_HasBeenSet Create_XML(XElement root)
         {
             return Create_XML(
                 root: root,
@@ -2286,9 +2284,9 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet Create_XML(
+        public static TestObject_Notifying_HasBeenSet Create_XML(
             XElement root,
-            out TestObject_HasBeenSet_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask)
         {
             return Create_XML(
                 root: root,
@@ -2297,10 +2295,10 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static TestObject_HasBeenSet Create_XML(
+        public static TestObject_Notifying_HasBeenSet Create_XML(
             XElement root,
             bool doMasks,
-            out TestObject_HasBeenSet_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask)
         {
             var ret = Create_XML(
                 root: root,
@@ -2310,26 +2308,26 @@ namespace Loqui.Tests
         }
 
         [DebuggerStepThrough]
-        public static (TestObject_HasBeenSet Object, TestObject_HasBeenSet_ErrorMask ErrorMask) Create_XML(
+        public static (TestObject_Notifying_HasBeenSet Object, TestObject_Notifying_HasBeenSet_ErrorMask ErrorMask) Create_XML(
             XElement root,
             bool doMasks)
         {
-            TestObject_HasBeenSet_ErrorMask errMaskRet = null;
+            TestObject_Notifying_HasBeenSet_ErrorMask errMaskRet = null;
             var ret = Create_XML_Internal(
                 root: root,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_ErrorMask()) : default(Func<TestObject_HasBeenSet_ErrorMask>));
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_HasBeenSet_ErrorMask()) : default(Func<TestObject_Notifying_HasBeenSet_ErrorMask>));
             return (ret, errMaskRet);
         }
 
-        public static TestObject_HasBeenSet Create_XML(string path)
+        public static TestObject_Notifying_HasBeenSet Create_XML(string path)
         {
             var root = XDocument.Load(path).Root;
             return Create_XML(root: root);
         }
 
-        public static TestObject_HasBeenSet Create_XML(
+        public static TestObject_Notifying_HasBeenSet Create_XML(
             string path,
-            out TestObject_HasBeenSet_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask)
         {
             var root = XDocument.Load(path).Root;
             return Create_XML(
@@ -2337,15 +2335,15 @@ namespace Loqui.Tests
                 errorMask: out errorMask);
         }
 
-        public static TestObject_HasBeenSet Create_XML(Stream stream)
+        public static TestObject_Notifying_HasBeenSet Create_XML(Stream stream)
         {
             var root = XDocument.Load(stream).Root;
             return Create_XML(root: root);
         }
 
-        public static TestObject_HasBeenSet Create_XML(
+        public static TestObject_Notifying_HasBeenSet Create_XML(
             Stream stream,
-            out TestObject_HasBeenSet_ErrorMask errorMask)
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask)
         {
             var root = XDocument.Load(stream).Root;
             return Create_XML(
@@ -2360,7 +2358,7 @@ namespace Loqui.Tests
             XElement root,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestObject_Notifying_HasBeenSet, TestObject_Notifying_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -2371,10 +2369,10 @@ namespace Loqui.Tests
 
         public virtual void CopyIn_XML(
             XElement root,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
-            LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
+            LoquiXmlTranslation<TestObject_Notifying_HasBeenSet, TestObject_Notifying_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
                 item: this,
                 skipProtected: true,
@@ -2395,7 +2393,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
             var root = XDocument.Load(path).Root;
@@ -2417,7 +2415,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             NotifyingFireParameters? cmds = null)
         {
             var root = XDocument.Load(stream).Root;
@@ -2432,10 +2430,10 @@ namespace Loqui.Tests
         #region XML Write
         public virtual void Write_XML(
             XmlWriter writer,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             string name = null)
         {
-            errorMask = (TestObject_HasBeenSet_ErrorMask)this.Write_XML_Internal(
+            errorMask = (TestObject_Notifying_HasBeenSet_ErrorMask)this.Write_XML_Internal(
                 writer: writer,
                 name: name,
                 doMasks: true);
@@ -2443,7 +2441,7 @@ namespace Loqui.Tests
 
         public virtual void Write_XML(
             string path,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             string name = null)
         {
             using (var writer = new XmlTextWriter(path, Encoding.ASCII))
@@ -2459,7 +2457,7 @@ namespace Loqui.Tests
 
         public virtual void Write_XML(
             Stream stream,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             string name = null)
         {
             using (var writer = new XmlTextWriter(stream, Encoding.ASCII))
@@ -2516,7 +2514,7 @@ namespace Loqui.Tests
             bool doMasks,
             string name = null)
         {
-            TestObject_HasBeenSetCommon.Write_XML(
+            TestObject_Notifying_HasBeenSetCommon.Write_XML(
                 writer: writer,
                 item: this,
                 doMasks: doMasks,
@@ -2525,11 +2523,11 @@ namespace Loqui.Tests
         }
         #endregion
 
-        private static TestObject_HasBeenSet Create_XML_Internal(
+        private static TestObject_Notifying_HasBeenSet Create_XML_Internal(
             XElement root,
-            Func<TestObject_HasBeenSet_ErrorMask> errorMask)
+            Func<TestObject_Notifying_HasBeenSet_ErrorMask> errorMask)
         {
-            var ret = new TestObject_HasBeenSet();
+            var ret = new TestObject_Notifying_HasBeenSet();
             try
             {
                 foreach (var elem in root.Elements())
@@ -2550,10 +2548,10 @@ namespace Loqui.Tests
         }
 
         protected static void Fill_XML_Internal(
-            TestObject_HasBeenSet item,
+            TestObject_Notifying_HasBeenSet item,
             XElement root,
             string name,
-            Func<TestObject_HasBeenSet_ErrorMask> errorMask)
+            Func<TestObject_Notifying_HasBeenSet_ErrorMask> errorMask)
         {
             switch (name)
             {
@@ -2567,7 +2565,7 @@ namespace Loqui.Tests
                         item._ByteArray.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArray,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray,
                             subMask);
                     }
                     break;
@@ -2581,7 +2579,7 @@ namespace Loqui.Tests
                         item._ByteArrayNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArrayNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull,
                             subMask);
                     }
                     break;
@@ -2595,7 +2593,7 @@ namespace Loqui.Tests
                         item._ByteArrayNotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull,
                             subMask);
                     }
                     break;
@@ -2609,7 +2607,7 @@ namespace Loqui.Tests
                         item._ByteArraySingleton.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArraySingleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton,
                             subMask);
                     }
                     break;
@@ -2623,7 +2621,7 @@ namespace Loqui.Tests
                         item._BoolN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.BoolN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.BoolN,
                             subMask);
                     }
                     break;
@@ -2637,7 +2635,7 @@ namespace Loqui.Tests
                         item._Bool.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Bool,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Bool,
                             subMask);
                     }
                     break;
@@ -2651,7 +2649,7 @@ namespace Loqui.Tests
                         item._CharN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.CharN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.CharN,
                             subMask);
                     }
                     break;
@@ -2665,7 +2663,7 @@ namespace Loqui.Tests
                         item._Char.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Char,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Char,
                             subMask);
                     }
                     break;
@@ -2679,7 +2677,7 @@ namespace Loqui.Tests
                         item._DateTimeNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DateTimeNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull,
                             subMask);
                     }
                     break;
@@ -2693,7 +2691,7 @@ namespace Loqui.Tests
                         item._DateTime.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DateTime,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTime,
                             subMask);
                     }
                     break;
@@ -2707,7 +2705,7 @@ namespace Loqui.Tests
                         item._DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN,
                             subMask);
                     }
                     break;
@@ -2721,7 +2719,7 @@ namespace Loqui.Tests
                         item._DoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged,
                             subMask);
                     }
                     break;
@@ -2735,7 +2733,7 @@ namespace Loqui.Tests
                         item._Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Double,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Double,
                             subMask);
                     }
                     break;
@@ -2749,7 +2747,7 @@ namespace Loqui.Tests
                         item._Double_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Double_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged,
                             subMask);
                     }
                     break;
@@ -2763,7 +2761,7 @@ namespace Loqui.Tests
                         item._FloatN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FloatN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN,
                             subMask);
                     }
                     break;
@@ -2777,7 +2775,7 @@ namespace Loqui.Tests
                         item._FloatN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FloatN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged,
                             subMask);
                     }
                     break;
@@ -2791,7 +2789,7 @@ namespace Loqui.Tests
                         item._Float.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Float,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Float,
                             subMask);
                     }
                     break;
@@ -2805,7 +2803,7 @@ namespace Loqui.Tests
                         item._Float_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Float_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged,
                             subMask);
                     }
                     break;
@@ -2819,7 +2817,7 @@ namespace Loqui.Tests
                         item._Int16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N,
                             subMask);
                     }
                     break;
@@ -2833,7 +2831,7 @@ namespace Loqui.Tests
                         item._Int16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged,
                             subMask);
                     }
                     break;
@@ -2847,7 +2845,7 @@ namespace Loqui.Tests
                         item._Int16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16,
                             subMask);
                     }
                     break;
@@ -2861,7 +2859,7 @@ namespace Loqui.Tests
                         item._Int16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged,
                             subMask);
                     }
                     break;
@@ -2875,7 +2873,7 @@ namespace Loqui.Tests
                         item._Int32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N,
                             subMask);
                     }
                     break;
@@ -2889,7 +2887,7 @@ namespace Loqui.Tests
                         item._Int32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged,
                             subMask);
                     }
                     break;
@@ -2903,7 +2901,7 @@ namespace Loqui.Tests
                         item._Int32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32,
                             subMask);
                     }
                     break;
@@ -2917,7 +2915,7 @@ namespace Loqui.Tests
                         item._Int32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged,
                             subMask);
                     }
                     break;
@@ -2931,7 +2929,7 @@ namespace Loqui.Tests
                         item._Int64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N,
                             subMask);
                     }
                     break;
@@ -2945,7 +2943,7 @@ namespace Loqui.Tests
                         item._Int64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged,
                             subMask);
                     }
                     break;
@@ -2959,7 +2957,7 @@ namespace Loqui.Tests
                         item._Int64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64,
                             subMask);
                     }
                     break;
@@ -2973,7 +2971,7 @@ namespace Loqui.Tests
                         item._Int64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged,
                             subMask);
                     }
                     break;
@@ -2987,7 +2985,7 @@ namespace Loqui.Tests
                         item._Int8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N,
                             subMask);
                     }
                     break;
@@ -3001,7 +2999,7 @@ namespace Loqui.Tests
                         item._Int8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged,
                             subMask);
                     }
                     break;
@@ -3015,7 +3013,7 @@ namespace Loqui.Tests
                         item._Int8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8,
                             subMask);
                     }
                     break;
@@ -3029,7 +3027,7 @@ namespace Loqui.Tests
                         item._Int8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged,
                             subMask);
                     }
                     break;
@@ -3043,7 +3041,7 @@ namespace Loqui.Tests
                         item._Unsafe.SetIfSucceeded(tryGet.Bubble<bool>(i => (bool)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Unsafe,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe,
                             subMask);
                     }
                     break;
@@ -3057,7 +3055,7 @@ namespace Loqui.Tests
                         item._UnsafeLoqui.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UnsafeLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui,
                             subMask);
                     }
                     break;
@@ -3071,7 +3069,7 @@ namespace Loqui.Tests
                         item._UnsafeNull.SetIfSucceeded(tryGet.Bubble<ObjectToRef>(i => (ObjectToRef)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UnsafeNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull,
                             subMask);
                     }
                     break;
@@ -3085,7 +3083,7 @@ namespace Loqui.Tests
                         item._P2IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P2IntN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN,
                             subMask);
                     }
                     break;
@@ -3099,7 +3097,7 @@ namespace Loqui.Tests
                         item._P2Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P2Int,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P2Int,
                             subMask);
                     }
                     break;
@@ -3113,7 +3111,7 @@ namespace Loqui.Tests
                         item._P3DoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN,
                             subMask);
                     }
                     break;
@@ -3127,7 +3125,7 @@ namespace Loqui.Tests
                         item._P3Double.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3Double,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Double,
                             subMask);
                     }
                     break;
@@ -3141,7 +3139,7 @@ namespace Loqui.Tests
                         item._P3IntN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3IntN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN,
                             subMask);
                     }
                     break;
@@ -3155,7 +3153,7 @@ namespace Loqui.Tests
                         item._P3Int.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3Int,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Int,
                             subMask);
                     }
                     break;
@@ -3169,7 +3167,7 @@ namespace Loqui.Tests
                         item._PercentN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.PercentN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.PercentN,
                             subMask);
                     }
                     break;
@@ -3183,7 +3181,7 @@ namespace Loqui.Tests
                         item._Percent.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Percent,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Percent,
                             subMask);
                     }
                     break;
@@ -3197,7 +3195,7 @@ namespace Loqui.Tests
                         item._RangeInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N,
                             subMask);
                     }
                     break;
@@ -3211,7 +3209,7 @@ namespace Loqui.Tests
                         item._RangeInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8,
                             subMask);
                     }
                     break;
@@ -3225,7 +3223,7 @@ namespace Loqui.Tests
                         item._RangeInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N,
                             subMask);
                     }
                     break;
@@ -3239,7 +3237,7 @@ namespace Loqui.Tests
                         item._RangeInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16,
                             subMask);
                     }
                     break;
@@ -3253,7 +3251,7 @@ namespace Loqui.Tests
                         item._RangeInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N,
                             subMask);
                     }
                     break;
@@ -3267,7 +3265,7 @@ namespace Loqui.Tests
                         item._RangeInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32,
                             subMask);
                     }
                     break;
@@ -3281,7 +3279,7 @@ namespace Loqui.Tests
                         item._RangeInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N,
                             subMask);
                     }
                     break;
@@ -3295,7 +3293,7 @@ namespace Loqui.Tests
                         item._RangeInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64,
                             subMask);
                     }
                     break;
@@ -3309,7 +3307,7 @@ namespace Loqui.Tests
                         item._RangeUInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N,
                             subMask);
                     }
                     break;
@@ -3323,7 +3321,7 @@ namespace Loqui.Tests
                         item._RangeUInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8,
                             subMask);
                     }
                     break;
@@ -3337,7 +3335,7 @@ namespace Loqui.Tests
                         item._RangeUInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N,
                             subMask);
                     }
                     break;
@@ -3351,7 +3349,7 @@ namespace Loqui.Tests
                         item._RangeUInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16,
                             subMask);
                     }
                     break;
@@ -3365,7 +3363,7 @@ namespace Loqui.Tests
                         item._RangeUInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N,
                             subMask);
                     }
                     break;
@@ -3379,7 +3377,7 @@ namespace Loqui.Tests
                         item._RangeUInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32,
                             subMask);
                     }
                     break;
@@ -3393,7 +3391,7 @@ namespace Loqui.Tests
                         item._RangeUInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N,
                             subMask);
                     }
                     break;
@@ -3407,7 +3405,7 @@ namespace Loqui.Tests
                         item._RangeUInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64,
                             subMask);
                     }
                     break;
@@ -3421,7 +3419,7 @@ namespace Loqui.Tests
                         item._String.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.String,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.String,
                             subMask);
                     }
                     break;
@@ -3435,7 +3433,7 @@ namespace Loqui.Tests
                         item._FilePath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FilePath,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePath,
                             subMask);
                     }
                     break;
@@ -3449,7 +3447,7 @@ namespace Loqui.Tests
                         item._FilePathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FilePathNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull,
                             subMask);
                     }
                     break;
@@ -3463,7 +3461,7 @@ namespace Loqui.Tests
                         item._DirectoryPath.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DirectoryPath,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath,
                             subMask);
                     }
                     break;
@@ -3477,7 +3475,7 @@ namespace Loqui.Tests
                         item._DirectoryPathNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DirectoryPathNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull,
                             subMask);
                     }
                     break;
@@ -3491,7 +3489,7 @@ namespace Loqui.Tests
                         item._UDoubleN.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN,
                             subMask);
                     }
                     break;
@@ -3505,7 +3503,7 @@ namespace Loqui.Tests
                         item._UDoubleN_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged,
                             subMask);
                     }
                     break;
@@ -3519,7 +3517,7 @@ namespace Loqui.Tests
                         item._UDouble.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDouble,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble,
                             subMask);
                     }
                     break;
@@ -3533,7 +3531,7 @@ namespace Loqui.Tests
                         item._UDouble_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDouble_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged,
                             subMask);
                     }
                     break;
@@ -3547,7 +3545,7 @@ namespace Loqui.Tests
                         item._UInt16N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N,
                             subMask);
                     }
                     break;
@@ -3561,7 +3559,7 @@ namespace Loqui.Tests
                         item._UInt16N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged,
                             subMask);
                     }
                     break;
@@ -3575,7 +3573,7 @@ namespace Loqui.Tests
                         item._UInt16.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16,
                             subMask);
                     }
                     break;
@@ -3589,7 +3587,7 @@ namespace Loqui.Tests
                         item._UInt16_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged,
                             subMask);
                     }
                     break;
@@ -3603,7 +3601,7 @@ namespace Loqui.Tests
                         item._UInt32N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N,
                             subMask);
                     }
                     break;
@@ -3617,7 +3615,7 @@ namespace Loqui.Tests
                         item._UInt32N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged,
                             subMask);
                     }
                     break;
@@ -3631,7 +3629,7 @@ namespace Loqui.Tests
                         item._UInt32.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32,
                             subMask);
                     }
                     break;
@@ -3645,7 +3643,7 @@ namespace Loqui.Tests
                         item._UInt32_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged,
                             subMask);
                     }
                     break;
@@ -3659,7 +3657,7 @@ namespace Loqui.Tests
                         item._UInt64N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N,
                             subMask);
                     }
                     break;
@@ -3673,7 +3671,7 @@ namespace Loqui.Tests
                         item._UInt64N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged,
                             subMask);
                     }
                     break;
@@ -3687,7 +3685,7 @@ namespace Loqui.Tests
                         item._UInt64.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64,
                             subMask);
                     }
                     break;
@@ -3701,7 +3699,7 @@ namespace Loqui.Tests
                         item._UInt64_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged,
                             subMask);
                     }
                     break;
@@ -3715,7 +3713,7 @@ namespace Loqui.Tests
                         item._UInt8N.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N,
                             subMask);
                     }
                     break;
@@ -3729,7 +3727,7 @@ namespace Loqui.Tests
                         item._UInt8N_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged,
                             subMask);
                     }
                     break;
@@ -3743,7 +3741,7 @@ namespace Loqui.Tests
                         item._UInt8.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8,
                             subMask);
                     }
                     break;
@@ -3757,7 +3755,7 @@ namespace Loqui.Tests
                         item._UInt8_Ranged.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged,
                             subMask);
                     }
                     break;
@@ -3772,7 +3770,7 @@ namespace Loqui.Tests
                         item._Enum.SetIfSucceeded(tryGet.Bubble((o) => o.Value));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Enum,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Enum,
                             subMask);
                     }
                     break;
@@ -3787,7 +3785,7 @@ namespace Loqui.Tests
                         item._EnumNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.EnumNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull,
                             subMask);
                     }
                     break;
@@ -3801,7 +3799,7 @@ namespace Loqui.Tests
                         item._WildCard.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCard,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCard,
                             subMask);
                     }
                     break;
@@ -3815,7 +3813,7 @@ namespace Loqui.Tests
                         item._WildCardLoqui.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCardLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui,
                             subMask);
                     }
                     break;
@@ -3829,7 +3827,7 @@ namespace Loqui.Tests
                         item._WildCardNull.SetIfSucceeded(tryGet.Bubble<Object>(i => (Object)i));
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCardNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull,
                             subMask);
                     }
                     break;
@@ -3843,7 +3841,7 @@ namespace Loqui.Tests
                         item._Ref.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref,
                             subMask);
                     }
                     break;
@@ -3857,7 +3855,7 @@ namespace Loqui.Tests
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull,
                             subMask);
                     }
                     break;
@@ -3880,7 +3878,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton,
                             subMask);
                     }
                     break;
@@ -3894,7 +3892,7 @@ namespace Loqui.Tests
                         item._RefGetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefGetter,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter,
                             subMask);
                     }
                     break;
@@ -3908,7 +3906,7 @@ namespace Loqui.Tests
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull,
                             subMask);
                     }
                     break;
@@ -3924,7 +3922,7 @@ namespace Loqui.Tests
                         item._RefSetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter,
                             subMask);
                     }
                     break;
@@ -3938,7 +3936,7 @@ namespace Loqui.Tests
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull,
                             subMask);
                     }
                     break;
@@ -3961,7 +3959,7 @@ namespace Loqui.Tests
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton,
                             subMask);
                     }
                     break;
@@ -3984,7 +3982,7 @@ namespace Loqui.Tests
                         item._List.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.List,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.List,
                             subMask);
                     }
                     break;
@@ -4006,7 +4004,7 @@ namespace Loqui.Tests
                         item._RefList.SetIfSucceeded(listTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefList,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefList,
                             subMask);
                     }
                     break;
@@ -4037,7 +4035,7 @@ namespace Loqui.Tests
                         item._Dict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Dict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Dict,
                             subMask);
                     }
                     break;
@@ -4067,7 +4065,7 @@ namespace Loqui.Tests
                         item._RefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefDict,
                             subMask);
                     }
                     break;
@@ -4098,7 +4096,7 @@ namespace Loqui.Tests
                         item._KeyRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.KeyRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict,
                             subMask);
                     }
                     break;
@@ -4128,7 +4126,7 @@ namespace Loqui.Tests
                         item._ValRefDict.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ValRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict,
                             subMask);
                     }
                     break;
@@ -4150,7 +4148,7 @@ namespace Loqui.Tests
                         item._DictKeyedValue.SetIfSucceeded(dictTryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DictKeyedValue,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue,
                             subMask);
                     }
                     break;
@@ -4161,29 +4159,29 @@ namespace Loqui.Tests
 
         #endregion
 
-        public TestObject_HasBeenSet Copy(
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null)
+        public TestObject_Notifying_HasBeenSet Copy(
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null)
         {
-            return TestObject_HasBeenSet.Copy(
+            return TestObject_Notifying_HasBeenSet.Copy(
                 this,
                 copyMask: copyMask,
                 def: def);
         }
 
-        public static TestObject_HasBeenSet Copy(
-            ITestObject_HasBeenSet item,
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null)
+        public static TestObject_Notifying_HasBeenSet Copy(
+            ITestObject_Notifying_HasBeenSet item,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null)
         {
-            TestObject_HasBeenSet ret;
-            if (item.GetType().Equals(typeof(TestObject_HasBeenSet)))
+            TestObject_Notifying_HasBeenSet ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_HasBeenSet)))
             {
-                ret = new TestObject_HasBeenSet();
+                ret = new TestObject_Notifying_HasBeenSet();
             }
             else
             {
-                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_HasBeenSet)Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -4194,14 +4192,14 @@ namespace Loqui.Tests
 
         public static CopyType CopyGeneric<CopyType>(
             CopyType item,
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null)
-            where CopyType : class, ITestObject_HasBeenSet
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null)
+            where CopyType : class, ITestObject_Notifying_HasBeenSet
         {
             CopyType ret;
-            if (item.GetType().Equals(typeof(TestObject_HasBeenSet)))
+            if (item.GetType().Equals(typeof(TestObject_Notifying_HasBeenSet)))
             {
-                ret = new TestObject_HasBeenSet() as CopyType;
+                ret = new TestObject_Notifying_HasBeenSet() as CopyType;
             }
             else
             {
@@ -4217,12 +4215,12 @@ namespace Loqui.Tests
             return ret;
         }
 
-        public static TestObject_HasBeenSet Copy_ToLoqui(
-            ITestObject_HasBeenSetGetter item,
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null)
+        public static TestObject_Notifying_HasBeenSet Copy_ToLoqui(
+            ITestObject_Notifying_HasBeenSetGetter item,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet();
+            var ret = new TestObject_Notifying_HasBeenSet();
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -4233,315 +4231,509 @@ namespace Loqui.Tests
         void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                    this._ByteArray.Set((Byte[])obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                    this._ByteArrayNull.Set((Byte[])obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                    this._ByteArrayNotNull.Set((Byte[])obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                    this._ByteArraySingleton.Set((Byte[])obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                    this._BoolN.Set((Boolean?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                    this._Bool.Set((Boolean)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                    this._CharN.Set((Char?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                    this._Char.Set((Char)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                    this._DateTimeNull.Set((DateTime?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                    this._DateTime.Set((DateTime)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                    this._DoubleN.Set((Double?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                    this._DoubleN_Ranged.Set((Double?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                    this._Double.Set((Double)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                    this._Double_Ranged.Set((Double)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                    this._FloatN.Set((Single?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                    this._FloatN_Ranged.Set((Single?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                    this._Float.Set((Single)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                    this._Float_Ranged.Set((Single)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                    this._Int16N.Set((Int16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                    this._Int16N_Ranged.Set((Int16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                    this._Int16.Set((Int16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                    this._Int16_Ranged.Set((Int16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                    this._Int32N.Set((Int32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                    this._Int32N_Ranged.Set((Int32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                    this._Int32.Set((Int32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                    this._Int32_Ranged.Set((Int32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                    this._Int64N.Set((Int64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                    this._Int64N_Ranged.Set((Int64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                    this._Int64.Set((Int64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                    this._Int64_Ranged.Set((Int64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                    this._Int8N.Set((SByte?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                    this._Int8N_Ranged.Set((SByte?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                    this._Int8.Set((SByte)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                    this._Int8_Ranged.Set((SByte)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                    this._Unsafe.Set((bool)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                    this._UnsafeLoqui.Set((ObjectToRef)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                    this._UnsafeNull.Set((ObjectToRef)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                    this._P2IntN.Set((P2Int?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                    this._P2Int.Set((P2Int)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                    this._P3DoubleN.Set((P3Double?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                    this._P3Double.Set((P3Double)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                    this._P3IntN.Set((P3Int?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                    this._P3Int.Set((P3Int)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                    this._PercentN.Set((Percent?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                    this._Percent.Set((Percent)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                    this._RangeInt8N.Set((RangeInt8?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                    this._RangeInt8.Set((RangeInt8)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                    this._RangeInt16N.Set((RangeInt16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                    this._RangeInt16.Set((RangeInt16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                    this._RangeInt32N.Set((RangeInt32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                    this._RangeInt32.Set((RangeInt32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                    this._RangeInt64N.Set((RangeInt64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                    this._RangeInt64.Set((RangeInt64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                    this._RangeUInt8N.Set((RangeUInt8?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                    this._RangeUInt8.Set((RangeUInt8)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                    this._RangeUInt16N.Set((RangeUInt16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                    this._RangeUInt16.Set((RangeUInt16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                    this._RangeUInt32N.Set((RangeUInt32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                    this._RangeUInt32.Set((RangeUInt32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                    this._RangeUInt64N.Set((RangeUInt64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                    this._RangeUInt64.Set((RangeUInt64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.String:
-                    this._String.Set((String)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                    this._FilePath.Set((FilePath)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                    this._FilePathNull.Set((FilePath?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                    this._DirectoryPath.Set((DirectoryPath)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                    this._DirectoryPathNull.Set((DirectoryPath?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                    this._UDoubleN.Set((UDouble?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                    this._UDoubleN_Ranged.Set((UDouble?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                    this._UDouble.Set((UDouble)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                    this._UDouble_Ranged.Set((UDouble)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                    this._UInt16N.Set((UInt16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                    this._UInt16N_Ranged.Set((UInt16?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                    this._UInt16.Set((UInt16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                    this._UInt16_Ranged.Set((UInt16)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                    this._UInt32N.Set((UInt32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                    this._UInt32N_Ranged.Set((UInt32?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                    this._UInt32.Set((UInt32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                    this._UInt32_Ranged.Set((UInt32)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                    this._UInt64N.Set((UInt64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                    this._UInt64N_Ranged.Set((UInt64?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                    this._UInt64.Set((UInt64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                    this._UInt64_Ranged.Set((UInt64)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                    this._UInt8N.Set((Byte?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                    this._UInt8N_Ranged.Set((Byte?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                    this._UInt8.Set((Byte)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                    this._UInt8_Ranged.Set((Byte)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                    this._Enum.Set((TestEnum)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                    this._EnumNull.Set((TestEnum?)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                    this._WildCard.Set((Object)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                    this._WildCardLoqui.Set((Object)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                    this._WildCardNull.Set((Object)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                    this._Ref.Set((ObjectToRef)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                    this._Ref_NotNull.Set((ObjectToRef)obj);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                    this._ByteArray.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                    this._ByteArrayNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                    this._ByteArrayNotNull.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                    this._ByteArraySingleton.Set(
+                        (Byte[])obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                    this._BoolN.Set(
+                        (Boolean?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                    this._Bool.Set(
+                        (Boolean)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                    this._CharN.Set(
+                        (Char?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                    this._Char.Set(
+                        (Char)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                    this._DateTimeNull.Set(
+                        (DateTime?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                    this._DateTime.Set(
+                        (DateTime)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                    this._DoubleN.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                    this._DoubleN_Ranged.Set(
+                        (Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                    this._Double.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                    this._Double_Ranged.Set(
+                        (Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                    this._FloatN.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                    this._FloatN_Ranged.Set(
+                        (Single?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                    this._Float.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                    this._Float_Ranged.Set(
+                        (Single)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                    this._Int16N.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                    this._Int16N_Ranged.Set(
+                        (Int16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                    this._Int16.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                    this._Int16_Ranged.Set(
+                        (Int16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                    this._Int32N.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                    this._Int32N_Ranged.Set(
+                        (Int32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                    this._Int32.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                    this._Int32_Ranged.Set(
+                        (Int32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                    this._Int64N.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                    this._Int64N_Ranged.Set(
+                        (Int64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                    this._Int64.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                    this._Int64_Ranged.Set(
+                        (Int64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                    this._Int8N.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                    this._Int8N_Ranged.Set(
+                        (SByte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                    this._Int8.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                    this._Int8_Ranged.Set(
+                        (SByte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                    this._Unsafe.Set(
+                        (bool)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                    this._UnsafeLoqui.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                    this._UnsafeNull.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                    this._P2IntN.Set(
+                        (P2Int?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                    this._P2Int.Set(
+                        (P2Int)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                    this._P3DoubleN.Set(
+                        (P3Double?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                    this._P3Double.Set(
+                        (P3Double)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                    this._P3IntN.Set(
+                        (P3Int?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                    this._P3Int.Set(
+                        (P3Int)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                    this._PercentN.Set(
+                        (Percent?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                    this._Percent.Set(
+                        (Percent)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                    this._RangeInt8N.Set(
+                        (RangeInt8?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                    this._RangeInt8.Set(
+                        (RangeInt8)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                    this._RangeInt16N.Set(
+                        (RangeInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                    this._RangeInt16.Set(
+                        (RangeInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                    this._RangeInt32N.Set(
+                        (RangeInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                    this._RangeInt32.Set(
+                        (RangeInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                    this._RangeInt64N.Set(
+                        (RangeInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                    this._RangeInt64.Set(
+                        (RangeInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                    this._RangeUInt8N.Set(
+                        (RangeUInt8?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                    this._RangeUInt8.Set(
+                        (RangeUInt8)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                    this._RangeUInt16N.Set(
+                        (RangeUInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                    this._RangeUInt16.Set(
+                        (RangeUInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                    this._RangeUInt32N.Set(
+                        (RangeUInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                    this._RangeUInt32.Set(
+                        (RangeUInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                    this._RangeUInt64N.Set(
+                        (RangeUInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                    this._RangeUInt64.Set(
+                        (RangeUInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                    this._String.Set(
+                        (String)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                    this._FilePath.Set(
+                        (FilePath)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                    this._FilePathNull.Set(
+                        (FilePath?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                    this._DirectoryPath.Set(
+                        (DirectoryPath)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                    this._DirectoryPathNull.Set(
+                        (DirectoryPath?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                    this._UDoubleN.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                    this._UDoubleN_Ranged.Set(
+                        (UDouble?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                    this._UDouble.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                    this._UDouble_Ranged.Set(
+                        (UDouble)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                    this._UInt16N.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                    this._UInt16N_Ranged.Set(
+                        (UInt16?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                    this._UInt16.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                    this._UInt16_Ranged.Set(
+                        (UInt16)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                    this._UInt32N.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                    this._UInt32N_Ranged.Set(
+                        (UInt32?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                    this._UInt32.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                    this._UInt32_Ranged.Set(
+                        (UInt32)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                    this._UInt64N.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                    this._UInt64N_Ranged.Set(
+                        (UInt64?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                    this._UInt64.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                    this._UInt64_Ranged.Set(
+                        (UInt64)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                    this._UInt8N.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                    this._UInt8N_Ranged.Set(
+                        (Byte?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                    this._UInt8.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                    this._UInt8_Ranged.Set(
+                        (Byte)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                    this._Enum.Set(
+                        (TestEnum)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                    this._EnumNull.Set(
+                        (TestEnum?)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                    this._WildCard.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                    this._WildCardLoqui.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                    this._WildCardNull.Set(
+                        (Object)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                    this._Ref.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                    this._Ref_NotNull.Set(
+                        (ObjectToRef)obj,
+                        cmds);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                    this._RefGetter.Set((IObjectToRefGetter)obj);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                    this._RefGetter.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                    this._RefGetter_NotNull.Set((IObjectToRefGetter)obj);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                    this._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)obj,
+                        cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Cannot set singleton member RefGetter_Singleton");
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                    this._RefSetter.Set((IObjectToRef)obj);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                    this._RefSetter.Set(
+                        (IObjectToRef)obj,
+                        cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                    this._RefSetter_NotNull.Set((IObjectToRef)obj);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                    this._RefSetter_NotNull.Set(
+                        (IObjectToRef)obj,
+                        cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     this._RefList.SetTo((IEnumerable<ObjectToRef>)obj, cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     this.Dict.SetTo(
                         ((NotifyingDictionary<String, Boolean>)obj).Select(
                             (i) => new KeyValuePair<String, Boolean>(
@@ -4549,7 +4741,7 @@ namespace Loqui.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     this.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -4557,7 +4749,7 @@ namespace Loqui.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     this.KeyRefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, Boolean>)obj).Select(
                             (i) => new KeyValuePair<ObjectToRef, Boolean>(
@@ -4565,7 +4757,7 @@ namespace Loqui.Tests
                                 i.Value)),
                         cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     this.ValRefDict.SetTo(
                         ((NotifyingDictionary<String, ObjectToRef>)obj).Select(
                             (i) => new KeyValuePair<String, ObjectToRef>(
@@ -4573,7 +4765,7 @@ namespace Loqui.Tests
                                 i.Value.Copy())),
                         cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)obj),
                         cmds);
@@ -4593,335 +4785,529 @@ namespace Loqui.Tests
         public void Clear(NotifyingUnsetParameters? cmds = null)
         {
             CallClearPartial_Internal(cmds);
-            TestObject_HasBeenSetCommon.Clear(this, cmds);
+            TestObject_Notifying_HasBeenSetCommon.Clear(this, cmds);
         }
 
 
-        public static TestObject_HasBeenSet Create(IEnumerable<KeyValuePair<ushort, object>> fields)
+        public static TestObject_Notifying_HasBeenSet Create(IEnumerable<KeyValuePair<ushort, object>> fields)
         {
-            var ret = new TestObject_HasBeenSet();
+            var ret = new TestObject_Notifying_HasBeenSet();
             foreach (var pair in fields)
             {
-                CopyInInternal_TestObject_HasBeenSet(ret, pair);
+                CopyInInternal_TestObject_Notifying_HasBeenSet(ret, pair);
             }
             return ret;
         }
 
-        protected static void CopyInInternal_TestObject_HasBeenSet(TestObject_HasBeenSet obj, KeyValuePair<ushort, object> pair)
+        protected static void CopyInInternal_TestObject_Notifying_HasBeenSet(TestObject_Notifying_HasBeenSet obj, KeyValuePair<ushort, object> pair)
         {
-            if (!EnumExt.TryParse(pair.Key, out TestObject_HasBeenSet_FieldIndex enu))
+            if (!EnumExt.TryParse(pair.Key, out TestObject_Notifying_HasBeenSet_FieldIndex enu))
             {
                 throw new ArgumentException($"Unknown index: {pair.Key}");
             }
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                    obj._ByteArray.Set((Byte[])pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                    obj._ByteArrayNull.Set((Byte[])pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                    obj._ByteArrayNotNull.Set((Byte[])pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                    obj._ByteArraySingleton.Set((Byte[])pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                    obj._BoolN.Set((Boolean?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                    obj._Bool.Set((Boolean)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                    obj._CharN.Set((Char?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                    obj._Char.Set((Char)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                    obj._DateTimeNull.Set((DateTime?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                    obj._DateTime.Set((DateTime)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                    obj._DoubleN.Set((Double?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                    obj._DoubleN_Ranged.Set((Double?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                    obj._Double.Set((Double)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                    obj._Double_Ranged.Set((Double)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                    obj._FloatN.Set((Single?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                    obj._FloatN_Ranged.Set((Single?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                    obj._Float.Set((Single)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                    obj._Float_Ranged.Set((Single)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                    obj._Int16N.Set((Int16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                    obj._Int16N_Ranged.Set((Int16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                    obj._Int16.Set((Int16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                    obj._Int16_Ranged.Set((Int16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                    obj._Int32N.Set((Int32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                    obj._Int32N_Ranged.Set((Int32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                    obj._Int32.Set((Int32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                    obj._Int32_Ranged.Set((Int32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                    obj._Int64N.Set((Int64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                    obj._Int64N_Ranged.Set((Int64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                    obj._Int64.Set((Int64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                    obj._Int64_Ranged.Set((Int64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                    obj._Int8N.Set((SByte?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                    obj._Int8N_Ranged.Set((SByte?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                    obj._Int8.Set((SByte)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                    obj._Int8_Ranged.Set((SByte)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                    obj._Unsafe.Set((bool)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                    obj._UnsafeLoqui.Set((ObjectToRef)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                    obj._UnsafeNull.Set((ObjectToRef)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                    obj._P2IntN.Set((P2Int?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                    obj._P2Int.Set((P2Int)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                    obj._P3DoubleN.Set((P3Double?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                    obj._P3Double.Set((P3Double)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                    obj._P3IntN.Set((P3Int?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                    obj._P3Int.Set((P3Int)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                    obj._PercentN.Set((Percent?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                    obj._Percent.Set((Percent)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                    obj._RangeInt8N.Set((RangeInt8?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                    obj._RangeInt8.Set((RangeInt8)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                    obj._RangeInt16N.Set((RangeInt16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                    obj._RangeInt16.Set((RangeInt16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                    obj._RangeInt32N.Set((RangeInt32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                    obj._RangeInt32.Set((RangeInt32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                    obj._RangeInt64N.Set((RangeInt64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                    obj._RangeInt64.Set((RangeInt64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                    obj._RangeUInt8N.Set((RangeUInt8?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                    obj._RangeUInt8.Set((RangeUInt8)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                    obj._RangeUInt16N.Set((RangeUInt16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                    obj._RangeUInt16.Set((RangeUInt16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                    obj._RangeUInt32N.Set((RangeUInt32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                    obj._RangeUInt32.Set((RangeUInt32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                    obj._RangeUInt64N.Set((RangeUInt64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                    obj._RangeUInt64.Set((RangeUInt64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.String:
-                    obj._String.Set((String)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                    obj._FilePath.Set((FilePath)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                    obj._FilePathNull.Set((FilePath?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                    obj._DirectoryPath.Set((DirectoryPath)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                    obj._DirectoryPathNull.Set((DirectoryPath?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                    obj._UDoubleN.Set((UDouble?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                    obj._UDoubleN_Ranged.Set((UDouble?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                    obj._UDouble.Set((UDouble)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                    obj._UDouble_Ranged.Set((UDouble)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                    obj._UInt16N.Set((UInt16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                    obj._UInt16N_Ranged.Set((UInt16?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                    obj._UInt16.Set((UInt16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                    obj._UInt16_Ranged.Set((UInt16)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                    obj._UInt32N.Set((UInt32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                    obj._UInt32N_Ranged.Set((UInt32?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                    obj._UInt32.Set((UInt32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                    obj._UInt32_Ranged.Set((UInt32)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                    obj._UInt64N.Set((UInt64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                    obj._UInt64N_Ranged.Set((UInt64?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                    obj._UInt64.Set((UInt64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                    obj._UInt64_Ranged.Set((UInt64)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                    obj._UInt8N.Set((Byte?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                    obj._UInt8N_Ranged.Set((Byte?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                    obj._UInt8.Set((Byte)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                    obj._UInt8_Ranged.Set((Byte)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                    obj._Enum.Set((TestEnum)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                    obj._EnumNull.Set((TestEnum?)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                    obj._WildCard.Set((Object)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                    obj._WildCardLoqui.Set((Object)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                    obj._WildCardNull.Set((Object)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                    obj._Ref.Set((ObjectToRef)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                    obj._Ref_NotNull.Set((ObjectToRef)pair.Value);
-                    break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                    obj._ByteArray.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                    obj._ByteArrayNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                    obj._ByteArrayNotNull.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                    obj._ByteArraySingleton.Set(
+                        (Byte[])pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                    obj._BoolN.Set(
+                        (Boolean?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                    obj._Bool.Set(
+                        (Boolean)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                    obj._CharN.Set(
+                        (Char?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                    obj._Char.Set(
+                        (Char)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                    obj._DateTimeNull.Set(
+                        (DateTime?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                    obj._DateTime.Set(
+                        (DateTime)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                    obj._DoubleN.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                    obj._DoubleN_Ranged.Set(
+                        (Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                    obj._Double.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                    obj._Double_Ranged.Set(
+                        (Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                    obj._FloatN.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                    obj._FloatN_Ranged.Set(
+                        (Single?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                    obj._Float.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                    obj._Float_Ranged.Set(
+                        (Single)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                    obj._Int16N.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                    obj._Int16N_Ranged.Set(
+                        (Int16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                    obj._Int16.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                    obj._Int16_Ranged.Set(
+                        (Int16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                    obj._Int32N.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                    obj._Int32N_Ranged.Set(
+                        (Int32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                    obj._Int32.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                    obj._Int32_Ranged.Set(
+                        (Int32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                    obj._Int64N.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                    obj._Int64N_Ranged.Set(
+                        (Int64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                    obj._Int64.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                    obj._Int64_Ranged.Set(
+                        (Int64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                    obj._Int8N.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                    obj._Int8N_Ranged.Set(
+                        (SByte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                    obj._Int8.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                    obj._Int8_Ranged.Set(
+                        (SByte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                    obj._Unsafe.Set(
+                        (bool)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                    obj._UnsafeLoqui.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                    obj._UnsafeNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                    obj._P2IntN.Set(
+                        (P2Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                    obj._P2Int.Set(
+                        (P2Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                    obj._P3DoubleN.Set(
+                        (P3Double?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                    obj._P3Double.Set(
+                        (P3Double)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                    obj._P3IntN.Set(
+                        (P3Int?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                    obj._P3Int.Set(
+                        (P3Int)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                    obj._PercentN.Set(
+                        (Percent?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                    obj._Percent.Set(
+                        (Percent)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                    obj._RangeInt8N.Set(
+                        (RangeInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                    obj._RangeInt8.Set(
+                        (RangeInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                    obj._RangeInt16N.Set(
+                        (RangeInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                    obj._RangeInt16.Set(
+                        (RangeInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                    obj._RangeInt32N.Set(
+                        (RangeInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                    obj._RangeInt32.Set(
+                        (RangeInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                    obj._RangeInt64N.Set(
+                        (RangeInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                    obj._RangeInt64.Set(
+                        (RangeInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                    obj._RangeUInt8N.Set(
+                        (RangeUInt8?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                    obj._RangeUInt8.Set(
+                        (RangeUInt8)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                    obj._RangeUInt16N.Set(
+                        (RangeUInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                    obj._RangeUInt16.Set(
+                        (RangeUInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                    obj._RangeUInt32N.Set(
+                        (RangeUInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                    obj._RangeUInt32.Set(
+                        (RangeUInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                    obj._RangeUInt64N.Set(
+                        (RangeUInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                    obj._RangeUInt64.Set(
+                        (RangeUInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                    obj._String.Set(
+                        (String)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                    obj._FilePath.Set(
+                        (FilePath)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                    obj._FilePathNull.Set(
+                        (FilePath?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                    obj._DirectoryPath.Set(
+                        (DirectoryPath)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                    obj._DirectoryPathNull.Set(
+                        (DirectoryPath?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                    obj._UDoubleN.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                    obj._UDoubleN_Ranged.Set(
+                        (UDouble?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                    obj._UDouble.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                    obj._UDouble_Ranged.Set(
+                        (UDouble)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                    obj._UInt16N.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                    obj._UInt16N_Ranged.Set(
+                        (UInt16?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                    obj._UInt16.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                    obj._UInt16_Ranged.Set(
+                        (UInt16)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                    obj._UInt32N.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                    obj._UInt32N_Ranged.Set(
+                        (UInt32?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                    obj._UInt32.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                    obj._UInt32_Ranged.Set(
+                        (UInt32)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                    obj._UInt64N.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                    obj._UInt64N_Ranged.Set(
+                        (UInt64?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                    obj._UInt64.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                    obj._UInt64_Ranged.Set(
+                        (UInt64)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                    obj._UInt8N.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                    obj._UInt8N_Ranged.Set(
+                        (Byte?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                    obj._UInt8.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                    obj._UInt8_Ranged.Set(
+                        (Byte)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                    obj._Enum.Set(
+                        (TestEnum)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                    obj._EnumNull.Set(
+                        (TestEnum?)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                    obj._WildCard.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                    obj._WildCardLoqui.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                    obj._WildCardNull.Set(
+                        (Object)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                    obj._Ref.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                    obj._Ref_NotNull.Set(
+                        (ObjectToRef)pair.Value,
+                        null);
+                    break;
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                    obj._RefGetter.Set((IObjectToRefGetter)pair.Value);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                    obj._RefGetter.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                    obj._RefGetter_NotNull.Set((IObjectToRefGetter)pair.Value);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                    obj._RefGetter_NotNull.Set(
+                        (IObjectToRefGetter)pair.Value,
+                        null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                    obj._RefSetter.Set((IObjectToRef)pair.Value);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                    obj._RefSetter.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                    obj._RefSetter_NotNull.Set((IObjectToRef)pair.Value);
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                    obj._RefSetter_NotNull.Set(
+                        (IObjectToRef)pair.Value,
+                        null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     obj._RefList.SetTo((IEnumerable<ObjectToRef>)pair.Value, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     obj.Dict.SetTo(
                         ((NotifyingDictionary<String, Boolean>)pair.Value).Select(
                             (i) => new KeyValuePair<String, Boolean>(
@@ -4929,7 +5315,7 @@ namespace Loqui.Tests
                                 i.Value)),
                         null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     obj.RefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, ObjectToRef>)pair.Value).Select(
                             (i) => new KeyValuePair<ObjectToRef, ObjectToRef>(
@@ -4937,7 +5323,7 @@ namespace Loqui.Tests
                                 i.Value.Copy())),
                         null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     obj.KeyRefDict.SetTo(
                         ((NotifyingDictionary<ObjectToRef, Boolean>)pair.Value).Select(
                             (i) => new KeyValuePair<ObjectToRef, Boolean>(
@@ -4945,7 +5331,7 @@ namespace Loqui.Tests
                                 i.Value)),
                         null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     obj.ValRefDict.SetTo(
                         ((NotifyingDictionary<String, ObjectToRef>)pair.Value).Select(
                             (i) => new KeyValuePair<String, ObjectToRef>(
@@ -4953,7 +5339,7 @@ namespace Loqui.Tests
                                 i.Value.Copy())),
                         null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.SetTo(
                         ((IEnumerable<ObjectToRef>)(NotifyingDictionary<Int32, ObjectToRef>)pair.Value),
                         null);
@@ -4962,7 +5348,7 @@ namespace Loqui.Tests
                     throw new ArgumentException($"Unknown enum type: {enu}");
             }
         }
-        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_HasBeenSet obj)
+        public static void CopyIn(IEnumerable<KeyValuePair<ushort, object>> fields, TestObject_Notifying_HasBeenSet obj)
         {
             ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);
         }
@@ -4971,295 +5357,295 @@ namespace Loqui.Tests
     #endregion
 
     #region Interface
-    public interface ITestObject_HasBeenSet : ITestObject_HasBeenSetGetter, ILoquiClass<ITestObject_HasBeenSet, ITestObject_HasBeenSetGetter>, ILoquiClass<TestObject_HasBeenSet, ITestObject_HasBeenSetGetter>
+    public interface ITestObject_Notifying_HasBeenSet : ITestObject_Notifying_HasBeenSetGetter, ILoquiClass<ITestObject_Notifying_HasBeenSet, ITestObject_Notifying_HasBeenSetGetter>, ILoquiClass<TestObject_Notifying_HasBeenSet, ITestObject_Notifying_HasBeenSetGetter>
     {
         new Byte[] ByteArray { get; set; }
-        new IHasBeenSetItem<Byte[]> ByteArray_Property { get; }
+        new INotifyingSetItem<Byte[]> ByteArray_Property { get; }
 
         new Byte[] ByteArrayNull { get; set; }
-        new IHasBeenSetItem<Byte[]> ByteArrayNull_Property { get; }
+        new INotifyingSetItem<Byte[]> ByteArrayNull_Property { get; }
 
         new Byte[] ByteArrayNotNull { get; set; }
-        new IHasBeenSetItem<Byte[]> ByteArrayNotNull_Property { get; }
+        new INotifyingSetItem<Byte[]> ByteArrayNotNull_Property { get; }
 
         new Boolean? BoolN { get; set; }
-        new IHasBeenSetItem<Boolean?> BoolN_Property { get; }
+        new INotifyingSetItem<Boolean?> BoolN_Property { get; }
 
         new Boolean Bool { get; set; }
-        new IHasBeenSetItem<Boolean> Bool_Property { get; }
+        new INotifyingSetItem<Boolean> Bool_Property { get; }
 
         new Char? CharN { get; set; }
-        new IHasBeenSetItem<Char?> CharN_Property { get; }
+        new INotifyingSetItem<Char?> CharN_Property { get; }
 
         new Char Char { get; set; }
-        new IHasBeenSetItem<Char> Char_Property { get; }
+        new INotifyingSetItem<Char> Char_Property { get; }
 
         new DateTime? DateTimeNull { get; set; }
-        new IHasBeenSetItem<DateTime?> DateTimeNull_Property { get; }
+        new INotifyingSetItem<DateTime?> DateTimeNull_Property { get; }
 
         new DateTime DateTime { get; set; }
-        new IHasBeenSetItem<DateTime> DateTime_Property { get; }
+        new INotifyingSetItem<DateTime> DateTime_Property { get; }
 
         new Double? DoubleN { get; set; }
-        new IHasBeenSetItem<Double?> DoubleN_Property { get; }
+        new INotifyingSetItem<Double?> DoubleN_Property { get; }
 
         new Double? DoubleN_Ranged { get; set; }
-        new IHasBeenSetItem<Double?> DoubleN_Ranged_Property { get; }
+        new INotifyingSetItem<Double?> DoubleN_Ranged_Property { get; }
 
         new Double Double { get; set; }
-        new IHasBeenSetItem<Double> Double_Property { get; }
+        new INotifyingSetItem<Double> Double_Property { get; }
 
         new Double Double_Ranged { get; set; }
-        new IHasBeenSetItem<Double> Double_Ranged_Property { get; }
+        new INotifyingSetItem<Double> Double_Ranged_Property { get; }
 
         new Single? FloatN { get; set; }
-        new IHasBeenSetItem<Single?> FloatN_Property { get; }
+        new INotifyingSetItem<Single?> FloatN_Property { get; }
 
         new Single? FloatN_Ranged { get; set; }
-        new IHasBeenSetItem<Single?> FloatN_Ranged_Property { get; }
+        new INotifyingSetItem<Single?> FloatN_Ranged_Property { get; }
 
         new Single Float { get; set; }
-        new IHasBeenSetItem<Single> Float_Property { get; }
+        new INotifyingSetItem<Single> Float_Property { get; }
 
         new Single Float_Ranged { get; set; }
-        new IHasBeenSetItem<Single> Float_Ranged_Property { get; }
+        new INotifyingSetItem<Single> Float_Ranged_Property { get; }
 
         new Int16? Int16N { get; set; }
-        new IHasBeenSetItem<Int16?> Int16N_Property { get; }
+        new INotifyingSetItem<Int16?> Int16N_Property { get; }
 
         new Int16? Int16N_Ranged { get; set; }
-        new IHasBeenSetItem<Int16?> Int16N_Ranged_Property { get; }
+        new INotifyingSetItem<Int16?> Int16N_Ranged_Property { get; }
 
         new Int16 Int16 { get; set; }
-        new IHasBeenSetItem<Int16> Int16_Property { get; }
+        new INotifyingSetItem<Int16> Int16_Property { get; }
 
         new Int16 Int16_Ranged { get; set; }
-        new IHasBeenSetItem<Int16> Int16_Ranged_Property { get; }
+        new INotifyingSetItem<Int16> Int16_Ranged_Property { get; }
 
         new Int32? Int32N { get; set; }
-        new IHasBeenSetItem<Int32?> Int32N_Property { get; }
+        new INotifyingSetItem<Int32?> Int32N_Property { get; }
 
         new Int32? Int32N_Ranged { get; set; }
-        new IHasBeenSetItem<Int32?> Int32N_Ranged_Property { get; }
+        new INotifyingSetItem<Int32?> Int32N_Ranged_Property { get; }
 
         new Int32 Int32 { get; set; }
-        new IHasBeenSetItem<Int32> Int32_Property { get; }
+        new INotifyingSetItem<Int32> Int32_Property { get; }
 
         new Int32 Int32_Ranged { get; set; }
-        new IHasBeenSetItem<Int32> Int32_Ranged_Property { get; }
+        new INotifyingSetItem<Int32> Int32_Ranged_Property { get; }
 
         new Int64? Int64N { get; set; }
-        new IHasBeenSetItem<Int64?> Int64N_Property { get; }
+        new INotifyingSetItem<Int64?> Int64N_Property { get; }
 
         new Int64? Int64N_Ranged { get; set; }
-        new IHasBeenSetItem<Int64?> Int64N_Ranged_Property { get; }
+        new INotifyingSetItem<Int64?> Int64N_Ranged_Property { get; }
 
         new Int64 Int64 { get; set; }
-        new IHasBeenSetItem<Int64> Int64_Property { get; }
+        new INotifyingSetItem<Int64> Int64_Property { get; }
 
         new Int64 Int64_Ranged { get; set; }
-        new IHasBeenSetItem<Int64> Int64_Ranged_Property { get; }
+        new INotifyingSetItem<Int64> Int64_Ranged_Property { get; }
 
         new SByte? Int8N { get; set; }
-        new IHasBeenSetItem<SByte?> Int8N_Property { get; }
+        new INotifyingSetItem<SByte?> Int8N_Property { get; }
 
         new SByte? Int8N_Ranged { get; set; }
-        new IHasBeenSetItem<SByte?> Int8N_Ranged_Property { get; }
+        new INotifyingSetItem<SByte?> Int8N_Ranged_Property { get; }
 
         new SByte Int8 { get; set; }
-        new IHasBeenSetItem<SByte> Int8_Property { get; }
+        new INotifyingSetItem<SByte> Int8_Property { get; }
 
         new SByte Int8_Ranged { get; set; }
-        new IHasBeenSetItem<SByte> Int8_Ranged_Property { get; }
+        new INotifyingSetItem<SByte> Int8_Ranged_Property { get; }
 
         new bool Unsafe { get; set; }
-        new IHasBeenSetItem<bool> Unsafe_Property { get; }
+        new INotifyingSetItem<bool> Unsafe_Property { get; }
 
         new ObjectToRef UnsafeLoqui { get; set; }
-        new IHasBeenSetItem<ObjectToRef> UnsafeLoqui_Property { get; }
+        new INotifyingSetItem<ObjectToRef> UnsafeLoqui_Property { get; }
 
         new ObjectToRef UnsafeNull { get; set; }
-        new IHasBeenSetItem<ObjectToRef> UnsafeNull_Property { get; }
+        new INotifyingSetItem<ObjectToRef> UnsafeNull_Property { get; }
 
         new P2Int? P2IntN { get; set; }
-        new IHasBeenSetItem<P2Int?> P2IntN_Property { get; }
+        new INotifyingSetItem<P2Int?> P2IntN_Property { get; }
 
         new P2Int P2Int { get; set; }
-        new IHasBeenSetItem<P2Int> P2Int_Property { get; }
+        new INotifyingSetItem<P2Int> P2Int_Property { get; }
 
         new P3Double? P3DoubleN { get; set; }
-        new IHasBeenSetItem<P3Double?> P3DoubleN_Property { get; }
+        new INotifyingSetItem<P3Double?> P3DoubleN_Property { get; }
 
         new P3Double P3Double { get; set; }
-        new IHasBeenSetItem<P3Double> P3Double_Property { get; }
+        new INotifyingSetItem<P3Double> P3Double_Property { get; }
 
         new P3Int? P3IntN { get; set; }
-        new IHasBeenSetItem<P3Int?> P3IntN_Property { get; }
+        new INotifyingSetItem<P3Int?> P3IntN_Property { get; }
 
         new P3Int P3Int { get; set; }
-        new IHasBeenSetItem<P3Int> P3Int_Property { get; }
+        new INotifyingSetItem<P3Int> P3Int_Property { get; }
 
         new Percent? PercentN { get; set; }
-        new IHasBeenSetItem<Percent?> PercentN_Property { get; }
+        new INotifyingSetItem<Percent?> PercentN_Property { get; }
 
         new Percent Percent { get; set; }
-        new IHasBeenSetItem<Percent> Percent_Property { get; }
+        new INotifyingSetItem<Percent> Percent_Property { get; }
 
         new RangeInt8? RangeInt8N { get; set; }
-        new IHasBeenSetItem<RangeInt8?> RangeInt8N_Property { get; }
+        new INotifyingSetItem<RangeInt8?> RangeInt8N_Property { get; }
 
         new RangeInt8 RangeInt8 { get; set; }
-        new IHasBeenSetItem<RangeInt8> RangeInt8_Property { get; }
+        new INotifyingSetItem<RangeInt8> RangeInt8_Property { get; }
 
         new RangeInt16? RangeInt16N { get; set; }
-        new IHasBeenSetItem<RangeInt16?> RangeInt16N_Property { get; }
+        new INotifyingSetItem<RangeInt16?> RangeInt16N_Property { get; }
 
         new RangeInt16 RangeInt16 { get; set; }
-        new IHasBeenSetItem<RangeInt16> RangeInt16_Property { get; }
+        new INotifyingSetItem<RangeInt16> RangeInt16_Property { get; }
 
         new RangeInt32? RangeInt32N { get; set; }
-        new IHasBeenSetItem<RangeInt32?> RangeInt32N_Property { get; }
+        new INotifyingSetItem<RangeInt32?> RangeInt32N_Property { get; }
 
         new RangeInt32 RangeInt32 { get; set; }
-        new IHasBeenSetItem<RangeInt32> RangeInt32_Property { get; }
+        new INotifyingSetItem<RangeInt32> RangeInt32_Property { get; }
 
         new RangeInt64? RangeInt64N { get; set; }
-        new IHasBeenSetItem<RangeInt64?> RangeInt64N_Property { get; }
+        new INotifyingSetItem<RangeInt64?> RangeInt64N_Property { get; }
 
         new RangeInt64 RangeInt64 { get; set; }
-        new IHasBeenSetItem<RangeInt64> RangeInt64_Property { get; }
+        new INotifyingSetItem<RangeInt64> RangeInt64_Property { get; }
 
         new RangeUInt8? RangeUInt8N { get; set; }
-        new IHasBeenSetItem<RangeUInt8?> RangeUInt8N_Property { get; }
+        new INotifyingSetItem<RangeUInt8?> RangeUInt8N_Property { get; }
 
         new RangeUInt8 RangeUInt8 { get; set; }
-        new IHasBeenSetItem<RangeUInt8> RangeUInt8_Property { get; }
+        new INotifyingSetItem<RangeUInt8> RangeUInt8_Property { get; }
 
         new RangeUInt16? RangeUInt16N { get; set; }
-        new IHasBeenSetItem<RangeUInt16?> RangeUInt16N_Property { get; }
+        new INotifyingSetItem<RangeUInt16?> RangeUInt16N_Property { get; }
 
         new RangeUInt16 RangeUInt16 { get; set; }
-        new IHasBeenSetItem<RangeUInt16> RangeUInt16_Property { get; }
+        new INotifyingSetItem<RangeUInt16> RangeUInt16_Property { get; }
 
         new RangeUInt32? RangeUInt32N { get; set; }
-        new IHasBeenSetItem<RangeUInt32?> RangeUInt32N_Property { get; }
+        new INotifyingSetItem<RangeUInt32?> RangeUInt32N_Property { get; }
 
         new RangeUInt32 RangeUInt32 { get; set; }
-        new IHasBeenSetItem<RangeUInt32> RangeUInt32_Property { get; }
+        new INotifyingSetItem<RangeUInt32> RangeUInt32_Property { get; }
 
         new RangeUInt64? RangeUInt64N { get; set; }
-        new IHasBeenSetItem<RangeUInt64?> RangeUInt64N_Property { get; }
+        new INotifyingSetItem<RangeUInt64?> RangeUInt64N_Property { get; }
 
         new RangeUInt64 RangeUInt64 { get; set; }
-        new IHasBeenSetItem<RangeUInt64> RangeUInt64_Property { get; }
+        new INotifyingSetItem<RangeUInt64> RangeUInt64_Property { get; }
 
         new String String { get; set; }
-        new IHasBeenSetItem<String> String_Property { get; }
+        new INotifyingSetItem<String> String_Property { get; }
 
         new FilePath FilePath { get; set; }
-        new IHasBeenSetItem<FilePath> FilePath_Property { get; }
+        new INotifyingSetItem<FilePath> FilePath_Property { get; }
 
         new FilePath? FilePathNull { get; set; }
-        new IHasBeenSetItem<FilePath?> FilePathNull_Property { get; }
+        new INotifyingSetItem<FilePath?> FilePathNull_Property { get; }
 
         new DirectoryPath DirectoryPath { get; set; }
-        new IHasBeenSetItem<DirectoryPath> DirectoryPath_Property { get; }
+        new INotifyingSetItem<DirectoryPath> DirectoryPath_Property { get; }
 
         new DirectoryPath? DirectoryPathNull { get; set; }
-        new IHasBeenSetItem<DirectoryPath?> DirectoryPathNull_Property { get; }
+        new INotifyingSetItem<DirectoryPath?> DirectoryPathNull_Property { get; }
 
         new UDouble? UDoubleN { get; set; }
-        new IHasBeenSetItem<UDouble?> UDoubleN_Property { get; }
+        new INotifyingSetItem<UDouble?> UDoubleN_Property { get; }
 
         new UDouble? UDoubleN_Ranged { get; set; }
-        new IHasBeenSetItem<UDouble?> UDoubleN_Ranged_Property { get; }
+        new INotifyingSetItem<UDouble?> UDoubleN_Ranged_Property { get; }
 
         new UDouble UDouble { get; set; }
-        new IHasBeenSetItem<UDouble> UDouble_Property { get; }
+        new INotifyingSetItem<UDouble> UDouble_Property { get; }
 
         new UDouble UDouble_Ranged { get; set; }
-        new IHasBeenSetItem<UDouble> UDouble_Ranged_Property { get; }
+        new INotifyingSetItem<UDouble> UDouble_Ranged_Property { get; }
 
         new UInt16? UInt16N { get; set; }
-        new IHasBeenSetItem<UInt16?> UInt16N_Property { get; }
+        new INotifyingSetItem<UInt16?> UInt16N_Property { get; }
 
         new UInt16? UInt16N_Ranged { get; set; }
-        new IHasBeenSetItem<UInt16?> UInt16N_Ranged_Property { get; }
+        new INotifyingSetItem<UInt16?> UInt16N_Ranged_Property { get; }
 
         new UInt16 UInt16 { get; set; }
-        new IHasBeenSetItem<UInt16> UInt16_Property { get; }
+        new INotifyingSetItem<UInt16> UInt16_Property { get; }
 
         new UInt16 UInt16_Ranged { get; set; }
-        new IHasBeenSetItem<UInt16> UInt16_Ranged_Property { get; }
+        new INotifyingSetItem<UInt16> UInt16_Ranged_Property { get; }
 
         new UInt32? UInt32N { get; set; }
-        new IHasBeenSetItem<UInt32?> UInt32N_Property { get; }
+        new INotifyingSetItem<UInt32?> UInt32N_Property { get; }
 
         new UInt32? UInt32N_Ranged { get; set; }
-        new IHasBeenSetItem<UInt32?> UInt32N_Ranged_Property { get; }
+        new INotifyingSetItem<UInt32?> UInt32N_Ranged_Property { get; }
 
         new UInt32 UInt32 { get; set; }
-        new IHasBeenSetItem<UInt32> UInt32_Property { get; }
+        new INotifyingSetItem<UInt32> UInt32_Property { get; }
 
         new UInt32 UInt32_Ranged { get; set; }
-        new IHasBeenSetItem<UInt32> UInt32_Ranged_Property { get; }
+        new INotifyingSetItem<UInt32> UInt32_Ranged_Property { get; }
 
         new UInt64? UInt64N { get; set; }
-        new IHasBeenSetItem<UInt64?> UInt64N_Property { get; }
+        new INotifyingSetItem<UInt64?> UInt64N_Property { get; }
 
         new UInt64? UInt64N_Ranged { get; set; }
-        new IHasBeenSetItem<UInt64?> UInt64N_Ranged_Property { get; }
+        new INotifyingSetItem<UInt64?> UInt64N_Ranged_Property { get; }
 
         new UInt64 UInt64 { get; set; }
-        new IHasBeenSetItem<UInt64> UInt64_Property { get; }
+        new INotifyingSetItem<UInt64> UInt64_Property { get; }
 
         new UInt64 UInt64_Ranged { get; set; }
-        new IHasBeenSetItem<UInt64> UInt64_Ranged_Property { get; }
+        new INotifyingSetItem<UInt64> UInt64_Ranged_Property { get; }
 
         new Byte? UInt8N { get; set; }
-        new IHasBeenSetItem<Byte?> UInt8N_Property { get; }
+        new INotifyingSetItem<Byte?> UInt8N_Property { get; }
 
         new Byte? UInt8N_Ranged { get; set; }
-        new IHasBeenSetItem<Byte?> UInt8N_Ranged_Property { get; }
+        new INotifyingSetItem<Byte?> UInt8N_Ranged_Property { get; }
 
         new Byte UInt8 { get; set; }
-        new IHasBeenSetItem<Byte> UInt8_Property { get; }
+        new INotifyingSetItem<Byte> UInt8_Property { get; }
 
         new Byte UInt8_Ranged { get; set; }
-        new IHasBeenSetItem<Byte> UInt8_Ranged_Property { get; }
+        new INotifyingSetItem<Byte> UInt8_Ranged_Property { get; }
 
         new TestEnum Enum { get; set; }
-        new IHasBeenSetItem<TestEnum> Enum_Property { get; }
+        new INotifyingSetItem<TestEnum> Enum_Property { get; }
 
         new TestEnum? EnumNull { get; set; }
-        new IHasBeenSetItem<TestEnum?> EnumNull_Property { get; }
+        new INotifyingSetItem<TestEnum?> EnumNull_Property { get; }
 
         new Object WildCard { get; set; }
-        new IHasBeenSetItem<Object> WildCard_Property { get; }
+        new INotifyingSetItem<Object> WildCard_Property { get; }
 
         new Object WildCardLoqui { get; set; }
-        new IHasBeenSetItem<Object> WildCardLoqui_Property { get; }
+        new INotifyingSetItem<Object> WildCardLoqui_Property { get; }
 
         new Object WildCardNull { get; set; }
-        new IHasBeenSetItem<Object> WildCardNull_Property { get; }
+        new INotifyingSetItem<Object> WildCardNull_Property { get; }
 
         new ObjectToRef Ref { get; set; }
-        new IHasBeenSetItem<ObjectToRef> Ref_Property { get; }
+        new INotifyingSetItem<ObjectToRef> Ref_Property { get; }
 
         new ObjectToRef Ref_NotNull { get; set; }
-        new IHasBeenSetItem<ObjectToRef> Ref_NotNull_Property { get; }
+        new INotifyingSetItem<ObjectToRef> Ref_NotNull_Property { get; }
 
         new IObjectToRefGetter RefGetter { get; set; }
-        new IHasBeenSetItem<IObjectToRefGetter> RefGetter_Property { get; }
+        new INotifyingSetItem<IObjectToRefGetter> RefGetter_Property { get; }
 
         new IObjectToRefGetter RefGetter_NotNull { get; set; }
-        new IHasBeenSetItem<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+        new INotifyingSetItem<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
 
         new IObjectToRef RefSetter { get; set; }
-        new IHasBeenSetItem<IObjectToRef> RefSetter_Property { get; }
+        new INotifyingSetItem<IObjectToRef> RefSetter_Property { get; }
 
         new IObjectToRef RefSetter_NotNull { get; set; }
-        new IHasBeenSetItem<IObjectToRef> RefSetter_NotNull_Property { get; }
+        new INotifyingSetItem<IObjectToRef> RefSetter_NotNull_Property { get; }
 
         new INotifyingList<Boolean> List { get; }
         new INotifyingList<ObjectToRef> RefList { get; }
@@ -5270,506 +5656,506 @@ namespace Loqui.Tests
         new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
-    public interface ITestObject_HasBeenSetGetter : ILoquiObject
+    public interface ITestObject_Notifying_HasBeenSetGetter : ILoquiObject
     {
         #region ByteArray
         Byte[] ByteArray { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArray_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArray_Property { get; }
 
         #endregion
         #region ByteArrayNull
         Byte[] ByteArrayNull { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArrayNull_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArrayNull_Property { get; }
 
         #endregion
         #region ByteArrayNotNull
         Byte[] ByteArrayNotNull { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArrayNotNull_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArrayNotNull_Property { get; }
 
         #endregion
         #region ByteArraySingleton
         Byte[] ByteArraySingleton { get; }
-        IHasBeenSetItemGetter<Byte[]> ByteArraySingleton_Property { get; }
+        INotifyingSetItemGetter<Byte[]> ByteArraySingleton_Property { get; }
 
         #endregion
         #region BoolN
         Boolean? BoolN { get; }
-        IHasBeenSetItemGetter<Boolean?> BoolN_Property { get; }
+        INotifyingSetItemGetter<Boolean?> BoolN_Property { get; }
 
         #endregion
         #region Bool
         Boolean Bool { get; }
-        IHasBeenSetItemGetter<Boolean> Bool_Property { get; }
+        INotifyingSetItemGetter<Boolean> Bool_Property { get; }
 
         #endregion
         #region CharN
         Char? CharN { get; }
-        IHasBeenSetItemGetter<Char?> CharN_Property { get; }
+        INotifyingSetItemGetter<Char?> CharN_Property { get; }
 
         #endregion
         #region Char
         Char Char { get; }
-        IHasBeenSetItemGetter<Char> Char_Property { get; }
+        INotifyingSetItemGetter<Char> Char_Property { get; }
 
         #endregion
         #region DateTimeNull
         DateTime? DateTimeNull { get; }
-        IHasBeenSetItemGetter<DateTime?> DateTimeNull_Property { get; }
+        INotifyingSetItemGetter<DateTime?> DateTimeNull_Property { get; }
 
         #endregion
         #region DateTime
         DateTime DateTime { get; }
-        IHasBeenSetItemGetter<DateTime> DateTime_Property { get; }
+        INotifyingSetItemGetter<DateTime> DateTime_Property { get; }
 
         #endregion
         #region DoubleN
         Double? DoubleN { get; }
-        IHasBeenSetItemGetter<Double?> DoubleN_Property { get; }
+        INotifyingSetItemGetter<Double?> DoubleN_Property { get; }
 
         #endregion
         #region DoubleN_Ranged
         Double? DoubleN_Ranged { get; }
-        IHasBeenSetItemGetter<Double?> DoubleN_Ranged_Property { get; }
+        INotifyingSetItemGetter<Double?> DoubleN_Ranged_Property { get; }
 
         #endregion
         #region Double
         Double Double { get; }
-        IHasBeenSetItemGetter<Double> Double_Property { get; }
+        INotifyingSetItemGetter<Double> Double_Property { get; }
 
         #endregion
         #region Double_Ranged
         Double Double_Ranged { get; }
-        IHasBeenSetItemGetter<Double> Double_Ranged_Property { get; }
+        INotifyingSetItemGetter<Double> Double_Ranged_Property { get; }
 
         #endregion
         #region FloatN
         Single? FloatN { get; }
-        IHasBeenSetItemGetter<Single?> FloatN_Property { get; }
+        INotifyingSetItemGetter<Single?> FloatN_Property { get; }
 
         #endregion
         #region FloatN_Ranged
         Single? FloatN_Ranged { get; }
-        IHasBeenSetItemGetter<Single?> FloatN_Ranged_Property { get; }
+        INotifyingSetItemGetter<Single?> FloatN_Ranged_Property { get; }
 
         #endregion
         #region Float
         Single Float { get; }
-        IHasBeenSetItemGetter<Single> Float_Property { get; }
+        INotifyingSetItemGetter<Single> Float_Property { get; }
 
         #endregion
         #region Float_Ranged
         Single Float_Ranged { get; }
-        IHasBeenSetItemGetter<Single> Float_Ranged_Property { get; }
+        INotifyingSetItemGetter<Single> Float_Ranged_Property { get; }
 
         #endregion
         #region Int16N
         Int16? Int16N { get; }
-        IHasBeenSetItemGetter<Int16?> Int16N_Property { get; }
+        INotifyingSetItemGetter<Int16?> Int16N_Property { get; }
 
         #endregion
         #region Int16N_Ranged
         Int16? Int16N_Ranged { get; }
-        IHasBeenSetItemGetter<Int16?> Int16N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int16?> Int16N_Ranged_Property { get; }
 
         #endregion
         #region Int16
         Int16 Int16 { get; }
-        IHasBeenSetItemGetter<Int16> Int16_Property { get; }
+        INotifyingSetItemGetter<Int16> Int16_Property { get; }
 
         #endregion
         #region Int16_Ranged
         Int16 Int16_Ranged { get; }
-        IHasBeenSetItemGetter<Int16> Int16_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int16> Int16_Ranged_Property { get; }
 
         #endregion
         #region Int32N
         Int32? Int32N { get; }
-        IHasBeenSetItemGetter<Int32?> Int32N_Property { get; }
+        INotifyingSetItemGetter<Int32?> Int32N_Property { get; }
 
         #endregion
         #region Int32N_Ranged
         Int32? Int32N_Ranged { get; }
-        IHasBeenSetItemGetter<Int32?> Int32N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int32?> Int32N_Ranged_Property { get; }
 
         #endregion
         #region Int32
         Int32 Int32 { get; }
-        IHasBeenSetItemGetter<Int32> Int32_Property { get; }
+        INotifyingSetItemGetter<Int32> Int32_Property { get; }
 
         #endregion
         #region Int32_Ranged
         Int32 Int32_Ranged { get; }
-        IHasBeenSetItemGetter<Int32> Int32_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int32> Int32_Ranged_Property { get; }
 
         #endregion
         #region Int64N
         Int64? Int64N { get; }
-        IHasBeenSetItemGetter<Int64?> Int64N_Property { get; }
+        INotifyingSetItemGetter<Int64?> Int64N_Property { get; }
 
         #endregion
         #region Int64N_Ranged
         Int64? Int64N_Ranged { get; }
-        IHasBeenSetItemGetter<Int64?> Int64N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int64?> Int64N_Ranged_Property { get; }
 
         #endregion
         #region Int64
         Int64 Int64 { get; }
-        IHasBeenSetItemGetter<Int64> Int64_Property { get; }
+        INotifyingSetItemGetter<Int64> Int64_Property { get; }
 
         #endregion
         #region Int64_Ranged
         Int64 Int64_Ranged { get; }
-        IHasBeenSetItemGetter<Int64> Int64_Ranged_Property { get; }
+        INotifyingSetItemGetter<Int64> Int64_Ranged_Property { get; }
 
         #endregion
         #region Int8N
         SByte? Int8N { get; }
-        IHasBeenSetItemGetter<SByte?> Int8N_Property { get; }
+        INotifyingSetItemGetter<SByte?> Int8N_Property { get; }
 
         #endregion
         #region Int8N_Ranged
         SByte? Int8N_Ranged { get; }
-        IHasBeenSetItemGetter<SByte?> Int8N_Ranged_Property { get; }
+        INotifyingSetItemGetter<SByte?> Int8N_Ranged_Property { get; }
 
         #endregion
         #region Int8
         SByte Int8 { get; }
-        IHasBeenSetItemGetter<SByte> Int8_Property { get; }
+        INotifyingSetItemGetter<SByte> Int8_Property { get; }
 
         #endregion
         #region Int8_Ranged
         SByte Int8_Ranged { get; }
-        IHasBeenSetItemGetter<SByte> Int8_Ranged_Property { get; }
+        INotifyingSetItemGetter<SByte> Int8_Ranged_Property { get; }
 
         #endregion
         #region Unsafe
         bool Unsafe { get; }
-        IHasBeenSetItemGetter<bool> Unsafe_Property { get; }
+        INotifyingSetItemGetter<bool> Unsafe_Property { get; }
 
         #endregion
         #region UnsafeLoqui
         ObjectToRef UnsafeLoqui { get; }
-        IHasBeenSetItemGetter<ObjectToRef> UnsafeLoqui_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> UnsafeLoqui_Property { get; }
 
         #endregion
         #region UnsafeNull
         ObjectToRef UnsafeNull { get; }
-        IHasBeenSetItemGetter<ObjectToRef> UnsafeNull_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> UnsafeNull_Property { get; }
 
         #endregion
         #region P2IntN
         P2Int? P2IntN { get; }
-        IHasBeenSetItemGetter<P2Int?> P2IntN_Property { get; }
+        INotifyingSetItemGetter<P2Int?> P2IntN_Property { get; }
 
         #endregion
         #region P2Int
         P2Int P2Int { get; }
-        IHasBeenSetItemGetter<P2Int> P2Int_Property { get; }
+        INotifyingSetItemGetter<P2Int> P2Int_Property { get; }
 
         #endregion
         #region P3DoubleN
         P3Double? P3DoubleN { get; }
-        IHasBeenSetItemGetter<P3Double?> P3DoubleN_Property { get; }
+        INotifyingSetItemGetter<P3Double?> P3DoubleN_Property { get; }
 
         #endregion
         #region P3Double
         P3Double P3Double { get; }
-        IHasBeenSetItemGetter<P3Double> P3Double_Property { get; }
+        INotifyingSetItemGetter<P3Double> P3Double_Property { get; }
 
         #endregion
         #region P3IntN
         P3Int? P3IntN { get; }
-        IHasBeenSetItemGetter<P3Int?> P3IntN_Property { get; }
+        INotifyingSetItemGetter<P3Int?> P3IntN_Property { get; }
 
         #endregion
         #region P3Int
         P3Int P3Int { get; }
-        IHasBeenSetItemGetter<P3Int> P3Int_Property { get; }
+        INotifyingSetItemGetter<P3Int> P3Int_Property { get; }
 
         #endregion
         #region PercentN
         Percent? PercentN { get; }
-        IHasBeenSetItemGetter<Percent?> PercentN_Property { get; }
+        INotifyingSetItemGetter<Percent?> PercentN_Property { get; }
 
         #endregion
         #region Percent
         Percent Percent { get; }
-        IHasBeenSetItemGetter<Percent> Percent_Property { get; }
+        INotifyingSetItemGetter<Percent> Percent_Property { get; }
 
         #endregion
         #region RangeInt8N
         RangeInt8? RangeInt8N { get; }
-        IHasBeenSetItemGetter<RangeInt8?> RangeInt8N_Property { get; }
+        INotifyingSetItemGetter<RangeInt8?> RangeInt8N_Property { get; }
 
         #endregion
         #region RangeInt8
         RangeInt8 RangeInt8 { get; }
-        IHasBeenSetItemGetter<RangeInt8> RangeInt8_Property { get; }
+        INotifyingSetItemGetter<RangeInt8> RangeInt8_Property { get; }
 
         #endregion
         #region RangeInt16N
         RangeInt16? RangeInt16N { get; }
-        IHasBeenSetItemGetter<RangeInt16?> RangeInt16N_Property { get; }
+        INotifyingSetItemGetter<RangeInt16?> RangeInt16N_Property { get; }
 
         #endregion
         #region RangeInt16
         RangeInt16 RangeInt16 { get; }
-        IHasBeenSetItemGetter<RangeInt16> RangeInt16_Property { get; }
+        INotifyingSetItemGetter<RangeInt16> RangeInt16_Property { get; }
 
         #endregion
         #region RangeInt32N
         RangeInt32? RangeInt32N { get; }
-        IHasBeenSetItemGetter<RangeInt32?> RangeInt32N_Property { get; }
+        INotifyingSetItemGetter<RangeInt32?> RangeInt32N_Property { get; }
 
         #endregion
         #region RangeInt32
         RangeInt32 RangeInt32 { get; }
-        IHasBeenSetItemGetter<RangeInt32> RangeInt32_Property { get; }
+        INotifyingSetItemGetter<RangeInt32> RangeInt32_Property { get; }
 
         #endregion
         #region RangeInt64N
         RangeInt64? RangeInt64N { get; }
-        IHasBeenSetItemGetter<RangeInt64?> RangeInt64N_Property { get; }
+        INotifyingSetItemGetter<RangeInt64?> RangeInt64N_Property { get; }
 
         #endregion
         #region RangeInt64
         RangeInt64 RangeInt64 { get; }
-        IHasBeenSetItemGetter<RangeInt64> RangeInt64_Property { get; }
+        INotifyingSetItemGetter<RangeInt64> RangeInt64_Property { get; }
 
         #endregion
         #region RangeUInt8N
         RangeUInt8? RangeUInt8N { get; }
-        IHasBeenSetItemGetter<RangeUInt8?> RangeUInt8N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt8?> RangeUInt8N_Property { get; }
 
         #endregion
         #region RangeUInt8
         RangeUInt8 RangeUInt8 { get; }
-        IHasBeenSetItemGetter<RangeUInt8> RangeUInt8_Property { get; }
+        INotifyingSetItemGetter<RangeUInt8> RangeUInt8_Property { get; }
 
         #endregion
         #region RangeUInt16N
         RangeUInt16? RangeUInt16N { get; }
-        IHasBeenSetItemGetter<RangeUInt16?> RangeUInt16N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt16?> RangeUInt16N_Property { get; }
 
         #endregion
         #region RangeUInt16
         RangeUInt16 RangeUInt16 { get; }
-        IHasBeenSetItemGetter<RangeUInt16> RangeUInt16_Property { get; }
+        INotifyingSetItemGetter<RangeUInt16> RangeUInt16_Property { get; }
 
         #endregion
         #region RangeUInt32N
         RangeUInt32? RangeUInt32N { get; }
-        IHasBeenSetItemGetter<RangeUInt32?> RangeUInt32N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt32?> RangeUInt32N_Property { get; }
 
         #endregion
         #region RangeUInt32
         RangeUInt32 RangeUInt32 { get; }
-        IHasBeenSetItemGetter<RangeUInt32> RangeUInt32_Property { get; }
+        INotifyingSetItemGetter<RangeUInt32> RangeUInt32_Property { get; }
 
         #endregion
         #region RangeUInt64N
         RangeUInt64? RangeUInt64N { get; }
-        IHasBeenSetItemGetter<RangeUInt64?> RangeUInt64N_Property { get; }
+        INotifyingSetItemGetter<RangeUInt64?> RangeUInt64N_Property { get; }
 
         #endregion
         #region RangeUInt64
         RangeUInt64 RangeUInt64 { get; }
-        IHasBeenSetItemGetter<RangeUInt64> RangeUInt64_Property { get; }
+        INotifyingSetItemGetter<RangeUInt64> RangeUInt64_Property { get; }
 
         #endregion
         #region String
         String String { get; }
-        IHasBeenSetItemGetter<String> String_Property { get; }
+        INotifyingSetItemGetter<String> String_Property { get; }
 
         #endregion
         #region FilePath
         FilePath FilePath { get; }
-        IHasBeenSetItemGetter<FilePath> FilePath_Property { get; }
+        INotifyingSetItemGetter<FilePath> FilePath_Property { get; }
 
         #endregion
         #region FilePathNull
         FilePath? FilePathNull { get; }
-        IHasBeenSetItemGetter<FilePath?> FilePathNull_Property { get; }
+        INotifyingSetItemGetter<FilePath?> FilePathNull_Property { get; }
 
         #endregion
         #region DirectoryPath
         DirectoryPath DirectoryPath { get; }
-        IHasBeenSetItemGetter<DirectoryPath> DirectoryPath_Property { get; }
+        INotifyingSetItemGetter<DirectoryPath> DirectoryPath_Property { get; }
 
         #endregion
         #region DirectoryPathNull
         DirectoryPath? DirectoryPathNull { get; }
-        IHasBeenSetItemGetter<DirectoryPath?> DirectoryPathNull_Property { get; }
+        INotifyingSetItemGetter<DirectoryPath?> DirectoryPathNull_Property { get; }
 
         #endregion
         #region UDoubleN
         UDouble? UDoubleN { get; }
-        IHasBeenSetItemGetter<UDouble?> UDoubleN_Property { get; }
+        INotifyingSetItemGetter<UDouble?> UDoubleN_Property { get; }
 
         #endregion
         #region UDoubleN_Ranged
         UDouble? UDoubleN_Ranged { get; }
-        IHasBeenSetItemGetter<UDouble?> UDoubleN_Ranged_Property { get; }
+        INotifyingSetItemGetter<UDouble?> UDoubleN_Ranged_Property { get; }
 
         #endregion
         #region UDouble
         UDouble UDouble { get; }
-        IHasBeenSetItemGetter<UDouble> UDouble_Property { get; }
+        INotifyingSetItemGetter<UDouble> UDouble_Property { get; }
 
         #endregion
         #region UDouble_Ranged
         UDouble UDouble_Ranged { get; }
-        IHasBeenSetItemGetter<UDouble> UDouble_Ranged_Property { get; }
+        INotifyingSetItemGetter<UDouble> UDouble_Ranged_Property { get; }
 
         #endregion
         #region UInt16N
         UInt16? UInt16N { get; }
-        IHasBeenSetItemGetter<UInt16?> UInt16N_Property { get; }
+        INotifyingSetItemGetter<UInt16?> UInt16N_Property { get; }
 
         #endregion
         #region UInt16N_Ranged
         UInt16? UInt16N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt16?> UInt16N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt16?> UInt16N_Ranged_Property { get; }
 
         #endregion
         #region UInt16
         UInt16 UInt16 { get; }
-        IHasBeenSetItemGetter<UInt16> UInt16_Property { get; }
+        INotifyingSetItemGetter<UInt16> UInt16_Property { get; }
 
         #endregion
         #region UInt16_Ranged
         UInt16 UInt16_Ranged { get; }
-        IHasBeenSetItemGetter<UInt16> UInt16_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt16> UInt16_Ranged_Property { get; }
 
         #endregion
         #region UInt32N
         UInt32? UInt32N { get; }
-        IHasBeenSetItemGetter<UInt32?> UInt32N_Property { get; }
+        INotifyingSetItemGetter<UInt32?> UInt32N_Property { get; }
 
         #endregion
         #region UInt32N_Ranged
         UInt32? UInt32N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt32?> UInt32N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt32?> UInt32N_Ranged_Property { get; }
 
         #endregion
         #region UInt32
         UInt32 UInt32 { get; }
-        IHasBeenSetItemGetter<UInt32> UInt32_Property { get; }
+        INotifyingSetItemGetter<UInt32> UInt32_Property { get; }
 
         #endregion
         #region UInt32_Ranged
         UInt32 UInt32_Ranged { get; }
-        IHasBeenSetItemGetter<UInt32> UInt32_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt32> UInt32_Ranged_Property { get; }
 
         #endregion
         #region UInt64N
         UInt64? UInt64N { get; }
-        IHasBeenSetItemGetter<UInt64?> UInt64N_Property { get; }
+        INotifyingSetItemGetter<UInt64?> UInt64N_Property { get; }
 
         #endregion
         #region UInt64N_Ranged
         UInt64? UInt64N_Ranged { get; }
-        IHasBeenSetItemGetter<UInt64?> UInt64N_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt64?> UInt64N_Ranged_Property { get; }
 
         #endregion
         #region UInt64
         UInt64 UInt64 { get; }
-        IHasBeenSetItemGetter<UInt64> UInt64_Property { get; }
+        INotifyingSetItemGetter<UInt64> UInt64_Property { get; }
 
         #endregion
         #region UInt64_Ranged
         UInt64 UInt64_Ranged { get; }
-        IHasBeenSetItemGetter<UInt64> UInt64_Ranged_Property { get; }
+        INotifyingSetItemGetter<UInt64> UInt64_Ranged_Property { get; }
 
         #endregion
         #region UInt8N
         Byte? UInt8N { get; }
-        IHasBeenSetItemGetter<Byte?> UInt8N_Property { get; }
+        INotifyingSetItemGetter<Byte?> UInt8N_Property { get; }
 
         #endregion
         #region UInt8N_Ranged
         Byte? UInt8N_Ranged { get; }
-        IHasBeenSetItemGetter<Byte?> UInt8N_Ranged_Property { get; }
+        INotifyingSetItemGetter<Byte?> UInt8N_Ranged_Property { get; }
 
         #endregion
         #region UInt8
         Byte UInt8 { get; }
-        IHasBeenSetItemGetter<Byte> UInt8_Property { get; }
+        INotifyingSetItemGetter<Byte> UInt8_Property { get; }
 
         #endregion
         #region UInt8_Ranged
         Byte UInt8_Ranged { get; }
-        IHasBeenSetItemGetter<Byte> UInt8_Ranged_Property { get; }
+        INotifyingSetItemGetter<Byte> UInt8_Ranged_Property { get; }
 
         #endregion
         #region Enum
         TestEnum Enum { get; }
-        IHasBeenSetItemGetter<TestEnum> Enum_Property { get; }
+        INotifyingSetItemGetter<TestEnum> Enum_Property { get; }
 
         #endregion
         #region EnumNull
         TestEnum? EnumNull { get; }
-        IHasBeenSetItemGetter<TestEnum?> EnumNull_Property { get; }
+        INotifyingSetItemGetter<TestEnum?> EnumNull_Property { get; }
 
         #endregion
         #region WildCard
         Object WildCard { get; }
-        IHasBeenSetItemGetter<Object> WildCard_Property { get; }
+        INotifyingSetItemGetter<Object> WildCard_Property { get; }
 
         #endregion
         #region WildCardLoqui
         Object WildCardLoqui { get; }
-        IHasBeenSetItemGetter<Object> WildCardLoqui_Property { get; }
+        INotifyingSetItemGetter<Object> WildCardLoqui_Property { get; }
 
         #endregion
         #region WildCardNull
         Object WildCardNull { get; }
-        IHasBeenSetItemGetter<Object> WildCardNull_Property { get; }
+        INotifyingSetItemGetter<Object> WildCardNull_Property { get; }
 
         #endregion
         #region Ref
         ObjectToRef Ref { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_Property { get; }
 
         #endregion
         #region Ref_NotNull
         ObjectToRef Ref_NotNull { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_NotNull_Property { get; }
 
         #endregion
         #region Ref_Singleton
         ObjectToRef Ref_Singleton { get; }
-        IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
+        INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property { get; }
 
         #endregion
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Property { get; }
 
         #endregion
         #region RefGetter_NotNull
         IObjectToRefGetter RefGetter_NotNull { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_NotNull_Property { get; }
 
         #endregion
         #region RefGetter_Singleton
         IObjectToRefGetter RefGetter_Singleton { get; }
-        IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
+        INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property { get; }
 
         #endregion
         #region RefSetter
         IObjectToRef RefSetter { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_Property { get; }
 
         #endregion
         #region RefSetter_NotNull
         IObjectToRef RefSetter_NotNull { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_NotNull_Property { get; }
 
         #endregion
         #region RefSetter_Singleton
         IObjectToRef RefSetter_Singleton { get; }
-        IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
+        INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property { get; }
 
         #endregion
         #region List
@@ -5803,7 +6189,7 @@ namespace Loqui.Tests
 namespace Loqui.Tests.Internals
 {
     #region Field Index
-    public enum TestObject_HasBeenSet_FieldIndex
+    public enum TestObject_Notifying_HasBeenSet_FieldIndex
     {
         ByteArray = 0,
         ByteArrayNull = 1,
@@ -5916,36 +6302,36 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Registration
-    public class TestObject_HasBeenSet_Registration : ILoquiRegistration
+    public class TestObject_Notifying_HasBeenSet_Registration : ILoquiRegistration
     {
-        public static readonly TestObject_HasBeenSet_Registration Instance = new TestObject_HasBeenSet_Registration();
+        public static readonly TestObject_Notifying_HasBeenSet_Registration Instance = new TestObject_Notifying_HasBeenSet_Registration();
 
         public static ProtocolKey ProtocolKey => ProtocolDefinition_LoquiTests.ProtocolKey;
 
         public static readonly ObjectKey ObjectKey = new ObjectKey(
             protocolKey: ProtocolDefinition_LoquiTests.ProtocolKey,
-            msgID: 8,
+            msgID: 26,
             version: 0);
 
-        public const string GUID = "8dd2de32-392f-409f-b0bb-410a8d687c92";
+        public const string GUID = "e7686a7b-967b-45ab-87e2-55b89f2698d8";
 
         public const ushort FieldCount = 107;
 
-        public static readonly Type MaskType = typeof(TestObject_HasBeenSet_Mask<>);
+        public static readonly Type MaskType = typeof(TestObject_Notifying_HasBeenSet_Mask<>);
 
-        public static readonly Type ErrorMaskType = typeof(TestObject_HasBeenSet_ErrorMask);
+        public static readonly Type ErrorMaskType = typeof(TestObject_Notifying_HasBeenSet_ErrorMask);
 
-        public static readonly Type ClassType = typeof(TestObject_HasBeenSet);
+        public static readonly Type ClassType = typeof(TestObject_Notifying_HasBeenSet);
 
-        public static readonly Type GetterType = typeof(ITestObject_HasBeenSetGetter);
+        public static readonly Type GetterType = typeof(ITestObject_Notifying_HasBeenSetGetter);
 
-        public static readonly Type SetterType = typeof(ITestObject_HasBeenSet);
+        public static readonly Type SetterType = typeof(ITestObject_Notifying_HasBeenSet);
 
-        public static readonly Type CommonType = typeof(TestObject_HasBeenSetCommon);
+        public static readonly Type CommonType = typeof(TestObject_Notifying_HasBeenSetCommon);
 
-        public const string FullName = "Loqui.Tests.TestObject_HasBeenSet";
+        public const string FullName = "Loqui.Tests.TestObject_Notifying_HasBeenSet";
 
-        public const string Name = "TestObject_HasBeenSet";
+        public const string Name = "TestObject_Notifying_HasBeenSet";
 
         public const string Namespace = "Loqui.Tests";
 
@@ -5958,219 +6344,219 @@ namespace Loqui.Tests.Internals
             switch (str.Upper)
             {
                 case "BYTEARRAY":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.ByteArray;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray;
                 case "BYTEARRAYNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.ByteArrayNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull;
                 case "BYTEARRAYNOTNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull;
                 case "BYTEARRAYSINGLETON":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.ByteArraySingleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton;
                 case "BOOLN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.BoolN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.BoolN;
                 case "BOOL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Bool;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Bool;
                 case "CHARN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.CharN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.CharN;
                 case "CHAR":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Char;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Char;
                 case "DATETIMENULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DateTimeNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull;
                 case "DATETIME":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DateTime;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DateTime;
                 case "DOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN;
                 case "DOUBLEN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged;
                 case "DOUBLE":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Double;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Double;
                 case "DOUBLE_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Double_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged;
                 case "FLOATN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.FloatN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN;
                 case "FLOATN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.FloatN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged;
                 case "FLOAT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Float;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Float;
                 case "FLOAT_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Float_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged;
                 case "INT16N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N;
                 case "INT16N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int16N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged;
                 case "INT16":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int16;
                 case "INT16_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int16_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged;
                 case "INT32N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N;
                 case "INT32N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int32N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged;
                 case "INT32":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int32;
                 case "INT32_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int32_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged;
                 case "INT64N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N;
                 case "INT64N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int64N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged;
                 case "INT64":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int64;
                 case "INT64_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int64_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged;
                 case "INT8N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N;
                 case "INT8N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int8N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged;
                 case "INT8":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int8;
                 case "INT8_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Int8_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged;
                 case "UNSAFE":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Unsafe;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe;
                 case "UNSAFELOQUI":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UnsafeLoqui;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui;
                 case "UNSAFENULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UnsafeNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull;
                 case "P2INTN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P2IntN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN;
                 case "P2INT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P2Int;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P2Int;
                 case "P3DOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P3DoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN;
                 case "P3DOUBLE":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P3Double;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P3Double;
                 case "P3INTN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P3IntN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN;
                 case "P3INT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.P3Int;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.P3Int;
                 case "PERCENTN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.PercentN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.PercentN;
                 case "PERCENT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Percent;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Percent;
                 case "RANGEINT8N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N;
                 case "RANGEINT8":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8;
                 case "RANGEINT16N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N;
                 case "RANGEINT16":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16;
                 case "RANGEINT32N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N;
                 case "RANGEINT32":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32;
                 case "RANGEINT64N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N;
                 case "RANGEINT64":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64;
                 case "RANGEUINT8N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N;
                 case "RANGEUINT8":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8;
                 case "RANGEUINT16N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N;
                 case "RANGEUINT16":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16;
                 case "RANGEUINT32N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N;
                 case "RANGEUINT32":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32;
                 case "RANGEUINT64N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N;
                 case "RANGEUINT64":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RangeUInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64;
                 case "STRING":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.String;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.String;
                 case "FILEPATH":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.FilePath;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.FilePath;
                 case "FILEPATHNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.FilePathNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull;
                 case "DIRECTORYPATH":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DirectoryPath;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath;
                 case "DIRECTORYPATHNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DirectoryPathNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull;
                 case "UDOUBLEN":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UDoubleN;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN;
                 case "UDOUBLEN_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged;
                 case "UDOUBLE":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UDouble;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble;
                 case "UDOUBLE_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UDouble_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged;
                 case "UINT16N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt16N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N;
                 case "UINT16N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged;
                 case "UINT16":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt16;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16;
                 case "UINT16_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt16_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged;
                 case "UINT32N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt32N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N;
                 case "UINT32N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged;
                 case "UINT32":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt32;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32;
                 case "UINT32_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt32_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged;
                 case "UINT64N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt64N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N;
                 case "UINT64N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged;
                 case "UINT64":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt64;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64;
                 case "UINT64_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt64_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged;
                 case "UINT8N":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt8N;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N;
                 case "UINT8N_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged;
                 case "UINT8":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt8;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8;
                 case "UINT8_RANGED":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.UInt8_Ranged;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged;
                 case "ENUM":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Enum;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Enum;
                 case "ENUMNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.EnumNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull;
                 case "WILDCARD":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.WildCard;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.WildCard;
                 case "WILDCARDLOQUI":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.WildCardLoqui;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui;
                 case "WILDCARDNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.WildCardNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull;
                 case "REF":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Ref;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Ref;
                 case "REF_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Ref_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull;
                 case "REF_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Ref_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton;
                 case "REFGETTER":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefGetter;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter;
                 case "REFGETTER_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull;
                 case "REFGETTER_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton;
                 case "REFSETTER":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefSetter;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter;
                 case "REFSETTER_NOTNULL":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull;
                 case "REFSETTER_SINGLETON":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton;
                 case "LIST":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.List;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.List;
                 case "REFLIST":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefList;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefList;
                 case "DICT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.Dict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.Dict;
                 case "REFDICT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.RefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.RefDict;
                 case "KEYREFDICT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.KeyRefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict;
                 case "VALREFDICT":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.ValRefDict;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict;
                 case "DICTKEYEDVALUE":
-                    return (ushort)TestObject_HasBeenSet_FieldIndex.DictKeyedValue;
+                    return (ushort)TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue;
                 default:
                     return null;
             }
@@ -6178,117 +6564,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsEnumerable(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.List:
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return true;
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_FieldIndex.String:
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.Dict:
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6297,117 +6683,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsLoqui(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return true;
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_FieldIndex.String:
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_FieldIndex.List:
-                case TestObject_HasBeenSet_FieldIndex.Dict:
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6416,117 +6802,117 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthIsSingleton(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return true;
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_FieldIndex.String:
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.List:
-                case TestObject_HasBeenSet_FieldIndex.RefList:
-                case TestObject_HasBeenSet_FieldIndex.Dict:
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6535,222 +6921,222 @@ namespace Loqui.Tests.Internals
 
         public static string GetNthName(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     return "ByteArray";
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     return "ByteArrayNull";
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     return "ByteArrayNotNull";
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     return "ByteArraySingleton";
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     return "BoolN";
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     return "Bool";
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     return "CharN";
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     return "Char";
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     return "DateTimeNull";
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     return "DateTime";
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     return "DoubleN";
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     return "DoubleN_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     return "Double";
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     return "Double_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     return "FloatN";
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     return "FloatN_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     return "Float";
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     return "Float_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     return "Int16N";
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     return "Int16N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     return "Int16";
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     return "Int16_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     return "Int32N";
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     return "Int32N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     return "Int32";
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     return "Int32_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     return "Int64N";
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     return "Int64N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     return "Int64";
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     return "Int64_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     return "Int8N";
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     return "Int8N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     return "Int8";
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     return "Int8_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     return "Unsafe";
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     return "UnsafeLoqui";
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     return "UnsafeNull";
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     return "P2IntN";
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     return "P2Int";
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     return "P3DoubleN";
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     return "P3Double";
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     return "P3IntN";
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     return "P3Int";
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     return "PercentN";
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     return "Percent";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     return "RangeInt8N";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     return "RangeInt8";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     return "RangeInt16N";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     return "RangeInt16";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     return "RangeInt32N";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     return "RangeInt32";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     return "RangeInt64N";
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     return "RangeInt64";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     return "RangeUInt8N";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     return "RangeUInt8";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     return "RangeUInt16N";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     return "RangeUInt16";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     return "RangeUInt32N";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     return "RangeUInt32";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     return "RangeUInt64N";
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     return "RangeUInt64";
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     return "String";
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     return "FilePath";
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     return "FilePathNull";
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     return "DirectoryPath";
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     return "DirectoryPathNull";
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     return "UDoubleN";
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     return "UDoubleN_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     return "UDouble";
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     return "UDouble_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     return "UInt16N";
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     return "UInt16N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     return "UInt16";
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     return "UInt16_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     return "UInt32N";
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     return "UInt32N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     return "UInt32";
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     return "UInt32_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     return "UInt64N";
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     return "UInt64N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     return "UInt64";
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     return "UInt64_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     return "UInt8N";
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     return "UInt8N_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     return "UInt8";
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     return "UInt8_Ranged";
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     return "Enum";
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     return "EnumNull";
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     return "WildCard";
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     return "WildCardLoqui";
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     return "WildCardNull";
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     return "Ref";
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     return "Ref_NotNull";
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     return "Ref_Singleton";
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     return "RefGetter";
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     return "RefGetter_NotNull";
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     return "RefGetter_Singleton";
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     return "RefSetter";
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     return "RefSetter_NotNull";
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return "RefSetter_Singleton";
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     return "List";
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return "RefList";
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     return "Dict";
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     return "RefDict";
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     return "KeyRefDict";
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     return "ValRefDict";
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return "DictKeyedValue";
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6759,116 +7145,116 @@ namespace Loqui.Tests.Internals
 
         public static bool IsNthDerivative(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_FieldIndex.String:
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.List:
-                case TestObject_HasBeenSet_FieldIndex.RefList:
-                case TestObject_HasBeenSet_FieldIndex.Dict:
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6877,117 +7263,117 @@ namespace Loqui.Tests.Internals
 
         public static bool IsProtected(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return true;
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                case TestObject_HasBeenSet_FieldIndex.String:
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                case TestObject_HasBeenSet_FieldIndex.List:
-                case TestObject_HasBeenSet_FieldIndex.RefList:
-                case TestObject_HasBeenSet_FieldIndex.Dict:
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return false;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -6996,222 +7382,222 @@ namespace Loqui.Tests.Internals
 
         public static Type GetNthType(ushort index)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     return typeof(Byte[]);
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     return typeof(Boolean?);
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     return typeof(Boolean);
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     return typeof(Char?);
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     return typeof(Char);
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     return typeof(DateTime?);
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     return typeof(DateTime);
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     return typeof(Double?);
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     return typeof(Double?);
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     return typeof(Double);
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     return typeof(Double);
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     return typeof(Single?);
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     return typeof(Single?);
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     return typeof(Single);
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     return typeof(Single);
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     return typeof(Int16?);
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     return typeof(Int16?);
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     return typeof(Int16);
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     return typeof(Int16);
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     return typeof(Int32?);
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     return typeof(Int32?);
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     return typeof(Int32);
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     return typeof(Int32);
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     return typeof(Int64?);
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     return typeof(Int64?);
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     return typeof(Int64);
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     return typeof(Int64);
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     return typeof(SByte?);
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     return typeof(SByte?);
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     return typeof(SByte);
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     return typeof(SByte);
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     return typeof(bool);
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     return typeof(P2Int?);
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     return typeof(P2Int);
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     return typeof(P3Double?);
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     return typeof(P3Double);
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     return typeof(P3Int?);
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     return typeof(P3Int);
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     return typeof(Percent?);
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     return typeof(Percent);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     return typeof(RangeInt8?);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     return typeof(RangeInt8);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     return typeof(RangeInt16?);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     return typeof(RangeInt16);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     return typeof(RangeInt32?);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     return typeof(RangeInt32);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     return typeof(RangeInt64?);
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     return typeof(RangeInt64);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     return typeof(RangeUInt8?);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     return typeof(RangeUInt8);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     return typeof(RangeUInt16?);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     return typeof(RangeUInt16);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     return typeof(RangeUInt32?);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     return typeof(RangeUInt32);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     return typeof(RangeUInt64?);
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     return typeof(RangeUInt64);
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     return typeof(String);
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     return typeof(FilePath);
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     return typeof(FilePath?);
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     return typeof(DirectoryPath);
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     return typeof(DirectoryPath?);
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     return typeof(UDouble?);
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     return typeof(UDouble?);
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     return typeof(UDouble);
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     return typeof(UDouble);
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     return typeof(UInt16?);
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     return typeof(UInt16?);
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     return typeof(UInt16);
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     return typeof(UInt16);
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     return typeof(UInt32?);
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     return typeof(UInt32?);
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     return typeof(UInt32);
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     return typeof(UInt32);
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     return typeof(UInt64?);
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     return typeof(UInt64?);
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     return typeof(UInt64);
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     return typeof(UInt64);
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     return typeof(Byte?);
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     return typeof(Byte?);
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     return typeof(Byte);
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     return typeof(Byte);
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     return typeof(TestEnum);
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     return typeof(TestEnum?);
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     return typeof(Object);
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     return typeof(Object);
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     return typeof(Object);
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     return typeof(ObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     return typeof(IObjectToRefGetter);
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return typeof(IObjectToRef);
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     return typeof(NotifyingList<Boolean>);
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return typeof(NotifyingList<ObjectToRef>);
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     return typeof(NotifyingDictionary<String, Boolean>);
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, ObjectToRef>);
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     return typeof(NotifyingDictionary<ObjectToRef, Boolean>);
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     return typeof(NotifyingDictionary<String, ObjectToRef>);
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return typeof(NotifyingDictionary<Int32, ObjectToRef>);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -7248,17 +7634,17 @@ namespace Loqui.Tests.Internals
     #endregion
 
     #region Extensions
-    public static partial class TestObject_HasBeenSetCommon
+    public static partial class TestObject_Notifying_HasBeenSetCommon
     {
         #region Copy Fields From
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet item,
-            ITestObject_HasBeenSetGetter rhs,
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null,
+            this ITestObject_Notifying_HasBeenSet item,
+            ITestObject_Notifying_HasBeenSetGetter rhs,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSetCommon.CopyFieldsFrom(
+            TestObject_Notifying_HasBeenSetCommon.CopyFieldsFrom(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -7269,14 +7655,14 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet item,
-            ITestObject_HasBeenSetGetter rhs,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
-            TestObject_HasBeenSet_CopyMask copyMask = null,
-            ITestObject_HasBeenSetGetter def = null,
+            this ITestObject_Notifying_HasBeenSet item,
+            ITestObject_Notifying_HasBeenSetGetter rhs,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask = null,
+            ITestObject_Notifying_HasBeenSetGetter def = null,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSetCommon.CopyFieldsFrom(
+            TestObject_Notifying_HasBeenSetCommon.CopyFieldsFrom(
                 item: item,
                 rhs: rhs,
                 def: def,
@@ -7287,20 +7673,20 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet item,
-            ITestObject_HasBeenSetGetter rhs,
-            ITestObject_HasBeenSetGetter def,
+            this ITestObject_Notifying_HasBeenSet item,
+            ITestObject_Notifying_HasBeenSetGetter rhs,
+            ITestObject_Notifying_HasBeenSetGetter def,
             bool doMasks,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
-            TestObject_HasBeenSet_CopyMask copyMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
-            TestObject_HasBeenSet_ErrorMask retErrorMask = null;
-            Func<TestObject_HasBeenSet_ErrorMask> maskGetter = () =>
+            TestObject_Notifying_HasBeenSet_ErrorMask retErrorMask = null;
+            Func<TestObject_Notifying_HasBeenSet_ErrorMask> maskGetter = () =>
             {
                 if (retErrorMask == null)
                 {
-                    retErrorMask = new TestObject_HasBeenSet_ErrorMask();
+                    retErrorMask = new TestObject_Notifying_HasBeenSet_ErrorMask();
                 }
                 return retErrorMask;
             };
@@ -7316,12 +7702,12 @@ namespace Loqui.Tests.Internals
         }
 
         public static void CopyFieldsFrom(
-            this ITestObject_HasBeenSet item,
-            ITestObject_HasBeenSetGetter rhs,
-            ITestObject_HasBeenSetGetter def,
+            this ITestObject_Notifying_HasBeenSet item,
+            ITestObject_Notifying_HasBeenSetGetter rhs,
+            ITestObject_Notifying_HasBeenSetGetter def,
             bool doMasks,
-            Func<TestObject_HasBeenSet_ErrorMask> errorMask,
-            TestObject_HasBeenSet_CopyMask copyMask,
+            Func<TestObject_Notifying_HasBeenSet_ErrorMask> errorMask,
+            TestObject_Notifying_HasBeenSet_CopyMask copyMask,
             NotifyingFireParameters? cmds)
         {
             if (copyMask?.ByteArray ?? true)
@@ -7330,12 +7716,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.ByteArray_Property.SetToWithDefault(
                         rhs: rhs.ByteArray_Property,
-                        def: def?.ByteArray_Property);
+                        def: def?.ByteArray_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.ByteArray, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray, ex);
                 }
             }
             if (copyMask?.ByteArrayNull ?? true)
@@ -7344,12 +7731,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.ByteArrayNull_Property.SetToWithDefault(
                         rhs: rhs.ByteArrayNull_Property,
-                        def: def?.ByteArrayNull_Property);
+                        def: def?.ByteArrayNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.ByteArrayNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull, ex);
                 }
             }
             if (copyMask?.ByteArrayNotNull ?? true)
@@ -7358,12 +7746,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.ByteArrayNotNull_Property.SetToWithDefault(
                         rhs: rhs.ByteArrayNotNull_Property,
-                        def: def?.ByteArrayNotNull_Property);
+                        def: def?.ByteArrayNotNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull, ex);
                 }
             }
             if (copyMask?.BoolN ?? true)
@@ -7372,12 +7761,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.BoolN_Property.SetToWithDefault(
                         rhs: rhs.BoolN_Property,
-                        def: def?.BoolN_Property);
+                        def: def?.BoolN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.BoolN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.BoolN, ex);
                 }
             }
             if (copyMask?.Bool ?? true)
@@ -7386,12 +7776,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Bool_Property.SetToWithDefault(
                         rhs: rhs.Bool_Property,
-                        def: def?.Bool_Property);
+                        def: def?.Bool_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Bool, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Bool, ex);
                 }
             }
             if (copyMask?.CharN ?? true)
@@ -7400,12 +7791,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.CharN_Property.SetToWithDefault(
                         rhs: rhs.CharN_Property,
-                        def: def?.CharN_Property);
+                        def: def?.CharN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.CharN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.CharN, ex);
                 }
             }
             if (copyMask?.Char ?? true)
@@ -7414,12 +7806,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Char_Property.SetToWithDefault(
                         rhs: rhs.Char_Property,
-                        def: def?.Char_Property);
+                        def: def?.Char_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Char, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Char, ex);
                 }
             }
             if (copyMask?.DateTimeNull ?? true)
@@ -7428,12 +7821,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DateTimeNull_Property.SetToWithDefault(
                         rhs: rhs.DateTimeNull_Property,
-                        def: def?.DateTimeNull_Property);
+                        def: def?.DateTimeNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DateTimeNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull, ex);
                 }
             }
             if (copyMask?.DateTime ?? true)
@@ -7442,12 +7836,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DateTime_Property.SetToWithDefault(
                         rhs: rhs.DateTime_Property,
-                        def: def?.DateTime_Property);
+                        def: def?.DateTime_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DateTime, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTime, ex);
                 }
             }
             if (copyMask?.DoubleN ?? true)
@@ -7456,12 +7851,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DoubleN_Property.SetToWithDefault(
                         rhs: rhs.DoubleN_Property,
-                        def: def?.DoubleN_Property);
+                        def: def?.DoubleN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DoubleN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN, ex);
                 }
             }
             if (copyMask?.DoubleN_Ranged ?? true)
@@ -7470,12 +7866,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DoubleN_Ranged_Property.SetToWithDefault(
                         rhs: rhs.DoubleN_Ranged_Property,
-                        def: def?.DoubleN_Ranged_Property);
+                        def: def?.DoubleN_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged, ex);
                 }
             }
             if (copyMask?.Double ?? true)
@@ -7484,12 +7881,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Double_Property.SetToWithDefault(
                         rhs: rhs.Double_Property,
-                        def: def?.Double_Property);
+                        def: def?.Double_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Double, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Double, ex);
                 }
             }
             if (copyMask?.Double_Ranged ?? true)
@@ -7498,12 +7896,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Double_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Double_Ranged_Property,
-                        def: def?.Double_Ranged_Property);
+                        def: def?.Double_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Double_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged, ex);
                 }
             }
             if (copyMask?.FloatN ?? true)
@@ -7512,12 +7911,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.FloatN_Property.SetToWithDefault(
                         rhs: rhs.FloatN_Property,
-                        def: def?.FloatN_Property);
+                        def: def?.FloatN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.FloatN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN, ex);
                 }
             }
             if (copyMask?.FloatN_Ranged ?? true)
@@ -7526,12 +7926,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.FloatN_Ranged_Property.SetToWithDefault(
                         rhs: rhs.FloatN_Ranged_Property,
-                        def: def?.FloatN_Ranged_Property);
+                        def: def?.FloatN_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.FloatN_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged, ex);
                 }
             }
             if (copyMask?.Float ?? true)
@@ -7540,12 +7941,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Float_Property.SetToWithDefault(
                         rhs: rhs.Float_Property,
-                        def: def?.Float_Property);
+                        def: def?.Float_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Float, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Float, ex);
                 }
             }
             if (copyMask?.Float_Ranged ?? true)
@@ -7554,12 +7956,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Float_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Float_Ranged_Property,
-                        def: def?.Float_Ranged_Property);
+                        def: def?.Float_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Float_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged, ex);
                 }
             }
             if (copyMask?.Int16N ?? true)
@@ -7568,12 +7971,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int16N_Property.SetToWithDefault(
                         rhs: rhs.Int16N_Property,
-                        def: def?.Int16N_Property);
+                        def: def?.Int16N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int16N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N, ex);
                 }
             }
             if (copyMask?.Int16N_Ranged ?? true)
@@ -7582,12 +7986,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int16N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int16N_Ranged_Property,
-                        def: def?.Int16N_Ranged_Property);
+                        def: def?.Int16N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int16N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged, ex);
                 }
             }
             if (copyMask?.Int16 ?? true)
@@ -7596,12 +8001,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int16_Property.SetToWithDefault(
                         rhs: rhs.Int16_Property,
-                        def: def?.Int16_Property);
+                        def: def?.Int16_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int16, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16, ex);
                 }
             }
             if (copyMask?.Int16_Ranged ?? true)
@@ -7610,12 +8016,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int16_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int16_Ranged_Property,
-                        def: def?.Int16_Ranged_Property);
+                        def: def?.Int16_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int16_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged, ex);
                 }
             }
             if (copyMask?.Int32N ?? true)
@@ -7624,12 +8031,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int32N_Property.SetToWithDefault(
                         rhs: rhs.Int32N_Property,
-                        def: def?.Int32N_Property);
+                        def: def?.Int32N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int32N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N, ex);
                 }
             }
             if (copyMask?.Int32N_Ranged ?? true)
@@ -7638,12 +8046,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int32N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int32N_Ranged_Property,
-                        def: def?.Int32N_Ranged_Property);
+                        def: def?.Int32N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int32N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged, ex);
                 }
             }
             if (copyMask?.Int32 ?? true)
@@ -7652,12 +8061,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int32_Property.SetToWithDefault(
                         rhs: rhs.Int32_Property,
-                        def: def?.Int32_Property);
+                        def: def?.Int32_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int32, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32, ex);
                 }
             }
             if (copyMask?.Int32_Ranged ?? true)
@@ -7666,12 +8076,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int32_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int32_Ranged_Property,
-                        def: def?.Int32_Ranged_Property);
+                        def: def?.Int32_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int32_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged, ex);
                 }
             }
             if (copyMask?.Int64N ?? true)
@@ -7680,12 +8091,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int64N_Property.SetToWithDefault(
                         rhs: rhs.Int64N_Property,
-                        def: def?.Int64N_Property);
+                        def: def?.Int64N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int64N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N, ex);
                 }
             }
             if (copyMask?.Int64N_Ranged ?? true)
@@ -7694,12 +8106,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int64N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int64N_Ranged_Property,
-                        def: def?.Int64N_Ranged_Property);
+                        def: def?.Int64N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int64N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged, ex);
                 }
             }
             if (copyMask?.Int64 ?? true)
@@ -7708,12 +8121,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int64_Property.SetToWithDefault(
                         rhs: rhs.Int64_Property,
-                        def: def?.Int64_Property);
+                        def: def?.Int64_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int64, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64, ex);
                 }
             }
             if (copyMask?.Int64_Ranged ?? true)
@@ -7722,12 +8136,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int64_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int64_Ranged_Property,
-                        def: def?.Int64_Ranged_Property);
+                        def: def?.Int64_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int64_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged, ex);
                 }
             }
             if (copyMask?.Int8N ?? true)
@@ -7736,12 +8151,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int8N_Property.SetToWithDefault(
                         rhs: rhs.Int8N_Property,
-                        def: def?.Int8N_Property);
+                        def: def?.Int8N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int8N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N, ex);
                 }
             }
             if (copyMask?.Int8N_Ranged ?? true)
@@ -7750,12 +8166,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int8N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int8N_Ranged_Property,
-                        def: def?.Int8N_Ranged_Property);
+                        def: def?.Int8N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int8N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged, ex);
                 }
             }
             if (copyMask?.Int8 ?? true)
@@ -7764,12 +8181,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int8_Property.SetToWithDefault(
                         rhs: rhs.Int8_Property,
-                        def: def?.Int8_Property);
+                        def: def?.Int8_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int8, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8, ex);
                 }
             }
             if (copyMask?.Int8_Ranged ?? true)
@@ -7778,12 +8196,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Int8_Ranged_Property.SetToWithDefault(
                         rhs: rhs.Int8_Ranged_Property,
-                        def: def?.Int8_Ranged_Property);
+                        def: def?.Int8_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Int8_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged, ex);
                 }
             }
             if (copyMask?.Unsafe ?? true)
@@ -7792,12 +8211,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Unsafe_Property.SetToWithDefault(
                         rhs: rhs.Unsafe_Property,
-                        def: def?.Unsafe_Property);
+                        def: def?.Unsafe_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Unsafe, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe, ex);
                 }
             }
             if (copyMask?.UnsafeLoqui ?? true)
@@ -7806,12 +8226,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UnsafeLoqui_Property.SetToWithDefault(
                         rhs: rhs.UnsafeLoqui_Property,
-                        def: def?.UnsafeLoqui_Property);
+                        def: def?.UnsafeLoqui_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UnsafeLoqui, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui, ex);
                 }
             }
             if (copyMask?.UnsafeNull ?? true)
@@ -7820,12 +8241,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UnsafeNull_Property.SetToWithDefault(
                         rhs: rhs.UnsafeNull_Property,
-                        def: def?.UnsafeNull_Property);
+                        def: def?.UnsafeNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UnsafeNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull, ex);
                 }
             }
             if (copyMask?.P2IntN ?? true)
@@ -7834,12 +8256,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P2IntN_Property.SetToWithDefault(
                         rhs: rhs.P2IntN_Property,
-                        def: def?.P2IntN_Property);
+                        def: def?.P2IntN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P2IntN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN, ex);
                 }
             }
             if (copyMask?.P2Int ?? true)
@@ -7848,12 +8271,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P2Int_Property.SetToWithDefault(
                         rhs: rhs.P2Int_Property,
-                        def: def?.P2Int_Property);
+                        def: def?.P2Int_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P2Int, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P2Int, ex);
                 }
             }
             if (copyMask?.P3DoubleN ?? true)
@@ -7862,12 +8286,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P3DoubleN_Property.SetToWithDefault(
                         rhs: rhs.P3DoubleN_Property,
-                        def: def?.P3DoubleN_Property);
+                        def: def?.P3DoubleN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P3DoubleN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN, ex);
                 }
             }
             if (copyMask?.P3Double ?? true)
@@ -7876,12 +8301,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P3Double_Property.SetToWithDefault(
                         rhs: rhs.P3Double_Property,
-                        def: def?.P3Double_Property);
+                        def: def?.P3Double_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P3Double, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Double, ex);
                 }
             }
             if (copyMask?.P3IntN ?? true)
@@ -7890,12 +8316,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P3IntN_Property.SetToWithDefault(
                         rhs: rhs.P3IntN_Property,
-                        def: def?.P3IntN_Property);
+                        def: def?.P3IntN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P3IntN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN, ex);
                 }
             }
             if (copyMask?.P3Int ?? true)
@@ -7904,12 +8331,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.P3Int_Property.SetToWithDefault(
                         rhs: rhs.P3Int_Property,
-                        def: def?.P3Int_Property);
+                        def: def?.P3Int_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.P3Int, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Int, ex);
                 }
             }
             if (copyMask?.PercentN ?? true)
@@ -7918,12 +8346,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.PercentN_Property.SetToWithDefault(
                         rhs: rhs.PercentN_Property,
-                        def: def?.PercentN_Property);
+                        def: def?.PercentN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.PercentN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.PercentN, ex);
                 }
             }
             if (copyMask?.Percent ?? true)
@@ -7932,12 +8361,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Percent_Property.SetToWithDefault(
                         rhs: rhs.Percent_Property,
-                        def: def?.Percent_Property);
+                        def: def?.Percent_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Percent, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Percent, ex);
                 }
             }
             if (copyMask?.RangeInt8N ?? true)
@@ -7946,12 +8376,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt8N_Property.SetToWithDefault(
                         rhs: rhs.RangeInt8N_Property,
-                        def: def?.RangeInt8N_Property);
+                        def: def?.RangeInt8N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt8N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N, ex);
                 }
             }
             if (copyMask?.RangeInt8 ?? true)
@@ -7960,12 +8391,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt8_Property.SetToWithDefault(
                         rhs: rhs.RangeInt8_Property,
-                        def: def?.RangeInt8_Property);
+                        def: def?.RangeInt8_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt8, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8, ex);
                 }
             }
             if (copyMask?.RangeInt16N ?? true)
@@ -7974,12 +8406,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt16N_Property.SetToWithDefault(
                         rhs: rhs.RangeInt16N_Property,
-                        def: def?.RangeInt16N_Property);
+                        def: def?.RangeInt16N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt16N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N, ex);
                 }
             }
             if (copyMask?.RangeInt16 ?? true)
@@ -7988,12 +8421,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt16_Property.SetToWithDefault(
                         rhs: rhs.RangeInt16_Property,
-                        def: def?.RangeInt16_Property);
+                        def: def?.RangeInt16_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt16, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16, ex);
                 }
             }
             if (copyMask?.RangeInt32N ?? true)
@@ -8002,12 +8436,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt32N_Property.SetToWithDefault(
                         rhs: rhs.RangeInt32N_Property,
-                        def: def?.RangeInt32N_Property);
+                        def: def?.RangeInt32N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt32N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N, ex);
                 }
             }
             if (copyMask?.RangeInt32 ?? true)
@@ -8016,12 +8451,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt32_Property.SetToWithDefault(
                         rhs: rhs.RangeInt32_Property,
-                        def: def?.RangeInt32_Property);
+                        def: def?.RangeInt32_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt32, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32, ex);
                 }
             }
             if (copyMask?.RangeInt64N ?? true)
@@ -8030,12 +8466,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt64N_Property.SetToWithDefault(
                         rhs: rhs.RangeInt64N_Property,
-                        def: def?.RangeInt64N_Property);
+                        def: def?.RangeInt64N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt64N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N, ex);
                 }
             }
             if (copyMask?.RangeInt64 ?? true)
@@ -8044,12 +8481,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeInt64_Property.SetToWithDefault(
                         rhs: rhs.RangeInt64_Property,
-                        def: def?.RangeInt64_Property);
+                        def: def?.RangeInt64_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeInt64, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64, ex);
                 }
             }
             if (copyMask?.RangeUInt8N ?? true)
@@ -8058,12 +8496,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt8N_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt8N_Property,
-                        def: def?.RangeUInt8N_Property);
+                        def: def?.RangeUInt8N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt8N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N, ex);
                 }
             }
             if (copyMask?.RangeUInt8 ?? true)
@@ -8072,12 +8511,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt8_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt8_Property,
-                        def: def?.RangeUInt8_Property);
+                        def: def?.RangeUInt8_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt8, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8, ex);
                 }
             }
             if (copyMask?.RangeUInt16N ?? true)
@@ -8086,12 +8526,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt16N_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt16N_Property,
-                        def: def?.RangeUInt16N_Property);
+                        def: def?.RangeUInt16N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt16N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N, ex);
                 }
             }
             if (copyMask?.RangeUInt16 ?? true)
@@ -8100,12 +8541,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt16_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt16_Property,
-                        def: def?.RangeUInt16_Property);
+                        def: def?.RangeUInt16_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt16, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16, ex);
                 }
             }
             if (copyMask?.RangeUInt32N ?? true)
@@ -8114,12 +8556,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt32N_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt32N_Property,
-                        def: def?.RangeUInt32N_Property);
+                        def: def?.RangeUInt32N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt32N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N, ex);
                 }
             }
             if (copyMask?.RangeUInt32 ?? true)
@@ -8128,12 +8571,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt32_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt32_Property,
-                        def: def?.RangeUInt32_Property);
+                        def: def?.RangeUInt32_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt32, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32, ex);
                 }
             }
             if (copyMask?.RangeUInt64N ?? true)
@@ -8142,12 +8586,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt64N_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt64N_Property,
-                        def: def?.RangeUInt64N_Property);
+                        def: def?.RangeUInt64N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt64N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N, ex);
                 }
             }
             if (copyMask?.RangeUInt64 ?? true)
@@ -8156,12 +8601,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.RangeUInt64_Property.SetToWithDefault(
                         rhs: rhs.RangeUInt64_Property,
-                        def: def?.RangeUInt64_Property);
+                        def: def?.RangeUInt64_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RangeUInt64, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64, ex);
                 }
             }
             if (copyMask?.String ?? true)
@@ -8170,12 +8616,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.String_Property.SetToWithDefault(
                         rhs: rhs.String_Property,
-                        def: def?.String_Property);
+                        def: def?.String_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.String, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.String, ex);
                 }
             }
             if (copyMask?.FilePath ?? true)
@@ -8184,12 +8631,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.FilePath_Property.SetToWithDefault(
                         rhs: rhs.FilePath_Property,
-                        def: def?.FilePath_Property);
+                        def: def?.FilePath_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.FilePath, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePath, ex);
                 }
             }
             if (copyMask?.FilePathNull ?? true)
@@ -8198,12 +8646,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.FilePathNull_Property.SetToWithDefault(
                         rhs: rhs.FilePathNull_Property,
-                        def: def?.FilePathNull_Property);
+                        def: def?.FilePathNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.FilePathNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull, ex);
                 }
             }
             if (copyMask?.DirectoryPath ?? true)
@@ -8212,12 +8661,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DirectoryPath_Property.SetToWithDefault(
                         rhs: rhs.DirectoryPath_Property,
-                        def: def?.DirectoryPath_Property);
+                        def: def?.DirectoryPath_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DirectoryPath, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath, ex);
                 }
             }
             if (copyMask?.DirectoryPathNull ?? true)
@@ -8226,12 +8676,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.DirectoryPathNull_Property.SetToWithDefault(
                         rhs: rhs.DirectoryPathNull_Property,
-                        def: def?.DirectoryPathNull_Property);
+                        def: def?.DirectoryPathNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DirectoryPathNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull, ex);
                 }
             }
             if (copyMask?.UDoubleN ?? true)
@@ -8240,12 +8691,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UDoubleN_Property.SetToWithDefault(
                         rhs: rhs.UDoubleN_Property,
-                        def: def?.UDoubleN_Property);
+                        def: def?.UDoubleN_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UDoubleN, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN, ex);
                 }
             }
             if (copyMask?.UDoubleN_Ranged ?? true)
@@ -8254,12 +8706,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UDoubleN_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UDoubleN_Ranged_Property,
-                        def: def?.UDoubleN_Ranged_Property);
+                        def: def?.UDoubleN_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged, ex);
                 }
             }
             if (copyMask?.UDouble ?? true)
@@ -8268,12 +8721,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UDouble_Property.SetToWithDefault(
                         rhs: rhs.UDouble_Property,
-                        def: def?.UDouble_Property);
+                        def: def?.UDouble_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UDouble, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble, ex);
                 }
             }
             if (copyMask?.UDouble_Ranged ?? true)
@@ -8282,12 +8736,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UDouble_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UDouble_Ranged_Property,
-                        def: def?.UDouble_Ranged_Property);
+                        def: def?.UDouble_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UDouble_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged, ex);
                 }
             }
             if (copyMask?.UInt16N ?? true)
@@ -8296,12 +8751,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt16N_Property.SetToWithDefault(
                         rhs: rhs.UInt16N_Property,
-                        def: def?.UInt16N_Property);
+                        def: def?.UInt16N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt16N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N, ex);
                 }
             }
             if (copyMask?.UInt16N_Ranged ?? true)
@@ -8310,12 +8766,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt16N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt16N_Ranged_Property,
-                        def: def?.UInt16N_Ranged_Property);
+                        def: def?.UInt16N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged, ex);
                 }
             }
             if (copyMask?.UInt16 ?? true)
@@ -8324,12 +8781,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt16_Property.SetToWithDefault(
                         rhs: rhs.UInt16_Property,
-                        def: def?.UInt16_Property);
+                        def: def?.UInt16_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt16, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16, ex);
                 }
             }
             if (copyMask?.UInt16_Ranged ?? true)
@@ -8338,12 +8796,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt16_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt16_Ranged_Property,
-                        def: def?.UInt16_Ranged_Property);
+                        def: def?.UInt16_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt16_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged, ex);
                 }
             }
             if (copyMask?.UInt32N ?? true)
@@ -8352,12 +8811,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt32N_Property.SetToWithDefault(
                         rhs: rhs.UInt32N_Property,
-                        def: def?.UInt32N_Property);
+                        def: def?.UInt32N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt32N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N, ex);
                 }
             }
             if (copyMask?.UInt32N_Ranged ?? true)
@@ -8366,12 +8826,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt32N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt32N_Ranged_Property,
-                        def: def?.UInt32N_Ranged_Property);
+                        def: def?.UInt32N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged, ex);
                 }
             }
             if (copyMask?.UInt32 ?? true)
@@ -8380,12 +8841,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt32_Property.SetToWithDefault(
                         rhs: rhs.UInt32_Property,
-                        def: def?.UInt32_Property);
+                        def: def?.UInt32_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt32, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32, ex);
                 }
             }
             if (copyMask?.UInt32_Ranged ?? true)
@@ -8394,12 +8856,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt32_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt32_Ranged_Property,
-                        def: def?.UInt32_Ranged_Property);
+                        def: def?.UInt32_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt32_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged, ex);
                 }
             }
             if (copyMask?.UInt64N ?? true)
@@ -8408,12 +8871,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt64N_Property.SetToWithDefault(
                         rhs: rhs.UInt64N_Property,
-                        def: def?.UInt64N_Property);
+                        def: def?.UInt64N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt64N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N, ex);
                 }
             }
             if (copyMask?.UInt64N_Ranged ?? true)
@@ -8422,12 +8886,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt64N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt64N_Ranged_Property,
-                        def: def?.UInt64N_Ranged_Property);
+                        def: def?.UInt64N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged, ex);
                 }
             }
             if (copyMask?.UInt64 ?? true)
@@ -8436,12 +8901,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt64_Property.SetToWithDefault(
                         rhs: rhs.UInt64_Property,
-                        def: def?.UInt64_Property);
+                        def: def?.UInt64_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt64, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64, ex);
                 }
             }
             if (copyMask?.UInt64_Ranged ?? true)
@@ -8450,12 +8916,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt64_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt64_Ranged_Property,
-                        def: def?.UInt64_Ranged_Property);
+                        def: def?.UInt64_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt64_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged, ex);
                 }
             }
             if (copyMask?.UInt8N ?? true)
@@ -8464,12 +8931,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt8N_Property.SetToWithDefault(
                         rhs: rhs.UInt8N_Property,
-                        def: def?.UInt8N_Property);
+                        def: def?.UInt8N_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt8N, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N, ex);
                 }
             }
             if (copyMask?.UInt8N_Ranged ?? true)
@@ -8478,12 +8946,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt8N_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt8N_Ranged_Property,
-                        def: def?.UInt8N_Ranged_Property);
+                        def: def?.UInt8N_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged, ex);
                 }
             }
             if (copyMask?.UInt8 ?? true)
@@ -8492,12 +8961,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt8_Property.SetToWithDefault(
                         rhs: rhs.UInt8_Property,
-                        def: def?.UInt8_Property);
+                        def: def?.UInt8_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt8, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8, ex);
                 }
             }
             if (copyMask?.UInt8_Ranged ?? true)
@@ -8506,12 +8976,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.UInt8_Ranged_Property.SetToWithDefault(
                         rhs: rhs.UInt8_Ranged_Property,
-                        def: def?.UInt8_Ranged_Property);
+                        def: def?.UInt8_Ranged_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.UInt8_Ranged, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged, ex);
                 }
             }
             if (copyMask?.Enum ?? true)
@@ -8520,12 +8991,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.Enum_Property.SetToWithDefault(
                         rhs: rhs.Enum_Property,
-                        def: def?.Enum_Property);
+                        def: def?.Enum_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Enum, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Enum, ex);
                 }
             }
             if (copyMask?.EnumNull ?? true)
@@ -8534,12 +9006,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.EnumNull_Property.SetToWithDefault(
                         rhs: rhs.EnumNull_Property,
-                        def: def?.EnumNull_Property);
+                        def: def?.EnumNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.EnumNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull, ex);
                 }
             }
             if (copyMask?.WildCard ?? true)
@@ -8548,12 +9021,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.WildCard_Property.SetToWithDefault(
                         rhs: rhs.WildCard_Property,
-                        def: def?.WildCard_Property);
+                        def: def?.WildCard_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.WildCard, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCard, ex);
                 }
             }
             if (copyMask?.WildCardLoqui ?? true)
@@ -8562,12 +9036,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.WildCardLoqui_Property.SetToWithDefault(
                         rhs: rhs.WildCardLoqui_Property,
-                        def: def?.WildCardLoqui_Property);
+                        def: def?.WildCardLoqui_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.WildCardLoqui, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui, ex);
                 }
             }
             if (copyMask?.WildCardNull ?? true)
@@ -8576,12 +9051,13 @@ namespace Loqui.Tests.Internals
                 {
                     item.WildCardNull_Property.SetToWithDefault(
                         rhs: rhs.WildCardNull_Property,
-                        def: def?.WildCardNull_Property);
+                        def: def?.WildCardNull_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.WildCardNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull, ex);
                 }
             }
             if (copyMask?.Ref.Overall != CopyOption.Skip)
@@ -8591,6 +9067,7 @@ namespace Loqui.Tests.Internals
                     item.Ref_Property.SetToWithDefault(
                         rhs.Ref_Property,
                         def?.Ref_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.Ref.Overall ?? CopyOption.Reference)
@@ -8631,7 +9108,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Ref, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref, ex);
                 }
             }
             if (copyMask?.Ref_NotNull.Overall != CopyOption.Skip)
@@ -8641,6 +9118,7 @@ namespace Loqui.Tests.Internals
                     item.Ref_NotNull_Property.SetToWithDefault(
                         rhs.Ref_NotNull_Property,
                         def?.Ref_NotNull_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.Ref_NotNull.Overall ?? CopyOption.Reference)
@@ -8681,7 +9159,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Ref_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull, ex);
                 }
             }
             if (copyMask?.Ref_Singleton.Overall ?? true)
@@ -8709,7 +9187,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Ref_Singleton, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton, ex);
                 }
             }
             if (copyMask?.RefGetter.Overall != CopyOption.Skip)
@@ -8719,6 +9197,7 @@ namespace Loqui.Tests.Internals
                     item.RefGetter_Property.SetToWithDefault(
                         rhs.RefGetter_Property,
                         def?.RefGetter_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.RefGetter.Overall ?? CopyOption.Reference)
@@ -8741,7 +9220,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefGetter, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter, ex);
                 }
             }
             if (copyMask?.RefGetter_NotNull.Overall != CopyOption.Skip)
@@ -8751,6 +9230,7 @@ namespace Loqui.Tests.Internals
                     item.RefGetter_NotNull_Property.SetToWithDefault(
                         rhs.RefGetter_NotNull_Property,
                         def?.RefGetter_NotNull_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.RefGetter_NotNull.Overall ?? CopyOption.Reference)
@@ -8773,7 +9253,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull, ex);
                 }
             }
             if (copyMask?.RefSetter.Overall != CopyOption.Skip)
@@ -8783,6 +9263,7 @@ namespace Loqui.Tests.Internals
                     item.RefSetter_Property.SetToWithDefault(
                         rhs.RefSetter_Property,
                         def?.RefSetter_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.RefSetter.Overall ?? CopyOption.Reference)
@@ -8823,7 +9304,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefSetter, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter, ex);
                 }
             }
             if (copyMask?.RefSetter_NotNull.Overall != CopyOption.Skip)
@@ -8833,6 +9314,7 @@ namespace Loqui.Tests.Internals
                     item.RefSetter_NotNull_Property.SetToWithDefault(
                         rhs.RefSetter_NotNull_Property,
                         def?.RefSetter_NotNull_Property,
+                        cmds,
                         (r, d) =>
                         {
                             switch (copyMask?.RefSetter_NotNull.Overall ?? CopyOption.Reference)
@@ -8873,7 +9355,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull, ex);
                 }
             }
             if (copyMask?.RefSetter_Singleton.Overall ?? true)
@@ -8901,7 +9383,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton, ex);
                 }
             }
             if (copyMask?.List != CopyOption.Skip)
@@ -8916,7 +9398,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.List, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.List, ex);
                 }
             }
             if (copyMask?.RefList.Overall != CopyOption.Skip)
@@ -8948,7 +9430,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefList, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefList, ex);
                 }
             }
             if (copyMask?.Dict ?? true)
@@ -8963,7 +9445,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.Dict, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.Dict, ex);
                 }
             }
             if (copyMask?.RefDict.Overall ?? true)
@@ -9007,7 +9489,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.RefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.RefDict, ex);
                 }
             }
             if (copyMask?.KeyRefDict.Overall ?? true)
@@ -9039,7 +9521,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.KeyRefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict, ex);
                 }
             }
             if (copyMask?.ValRefDict.Overall ?? true)
@@ -9071,7 +9553,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.ValRefDict, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict, ex);
                 }
             }
             if (copyMask?.DictKeyedValue.Overall != CopyOption.Skip)
@@ -9099,7 +9581,7 @@ namespace Loqui.Tests.Internals
                 catch (Exception ex)
                 when (doMasks)
                 {
-                    errorMask().SetNthException((int)TestObject_HasBeenSet_FieldIndex.DictKeyedValue, ex);
+                    errorMask().SetNthException((int)TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue, ex);
                 }
             }
         }
@@ -9109,327 +9591,327 @@ namespace Loqui.Tests.Internals
         public static void SetNthObjectHasBeenSet(
             ushort index,
             bool on,
-            ITestObject_HasBeenSet obj,
+            ITestObject_Notifying_HasBeenSet obj,
             NotifyingFireParameters? cmds = null)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     obj.ByteArray_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     obj.ByteArrayNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     obj.ByteArrayNotNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     obj.BoolN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     obj.Bool_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     obj.CharN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     obj.Char_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     obj.DateTimeNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     obj.DateTime_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     obj.DoubleN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     obj.DoubleN_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     obj.Double_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     obj.Double_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     obj.FloatN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     obj.FloatN_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     obj.Float_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     obj.Float_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     obj.Int16N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     obj.Int16N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     obj.Int16_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     obj.Int16_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     obj.Int32N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     obj.Int32N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     obj.Int32_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     obj.Int32_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     obj.Int64N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     obj.Int64N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     obj.Int64_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     obj.Int64_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     obj.Int8N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     obj.Int8N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     obj.Int8_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     obj.Int8_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     obj.Unsafe_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     obj.UnsafeLoqui_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     obj.UnsafeNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     obj.P2IntN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     obj.P2Int_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     obj.P3DoubleN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     obj.P3Double_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     obj.P3IntN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     obj.P3Int_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     obj.PercentN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     obj.Percent_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     obj.RangeInt8N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     obj.RangeInt8_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     obj.RangeInt16N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     obj.RangeInt16_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     obj.RangeInt32N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     obj.RangeInt32_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     obj.RangeInt64N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     obj.RangeInt64_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     obj.RangeUInt8N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     obj.RangeUInt8_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     obj.RangeUInt16N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     obj.RangeUInt16_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     obj.RangeUInt32N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     obj.RangeUInt32_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     obj.RangeUInt64N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     obj.RangeUInt64_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     obj.String_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     obj.FilePath_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     obj.FilePathNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     obj.DirectoryPath_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     obj.DirectoryPathNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     obj.UDoubleN_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     obj.UDoubleN_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     obj.UDouble_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     obj.UDouble_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     obj.UInt16N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     obj.UInt16N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     obj.UInt16_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     obj.UInt16_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     obj.UInt32N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     obj.UInt32N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     obj.UInt32_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     obj.UInt32_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     obj.UInt64N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     obj.UInt64N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     obj.UInt64_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     obj.UInt64_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     obj.UInt8N_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     obj.UInt8N_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     obj.UInt8_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     obj.UInt8_Ranged_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     obj.Enum_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     obj.EnumNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     obj.WildCard_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     obj.WildCardLoqui_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     obj.WildCardNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     obj.Ref_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     obj.Ref_NotNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     obj.RefGetter_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     obj.RefGetter_NotNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     obj.RefSetter_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     obj.RefSetter_NotNull_Property.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     obj.List.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     obj.RefList.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     obj.Dict.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     obj.RefDict.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     obj.KeyRefDict.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     obj.ValRefDict.HasBeenSet = on;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.HasBeenSet = on;
                     break;
                 default:
@@ -9439,327 +9921,327 @@ namespace Loqui.Tests.Internals
 
         public static void UnsetNthObject(
             ushort index,
-            ITestObject_HasBeenSet obj,
+            ITestObject_Notifying_HasBeenSet obj,
             NotifyingUnsetParameters? cmds = null)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
-                    obj.ByteArray_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
+                    obj.ByteArray_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
+                    obj.ByteArrayNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                    obj.ByteArrayNotNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
-                    obj.BoolN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
+                    obj.BoolN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
-                    obj.Bool_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
+                    obj.Bool_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
-                    obj.CharN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
+                    obj.CharN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
-                    obj.Char_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
+                    obj.Char_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
-                    obj.DateTimeNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
+                    obj.DateTimeNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
-                    obj.DateTime_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
+                    obj.DateTime_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
-                    obj.DoubleN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
+                    obj.DoubleN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                    obj.DoubleN_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                    obj.DoubleN_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
-                    obj.Double_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
+                    obj.Double_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
-                    obj.Double_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
+                    obj.Double_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
-                    obj.FloatN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
+                    obj.FloatN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
-                    obj.FloatN_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
+                    obj.FloatN_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
-                    obj.Float_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
+                    obj.Float_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
-                    obj.Float_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
+                    obj.Float_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
-                    obj.Int16N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
+                    obj.Int16N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
-                    obj.Int16N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
+                    obj.Int16N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
-                    obj.Int16_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
+                    obj.Int16_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
-                    obj.Int16_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
+                    obj.Int16_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
-                    obj.Int32N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
+                    obj.Int32N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
-                    obj.Int32N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
+                    obj.Int32N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
-                    obj.Int32_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
+                    obj.Int32_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
-                    obj.Int32_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
+                    obj.Int32_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
-                    obj.Int64N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
+                    obj.Int64N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
-                    obj.Int64N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
+                    obj.Int64N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
-                    obj.Int64_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
+                    obj.Int64_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
-                    obj.Int64_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
+                    obj.Int64_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
-                    obj.Int8N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
+                    obj.Int8N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
-                    obj.Int8N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
+                    obj.Int8N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
-                    obj.Int8_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
+                    obj.Int8_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
-                    obj.Int8_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
+                    obj.Int8_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
-                    obj.Unsafe_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
+                    obj.Unsafe_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
-                    obj.UnsafeLoqui_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
+                    obj.UnsafeLoqui_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
-                    obj.UnsafeNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
+                    obj.UnsafeNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
-                    obj.P2IntN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
+                    obj.P2IntN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
-                    obj.P2Int_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
+                    obj.P2Int_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
-                    obj.P3DoubleN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
+                    obj.P3DoubleN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
-                    obj.P3Double_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
+                    obj.P3Double_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
-                    obj.P3IntN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
+                    obj.P3IntN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
-                    obj.P3Int_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
+                    obj.P3Int_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
-                    obj.PercentN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
+                    obj.PercentN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
-                    obj.Percent_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
+                    obj.Percent_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
-                    obj.RangeInt8N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
+                    obj.RangeInt8N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
-                    obj.RangeInt8_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
+                    obj.RangeInt8_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
-                    obj.RangeInt16N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
+                    obj.RangeInt16N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
-                    obj.RangeInt16_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
+                    obj.RangeInt16_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
-                    obj.RangeInt32N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
+                    obj.RangeInt32N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
-                    obj.RangeInt32_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
+                    obj.RangeInt32_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
-                    obj.RangeInt64N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
+                    obj.RangeInt64N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
-                    obj.RangeInt64_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
+                    obj.RangeInt64_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
-                    obj.RangeUInt8N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
+                    obj.RangeUInt8N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
-                    obj.RangeUInt8_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
+                    obj.RangeUInt8_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
-                    obj.RangeUInt16N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
+                    obj.RangeUInt16N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
-                    obj.RangeUInt16_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
+                    obj.RangeUInt16_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
-                    obj.RangeUInt32N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
+                    obj.RangeUInt32N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
-                    obj.RangeUInt32_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
+                    obj.RangeUInt32_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
-                    obj.RangeUInt64N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
+                    obj.RangeUInt64N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
-                    obj.RangeUInt64_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
+                    obj.RangeUInt64_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.String:
-                    obj.String_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
+                    obj.String_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
-                    obj.FilePath_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
+                    obj.FilePath_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
-                    obj.FilePathNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
+                    obj.FilePathNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
-                    obj.DirectoryPath_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
+                    obj.DirectoryPath_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
-                    obj.DirectoryPathNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
+                    obj.DirectoryPathNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
-                    obj.UDoubleN_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
+                    obj.UDoubleN_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                    obj.UDoubleN_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                    obj.UDoubleN_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
-                    obj.UDouble_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
+                    obj.UDouble_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
-                    obj.UDouble_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
+                    obj.UDouble_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
-                    obj.UInt16N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
+                    obj.UInt16N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                    obj.UInt16N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                    obj.UInt16N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
-                    obj.UInt16_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
+                    obj.UInt16_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
-                    obj.UInt16_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
+                    obj.UInt16_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
-                    obj.UInt32N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
+                    obj.UInt32N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                    obj.UInt32N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                    obj.UInt32N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
-                    obj.UInt32_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
+                    obj.UInt32_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
-                    obj.UInt32_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
+                    obj.UInt32_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
-                    obj.UInt64N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
+                    obj.UInt64N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                    obj.UInt64N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                    obj.UInt64N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
-                    obj.UInt64_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
+                    obj.UInt64_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
-                    obj.UInt64_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
+                    obj.UInt64_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
-                    obj.UInt8N_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
+                    obj.UInt8N_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                    obj.UInt8N_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                    obj.UInt8N_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
-                    obj.UInt8_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
+                    obj.UInt8_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
-                    obj.UInt8_Ranged_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
+                    obj.UInt8_Ranged_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
-                    obj.Enum_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
+                    obj.Enum_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
-                    obj.EnumNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
+                    obj.EnumNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
-                    obj.WildCard_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
+                    obj.WildCard_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
-                    obj.WildCardLoqui_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
+                    obj.WildCardLoqui_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
-                    obj.WildCardNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
+                    obj.WildCardNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
-                    obj.Ref_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
+                    obj.Ref_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
-                    obj.Ref_NotNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
+                    obj.Ref_NotNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
-                    obj.RefGetter_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
+                    obj.RefGetter_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                    obj.RefGetter_NotNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                    obj.RefGetter_NotNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
-                    obj.RefSetter_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
+                    obj.RefSetter_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                    obj.RefSetter_NotNull_Property.Unset();
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                    obj.RefSetter_NotNull_Property.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     obj.List.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     obj.RefList.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     obj.Dict.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     obj.RefDict.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     obj.KeyRefDict.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     obj.ValRefDict.Unset(cmds);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     obj.DictKeyedValue.Unset(cmds);
                     break;
                 default:
@@ -9769,224 +10251,224 @@ namespace Loqui.Tests.Internals
 
         public static bool GetNthObjectHasBeenSet(
             ushort index,
-            ITestObject_HasBeenSet obj)
+            ITestObject_Notifying_HasBeenSet obj)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     return obj.ByteArray_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     return obj.ByteArrayNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     return obj.ByteArrayNotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     return obj.ByteArraySingleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     return obj.BoolN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     return obj.Bool_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     return obj.CharN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     return obj.Char_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     return obj.DateTimeNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     return obj.DateTime_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     return obj.DoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     return obj.DoubleN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     return obj.Double_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     return obj.Double_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     return obj.FloatN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     return obj.FloatN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     return obj.Float_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     return obj.Float_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     return obj.Int16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     return obj.Int16N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     return obj.Int16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     return obj.Int16_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     return obj.Int32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     return obj.Int32N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     return obj.Int32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     return obj.Int32_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     return obj.Int64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     return obj.Int64N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     return obj.Int64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     return obj.Int64_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     return obj.Int8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     return obj.Int8N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     return obj.Int8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     return obj.Int8_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     return obj.Unsafe_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     return obj.UnsafeLoqui_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     return obj.UnsafeNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     return obj.P2IntN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     return obj.P2Int_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     return obj.P3Double_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     return obj.P3IntN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     return obj.P3Int_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     return obj.PercentN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     return obj.Percent_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     return obj.RangeInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     return obj.RangeInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     return obj.RangeInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     return obj.RangeInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     return obj.RangeInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     return obj.RangeInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     return obj.RangeInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     return obj.RangeInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     return obj.RangeUInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     return obj.RangeUInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     return obj.RangeUInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     return obj.RangeUInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     return obj.RangeUInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     return obj.RangeUInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     return obj.RangeUInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     return obj.RangeUInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     return obj.String_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     return obj.FilePath_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     return obj.FilePathNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     return obj.DirectoryPath_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     return obj.DirectoryPathNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     return obj.UDoubleN_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     return obj.UDoubleN_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     return obj.UDouble_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     return obj.UDouble_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     return obj.UInt16N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     return obj.UInt16N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     return obj.UInt16_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     return obj.UInt16_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     return obj.UInt32N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     return obj.UInt32N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     return obj.UInt32_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     return obj.UInt32_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     return obj.UInt64N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     return obj.UInt64N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     return obj.UInt64_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     return obj.UInt64_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     return obj.UInt8N_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     return obj.UInt8N_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     return obj.UInt8_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     return obj.UInt8_Ranged_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     return obj.Enum_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     return obj.EnumNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     return obj.WildCard_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     return obj.WildCardLoqui_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     return obj.WildCardNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     return obj.Ref_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     return obj.RefGetter_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     return obj.RefSetter_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton_Property.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     return obj.List.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return obj.RefList.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     return obj.Dict.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     return obj.RefDict.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     return obj.KeyRefDict.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     return obj.ValRefDict.HasBeenSet;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue.HasBeenSet;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -9995,224 +10477,224 @@ namespace Loqui.Tests.Internals
 
         public static object GetNthObject(
             ushort index,
-            ITestObject_HasBeenSetGetter obj)
+            ITestObject_Notifying_HasBeenSetGetter obj)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     return obj.ByteArray;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     return obj.ByteArrayNull;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     return obj.ByteArrayNotNull;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     return obj.ByteArraySingleton;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     return obj.BoolN;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     return obj.Bool;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     return obj.CharN;
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     return obj.Char;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     return obj.DateTimeNull;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     return obj.DateTime;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     return obj.DoubleN;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     return obj.DoubleN_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     return obj.Double;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     return obj.Double_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     return obj.FloatN;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     return obj.FloatN_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     return obj.Float;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     return obj.Float_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     return obj.Int16N;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     return obj.Int16N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     return obj.Int16;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     return obj.Int16_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     return obj.Int32N;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     return obj.Int32N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     return obj.Int32;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     return obj.Int32_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     return obj.Int64N;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     return obj.Int64N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     return obj.Int64;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     return obj.Int64_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     return obj.Int8N;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     return obj.Int8N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     return obj.Int8;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     return obj.Int8_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     return obj.Unsafe;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     return obj.UnsafeLoqui;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     return obj.UnsafeNull;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     return obj.P2IntN;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     return obj.P2Int;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     return obj.P3DoubleN;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     return obj.P3Double;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     return obj.P3IntN;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     return obj.P3Int;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     return obj.PercentN;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     return obj.Percent;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     return obj.RangeInt8N;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     return obj.RangeInt8;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     return obj.RangeInt16N;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     return obj.RangeInt16;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     return obj.RangeInt32N;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     return obj.RangeInt32;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     return obj.RangeInt64N;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     return obj.RangeInt64;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     return obj.RangeUInt8N;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     return obj.RangeUInt8;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     return obj.RangeUInt16N;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     return obj.RangeUInt16;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     return obj.RangeUInt32N;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     return obj.RangeUInt32;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     return obj.RangeUInt64N;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     return obj.RangeUInt64;
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     return obj.String;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     return obj.FilePath;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     return obj.FilePathNull;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     return obj.DirectoryPath;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     return obj.DirectoryPathNull;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     return obj.UDoubleN;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     return obj.UDoubleN_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     return obj.UDouble;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     return obj.UDouble_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     return obj.UInt16N;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     return obj.UInt16N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     return obj.UInt16;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     return obj.UInt16_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     return obj.UInt32N;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     return obj.UInt32N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     return obj.UInt32;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     return obj.UInt32_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     return obj.UInt64N;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     return obj.UInt64N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     return obj.UInt64;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     return obj.UInt64_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     return obj.UInt8N;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     return obj.UInt8N_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     return obj.UInt8;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     return obj.UInt8_Ranged;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     return obj.Enum;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     return obj.EnumNull;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     return obj.WildCard;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     return obj.WildCardLoqui;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     return obj.WildCardNull;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     return obj.Ref;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     return obj.Ref_NotNull;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     return obj.Ref_Singleton;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     return obj.RefGetter;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     return obj.RefGetter_NotNull;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     return obj.RefGetter_Singleton;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     return obj.RefSetter;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     return obj.RefSetter_NotNull;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     return obj.RefSetter_Singleton;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     return obj.List;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     return obj.RefList;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     return obj.Dict;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     return obj.RefDict;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     return obj.KeyRefDict;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     return obj.ValRefDict;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     return obj.DictKeyedValue;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
@@ -10220,105 +10702,105 @@ namespace Loqui.Tests.Internals
         }
 
         public static void Clear(
-            ITestObject_HasBeenSet item,
+            ITestObject_Notifying_HasBeenSet item,
             NotifyingUnsetParameters? cmds = null)
         {
-            item.ByteArray_Property.Unset();
-            item.ByteArrayNull_Property.Unset();
-            item.ByteArrayNotNull_Property.Unset();
-            item.BoolN_Property.Unset();
-            item.Bool_Property.Unset();
-            item.CharN_Property.Unset();
-            item.Char_Property.Unset();
-            item.DateTimeNull_Property.Unset();
-            item.DateTime_Property.Unset();
-            item.DoubleN_Property.Unset();
-            item.DoubleN_Ranged_Property.Unset();
-            item.Double_Property.Unset();
-            item.Double_Ranged_Property.Unset();
-            item.FloatN_Property.Unset();
-            item.FloatN_Ranged_Property.Unset();
-            item.Float_Property.Unset();
-            item.Float_Ranged_Property.Unset();
-            item.Int16N_Property.Unset();
-            item.Int16N_Ranged_Property.Unset();
-            item.Int16_Property.Unset();
-            item.Int16_Ranged_Property.Unset();
-            item.Int32N_Property.Unset();
-            item.Int32N_Ranged_Property.Unset();
-            item.Int32_Property.Unset();
-            item.Int32_Ranged_Property.Unset();
-            item.Int64N_Property.Unset();
-            item.Int64N_Ranged_Property.Unset();
-            item.Int64_Property.Unset();
-            item.Int64_Ranged_Property.Unset();
-            item.Int8N_Property.Unset();
-            item.Int8N_Ranged_Property.Unset();
-            item.Int8_Property.Unset();
-            item.Int8_Ranged_Property.Unset();
-            item.Unsafe_Property.Unset();
-            item.UnsafeLoqui_Property.Unset();
-            item.UnsafeNull_Property.Unset();
-            item.P2IntN_Property.Unset();
-            item.P2Int_Property.Unset();
-            item.P3DoubleN_Property.Unset();
-            item.P3Double_Property.Unset();
-            item.P3IntN_Property.Unset();
-            item.P3Int_Property.Unset();
-            item.PercentN_Property.Unset();
-            item.Percent_Property.Unset();
-            item.RangeInt8N_Property.Unset();
-            item.RangeInt8_Property.Unset();
-            item.RangeInt16N_Property.Unset();
-            item.RangeInt16_Property.Unset();
-            item.RangeInt32N_Property.Unset();
-            item.RangeInt32_Property.Unset();
-            item.RangeInt64N_Property.Unset();
-            item.RangeInt64_Property.Unset();
-            item.RangeUInt8N_Property.Unset();
-            item.RangeUInt8_Property.Unset();
-            item.RangeUInt16N_Property.Unset();
-            item.RangeUInt16_Property.Unset();
-            item.RangeUInt32N_Property.Unset();
-            item.RangeUInt32_Property.Unset();
-            item.RangeUInt64N_Property.Unset();
-            item.RangeUInt64_Property.Unset();
-            item.String_Property.Unset();
-            item.FilePath_Property.Unset();
-            item.FilePathNull_Property.Unset();
-            item.DirectoryPath_Property.Unset();
-            item.DirectoryPathNull_Property.Unset();
-            item.UDoubleN_Property.Unset();
-            item.UDoubleN_Ranged_Property.Unset();
-            item.UDouble_Property.Unset();
-            item.UDouble_Ranged_Property.Unset();
-            item.UInt16N_Property.Unset();
-            item.UInt16N_Ranged_Property.Unset();
-            item.UInt16_Property.Unset();
-            item.UInt16_Ranged_Property.Unset();
-            item.UInt32N_Property.Unset();
-            item.UInt32N_Ranged_Property.Unset();
-            item.UInt32_Property.Unset();
-            item.UInt32_Ranged_Property.Unset();
-            item.UInt64N_Property.Unset();
-            item.UInt64N_Ranged_Property.Unset();
-            item.UInt64_Property.Unset();
-            item.UInt64_Ranged_Property.Unset();
-            item.UInt8N_Property.Unset();
-            item.UInt8N_Ranged_Property.Unset();
-            item.UInt8_Property.Unset();
-            item.UInt8_Ranged_Property.Unset();
-            item.Enum_Property.Unset();
-            item.EnumNull_Property.Unset();
-            item.WildCard_Property.Unset();
-            item.WildCardLoqui_Property.Unset();
-            item.WildCardNull_Property.Unset();
-            item.Ref_Property.Unset();
-            item.Ref_NotNull_Property.Unset();
-            item.RefGetter_Property.Unset();
-            item.RefGetter_NotNull_Property.Unset();
-            item.RefSetter_Property.Unset();
-            item.RefSetter_NotNull_Property.Unset();
+            item.ByteArray_Property.Unset(cmds.ToUnsetParams());
+            item.ByteArrayNull_Property.Unset(cmds.ToUnsetParams());
+            item.ByteArrayNotNull_Property.Unset(cmds.ToUnsetParams());
+            item.BoolN_Property.Unset(cmds.ToUnsetParams());
+            item.Bool_Property.Unset(cmds.ToUnsetParams());
+            item.CharN_Property.Unset(cmds.ToUnsetParams());
+            item.Char_Property.Unset(cmds.ToUnsetParams());
+            item.DateTimeNull_Property.Unset(cmds.ToUnsetParams());
+            item.DateTime_Property.Unset(cmds.ToUnsetParams());
+            item.DoubleN_Property.Unset(cmds.ToUnsetParams());
+            item.DoubleN_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Double_Property.Unset(cmds.ToUnsetParams());
+            item.Double_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.FloatN_Property.Unset(cmds.ToUnsetParams());
+            item.FloatN_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Float_Property.Unset(cmds.ToUnsetParams());
+            item.Float_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int16N_Property.Unset(cmds.ToUnsetParams());
+            item.Int16N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int16_Property.Unset(cmds.ToUnsetParams());
+            item.Int16_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int32N_Property.Unset(cmds.ToUnsetParams());
+            item.Int32N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int32_Property.Unset(cmds.ToUnsetParams());
+            item.Int32_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int64N_Property.Unset(cmds.ToUnsetParams());
+            item.Int64N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int64_Property.Unset(cmds.ToUnsetParams());
+            item.Int64_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int8N_Property.Unset(cmds.ToUnsetParams());
+            item.Int8N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Int8_Property.Unset(cmds.ToUnsetParams());
+            item.Int8_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Unsafe_Property.Unset(cmds.ToUnsetParams());
+            item.UnsafeLoqui_Property.Unset(cmds.ToUnsetParams());
+            item.UnsafeNull_Property.Unset(cmds.ToUnsetParams());
+            item.P2IntN_Property.Unset(cmds.ToUnsetParams());
+            item.P2Int_Property.Unset(cmds.ToUnsetParams());
+            item.P3DoubleN_Property.Unset(cmds.ToUnsetParams());
+            item.P3Double_Property.Unset(cmds.ToUnsetParams());
+            item.P3IntN_Property.Unset(cmds.ToUnsetParams());
+            item.P3Int_Property.Unset(cmds.ToUnsetParams());
+            item.PercentN_Property.Unset(cmds.ToUnsetParams());
+            item.Percent_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt8N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt8_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt16N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt16_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt32N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt32_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt64N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeInt64_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt8N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt8_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt16N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt16_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt32N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt32_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt64N_Property.Unset(cmds.ToUnsetParams());
+            item.RangeUInt64_Property.Unset(cmds.ToUnsetParams());
+            item.String_Property.Unset(cmds.ToUnsetParams());
+            item.FilePath_Property.Unset(cmds.ToUnsetParams());
+            item.FilePathNull_Property.Unset(cmds.ToUnsetParams());
+            item.DirectoryPath_Property.Unset(cmds.ToUnsetParams());
+            item.DirectoryPathNull_Property.Unset(cmds.ToUnsetParams());
+            item.UDoubleN_Property.Unset(cmds.ToUnsetParams());
+            item.UDoubleN_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UDouble_Property.Unset(cmds.ToUnsetParams());
+            item.UDouble_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16_Property.Unset(cmds.ToUnsetParams());
+            item.UInt16_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32_Property.Unset(cmds.ToUnsetParams());
+            item.UInt32_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64_Property.Unset(cmds.ToUnsetParams());
+            item.UInt64_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8N_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8N_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8_Property.Unset(cmds.ToUnsetParams());
+            item.UInt8_Ranged_Property.Unset(cmds.ToUnsetParams());
+            item.Enum_Property.Unset(cmds.ToUnsetParams());
+            item.EnumNull_Property.Unset(cmds.ToUnsetParams());
+            item.WildCard_Property.Unset(cmds.ToUnsetParams());
+            item.WildCardLoqui_Property.Unset(cmds.ToUnsetParams());
+            item.WildCardNull_Property.Unset(cmds.ToUnsetParams());
+            item.Ref_Property.Unset(cmds.ToUnsetParams());
+            item.Ref_NotNull_Property.Unset(cmds.ToUnsetParams());
+            item.RefGetter_Property.Unset(cmds.ToUnsetParams());
+            item.RefGetter_NotNull_Property.Unset(cmds.ToUnsetParams());
+            item.RefSetter_Property.Unset(cmds.ToUnsetParams());
+            item.RefSetter_NotNull_Property.Unset(cmds.ToUnsetParams());
             item.List.Unset(cmds.ToUnsetParams());
             item.RefList.Unset(cmds.ToUnsetParams());
             item.Dict.Unset(cmds.ToUnsetParams());
@@ -10328,19 +10810,19 @@ namespace Loqui.Tests.Internals
             item.DictKeyedValue.Unset(cmds.ToUnsetParams());
         }
 
-        public static TestObject_HasBeenSet_Mask<bool> GetEqualsMask(
-            this ITestObject_HasBeenSetGetter item,
-            ITestObject_HasBeenSetGetter rhs)
+        public static TestObject_Notifying_HasBeenSet_Mask<bool> GetEqualsMask(
+            this ITestObject_Notifying_HasBeenSetGetter item,
+            ITestObject_Notifying_HasBeenSetGetter rhs)
         {
-            var ret = new TestObject_HasBeenSet_Mask<bool>();
+            var ret = new TestObject_Notifying_HasBeenSet_Mask<bool>();
             FillEqualsMask(item, rhs, ret);
             return ret;
         }
 
         public static void FillEqualsMask(
-            ITestObject_HasBeenSetGetter item,
-            ITestObject_HasBeenSetGetter rhs,
-            TestObject_HasBeenSet_Mask<bool> ret)
+            ITestObject_Notifying_HasBeenSetGetter item,
+            ITestObject_Notifying_HasBeenSetGetter rhs,
+            TestObject_Notifying_HasBeenSet_Mask<bool> ret)
         {
             if (rhs == null) return;
             ret.ByteArray = item.ByteArray_Property.Equals(rhs.ByteArray_Property, (l, r) => l.EqualsFast(r));
@@ -10613,9 +11095,9 @@ namespace Loqui.Tests.Internals
         }
 
         public static string ToString(
-            this ITestObject_HasBeenSetGetter item,
+            this ITestObject_Notifying_HasBeenSetGetter item,
             string name = null,
-            TestObject_HasBeenSet_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
             item.ToString(fg, name, printMask);
@@ -10623,18 +11105,18 @@ namespace Loqui.Tests.Internals
         }
 
         public static void ToString(
-            this ITestObject_HasBeenSetGetter item,
+            this ITestObject_Notifying_HasBeenSetGetter item,
             FileGeneration fg,
             string name = null,
-            TestObject_HasBeenSet_Mask<bool> printMask = null)
+            TestObject_Notifying_HasBeenSet_Mask<bool> printMask = null)
         {
             if (name == null)
             {
-                fg.AppendLine($"{nameof(TestObject_HasBeenSet)} =>");
+                fg.AppendLine($"{nameof(TestObject_Notifying_HasBeenSet)} =>");
             }
             else
             {
-                fg.AppendLine($"{name} ({nameof(TestObject_HasBeenSet)}) =>");
+                fg.AppendLine($"{name} ({nameof(TestObject_Notifying_HasBeenSet)}) =>");
             }
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
@@ -11174,8 +11656,8 @@ namespace Loqui.Tests.Internals
         }
 
         public static bool HasBeenSet(
-            this ITestObject_HasBeenSetGetter item,
-            TestObject_HasBeenSet_Mask<bool?> checkMask)
+            this ITestObject_Notifying_HasBeenSetGetter item,
+            TestObject_Notifying_HasBeenSet_Mask<bool?> checkMask)
         {
             if (checkMask.ByteArray.HasValue && checkMask.ByteArray.Value != item.ByteArray_Property.HasBeenSet) return false;
             if (checkMask.ByteArrayNull.HasValue && checkMask.ByteArrayNull.Value != item.ByteArrayNull_Property.HasBeenSet) return false;
@@ -11296,9 +11778,9 @@ namespace Loqui.Tests.Internals
             return true;
         }
 
-        public static TestObject_HasBeenSet_Mask<bool> GetHasBeenSetMask(ITestObject_HasBeenSetGetter item)
+        public static TestObject_Notifying_HasBeenSet_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_HasBeenSetGetter item)
         {
-            var ret = new TestObject_HasBeenSet_Mask<bool>();
+            var ret = new TestObject_Notifying_HasBeenSet_Mask<bool>();
             ret.ByteArray = item.ByteArray_Property.HasBeenSet;
             ret.ByteArrayNull = item.ByteArrayNull_Property.HasBeenSet;
             ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.HasBeenSet;
@@ -11422,33 +11904,33 @@ namespace Loqui.Tests.Internals
         #region XML Write
         public static void Write_XML(
             XmlWriter writer,
-            ITestObject_HasBeenSetGetter item,
+            ITestObject_Notifying_HasBeenSetGetter item,
             bool doMasks,
-            out TestObject_HasBeenSet_ErrorMask errorMask,
+            out TestObject_Notifying_HasBeenSet_ErrorMask errorMask,
             string name = null)
         {
-            TestObject_HasBeenSet_ErrorMask errMaskRet = null;
+            TestObject_Notifying_HasBeenSet_ErrorMask errMaskRet = null;
             Write_XML_Internal(
                 writer: writer,
                 name: name,
                 item: item,
-                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_HasBeenSet_ErrorMask()) : default(Func<TestObject_HasBeenSet_ErrorMask>));
+                errorMask: doMasks ? () => errMaskRet ?? (errMaskRet = new TestObject_Notifying_HasBeenSet_ErrorMask()) : default(Func<TestObject_Notifying_HasBeenSet_ErrorMask>));
             errorMask = errMaskRet;
         }
 
         private static void Write_XML_Internal(
             XmlWriter writer,
-            ITestObject_HasBeenSetGetter item,
-            Func<TestObject_HasBeenSet_ErrorMask> errorMask,
+            ITestObject_Notifying_HasBeenSetGetter item,
+            Func<TestObject_Notifying_HasBeenSet_ErrorMask> errorMask,
             string name = null)
         {
             try
             {
-                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_HasBeenSet"))
+                using (new ElementWrapper(writer, name ?? "Loqui.Tests.TestObject_Notifying_HasBeenSet"))
                 {
                     if (name != null)
                     {
-                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_HasBeenSet");
+                        writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_HasBeenSet");
                     }
                     if (item.ByteArray_Property.HasBeenSet)
                     {
@@ -11461,7 +11943,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArray,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray,
                             subMask);
                     }
                     if (item.ByteArrayNull_Property.HasBeenSet)
@@ -11475,7 +11957,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArrayNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull,
                             subMask);
                     }
                     if (item.ByteArrayNotNull_Property.HasBeenSet)
@@ -11489,7 +11971,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull,
                             subMask);
                     }
                     if (item.ByteArraySingleton_Property.HasBeenSet)
@@ -11503,7 +11985,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ByteArraySingleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton,
                             subMask);
                     }
                     if (item.BoolN_Property.HasBeenSet)
@@ -11517,7 +11999,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.BoolN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.BoolN,
                             subMask);
                     }
                     if (item.Bool_Property.HasBeenSet)
@@ -11531,7 +12013,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Bool,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Bool,
                             subMask);
                     }
                     if (item.CharN_Property.HasBeenSet)
@@ -11545,7 +12027,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.CharN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.CharN,
                             subMask);
                     }
                     if (item.Char_Property.HasBeenSet)
@@ -11559,7 +12041,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Char,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Char,
                             subMask);
                     }
                     if (item.DateTimeNull_Property.HasBeenSet)
@@ -11573,7 +12055,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DateTimeNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull,
                             subMask);
                     }
                     if (item.DateTime_Property.HasBeenSet)
@@ -11587,7 +12069,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DateTime,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DateTime,
                             subMask);
                     }
                     if (item.DoubleN_Property.HasBeenSet)
@@ -11601,7 +12083,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN,
                             subMask);
                     }
                     if (item.DoubleN_Ranged_Property.HasBeenSet)
@@ -11615,7 +12097,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged,
                             subMask);
                     }
                     if (item.Double_Property.HasBeenSet)
@@ -11629,7 +12111,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Double,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Double,
                             subMask);
                     }
                     if (item.Double_Ranged_Property.HasBeenSet)
@@ -11643,7 +12125,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Double_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged,
                             subMask);
                     }
                     if (item.FloatN_Property.HasBeenSet)
@@ -11657,7 +12139,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FloatN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN,
                             subMask);
                     }
                     if (item.FloatN_Ranged_Property.HasBeenSet)
@@ -11671,7 +12153,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FloatN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged,
                             subMask);
                     }
                     if (item.Float_Property.HasBeenSet)
@@ -11685,7 +12167,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Float,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Float,
                             subMask);
                     }
                     if (item.Float_Ranged_Property.HasBeenSet)
@@ -11699,7 +12181,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Float_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged,
                             subMask);
                     }
                     if (item.Int16N_Property.HasBeenSet)
@@ -11713,7 +12195,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N,
                             subMask);
                     }
                     if (item.Int16N_Ranged_Property.HasBeenSet)
@@ -11727,7 +12209,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged,
                             subMask);
                     }
                     if (item.Int16_Property.HasBeenSet)
@@ -11741,7 +12223,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16,
                             subMask);
                     }
                     if (item.Int16_Ranged_Property.HasBeenSet)
@@ -11755,7 +12237,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged,
                             subMask);
                     }
                     if (item.Int32N_Property.HasBeenSet)
@@ -11769,7 +12251,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N,
                             subMask);
                     }
                     if (item.Int32N_Ranged_Property.HasBeenSet)
@@ -11783,7 +12265,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged,
                             subMask);
                     }
                     if (item.Int32_Property.HasBeenSet)
@@ -11797,7 +12279,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32,
                             subMask);
                     }
                     if (item.Int32_Ranged_Property.HasBeenSet)
@@ -11811,7 +12293,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged,
                             subMask);
                     }
                     if (item.Int64N_Property.HasBeenSet)
@@ -11825,7 +12307,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N,
                             subMask);
                     }
                     if (item.Int64N_Ranged_Property.HasBeenSet)
@@ -11839,7 +12321,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged,
                             subMask);
                     }
                     if (item.Int64_Property.HasBeenSet)
@@ -11853,7 +12335,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64,
                             subMask);
                     }
                     if (item.Int64_Ranged_Property.HasBeenSet)
@@ -11867,7 +12349,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged,
                             subMask);
                     }
                     if (item.Int8N_Property.HasBeenSet)
@@ -11881,7 +12363,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N,
                             subMask);
                     }
                     if (item.Int8N_Ranged_Property.HasBeenSet)
@@ -11895,7 +12377,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged,
                             subMask);
                     }
                     if (item.Int8_Property.HasBeenSet)
@@ -11909,7 +12391,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8,
                             subMask);
                     }
                     if (item.Int8_Ranged_Property.HasBeenSet)
@@ -11923,7 +12405,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Int8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged,
                             subMask);
                     }
                     if (item.Unsafe_Property.HasBeenSet)
@@ -11938,7 +12420,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Unsafe,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe,
                             subMask);
                     }
                     if (item.UnsafeLoqui_Property.HasBeenSet)
@@ -11953,7 +12435,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UnsafeLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui,
                             subMask);
                     }
                     if (item.UnsafeNull_Property.HasBeenSet)
@@ -11968,7 +12450,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UnsafeNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull,
                             subMask);
                     }
                     if (item.P2IntN_Property.HasBeenSet)
@@ -11982,7 +12464,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P2IntN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN,
                             subMask);
                     }
                     if (item.P2Int_Property.HasBeenSet)
@@ -11996,7 +12478,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P2Int,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P2Int,
                             subMask);
                     }
                     if (item.P3DoubleN_Property.HasBeenSet)
@@ -12010,7 +12492,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3DoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN,
                             subMask);
                     }
                     if (item.P3Double_Property.HasBeenSet)
@@ -12024,7 +12506,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3Double,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Double,
                             subMask);
                     }
                     if (item.P3IntN_Property.HasBeenSet)
@@ -12038,7 +12520,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3IntN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN,
                             subMask);
                     }
                     if (item.P3Int_Property.HasBeenSet)
@@ -12052,7 +12534,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.P3Int,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.P3Int,
                             subMask);
                     }
                     if (item.PercentN_Property.HasBeenSet)
@@ -12066,7 +12548,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.PercentN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.PercentN,
                             subMask);
                     }
                     if (item.Percent_Property.HasBeenSet)
@@ -12080,7 +12562,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Percent,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Percent,
                             subMask);
                     }
                     if (item.RangeInt8N_Property.HasBeenSet)
@@ -12094,7 +12576,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N,
                             subMask);
                     }
                     if (item.RangeInt8_Property.HasBeenSet)
@@ -12108,7 +12590,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8,
                             subMask);
                     }
                     if (item.RangeInt16N_Property.HasBeenSet)
@@ -12122,7 +12604,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N,
                             subMask);
                     }
                     if (item.RangeInt16_Property.HasBeenSet)
@@ -12136,7 +12618,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16,
                             subMask);
                     }
                     if (item.RangeInt32N_Property.HasBeenSet)
@@ -12150,7 +12632,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N,
                             subMask);
                     }
                     if (item.RangeInt32_Property.HasBeenSet)
@@ -12164,7 +12646,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32,
                             subMask);
                     }
                     if (item.RangeInt64N_Property.HasBeenSet)
@@ -12178,7 +12660,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N,
                             subMask);
                     }
                     if (item.RangeInt64_Property.HasBeenSet)
@@ -12192,7 +12674,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64,
                             subMask);
                     }
                     if (item.RangeUInt8N_Property.HasBeenSet)
@@ -12206,7 +12688,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N,
                             subMask);
                     }
                     if (item.RangeUInt8_Property.HasBeenSet)
@@ -12220,7 +12702,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8,
                             subMask);
                     }
                     if (item.RangeUInt16N_Property.HasBeenSet)
@@ -12234,7 +12716,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N,
                             subMask);
                     }
                     if (item.RangeUInt16_Property.HasBeenSet)
@@ -12248,7 +12730,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16,
                             subMask);
                     }
                     if (item.RangeUInt32N_Property.HasBeenSet)
@@ -12262,7 +12744,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N,
                             subMask);
                     }
                     if (item.RangeUInt32_Property.HasBeenSet)
@@ -12276,7 +12758,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32,
                             subMask);
                     }
                     if (item.RangeUInt64N_Property.HasBeenSet)
@@ -12290,7 +12772,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N,
                             subMask);
                     }
                     if (item.RangeUInt64_Property.HasBeenSet)
@@ -12304,7 +12786,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RangeUInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64,
                             subMask);
                     }
                     if (item.String_Property.HasBeenSet)
@@ -12318,7 +12800,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.String,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.String,
                             subMask);
                     }
                     if (item.FilePath_Property.HasBeenSet)
@@ -12332,7 +12814,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FilePath,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePath,
                             subMask);
                     }
                     if (item.FilePathNull_Property.HasBeenSet)
@@ -12346,7 +12828,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.FilePathNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull,
                             subMask);
                     }
                     if (item.DirectoryPath_Property.HasBeenSet)
@@ -12360,7 +12842,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DirectoryPath,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath,
                             subMask);
                     }
                     if (item.DirectoryPathNull_Property.HasBeenSet)
@@ -12374,7 +12856,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DirectoryPathNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull,
                             subMask);
                     }
                     if (item.UDoubleN_Property.HasBeenSet)
@@ -12388,7 +12870,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDoubleN,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN,
                             subMask);
                     }
                     if (item.UDoubleN_Ranged_Property.HasBeenSet)
@@ -12402,7 +12884,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged,
                             subMask);
                     }
                     if (item.UDouble_Property.HasBeenSet)
@@ -12416,7 +12898,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDouble,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble,
                             subMask);
                     }
                     if (item.UDouble_Ranged_Property.HasBeenSet)
@@ -12430,7 +12912,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UDouble_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged,
                             subMask);
                     }
                     if (item.UInt16N_Property.HasBeenSet)
@@ -12444,7 +12926,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N,
                             subMask);
                     }
                     if (item.UInt16N_Ranged_Property.HasBeenSet)
@@ -12458,7 +12940,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged,
                             subMask);
                     }
                     if (item.UInt16_Property.HasBeenSet)
@@ -12472,7 +12954,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16,
                             subMask);
                     }
                     if (item.UInt16_Ranged_Property.HasBeenSet)
@@ -12486,7 +12968,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt16_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged,
                             subMask);
                     }
                     if (item.UInt32N_Property.HasBeenSet)
@@ -12500,7 +12982,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N,
                             subMask);
                     }
                     if (item.UInt32N_Ranged_Property.HasBeenSet)
@@ -12514,7 +12996,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged,
                             subMask);
                     }
                     if (item.UInt32_Property.HasBeenSet)
@@ -12528,7 +13010,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32,
                             subMask);
                     }
                     if (item.UInt32_Ranged_Property.HasBeenSet)
@@ -12542,7 +13024,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt32_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged,
                             subMask);
                     }
                     if (item.UInt64N_Property.HasBeenSet)
@@ -12556,7 +13038,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N,
                             subMask);
                     }
                     if (item.UInt64N_Ranged_Property.HasBeenSet)
@@ -12570,7 +13052,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged,
                             subMask);
                     }
                     if (item.UInt64_Property.HasBeenSet)
@@ -12584,7 +13066,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64,
                             subMask);
                     }
                     if (item.UInt64_Ranged_Property.HasBeenSet)
@@ -12598,7 +13080,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt64_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged,
                             subMask);
                     }
                     if (item.UInt8N_Property.HasBeenSet)
@@ -12612,7 +13094,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8N,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N,
                             subMask);
                     }
                     if (item.UInt8N_Ranged_Property.HasBeenSet)
@@ -12626,7 +13108,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged,
                             subMask);
                     }
                     if (item.UInt8_Property.HasBeenSet)
@@ -12640,7 +13122,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8,
                             subMask);
                     }
                     if (item.UInt8_Ranged_Property.HasBeenSet)
@@ -12654,7 +13136,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.UInt8_Ranged,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged,
                             subMask);
                     }
                     if (item.Enum_Property.HasBeenSet)
@@ -12668,7 +13150,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Enum,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Enum,
                             subMask);
                     }
                     if (item.EnumNull_Property.HasBeenSet)
@@ -12682,7 +13164,7 @@ namespace Loqui.Tests.Internals
                             errorMask: out subMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.EnumNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull,
                             subMask);
                     }
                     if (item.WildCard_Property.HasBeenSet)
@@ -12697,7 +13179,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCard,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCard,
                             subMask);
                     }
                     if (item.WildCardLoqui_Property.HasBeenSet)
@@ -12712,7 +13194,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCardLoqui,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui,
                             subMask);
                     }
                     if (item.WildCardNull_Property.HasBeenSet)
@@ -12727,7 +13209,7 @@ namespace Loqui.Tests.Internals
                         subMask = (object)unsafeErrMask;
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.WildCardNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull,
                             subMask);
                     }
                     if (item.Ref_Property.HasBeenSet)
@@ -12742,7 +13224,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref,
                             subMask);
                     }
                     if (item.Ref_NotNull_Property.HasBeenSet)
@@ -12757,7 +13239,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull,
                             subMask);
                     }
                     if (item.Ref_Singleton_Property.HasBeenSet)
@@ -12772,7 +13254,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Ref_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton,
                             subMask);
                     }
                     if (item.RefGetter_Property.HasBeenSet)
@@ -12787,7 +13269,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefGetter,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter,
                             subMask);
                     }
                     if (item.RefGetter_NotNull_Property.HasBeenSet)
@@ -12802,7 +13284,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull,
                             subMask);
                     }
                     if (item.RefGetter_Singleton_Property.HasBeenSet)
@@ -12817,7 +13299,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton,
                             subMask);
                     }
                     if (item.RefSetter_Property.HasBeenSet)
@@ -12832,7 +13314,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter,
                             subMask);
                     }
                     if (item.RefSetter_NotNull_Property.HasBeenSet)
@@ -12847,7 +13329,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull,
                             subMask);
                     }
                     if (item.RefSetter_Singleton_Property.HasBeenSet)
@@ -12862,7 +13344,7 @@ namespace Loqui.Tests.Internals
                         subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton,
                             subMask);
                     }
                     if (item.List.HasBeenSet)
@@ -12886,7 +13368,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.List,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.List,
                             subMask);
                     }
                     if (item.RefList.HasBeenSet)
@@ -12911,7 +13393,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefList,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefList,
                             subMask);
                     }
                     if (item.Dict.HasBeenSet)
@@ -12945,7 +13427,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.Dict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.Dict,
                             subMask);
                     }
                     if (item.RefDict.HasBeenSet)
@@ -12981,7 +13463,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.RefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.RefDict,
                             subMask);
                     }
                     if (item.KeyRefDict.HasBeenSet)
@@ -13016,7 +13498,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.KeyRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict,
                             subMask);
                     }
                     if (item.ValRefDict.HasBeenSet)
@@ -13051,7 +13533,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.ValRefDict,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict,
                             subMask);
                     }
                     if (item.DictKeyedValue.HasBeenSet)
@@ -13076,7 +13558,7 @@ namespace Loqui.Tests.Internals
                             );
                         ErrorMask.HandleErrorMask(
                             errorMask,
-                            (int)TestObject_HasBeenSet_FieldIndex.DictKeyedValue,
+                            (int)TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue,
                             subMask);
                     }
                 }
@@ -13097,14 +13579,14 @@ namespace Loqui.Tests.Internals
     #region Modules
 
     #region Mask
-    public class TestObject_HasBeenSet_Mask<T> : IMask<T>, IEquatable<TestObject_HasBeenSet_Mask<T>>
+    public class TestObject_Notifying_HasBeenSet_Mask<T> : IMask<T>, IEquatable<TestObject_Notifying_HasBeenSet_Mask<T>>
     {
         #region Ctors
-        public TestObject_HasBeenSet_Mask()
+        public TestObject_Notifying_HasBeenSet_Mask()
         {
         }
 
-        public TestObject_HasBeenSet_Mask(T initialValue)
+        public TestObject_Notifying_HasBeenSet_Mask(T initialValue)
         {
             this.ByteArray = initialValue;
             this.ByteArrayNull = initialValue;
@@ -13329,11 +13811,11 @@ namespace Loqui.Tests.Internals
         #region Equals
         public override bool Equals(object obj)
         {
-            if (!(obj is TestObject_HasBeenSet_Mask<T> rhs)) return false;
+            if (!(obj is TestObject_Notifying_HasBeenSet_Mask<T> rhs)) return false;
             return Equals(rhs);
         }
 
-        public bool Equals(TestObject_HasBeenSet_Mask<T> rhs)
+        public bool Equals(TestObject_Notifying_HasBeenSet_Mask<T> rhs)
         {
             if (rhs == null) return false;
             if (!object.Equals(this.ByteArray, rhs.ByteArray)) return false;
@@ -13803,14 +14285,14 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Translate
-        public TestObject_HasBeenSet_Mask<R> Translate<R>(Func<T, R> eval)
+        public TestObject_Notifying_HasBeenSet_Mask<R> Translate<R>(Func<T, R> eval)
         {
-            var ret = new TestObject_HasBeenSet_Mask<R>();
+            var ret = new TestObject_Notifying_HasBeenSet_Mask<R>();
             this.Translate_InternalFill(ret, eval);
             return ret;
         }
 
-        protected void Translate_InternalFill<R>(TestObject_HasBeenSet_Mask<R> obj, Func<T, R> eval)
+        protected void Translate_InternalFill<R>(TestObject_Notifying_HasBeenSet_Mask<R> obj, Func<T, R> eval)
         {
             obj.ByteArray = eval(this.ByteArray);
             obj.ByteArrayNull = eval(this.ByteArrayNull);
@@ -14170,16 +14652,16 @@ namespace Loqui.Tests.Internals
             return ToString(printMask: null);
         }
 
-        public string ToString(TestObject_HasBeenSet_Mask<bool> printMask = null)
+        public string ToString(TestObject_Notifying_HasBeenSet_Mask<bool> printMask = null)
         {
             var fg = new FileGeneration();
             ToString(fg, printMask);
             return fg.ToString();
         }
 
-        public void ToString(FileGeneration fg, TestObject_HasBeenSet_Mask<bool> printMask = null)
+        public void ToString(FileGeneration fg, TestObject_Notifying_HasBeenSet_Mask<bool> printMask = null)
         {
-            fg.AppendLine($"{nameof(TestObject_HasBeenSet_Mask<T>)} =>");
+            fg.AppendLine($"{nameof(TestObject_Notifying_HasBeenSet_Mask<T>)} =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -14809,7 +15291,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestObject_HasBeenSet_ErrorMask : IErrorMask, IErrorMask<TestObject_HasBeenSet_ErrorMask>
+    public class TestObject_Notifying_HasBeenSet_ErrorMask : IErrorMask, IErrorMask<TestObject_Notifying_HasBeenSet_ErrorMask>
     {
         #region Members
         public Exception Overall { get; set; }
@@ -14937,328 +15419,328 @@ namespace Loqui.Tests.Internals
         #region IErrorMask
         public void SetNthException(int index, Exception ex)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     this.ByteArray = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     this.ByteArrayNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     this.ByteArrayNotNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     this.ByteArraySingleton = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     this.BoolN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     this.Bool = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     this.CharN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     this.Char = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     this.DateTimeNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     this.DateTime = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     this.DoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     this.DoubleN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     this.Double = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     this.Double_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     this.FloatN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     this.FloatN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     this.Float = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     this.Float_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     this.Int16N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     this.Int16N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     this.Int16 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     this.Int16_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     this.Int32N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     this.Int32N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     this.Int32 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     this.Int32_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     this.Int64N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     this.Int64N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     this.Int64 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     this.Int64_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     this.Int8N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     this.Int8N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     this.Int8 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     this.Int8_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     this.Unsafe = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     this.UnsafeLoqui = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     this.UnsafeNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     this.P2IntN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     this.P2Int = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     this.P3DoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     this.P3Double = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     this.P3IntN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     this.P3Int = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     this.PercentN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     this.Percent = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     this.RangeInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     this.RangeInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     this.RangeInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     this.RangeInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     this.RangeInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     this.RangeInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     this.RangeInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     this.RangeInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     this.RangeUInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     this.RangeUInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     this.RangeUInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     this.RangeUInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     this.RangeUInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     this.RangeUInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     this.RangeUInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     this.RangeUInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     this.String = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     this.FilePath = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     this.FilePathNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     this.DirectoryPath = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     this.DirectoryPathNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     this.UDoubleN = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     this.UDoubleN_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     this.UDouble = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     this.UDouble_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     this.UInt16N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     this.UInt16N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     this.UInt16 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     this.UInt16_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     this.UInt32N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     this.UInt32N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     this.UInt32 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     this.UInt32_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     this.UInt64N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     this.UInt64N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     this.UInt64 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     this.UInt64_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     this.UInt8N = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     this.UInt8N_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     this.UInt8 = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     this.UInt8_Ranged = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     this.Enum = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     this.EnumNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     this.WildCard = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     this.WildCardLoqui = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     this.WildCardNull = ex;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     this.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     this.RefGetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     this.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = new MaskItem<Exception, ObjectToRef_ErrorMask>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     this.List = new MaskItem<Exception, IEnumerable<Exception>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     this.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     this.Dict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     this.RefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     this.KeyRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     this.ValRefDict = new MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>(ex, null);
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(ex, null);
                     break;
                 default:
@@ -15268,328 +15750,328 @@ namespace Loqui.Tests.Internals
 
         public void SetNthMask(int index, object obj)
         {
-            TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
+            TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_HasBeenSet_FieldIndex.ByteArray:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
                     this.ByteArray = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
                     this.ByteArrayNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArrayNotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
                     this.ByteArrayNotNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ByteArraySingleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
                     this.ByteArraySingleton = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.BoolN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
                     this.BoolN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Bool:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
                     this.Bool = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.CharN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
                     this.CharN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Char:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
                     this.Char = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTimeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
                     this.DateTimeNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DateTime:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
                     this.DateTime = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
                     this.DoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
                     this.DoubleN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
                     this.Double = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Double_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
                     this.Double_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
                     this.FloatN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FloatN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
                     this.FloatN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
                     this.Float = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Float_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
                     this.Float_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
                     this.Int16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
                     this.Int16N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
                     this.Int16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
                     this.Int16_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
                     this.Int32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
                     this.Int32N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
                     this.Int32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
                     this.Int32_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
                     this.Int64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
                     this.Int64N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
                     this.Int64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
                     this.Int64_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
                     this.Int8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
                     this.Int8N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
                     this.Int8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Int8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
                     this.Int8_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Unsafe:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
                     this.Unsafe = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
                     this.UnsafeLoqui = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UnsafeNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
                     this.UnsafeNull = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
                     this.P2IntN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P2Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
                     this.P2Int = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3DoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
                     this.P3DoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Double:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
                     this.P3Double = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3IntN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
                     this.P3IntN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.P3Int:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
                     this.P3Int = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.PercentN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
                     this.PercentN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Percent:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
                     this.Percent = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
                     this.RangeInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
                     this.RangeInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
                     this.RangeInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
                     this.RangeInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
                     this.RangeInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
                     this.RangeInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
                     this.RangeInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
                     this.RangeInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
                     this.RangeUInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
                     this.RangeUInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
                     this.RangeUInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
                     this.RangeUInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
                     this.RangeUInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
                     this.RangeUInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
                     this.RangeUInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RangeUInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
                     this.RangeUInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.String:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
                     this.String = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
                     this.FilePath = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.FilePathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
                     this.FilePathNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPath:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
                     this.DirectoryPath = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DirectoryPathNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
                     this.DirectoryPathNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
                     this.UDoubleN = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDoubleN_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
                     this.UDoubleN_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
                     this.UDouble = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UDouble_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
                     this.UDouble_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
                     this.UInt16N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
                     this.UInt16N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
                     this.UInt16 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt16_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
                     this.UInt16_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
                     this.UInt32N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
                     this.UInt32N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
                     this.UInt32 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt32_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
                     this.UInt32_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
                     this.UInt64N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
                     this.UInt64N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
                     this.UInt64 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt64_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
                     this.UInt64_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
                     this.UInt8N = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8N_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
                     this.UInt8N_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
                     this.UInt8 = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.UInt8_Ranged:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
                     this.UInt8_Ranged = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Enum:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
                     this.Enum = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.EnumNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
                     this.EnumNull = (Exception)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCard:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
                     this.WildCard = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardLoqui:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
                     this.WildCardLoqui = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.WildCardNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
                     this.WildCardNull = obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
                     this.Ref = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
                     this.Ref_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Ref_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
                     this.Ref_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
                     this.RefGetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
                     this.RefGetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefGetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
                     this.RefGetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
                     this.RefSetter = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_NotNull:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
                     this.RefSetter_NotNull = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefSetter_Singleton:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     this.RefSetter_Singleton = (MaskItem<Exception, ObjectToRef_ErrorMask>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.List:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
                     this.List = (MaskItem<Exception, IEnumerable<Exception>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefList:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
                     this.RefList = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.Dict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
                     this.Dict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.RefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
                     this.RefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.KeyRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
                     this.KeyRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.ValRefDict:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
                     this.ValRefDict = (MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>>)obj;
                     break;
-                case TestObject_HasBeenSet_FieldIndex.DictKeyedValue:
+                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
                     this.DictKeyedValue = (MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>)obj;
                     break;
                 default:
@@ -15608,7 +16090,7 @@ namespace Loqui.Tests.Internals
 
         public void ToString(FileGeneration fg)
         {
-            fg.AppendLine("TestObject_HasBeenSet_ErrorMask =>");
+            fg.AppendLine("TestObject_Notifying_HasBeenSet_ErrorMask =>");
             fg.AppendLine("[");
             using (new DepthWrapper(fg))
             {
@@ -15930,9 +16412,9 @@ namespace Loqui.Tests.Internals
         #endregion
 
         #region Combine
-        public TestObject_HasBeenSet_ErrorMask Combine(TestObject_HasBeenSet_ErrorMask rhs)
+        public TestObject_Notifying_HasBeenSet_ErrorMask Combine(TestObject_Notifying_HasBeenSet_ErrorMask rhs)
         {
-            var ret = new TestObject_HasBeenSet_ErrorMask();
+            var ret = new TestObject_Notifying_HasBeenSet_ErrorMask();
             ret.ByteArray = this.ByteArray.Combine(rhs.ByteArray);
             ret.ByteArrayNull = this.ByteArrayNull.Combine(rhs.ByteArrayNull);
             ret.ByteArrayNotNull = this.ByteArrayNotNull.Combine(rhs.ByteArrayNotNull);
@@ -16042,7 +16524,7 @@ namespace Loqui.Tests.Internals
             ret.DictKeyedValue = new MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>>(this.DictKeyedValue.Overall.Combine(rhs.DictKeyedValue.Overall), new List<MaskItem<Exception, ObjectToRef_ErrorMask>>(this.DictKeyedValue.Specific.And(rhs.DictKeyedValue.Specific)));
             return ret;
         }
-        public static TestObject_HasBeenSet_ErrorMask Combine(TestObject_HasBeenSet_ErrorMask lhs, TestObject_HasBeenSet_ErrorMask rhs)
+        public static TestObject_Notifying_HasBeenSet_ErrorMask Combine(TestObject_Notifying_HasBeenSet_ErrorMask lhs, TestObject_Notifying_HasBeenSet_ErrorMask rhs)
         {
             if (lhs != null && rhs != null) return lhs.Combine(rhs);
             return lhs ?? rhs;
@@ -16050,7 +16532,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
     }
-    public class TestObject_HasBeenSet_CopyMask
+    public class TestObject_Notifying_HasBeenSet_CopyMask
     {
         #region Members
         public bool ByteArray;

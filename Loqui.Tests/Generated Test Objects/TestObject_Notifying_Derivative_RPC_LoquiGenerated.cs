@@ -43,7 +43,8 @@ namespace Loqui.Tests
         {
             _ByteArray = NotifyingItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArray)),
-                markAsSet: false);
+                markAsSet: false,
+                noNullFallback: () => new byte[4]);
             _ByteArrayNull = NotifyingItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNull)),
                 markAsSet: false);
@@ -55,331 +56,131 @@ namespace Loqui.Tests
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArraySingleton)),
                 markAsSet: true,
                 noNullFallback: () => new byte[3]);
-            _BoolN = NotifyingItem.Factory<Boolean?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(BoolN)),
-                markAsSet: false);
-            _Bool = NotifyingItem.Factory<Boolean>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Bool)),
-                markAsSet: false);
-            _CharN = NotifyingItem.Factory<Char?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(CharN)),
-                markAsSet: false);
-            _Char = NotifyingItem.Factory<Char>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Char)),
-                markAsSet: false);
-            _DateTimeNull = NotifyingItem.Factory<DateTime?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DateTimeNull)),
-                markAsSet: false);
-            _DateTime = NotifyingItem.Factory<DateTime>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DateTime)),
-                markAsSet: false);
-            _DoubleN = NotifyingItem.Factory<Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DoubleN)),
-                markAsSet: false);
-            _DoubleN_Ranged = NotifyingItem.Factory<Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DoubleN_Ranged)),
-                markAsSet: false);
-            _Double = NotifyingItem.Factory<Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Double)),
-                markAsSet: false);
-            _Double_Ranged = NotifyingItem.Factory<Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Double_Ranged)),
-                markAsSet: false);
-            _FloatN = NotifyingItem.Factory<Single?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FloatN)),
-                markAsSet: false);
-            _FloatN_Ranged = NotifyingItem.Factory<Single?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FloatN_Ranged)),
-                markAsSet: false);
-            _Float = NotifyingItem.Factory<Single>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Float)),
-                markAsSet: false);
-            _Float_Ranged = NotifyingItem.Factory<Single>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Float_Ranged)),
-                markAsSet: false);
-            _Int16N = NotifyingItem.Factory<Int16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16N)),
-                markAsSet: false);
-            _Int16N_Ranged = NotifyingItem.Factory<Int16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16N_Ranged)),
-                markAsSet: false);
-            _Int16 = NotifyingItem.Factory<Int16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16)),
-                markAsSet: false);
-            _Int16_Ranged = NotifyingItem.Factory<Int16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int16_Ranged)),
-                markAsSet: false);
-            _Int32N = NotifyingItem.Factory<Int32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32N)),
-                markAsSet: false);
-            _Int32N_Ranged = NotifyingItem.Factory<Int32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32N_Ranged)),
-                markAsSet: false);
-            _Int32 = NotifyingItem.Factory<Int32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32)),
-                markAsSet: false);
-            _Int32_Ranged = NotifyingItem.Factory<Int32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int32_Ranged)),
-                markAsSet: false);
-            _Int64N = NotifyingItem.Factory<Int64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64N)),
-                markAsSet: false);
-            _Int64N_Ranged = NotifyingItem.Factory<Int64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64N_Ranged)),
-                markAsSet: false);
-            _Int64 = NotifyingItem.Factory<Int64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64)),
-                markAsSet: false);
-            _Int64_Ranged = NotifyingItem.Factory<Int64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int64_Ranged)),
-                markAsSet: false);
-            _Int8N = NotifyingItem.Factory<SByte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8N)),
-                markAsSet: false);
-            _Int8N_Ranged = NotifyingItem.Factory<SByte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8N_Ranged)),
-                markAsSet: false);
-            _Int8 = NotifyingItem.Factory<SByte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8)),
-                markAsSet: false);
-            _Int8_Ranged = NotifyingItem.Factory<SByte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Int8_Ranged)),
-                markAsSet: false);
-            _Unsafe = NotifyingItem.Factory<bool>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Unsafe)),
-                markAsSet: false);
-            _UnsafeLoqui = NotifyingItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UnsafeLoqui)),
-                markAsSet: false);
-            _UnsafeNull = NotifyingItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UnsafeNull)),
-                markAsSet: false);
-            _P2IntN = NotifyingItem.Factory<P2Int?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P2IntN)),
-                markAsSet: false);
-            _P2Int = NotifyingItem.Factory<P2Int>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P2Int)),
-                markAsSet: false);
-            _P3DoubleN = NotifyingItem.Factory<P3Double?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3DoubleN)),
-                markAsSet: false);
-            _P3Double = NotifyingItem.Factory<P3Double>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3Double)),
-                markAsSet: false);
-            _P3IntN = NotifyingItem.Factory<P3Int?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3IntN)),
-                markAsSet: false);
-            _P3Int = NotifyingItem.Factory<P3Int>(
-                onSet: (i) => this.OnPropertyChanged(nameof(P3Int)),
-                markAsSet: false);
-            _PercentN = NotifyingItem.Factory<Percent?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(PercentN)),
-                markAsSet: false);
-            _Percent = NotifyingItem.Factory<Percent>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Percent)),
-                markAsSet: false);
-            _RangeInt8N = NotifyingItem.Factory<RangeInt8?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8N)),
-                markAsSet: false);
-            _RangeInt8 = NotifyingItem.Factory<RangeInt8>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8)),
-                markAsSet: false);
-            _RangeInt16N = NotifyingItem.Factory<RangeInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16N)),
-                markAsSet: false);
-            _RangeInt16 = NotifyingItem.Factory<RangeInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16)),
-                markAsSet: false);
-            _RangeInt32N = NotifyingItem.Factory<RangeInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32N)),
-                markAsSet: false);
-            _RangeInt32 = NotifyingItem.Factory<RangeInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32)),
-                markAsSet: false);
-            _RangeInt64N = NotifyingItem.Factory<RangeInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64N)),
-                markAsSet: false);
-            _RangeInt64 = NotifyingItem.Factory<RangeInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64)),
-                markAsSet: false);
-            _RangeUInt8N = NotifyingItem.Factory<RangeUInt8?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8N)),
-                markAsSet: false);
-            _RangeUInt8 = NotifyingItem.Factory<RangeUInt8>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8)),
-                markAsSet: false);
-            _RangeUInt16N = NotifyingItem.Factory<RangeUInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16N)),
-                markAsSet: false);
-            _RangeUInt16 = NotifyingItem.Factory<RangeUInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16)),
-                markAsSet: false);
-            _RangeUInt32N = NotifyingItem.Factory<RangeUInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32N)),
-                markAsSet: false);
-            _RangeUInt32 = NotifyingItem.Factory<RangeUInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32)),
-                markAsSet: false);
-            _RangeUInt64N = NotifyingItem.Factory<RangeUInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64N)),
-                markAsSet: false);
-            _RangeUInt64 = NotifyingItem.Factory<RangeUInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64)),
-                markAsSet: false);
-            _String = NotifyingItem.Factory<String>(
-                onSet: (i) => this.OnPropertyChanged(nameof(String)),
-                markAsSet: false);
-            _FilePath = NotifyingItem.Factory<FilePath>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FilePath)),
-                markAsSet: false);
-            _FilePathNull = NotifyingItem.Factory<FilePath?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(FilePathNull)),
-                markAsSet: false);
-            _DirectoryPath = NotifyingItem.Factory<DirectoryPath>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPath)),
-                markAsSet: false);
-            _DirectoryPathNull = NotifyingItem.Factory<DirectoryPath?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPathNull)),
-                markAsSet: false);
-            _UDoubleN = NotifyingItem.Factory<UDouble?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN)),
-                markAsSet: false);
-            _UDoubleN_Ranged = NotifyingItem.Factory<UDouble?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN_Ranged)),
-                markAsSet: false);
-            _UDouble = NotifyingItem.Factory<UDouble>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDouble)),
-                markAsSet: false);
-            _UDouble_Ranged = NotifyingItem.Factory<UDouble>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UDouble_Ranged)),
-                markAsSet: false);
-            _UInt16N = NotifyingItem.Factory<UInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16N)),
-                markAsSet: false);
-            _UInt16N_Ranged = NotifyingItem.Factory<UInt16?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16N_Ranged)),
-                markAsSet: false);
-            _UInt16 = NotifyingItem.Factory<UInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16)),
-                markAsSet: false);
-            _UInt16_Ranged = NotifyingItem.Factory<UInt16>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt16_Ranged)),
-                markAsSet: false);
-            _UInt32N = NotifyingItem.Factory<UInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32N)),
-                markAsSet: false);
-            _UInt32N_Ranged = NotifyingItem.Factory<UInt32?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32N_Ranged)),
-                markAsSet: false);
-            _UInt32 = NotifyingItem.Factory<UInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32)),
-                markAsSet: false);
-            _UInt32_Ranged = NotifyingItem.Factory<UInt32>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt32_Ranged)),
-                markAsSet: false);
-            _UInt64N = NotifyingItem.Factory<UInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64N)),
-                markAsSet: false);
-            _UInt64N_Ranged = NotifyingItem.Factory<UInt64?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64N_Ranged)),
-                markAsSet: false);
-            _UInt64 = NotifyingItem.Factory<UInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64)),
-                markAsSet: false);
-            _UInt64_Ranged = NotifyingItem.Factory<UInt64>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt64_Ranged)),
-                markAsSet: false);
-            _UInt8N = NotifyingItem.Factory<Byte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8N)),
-                markAsSet: false);
-            _UInt8N_Ranged = NotifyingItem.Factory<Byte?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8N_Ranged)),
-                markAsSet: false);
-            _UInt8 = NotifyingItem.Factory<Byte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8)),
-                markAsSet: false);
-            _UInt8_Ranged = NotifyingItem.Factory<Byte>(
-                onSet: (i) => this.OnPropertyChanged(nameof(UInt8_Ranged)),
-                markAsSet: false);
-            _Enum = NotifyingItem.Factory<TestEnum>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Enum)),
-                markAsSet: false);
-            _EnumNull = NotifyingItem.Factory<TestEnum?>(
-                onSet: (i) => this.OnPropertyChanged(nameof(EnumNull)),
-                markAsSet: false);
-            _WildCard = NotifyingItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCard)),
-                markAsSet: false);
-            _WildCardLoqui = NotifyingItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCardLoqui)),
-                markAsSet: false);
-            _WildCardNull = NotifyingItem.Factory<Object>(
-                onSet: (i) => this.OnPropertyChanged(nameof(WildCardNull)),
-                markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
-                markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
-                markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
-                markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
-                markAsSet: false);
+            _BoolN = NotifyingItem.Factory<Boolean?>(onSet: (i) => this.OnPropertyChanged(nameof(BoolN)));
+            _Bool = NotifyingItem.Factory<Boolean>(onSet: (i) => this.OnPropertyChanged(nameof(Bool)));
+            _CharN = NotifyingItem.Factory<Char?>(onSet: (i) => this.OnPropertyChanged(nameof(CharN)));
+            _Char = NotifyingItem.Factory<Char>(onSet: (i) => this.OnPropertyChanged(nameof(Char)));
+            _DateTimeNull = NotifyingItem.Factory<DateTime?>(onSet: (i) => this.OnPropertyChanged(nameof(DateTimeNull)));
+            _DateTime = NotifyingItem.Factory<DateTime>(onSet: (i) => this.OnPropertyChanged(nameof(DateTime)));
+            _DoubleN = NotifyingItem.Factory<Double?>(onSet: (i) => this.OnPropertyChanged(nameof(DoubleN)));
+            _DoubleN_Ranged = NotifyingItem.Factory<Double?>(onSet: (i) => this.OnPropertyChanged(nameof(DoubleN_Ranged)));
+            _Double = NotifyingItem.Factory<Double>(onSet: (i) => this.OnPropertyChanged(nameof(Double)));
+            _Double_Ranged = NotifyingItem.Factory<Double>(onSet: (i) => this.OnPropertyChanged(nameof(Double_Ranged)));
+            _FloatN = NotifyingItem.Factory<Single?>(onSet: (i) => this.OnPropertyChanged(nameof(FloatN)));
+            _FloatN_Ranged = NotifyingItem.Factory<Single?>(onSet: (i) => this.OnPropertyChanged(nameof(FloatN_Ranged)));
+            _Float = NotifyingItem.Factory<Single>(onSet: (i) => this.OnPropertyChanged(nameof(Float)));
+            _Float_Ranged = NotifyingItem.Factory<Single>(onSet: (i) => this.OnPropertyChanged(nameof(Float_Ranged)));
+            _Int16N = NotifyingItem.Factory<Int16?>(onSet: (i) => this.OnPropertyChanged(nameof(Int16N)));
+            _Int16N_Ranged = NotifyingItem.Factory<Int16?>(onSet: (i) => this.OnPropertyChanged(nameof(Int16N_Ranged)));
+            _Int16 = NotifyingItem.Factory<Int16>(onSet: (i) => this.OnPropertyChanged(nameof(Int16)));
+            _Int16_Ranged = NotifyingItem.Factory<Int16>(onSet: (i) => this.OnPropertyChanged(nameof(Int16_Ranged)));
+            _Int32N = NotifyingItem.Factory<Int32?>(onSet: (i) => this.OnPropertyChanged(nameof(Int32N)));
+            _Int32N_Ranged = NotifyingItem.Factory<Int32?>(onSet: (i) => this.OnPropertyChanged(nameof(Int32N_Ranged)));
+            _Int32 = NotifyingItem.Factory<Int32>(onSet: (i) => this.OnPropertyChanged(nameof(Int32)));
+            _Int32_Ranged = NotifyingItem.Factory<Int32>(onSet: (i) => this.OnPropertyChanged(nameof(Int32_Ranged)));
+            _Int64N = NotifyingItem.Factory<Int64?>(onSet: (i) => this.OnPropertyChanged(nameof(Int64N)));
+            _Int64N_Ranged = NotifyingItem.Factory<Int64?>(onSet: (i) => this.OnPropertyChanged(nameof(Int64N_Ranged)));
+            _Int64 = NotifyingItem.Factory<Int64>(onSet: (i) => this.OnPropertyChanged(nameof(Int64)));
+            _Int64_Ranged = NotifyingItem.Factory<Int64>(onSet: (i) => this.OnPropertyChanged(nameof(Int64_Ranged)));
+            _Int8N = NotifyingItem.Factory<SByte?>(onSet: (i) => this.OnPropertyChanged(nameof(Int8N)));
+            _Int8N_Ranged = NotifyingItem.Factory<SByte?>(onSet: (i) => this.OnPropertyChanged(nameof(Int8N_Ranged)));
+            _Int8 = NotifyingItem.Factory<SByte>(onSet: (i) => this.OnPropertyChanged(nameof(Int8)));
+            _Int8_Ranged = NotifyingItem.Factory<SByte>(onSet: (i) => this.OnPropertyChanged(nameof(Int8_Ranged)));
+            _Unsafe = NotifyingItem.Factory<bool>(onSet: (i) => this.OnPropertyChanged(nameof(Unsafe)));
+            _UnsafeLoqui = NotifyingItem.Factory<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(UnsafeLoqui)));
+            _UnsafeNull = NotifyingItem.Factory<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(UnsafeNull)));
+            _P2IntN = NotifyingItem.Factory<P2Int?>(onSet: (i) => this.OnPropertyChanged(nameof(P2IntN)));
+            _P2Int = NotifyingItem.Factory<P2Int>(onSet: (i) => this.OnPropertyChanged(nameof(P2Int)));
+            _P3DoubleN = NotifyingItem.Factory<P3Double?>(onSet: (i) => this.OnPropertyChanged(nameof(P3DoubleN)));
+            _P3Double = NotifyingItem.Factory<P3Double>(onSet: (i) => this.OnPropertyChanged(nameof(P3Double)));
+            _P3IntN = NotifyingItem.Factory<P3Int?>(onSet: (i) => this.OnPropertyChanged(nameof(P3IntN)));
+            _P3Int = NotifyingItem.Factory<P3Int>(onSet: (i) => this.OnPropertyChanged(nameof(P3Int)));
+            _PercentN = NotifyingItem.Factory<Percent?>(onSet: (i) => this.OnPropertyChanged(nameof(PercentN)));
+            _Percent = NotifyingItem.Factory<Percent>(onSet: (i) => this.OnPropertyChanged(nameof(Percent)));
+            _RangeInt8N = NotifyingItem.Factory<RangeInt8?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8N)));
+            _RangeInt8 = NotifyingItem.Factory<RangeInt8>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt8)));
+            _RangeInt16N = NotifyingItem.Factory<RangeInt16?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16N)));
+            _RangeInt16 = NotifyingItem.Factory<RangeInt16>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt16)));
+            _RangeInt32N = NotifyingItem.Factory<RangeInt32?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32N)));
+            _RangeInt32 = NotifyingItem.Factory<RangeInt32>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt32)));
+            _RangeInt64N = NotifyingItem.Factory<RangeInt64?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64N)));
+            _RangeInt64 = NotifyingItem.Factory<RangeInt64>(onSet: (i) => this.OnPropertyChanged(nameof(RangeInt64)));
+            _RangeUInt8N = NotifyingItem.Factory<RangeUInt8?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8N)));
+            _RangeUInt8 = NotifyingItem.Factory<RangeUInt8>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt8)));
+            _RangeUInt16N = NotifyingItem.Factory<RangeUInt16?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16N)));
+            _RangeUInt16 = NotifyingItem.Factory<RangeUInt16>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt16)));
+            _RangeUInt32N = NotifyingItem.Factory<RangeUInt32?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32N)));
+            _RangeUInt32 = NotifyingItem.Factory<RangeUInt32>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt32)));
+            _RangeUInt64N = NotifyingItem.Factory<RangeUInt64?>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64N)));
+            _RangeUInt64 = NotifyingItem.Factory<RangeUInt64>(onSet: (i) => this.OnPropertyChanged(nameof(RangeUInt64)));
+            _String = NotifyingItem.Factory<String>(onSet: (i) => this.OnPropertyChanged(nameof(String)));
+            _FilePath = NotifyingItem.Factory<FilePath>(onSet: (i) => this.OnPropertyChanged(nameof(FilePath)));
+            _FilePathNull = NotifyingItem.Factory<FilePath?>(onSet: (i) => this.OnPropertyChanged(nameof(FilePathNull)));
+            _DirectoryPath = NotifyingItem.Factory<DirectoryPath>(onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPath)));
+            _DirectoryPathNull = NotifyingItem.Factory<DirectoryPath?>(onSet: (i) => this.OnPropertyChanged(nameof(DirectoryPathNull)));
+            _UDoubleN = NotifyingItem.Factory<UDouble?>(onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN)));
+            _UDoubleN_Ranged = NotifyingItem.Factory<UDouble?>(onSet: (i) => this.OnPropertyChanged(nameof(UDoubleN_Ranged)));
+            _UDouble = NotifyingItem.Factory<UDouble>(onSet: (i) => this.OnPropertyChanged(nameof(UDouble)));
+            _UDouble_Ranged = NotifyingItem.Factory<UDouble>(onSet: (i) => this.OnPropertyChanged(nameof(UDouble_Ranged)));
+            _UInt16N = NotifyingItem.Factory<UInt16?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt16N)));
+            _UInt16N_Ranged = NotifyingItem.Factory<UInt16?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt16N_Ranged)));
+            _UInt16 = NotifyingItem.Factory<UInt16>(onSet: (i) => this.OnPropertyChanged(nameof(UInt16)));
+            _UInt16_Ranged = NotifyingItem.Factory<UInt16>(onSet: (i) => this.OnPropertyChanged(nameof(UInt16_Ranged)));
+            _UInt32N = NotifyingItem.Factory<UInt32?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt32N)));
+            _UInt32N_Ranged = NotifyingItem.Factory<UInt32?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt32N_Ranged)));
+            _UInt32 = NotifyingItem.Factory<UInt32>(onSet: (i) => this.OnPropertyChanged(nameof(UInt32)));
+            _UInt32_Ranged = NotifyingItem.Factory<UInt32>(onSet: (i) => this.OnPropertyChanged(nameof(UInt32_Ranged)));
+            _UInt64N = NotifyingItem.Factory<UInt64?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt64N)));
+            _UInt64N_Ranged = NotifyingItem.Factory<UInt64?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt64N_Ranged)));
+            _UInt64 = NotifyingItem.Factory<UInt64>(onSet: (i) => this.OnPropertyChanged(nameof(UInt64)));
+            _UInt64_Ranged = NotifyingItem.Factory<UInt64>(onSet: (i) => this.OnPropertyChanged(nameof(UInt64_Ranged)));
+            _UInt8N = NotifyingItem.Factory<Byte?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt8N)));
+            _UInt8N_Ranged = NotifyingItem.Factory<Byte?>(onSet: (i) => this.OnPropertyChanged(nameof(UInt8N_Ranged)));
+            _UInt8 = NotifyingItem.Factory<Byte>(onSet: (i) => this.OnPropertyChanged(nameof(UInt8)));
+            _UInt8_Ranged = NotifyingItem.Factory<Byte>(onSet: (i) => this.OnPropertyChanged(nameof(UInt8_Ranged)));
+            _Enum = NotifyingItem.Factory<TestEnum>(onSet: (i) => this.OnPropertyChanged(nameof(Enum)));
+            _EnumNull = NotifyingItem.Factory<TestEnum?>(onSet: (i) => this.OnPropertyChanged(nameof(EnumNull)));
+            _WildCard = NotifyingItem.Factory<Object>(onSet: (i) => this.OnPropertyChanged(nameof(WildCard)));
+            _WildCardLoqui = NotifyingItem.Factory<Object>(onSet: (i) => this.OnPropertyChanged(nameof(WildCardLoqui)));
+            _WildCardNull = NotifyingItem.Factory<Object>(onSet: (i) => this.OnPropertyChanged(nameof(WildCardNull)));
+            _Ref = NotifyingItem.Factory<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(Ref)));
+            _Ref = NotifyingItem.Factory<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(Ref)));
+            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)));
+            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)));
             _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
-                markAsSet: true);
+                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)));
             _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
-                markAsSet: true);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
-                markAsSet: false);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
-                markAsSet: false);
+                onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)));
+            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)));
+            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)));
             _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
+                noNullFallback: () => new ObjectToRef());
             _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
+                noNullFallback: () => new ObjectToRef());
             _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
-                markAsSet: true);
+                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)));
             _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
-                markAsSet: true);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
-                markAsSet: false);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
-                markAsSet: false);
+                onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)));
+            _RefSetter = NotifyingItem.Factory<IObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)));
+            _RefSetter = NotifyingItem.Factory<IObjectToRef>(onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)));
             _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
+                noNullFallback: () => new ObjectToRef());
             _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
-                noNullFallback: () => new ObjectToRef(),
-                markAsSet: false);
+                noNullFallback: () => new ObjectToRef());
             _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
-                markAsSet: true);
+                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)));
             _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
-                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
-                markAsSet: true);
+                onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)));
             CustomCtor();
         }
         partial void CustomCtor();
@@ -1290,9 +1091,7 @@ namespace Loqui.Tests
         #region WildCard
         protected readonly INotifyingItem<Object> _WildCard = new NotifyingItemConvertWrapper<Object>(
             (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
-            default(Object),
-            markAsSet: false
-        );
+            default(Object));
         public INotifyingItemGetter<Object> WildCard_Property => _WildCard;
         public Object WildCard { get => _WildCard.Item; protected set => _WildCard.Item = value; }
         INotifyingItemGetter<Object> ITestObject_Notifying_Derivative_RPCGetter.WildCard_Property => this.WildCard_Property;
@@ -1300,9 +1099,7 @@ namespace Loqui.Tests
         #region WildCardLoqui
         protected readonly INotifyingItem<Object> _WildCardLoqui = new NotifyingItemConvertWrapper<Object>(
             (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
-            default(Object),
-            markAsSet: false
-        );
+            default(Object));
         public INotifyingItemGetter<Object> WildCardLoqui_Property => _WildCardLoqui;
         public Object WildCardLoqui { get => _WildCardLoqui.Item; protected set => _WildCardLoqui.Item = value; }
         INotifyingItemGetter<Object> ITestObject_Notifying_Derivative_RPCGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
@@ -1310,9 +1107,7 @@ namespace Loqui.Tests
         #region WildCardNull
         protected readonly INotifyingItem<Object> _WildCardNull = new NotifyingItemConvertWrapper<Object>(
             (change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),
-            default(Object),
-            markAsSet: false
-        );
+            default(Object));
         public INotifyingItemGetter<Object> WildCardNull_Property => _WildCardNull;
         public Object WildCardNull { get => _WildCardNull.Item; protected set => _WildCardNull.Item = value; }
         INotifyingItemGetter<Object> ITestObject_Notifying_Derivative_RPCGetter.WildCardNull_Property => this.WildCardNull_Property;
@@ -1528,975 +1323,226 @@ namespace Loqui.Tests
         public bool Equals(TestObject_Notifying_Derivative_RPC rhs)
         {
             if (rhs == null) return false;
-            if (ByteArray_Property.HasBeenSet != rhs.ByteArray_Property.HasBeenSet) return false;
-            if (ByteArray_Property.HasBeenSet)
-            {
-                if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
-            }
-            if (ByteArrayNull_Property.HasBeenSet != rhs.ByteArrayNull_Property.HasBeenSet) return false;
-            if (ByteArrayNull_Property.HasBeenSet)
-            {
-                if (!ByteArrayNull.EqualsFast(rhs.ByteArrayNull)) return false;
-            }
-            if (ByteArrayNotNull_Property.HasBeenSet != rhs.ByteArrayNotNull_Property.HasBeenSet) return false;
-            if (ByteArrayNotNull_Property.HasBeenSet)
-            {
-                if (!ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull)) return false;
-            }
-            if (ByteArraySingleton_Property.HasBeenSet != rhs.ByteArraySingleton_Property.HasBeenSet) return false;
-            if (ByteArraySingleton_Property.HasBeenSet)
-            {
-                if (!ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton)) return false;
-            }
-            if (BoolN_Property.HasBeenSet != rhs.BoolN_Property.HasBeenSet) return false;
-            if (BoolN_Property.HasBeenSet)
-            {
-                if (BoolN != rhs.BoolN) return false;
-            }
-            if (Bool_Property.HasBeenSet != rhs.Bool_Property.HasBeenSet) return false;
-            if (Bool_Property.HasBeenSet)
-            {
-                if (Bool != rhs.Bool) return false;
-            }
-            if (CharN_Property.HasBeenSet != rhs.CharN_Property.HasBeenSet) return false;
-            if (CharN_Property.HasBeenSet)
-            {
-                if (CharN != rhs.CharN) return false;
-            }
-            if (Char_Property.HasBeenSet != rhs.Char_Property.HasBeenSet) return false;
-            if (Char_Property.HasBeenSet)
-            {
-                if (Char != rhs.Char) return false;
-            }
-            if (DateTimeNull_Property.HasBeenSet != rhs.DateTimeNull_Property.HasBeenSet) return false;
-            if (DateTimeNull_Property.HasBeenSet)
-            {
-                if (DateTimeNull != rhs.DateTimeNull) return false;
-            }
-            if (DateTime_Property.HasBeenSet != rhs.DateTime_Property.HasBeenSet) return false;
-            if (DateTime_Property.HasBeenSet)
-            {
-                if (DateTime != rhs.DateTime) return false;
-            }
-            if (DoubleN_Property.HasBeenSet != rhs.DoubleN_Property.HasBeenSet) return false;
-            if (DoubleN_Property.HasBeenSet)
-            {
-                if (DoubleN != rhs.DoubleN) return false;
-            }
-            if (DoubleN_Ranged_Property.HasBeenSet != rhs.DoubleN_Ranged_Property.HasBeenSet) return false;
-            if (DoubleN_Ranged_Property.HasBeenSet)
-            {
-                if (DoubleN_Ranged != rhs.DoubleN_Ranged) return false;
-            }
-            if (Double_Property.HasBeenSet != rhs.Double_Property.HasBeenSet) return false;
-            if (Double_Property.HasBeenSet)
-            {
-                if (Double != rhs.Double) return false;
-            }
-            if (Double_Ranged_Property.HasBeenSet != rhs.Double_Ranged_Property.HasBeenSet) return false;
-            if (Double_Ranged_Property.HasBeenSet)
-            {
-                if (Double_Ranged != rhs.Double_Ranged) return false;
-            }
-            if (FloatN_Property.HasBeenSet != rhs.FloatN_Property.HasBeenSet) return false;
-            if (FloatN_Property.HasBeenSet)
-            {
-                if (FloatN != rhs.FloatN) return false;
-            }
-            if (FloatN_Ranged_Property.HasBeenSet != rhs.FloatN_Ranged_Property.HasBeenSet) return false;
-            if (FloatN_Ranged_Property.HasBeenSet)
-            {
-                if (FloatN_Ranged != rhs.FloatN_Ranged) return false;
-            }
-            if (Float_Property.HasBeenSet != rhs.Float_Property.HasBeenSet) return false;
-            if (Float_Property.HasBeenSet)
-            {
-                if (Float != rhs.Float) return false;
-            }
-            if (Float_Ranged_Property.HasBeenSet != rhs.Float_Ranged_Property.HasBeenSet) return false;
-            if (Float_Ranged_Property.HasBeenSet)
-            {
-                if (Float_Ranged != rhs.Float_Ranged) return false;
-            }
-            if (Int16N_Property.HasBeenSet != rhs.Int16N_Property.HasBeenSet) return false;
-            if (Int16N_Property.HasBeenSet)
-            {
-                if (Int16N != rhs.Int16N) return false;
-            }
-            if (Int16N_Ranged_Property.HasBeenSet != rhs.Int16N_Ranged_Property.HasBeenSet) return false;
-            if (Int16N_Ranged_Property.HasBeenSet)
-            {
-                if (Int16N_Ranged != rhs.Int16N_Ranged) return false;
-            }
-            if (Int16_Property.HasBeenSet != rhs.Int16_Property.HasBeenSet) return false;
-            if (Int16_Property.HasBeenSet)
-            {
-                if (Int16 != rhs.Int16) return false;
-            }
-            if (Int16_Ranged_Property.HasBeenSet != rhs.Int16_Ranged_Property.HasBeenSet) return false;
-            if (Int16_Ranged_Property.HasBeenSet)
-            {
-                if (Int16_Ranged != rhs.Int16_Ranged) return false;
-            }
-            if (Int32N_Property.HasBeenSet != rhs.Int32N_Property.HasBeenSet) return false;
-            if (Int32N_Property.HasBeenSet)
-            {
-                if (Int32N != rhs.Int32N) return false;
-            }
-            if (Int32N_Ranged_Property.HasBeenSet != rhs.Int32N_Ranged_Property.HasBeenSet) return false;
-            if (Int32N_Ranged_Property.HasBeenSet)
-            {
-                if (Int32N_Ranged != rhs.Int32N_Ranged) return false;
-            }
-            if (Int32_Property.HasBeenSet != rhs.Int32_Property.HasBeenSet) return false;
-            if (Int32_Property.HasBeenSet)
-            {
-                if (Int32 != rhs.Int32) return false;
-            }
-            if (Int32_Ranged_Property.HasBeenSet != rhs.Int32_Ranged_Property.HasBeenSet) return false;
-            if (Int32_Ranged_Property.HasBeenSet)
-            {
-                if (Int32_Ranged != rhs.Int32_Ranged) return false;
-            }
-            if (Int64N_Property.HasBeenSet != rhs.Int64N_Property.HasBeenSet) return false;
-            if (Int64N_Property.HasBeenSet)
-            {
-                if (Int64N != rhs.Int64N) return false;
-            }
-            if (Int64N_Ranged_Property.HasBeenSet != rhs.Int64N_Ranged_Property.HasBeenSet) return false;
-            if (Int64N_Ranged_Property.HasBeenSet)
-            {
-                if (Int64N_Ranged != rhs.Int64N_Ranged) return false;
-            }
-            if (Int64_Property.HasBeenSet != rhs.Int64_Property.HasBeenSet) return false;
-            if (Int64_Property.HasBeenSet)
-            {
-                if (Int64 != rhs.Int64) return false;
-            }
-            if (Int64_Ranged_Property.HasBeenSet != rhs.Int64_Ranged_Property.HasBeenSet) return false;
-            if (Int64_Ranged_Property.HasBeenSet)
-            {
-                if (Int64_Ranged != rhs.Int64_Ranged) return false;
-            }
-            if (Int8N_Property.HasBeenSet != rhs.Int8N_Property.HasBeenSet) return false;
-            if (Int8N_Property.HasBeenSet)
-            {
-                if (Int8N != rhs.Int8N) return false;
-            }
-            if (Int8N_Ranged_Property.HasBeenSet != rhs.Int8N_Ranged_Property.HasBeenSet) return false;
-            if (Int8N_Ranged_Property.HasBeenSet)
-            {
-                if (Int8N_Ranged != rhs.Int8N_Ranged) return false;
-            }
-            if (Int8_Property.HasBeenSet != rhs.Int8_Property.HasBeenSet) return false;
-            if (Int8_Property.HasBeenSet)
-            {
-                if (Int8 != rhs.Int8) return false;
-            }
-            if (Int8_Ranged_Property.HasBeenSet != rhs.Int8_Ranged_Property.HasBeenSet) return false;
-            if (Int8_Ranged_Property.HasBeenSet)
-            {
-                if (Int8_Ranged != rhs.Int8_Ranged) return false;
-            }
-            if (Unsafe_Property.HasBeenSet != rhs.Unsafe_Property.HasBeenSet) return false;
-            if (Unsafe_Property.HasBeenSet)
-            {
-                if (!object.Equals(Unsafe, rhs.Unsafe)) return false;
-            }
-            if (UnsafeLoqui_Property.HasBeenSet != rhs.UnsafeLoqui_Property.HasBeenSet) return false;
-            if (UnsafeLoqui_Property.HasBeenSet)
-            {
-                if (!object.Equals(UnsafeLoqui, rhs.UnsafeLoqui)) return false;
-            }
-            if (UnsafeNull_Property.HasBeenSet != rhs.UnsafeNull_Property.HasBeenSet) return false;
-            if (UnsafeNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(UnsafeNull, rhs.UnsafeNull)) return false;
-            }
-            if (P2IntN_Property.HasBeenSet != rhs.P2IntN_Property.HasBeenSet) return false;
-            if (P2IntN_Property.HasBeenSet)
-            {
-                if (P2IntN != rhs.P2IntN) return false;
-            }
-            if (P2Int_Property.HasBeenSet != rhs.P2Int_Property.HasBeenSet) return false;
-            if (P2Int_Property.HasBeenSet)
-            {
-                if (P2Int != rhs.P2Int) return false;
-            }
-            if (P3DoubleN_Property.HasBeenSet != rhs.P3DoubleN_Property.HasBeenSet) return false;
-            if (P3DoubleN_Property.HasBeenSet)
-            {
-                if (P3DoubleN != rhs.P3DoubleN) return false;
-            }
-            if (P3Double_Property.HasBeenSet != rhs.P3Double_Property.HasBeenSet) return false;
-            if (P3Double_Property.HasBeenSet)
-            {
-                if (P3Double != rhs.P3Double) return false;
-            }
-            if (P3IntN_Property.HasBeenSet != rhs.P3IntN_Property.HasBeenSet) return false;
-            if (P3IntN_Property.HasBeenSet)
-            {
-                if (P3IntN != rhs.P3IntN) return false;
-            }
-            if (P3Int_Property.HasBeenSet != rhs.P3Int_Property.HasBeenSet) return false;
-            if (P3Int_Property.HasBeenSet)
-            {
-                if (P3Int != rhs.P3Int) return false;
-            }
-            if (PercentN_Property.HasBeenSet != rhs.PercentN_Property.HasBeenSet) return false;
-            if (PercentN_Property.HasBeenSet)
-            {
-                if (PercentN != rhs.PercentN) return false;
-            }
-            if (Percent_Property.HasBeenSet != rhs.Percent_Property.HasBeenSet) return false;
-            if (Percent_Property.HasBeenSet)
-            {
-                if (Percent != rhs.Percent) return false;
-            }
-            if (RangeInt8N_Property.HasBeenSet != rhs.RangeInt8N_Property.HasBeenSet) return false;
-            if (RangeInt8N_Property.HasBeenSet)
-            {
-                if (RangeInt8N != rhs.RangeInt8N) return false;
-            }
-            if (RangeInt8_Property.HasBeenSet != rhs.RangeInt8_Property.HasBeenSet) return false;
-            if (RangeInt8_Property.HasBeenSet)
-            {
-                if (RangeInt8 != rhs.RangeInt8) return false;
-            }
-            if (RangeInt16N_Property.HasBeenSet != rhs.RangeInt16N_Property.HasBeenSet) return false;
-            if (RangeInt16N_Property.HasBeenSet)
-            {
-                if (RangeInt16N != rhs.RangeInt16N) return false;
-            }
-            if (RangeInt16_Property.HasBeenSet != rhs.RangeInt16_Property.HasBeenSet) return false;
-            if (RangeInt16_Property.HasBeenSet)
-            {
-                if (RangeInt16 != rhs.RangeInt16) return false;
-            }
-            if (RangeInt32N_Property.HasBeenSet != rhs.RangeInt32N_Property.HasBeenSet) return false;
-            if (RangeInt32N_Property.HasBeenSet)
-            {
-                if (RangeInt32N != rhs.RangeInt32N) return false;
-            }
-            if (RangeInt32_Property.HasBeenSet != rhs.RangeInt32_Property.HasBeenSet) return false;
-            if (RangeInt32_Property.HasBeenSet)
-            {
-                if (RangeInt32 != rhs.RangeInt32) return false;
-            }
-            if (RangeInt64N_Property.HasBeenSet != rhs.RangeInt64N_Property.HasBeenSet) return false;
-            if (RangeInt64N_Property.HasBeenSet)
-            {
-                if (RangeInt64N != rhs.RangeInt64N) return false;
-            }
-            if (RangeInt64_Property.HasBeenSet != rhs.RangeInt64_Property.HasBeenSet) return false;
-            if (RangeInt64_Property.HasBeenSet)
-            {
-                if (RangeInt64 != rhs.RangeInt64) return false;
-            }
-            if (RangeUInt8N_Property.HasBeenSet != rhs.RangeUInt8N_Property.HasBeenSet) return false;
-            if (RangeUInt8N_Property.HasBeenSet)
-            {
-                if (RangeUInt8N != rhs.RangeUInt8N) return false;
-            }
-            if (RangeUInt8_Property.HasBeenSet != rhs.RangeUInt8_Property.HasBeenSet) return false;
-            if (RangeUInt8_Property.HasBeenSet)
-            {
-                if (RangeUInt8 != rhs.RangeUInt8) return false;
-            }
-            if (RangeUInt16N_Property.HasBeenSet != rhs.RangeUInt16N_Property.HasBeenSet) return false;
-            if (RangeUInt16N_Property.HasBeenSet)
-            {
-                if (RangeUInt16N != rhs.RangeUInt16N) return false;
-            }
-            if (RangeUInt16_Property.HasBeenSet != rhs.RangeUInt16_Property.HasBeenSet) return false;
-            if (RangeUInt16_Property.HasBeenSet)
-            {
-                if (RangeUInt16 != rhs.RangeUInt16) return false;
-            }
-            if (RangeUInt32N_Property.HasBeenSet != rhs.RangeUInt32N_Property.HasBeenSet) return false;
-            if (RangeUInt32N_Property.HasBeenSet)
-            {
-                if (RangeUInt32N != rhs.RangeUInt32N) return false;
-            }
-            if (RangeUInt32_Property.HasBeenSet != rhs.RangeUInt32_Property.HasBeenSet) return false;
-            if (RangeUInt32_Property.HasBeenSet)
-            {
-                if (RangeUInt32 != rhs.RangeUInt32) return false;
-            }
-            if (RangeUInt64N_Property.HasBeenSet != rhs.RangeUInt64N_Property.HasBeenSet) return false;
-            if (RangeUInt64N_Property.HasBeenSet)
-            {
-                if (RangeUInt64N != rhs.RangeUInt64N) return false;
-            }
-            if (RangeUInt64_Property.HasBeenSet != rhs.RangeUInt64_Property.HasBeenSet) return false;
-            if (RangeUInt64_Property.HasBeenSet)
-            {
-                if (RangeUInt64 != rhs.RangeUInt64) return false;
-            }
-            if (String_Property.HasBeenSet != rhs.String_Property.HasBeenSet) return false;
-            if (String_Property.HasBeenSet)
-            {
-                if (!object.Equals(String, rhs.String)) return false;
-            }
-            if (FilePath_Property.HasBeenSet != rhs.FilePath_Property.HasBeenSet) return false;
-            if (FilePath_Property.HasBeenSet)
-            {
-                if (!object.Equals(FilePath, rhs.FilePath)) return false;
-            }
-            if (FilePathNull_Property.HasBeenSet != rhs.FilePathNull_Property.HasBeenSet) return false;
-            if (FilePathNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(FilePathNull, rhs.FilePathNull)) return false;
-            }
-            if (DirectoryPath_Property.HasBeenSet != rhs.DirectoryPath_Property.HasBeenSet) return false;
-            if (DirectoryPath_Property.HasBeenSet)
-            {
-                if (!object.Equals(DirectoryPath, rhs.DirectoryPath)) return false;
-            }
-            if (DirectoryPathNull_Property.HasBeenSet != rhs.DirectoryPathNull_Property.HasBeenSet) return false;
-            if (DirectoryPathNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(DirectoryPathNull, rhs.DirectoryPathNull)) return false;
-            }
-            if (UDoubleN_Property.HasBeenSet != rhs.UDoubleN_Property.HasBeenSet) return false;
-            if (UDoubleN_Property.HasBeenSet)
-            {
-                if (UDoubleN != rhs.UDoubleN) return false;
-            }
-            if (UDoubleN_Ranged_Property.HasBeenSet != rhs.UDoubleN_Ranged_Property.HasBeenSet) return false;
-            if (UDoubleN_Ranged_Property.HasBeenSet)
-            {
-                if (UDoubleN_Ranged != rhs.UDoubleN_Ranged) return false;
-            }
-            if (UDouble_Property.HasBeenSet != rhs.UDouble_Property.HasBeenSet) return false;
-            if (UDouble_Property.HasBeenSet)
-            {
-                if (UDouble != rhs.UDouble) return false;
-            }
-            if (UDouble_Ranged_Property.HasBeenSet != rhs.UDouble_Ranged_Property.HasBeenSet) return false;
-            if (UDouble_Ranged_Property.HasBeenSet)
-            {
-                if (UDouble_Ranged != rhs.UDouble_Ranged) return false;
-            }
-            if (UInt16N_Property.HasBeenSet != rhs.UInt16N_Property.HasBeenSet) return false;
-            if (UInt16N_Property.HasBeenSet)
-            {
-                if (UInt16N != rhs.UInt16N) return false;
-            }
-            if (UInt16N_Ranged_Property.HasBeenSet != rhs.UInt16N_Ranged_Property.HasBeenSet) return false;
-            if (UInt16N_Ranged_Property.HasBeenSet)
-            {
-                if (UInt16N_Ranged != rhs.UInt16N_Ranged) return false;
-            }
-            if (UInt16_Property.HasBeenSet != rhs.UInt16_Property.HasBeenSet) return false;
-            if (UInt16_Property.HasBeenSet)
-            {
-                if (UInt16 != rhs.UInt16) return false;
-            }
-            if (UInt16_Ranged_Property.HasBeenSet != rhs.UInt16_Ranged_Property.HasBeenSet) return false;
-            if (UInt16_Ranged_Property.HasBeenSet)
-            {
-                if (UInt16_Ranged != rhs.UInt16_Ranged) return false;
-            }
-            if (UInt32N_Property.HasBeenSet != rhs.UInt32N_Property.HasBeenSet) return false;
-            if (UInt32N_Property.HasBeenSet)
-            {
-                if (UInt32N != rhs.UInt32N) return false;
-            }
-            if (UInt32N_Ranged_Property.HasBeenSet != rhs.UInt32N_Ranged_Property.HasBeenSet) return false;
-            if (UInt32N_Ranged_Property.HasBeenSet)
-            {
-                if (UInt32N_Ranged != rhs.UInt32N_Ranged) return false;
-            }
-            if (UInt32_Property.HasBeenSet != rhs.UInt32_Property.HasBeenSet) return false;
-            if (UInt32_Property.HasBeenSet)
-            {
-                if (UInt32 != rhs.UInt32) return false;
-            }
-            if (UInt32_Ranged_Property.HasBeenSet != rhs.UInt32_Ranged_Property.HasBeenSet) return false;
-            if (UInt32_Ranged_Property.HasBeenSet)
-            {
-                if (UInt32_Ranged != rhs.UInt32_Ranged) return false;
-            }
-            if (UInt64N_Property.HasBeenSet != rhs.UInt64N_Property.HasBeenSet) return false;
-            if (UInt64N_Property.HasBeenSet)
-            {
-                if (UInt64N != rhs.UInt64N) return false;
-            }
-            if (UInt64N_Ranged_Property.HasBeenSet != rhs.UInt64N_Ranged_Property.HasBeenSet) return false;
-            if (UInt64N_Ranged_Property.HasBeenSet)
-            {
-                if (UInt64N_Ranged != rhs.UInt64N_Ranged) return false;
-            }
-            if (UInt64_Property.HasBeenSet != rhs.UInt64_Property.HasBeenSet) return false;
-            if (UInt64_Property.HasBeenSet)
-            {
-                if (UInt64 != rhs.UInt64) return false;
-            }
-            if (UInt64_Ranged_Property.HasBeenSet != rhs.UInt64_Ranged_Property.HasBeenSet) return false;
-            if (UInt64_Ranged_Property.HasBeenSet)
-            {
-                if (UInt64_Ranged != rhs.UInt64_Ranged) return false;
-            }
-            if (UInt8N_Property.HasBeenSet != rhs.UInt8N_Property.HasBeenSet) return false;
-            if (UInt8N_Property.HasBeenSet)
-            {
-                if (UInt8N != rhs.UInt8N) return false;
-            }
-            if (UInt8N_Ranged_Property.HasBeenSet != rhs.UInt8N_Ranged_Property.HasBeenSet) return false;
-            if (UInt8N_Ranged_Property.HasBeenSet)
-            {
-                if (UInt8N_Ranged != rhs.UInt8N_Ranged) return false;
-            }
-            if (UInt8_Property.HasBeenSet != rhs.UInt8_Property.HasBeenSet) return false;
-            if (UInt8_Property.HasBeenSet)
-            {
-                if (UInt8 != rhs.UInt8) return false;
-            }
-            if (UInt8_Ranged_Property.HasBeenSet != rhs.UInt8_Ranged_Property.HasBeenSet) return false;
-            if (UInt8_Ranged_Property.HasBeenSet)
-            {
-                if (UInt8_Ranged != rhs.UInt8_Ranged) return false;
-            }
-            if (Enum_Property.HasBeenSet != rhs.Enum_Property.HasBeenSet) return false;
-            if (Enum_Property.HasBeenSet)
-            {
-                if (Enum != rhs.Enum) return false;
-            }
-            if (EnumNull_Property.HasBeenSet != rhs.EnumNull_Property.HasBeenSet) return false;
-            if (EnumNull_Property.HasBeenSet)
-            {
-                if (EnumNull != rhs.EnumNull) return false;
-            }
-            if (WildCard_Property.HasBeenSet != rhs.WildCard_Property.HasBeenSet) return false;
-            if (WildCard_Property.HasBeenSet)
-            {
-                if (!object.Equals(WildCard, rhs.WildCard)) return false;
-            }
-            if (WildCardLoqui_Property.HasBeenSet != rhs.WildCardLoqui_Property.HasBeenSet) return false;
-            if (WildCardLoqui_Property.HasBeenSet)
-            {
-                if (!object.Equals(WildCardLoqui, rhs.WildCardLoqui)) return false;
-            }
-            if (WildCardNull_Property.HasBeenSet != rhs.WildCardNull_Property.HasBeenSet) return false;
-            if (WildCardNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(WildCardNull, rhs.WildCardNull)) return false;
-            }
-            if (Ref_Property.HasBeenSet != rhs.Ref_Property.HasBeenSet) return false;
-            if (Ref_Property.HasBeenSet)
-            {
-                if (!object.Equals(Ref, rhs.Ref)) return false;
-            }
-            if (Ref_NotNull_Property.HasBeenSet != rhs.Ref_NotNull_Property.HasBeenSet) return false;
-            if (Ref_NotNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
-            }
-            if (Ref_Singleton_Property.HasBeenSet != rhs.Ref_Singleton_Property.HasBeenSet) return false;
-            if (Ref_Singleton_Property.HasBeenSet)
-            {
-                if (!object.Equals(Ref_Singleton, rhs.Ref_Singleton)) return false;
-            }
-            if (RefGetter_Property.HasBeenSet != rhs.RefGetter_Property.HasBeenSet) return false;
-            if (RefGetter_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefGetter, rhs.RefGetter)) return false;
-            }
-            if (RefGetter_NotNull_Property.HasBeenSet != rhs.RefGetter_NotNull_Property.HasBeenSet) return false;
-            if (RefGetter_NotNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
-            }
-            if (RefGetter_Singleton_Property.HasBeenSet != rhs.RefGetter_Singleton_Property.HasBeenSet) return false;
-            if (RefGetter_Singleton_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
-            }
-            if (RefSetter_Property.HasBeenSet != rhs.RefSetter_Property.HasBeenSet) return false;
-            if (RefSetter_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefSetter, rhs.RefSetter)) return false;
-            }
-            if (RefSetter_NotNull_Property.HasBeenSet != rhs.RefSetter_NotNull_Property.HasBeenSet) return false;
-            if (RefSetter_NotNull_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
-            }
-            if (RefSetter_Singleton_Property.HasBeenSet != rhs.RefSetter_Singleton_Property.HasBeenSet) return false;
-            if (RefSetter_Singleton_Property.HasBeenSet)
-            {
-                if (!object.Equals(RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
-            }
-            if (List.HasBeenSet != rhs.List.HasBeenSet) return false;
-            if (List.HasBeenSet)
-            {
-                if (!List.SequenceEqual(rhs.List)) return false;
-            }
-            if (RefList.HasBeenSet != rhs.RefList.HasBeenSet) return false;
-            if (RefList.HasBeenSet)
-            {
-                if (!RefList.SequenceEqual(rhs.RefList)) return false;
-            }
-            if (Dict.HasBeenSet != rhs.Dict.HasBeenSet) return false;
-            if (Dict.HasBeenSet)
-            {
-                if (!Dict.SequenceEqual(rhs.Dict)) return false;
-            }
-            if (RefDict.HasBeenSet != rhs.RefDict.HasBeenSet) return false;
-            if (RefDict.HasBeenSet)
-            {
-                if (!RefDict.SequenceEqual(rhs.RefDict)) return false;
-            }
-            if (KeyRefDict.HasBeenSet != rhs.KeyRefDict.HasBeenSet) return false;
-            if (KeyRefDict.HasBeenSet)
-            {
-                if (!KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
-            }
-            if (ValRefDict.HasBeenSet != rhs.ValRefDict.HasBeenSet) return false;
-            if (ValRefDict.HasBeenSet)
-            {
-                if (!ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
-            }
-            if (DictKeyedValue.HasBeenSet != rhs.DictKeyedValue.HasBeenSet) return false;
-            if (DictKeyedValue.HasBeenSet)
-            {
-                if (!DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
-            }
+            if (!ByteArray.EqualsFast(rhs.ByteArray)) return false;
+            if (!ByteArrayNull.EqualsFast(rhs.ByteArrayNull)) return false;
+            if (!ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull)) return false;
+            if (!ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton)) return false;
+            if (BoolN != rhs.BoolN) return false;
+            if (Bool != rhs.Bool) return false;
+            if (CharN != rhs.CharN) return false;
+            if (Char != rhs.Char) return false;
+            if (DateTimeNull != rhs.DateTimeNull) return false;
+            if (DateTime != rhs.DateTime) return false;
+            if (DoubleN != rhs.DoubleN) return false;
+            if (DoubleN_Ranged != rhs.DoubleN_Ranged) return false;
+            if (Double != rhs.Double) return false;
+            if (Double_Ranged != rhs.Double_Ranged) return false;
+            if (FloatN != rhs.FloatN) return false;
+            if (FloatN_Ranged != rhs.FloatN_Ranged) return false;
+            if (Float != rhs.Float) return false;
+            if (Float_Ranged != rhs.Float_Ranged) return false;
+            if (Int16N != rhs.Int16N) return false;
+            if (Int16N_Ranged != rhs.Int16N_Ranged) return false;
+            if (Int16 != rhs.Int16) return false;
+            if (Int16_Ranged != rhs.Int16_Ranged) return false;
+            if (Int32N != rhs.Int32N) return false;
+            if (Int32N_Ranged != rhs.Int32N_Ranged) return false;
+            if (Int32 != rhs.Int32) return false;
+            if (Int32_Ranged != rhs.Int32_Ranged) return false;
+            if (Int64N != rhs.Int64N) return false;
+            if (Int64N_Ranged != rhs.Int64N_Ranged) return false;
+            if (Int64 != rhs.Int64) return false;
+            if (Int64_Ranged != rhs.Int64_Ranged) return false;
+            if (Int8N != rhs.Int8N) return false;
+            if (Int8N_Ranged != rhs.Int8N_Ranged) return false;
+            if (Int8 != rhs.Int8) return false;
+            if (Int8_Ranged != rhs.Int8_Ranged) return false;
+            if (!object.Equals(Unsafe, rhs.Unsafe)) return false;
+            if (!object.Equals(UnsafeLoqui, rhs.UnsafeLoqui)) return false;
+            if (!object.Equals(UnsafeNull, rhs.UnsafeNull)) return false;
+            if (P2IntN != rhs.P2IntN) return false;
+            if (P2Int != rhs.P2Int) return false;
+            if (P3DoubleN != rhs.P3DoubleN) return false;
+            if (P3Double != rhs.P3Double) return false;
+            if (P3IntN != rhs.P3IntN) return false;
+            if (P3Int != rhs.P3Int) return false;
+            if (PercentN != rhs.PercentN) return false;
+            if (Percent != rhs.Percent) return false;
+            if (RangeInt8N != rhs.RangeInt8N) return false;
+            if (RangeInt8 != rhs.RangeInt8) return false;
+            if (RangeInt16N != rhs.RangeInt16N) return false;
+            if (RangeInt16 != rhs.RangeInt16) return false;
+            if (RangeInt32N != rhs.RangeInt32N) return false;
+            if (RangeInt32 != rhs.RangeInt32) return false;
+            if (RangeInt64N != rhs.RangeInt64N) return false;
+            if (RangeInt64 != rhs.RangeInt64) return false;
+            if (RangeUInt8N != rhs.RangeUInt8N) return false;
+            if (RangeUInt8 != rhs.RangeUInt8) return false;
+            if (RangeUInt16N != rhs.RangeUInt16N) return false;
+            if (RangeUInt16 != rhs.RangeUInt16) return false;
+            if (RangeUInt32N != rhs.RangeUInt32N) return false;
+            if (RangeUInt32 != rhs.RangeUInt32) return false;
+            if (RangeUInt64N != rhs.RangeUInt64N) return false;
+            if (RangeUInt64 != rhs.RangeUInt64) return false;
+            if (!object.Equals(String, rhs.String)) return false;
+            if (!object.Equals(FilePath, rhs.FilePath)) return false;
+            if (!object.Equals(FilePathNull, rhs.FilePathNull)) return false;
+            if (!object.Equals(DirectoryPath, rhs.DirectoryPath)) return false;
+            if (!object.Equals(DirectoryPathNull, rhs.DirectoryPathNull)) return false;
+            if (UDoubleN != rhs.UDoubleN) return false;
+            if (UDoubleN_Ranged != rhs.UDoubleN_Ranged) return false;
+            if (UDouble != rhs.UDouble) return false;
+            if (UDouble_Ranged != rhs.UDouble_Ranged) return false;
+            if (UInt16N != rhs.UInt16N) return false;
+            if (UInt16N_Ranged != rhs.UInt16N_Ranged) return false;
+            if (UInt16 != rhs.UInt16) return false;
+            if (UInt16_Ranged != rhs.UInt16_Ranged) return false;
+            if (UInt32N != rhs.UInt32N) return false;
+            if (UInt32N_Ranged != rhs.UInt32N_Ranged) return false;
+            if (UInt32 != rhs.UInt32) return false;
+            if (UInt32_Ranged != rhs.UInt32_Ranged) return false;
+            if (UInt64N != rhs.UInt64N) return false;
+            if (UInt64N_Ranged != rhs.UInt64N_Ranged) return false;
+            if (UInt64 != rhs.UInt64) return false;
+            if (UInt64_Ranged != rhs.UInt64_Ranged) return false;
+            if (UInt8N != rhs.UInt8N) return false;
+            if (UInt8N_Ranged != rhs.UInt8N_Ranged) return false;
+            if (UInt8 != rhs.UInt8) return false;
+            if (UInt8_Ranged != rhs.UInt8_Ranged) return false;
+            if (Enum != rhs.Enum) return false;
+            if (EnumNull != rhs.EnumNull) return false;
+            if (!object.Equals(WildCard, rhs.WildCard)) return false;
+            if (!object.Equals(WildCardLoqui, rhs.WildCardLoqui)) return false;
+            if (!object.Equals(WildCardNull, rhs.WildCardNull)) return false;
+            if (!object.Equals(Ref, rhs.Ref)) return false;
+            if (!object.Equals(Ref_NotNull, rhs.Ref_NotNull)) return false;
+            if (!object.Equals(Ref_Singleton, rhs.Ref_Singleton)) return false;
+            if (!object.Equals(RefGetter, rhs.RefGetter)) return false;
+            if (!object.Equals(RefGetter_NotNull, rhs.RefGetter_NotNull)) return false;
+            if (!object.Equals(RefGetter_Singleton, rhs.RefGetter_Singleton)) return false;
+            if (!object.Equals(RefSetter, rhs.RefSetter)) return false;
+            if (!object.Equals(RefSetter_NotNull, rhs.RefSetter_NotNull)) return false;
+            if (!object.Equals(RefSetter_Singleton, rhs.RefSetter_Singleton)) return false;
+            if (!List.SequenceEqual(rhs.List)) return false;
+            if (!RefList.SequenceEqual(rhs.RefList)) return false;
+            if (!Dict.SequenceEqual(rhs.Dict)) return false;
+            if (!RefDict.SequenceEqual(rhs.RefDict)) return false;
+            if (!KeyRefDict.SequenceEqual(rhs.KeyRefDict)) return false;
+            if (!ValRefDict.SequenceEqual(rhs.ValRefDict)) return false;
+            if (!DictKeyedValue.SequenceEqual(rhs.DictKeyedValue)) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
             int ret = 0;
-            if (ByteArray_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
-            }
-            if (ByteArrayNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(ByteArrayNull).CombineHashCode(ret);
-            }
-            if (ByteArrayNotNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(ByteArrayNotNull).CombineHashCode(ret);
-            }
-            if (ByteArraySingleton_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(ByteArraySingleton).CombineHashCode(ret);
-            }
-            if (BoolN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
-            }
-            if (Bool_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
-            }
-            if (CharN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
-            }
-            if (Char_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Char).CombineHashCode(ret);
-            }
-            if (DateTimeNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DateTimeNull).CombineHashCode(ret);
-            }
-            if (DateTime_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DateTime).CombineHashCode(ret);
-            }
-            if (DoubleN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DoubleN).CombineHashCode(ret);
-            }
-            if (DoubleN_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DoubleN_Ranged).CombineHashCode(ret);
-            }
-            if (Double_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Double).CombineHashCode(ret);
-            }
-            if (Double_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Double_Ranged).CombineHashCode(ret);
-            }
-            if (FloatN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(FloatN).CombineHashCode(ret);
-            }
-            if (FloatN_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(FloatN_Ranged).CombineHashCode(ret);
-            }
-            if (Float_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Float).CombineHashCode(ret);
-            }
-            if (Float_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Float_Ranged).CombineHashCode(ret);
-            }
-            if (Int16N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int16N).CombineHashCode(ret);
-            }
-            if (Int16N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int16N_Ranged).CombineHashCode(ret);
-            }
-            if (Int16_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int16).CombineHashCode(ret);
-            }
-            if (Int16_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int16_Ranged).CombineHashCode(ret);
-            }
-            if (Int32N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int32N).CombineHashCode(ret);
-            }
-            if (Int32N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int32N_Ranged).CombineHashCode(ret);
-            }
-            if (Int32_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int32).CombineHashCode(ret);
-            }
-            if (Int32_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int32_Ranged).CombineHashCode(ret);
-            }
-            if (Int64N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int64N).CombineHashCode(ret);
-            }
-            if (Int64N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int64N_Ranged).CombineHashCode(ret);
-            }
-            if (Int64_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int64).CombineHashCode(ret);
-            }
-            if (Int64_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int64_Ranged).CombineHashCode(ret);
-            }
-            if (Int8N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int8N).CombineHashCode(ret);
-            }
-            if (Int8N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int8N_Ranged).CombineHashCode(ret);
-            }
-            if (Int8_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int8).CombineHashCode(ret);
-            }
-            if (Int8_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Int8_Ranged).CombineHashCode(ret);
-            }
-            if (Unsafe_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Unsafe).CombineHashCode(ret);
-            }
-            if (UnsafeLoqui_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UnsafeLoqui).CombineHashCode(ret);
-            }
-            if (UnsafeNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UnsafeNull).CombineHashCode(ret);
-            }
-            if (P2IntN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P2IntN).CombineHashCode(ret);
-            }
-            if (P2Int_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P2Int).CombineHashCode(ret);
-            }
-            if (P3DoubleN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P3DoubleN).CombineHashCode(ret);
-            }
-            if (P3Double_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P3Double).CombineHashCode(ret);
-            }
-            if (P3IntN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P3IntN).CombineHashCode(ret);
-            }
-            if (P3Int_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(P3Int).CombineHashCode(ret);
-            }
-            if (PercentN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(PercentN).CombineHashCode(ret);
-            }
-            if (Percent_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Percent).CombineHashCode(ret);
-            }
-            if (RangeInt8N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt8N).CombineHashCode(ret);
-            }
-            if (RangeInt8_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt8).CombineHashCode(ret);
-            }
-            if (RangeInt16N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt16N).CombineHashCode(ret);
-            }
-            if (RangeInt16_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt16).CombineHashCode(ret);
-            }
-            if (RangeInt32N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt32N).CombineHashCode(ret);
-            }
-            if (RangeInt32_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt32).CombineHashCode(ret);
-            }
-            if (RangeInt64N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt64N).CombineHashCode(ret);
-            }
-            if (RangeInt64_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeInt64).CombineHashCode(ret);
-            }
-            if (RangeUInt8N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt8N).CombineHashCode(ret);
-            }
-            if (RangeUInt8_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt8).CombineHashCode(ret);
-            }
-            if (RangeUInt16N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt16N).CombineHashCode(ret);
-            }
-            if (RangeUInt16_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt16).CombineHashCode(ret);
-            }
-            if (RangeUInt32N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt32N).CombineHashCode(ret);
-            }
-            if (RangeUInt32_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt32).CombineHashCode(ret);
-            }
-            if (RangeUInt64N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt64N).CombineHashCode(ret);
-            }
-            if (RangeUInt64_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RangeUInt64).CombineHashCode(ret);
-            }
-            if (String_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(String).CombineHashCode(ret);
-            }
-            if (FilePath_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(FilePath).CombineHashCode(ret);
-            }
-            if (FilePathNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(FilePathNull).CombineHashCode(ret);
-            }
-            if (DirectoryPath_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DirectoryPath).CombineHashCode(ret);
-            }
-            if (DirectoryPathNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DirectoryPathNull).CombineHashCode(ret);
-            }
-            if (UDoubleN_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UDoubleN).CombineHashCode(ret);
-            }
-            if (UDoubleN_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UDoubleN_Ranged).CombineHashCode(ret);
-            }
-            if (UDouble_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UDouble).CombineHashCode(ret);
-            }
-            if (UDouble_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UDouble_Ranged).CombineHashCode(ret);
-            }
-            if (UInt16N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt16N).CombineHashCode(ret);
-            }
-            if (UInt16N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt16N_Ranged).CombineHashCode(ret);
-            }
-            if (UInt16_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt16).CombineHashCode(ret);
-            }
-            if (UInt16_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt16_Ranged).CombineHashCode(ret);
-            }
-            if (UInt32N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt32N).CombineHashCode(ret);
-            }
-            if (UInt32N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt32N_Ranged).CombineHashCode(ret);
-            }
-            if (UInt32_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt32).CombineHashCode(ret);
-            }
-            if (UInt32_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt32_Ranged).CombineHashCode(ret);
-            }
-            if (UInt64N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt64N).CombineHashCode(ret);
-            }
-            if (UInt64N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt64N_Ranged).CombineHashCode(ret);
-            }
-            if (UInt64_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt64).CombineHashCode(ret);
-            }
-            if (UInt64_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt64_Ranged).CombineHashCode(ret);
-            }
-            if (UInt8N_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt8N).CombineHashCode(ret);
-            }
-            if (UInt8N_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt8N_Ranged).CombineHashCode(ret);
-            }
-            if (UInt8_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt8).CombineHashCode(ret);
-            }
-            if (UInt8_Ranged_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(UInt8_Ranged).CombineHashCode(ret);
-            }
-            if (Enum_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
-            }
-            if (EnumNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(EnumNull).CombineHashCode(ret);
-            }
-            if (WildCard_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
-            }
-            if (WildCardLoqui_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(WildCardLoqui).CombineHashCode(ret);
-            }
-            if (WildCardNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(WildCardNull).CombineHashCode(ret);
-            }
-            if (Ref_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
-            }
-            if (Ref_NotNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
-            }
-            if (Ref_Singleton_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Ref_Singleton).CombineHashCode(ret);
-            }
-            if (RefGetter_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefGetter).CombineHashCode(ret);
-            }
-            if (RefGetter_NotNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefGetter_NotNull).CombineHashCode(ret);
-            }
-            if (RefGetter_Singleton_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefGetter_Singleton).CombineHashCode(ret);
-            }
-            if (RefSetter_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefSetter).CombineHashCode(ret);
-            }
-            if (RefSetter_NotNull_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefSetter_NotNull).CombineHashCode(ret);
-            }
-            if (RefSetter_Singleton_Property.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefSetter_Singleton).CombineHashCode(ret);
-            }
-            if (List.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(List).CombineHashCode(ret);
-            }
-            if (RefList.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefList).CombineHashCode(ret);
-            }
-            if (Dict.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(Dict).CombineHashCode(ret);
-            }
-            if (RefDict.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(RefDict).CombineHashCode(ret);
-            }
-            if (KeyRefDict.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(KeyRefDict).CombineHashCode(ret);
-            }
-            if (ValRefDict.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(ValRefDict).CombineHashCode(ret);
-            }
-            if (DictKeyedValue.HasBeenSet)
-            {
-                ret = HashHelper.GetHashCode(DictKeyedValue).CombineHashCode(ret);
-            }
+            ret = HashHelper.GetHashCode(ByteArray).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArrayNotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ByteArraySingleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(BoolN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Bool).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(CharN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Char).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DateTimeNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DateTime).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DoubleN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Double).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Double_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FloatN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FloatN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Float).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Float_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int16_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int32_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int64_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Int8_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Unsafe).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UnsafeLoqui).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UnsafeNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P2IntN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P2Int).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3DoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3Double).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3IntN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(P3Int).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(PercentN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Percent).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RangeUInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(String).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FilePath).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(FilePathNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DirectoryPath).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DirectoryPathNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDoubleN).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDoubleN_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDouble).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UDouble_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt16_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt32_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt64_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8N).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8N_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(UInt8_Ranged).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Enum).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(EnumNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(WildCard).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(WildCardLoqui).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(WildCardNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Ref_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefGetter_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter_NotNull).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefSetter_Singleton).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(List).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefList).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(Dict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(RefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(KeyRefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(ValRefDict).CombineHashCode(ret);
+            ret = HashHelper.GetHashCode(DictKeyedValue).CombineHashCode(ret);
             return ret;
         }
 
@@ -6935,219 +5981,113 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArray:
-                    return obj.ByteArray_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArrayNull:
-                    return obj.ByteArrayNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArrayNotNull:
-                    return obj.ByteArrayNotNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.ByteArraySingleton:
-                    return obj.ByteArraySingleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.BoolN:
-                    return obj.BoolN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Bool:
-                    return obj.Bool_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.CharN:
-                    return obj.CharN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Char:
-                    return obj.Char_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DateTimeNull:
-                    return obj.DateTimeNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DateTime:
-                    return obj.DateTime_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN:
-                    return obj.DoubleN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DoubleN_Ranged:
-                    return obj.DoubleN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double:
-                    return obj.Double_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Double_Ranged:
-                    return obj.Double_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.FloatN:
-                    return obj.FloatN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.FloatN_Ranged:
-                    return obj.FloatN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Float:
-                    return obj.Float_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Float_Ranged:
-                    return obj.Float_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int16N:
-                    return obj.Int16N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int16N_Ranged:
-                    return obj.Int16N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int16:
-                    return obj.Int16_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int16_Ranged:
-                    return obj.Int16_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int32N:
-                    return obj.Int32N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int32N_Ranged:
-                    return obj.Int32N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int32:
-                    return obj.Int32_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int32_Ranged:
-                    return obj.Int32_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int64N:
-                    return obj.Int64N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int64N_Ranged:
-                    return obj.Int64N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int64:
-                    return obj.Int64_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int64_Ranged:
-                    return obj.Int64_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int8N:
-                    return obj.Int8N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int8N_Ranged:
-                    return obj.Int8N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int8:
-                    return obj.Int8_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Int8_Ranged:
-                    return obj.Int8_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Unsafe:
-                    return obj.Unsafe_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UnsafeLoqui:
-                    return obj.UnsafeLoqui_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UnsafeNull:
-                    return obj.UnsafeNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P2IntN:
-                    return obj.P2IntN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P2Int:
-                    return obj.P2Int_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P3DoubleN:
-                    return obj.P3DoubleN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P3Double:
-                    return obj.P3Double_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P3IntN:
-                    return obj.P3IntN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.P3Int:
-                    return obj.P3Int_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.PercentN:
-                    return obj.PercentN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Percent:
-                    return obj.Percent_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt8N:
-                    return obj.RangeInt8N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt8:
-                    return obj.RangeInt8_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt16N:
-                    return obj.RangeInt16N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt16:
-                    return obj.RangeInt16_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt32N:
-                    return obj.RangeInt32N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt32:
-                    return obj.RangeInt32_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt64N:
-                    return obj.RangeInt64N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeInt64:
-                    return obj.RangeInt64_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt8N:
-                    return obj.RangeUInt8N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt8:
-                    return obj.RangeUInt8_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt16N:
-                    return obj.RangeUInt16N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt16:
-                    return obj.RangeUInt16_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt32N:
-                    return obj.RangeUInt32N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt32:
-                    return obj.RangeUInt32_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt64N:
-                    return obj.RangeUInt64N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RangeUInt64:
-                    return obj.RangeUInt64_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.String:
-                    return obj.String_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.FilePath:
-                    return obj.FilePath_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.FilePathNull:
-                    return obj.FilePathNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DirectoryPath:
-                    return obj.DirectoryPath_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DirectoryPathNull:
-                    return obj.DirectoryPathNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UDoubleN:
-                    return obj.UDoubleN_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UDoubleN_Ranged:
-                    return obj.UDoubleN_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UDouble:
-                    return obj.UDouble_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UDouble_Ranged:
-                    return obj.UDouble_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16N:
-                    return obj.UInt16N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16N_Ranged:
-                    return obj.UInt16N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16:
-                    return obj.UInt16_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt16_Ranged:
-                    return obj.UInt16_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32N:
-                    return obj.UInt32N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32N_Ranged:
-                    return obj.UInt32N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32:
-                    return obj.UInt32_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt32_Ranged:
-                    return obj.UInt32_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64N:
-                    return obj.UInt64N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64N_Ranged:
-                    return obj.UInt64N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64:
-                    return obj.UInt64_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt64_Ranged:
-                    return obj.UInt64_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8N:
-                    return obj.UInt8N_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8N_Ranged:
-                    return obj.UInt8N_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8:
-                    return obj.UInt8_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.UInt8_Ranged:
-                    return obj.UInt8_Ranged_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Enum:
-                    return obj.Enum_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.EnumNull:
-                    return obj.EnumNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.WildCard:
-                    return obj.WildCard_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.WildCardLoqui:
-                    return obj.WildCardLoqui_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.WildCardNull:
-                    return obj.WildCardNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Ref:
-                    return obj.Ref_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Ref_NotNull:
-                    return obj.Ref_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Ref_Singleton:
-                    return obj.Ref_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter:
-                    return obj.RefGetter_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter_NotNull:
-                    return obj.RefGetter_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefGetter_Singleton:
-                    return obj.RefGetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter:
-                    return obj.RefSetter_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_NotNull:
-                    return obj.RefSetter_NotNull_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefSetter_Singleton:
-                    return obj.RefSetter_Singleton_Property.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.List:
-                    return obj.List.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefList:
-                    return obj.RefList.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.Dict:
-                    return obj.Dict.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.RefDict:
-                    return obj.RefDict.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.KeyRefDict:
-                    return obj.KeyRefDict.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.ValRefDict:
-                    return obj.ValRefDict.HasBeenSet;
                 case TestObject_Notifying_Derivative_RPC_FieldIndex.DictKeyedValue:
-                    return obj.DictKeyedValue.HasBeenSet;
+                    return true;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -7400,106 +6340,106 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_Derivative_RPC_Mask<bool> ret)
         {
             if (rhs == null) return;
-            ret.ByteArray = item.ByteArray_Property.Equals(rhs.ByteArray_Property, (l, r) => l.EqualsFast(r));
-            ret.ByteArrayNull = item.ByteArrayNull_Property.Equals(rhs.ByteArrayNull_Property, (l, r) => l.EqualsFast(r));
-            ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.Equals(rhs.ByteArrayNotNull_Property, (l, r) => l.EqualsFast(r));
-            ret.ByteArraySingleton = item.ByteArraySingleton_Property.Equals(rhs.ByteArraySingleton_Property, (l, r) => l.EqualsFast(r));
-            ret.BoolN = item.BoolN_Property.Equals(rhs.BoolN_Property, (l, r) => l == r);
-            ret.Bool = item.Bool_Property.Equals(rhs.Bool_Property, (l, r) => l == r);
-            ret.CharN = item.CharN_Property.Equals(rhs.CharN_Property, (l, r) => l == r);
-            ret.Char = item.Char_Property.Equals(rhs.Char_Property, (l, r) => l == r);
-            ret.DateTimeNull = item.DateTimeNull_Property.Equals(rhs.DateTimeNull_Property, (l, r) => l == r);
-            ret.DateTime = item.DateTime_Property.Equals(rhs.DateTime_Property, (l, r) => l == r);
-            ret.DoubleN = item.DoubleN_Property.Equals(rhs.DoubleN_Property, (l, r) => l == r);
-            ret.DoubleN_Ranged = item.DoubleN_Ranged_Property.Equals(rhs.DoubleN_Ranged_Property, (l, r) => l == r);
-            ret.Double = item.Double_Property.Equals(rhs.Double_Property, (l, r) => l == r);
-            ret.Double_Ranged = item.Double_Ranged_Property.Equals(rhs.Double_Ranged_Property, (l, r) => l == r);
-            ret.FloatN = item.FloatN_Property.Equals(rhs.FloatN_Property, (l, r) => l == r);
-            ret.FloatN_Ranged = item.FloatN_Ranged_Property.Equals(rhs.FloatN_Ranged_Property, (l, r) => l == r);
-            ret.Float = item.Float_Property.Equals(rhs.Float_Property, (l, r) => l == r);
-            ret.Float_Ranged = item.Float_Ranged_Property.Equals(rhs.Float_Ranged_Property, (l, r) => l == r);
-            ret.Int16N = item.Int16N_Property.Equals(rhs.Int16N_Property, (l, r) => l == r);
-            ret.Int16N_Ranged = item.Int16N_Ranged_Property.Equals(rhs.Int16N_Ranged_Property, (l, r) => l == r);
-            ret.Int16 = item.Int16_Property.Equals(rhs.Int16_Property, (l, r) => l == r);
-            ret.Int16_Ranged = item.Int16_Ranged_Property.Equals(rhs.Int16_Ranged_Property, (l, r) => l == r);
-            ret.Int32N = item.Int32N_Property.Equals(rhs.Int32N_Property, (l, r) => l == r);
-            ret.Int32N_Ranged = item.Int32N_Ranged_Property.Equals(rhs.Int32N_Ranged_Property, (l, r) => l == r);
-            ret.Int32 = item.Int32_Property.Equals(rhs.Int32_Property, (l, r) => l == r);
-            ret.Int32_Ranged = item.Int32_Ranged_Property.Equals(rhs.Int32_Ranged_Property, (l, r) => l == r);
-            ret.Int64N = item.Int64N_Property.Equals(rhs.Int64N_Property, (l, r) => l == r);
-            ret.Int64N_Ranged = item.Int64N_Ranged_Property.Equals(rhs.Int64N_Ranged_Property, (l, r) => l == r);
-            ret.Int64 = item.Int64_Property.Equals(rhs.Int64_Property, (l, r) => l == r);
-            ret.Int64_Ranged = item.Int64_Ranged_Property.Equals(rhs.Int64_Ranged_Property, (l, r) => l == r);
-            ret.Int8N = item.Int8N_Property.Equals(rhs.Int8N_Property, (l, r) => l == r);
-            ret.Int8N_Ranged = item.Int8N_Ranged_Property.Equals(rhs.Int8N_Ranged_Property, (l, r) => l == r);
-            ret.Int8 = item.Int8_Property.Equals(rhs.Int8_Property, (l, r) => l == r);
-            ret.Int8_Ranged = item.Int8_Ranged_Property.Equals(rhs.Int8_Ranged_Property, (l, r) => l == r);
+            ret.ByteArray = item.ByteArray.EqualsFast(rhs.ByteArray);
+            ret.ByteArrayNull = item.ByteArrayNull.EqualsFast(rhs.ByteArrayNull);
+            ret.ByteArrayNotNull = item.ByteArrayNotNull.EqualsFast(rhs.ByteArrayNotNull);
+            ret.ByteArraySingleton = item.ByteArraySingleton.EqualsFast(rhs.ByteArraySingleton);
+            ret.BoolN = item.BoolN == rhs.BoolN;
+            ret.Bool = item.Bool == rhs.Bool;
+            ret.CharN = item.CharN == rhs.CharN;
+            ret.Char = item.Char == rhs.Char;
+            ret.DateTimeNull = item.DateTimeNull == rhs.DateTimeNull;
+            ret.DateTime = item.DateTime == rhs.DateTime;
+            ret.DoubleN = item.DoubleN == rhs.DoubleN;
+            ret.DoubleN_Ranged = item.DoubleN_Ranged == rhs.DoubleN_Ranged;
+            ret.Double = item.Double == rhs.Double;
+            ret.Double_Ranged = item.Double_Ranged == rhs.Double_Ranged;
+            ret.FloatN = item.FloatN == rhs.FloatN;
+            ret.FloatN_Ranged = item.FloatN_Ranged == rhs.FloatN_Ranged;
+            ret.Float = item.Float == rhs.Float;
+            ret.Float_Ranged = item.Float_Ranged == rhs.Float_Ranged;
+            ret.Int16N = item.Int16N == rhs.Int16N;
+            ret.Int16N_Ranged = item.Int16N_Ranged == rhs.Int16N_Ranged;
+            ret.Int16 = item.Int16 == rhs.Int16;
+            ret.Int16_Ranged = item.Int16_Ranged == rhs.Int16_Ranged;
+            ret.Int32N = item.Int32N == rhs.Int32N;
+            ret.Int32N_Ranged = item.Int32N_Ranged == rhs.Int32N_Ranged;
+            ret.Int32 = item.Int32 == rhs.Int32;
+            ret.Int32_Ranged = item.Int32_Ranged == rhs.Int32_Ranged;
+            ret.Int64N = item.Int64N == rhs.Int64N;
+            ret.Int64N_Ranged = item.Int64N_Ranged == rhs.Int64N_Ranged;
+            ret.Int64 = item.Int64 == rhs.Int64;
+            ret.Int64_Ranged = item.Int64_Ranged == rhs.Int64_Ranged;
+            ret.Int8N = item.Int8N == rhs.Int8N;
+            ret.Int8N_Ranged = item.Int8N_Ranged == rhs.Int8N_Ranged;
+            ret.Int8 = item.Int8 == rhs.Int8;
+            ret.Int8_Ranged = item.Int8_Ranged == rhs.Int8_Ranged;
             ret.Unsafe = item.Unsafe_Property.Equals(rhs.Unsafe_Property, (l, r) => object.Equals(l, r));
             ret.UnsafeLoqui = item.UnsafeLoqui_Property.Equals(rhs.UnsafeLoqui_Property, (l, r) => object.Equals(l, r));
             ret.UnsafeNull = item.UnsafeNull_Property.Equals(rhs.UnsafeNull_Property, (l, r) => object.Equals(l, r));
-            ret.P2IntN = item.P2IntN_Property.Equals(rhs.P2IntN_Property, (l, r) => l == r);
-            ret.P2Int = item.P2Int_Property.Equals(rhs.P2Int_Property, (l, r) => l == r);
-            ret.P3DoubleN = item.P3DoubleN_Property.Equals(rhs.P3DoubleN_Property, (l, r) => l == r);
-            ret.P3Double = item.P3Double_Property.Equals(rhs.P3Double_Property, (l, r) => l == r);
-            ret.P3IntN = item.P3IntN_Property.Equals(rhs.P3IntN_Property, (l, r) => l == r);
-            ret.P3Int = item.P3Int_Property.Equals(rhs.P3Int_Property, (l, r) => l == r);
-            ret.PercentN = item.PercentN_Property.Equals(rhs.PercentN_Property, (l, r) => l == r);
-            ret.Percent = item.Percent_Property.Equals(rhs.Percent_Property, (l, r) => l == r);
-            ret.RangeInt8N = item.RangeInt8N_Property.Equals(rhs.RangeInt8N_Property, (l, r) => l == r);
-            ret.RangeInt8 = item.RangeInt8_Property.Equals(rhs.RangeInt8_Property, (l, r) => l == r);
-            ret.RangeInt16N = item.RangeInt16N_Property.Equals(rhs.RangeInt16N_Property, (l, r) => l == r);
-            ret.RangeInt16 = item.RangeInt16_Property.Equals(rhs.RangeInt16_Property, (l, r) => l == r);
-            ret.RangeInt32N = item.RangeInt32N_Property.Equals(rhs.RangeInt32N_Property, (l, r) => l == r);
-            ret.RangeInt32 = item.RangeInt32_Property.Equals(rhs.RangeInt32_Property, (l, r) => l == r);
-            ret.RangeInt64N = item.RangeInt64N_Property.Equals(rhs.RangeInt64N_Property, (l, r) => l == r);
-            ret.RangeInt64 = item.RangeInt64_Property.Equals(rhs.RangeInt64_Property, (l, r) => l == r);
-            ret.RangeUInt8N = item.RangeUInt8N_Property.Equals(rhs.RangeUInt8N_Property, (l, r) => l == r);
-            ret.RangeUInt8 = item.RangeUInt8_Property.Equals(rhs.RangeUInt8_Property, (l, r) => l == r);
-            ret.RangeUInt16N = item.RangeUInt16N_Property.Equals(rhs.RangeUInt16N_Property, (l, r) => l == r);
-            ret.RangeUInt16 = item.RangeUInt16_Property.Equals(rhs.RangeUInt16_Property, (l, r) => l == r);
-            ret.RangeUInt32N = item.RangeUInt32N_Property.Equals(rhs.RangeUInt32N_Property, (l, r) => l == r);
-            ret.RangeUInt32 = item.RangeUInt32_Property.Equals(rhs.RangeUInt32_Property, (l, r) => l == r);
-            ret.RangeUInt64N = item.RangeUInt64N_Property.Equals(rhs.RangeUInt64N_Property, (l, r) => l == r);
-            ret.RangeUInt64 = item.RangeUInt64_Property.Equals(rhs.RangeUInt64_Property, (l, r) => l == r);
+            ret.P2IntN = item.P2IntN == rhs.P2IntN;
+            ret.P2Int = item.P2Int == rhs.P2Int;
+            ret.P3DoubleN = item.P3DoubleN == rhs.P3DoubleN;
+            ret.P3Double = item.P3Double == rhs.P3Double;
+            ret.P3IntN = item.P3IntN == rhs.P3IntN;
+            ret.P3Int = item.P3Int == rhs.P3Int;
+            ret.PercentN = item.PercentN == rhs.PercentN;
+            ret.Percent = item.Percent == rhs.Percent;
+            ret.RangeInt8N = item.RangeInt8N == rhs.RangeInt8N;
+            ret.RangeInt8 = item.RangeInt8 == rhs.RangeInt8;
+            ret.RangeInt16N = item.RangeInt16N == rhs.RangeInt16N;
+            ret.RangeInt16 = item.RangeInt16 == rhs.RangeInt16;
+            ret.RangeInt32N = item.RangeInt32N == rhs.RangeInt32N;
+            ret.RangeInt32 = item.RangeInt32 == rhs.RangeInt32;
+            ret.RangeInt64N = item.RangeInt64N == rhs.RangeInt64N;
+            ret.RangeInt64 = item.RangeInt64 == rhs.RangeInt64;
+            ret.RangeUInt8N = item.RangeUInt8N == rhs.RangeUInt8N;
+            ret.RangeUInt8 = item.RangeUInt8 == rhs.RangeUInt8;
+            ret.RangeUInt16N = item.RangeUInt16N == rhs.RangeUInt16N;
+            ret.RangeUInt16 = item.RangeUInt16 == rhs.RangeUInt16;
+            ret.RangeUInt32N = item.RangeUInt32N == rhs.RangeUInt32N;
+            ret.RangeUInt32 = item.RangeUInt32 == rhs.RangeUInt32;
+            ret.RangeUInt64N = item.RangeUInt64N == rhs.RangeUInt64N;
+            ret.RangeUInt64 = item.RangeUInt64 == rhs.RangeUInt64;
             ret.String = item.String_Property.Equals(rhs.String_Property, (l, r) => object.Equals(l, r));
             ret.FilePath = item.FilePath_Property.Equals(rhs.FilePath_Property, (l, r) => object.Equals(l, r));
             ret.FilePathNull = item.FilePathNull_Property.Equals(rhs.FilePathNull_Property, (l, r) => object.Equals(l, r));
             ret.DirectoryPath = item.DirectoryPath_Property.Equals(rhs.DirectoryPath_Property, (l, r) => object.Equals(l, r));
             ret.DirectoryPathNull = item.DirectoryPathNull_Property.Equals(rhs.DirectoryPathNull_Property, (l, r) => object.Equals(l, r));
-            ret.UDoubleN = item.UDoubleN_Property.Equals(rhs.UDoubleN_Property, (l, r) => l == r);
-            ret.UDoubleN_Ranged = item.UDoubleN_Ranged_Property.Equals(rhs.UDoubleN_Ranged_Property, (l, r) => l == r);
-            ret.UDouble = item.UDouble_Property.Equals(rhs.UDouble_Property, (l, r) => l == r);
-            ret.UDouble_Ranged = item.UDouble_Ranged_Property.Equals(rhs.UDouble_Ranged_Property, (l, r) => l == r);
-            ret.UInt16N = item.UInt16N_Property.Equals(rhs.UInt16N_Property, (l, r) => l == r);
-            ret.UInt16N_Ranged = item.UInt16N_Ranged_Property.Equals(rhs.UInt16N_Ranged_Property, (l, r) => l == r);
-            ret.UInt16 = item.UInt16_Property.Equals(rhs.UInt16_Property, (l, r) => l == r);
-            ret.UInt16_Ranged = item.UInt16_Ranged_Property.Equals(rhs.UInt16_Ranged_Property, (l, r) => l == r);
-            ret.UInt32N = item.UInt32N_Property.Equals(rhs.UInt32N_Property, (l, r) => l == r);
-            ret.UInt32N_Ranged = item.UInt32N_Ranged_Property.Equals(rhs.UInt32N_Ranged_Property, (l, r) => l == r);
-            ret.UInt32 = item.UInt32_Property.Equals(rhs.UInt32_Property, (l, r) => l == r);
-            ret.UInt32_Ranged = item.UInt32_Ranged_Property.Equals(rhs.UInt32_Ranged_Property, (l, r) => l == r);
-            ret.UInt64N = item.UInt64N_Property.Equals(rhs.UInt64N_Property, (l, r) => l == r);
-            ret.UInt64N_Ranged = item.UInt64N_Ranged_Property.Equals(rhs.UInt64N_Ranged_Property, (l, r) => l == r);
-            ret.UInt64 = item.UInt64_Property.Equals(rhs.UInt64_Property, (l, r) => l == r);
-            ret.UInt64_Ranged = item.UInt64_Ranged_Property.Equals(rhs.UInt64_Ranged_Property, (l, r) => l == r);
-            ret.UInt8N = item.UInt8N_Property.Equals(rhs.UInt8N_Property, (l, r) => l == r);
-            ret.UInt8N_Ranged = item.UInt8N_Ranged_Property.Equals(rhs.UInt8N_Ranged_Property, (l, r) => l == r);
-            ret.UInt8 = item.UInt8_Property.Equals(rhs.UInt8_Property, (l, r) => l == r);
-            ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
-            ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
-            ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.UDoubleN = item.UDoubleN == rhs.UDoubleN;
+            ret.UDoubleN_Ranged = item.UDoubleN_Ranged == rhs.UDoubleN_Ranged;
+            ret.UDouble = item.UDouble == rhs.UDouble;
+            ret.UDouble_Ranged = item.UDouble_Ranged == rhs.UDouble_Ranged;
+            ret.UInt16N = item.UInt16N == rhs.UInt16N;
+            ret.UInt16N_Ranged = item.UInt16N_Ranged == rhs.UInt16N_Ranged;
+            ret.UInt16 = item.UInt16 == rhs.UInt16;
+            ret.UInt16_Ranged = item.UInt16_Ranged == rhs.UInt16_Ranged;
+            ret.UInt32N = item.UInt32N == rhs.UInt32N;
+            ret.UInt32N_Ranged = item.UInt32N_Ranged == rhs.UInt32N_Ranged;
+            ret.UInt32 = item.UInt32 == rhs.UInt32;
+            ret.UInt32_Ranged = item.UInt32_Ranged == rhs.UInt32_Ranged;
+            ret.UInt64N = item.UInt64N == rhs.UInt64N;
+            ret.UInt64N_Ranged = item.UInt64N_Ranged == rhs.UInt64N_Ranged;
+            ret.UInt64 = item.UInt64 == rhs.UInt64;
+            ret.UInt64_Ranged = item.UInt64_Ranged == rhs.UInt64_Ranged;
+            ret.UInt8N = item.UInt8N == rhs.UInt8N;
+            ret.UInt8N_Ranged = item.UInt8N_Ranged == rhs.UInt8N_Ranged;
+            ret.UInt8 = item.UInt8 == rhs.UInt8;
+            ret.UInt8_Ranged = item.UInt8_Ranged == rhs.UInt8_Ranged;
+            ret.Enum = item.Enum == rhs.Enum;
+            ret.EnumNull = item.EnumNull == rhs.EnumNull;
+            ret.WildCard = object.Equals(item.WildCard, Loqui.Generation.Accessor);
+            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, Loqui.Generation.Accessor);
+            ret.WildCardNull = object.Equals(item.WildCardNull, Loqui.Generation.Accessor);
+            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)
@@ -8356,106 +7296,106 @@ namespace Loqui.Tests.Internals
         public static TestObject_Notifying_Derivative_RPC_Mask<bool> GetHasBeenSetMask(ITestObject_Notifying_Derivative_RPCGetter item)
         {
             var ret = new TestObject_Notifying_Derivative_RPC_Mask<bool>();
-            ret.ByteArray = item.ByteArray_Property.HasBeenSet;
-            ret.ByteArrayNull = item.ByteArrayNull_Property.HasBeenSet;
-            ret.ByteArrayNotNull = item.ByteArrayNotNull_Property.HasBeenSet;
-            ret.ByteArraySingleton = item.ByteArraySingleton_Property.HasBeenSet;
-            ret.BoolN = item.BoolN_Property.HasBeenSet;
-            ret.Bool = item.Bool_Property.HasBeenSet;
-            ret.CharN = item.CharN_Property.HasBeenSet;
-            ret.Char = item.Char_Property.HasBeenSet;
-            ret.DateTimeNull = item.DateTimeNull_Property.HasBeenSet;
-            ret.DateTime = item.DateTime_Property.HasBeenSet;
-            ret.DoubleN = item.DoubleN_Property.HasBeenSet;
-            ret.DoubleN_Ranged = item.DoubleN_Ranged_Property.HasBeenSet;
-            ret.Double = item.Double_Property.HasBeenSet;
-            ret.Double_Ranged = item.Double_Ranged_Property.HasBeenSet;
-            ret.FloatN = item.FloatN_Property.HasBeenSet;
-            ret.FloatN_Ranged = item.FloatN_Ranged_Property.HasBeenSet;
-            ret.Float = item.Float_Property.HasBeenSet;
-            ret.Float_Ranged = item.Float_Ranged_Property.HasBeenSet;
-            ret.Int16N = item.Int16N_Property.HasBeenSet;
-            ret.Int16N_Ranged = item.Int16N_Ranged_Property.HasBeenSet;
-            ret.Int16 = item.Int16_Property.HasBeenSet;
-            ret.Int16_Ranged = item.Int16_Ranged_Property.HasBeenSet;
-            ret.Int32N = item.Int32N_Property.HasBeenSet;
-            ret.Int32N_Ranged = item.Int32N_Ranged_Property.HasBeenSet;
-            ret.Int32 = item.Int32_Property.HasBeenSet;
-            ret.Int32_Ranged = item.Int32_Ranged_Property.HasBeenSet;
-            ret.Int64N = item.Int64N_Property.HasBeenSet;
-            ret.Int64N_Ranged = item.Int64N_Ranged_Property.HasBeenSet;
-            ret.Int64 = item.Int64_Property.HasBeenSet;
-            ret.Int64_Ranged = item.Int64_Ranged_Property.HasBeenSet;
-            ret.Int8N = item.Int8N_Property.HasBeenSet;
-            ret.Int8N_Ranged = item.Int8N_Ranged_Property.HasBeenSet;
-            ret.Int8 = item.Int8_Property.HasBeenSet;
-            ret.Int8_Ranged = item.Int8_Ranged_Property.HasBeenSet;
-            ret.Unsafe = item.Unsafe_Property.HasBeenSet;
-            ret.UnsafeLoqui = item.UnsafeLoqui_Property.HasBeenSet;
-            ret.UnsafeNull = item.UnsafeNull_Property.HasBeenSet;
-            ret.P2IntN = item.P2IntN_Property.HasBeenSet;
-            ret.P2Int = item.P2Int_Property.HasBeenSet;
-            ret.P3DoubleN = item.P3DoubleN_Property.HasBeenSet;
-            ret.P3Double = item.P3Double_Property.HasBeenSet;
-            ret.P3IntN = item.P3IntN_Property.HasBeenSet;
-            ret.P3Int = item.P3Int_Property.HasBeenSet;
-            ret.PercentN = item.PercentN_Property.HasBeenSet;
-            ret.Percent = item.Percent_Property.HasBeenSet;
-            ret.RangeInt8N = item.RangeInt8N_Property.HasBeenSet;
-            ret.RangeInt8 = item.RangeInt8_Property.HasBeenSet;
-            ret.RangeInt16N = item.RangeInt16N_Property.HasBeenSet;
-            ret.RangeInt16 = item.RangeInt16_Property.HasBeenSet;
-            ret.RangeInt32N = item.RangeInt32N_Property.HasBeenSet;
-            ret.RangeInt32 = item.RangeInt32_Property.HasBeenSet;
-            ret.RangeInt64N = item.RangeInt64N_Property.HasBeenSet;
-            ret.RangeInt64 = item.RangeInt64_Property.HasBeenSet;
-            ret.RangeUInt8N = item.RangeUInt8N_Property.HasBeenSet;
-            ret.RangeUInt8 = item.RangeUInt8_Property.HasBeenSet;
-            ret.RangeUInt16N = item.RangeUInt16N_Property.HasBeenSet;
-            ret.RangeUInt16 = item.RangeUInt16_Property.HasBeenSet;
-            ret.RangeUInt32N = item.RangeUInt32N_Property.HasBeenSet;
-            ret.RangeUInt32 = item.RangeUInt32_Property.HasBeenSet;
-            ret.RangeUInt64N = item.RangeUInt64N_Property.HasBeenSet;
-            ret.RangeUInt64 = item.RangeUInt64_Property.HasBeenSet;
-            ret.String = item.String_Property.HasBeenSet;
-            ret.FilePath = item.FilePath_Property.HasBeenSet;
-            ret.FilePathNull = item.FilePathNull_Property.HasBeenSet;
-            ret.DirectoryPath = item.DirectoryPath_Property.HasBeenSet;
-            ret.DirectoryPathNull = item.DirectoryPathNull_Property.HasBeenSet;
-            ret.UDoubleN = item.UDoubleN_Property.HasBeenSet;
-            ret.UDoubleN_Ranged = item.UDoubleN_Ranged_Property.HasBeenSet;
-            ret.UDouble = item.UDouble_Property.HasBeenSet;
-            ret.UDouble_Ranged = item.UDouble_Ranged_Property.HasBeenSet;
-            ret.UInt16N = item.UInt16N_Property.HasBeenSet;
-            ret.UInt16N_Ranged = item.UInt16N_Ranged_Property.HasBeenSet;
-            ret.UInt16 = item.UInt16_Property.HasBeenSet;
-            ret.UInt16_Ranged = item.UInt16_Ranged_Property.HasBeenSet;
-            ret.UInt32N = item.UInt32N_Property.HasBeenSet;
-            ret.UInt32N_Ranged = item.UInt32N_Ranged_Property.HasBeenSet;
-            ret.UInt32 = item.UInt32_Property.HasBeenSet;
-            ret.UInt32_Ranged = item.UInt32_Ranged_Property.HasBeenSet;
-            ret.UInt64N = item.UInt64N_Property.HasBeenSet;
-            ret.UInt64N_Ranged = item.UInt64N_Ranged_Property.HasBeenSet;
-            ret.UInt64 = item.UInt64_Property.HasBeenSet;
-            ret.UInt64_Ranged = item.UInt64_Ranged_Property.HasBeenSet;
-            ret.UInt8N = item.UInt8N_Property.HasBeenSet;
-            ret.UInt8N_Ranged = item.UInt8N_Ranged_Property.HasBeenSet;
-            ret.UInt8 = item.UInt8_Property.HasBeenSet;
-            ret.UInt8_Ranged = item.UInt8_Ranged_Property.HasBeenSet;
-            ret.Enum = item.Enum_Property.HasBeenSet;
-            ret.EnumNull = item.EnumNull_Property.HasBeenSet;
-            ret.WildCard = item.WildCard_Property.HasBeenSet;
-            ret.WildCardLoqui = item.WildCardLoqui_Property.HasBeenSet;
-            ret.WildCardNull = item.WildCardNull_Property.HasBeenSet;
-            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Property.Item));
-            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_NotNull_Property.Item));
-            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.Ref_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Singleton_Property.Item));
-            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Property.Item));
-            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_NotNull_Property.Item));
-            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefGetter_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Singleton_Property.Item));
-            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Property.Item));
-            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_NotNull_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_NotNull_Property.Item));
-            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(item.RefSetter_Singleton_Property.HasBeenSet, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Singleton_Property.Item));
+            ret.ByteArray = true;
+            ret.ByteArrayNull = true;
+            ret.ByteArrayNotNull = true;
+            ret.ByteArraySingleton = true;
+            ret.BoolN = true;
+            ret.Bool = true;
+            ret.CharN = true;
+            ret.Char = true;
+            ret.DateTimeNull = true;
+            ret.DateTime = true;
+            ret.DoubleN = true;
+            ret.DoubleN_Ranged = true;
+            ret.Double = true;
+            ret.Double_Ranged = true;
+            ret.FloatN = true;
+            ret.FloatN_Ranged = true;
+            ret.Float = true;
+            ret.Float_Ranged = true;
+            ret.Int16N = true;
+            ret.Int16N_Ranged = true;
+            ret.Int16 = true;
+            ret.Int16_Ranged = true;
+            ret.Int32N = true;
+            ret.Int32N_Ranged = true;
+            ret.Int32 = true;
+            ret.Int32_Ranged = true;
+            ret.Int64N = true;
+            ret.Int64N_Ranged = true;
+            ret.Int64 = true;
+            ret.Int64_Ranged = true;
+            ret.Int8N = true;
+            ret.Int8N_Ranged = true;
+            ret.Int8 = true;
+            ret.Int8_Ranged = true;
+            ret.Unsafe = true;
+            ret.UnsafeLoqui = true;
+            ret.UnsafeNull = true;
+            ret.P2IntN = true;
+            ret.P2Int = true;
+            ret.P3DoubleN = true;
+            ret.P3Double = true;
+            ret.P3IntN = true;
+            ret.P3Int = true;
+            ret.PercentN = true;
+            ret.Percent = true;
+            ret.RangeInt8N = true;
+            ret.RangeInt8 = true;
+            ret.RangeInt16N = true;
+            ret.RangeInt16 = true;
+            ret.RangeInt32N = true;
+            ret.RangeInt32 = true;
+            ret.RangeInt64N = true;
+            ret.RangeInt64 = true;
+            ret.RangeUInt8N = true;
+            ret.RangeUInt8 = true;
+            ret.RangeUInt16N = true;
+            ret.RangeUInt16 = true;
+            ret.RangeUInt32N = true;
+            ret.RangeUInt32 = true;
+            ret.RangeUInt64N = true;
+            ret.RangeUInt64 = true;
+            ret.String = true;
+            ret.FilePath = true;
+            ret.FilePathNull = true;
+            ret.DirectoryPath = true;
+            ret.DirectoryPathNull = true;
+            ret.UDoubleN = true;
+            ret.UDoubleN_Ranged = true;
+            ret.UDouble = true;
+            ret.UDouble_Ranged = true;
+            ret.UInt16N = true;
+            ret.UInt16N_Ranged = true;
+            ret.UInt16 = true;
+            ret.UInt16_Ranged = true;
+            ret.UInt32N = true;
+            ret.UInt32N_Ranged = true;
+            ret.UInt32 = true;
+            ret.UInt32_Ranged = true;
+            ret.UInt64N = true;
+            ret.UInt64N_Ranged = true;
+            ret.UInt64 = true;
+            ret.UInt64_Ranged = true;
+            ret.UInt8N = true;
+            ret.UInt8N_Ranged = true;
+            ret.UInt8 = true;
+            ret.UInt8_Ranged = true;
+            ret.Enum = true;
+            ret.EnumNull = true;
+            ret.WildCard = true;
+            ret.WildCardLoqui = true;
+            ret.WildCardNull = true;
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Property.Item));
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_NotNull_Property.Item));
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.Ref_Singleton_Property.Item));
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Property.Item));
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_NotNull_Property.Item));
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefGetter_Singleton_Property.Item));
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Property.Item));
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_NotNull_Property.Item));
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>(true, ObjectToRefCommon.GetHasBeenSetMask(item.RefSetter_Singleton_Property.Item));
             ret.List = new MaskItem<bool, IEnumerable<bool>>(item.List.HasBeenSet, null);
             ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>(item.RefList.HasBeenSet, item.RefList.Select((i) => new MaskItem<bool, ObjectToRef_Mask<bool>>(true, i.GetHasBeenSetMask())));
             ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>(item.Dict.HasBeenSet, null);

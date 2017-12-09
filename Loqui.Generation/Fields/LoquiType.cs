@@ -211,6 +211,47 @@ namespace Loqui.Generation
                     switch (this.SingletonType)
                     {
                         case SingletonLevel.None:
+                            fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItem<{TypeName}>();");
+                            break;
+                        case SingletonLevel.NotNull:
+                            fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItemConvertWrapper<{TypeName}>(");
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine($"defaultVal: new {this._TargetObjectGeneration.Name}(),");
+                                fg.AppendLine("incomingConverter: (change) =>");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine("if (change.New == null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(new {this._TargetObjectGeneration.Name}());");
+                                    }
+                                    fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(change.New);");
+                                }
+                            }
+                            fg.AppendLine(");");
+                            break;
+                        case SingletonLevel.Singleton:
+                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                            fg.AppendLine(GetNotifyingProperty() + ";");
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    fg.AppendLine($"public INotifyingSetItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.Protected ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
+                    if (!this.Protected && this.SingletonType != SingletonLevel.Singleton)
+                    {
+                        fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                else
+                {
+                    switch (this.SingletonType)
+                    {
+                        case SingletonLevel.None:
                             fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
                             break;
                         case SingletonLevel.NotNull:
@@ -246,10 +287,6 @@ namespace Loqui.Generation
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                }
-                else
-                {
-                    throw new NotImplementedException();
                 }
             }
             else
@@ -331,8 +368,31 @@ namespace Loqui.Generation
 
         protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
+            string item;
+            if (this.Notifying)
+            {
+                if (this.HasBeenSet)
+                {
+                    item = $"NotifyingSetItem";
+                }
+                else
+                {
+                    item = $"NotifyingItem";
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
+                    item = $"HasBeenSetItem";
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
             using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {(this.Notifying ? "NotifyingItem" : $"HasBeenSetItem")}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
+                $"{prepend} = {item}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
             {
                 switch (this.SingletonType)
                 {
@@ -354,7 +414,10 @@ namespace Loqui.Generation
                 {
                     args.Add($"noNullFallback: () => new {this.ObjectTypeName}()");
                 }
-                args.Add($"markAsSet: {(this.SingletonType == SingletonLevel.Singleton ? "true" : "false")}");
+                if (this.HasBeenSet)
+                {
+                    args.Add($"markAsSet: {(this.SingletonType == SingletonLevel.Singleton ? "true" : "false")}");
+                }
             }
         }
 
@@ -725,11 +788,11 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                    fg.AppendLine($"INotifyingSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
                 }
             }
             else
@@ -867,11 +930,11 @@ namespace Loqui.Generation
         {
             if (this.TargetObjectGeneration == null)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Bare ? "true" : $"{accessor}.HasBeenSet")}, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, null);");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.Bare ? "true" : $"{accessor}.HasBeenSet")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Bare ? accessor : $"{accessor}.Item")}));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Bare ? accessor : $"{accessor}.Item")}));");
             }
         }
 

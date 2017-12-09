@@ -12,7 +12,7 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>(");
+                    fg.AppendLine($"protected readonly INotifyingSetItem<{TypeName}> _{this.Name} = new NotifyingSetItemConvertWrapper<{TypeName}>(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine("(change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New)),");
@@ -28,6 +28,36 @@ namespace Loqui.Generation
                         }
                     }
                     fg.AppendLine(");");
+                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(Protected ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
+                    if (!this.Protected)
+                    {
+                        fg.AppendLine($"INotifyingSetItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                else
+                {
+                    using (var args = new ArgsWrapper(fg, $"protected readonly INotifyingItem<{TypeName}> _{this.Name} = new NotifyingItemConvertWrapper<{TypeName}>"))
+                    {
+                        args.Add("(change) => TryGet<Object>.Succeed(WildcardLink.Validate(change.New))");
+                        if (HasDefault)
+                        {
+                            args.Add($"defaultVal: {GenerateDefaultValue()}");
+                            if (this.HasBeenSet)
+                            {
+                                args.Add("markAsSet: false");
+                            }
+                        }
+                        else
+                        {
+                            args.Add($"default({this.TypeName})");
+                            if (this.HasBeenSet)
+                            {
+                                args.Add("markAsSet: false");
+                            }
+                        }
+                    }
                     fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(Protected ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
                     if (!this.Protected)
@@ -35,10 +65,6 @@ namespace Loqui.Generation
                         fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                }
-                else
-                {
-                    throw new NotImplementedException();
                 }
             }
             else

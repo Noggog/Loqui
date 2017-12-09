@@ -36,26 +36,26 @@ namespace Loqui.Tests
         #endregion
 
         #region KeyField
-        protected readonly INotifyingItem<Int32> _KeyField = NotifyingItem.Factory<Int32>(markAsSet: false);
-        public INotifyingItem<Int32> KeyField_Property => _KeyField;
+        protected readonly INotifyingItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingSetItem<Int32> KeyField_Property => _KeyField;
         public Int32 KeyField
         {
             get => this._KeyField.Item;
             set => this._KeyField.Set(value);
         }
-        INotifyingItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
-        INotifyingItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
+        INotifyingSetItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
+        INotifyingSetItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
         #region SomeField
-        protected readonly INotifyingItem<Boolean> _SomeField = NotifyingItem.Factory<Boolean>(markAsSet: false);
-        public INotifyingItem<Boolean> SomeField_Property => _SomeField;
+        protected readonly INotifyingItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        public INotifyingSetItem<Boolean> SomeField_Property => _SomeField;
         public Boolean SomeField
         {
             get => this._SomeField.Item;
             set => this._SomeField.Set(value);
         }
-        INotifyingItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
-        INotifyingItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
+        INotifyingSetItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
+        INotifyingSetItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
         #endregion
 
         #region Loqui Getter Interface
@@ -612,10 +612,10 @@ namespace Loqui.Tests
     public interface IObjectToRef : IObjectToRefGetter, ILoquiClass<IObjectToRef, IObjectToRefGetter>, ILoquiClass<ObjectToRef, IObjectToRefGetter>
     {
         new Int32 KeyField { get; set; }
-        new INotifyingItem<Int32> KeyField_Property { get; }
+        new INotifyingSetItem<Int32> KeyField_Property { get; }
 
         new Boolean SomeField { get; set; }
-        new INotifyingItem<Boolean> SomeField_Property { get; }
+        new INotifyingSetItem<Boolean> SomeField_Property { get; }
 
     }
 
@@ -623,12 +623,12 @@ namespace Loqui.Tests
     {
         #region KeyField
         Int32 KeyField { get; }
-        INotifyingItemGetter<Int32> KeyField_Property { get; }
+        INotifyingSetItemGetter<Int32> KeyField_Property { get; }
 
         #endregion
         #region SomeField
         Boolean SomeField { get; }
-        INotifyingItemGetter<Boolean> SomeField_Property { get; }
+        INotifyingSetItemGetter<Boolean> SomeField_Property { get; }
 
         #endregion
 
@@ -903,9 +903,9 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.KeyField_Property.SetToWithDefault(
-                        rhs.KeyField_Property,
-                        def?.KeyField_Property,
-                        cmds);
+                        rhs: rhs.KeyField_Property,
+                        def: def?.KeyField_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -918,9 +918,9 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.SomeField_Property.SetToWithDefault(
-                        rhs.SomeField_Property,
-                        def?.SomeField_Property,
-                        cmds);
+                        rhs: rhs.SomeField_Property,
+                        def: def?.SomeField_Property,
+                        cmds: cmds);
                 }
                 catch (Exception ex)
                 when (doMasks)

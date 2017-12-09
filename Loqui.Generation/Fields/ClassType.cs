@@ -56,6 +56,29 @@ namespace Loqui.Generation
                 {
                     if (this.RaisePropertyChanged)
                     {
+                        fg.AppendLine($"protected readonly INotifyingSetItem<{TypeName}> _{this.Name};");
+                    }
+                    else
+                    {
+                        GenerateNotifyingCtor(fg);
+                    }
+                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this._{ this.Name}.Item;");
+                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                    }
+                    if (!this.Protected)
+                    {
+                        fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    }
+                    fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                else
+                {
+                    if (this.RaisePropertyChanged)
+                    {
                         fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
                     }
                     else
@@ -74,10 +97,6 @@ namespace Loqui.Generation
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                }
-                else
-                {
-                    throw new NotImplementedException();
                 }
             }
             else

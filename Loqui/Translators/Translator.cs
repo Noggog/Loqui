@@ -13,8 +13,7 @@ namespace Loqui.Translators
     {
         public NotifyingItem<GetResponse<ObjTransl>> NullTranslationItem;
         public NotifyingItem<Type> NullType = new NotifyingItem<Type>(
-            defaultVal: null,
-            markAsSet: true);
+            defaultVal: null);
 
         public Dictionary<Type, NotifyingItem<GetResponse<ObjTransl>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<ObjTransl>>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
@@ -36,8 +35,7 @@ namespace Loqui.Translators
             var nullCasterType = genericCaster.MakeGenericType(typeof(Object), typeof(Exception));
             var nullTranslation = Activator.CreateInstance(nullTranslator);
             this.NullTranslationItem = new NotifyingItem<GetResponse<ObjTransl>>(
-                defaultVal: GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation })),
-                markAsSet: true);
+                defaultVal: GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation })));
 
             var genInterfType = typeof(ObjTransl).GetGenericTypeDefinition();
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(genInterfType))

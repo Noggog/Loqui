@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public static readonly RecordType DATA_HEADER = new RecordType(\"DATA\");"))
+            if (str.Contains("_MetadataSummary = NotifyingItem.Factory<ScriptMetaSummary>("))
             {
                 int wer = 23;
                 wer++;

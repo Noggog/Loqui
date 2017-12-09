@@ -9,13 +9,13 @@ namespace Loqui.Tests
 {
     public class ObjectToRef_CustomMade : IObjectToRef
     {
-        public INotifyingItem<int> KeyField_Property { get; } = new NotifyingItem<int>();
+        public INotifyingSetItem<int> KeyField_Property { get; } = new NotifyingSetItem<int>();
         public int KeyField { get => KeyField_Property.Item; set => KeyField_Property.Item = value; }
-        INotifyingItemGetter<int> IObjectToRefGetter.KeyField_Property => KeyField_Property;
+        INotifyingSetItemGetter<int> IObjectToRefGetter.KeyField_Property => KeyField_Property;
 
-        public INotifyingItem<bool> SomeField_Property { get; } = new NotifyingItem<bool>();
+        public INotifyingSetItem<bool> SomeField_Property { get; } = new NotifyingSetItem<bool>();
         public bool SomeField { get => SomeField_Property.Item; set => SomeField_Property.Item = value; }
-        INotifyingItemGetter<bool> IObjectToRefGetter.SomeField_Property => SomeField_Property;
+        INotifyingSetItemGetter<bool> IObjectToRefGetter.SomeField_Property => SomeField_Property;
 
         public ILoquiRegistration Registration => ObjectToRef.Registration;
     }

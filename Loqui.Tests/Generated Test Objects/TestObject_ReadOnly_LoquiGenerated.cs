@@ -37,11 +37,18 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        private Byte[] _ByteArray;
+        private Byte[] _ByteArray = new byte[4];
         public Byte[] ByteArray
         {
             get => _ByteArray;
-            protected set { this._ByteArray = value; }
+            protected set
+            {
+                this._ByteArray = value;
+                if (value == null)
+                {
+                    this._ByteArray = new byte[4];
+                }
+            }
         }
         #endregion
         #region ByteArrayNull
@@ -6816,9 +6823,9 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged == rhs.UInt8_Ranged;
             ret.Enum = item.Enum == rhs.Enum;
             ret.EnumNull = item.EnumNull == rhs.EnumNull;
-            ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
-            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
-            ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
+            ret.WildCard = object.Equals(item.WildCard, Loqui.Generation.Accessor);
+            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, Loqui.Generation.Accessor);
+            ret.WildCardNull = object.Equals(item.WildCardNull, Loqui.Generation.Accessor);
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
             ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
@@ -7637,1528 +7644,1314 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_ReadOnly");
                     }
-                    {
-                        Exception subMask;
-                        ByteArrayXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.ByteArray),
-                            item.ByteArray,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.ByteArray,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteArrayXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.ByteArrayNull),
-                            item.ByteArrayNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteArrayXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.ByteArrayNotNull),
-                            item.ByteArrayNotNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.ByteArrayNotNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteArrayXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.ByteArraySingleton),
-                            item.ByteArraySingleton,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.ByteArraySingleton,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        BooleanXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.BoolN),
-                            item.BoolN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.BoolN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        BooleanXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Bool),
-                            item.Bool,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Bool,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        CharXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.CharN),
-                            item.CharN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.CharN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        CharXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Char),
-                            item.Char,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Char,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DateTimeXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DateTimeNull),
-                            item.DateTimeNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DateTimeNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DateTimeXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DateTime),
-                            item.DateTime,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DateTime,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DoubleN),
-                            item.DoubleN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DoubleN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DoubleN_Ranged),
-                            item.DoubleN_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DoubleN_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Double),
-                            item.Double,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Double,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Double_Ranged),
-                            item.Double_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Double_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FloatXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.FloatN),
-                            item.FloatN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.FloatN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FloatXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.FloatN_Ranged),
-                            item.FloatN_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.FloatN_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FloatXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Float),
-                            item.Float,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Float,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FloatXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Float_Ranged),
-                            item.Float_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Float_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int16N),
-                            item.Int16N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int16N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int16N_Ranged),
-                            item.Int16N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int16N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int16),
-                            item.Int16,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int16,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int16_Ranged),
-                            item.Int16_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int16_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int32N),
-                            item.Int32N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int32N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int32N_Ranged),
-                            item.Int32N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int32N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int32),
-                            item.Int32,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int32,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int32_Ranged),
-                            item.Int32_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int32_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int64N),
-                            item.Int64N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int64N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int64N_Ranged),
-                            item.Int64N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int64N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int64),
-                            item.Int64,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int64,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int64_Ranged),
-                            item.Int64_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int64_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int8N),
-                            item.Int8N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int8N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int8N_Ranged),
-                            item.Int8N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int8N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int8),
-                            item.Int8,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int8,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        Int8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Int8_Ranged),
-                            item.Int8_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Int8_Ranged,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.Unsafe),
-                            item: item.Unsafe,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Unsafe,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.UnsafeLoqui),
-                            item: item.UnsafeLoqui,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UnsafeLoqui,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.UnsafeNull),
-                            item: item.UnsafeNull,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UnsafeNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P2IntXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P2IntN),
-                            item.P2IntN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P2IntN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P2IntXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P2Int),
-                            item.P2Int,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P2Int,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P3DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P3DoubleN),
-                            item.P3DoubleN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P3DoubleN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P3DoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P3Double),
-                            item.P3Double,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P3Double,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P3IntXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P3IntN),
-                            item.P3IntN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P3IntN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        P3IntXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.P3Int),
-                            item.P3Int,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.P3Int,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        PercentXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.PercentN),
-                            item.PercentN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.PercentN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        PercentXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.Percent),
-                            item.Percent,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Percent,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt8N),
-                            item.RangeInt8N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt8),
-                            item.RangeInt8,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt8,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt16N),
-                            item.RangeInt16N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt16),
-                            item.RangeInt16,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt16,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt32N),
-                            item.RangeInt32N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt32),
-                            item.RangeInt32,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt32,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt64N),
-                            item.RangeInt64N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeInt64),
-                            item.RangeInt64,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeInt64,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt8N),
-                            item.RangeUInt8N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt8XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt8),
-                            item.RangeUInt8,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt8,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt16N),
-                            item.RangeUInt16N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt16),
-                            item.RangeUInt16,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt16,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt32N),
-                            item.RangeUInt32N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt32),
-                            item.RangeUInt32,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt32,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt64N),
-                            item.RangeUInt64N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        RangeUInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.RangeUInt64),
-                            item.RangeUInt64,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RangeUInt64,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        StringXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.String),
-                            item.String,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.String,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FilePathXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.FilePath),
-                            item.FilePath,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.FilePath,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        FilePathXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.FilePathNull),
-                            item.FilePathNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.FilePathNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DirectoryPathXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DirectoryPath),
-                            item.DirectoryPath,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPath,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        DirectoryPathXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.DirectoryPathNull),
-                            item.DirectoryPathNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DirectoryPathNull,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UDoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UDoubleN),
-                            item.UDoubleN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UDoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UDoubleN_Ranged),
-                            item.UDoubleN_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UDoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UDouble),
-                            item.UDouble,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UDouble,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UDoubleXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UDouble_Ranged),
-                            item.UDouble_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UDouble_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt16N),
-                            item.UInt16N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt16N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt16N_Ranged),
-                            item.UInt16N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt16N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt16),
-                            item.UInt16,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt16,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt16XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt16_Ranged),
-                            item.UInt16_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt16_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt32N),
-                            item.UInt32N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt32N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt32N_Ranged),
-                            item.UInt32N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt32N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt32),
-                            item.UInt32,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt32,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt32_Ranged),
-                            item.UInt32_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt32_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt64N),
-                            item.UInt64N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt64N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt64N_Ranged),
-                            item.UInt64N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt64N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt64),
-                            item.UInt64,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt64,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        UInt64XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt64_Ranged),
-                            item.UInt64_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt64_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt8N),
-                            item.UInt8N,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt8N,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt8N_Ranged),
-                            item.UInt8N_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt8N_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt8),
-                            item.UInt8,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt8,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        ByteXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.UInt8_Ranged),
-                            item.UInt8_Ranged,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.UInt8_Ranged,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        EnumXmlTranslation<TestEnum>.Instance.Write(
-                            writer,
-                            nameof(item.Enum),
-                            item.Enum,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Enum,
-                            subMask);
-                    }
-                    {
-                        Exception subMask;
-                        EnumXmlTranslation<TestEnum>.Instance.Write(
-                            writer,
-                            nameof(item.EnumNull),
-                            item.EnumNull,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.EnumNull,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.WildCard),
-                            item: item.WildCard,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.WildCard,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.WildCardLoqui),
-                            item: item.WildCardLoqui,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.WildCardLoqui,
-                            subMask);
-                    }
-                    {
-                        object subMask;
-                        WildcardXmlTranslation.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.WildCardNull),
-                            item: item.WildCardNull,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (object)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.WildCardNull,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.Ref,
-                            name: nameof(item.Ref),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Ref,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.Ref_NotNull,
-                            name: nameof(item.Ref_NotNull),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Ref_NotNull,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.Ref_Singleton,
-                            name: nameof(item.Ref_Singleton),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Ref_Singleton,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefGetter,
-                            name: nameof(item.RefGetter),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefGetter,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefGetter_NotNull,
-                            name: nameof(item.RefGetter_NotNull),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefGetter_Singleton,
-                            name: nameof(item.RefGetter_Singleton),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefGetter_Singleton,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefSetter,
-                            name: nameof(item.RefSetter),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefSetter,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefSetter_NotNull,
-                            name: nameof(item.RefSetter_NotNull),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                            writer: writer,
-                            item: item.RefSetter_Singleton,
-                            name: nameof(item.RefSetter_Singleton),
-                            doMasks: errorMask != null,
-                            mask: out ObjectToRef_ErrorMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefSetter_Singleton,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<Exception>> subMask;
-                        ListXmlTranslation<Boolean, Exception>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.List),
-                            item: item.List,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            transl: (Boolean subItem, bool listDoMasks, out Exception listSubMask) =>
-                            {
-                                BooleanXmlTranslation.Instance.Write(
-                                    writer,
-                                    "Item",
-                                    subItem,
-                                    doMasks: errorMask != null,
-                                    errorMask: out listSubMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.List,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.RefList),
-                            item: item.RefList,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: errorMask != null,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefList,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
-                        DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.Dict),
-                            items: item.Dict,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
-                            {
-                                StringXmlTranslation.Instance.Write(
-                                    writer,
-                                    "Item",
-                                    subItem,
-                                    doMasks: dictDoMask,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
-                            {
-                                BooleanXmlTranslation.Instance.Write(
-                                    writer,
-                                    "Item",
-                                    subItem,
-                                    doMasks: dictDoMask,
-                                    errorMask: out dictSubMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.Dict,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.RefDict),
-                            items: item.RefDict,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: dictDoMask,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            ,
-                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: dictDoMask,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.RefDict,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
-                        DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.KeyRefDict),
-                            items: item.KeyRefDict,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: dictDoMask,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            ,
-                            valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
-                            {
-                                BooleanXmlTranslation.Instance.Write(
-                                    writer,
-                                    "Item",
-                                    subItem,
-                                    doMasks: dictDoMask,
-                                    errorMask: out dictSubMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.KeyRefDict,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.ValRefDict),
-                            items: item.ValRefDict,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
-                            {
-                                StringXmlTranslation.Instance.Write(
-                                    writer,
-                                    "Item",
-                                    subItem,
-                                    doMasks: dictDoMask,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: dictDoMask,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.ValRefDict,
-                            subMask);
-                    }
-                    {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
-                            writer: writer,
-                            name: nameof(item.DictKeyedValue),
-                            items: item.DictKeyedValue.Values,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
-                                    writer: writer,
-                                    item: subItem,
-                                    name: "Item",
-                                    doMasks: dictDoMask,
-                                    mask: out ObjectToRef_ErrorMask loquiMask);
-                                dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                            }
-                            );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_ReadOnly_FieldIndex.DictKeyedValue,
-                            subMask);
-                    }
+                    Exception subMask;
+                    ByteArrayXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.ByteArray),
+                        item.ByteArray,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.ByteArray,
+                        subMask);
+                    Exception subMask;
+                    ByteArrayXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.ByteArrayNull),
+                        item.ByteArrayNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.ByteArrayNull,
+                        subMask);
+                    Exception subMask;
+                    ByteArrayXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.ByteArrayNotNull),
+                        item.ByteArrayNotNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.ByteArrayNotNull,
+                        subMask);
+                    Exception subMask;
+                    ByteArrayXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.ByteArraySingleton),
+                        item.ByteArraySingleton,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.ByteArraySingleton,
+                        subMask);
+                    Exception subMask;
+                    BooleanXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.BoolN),
+                        item.BoolN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.BoolN,
+                        subMask);
+                    Exception subMask;
+                    BooleanXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Bool),
+                        item.Bool,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Bool,
+                        subMask);
+                    Exception subMask;
+                    CharXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.CharN),
+                        item.CharN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.CharN,
+                        subMask);
+                    Exception subMask;
+                    CharXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Char),
+                        item.Char,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Char,
+                        subMask);
+                    Exception subMask;
+                    DateTimeXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DateTimeNull),
+                        item.DateTimeNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DateTimeNull,
+                        subMask);
+                    Exception subMask;
+                    DateTimeXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DateTime),
+                        item.DateTime,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DateTime,
+                        subMask);
+                    Exception subMask;
+                    DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DoubleN),
+                        item.DoubleN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DoubleN,
+                        subMask);
+                    Exception subMask;
+                    DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DoubleN_Ranged),
+                        item.DoubleN_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DoubleN_Ranged,
+                        subMask);
+                    Exception subMask;
+                    DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Double),
+                        item.Double,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Double,
+                        subMask);
+                    Exception subMask;
+                    DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Double_Ranged),
+                        item.Double_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Double_Ranged,
+                        subMask);
+                    Exception subMask;
+                    FloatXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.FloatN),
+                        item.FloatN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.FloatN,
+                        subMask);
+                    Exception subMask;
+                    FloatXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.FloatN_Ranged),
+                        item.FloatN_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.FloatN_Ranged,
+                        subMask);
+                    Exception subMask;
+                    FloatXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Float),
+                        item.Float,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Float,
+                        subMask);
+                    Exception subMask;
+                    FloatXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Float_Ranged),
+                        item.Float_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Float_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int16N),
+                        item.Int16N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int16N,
+                        subMask);
+                    Exception subMask;
+                    Int16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int16N_Ranged),
+                        item.Int16N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int16N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int16),
+                        item.Int16,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int16,
+                        subMask);
+                    Exception subMask;
+                    Int16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int16_Ranged),
+                        item.Int16_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int16_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int32N),
+                        item.Int32N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int32N,
+                        subMask);
+                    Exception subMask;
+                    Int32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int32N_Ranged),
+                        item.Int32N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int32N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int32),
+                        item.Int32,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int32,
+                        subMask);
+                    Exception subMask;
+                    Int32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int32_Ranged),
+                        item.Int32_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int32_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int64N),
+                        item.Int64N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int64N,
+                        subMask);
+                    Exception subMask;
+                    Int64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int64N_Ranged),
+                        item.Int64N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int64N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int64),
+                        item.Int64,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int64,
+                        subMask);
+                    Exception subMask;
+                    Int64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int64_Ranged),
+                        item.Int64_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int64_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int8N),
+                        item.Int8N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int8N,
+                        subMask);
+                    Exception subMask;
+                    Int8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int8N_Ranged),
+                        item.Int8N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int8N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    Int8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int8),
+                        item.Int8,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int8,
+                        subMask);
+                    Exception subMask;
+                    Int8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Int8_Ranged),
+                        item.Int8_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Int8_Ranged,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.Unsafe),
+                        item: item.Unsafe,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Unsafe,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.UnsafeLoqui),
+                        item: item.UnsafeLoqui,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UnsafeLoqui,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.UnsafeNull),
+                        item: item.UnsafeNull,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UnsafeNull,
+                        subMask);
+                    Exception subMask;
+                    P2IntXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P2IntN),
+                        item.P2IntN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P2IntN,
+                        subMask);
+                    Exception subMask;
+                    P2IntXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P2Int),
+                        item.P2Int,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P2Int,
+                        subMask);
+                    Exception subMask;
+                    P3DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P3DoubleN),
+                        item.P3DoubleN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P3DoubleN,
+                        subMask);
+                    Exception subMask;
+                    P3DoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P3Double),
+                        item.P3Double,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P3Double,
+                        subMask);
+                    Exception subMask;
+                    P3IntXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P3IntN),
+                        item.P3IntN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P3IntN,
+                        subMask);
+                    Exception subMask;
+                    P3IntXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.P3Int),
+                        item.P3Int,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.P3Int,
+                        subMask);
+                    Exception subMask;
+                    PercentXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.PercentN),
+                        item.PercentN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.PercentN,
+                        subMask);
+                    Exception subMask;
+                    PercentXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.Percent),
+                        item.Percent,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Percent,
+                        subMask);
+                    Exception subMask;
+                    RangeInt8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt8N),
+                        item.RangeInt8N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt8N,
+                        subMask);
+                    Exception subMask;
+                    RangeInt8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt8),
+                        item.RangeInt8,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt8,
+                        subMask);
+                    Exception subMask;
+                    RangeInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt16N),
+                        item.RangeInt16N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt16N,
+                        subMask);
+                    Exception subMask;
+                    RangeInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt16),
+                        item.RangeInt16,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt16,
+                        subMask);
+                    Exception subMask;
+                    RangeInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt32N),
+                        item.RangeInt32N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt32N,
+                        subMask);
+                    Exception subMask;
+                    RangeInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt32),
+                        item.RangeInt32,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt32,
+                        subMask);
+                    Exception subMask;
+                    RangeInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt64N),
+                        item.RangeInt64N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt64N,
+                        subMask);
+                    Exception subMask;
+                    RangeInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeInt64),
+                        item.RangeInt64,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeInt64,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt8N),
+                        item.RangeUInt8N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt8N,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt8XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt8),
+                        item.RangeUInt8,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt8,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt16N),
+                        item.RangeUInt16N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt16N,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt16),
+                        item.RangeUInt16,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt16,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt32N),
+                        item.RangeUInt32N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt32N,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt32),
+                        item.RangeUInt32,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt32,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt64N),
+                        item.RangeUInt64N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt64N,
+                        subMask);
+                    Exception subMask;
+                    RangeUInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.RangeUInt64),
+                        item.RangeUInt64,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RangeUInt64,
+                        subMask);
+                    Exception subMask;
+                    StringXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.String),
+                        item.String,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.String,
+                        subMask);
+                    Exception subMask;
+                    FilePathXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.FilePath),
+                        item.FilePath,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.FilePath,
+                        subMask);
+                    Exception subMask;
+                    FilePathXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.FilePathNull),
+                        item.FilePathNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.FilePathNull,
+                        subMask);
+                    Exception subMask;
+                    DirectoryPathXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DirectoryPath),
+                        item.DirectoryPath,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DirectoryPath,
+                        subMask);
+                    Exception subMask;
+                    DirectoryPathXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.DirectoryPathNull),
+                        item.DirectoryPathNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DirectoryPathNull,
+                        subMask);
+                    Exception subMask;
+                    UDoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UDoubleN),
+                        item.UDoubleN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UDoubleN,
+                        subMask);
+                    Exception subMask;
+                    UDoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UDoubleN_Ranged),
+                        item.UDoubleN_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UDoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UDouble),
+                        item.UDouble,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UDouble,
+                        subMask);
+                    Exception subMask;
+                    UDoubleXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UDouble_Ranged),
+                        item.UDouble_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UDouble_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt16N),
+                        item.UInt16N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt16N,
+                        subMask);
+                    Exception subMask;
+                    UInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt16N_Ranged),
+                        item.UInt16N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt16N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt16),
+                        item.UInt16,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt16,
+                        subMask);
+                    Exception subMask;
+                    UInt16XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt16_Ranged),
+                        item.UInt16_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt16_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt32N),
+                        item.UInt32N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt32N,
+                        subMask);
+                    Exception subMask;
+                    UInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt32N_Ranged),
+                        item.UInt32N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt32N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt32),
+                        item.UInt32,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt32,
+                        subMask);
+                    Exception subMask;
+                    UInt32XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt32_Ranged),
+                        item.UInt32_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt32_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt64N),
+                        item.UInt64N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt64N,
+                        subMask);
+                    Exception subMask;
+                    UInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt64N_Ranged),
+                        item.UInt64N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt64N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    UInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt64),
+                        item.UInt64,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt64,
+                        subMask);
+                    Exception subMask;
+                    UInt64XmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt64_Ranged),
+                        item.UInt64_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt64_Ranged,
+                        subMask);
+                    Exception subMask;
+                    ByteXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt8N),
+                        item.UInt8N,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt8N,
+                        subMask);
+                    Exception subMask;
+                    ByteXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt8N_Ranged),
+                        item.UInt8N_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt8N_Ranged,
+                        subMask);
+                    Exception subMask;
+                    ByteXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt8),
+                        item.UInt8,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt8,
+                        subMask);
+                    Exception subMask;
+                    ByteXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.UInt8_Ranged),
+                        item.UInt8_Ranged,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.UInt8_Ranged,
+                        subMask);
+                    Exception subMask;
+                    EnumXmlTranslation<TestEnum>.Instance.Write(
+                        writer,
+                        nameof(item.Enum),
+                        item.Enum,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Enum,
+                        subMask);
+                    Exception subMask;
+                    EnumXmlTranslation<TestEnum>.Instance.Write(
+                        writer,
+                        nameof(item.EnumNull),
+                        item.EnumNull,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.EnumNull,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.WildCard),
+                        item: item.WildCard,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.WildCard,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.WildCardLoqui),
+                        item: item.WildCardLoqui,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.WildCardLoqui,
+                        subMask);
+                    object subMask;
+                    WildcardXmlTranslation.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.WildCardNull),
+                        item: item.WildCardNull,
+                        doMasks: errorMask != null,
+                        maskObj: out var unsafeErrMask);
+                    subMask = (object)unsafeErrMask;
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.WildCardNull,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.Ref,
+                        name: nameof(item.Ref),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Ref,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.Ref_NotNull,
+                        name: nameof(item.Ref_NotNull),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Ref_NotNull,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.Ref_Singleton,
+                        name: nameof(item.Ref_Singleton),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Ref_Singleton,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefGetter,
+                        name: nameof(item.RefGetter),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefGetter,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefGetter_NotNull,
+                        name: nameof(item.RefGetter_NotNull),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefGetter_NotNull,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefGetter_Singleton,
+                        name: nameof(item.RefGetter_Singleton),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefGetter_Singleton,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefSetter,
+                        name: nameof(item.RefSetter),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefSetter,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefSetter_NotNull,
+                        name: nameof(item.RefSetter_NotNull),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefSetter_NotNull,
+                        subMask);
+                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        writer: writer,
+                        item: item.RefSetter_Singleton,
+                        name: nameof(item.RefSetter_Singleton),
+                        doMasks: errorMask != null,
+                        mask: out ObjectToRef_ErrorMask loquiMask);
+                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefSetter_Singleton,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<Exception>> subMask;
+                    ListXmlTranslation<Boolean, Exception>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.List),
+                        item: item.List,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        transl: (Boolean subItem, bool listDoMasks, out Exception listSubMask) =>
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                "Item",
+                                subItem,
+                                doMasks: errorMask != null,
+                                errorMask: out listSubMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.List,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                    ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.RefList),
+                        item: item.RefList,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: errorMask != null,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefList,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
+                    DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.Dict),
+                        items: item.Dict,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
+                        {
+                            StringXmlTranslation.Instance.Write(
+                                writer,
+                                "Item",
+                                subItem,
+                                doMasks: dictDoMask,
+                                errorMask: out dictSubMask);
+                        }
+                        ,
+                        valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                "Item",
+                                subItem,
+                                doMasks: dictDoMask,
+                                errorMask: out dictSubMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.Dict,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
+                    DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.RefDict),
+                        items: item.RefDict,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: dictDoMask,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        ,
+                        valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: dictDoMask,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.RefDict,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
+                    DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.KeyRefDict),
+                        items: item.KeyRefDict,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: dictDoMask,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        ,
+                        valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
+                        {
+                            BooleanXmlTranslation.Instance.Write(
+                                writer,
+                                "Item",
+                                subItem,
+                                doMasks: dictDoMask,
+                                errorMask: out dictSubMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.KeyRefDict,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
+                    DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.ValRefDict),
+                        items: item.ValRefDict,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
+                        {
+                            StringXmlTranslation.Instance.Write(
+                                writer,
+                                "Item",
+                                subItem,
+                                doMasks: dictDoMask,
+                                errorMask: out dictSubMask);
+                        }
+                        ,
+                        valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: dictDoMask,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.ValRefDict,
+                        subMask);
+                    MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
+                    KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
+                        writer: writer,
+                        name: nameof(item.DictKeyedValue),
+                        items: item.DictKeyedValue.Values,
+                        doMasks: errorMask != null,
+                        maskObj: out subMask,
+                        valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                                writer: writer,
+                                item: subItem,
+                                name: "Item",
+                                doMasks: dictDoMask,
+                                mask: out ObjectToRef_ErrorMask loquiMask);
+                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                        }
+                        );
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_ReadOnly_FieldIndex.DictKeyedValue,
+                        subMask);
                 }
             }
             catch (Exception ex)

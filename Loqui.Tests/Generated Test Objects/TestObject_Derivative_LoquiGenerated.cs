@@ -37,11 +37,18 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        private Byte[] _ByteArray;
+        private Byte[] _ByteArray = new byte[4];
         public Byte[] ByteArray
         {
             get => _ByteArray;
-            protected set { this._ByteArray = value; }
+            protected set
+            {
+                this._ByteArray = value;
+                if (value == null)
+                {
+                    this._ByteArray = new byte[4];
+                }
+            }
         }
         #endregion
         #region ByteArrayNull
@@ -6027,9 +6034,9 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged == rhs.UInt8_Ranged;
             ret.Enum = item.Enum == rhs.Enum;
             ret.EnumNull = item.EnumNull == rhs.EnumNull;
-            ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
-            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
-            ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
+            ret.WildCard = object.Equals(item.WildCard, Loqui.Generation.Accessor);
+            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, Loqui.Generation.Accessor);
+            ret.WildCardNull = object.Equals(item.WildCardNull, Loqui.Generation.Accessor);
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
             ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);

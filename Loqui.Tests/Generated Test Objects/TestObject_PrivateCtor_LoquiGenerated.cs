@@ -990,19 +990,17 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_PrivateCtor");
                     }
-                    {
-                        Exception subMask;
-                        BooleanXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.BoolN),
-                            item.BoolN,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_PrivateCtor_FieldIndex.BoolN,
-                            subMask);
-                    }
+                    Exception subMask;
+                    BooleanXmlTranslation.Instance.Write(
+                        writer,
+                        nameof(item.BoolN),
+                        item.BoolN,
+                        doMasks: errorMask != null,
+                        errorMask: out subMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        (int)TestObject_PrivateCtor_FieldIndex.BoolN,
+                        subMask);
                 }
             }
             catch (Exception ex)

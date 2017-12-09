@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
   <Protocol Namespace="LoquiTests" />
-  <Object name="TestObject_Notifying" notifyingDefault="True" hasBeenSetDefault="False" GUID="8b849143-0fd6-4a70-b8ce-2e1e0be2e32f" ID="2">
+  <Object name="TestObject_Notifying_HasBeenSet_ReadOnly" notifyingDefault="True" hasBeenSetDefault="True" protectedDefault="true" GUID="f4aecbbb-ca7a-41f4-a072-2e2490ae0e08" ID="29">
     <Fields>
       <FieldBatch name="TypicalFields" />
     </Fields>
