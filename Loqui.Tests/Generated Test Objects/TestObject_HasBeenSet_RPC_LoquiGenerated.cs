@@ -7656,543 +7656,1263 @@ namespace Loqui.Tests.Internals
         {
             if (copyMask?.ByteArray ?? true)
             {
-                item.ByteArray_Property.SetToWithDefault(
-                    rhs.ByteArray_Property,
-                    def?.ByteArray_Property);
+                try
+                {
+                    item.ByteArray_Property.SetToWithDefault(
+                        rhs.ByteArray_Property,
+                        def?.ByteArray_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.ByteArray, ex);
+                }
             }
             if (copyMask?.ByteArrayNull ?? true)
             {
-                item.ByteArrayNull_Property.SetToWithDefault(
-                    rhs.ByteArrayNull_Property,
-                    def?.ByteArrayNull_Property);
+                try
+                {
+                    item.ByteArrayNull_Property.SetToWithDefault(
+                        rhs.ByteArrayNull_Property,
+                        def?.ByteArrayNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.ByteArrayNull, ex);
+                }
             }
             if (copyMask?.ByteArrayNotNull ?? true)
             {
-                item.ByteArrayNotNull_Property.SetToWithDefault(
-                    rhs.ByteArrayNotNull_Property,
-                    def?.ByteArrayNotNull_Property);
+                try
+                {
+                    item.ByteArrayNotNull_Property.SetToWithDefault(
+                        rhs.ByteArrayNotNull_Property,
+                        def?.ByteArrayNotNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.ByteArrayNotNull, ex);
+                }
             }
             if (copyMask?.BoolN ?? true)
             {
-                item.BoolN_Property.SetToWithDefault(
-                    rhs.BoolN_Property,
-                    def?.BoolN_Property);
+                try
+                {
+                    item.BoolN_Property.SetToWithDefault(
+                        rhs.BoolN_Property,
+                        def?.BoolN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.BoolN, ex);
+                }
             }
             if (copyMask?.Bool ?? true)
             {
-                item.Bool_Property.SetToWithDefault(
-                    rhs.Bool_Property,
-                    def?.Bool_Property);
+                try
+                {
+                    item.Bool_Property.SetToWithDefault(
+                        rhs.Bool_Property,
+                        def?.Bool_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Bool, ex);
+                }
             }
             if (copyMask?.CharN ?? true)
             {
-                item.CharN_Property.SetToWithDefault(
-                    rhs.CharN_Property,
-                    def?.CharN_Property);
+                try
+                {
+                    item.CharN_Property.SetToWithDefault(
+                        rhs.CharN_Property,
+                        def?.CharN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.CharN, ex);
+                }
             }
             if (copyMask?.Char ?? true)
             {
-                item.Char_Property.SetToWithDefault(
-                    rhs.Char_Property,
-                    def?.Char_Property);
+                try
+                {
+                    item.Char_Property.SetToWithDefault(
+                        rhs.Char_Property,
+                        def?.Char_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Char, ex);
+                }
             }
             if (copyMask?.DateTimeNull ?? true)
             {
-                item.DateTimeNull_Property.SetToWithDefault(
-                    rhs.DateTimeNull_Property,
-                    def?.DateTimeNull_Property);
+                try
+                {
+                    item.DateTimeNull_Property.SetToWithDefault(
+                        rhs.DateTimeNull_Property,
+                        def?.DateTimeNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DateTimeNull, ex);
+                }
             }
             if (copyMask?.DateTime ?? true)
             {
-                item.DateTime_Property.SetToWithDefault(
-                    rhs.DateTime_Property,
-                    def?.DateTime_Property);
+                try
+                {
+                    item.DateTime_Property.SetToWithDefault(
+                        rhs.DateTime_Property,
+                        def?.DateTime_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DateTime, ex);
+                }
             }
             if (copyMask?.DoubleN ?? true)
             {
-                item.DoubleN_Property.SetToWithDefault(
-                    rhs.DoubleN_Property,
-                    def?.DoubleN_Property);
+                try
+                {
+                    item.DoubleN_Property.SetToWithDefault(
+                        rhs.DoubleN_Property,
+                        def?.DoubleN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DoubleN, ex);
+                }
             }
             if (copyMask?.DoubleN_Ranged ?? true)
             {
-                item.DoubleN_Ranged_Property.SetToWithDefault(
-                    rhs.DoubleN_Ranged_Property,
-                    def?.DoubleN_Ranged_Property);
+                try
+                {
+                    item.DoubleN_Ranged_Property.SetToWithDefault(
+                        rhs.DoubleN_Ranged_Property,
+                        def?.DoubleN_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DoubleN_Ranged, ex);
+                }
             }
             if (copyMask?.Double ?? true)
             {
-                item.Double_Property.SetToWithDefault(
-                    rhs.Double_Property,
-                    def?.Double_Property);
+                try
+                {
+                    item.Double_Property.SetToWithDefault(
+                        rhs.Double_Property,
+                        def?.Double_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Double, ex);
+                }
             }
             if (copyMask?.Double_Ranged ?? true)
             {
-                item.Double_Ranged_Property.SetToWithDefault(
-                    rhs.Double_Ranged_Property,
-                    def?.Double_Ranged_Property);
+                try
+                {
+                    item.Double_Ranged_Property.SetToWithDefault(
+                        rhs.Double_Ranged_Property,
+                        def?.Double_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Double_Ranged, ex);
+                }
             }
             if (copyMask?.FloatN ?? true)
             {
-                item.FloatN_Property.SetToWithDefault(
-                    rhs.FloatN_Property,
-                    def?.FloatN_Property);
+                try
+                {
+                    item.FloatN_Property.SetToWithDefault(
+                        rhs.FloatN_Property,
+                        def?.FloatN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.FloatN, ex);
+                }
             }
             if (copyMask?.FloatN_Ranged ?? true)
             {
-                item.FloatN_Ranged_Property.SetToWithDefault(
-                    rhs.FloatN_Ranged_Property,
-                    def?.FloatN_Ranged_Property);
+                try
+                {
+                    item.FloatN_Ranged_Property.SetToWithDefault(
+                        rhs.FloatN_Ranged_Property,
+                        def?.FloatN_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.FloatN_Ranged, ex);
+                }
             }
             if (copyMask?.Float ?? true)
             {
-                item.Float_Property.SetToWithDefault(
-                    rhs.Float_Property,
-                    def?.Float_Property);
+                try
+                {
+                    item.Float_Property.SetToWithDefault(
+                        rhs.Float_Property,
+                        def?.Float_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Float, ex);
+                }
             }
             if (copyMask?.Float_Ranged ?? true)
             {
-                item.Float_Ranged_Property.SetToWithDefault(
-                    rhs.Float_Ranged_Property,
-                    def?.Float_Ranged_Property);
+                try
+                {
+                    item.Float_Ranged_Property.SetToWithDefault(
+                        rhs.Float_Ranged_Property,
+                        def?.Float_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Float_Ranged, ex);
+                }
             }
             if (copyMask?.Int16N ?? true)
             {
-                item.Int16N_Property.SetToWithDefault(
-                    rhs.Int16N_Property,
-                    def?.Int16N_Property);
+                try
+                {
+                    item.Int16N_Property.SetToWithDefault(
+                        rhs.Int16N_Property,
+                        def?.Int16N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int16N, ex);
+                }
             }
             if (copyMask?.Int16N_Ranged ?? true)
             {
-                item.Int16N_Ranged_Property.SetToWithDefault(
-                    rhs.Int16N_Ranged_Property,
-                    def?.Int16N_Ranged_Property);
+                try
+                {
+                    item.Int16N_Ranged_Property.SetToWithDefault(
+                        rhs.Int16N_Ranged_Property,
+                        def?.Int16N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int16N_Ranged, ex);
+                }
             }
             if (copyMask?.Int16 ?? true)
             {
-                item.Int16_Property.SetToWithDefault(
-                    rhs.Int16_Property,
-                    def?.Int16_Property);
+                try
+                {
+                    item.Int16_Property.SetToWithDefault(
+                        rhs.Int16_Property,
+                        def?.Int16_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int16, ex);
+                }
             }
             if (copyMask?.Int16_Ranged ?? true)
             {
-                item.Int16_Ranged_Property.SetToWithDefault(
-                    rhs.Int16_Ranged_Property,
-                    def?.Int16_Ranged_Property);
+                try
+                {
+                    item.Int16_Ranged_Property.SetToWithDefault(
+                        rhs.Int16_Ranged_Property,
+                        def?.Int16_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int16_Ranged, ex);
+                }
             }
             if (copyMask?.Int32N ?? true)
             {
-                item.Int32N_Property.SetToWithDefault(
-                    rhs.Int32N_Property,
-                    def?.Int32N_Property);
+                try
+                {
+                    item.Int32N_Property.SetToWithDefault(
+                        rhs.Int32N_Property,
+                        def?.Int32N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int32N, ex);
+                }
             }
             if (copyMask?.Int32N_Ranged ?? true)
             {
-                item.Int32N_Ranged_Property.SetToWithDefault(
-                    rhs.Int32N_Ranged_Property,
-                    def?.Int32N_Ranged_Property);
+                try
+                {
+                    item.Int32N_Ranged_Property.SetToWithDefault(
+                        rhs.Int32N_Ranged_Property,
+                        def?.Int32N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int32N_Ranged, ex);
+                }
             }
             if (copyMask?.Int32 ?? true)
             {
-                item.Int32_Property.SetToWithDefault(
-                    rhs.Int32_Property,
-                    def?.Int32_Property);
+                try
+                {
+                    item.Int32_Property.SetToWithDefault(
+                        rhs.Int32_Property,
+                        def?.Int32_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int32, ex);
+                }
             }
             if (copyMask?.Int32_Ranged ?? true)
             {
-                item.Int32_Ranged_Property.SetToWithDefault(
-                    rhs.Int32_Ranged_Property,
-                    def?.Int32_Ranged_Property);
+                try
+                {
+                    item.Int32_Ranged_Property.SetToWithDefault(
+                        rhs.Int32_Ranged_Property,
+                        def?.Int32_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int32_Ranged, ex);
+                }
             }
             if (copyMask?.Int64N ?? true)
             {
-                item.Int64N_Property.SetToWithDefault(
-                    rhs.Int64N_Property,
-                    def?.Int64N_Property);
+                try
+                {
+                    item.Int64N_Property.SetToWithDefault(
+                        rhs.Int64N_Property,
+                        def?.Int64N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int64N, ex);
+                }
             }
             if (copyMask?.Int64N_Ranged ?? true)
             {
-                item.Int64N_Ranged_Property.SetToWithDefault(
-                    rhs.Int64N_Ranged_Property,
-                    def?.Int64N_Ranged_Property);
+                try
+                {
+                    item.Int64N_Ranged_Property.SetToWithDefault(
+                        rhs.Int64N_Ranged_Property,
+                        def?.Int64N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int64N_Ranged, ex);
+                }
             }
             if (copyMask?.Int64 ?? true)
             {
-                item.Int64_Property.SetToWithDefault(
-                    rhs.Int64_Property,
-                    def?.Int64_Property);
+                try
+                {
+                    item.Int64_Property.SetToWithDefault(
+                        rhs.Int64_Property,
+                        def?.Int64_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int64, ex);
+                }
             }
             if (copyMask?.Int64_Ranged ?? true)
             {
-                item.Int64_Ranged_Property.SetToWithDefault(
-                    rhs.Int64_Ranged_Property,
-                    def?.Int64_Ranged_Property);
+                try
+                {
+                    item.Int64_Ranged_Property.SetToWithDefault(
+                        rhs.Int64_Ranged_Property,
+                        def?.Int64_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int64_Ranged, ex);
+                }
             }
             if (copyMask?.Int8N ?? true)
             {
-                item.Int8N_Property.SetToWithDefault(
-                    rhs.Int8N_Property,
-                    def?.Int8N_Property);
+                try
+                {
+                    item.Int8N_Property.SetToWithDefault(
+                        rhs.Int8N_Property,
+                        def?.Int8N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int8N, ex);
+                }
             }
             if (copyMask?.Int8N_Ranged ?? true)
             {
-                item.Int8N_Ranged_Property.SetToWithDefault(
-                    rhs.Int8N_Ranged_Property,
-                    def?.Int8N_Ranged_Property);
+                try
+                {
+                    item.Int8N_Ranged_Property.SetToWithDefault(
+                        rhs.Int8N_Ranged_Property,
+                        def?.Int8N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int8N_Ranged, ex);
+                }
             }
             if (copyMask?.Int8 ?? true)
             {
-                item.Int8_Property.SetToWithDefault(
-                    rhs.Int8_Property,
-                    def?.Int8_Property);
+                try
+                {
+                    item.Int8_Property.SetToWithDefault(
+                        rhs.Int8_Property,
+                        def?.Int8_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int8, ex);
+                }
             }
             if (copyMask?.Int8_Ranged ?? true)
             {
-                item.Int8_Ranged_Property.SetToWithDefault(
-                    rhs.Int8_Ranged_Property,
-                    def?.Int8_Ranged_Property);
+                try
+                {
+                    item.Int8_Ranged_Property.SetToWithDefault(
+                        rhs.Int8_Ranged_Property,
+                        def?.Int8_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Int8_Ranged, ex);
+                }
             }
             if (copyMask?.Unsafe ?? true)
             {
-                item.Unsafe_Property.SetToWithDefault(
-                    rhs.Unsafe_Property,
-                    def?.Unsafe_Property);
+                try
+                {
+                    item.Unsafe_Property.SetToWithDefault(
+                        rhs.Unsafe_Property,
+                        def?.Unsafe_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Unsafe, ex);
+                }
             }
             if (copyMask?.UnsafeLoqui ?? true)
             {
-                item.UnsafeLoqui_Property.SetToWithDefault(
-                    rhs.UnsafeLoqui_Property,
-                    def?.UnsafeLoqui_Property);
+                try
+                {
+                    item.UnsafeLoqui_Property.SetToWithDefault(
+                        rhs.UnsafeLoqui_Property,
+                        def?.UnsafeLoqui_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UnsafeLoqui, ex);
+                }
             }
             if (copyMask?.UnsafeNull ?? true)
             {
-                item.UnsafeNull_Property.SetToWithDefault(
-                    rhs.UnsafeNull_Property,
-                    def?.UnsafeNull_Property);
+                try
+                {
+                    item.UnsafeNull_Property.SetToWithDefault(
+                        rhs.UnsafeNull_Property,
+                        def?.UnsafeNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UnsafeNull, ex);
+                }
             }
             if (copyMask?.P2IntN ?? true)
             {
-                item.P2IntN_Property.SetToWithDefault(
-                    rhs.P2IntN_Property,
-                    def?.P2IntN_Property);
+                try
+                {
+                    item.P2IntN_Property.SetToWithDefault(
+                        rhs.P2IntN_Property,
+                        def?.P2IntN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P2IntN, ex);
+                }
             }
             if (copyMask?.P2Int ?? true)
             {
-                item.P2Int_Property.SetToWithDefault(
-                    rhs.P2Int_Property,
-                    def?.P2Int_Property);
+                try
+                {
+                    item.P2Int_Property.SetToWithDefault(
+                        rhs.P2Int_Property,
+                        def?.P2Int_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P2Int, ex);
+                }
             }
             if (copyMask?.P3DoubleN ?? true)
             {
-                item.P3DoubleN_Property.SetToWithDefault(
-                    rhs.P3DoubleN_Property,
-                    def?.P3DoubleN_Property);
+                try
+                {
+                    item.P3DoubleN_Property.SetToWithDefault(
+                        rhs.P3DoubleN_Property,
+                        def?.P3DoubleN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P3DoubleN, ex);
+                }
             }
             if (copyMask?.P3Double ?? true)
             {
-                item.P3Double_Property.SetToWithDefault(
-                    rhs.P3Double_Property,
-                    def?.P3Double_Property);
+                try
+                {
+                    item.P3Double_Property.SetToWithDefault(
+                        rhs.P3Double_Property,
+                        def?.P3Double_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P3Double, ex);
+                }
             }
             if (copyMask?.P3IntN ?? true)
             {
-                item.P3IntN_Property.SetToWithDefault(
-                    rhs.P3IntN_Property,
-                    def?.P3IntN_Property);
+                try
+                {
+                    item.P3IntN_Property.SetToWithDefault(
+                        rhs.P3IntN_Property,
+                        def?.P3IntN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P3IntN, ex);
+                }
             }
             if (copyMask?.P3Int ?? true)
             {
-                item.P3Int_Property.SetToWithDefault(
-                    rhs.P3Int_Property,
-                    def?.P3Int_Property);
+                try
+                {
+                    item.P3Int_Property.SetToWithDefault(
+                        rhs.P3Int_Property,
+                        def?.P3Int_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.P3Int, ex);
+                }
             }
             if (copyMask?.PercentN ?? true)
             {
-                item.PercentN_Property.SetToWithDefault(
-                    rhs.PercentN_Property,
-                    def?.PercentN_Property);
+                try
+                {
+                    item.PercentN_Property.SetToWithDefault(
+                        rhs.PercentN_Property,
+                        def?.PercentN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.PercentN, ex);
+                }
             }
             if (copyMask?.Percent ?? true)
             {
-                item.Percent_Property.SetToWithDefault(
-                    rhs.Percent_Property,
-                    def?.Percent_Property);
+                try
+                {
+                    item.Percent_Property.SetToWithDefault(
+                        rhs.Percent_Property,
+                        def?.Percent_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Percent, ex);
+                }
             }
             if (copyMask?.RangeInt8N ?? true)
             {
-                item.RangeInt8N_Property.SetToWithDefault(
-                    rhs.RangeInt8N_Property,
-                    def?.RangeInt8N_Property);
+                try
+                {
+                    item.RangeInt8N_Property.SetToWithDefault(
+                        rhs.RangeInt8N_Property,
+                        def?.RangeInt8N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt8N, ex);
+                }
             }
             if (copyMask?.RangeInt8 ?? true)
             {
-                item.RangeInt8_Property.SetToWithDefault(
-                    rhs.RangeInt8_Property,
-                    def?.RangeInt8_Property);
+                try
+                {
+                    item.RangeInt8_Property.SetToWithDefault(
+                        rhs.RangeInt8_Property,
+                        def?.RangeInt8_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt8, ex);
+                }
             }
             if (copyMask?.RangeInt16N ?? true)
             {
-                item.RangeInt16N_Property.SetToWithDefault(
-                    rhs.RangeInt16N_Property,
-                    def?.RangeInt16N_Property);
+                try
+                {
+                    item.RangeInt16N_Property.SetToWithDefault(
+                        rhs.RangeInt16N_Property,
+                        def?.RangeInt16N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt16N, ex);
+                }
             }
             if (copyMask?.RangeInt16 ?? true)
             {
-                item.RangeInt16_Property.SetToWithDefault(
-                    rhs.RangeInt16_Property,
-                    def?.RangeInt16_Property);
+                try
+                {
+                    item.RangeInt16_Property.SetToWithDefault(
+                        rhs.RangeInt16_Property,
+                        def?.RangeInt16_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt16, ex);
+                }
             }
             if (copyMask?.RangeInt32N ?? true)
             {
-                item.RangeInt32N_Property.SetToWithDefault(
-                    rhs.RangeInt32N_Property,
-                    def?.RangeInt32N_Property);
+                try
+                {
+                    item.RangeInt32N_Property.SetToWithDefault(
+                        rhs.RangeInt32N_Property,
+                        def?.RangeInt32N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt32N, ex);
+                }
             }
             if (copyMask?.RangeInt32 ?? true)
             {
-                item.RangeInt32_Property.SetToWithDefault(
-                    rhs.RangeInt32_Property,
-                    def?.RangeInt32_Property);
+                try
+                {
+                    item.RangeInt32_Property.SetToWithDefault(
+                        rhs.RangeInt32_Property,
+                        def?.RangeInt32_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt32, ex);
+                }
             }
             if (copyMask?.RangeInt64N ?? true)
             {
-                item.RangeInt64N_Property.SetToWithDefault(
-                    rhs.RangeInt64N_Property,
-                    def?.RangeInt64N_Property);
+                try
+                {
+                    item.RangeInt64N_Property.SetToWithDefault(
+                        rhs.RangeInt64N_Property,
+                        def?.RangeInt64N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt64N, ex);
+                }
             }
             if (copyMask?.RangeInt64 ?? true)
             {
-                item.RangeInt64_Property.SetToWithDefault(
-                    rhs.RangeInt64_Property,
-                    def?.RangeInt64_Property);
+                try
+                {
+                    item.RangeInt64_Property.SetToWithDefault(
+                        rhs.RangeInt64_Property,
+                        def?.RangeInt64_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeInt64, ex);
+                }
             }
             if (copyMask?.RangeUInt8N ?? true)
             {
-                item.RangeUInt8N_Property.SetToWithDefault(
-                    rhs.RangeUInt8N_Property,
-                    def?.RangeUInt8N_Property);
+                try
+                {
+                    item.RangeUInt8N_Property.SetToWithDefault(
+                        rhs.RangeUInt8N_Property,
+                        def?.RangeUInt8N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt8N, ex);
+                }
             }
             if (copyMask?.RangeUInt8 ?? true)
             {
-                item.RangeUInt8_Property.SetToWithDefault(
-                    rhs.RangeUInt8_Property,
-                    def?.RangeUInt8_Property);
+                try
+                {
+                    item.RangeUInt8_Property.SetToWithDefault(
+                        rhs.RangeUInt8_Property,
+                        def?.RangeUInt8_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt8, ex);
+                }
             }
             if (copyMask?.RangeUInt16N ?? true)
             {
-                item.RangeUInt16N_Property.SetToWithDefault(
-                    rhs.RangeUInt16N_Property,
-                    def?.RangeUInt16N_Property);
+                try
+                {
+                    item.RangeUInt16N_Property.SetToWithDefault(
+                        rhs.RangeUInt16N_Property,
+                        def?.RangeUInt16N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt16N, ex);
+                }
             }
             if (copyMask?.RangeUInt16 ?? true)
             {
-                item.RangeUInt16_Property.SetToWithDefault(
-                    rhs.RangeUInt16_Property,
-                    def?.RangeUInt16_Property);
+                try
+                {
+                    item.RangeUInt16_Property.SetToWithDefault(
+                        rhs.RangeUInt16_Property,
+                        def?.RangeUInt16_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt16, ex);
+                }
             }
             if (copyMask?.RangeUInt32N ?? true)
             {
-                item.RangeUInt32N_Property.SetToWithDefault(
-                    rhs.RangeUInt32N_Property,
-                    def?.RangeUInt32N_Property);
+                try
+                {
+                    item.RangeUInt32N_Property.SetToWithDefault(
+                        rhs.RangeUInt32N_Property,
+                        def?.RangeUInt32N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt32N, ex);
+                }
             }
             if (copyMask?.RangeUInt32 ?? true)
             {
-                item.RangeUInt32_Property.SetToWithDefault(
-                    rhs.RangeUInt32_Property,
-                    def?.RangeUInt32_Property);
+                try
+                {
+                    item.RangeUInt32_Property.SetToWithDefault(
+                        rhs.RangeUInt32_Property,
+                        def?.RangeUInt32_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt32, ex);
+                }
             }
             if (copyMask?.RangeUInt64N ?? true)
             {
-                item.RangeUInt64N_Property.SetToWithDefault(
-                    rhs.RangeUInt64N_Property,
-                    def?.RangeUInt64N_Property);
+                try
+                {
+                    item.RangeUInt64N_Property.SetToWithDefault(
+                        rhs.RangeUInt64N_Property,
+                        def?.RangeUInt64N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt64N, ex);
+                }
             }
             if (copyMask?.RangeUInt64 ?? true)
             {
-                item.RangeUInt64_Property.SetToWithDefault(
-                    rhs.RangeUInt64_Property,
-                    def?.RangeUInt64_Property);
+                try
+                {
+                    item.RangeUInt64_Property.SetToWithDefault(
+                        rhs.RangeUInt64_Property,
+                        def?.RangeUInt64_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.RangeUInt64, ex);
+                }
             }
             if (copyMask?.String ?? true)
             {
-                item.String_Property.SetToWithDefault(
-                    rhs.String_Property,
-                    def?.String_Property);
+                try
+                {
+                    item.String_Property.SetToWithDefault(
+                        rhs.String_Property,
+                        def?.String_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.String, ex);
+                }
             }
             if (copyMask?.FilePath ?? true)
             {
-                item.FilePath_Property.SetToWithDefault(
-                    rhs.FilePath_Property,
-                    def?.FilePath_Property);
+                try
+                {
+                    item.FilePath_Property.SetToWithDefault(
+                        rhs.FilePath_Property,
+                        def?.FilePath_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.FilePath, ex);
+                }
             }
             if (copyMask?.FilePathNull ?? true)
             {
-                item.FilePathNull_Property.SetToWithDefault(
-                    rhs.FilePathNull_Property,
-                    def?.FilePathNull_Property);
+                try
+                {
+                    item.FilePathNull_Property.SetToWithDefault(
+                        rhs.FilePathNull_Property,
+                        def?.FilePathNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.FilePathNull, ex);
+                }
             }
             if (copyMask?.DirectoryPath ?? true)
             {
-                item.DirectoryPath_Property.SetToWithDefault(
-                    rhs.DirectoryPath_Property,
-                    def?.DirectoryPath_Property);
+                try
+                {
+                    item.DirectoryPath_Property.SetToWithDefault(
+                        rhs.DirectoryPath_Property,
+                        def?.DirectoryPath_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DirectoryPath, ex);
+                }
             }
             if (copyMask?.DirectoryPathNull ?? true)
             {
-                item.DirectoryPathNull_Property.SetToWithDefault(
-                    rhs.DirectoryPathNull_Property,
-                    def?.DirectoryPathNull_Property);
+                try
+                {
+                    item.DirectoryPathNull_Property.SetToWithDefault(
+                        rhs.DirectoryPathNull_Property,
+                        def?.DirectoryPathNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.DirectoryPathNull, ex);
+                }
             }
             if (copyMask?.UDoubleN ?? true)
             {
-                item.UDoubleN_Property.SetToWithDefault(
-                    rhs.UDoubleN_Property,
-                    def?.UDoubleN_Property);
+                try
+                {
+                    item.UDoubleN_Property.SetToWithDefault(
+                        rhs.UDoubleN_Property,
+                        def?.UDoubleN_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UDoubleN, ex);
+                }
             }
             if (copyMask?.UDoubleN_Ranged ?? true)
             {
-                item.UDoubleN_Ranged_Property.SetToWithDefault(
-                    rhs.UDoubleN_Ranged_Property,
-                    def?.UDoubleN_Ranged_Property);
+                try
+                {
+                    item.UDoubleN_Ranged_Property.SetToWithDefault(
+                        rhs.UDoubleN_Ranged_Property,
+                        def?.UDoubleN_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UDoubleN_Ranged, ex);
+                }
             }
             if (copyMask?.UDouble ?? true)
             {
-                item.UDouble_Property.SetToWithDefault(
-                    rhs.UDouble_Property,
-                    def?.UDouble_Property);
+                try
+                {
+                    item.UDouble_Property.SetToWithDefault(
+                        rhs.UDouble_Property,
+                        def?.UDouble_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UDouble, ex);
+                }
             }
             if (copyMask?.UDouble_Ranged ?? true)
             {
-                item.UDouble_Ranged_Property.SetToWithDefault(
-                    rhs.UDouble_Ranged_Property,
-                    def?.UDouble_Ranged_Property);
+                try
+                {
+                    item.UDouble_Ranged_Property.SetToWithDefault(
+                        rhs.UDouble_Ranged_Property,
+                        def?.UDouble_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UDouble_Ranged, ex);
+                }
             }
             if (copyMask?.UInt16N ?? true)
             {
-                item.UInt16N_Property.SetToWithDefault(
-                    rhs.UInt16N_Property,
-                    def?.UInt16N_Property);
+                try
+                {
+                    item.UInt16N_Property.SetToWithDefault(
+                        rhs.UInt16N_Property,
+                        def?.UInt16N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt16N, ex);
+                }
             }
             if (copyMask?.UInt16N_Ranged ?? true)
             {
-                item.UInt16N_Ranged_Property.SetToWithDefault(
-                    rhs.UInt16N_Ranged_Property,
-                    def?.UInt16N_Ranged_Property);
+                try
+                {
+                    item.UInt16N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt16N_Ranged_Property,
+                        def?.UInt16N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt16N_Ranged, ex);
+                }
             }
             if (copyMask?.UInt16 ?? true)
             {
-                item.UInt16_Property.SetToWithDefault(
-                    rhs.UInt16_Property,
-                    def?.UInt16_Property);
+                try
+                {
+                    item.UInt16_Property.SetToWithDefault(
+                        rhs.UInt16_Property,
+                        def?.UInt16_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt16, ex);
+                }
             }
             if (copyMask?.UInt16_Ranged ?? true)
             {
-                item.UInt16_Ranged_Property.SetToWithDefault(
-                    rhs.UInt16_Ranged_Property,
-                    def?.UInt16_Ranged_Property);
+                try
+                {
+                    item.UInt16_Ranged_Property.SetToWithDefault(
+                        rhs.UInt16_Ranged_Property,
+                        def?.UInt16_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt16_Ranged, ex);
+                }
             }
             if (copyMask?.UInt32N ?? true)
             {
-                item.UInt32N_Property.SetToWithDefault(
-                    rhs.UInt32N_Property,
-                    def?.UInt32N_Property);
+                try
+                {
+                    item.UInt32N_Property.SetToWithDefault(
+                        rhs.UInt32N_Property,
+                        def?.UInt32N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt32N, ex);
+                }
             }
             if (copyMask?.UInt32N_Ranged ?? true)
             {
-                item.UInt32N_Ranged_Property.SetToWithDefault(
-                    rhs.UInt32N_Ranged_Property,
-                    def?.UInt32N_Ranged_Property);
+                try
+                {
+                    item.UInt32N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt32N_Ranged_Property,
+                        def?.UInt32N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt32N_Ranged, ex);
+                }
             }
             if (copyMask?.UInt32 ?? true)
             {
-                item.UInt32_Property.SetToWithDefault(
-                    rhs.UInt32_Property,
-                    def?.UInt32_Property);
+                try
+                {
+                    item.UInt32_Property.SetToWithDefault(
+                        rhs.UInt32_Property,
+                        def?.UInt32_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt32, ex);
+                }
             }
             if (copyMask?.UInt32_Ranged ?? true)
             {
-                item.UInt32_Ranged_Property.SetToWithDefault(
-                    rhs.UInt32_Ranged_Property,
-                    def?.UInt32_Ranged_Property);
+                try
+                {
+                    item.UInt32_Ranged_Property.SetToWithDefault(
+                        rhs.UInt32_Ranged_Property,
+                        def?.UInt32_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt32_Ranged, ex);
+                }
             }
             if (copyMask?.UInt64N ?? true)
             {
-                item.UInt64N_Property.SetToWithDefault(
-                    rhs.UInt64N_Property,
-                    def?.UInt64N_Property);
+                try
+                {
+                    item.UInt64N_Property.SetToWithDefault(
+                        rhs.UInt64N_Property,
+                        def?.UInt64N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt64N, ex);
+                }
             }
             if (copyMask?.UInt64N_Ranged ?? true)
             {
-                item.UInt64N_Ranged_Property.SetToWithDefault(
-                    rhs.UInt64N_Ranged_Property,
-                    def?.UInt64N_Ranged_Property);
+                try
+                {
+                    item.UInt64N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt64N_Ranged_Property,
+                        def?.UInt64N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt64N_Ranged, ex);
+                }
             }
             if (copyMask?.UInt64 ?? true)
             {
-                item.UInt64_Property.SetToWithDefault(
-                    rhs.UInt64_Property,
-                    def?.UInt64_Property);
+                try
+                {
+                    item.UInt64_Property.SetToWithDefault(
+                        rhs.UInt64_Property,
+                        def?.UInt64_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt64, ex);
+                }
             }
             if (copyMask?.UInt64_Ranged ?? true)
             {
-                item.UInt64_Ranged_Property.SetToWithDefault(
-                    rhs.UInt64_Ranged_Property,
-                    def?.UInt64_Ranged_Property);
+                try
+                {
+                    item.UInt64_Ranged_Property.SetToWithDefault(
+                        rhs.UInt64_Ranged_Property,
+                        def?.UInt64_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt64_Ranged, ex);
+                }
             }
             if (copyMask?.UInt8N ?? true)
             {
-                item.UInt8N_Property.SetToWithDefault(
-                    rhs.UInt8N_Property,
-                    def?.UInt8N_Property);
+                try
+                {
+                    item.UInt8N_Property.SetToWithDefault(
+                        rhs.UInt8N_Property,
+                        def?.UInt8N_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt8N, ex);
+                }
             }
             if (copyMask?.UInt8N_Ranged ?? true)
             {
-                item.UInt8N_Ranged_Property.SetToWithDefault(
-                    rhs.UInt8N_Ranged_Property,
-                    def?.UInt8N_Ranged_Property);
+                try
+                {
+                    item.UInt8N_Ranged_Property.SetToWithDefault(
+                        rhs.UInt8N_Ranged_Property,
+                        def?.UInt8N_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt8N_Ranged, ex);
+                }
             }
             if (copyMask?.UInt8 ?? true)
             {
-                item.UInt8_Property.SetToWithDefault(
-                    rhs.UInt8_Property,
-                    def?.UInt8_Property);
+                try
+                {
+                    item.UInt8_Property.SetToWithDefault(
+                        rhs.UInt8_Property,
+                        def?.UInt8_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt8, ex);
+                }
             }
             if (copyMask?.UInt8_Ranged ?? true)
             {
-                item.UInt8_Ranged_Property.SetToWithDefault(
-                    rhs.UInt8_Ranged_Property,
-                    def?.UInt8_Ranged_Property);
+                try
+                {
+                    item.UInt8_Ranged_Property.SetToWithDefault(
+                        rhs.UInt8_Ranged_Property,
+                        def?.UInt8_Ranged_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.UInt8_Ranged, ex);
+                }
             }
             if (copyMask?.Enum ?? true)
             {
-                item.Enum_Property.SetToWithDefault(
-                    rhs.Enum_Property,
-                    def?.Enum_Property);
+                try
+                {
+                    item.Enum_Property.SetToWithDefault(
+                        rhs.Enum_Property,
+                        def?.Enum_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.Enum, ex);
+                }
             }
             if (copyMask?.EnumNull ?? true)
             {
-                item.EnumNull_Property.SetToWithDefault(
-                    rhs.EnumNull_Property,
-                    def?.EnumNull_Property);
+                try
+                {
+                    item.EnumNull_Property.SetToWithDefault(
+                        rhs.EnumNull_Property,
+                        def?.EnumNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.EnumNull, ex);
+                }
             }
             if (copyMask?.WildCard ?? true)
             {
-                item.WildCard_Property.SetToWithDefault(
-                    rhs.WildCard_Property,
-                    def?.WildCard_Property);
+                try
+                {
+                    item.WildCard_Property.SetToWithDefault(
+                        rhs.WildCard_Property,
+                        def?.WildCard_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.WildCard, ex);
+                }
             }
             if (copyMask?.WildCardLoqui ?? true)
             {
-                item.WildCardLoqui_Property.SetToWithDefault(
-                    rhs.WildCardLoqui_Property,
-                    def?.WildCardLoqui_Property);
+                try
+                {
+                    item.WildCardLoqui_Property.SetToWithDefault(
+                        rhs.WildCardLoqui_Property,
+                        def?.WildCardLoqui_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.WildCardLoqui, ex);
+                }
             }
             if (copyMask?.WildCardNull ?? true)
             {
-                item.WildCardNull_Property.SetToWithDefault(
-                    rhs.WildCardNull_Property,
-                    def?.WildCardNull_Property);
+                try
+                {
+                    item.WildCardNull_Property.SetToWithDefault(
+                        rhs.WildCardNull_Property,
+                        def?.WildCardNull_Property);
+                }
+                catch (Exception ex)
+                when (doMasks)
+                {
+                    errorMask().SetNthException((int)TestObject_HasBeenSet_RPC_FieldIndex.WildCardNull, ex);
+                }
             }
             if (copyMask?.Ref.Overall != CopyOption.Skip)
             {

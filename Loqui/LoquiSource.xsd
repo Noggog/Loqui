@@ -751,8 +751,7 @@
   <xs:complexType name="ClassField" >
     <xs:complexContent>
       <xs:extension base="Field">
-        <xs:attribute name="singleton" type="xs:boolean" />
-        <xs:attribute name="nullable" type="xs:boolean" />
+        <xs:attribute name="nullable" type="SingletonLevel" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -761,8 +760,7 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:attribute name="name" type="xs:string" use="required" />
-        <xs:attribute name="singleton" type="xs:boolean" />
-        <xs:attribute name="nullable" type="xs:boolean" />
+        <xs:attribute name="nullable" type="SingletonLevel" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -817,7 +815,7 @@
   <xs:complexType name="ByteArray" >
     <xs:complexContent>
       <xs:extension base="ClassField">
-        <xs:attribute name="length" type="xs:string" use="required" />
+        <xs:attribute name="length" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

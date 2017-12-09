@@ -9,10 +9,9 @@ namespace Loqui.Generation
 {
     public abstract class ClassType : TypicalTypeGeneration
     {
-        public bool Nullable { get; set; } = true;
-        public bool Singleton;
+        public SingletonLevel Singleton;
         public bool Readonly;
-        public override bool Copy => base.Copy && !this.Singleton;
+        public override bool Copy => base.Copy && this.Singleton != SingletonLevel.Singleton;
         public override string ProtectedName => this.Notifying ? $"{this.ProtectedProperty}.Item" : $"_{this.Name}";
 
         public abstract string GetNewForNonNullable();
@@ -20,18 +19,13 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.Singleton = node.GetAttribute<bool>(Constants.SINGLETON, this.Singleton);
-            this.Nullable = node.GetAttribute<bool>("nullable", this.Nullable && !this.Singleton);
-            if (this.Singleton && this.Nullable)
-            {
-                throw new ArgumentException("A class type cannot be both nullable and a singleton.");
-            }
-            this.Protected = this.Protected || this.Singleton;
+            this.Singleton = node.GetAttribute<SingletonLevel>(Constants.SINGLETON, this.Singleton);
+            this.Protected = this.Protected || this.Singleton == SingletonLevel.Singleton;
         }
 
         protected override string GenerateDefaultValue()
         {
-            if (!this.Nullable 
+            if (this.Singleton != SingletonLevel.None
                 && string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 return GetNewForNonNullable();
@@ -46,8 +40,8 @@ namespace Loqui.Generation
                 if (arg.Contains("markAsSet")) continue;
                 yield return arg;
             }
-            yield return $"markAsSet: {(this.Singleton ? "true" : "false")}";
-            if (!this.Nullable)
+            yield return $"markAsSet: {(this.Singleton == SingletonLevel.Singleton ? "true" : "false")}";
+            if (this.Singleton != SingletonLevel.None)
             {
                 yield return $"noNullFallback: () => {GetNewForNonNullable()}";
             }
@@ -119,12 +113,12 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"private {TypeName} _{this.Name}{(this.Nullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"private {TypeName} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
                     fg.AppendLine($"public {TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");
-                        if (this.Nullable)
+                        if (this.Singleton == SingletonLevel.None)
                         {
                             fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
                         }
@@ -152,7 +146,7 @@ namespace Loqui.Generation
 
         public override bool IsNullable()
         {
-            return this.Nullable;
+            return this.Singleton == SingletonLevel.None;
         }
     }
 }

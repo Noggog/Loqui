@@ -1489,7 +1489,7 @@ namespace Loqui.Generation
                     Func<TypeGeneration, bool> tester = (f) =>
                     {
                         if (!(f is LoquiType loqui)) return false;
-                        return loqui.SingletonType == LoquiType.SingletonLevel.Singleton;
+                        return loqui.SingletonType == SingletonLevel.Singleton;
                     };
                     var trues = IterateFieldIndices().Where((i) => tester(i.Field));
                     var falses = IterateFieldIndices().Where((i) => !tester(i.Field));

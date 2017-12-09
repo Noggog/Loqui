@@ -126,13 +126,6 @@ namespace Loqui.Generation
             Generic
         }
 
-        public enum SingletonLevel
-        {
-            None,
-            NotNull,
-            Singleton
-        }
-
         public override string SkipCheck(string copyMaskAccessor)
         {
             if (this.SingletonType == SingletonLevel.Singleton)

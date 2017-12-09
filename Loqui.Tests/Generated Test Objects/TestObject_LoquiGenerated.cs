@@ -4532,39 +4532,30 @@ namespace Loqui.Tests
         #endregion
         #region Ref
         ObjectToRef Ref { get; }
-
         #endregion
         #region Ref_NotNull
         ObjectToRef Ref_NotNull { get; }
-
         #endregion
         #region Ref_Singleton
         ObjectToRef Ref_Singleton { get; }
-
         #endregion
         #region RefGetter
         IObjectToRefGetter RefGetter { get; }
-
         #endregion
         #region RefGetter_NotNull
         IObjectToRefGetter RefGetter_NotNull { get; }
-
         #endregion
         #region RefGetter_Singleton
         IObjectToRefGetter RefGetter_Singleton { get; }
-
         #endregion
         #region RefSetter
         IObjectToRef RefSetter { get; }
-
         #endregion
         #region RefSetter_NotNull
         IObjectToRef RefSetter_NotNull { get; }
-
         #endregion
         #region RefSetter_Singleton
         IObjectToRef RefSetter_Singleton { get; }
-
         #endregion
         #region List
         INotifyingListGetter<Boolean> List { get; }
