@@ -144,7 +144,7 @@ namespace Loqui.Generation
 
             await Task.WhenAll(
                 ObjectGenerationsByID.Values
-                    .Select((obj) => obj.Load()));
+                    .Select((obj) => TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load)));
             
             await Task.WhenAll(this.ObjectGenerationsByID.Values.Select((obj) => obj.Resolve()));
 

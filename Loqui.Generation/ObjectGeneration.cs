@@ -92,6 +92,7 @@ namespace Loqui.Generation
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
+        // Task Coordinators
         protected TaskCompletionSource<List<ObjectGeneration>> _directlyInheritingObjectsTcs = new TaskCompletionSource<List<ObjectGeneration>>();
         protected Task<List<ObjectGeneration>> _directlyInheritingObjects => _directlyInheritingObjectsTcs.Task;
         public async Task<IEnumerable<ObjectGeneration>> InheritingObjects()
@@ -103,6 +104,7 @@ namespace Loqui.Generation
                 objs.Select(async (o) => await o.InheritingObjects()))).SelectMany((i) => i));
             return ret;
         }
+        public TaskCompletionSource<bool> LoadingCompleteTask = new TaskCompletionSource<bool>();
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {

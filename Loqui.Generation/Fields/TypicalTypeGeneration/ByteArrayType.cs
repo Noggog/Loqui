@@ -49,13 +49,13 @@ namespace Loqui.Generation
             if (this.Length == null
                 && this.Singleton != SingletonLevel.None)
             {
-                throw new ArgumentException("Cannot have a byte array with an undefined length that is not nullable.");
+                throw new ArgumentException($"Cannot have a byte array with an undefined length that is not nullable. {this.ObjectGen.Name} {this.Name}");
             }
 
             if (this.Length != null
                 & this.Singleton == SingletonLevel.None)
             {
-                throw new ArgumentException("Cannot have a byte array with a length that is nullable.  Doesn't apply.");
+                throw new ArgumentException($"Cannot have a byte array with a length that is nullable.  Doesn't apply. {this.ObjectGen.Name} {this.Name}");
             }
         }
     }
