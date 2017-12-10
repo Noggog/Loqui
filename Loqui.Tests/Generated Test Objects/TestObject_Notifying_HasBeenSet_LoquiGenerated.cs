@@ -31,13 +31,13 @@ namespace Loqui.Tests
         #region Ctor
         public TestObject_Notifying_HasBeenSet()
         {
-            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingSetItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 markAsSet: true);
-            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 markAsSet: true);
-            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingSetItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 markAsSet: true);
             CustomCtor();
@@ -46,7 +46,7 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly INotifyingItem<Byte[]> _ByteArray = NotifyingSetItem.Factory<Byte[]>(
+        protected readonly INotifyingSetItem<Byte[]> _ByteArray = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[4]);
         public INotifyingSetItem<Byte[]> ByteArray_Property => _ByteArray;
@@ -59,7 +59,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
-        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingSetItem.Factory<Byte[]>(markAsSet: false);
+        protected readonly INotifyingSetItem<Byte[]> _ByteArrayNull = NotifyingSetItem.Factory<Byte[]>(markAsSet: false);
         public INotifyingSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
@@ -70,7 +70,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
-        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingSetItem.Factory<Byte[]>(
+        protected readonly INotifyingSetItem<Byte[]> _ByteArrayNotNull = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[3]);
         public INotifyingSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
@@ -83,7 +83,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
-        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingSetItem.Factory<Byte[]>(
+        protected readonly INotifyingSetItem<Byte[]> _ByteArraySingleton = NotifyingSetItem.Factory<Byte[]>(
             markAsSet: true,
             noNullFallback: () => new byte[3]);
         public INotifyingSetItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
@@ -95,7 +95,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte[]> ITestObject_Notifying_HasBeenSetGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
-        protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingSetItem.Factory<Boolean?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Boolean?> _BoolN = NotifyingSetItem.Factory<Boolean?>(markAsSet: false);
         public INotifyingSetItem<Boolean?> BoolN_Property => _BoolN;
         public Boolean? BoolN
         {
@@ -106,7 +106,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Boolean?> ITestObject_Notifying_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
-        protected readonly INotifyingItem<Boolean> _Bool = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        protected readonly INotifyingSetItem<Boolean> _Bool = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
         public INotifyingSetItem<Boolean> Bool_Property => _Bool;
         public Boolean Bool
         {
@@ -117,7 +117,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Boolean> ITestObject_Notifying_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
-        protected readonly INotifyingItem<Char?> _CharN = NotifyingSetItem.Factory<Char?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Char?> _CharN = NotifyingSetItem.Factory<Char?>(markAsSet: false);
         public INotifyingSetItem<Char?> CharN_Property => _CharN;
         public Char? CharN
         {
@@ -128,7 +128,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Char?> ITestObject_Notifying_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
-        protected readonly INotifyingItem<Char> _Char = NotifyingSetItem.Factory<Char>(markAsSet: false);
+        protected readonly INotifyingSetItem<Char> _Char = NotifyingSetItem.Factory<Char>(markAsSet: false);
         public INotifyingSetItem<Char> Char_Property => _Char;
         public Char Char
         {
@@ -139,7 +139,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Char> ITestObject_Notifying_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
-        protected readonly INotifyingItem<DateTime?> _DateTimeNull = NotifyingSetItem.Factory<DateTime?>(markAsSet: false);
+        protected readonly INotifyingSetItem<DateTime?> _DateTimeNull = NotifyingSetItem.Factory<DateTime?>(markAsSet: false);
         public INotifyingSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
         public DateTime? DateTimeNull
         {
@@ -150,7 +150,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<DateTime?> ITestObject_Notifying_HasBeenSetGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
-        protected readonly INotifyingItem<DateTime> _DateTime = NotifyingSetItem.Factory<DateTime>(markAsSet: false);
+        protected readonly INotifyingSetItem<DateTime> _DateTime = NotifyingSetItem.Factory<DateTime>(markAsSet: false);
         public INotifyingSetItem<DateTime> DateTime_Property => _DateTime;
         public DateTime DateTime
         {
@@ -161,7 +161,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<DateTime> ITestObject_Notifying_HasBeenSetGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
-        protected readonly INotifyingItem<Double?> _DoubleN = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Double?> _DoubleN = NotifyingSetItem.Factory<Double?>(markAsSet: false);
         public INotifyingSetItem<Double?> DoubleN_Property => _DoubleN;
         public Double? DoubleN
         {
@@ -172,8 +172,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Double?> ITestObject_Notifying_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region DoubleN_Ranged
-        protected readonly INotifyingItem<Double?> _DoubleN_Ranged = NotifyingSetItem.Factory<Double?>(markAsSet: false);
-        public INotifyingItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
+        protected readonly INotifyingSetItem<Double?> _DoubleN_Ranged = NotifyingSetItem.Factory<Double?>(markAsSet: false);
+        public INotifyingSetItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
         public Double? DoubleN_Ranged
         {
             get => this._DoubleN_Ranged.Item;
@@ -184,7 +184,7 @@ namespace Loqui.Tests
         public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region Double
-        protected readonly INotifyingItem<Double> _Double = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        protected readonly INotifyingSetItem<Double> _Double = NotifyingSetItem.Factory<Double>(markAsSet: false);
         public INotifyingSetItem<Double> Double_Property => _Double;
         public Double Double
         {
@@ -195,8 +195,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Double> ITestObject_Notifying_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
         #region Double_Ranged
-        protected readonly INotifyingItem<Double> _Double_Ranged = NotifyingSetItem.Factory<Double>(markAsSet: false);
-        public INotifyingItem<Double> Double_Ranged_Property => _Double_Ranged;
+        protected readonly INotifyingSetItem<Double> _Double_Ranged = NotifyingSetItem.Factory<Double>(markAsSet: false);
+        public INotifyingSetItem<Double> Double_Ranged_Property => _Double_Ranged;
         public Double Double_Ranged
         {
             get => this._Double_Ranged.Item;
@@ -207,7 +207,7 @@ namespace Loqui.Tests
         public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
-        protected readonly INotifyingItem<Single?> _FloatN = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Single?> _FloatN = NotifyingSetItem.Factory<Single?>(markAsSet: false);
         public INotifyingSetItem<Single?> FloatN_Property => _FloatN;
         public Single? FloatN
         {
@@ -218,8 +218,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Single?> ITestObject_Notifying_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region FloatN_Ranged
-        protected readonly INotifyingItem<Single?> _FloatN_Ranged = NotifyingSetItem.Factory<Single?>(markAsSet: false);
-        public INotifyingItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
+        protected readonly INotifyingSetItem<Single?> _FloatN_Ranged = NotifyingSetItem.Factory<Single?>(markAsSet: false);
+        public INotifyingSetItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
         public Single? FloatN_Ranged
         {
             get => this._FloatN_Ranged.Item;
@@ -230,7 +230,7 @@ namespace Loqui.Tests
         public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Float
-        protected readonly INotifyingItem<Single> _Float = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        protected readonly INotifyingSetItem<Single> _Float = NotifyingSetItem.Factory<Single>(markAsSet: false);
         public INotifyingSetItem<Single> Float_Property => _Float;
         public Single Float
         {
@@ -241,8 +241,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Single> ITestObject_Notifying_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
         #region Float_Ranged
-        protected readonly INotifyingItem<Single> _Float_Ranged = NotifyingSetItem.Factory<Single>(markAsSet: false);
-        public INotifyingItem<Single> Float_Ranged_Property => _Float_Ranged;
+        protected readonly INotifyingSetItem<Single> _Float_Ranged = NotifyingSetItem.Factory<Single>(markAsSet: false);
+        public INotifyingSetItem<Single> Float_Ranged_Property => _Float_Ranged;
         public Single Float_Ranged
         {
             get => this._Float_Ranged.Item;
@@ -253,7 +253,7 @@ namespace Loqui.Tests
         public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
-        protected readonly INotifyingItem<Int16?> _Int16N = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int16?> _Int16N = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
         public INotifyingSetItem<Int16?> Int16N_Property => _Int16N;
         public Int16? Int16N
         {
@@ -264,8 +264,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int16?> ITestObject_Notifying_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16N_Ranged
-        protected readonly INotifyingItem<Int16?> _Int16N_Ranged = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
-        public INotifyingItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
+        protected readonly INotifyingSetItem<Int16?> _Int16N_Ranged = NotifyingSetItem.Factory<Int16?>(markAsSet: false);
+        public INotifyingSetItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
         public Int16? Int16N_Ranged
         {
             get => this._Int16N_Ranged.Item;
@@ -276,7 +276,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int16
-        protected readonly INotifyingItem<Int16> _Int16 = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int16> _Int16 = NotifyingSetItem.Factory<Int16>(markAsSet: false);
         public INotifyingSetItem<Int16> Int16_Property => _Int16;
         public Int16 Int16
         {
@@ -287,8 +287,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int16> ITestObject_Notifying_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int16_Ranged
-        protected readonly INotifyingItem<Int16> _Int16_Ranged = NotifyingSetItem.Factory<Int16>(markAsSet: false);
-        public INotifyingItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
+        protected readonly INotifyingSetItem<Int16> _Int16_Ranged = NotifyingSetItem.Factory<Int16>(markAsSet: false);
+        public INotifyingSetItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
         public Int16 Int16_Ranged
         {
             get => this._Int16_Ranged.Item;
@@ -299,7 +299,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
-        protected readonly INotifyingItem<Int32?> _Int32N = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int32?> _Int32N = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
         public INotifyingSetItem<Int32?> Int32N_Property => _Int32N;
         public Int32? Int32N
         {
@@ -310,8 +310,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int32?> ITestObject_Notifying_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32N_Ranged
-        protected readonly INotifyingItem<Int32?> _Int32N_Ranged = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
-        public INotifyingItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
+        protected readonly INotifyingSetItem<Int32?> _Int32N_Ranged = NotifyingSetItem.Factory<Int32?>(markAsSet: false);
+        public INotifyingSetItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
         public Int32? Int32N_Ranged
         {
             get => this._Int32N_Ranged.Item;
@@ -322,7 +322,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int32
-        protected readonly INotifyingItem<Int32> _Int32 = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int32> _Int32 = NotifyingSetItem.Factory<Int32>(markAsSet: false);
         public INotifyingSetItem<Int32> Int32_Property => _Int32;
         public Int32 Int32
         {
@@ -333,8 +333,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int32> ITestObject_Notifying_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int32_Ranged
-        protected readonly INotifyingItem<Int32> _Int32_Ranged = NotifyingSetItem.Factory<Int32>(markAsSet: false);
-        public INotifyingItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
+        protected readonly INotifyingSetItem<Int32> _Int32_Ranged = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        public INotifyingSetItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
         public Int32 Int32_Ranged
         {
             get => this._Int32_Ranged.Item;
@@ -345,7 +345,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
-        protected readonly INotifyingItem<Int64?> _Int64N = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int64?> _Int64N = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
         public INotifyingSetItem<Int64?> Int64N_Property => _Int64N;
         public Int64? Int64N
         {
@@ -356,8 +356,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int64?> ITestObject_Notifying_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64N_Ranged
-        protected readonly INotifyingItem<Int64?> _Int64N_Ranged = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
-        public INotifyingItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
+        protected readonly INotifyingSetItem<Int64?> _Int64N_Ranged = NotifyingSetItem.Factory<Int64?>(markAsSet: false);
+        public INotifyingSetItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
         public Int64? Int64N_Ranged
         {
             get => this._Int64N_Ranged.Item;
@@ -368,7 +368,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int64
-        protected readonly INotifyingItem<Int64> _Int64 = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int64> _Int64 = NotifyingSetItem.Factory<Int64>(markAsSet: false);
         public INotifyingSetItem<Int64> Int64_Property => _Int64;
         public Int64 Int64
         {
@@ -379,8 +379,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int64> ITestObject_Notifying_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int64_Ranged
-        protected readonly INotifyingItem<Int64> _Int64_Ranged = NotifyingSetItem.Factory<Int64>(markAsSet: false);
-        public INotifyingItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
+        protected readonly INotifyingSetItem<Int64> _Int64_Ranged = NotifyingSetItem.Factory<Int64>(markAsSet: false);
+        public INotifyingSetItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
         public Int64 Int64_Ranged
         {
             get => this._Int64_Ranged.Item;
@@ -391,7 +391,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
-        protected readonly INotifyingItem<SByte?> _Int8N = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        protected readonly INotifyingSetItem<SByte?> _Int8N = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
         public INotifyingSetItem<SByte?> Int8N_Property => _Int8N;
         public SByte? Int8N
         {
@@ -402,8 +402,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<SByte?> ITestObject_Notifying_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8N_Ranged
-        protected readonly INotifyingItem<SByte?> _Int8N_Ranged = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
-        public INotifyingItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
+        protected readonly INotifyingSetItem<SByte?> _Int8N_Ranged = NotifyingSetItem.Factory<SByte?>(markAsSet: false);
+        public INotifyingSetItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
         public SByte? Int8N_Ranged
         {
             get => this._Int8N_Ranged.Item;
@@ -414,7 +414,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Int8
-        protected readonly INotifyingItem<SByte> _Int8 = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        protected readonly INotifyingSetItem<SByte> _Int8 = NotifyingSetItem.Factory<SByte>(markAsSet: false);
         public INotifyingSetItem<SByte> Int8_Property => _Int8;
         public SByte Int8
         {
@@ -425,8 +425,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<SByte> ITestObject_Notifying_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Int8_Ranged
-        protected readonly INotifyingItem<SByte> _Int8_Ranged = NotifyingSetItem.Factory<SByte>(markAsSet: false);
-        public INotifyingItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
+        protected readonly INotifyingSetItem<SByte> _Int8_Ranged = NotifyingSetItem.Factory<SByte>(markAsSet: false);
+        public INotifyingSetItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
         public SByte Int8_Ranged
         {
             get => this._Int8_Ranged.Item;
@@ -437,7 +437,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
-        protected readonly INotifyingItem<bool> _Unsafe = NotifyingSetItem.Factory<bool>(markAsSet: false);
+        protected readonly INotifyingSetItem<bool> _Unsafe = NotifyingSetItem.Factory<bool>(markAsSet: false);
         public INotifyingSetItem<bool> Unsafe_Property => _Unsafe;
         public bool Unsafe
         {
@@ -448,7 +448,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<bool> ITestObject_Notifying_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
-        protected readonly INotifyingItem<ObjectToRef> _UnsafeLoqui = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        protected readonly INotifyingSetItem<ObjectToRef> _UnsafeLoqui = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
         public INotifyingSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
         public ObjectToRef UnsafeLoqui
         {
@@ -459,7 +459,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
-        protected readonly INotifyingItem<ObjectToRef> _UnsafeNull = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
+        protected readonly INotifyingSetItem<ObjectToRef> _UnsafeNull = NotifyingSetItem.Factory<ObjectToRef>(markAsSet: false);
         public INotifyingSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
         public ObjectToRef UnsafeNull
         {
@@ -470,7 +470,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<ObjectToRef> ITestObject_Notifying_HasBeenSetGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
-        protected readonly INotifyingItem<P2Int?> _P2IntN = NotifyingSetItem.Factory<P2Int?>(markAsSet: false);
+        protected readonly INotifyingSetItem<P2Int?> _P2IntN = NotifyingSetItem.Factory<P2Int?>(markAsSet: false);
         public INotifyingSetItem<P2Int?> P2IntN_Property => _P2IntN;
         public P2Int? P2IntN
         {
@@ -481,7 +481,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P2Int?> ITestObject_Notifying_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
-        protected readonly INotifyingItem<P2Int> _P2Int = NotifyingSetItem.Factory<P2Int>(markAsSet: false);
+        protected readonly INotifyingSetItem<P2Int> _P2Int = NotifyingSetItem.Factory<P2Int>(markAsSet: false);
         public INotifyingSetItem<P2Int> P2Int_Property => _P2Int;
         public P2Int P2Int
         {
@@ -492,7 +492,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P2Int> ITestObject_Notifying_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
-        protected readonly INotifyingItem<P3Double?> _P3DoubleN = NotifyingSetItem.Factory<P3Double?>(markAsSet: false);
+        protected readonly INotifyingSetItem<P3Double?> _P3DoubleN = NotifyingSetItem.Factory<P3Double?>(markAsSet: false);
         public INotifyingSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
         public P3Double? P3DoubleN
         {
@@ -503,7 +503,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P3Double?> ITestObject_Notifying_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
-        protected readonly INotifyingItem<P3Double> _P3Double = NotifyingSetItem.Factory<P3Double>(markAsSet: false);
+        protected readonly INotifyingSetItem<P3Double> _P3Double = NotifyingSetItem.Factory<P3Double>(markAsSet: false);
         public INotifyingSetItem<P3Double> P3Double_Property => _P3Double;
         public P3Double P3Double
         {
@@ -514,7 +514,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P3Double> ITestObject_Notifying_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
-        protected readonly INotifyingItem<P3Int?> _P3IntN = NotifyingSetItem.Factory<P3Int?>(markAsSet: false);
+        protected readonly INotifyingSetItem<P3Int?> _P3IntN = NotifyingSetItem.Factory<P3Int?>(markAsSet: false);
         public INotifyingSetItem<P3Int?> P3IntN_Property => _P3IntN;
         public P3Int? P3IntN
         {
@@ -525,7 +525,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P3Int?> ITestObject_Notifying_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
-        protected readonly INotifyingItem<P3Int> _P3Int = NotifyingSetItem.Factory<P3Int>(markAsSet: false);
+        protected readonly INotifyingSetItem<P3Int> _P3Int = NotifyingSetItem.Factory<P3Int>(markAsSet: false);
         public INotifyingSetItem<P3Int> P3Int_Property => _P3Int;
         public P3Int P3Int
         {
@@ -536,7 +536,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<P3Int> ITestObject_Notifying_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
-        protected readonly INotifyingItem<Percent?> _PercentN = NotifyingSetItem.Factory<Percent?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Percent?> _PercentN = NotifyingSetItem.Factory<Percent?>(markAsSet: false);
         public INotifyingSetItem<Percent?> PercentN_Property => _PercentN;
         public Percent? PercentN
         {
@@ -547,7 +547,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Percent?> ITestObject_Notifying_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
-        protected readonly INotifyingItem<Percent> _Percent = NotifyingSetItem.Factory<Percent>(markAsSet: false);
+        protected readonly INotifyingSetItem<Percent> _Percent = NotifyingSetItem.Factory<Percent>(markAsSet: false);
         public INotifyingSetItem<Percent> Percent_Property => _Percent;
         public Percent Percent
         {
@@ -558,7 +558,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Percent> ITestObject_Notifying_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
-        protected readonly INotifyingItem<RangeInt8?> _RangeInt8N = NotifyingSetItem.Factory<RangeInt8?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt8?> _RangeInt8N = NotifyingSetItem.Factory<RangeInt8?>(markAsSet: false);
         public INotifyingSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
         public RangeInt8? RangeInt8N
         {
@@ -569,7 +569,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt8?> ITestObject_Notifying_HasBeenSetGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
-        protected readonly INotifyingItem<RangeInt8> _RangeInt8 = NotifyingSetItem.Factory<RangeInt8>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt8> _RangeInt8 = NotifyingSetItem.Factory<RangeInt8>(markAsSet: false);
         public INotifyingSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
         public RangeInt8 RangeInt8
         {
@@ -580,7 +580,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt8> ITestObject_Notifying_HasBeenSetGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
-        protected readonly INotifyingItem<RangeInt16?> _RangeInt16N = NotifyingSetItem.Factory<RangeInt16?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt16?> _RangeInt16N = NotifyingSetItem.Factory<RangeInt16?>(markAsSet: false);
         public INotifyingSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
         public RangeInt16? RangeInt16N
         {
@@ -591,7 +591,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt16?> ITestObject_Notifying_HasBeenSetGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
-        protected readonly INotifyingItem<RangeInt16> _RangeInt16 = NotifyingSetItem.Factory<RangeInt16>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt16> _RangeInt16 = NotifyingSetItem.Factory<RangeInt16>(markAsSet: false);
         public INotifyingSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
         public RangeInt16 RangeInt16
         {
@@ -602,7 +602,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt16> ITestObject_Notifying_HasBeenSetGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
-        protected readonly INotifyingItem<RangeInt32?> _RangeInt32N = NotifyingSetItem.Factory<RangeInt32?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt32?> _RangeInt32N = NotifyingSetItem.Factory<RangeInt32?>(markAsSet: false);
         public INotifyingSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
         public RangeInt32? RangeInt32N
         {
@@ -613,7 +613,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt32?> ITestObject_Notifying_HasBeenSetGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
-        protected readonly INotifyingItem<RangeInt32> _RangeInt32 = NotifyingSetItem.Factory<RangeInt32>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt32> _RangeInt32 = NotifyingSetItem.Factory<RangeInt32>(markAsSet: false);
         public INotifyingSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
         public RangeInt32 RangeInt32
         {
@@ -624,7 +624,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt32> ITestObject_Notifying_HasBeenSetGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
-        protected readonly INotifyingItem<RangeInt64?> _RangeInt64N = NotifyingSetItem.Factory<RangeInt64?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt64?> _RangeInt64N = NotifyingSetItem.Factory<RangeInt64?>(markAsSet: false);
         public INotifyingSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
         public RangeInt64? RangeInt64N
         {
@@ -635,7 +635,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt64?> ITestObject_Notifying_HasBeenSetGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
-        protected readonly INotifyingItem<RangeInt64> _RangeInt64 = NotifyingSetItem.Factory<RangeInt64>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeInt64> _RangeInt64 = NotifyingSetItem.Factory<RangeInt64>(markAsSet: false);
         public INotifyingSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
         public RangeInt64 RangeInt64
         {
@@ -646,7 +646,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeInt64> ITestObject_Notifying_HasBeenSetGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
-        protected readonly INotifyingItem<RangeUInt8?> _RangeUInt8N = NotifyingSetItem.Factory<RangeUInt8?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt8?> _RangeUInt8N = NotifyingSetItem.Factory<RangeUInt8?>(markAsSet: false);
         public INotifyingSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
         public RangeUInt8? RangeUInt8N
         {
@@ -657,7 +657,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt8?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
-        protected readonly INotifyingItem<RangeUInt8> _RangeUInt8 = NotifyingSetItem.Factory<RangeUInt8>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt8> _RangeUInt8 = NotifyingSetItem.Factory<RangeUInt8>(markAsSet: false);
         public INotifyingSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
         public RangeUInt8 RangeUInt8
         {
@@ -668,7 +668,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt8> ITestObject_Notifying_HasBeenSetGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
-        protected readonly INotifyingItem<RangeUInt16?> _RangeUInt16N = NotifyingSetItem.Factory<RangeUInt16?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt16?> _RangeUInt16N = NotifyingSetItem.Factory<RangeUInt16?>(markAsSet: false);
         public INotifyingSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
         public RangeUInt16? RangeUInt16N
         {
@@ -679,7 +679,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt16?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
-        protected readonly INotifyingItem<RangeUInt16> _RangeUInt16 = NotifyingSetItem.Factory<RangeUInt16>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt16> _RangeUInt16 = NotifyingSetItem.Factory<RangeUInt16>(markAsSet: false);
         public INotifyingSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
         public RangeUInt16 RangeUInt16
         {
@@ -690,7 +690,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt16> ITestObject_Notifying_HasBeenSetGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
-        protected readonly INotifyingItem<RangeUInt32?> _RangeUInt32N = NotifyingSetItem.Factory<RangeUInt32?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt32?> _RangeUInt32N = NotifyingSetItem.Factory<RangeUInt32?>(markAsSet: false);
         public INotifyingSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
         public RangeUInt32? RangeUInt32N
         {
@@ -701,7 +701,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt32?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
-        protected readonly INotifyingItem<RangeUInt32> _RangeUInt32 = NotifyingSetItem.Factory<RangeUInt32>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt32> _RangeUInt32 = NotifyingSetItem.Factory<RangeUInt32>(markAsSet: false);
         public INotifyingSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
         public RangeUInt32 RangeUInt32
         {
@@ -712,7 +712,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt32> ITestObject_Notifying_HasBeenSetGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
-        protected readonly INotifyingItem<RangeUInt64?> _RangeUInt64N = NotifyingSetItem.Factory<RangeUInt64?>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt64?> _RangeUInt64N = NotifyingSetItem.Factory<RangeUInt64?>(markAsSet: false);
         public INotifyingSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
         public RangeUInt64? RangeUInt64N
         {
@@ -723,7 +723,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt64?> ITestObject_Notifying_HasBeenSetGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
-        protected readonly INotifyingItem<RangeUInt64> _RangeUInt64 = NotifyingSetItem.Factory<RangeUInt64>(markAsSet: false);
+        protected readonly INotifyingSetItem<RangeUInt64> _RangeUInt64 = NotifyingSetItem.Factory<RangeUInt64>(markAsSet: false);
         public INotifyingSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
         public RangeUInt64 RangeUInt64
         {
@@ -734,7 +734,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<RangeUInt64> ITestObject_Notifying_HasBeenSetGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
-        protected readonly INotifyingItem<String> _String = NotifyingSetItem.Factory<String>(markAsSet: false);
+        protected readonly INotifyingSetItem<String> _String = NotifyingSetItem.Factory<String>(markAsSet: false);
         public INotifyingSetItem<String> String_Property => _String;
         public String String
         {
@@ -745,7 +745,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<String> ITestObject_Notifying_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
-        protected readonly INotifyingItem<FilePath> _FilePath = NotifyingSetItem.Factory<FilePath>(markAsSet: false);
+        protected readonly INotifyingSetItem<FilePath> _FilePath = NotifyingSetItem.Factory<FilePath>(markAsSet: false);
         public INotifyingSetItem<FilePath> FilePath_Property => _FilePath;
         public FilePath FilePath
         {
@@ -756,7 +756,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<FilePath> ITestObject_Notifying_HasBeenSetGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
-        protected readonly INotifyingItem<FilePath?> _FilePathNull = NotifyingSetItem.Factory<FilePath?>(markAsSet: false);
+        protected readonly INotifyingSetItem<FilePath?> _FilePathNull = NotifyingSetItem.Factory<FilePath?>(markAsSet: false);
         public INotifyingSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
         public FilePath? FilePathNull
         {
@@ -767,7 +767,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<FilePath?> ITestObject_Notifying_HasBeenSetGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
-        protected readonly INotifyingItem<DirectoryPath> _DirectoryPath = NotifyingSetItem.Factory<DirectoryPath>(markAsSet: false);
+        protected readonly INotifyingSetItem<DirectoryPath> _DirectoryPath = NotifyingSetItem.Factory<DirectoryPath>(markAsSet: false);
         public INotifyingSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
         public DirectoryPath DirectoryPath
         {
@@ -778,7 +778,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<DirectoryPath> ITestObject_Notifying_HasBeenSetGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
-        protected readonly INotifyingItem<DirectoryPath?> _DirectoryPathNull = NotifyingSetItem.Factory<DirectoryPath?>(markAsSet: false);
+        protected readonly INotifyingSetItem<DirectoryPath?> _DirectoryPathNull = NotifyingSetItem.Factory<DirectoryPath?>(markAsSet: false);
         public INotifyingSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
         public DirectoryPath? DirectoryPathNull
         {
@@ -789,7 +789,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<DirectoryPath?> ITestObject_Notifying_HasBeenSetGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
-        protected readonly INotifyingItem<UDouble?> _UDoubleN = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        protected readonly INotifyingSetItem<UDouble?> _UDoubleN = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
         public INotifyingSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
         public UDouble? UDoubleN
         {
@@ -800,8 +800,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UDouble?> ITestObject_Notifying_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDoubleN_Ranged
-        protected readonly INotifyingItem<UDouble?> _UDoubleN_Ranged = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
-        public INotifyingItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
+        protected readonly INotifyingSetItem<UDouble?> _UDoubleN_Ranged = NotifyingSetItem.Factory<UDouble?>(markAsSet: false);
+        public INotifyingSetItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
         public UDouble? UDoubleN_Ranged
         {
             get => this._UDoubleN_Ranged.Item;
@@ -812,7 +812,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UDouble
-        protected readonly INotifyingItem<UDouble> _UDouble = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        protected readonly INotifyingSetItem<UDouble> _UDouble = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
         public INotifyingSetItem<UDouble> UDouble_Property => _UDouble;
         public UDouble UDouble
         {
@@ -823,8 +823,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UDouble> ITestObject_Notifying_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UDouble_Ranged
-        protected readonly INotifyingItem<UDouble> _UDouble_Ranged = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
-        public INotifyingItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
+        protected readonly INotifyingSetItem<UDouble> _UDouble_Ranged = NotifyingSetItem.Factory<UDouble>(markAsSet: false);
+        public INotifyingSetItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
         public UDouble UDouble_Ranged
         {
             get => this._UDouble_Ranged.Item;
@@ -835,7 +835,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
-        protected readonly INotifyingItem<UInt16?> _UInt16N = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt16?> _UInt16N = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
         public INotifyingSetItem<UInt16?> UInt16N_Property => _UInt16N;
         public UInt16? UInt16N
         {
@@ -846,8 +846,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt16?> ITestObject_Notifying_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16N_Ranged
-        protected readonly INotifyingItem<UInt16?> _UInt16N_Ranged = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
-        public INotifyingItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
+        protected readonly INotifyingSetItem<UInt16?> _UInt16N_Ranged = NotifyingSetItem.Factory<UInt16?>(markAsSet: false);
+        public INotifyingSetItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
         public UInt16? UInt16N_Ranged
         {
             get => this._UInt16N_Ranged.Item;
@@ -858,7 +858,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt16
-        protected readonly INotifyingItem<UInt16> _UInt16 = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt16> _UInt16 = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
         public INotifyingSetItem<UInt16> UInt16_Property => _UInt16;
         public UInt16 UInt16
         {
@@ -869,8 +869,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt16> ITestObject_Notifying_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt16_Ranged
-        protected readonly INotifyingItem<UInt16> _UInt16_Ranged = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
-        public INotifyingItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
+        protected readonly INotifyingSetItem<UInt16> _UInt16_Ranged = NotifyingSetItem.Factory<UInt16>(markAsSet: false);
+        public INotifyingSetItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
         public UInt16 UInt16_Ranged
         {
             get => this._UInt16_Ranged.Item;
@@ -881,7 +881,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
-        protected readonly INotifyingItem<UInt32?> _UInt32N = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt32?> _UInt32N = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
         public INotifyingSetItem<UInt32?> UInt32N_Property => _UInt32N;
         public UInt32? UInt32N
         {
@@ -892,8 +892,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt32?> ITestObject_Notifying_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32N_Ranged
-        protected readonly INotifyingItem<UInt32?> _UInt32N_Ranged = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
-        public INotifyingItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
+        protected readonly INotifyingSetItem<UInt32?> _UInt32N_Ranged = NotifyingSetItem.Factory<UInt32?>(markAsSet: false);
+        public INotifyingSetItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
         public UInt32? UInt32N_Ranged
         {
             get => this._UInt32N_Ranged.Item;
@@ -904,7 +904,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt32
-        protected readonly INotifyingItem<UInt32> _UInt32 = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt32> _UInt32 = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
         public INotifyingSetItem<UInt32> UInt32_Property => _UInt32;
         public UInt32 UInt32
         {
@@ -915,8 +915,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt32> ITestObject_Notifying_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt32_Ranged
-        protected readonly INotifyingItem<UInt32> _UInt32_Ranged = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
-        public INotifyingItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
+        protected readonly INotifyingSetItem<UInt32> _UInt32_Ranged = NotifyingSetItem.Factory<UInt32>(markAsSet: false);
+        public INotifyingSetItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
         public UInt32 UInt32_Ranged
         {
             get => this._UInt32_Ranged.Item;
@@ -927,7 +927,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
-        protected readonly INotifyingItem<UInt64?> _UInt64N = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt64?> _UInt64N = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
         public INotifyingSetItem<UInt64?> UInt64N_Property => _UInt64N;
         public UInt64? UInt64N
         {
@@ -938,8 +938,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt64?> ITestObject_Notifying_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64N_Ranged
-        protected readonly INotifyingItem<UInt64?> _UInt64N_Ranged = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
-        public INotifyingItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
+        protected readonly INotifyingSetItem<UInt64?> _UInt64N_Ranged = NotifyingSetItem.Factory<UInt64?>(markAsSet: false);
+        public INotifyingSetItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
         public UInt64? UInt64N_Ranged
         {
             get => this._UInt64N_Ranged.Item;
@@ -950,7 +950,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt64
-        protected readonly INotifyingItem<UInt64> _UInt64 = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        protected readonly INotifyingSetItem<UInt64> _UInt64 = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
         public INotifyingSetItem<UInt64> UInt64_Property => _UInt64;
         public UInt64 UInt64
         {
@@ -961,8 +961,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<UInt64> ITestObject_Notifying_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt64_Ranged
-        protected readonly INotifyingItem<UInt64> _UInt64_Ranged = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
-        public INotifyingItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
+        protected readonly INotifyingSetItem<UInt64> _UInt64_Ranged = NotifyingSetItem.Factory<UInt64>(markAsSet: false);
+        public INotifyingSetItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
         public UInt64 UInt64_Ranged
         {
             get => this._UInt64_Ranged.Item;
@@ -973,7 +973,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
-        protected readonly INotifyingItem<Byte?> _UInt8N = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        protected readonly INotifyingSetItem<Byte?> _UInt8N = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
         public INotifyingSetItem<Byte?> UInt8N_Property => _UInt8N;
         public Byte? UInt8N
         {
@@ -984,8 +984,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte?> ITestObject_Notifying_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8N_Ranged
-        protected readonly INotifyingItem<Byte?> _UInt8N_Ranged = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
-        public INotifyingItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
+        protected readonly INotifyingSetItem<Byte?> _UInt8N_Ranged = NotifyingSetItem.Factory<Byte?>(markAsSet: false);
+        public INotifyingSetItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
         public Byte? UInt8N_Ranged
         {
             get => this._UInt8N_Ranged.Item;
@@ -996,7 +996,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region UInt8
-        protected readonly INotifyingItem<Byte> _UInt8 = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        protected readonly INotifyingSetItem<Byte> _UInt8 = NotifyingSetItem.Factory<Byte>(markAsSet: false);
         public INotifyingSetItem<Byte> UInt8_Property => _UInt8;
         public Byte UInt8
         {
@@ -1007,8 +1007,8 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Byte> ITestObject_Notifying_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region UInt8_Ranged
-        protected readonly INotifyingItem<Byte> _UInt8_Ranged = NotifyingSetItem.Factory<Byte>(markAsSet: false);
-        public INotifyingItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
+        protected readonly INotifyingSetItem<Byte> _UInt8_Ranged = NotifyingSetItem.Factory<Byte>(markAsSet: false);
+        public INotifyingSetItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
         public Byte UInt8_Ranged
         {
             get => this._UInt8_Ranged.Item;
@@ -1019,7 +1019,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
-        protected readonly INotifyingItem<TestEnum> _Enum = NotifyingSetItem.Factory<TestEnum>(markAsSet: false);
+        protected readonly INotifyingSetItem<TestEnum> _Enum = NotifyingSetItem.Factory<TestEnum>(markAsSet: false);
         public INotifyingSetItem<TestEnum> Enum_Property => _Enum;
         public TestEnum Enum
         {
@@ -1030,7 +1030,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<TestEnum> ITestObject_Notifying_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
-        protected readonly INotifyingItem<TestEnum?> _EnumNull = NotifyingSetItem.Factory<TestEnum?>(markAsSet: false);
+        protected readonly INotifyingSetItem<TestEnum?> _EnumNull = NotifyingSetItem.Factory<TestEnum?>(markAsSet: false);
         public INotifyingSetItem<TestEnum?> EnumNull_Property => _EnumNull;
         public TestEnum? EnumNull
         {
@@ -1101,7 +1101,7 @@ namespace Loqui.Tests
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        protected readonly INotifyingSetItem<ObjectToRef> _Ref_Singleton;
         public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_Notifying_HasBeenSetGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
@@ -1135,7 +1135,7 @@ namespace Loqui.Tests
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_Notifying_HasBeenSetGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
@@ -1169,7 +1169,7 @@ namespace Loqui.Tests
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRef> _RefSetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_Notifying_HasBeenSetGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
@@ -9597,323 +9597,11 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_HasBeenSet_FieldIndex enu = (TestObject_Notifying_HasBeenSet_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArray:
-                    obj.ByteArray_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_FieldIndex.ByteArraySingleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_FieldIndex.BoolN:
-                    obj.BoolN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Bool:
-                    obj.Bool_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.CharN:
-                    obj.CharN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Char:
-                    obj.Char_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTimeNull:
-                    obj.DateTimeNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DateTime:
-                    obj.DateTime_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN:
-                    obj.DoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DoubleN_Ranged:
-                    obj.DoubleN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Double:
-                    obj.Double_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Double_Ranged:
-                    obj.Double_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN:
-                    obj.FloatN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.FloatN_Ranged:
-                    obj.FloatN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Float:
-                    obj.Float_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Float_Ranged:
-                    obj.Float_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N:
-                    obj.Int16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16N_Ranged:
-                    obj.Int16N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16:
-                    obj.Int16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int16_Ranged:
-                    obj.Int16_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N:
-                    obj.Int32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32N_Ranged:
-                    obj.Int32N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32:
-                    obj.Int32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int32_Ranged:
-                    obj.Int32_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N:
-                    obj.Int64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64N_Ranged:
-                    obj.Int64N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64:
-                    obj.Int64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int64_Ranged:
-                    obj.Int64_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N:
-                    obj.Int8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8N_Ranged:
-                    obj.Int8N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8:
-                    obj.Int8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Int8_Ranged:
-                    obj.Int8_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Unsafe:
-                    obj.Unsafe_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeLoqui:
-                    obj.UnsafeLoqui_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UnsafeNull:
-                    obj.UnsafeNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P2IntN:
-                    obj.P2IntN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P2Int:
-                    obj.P2Int_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P3DoubleN:
-                    obj.P3DoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Double:
-                    obj.P3Double_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P3IntN:
-                    obj.P3IntN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.P3Int:
-                    obj.P3Int_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.PercentN:
-                    obj.PercentN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Percent:
-                    obj.Percent_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8N:
-                    obj.RangeInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt8:
-                    obj.RangeInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16N:
-                    obj.RangeInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt16:
-                    obj.RangeInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32N:
-                    obj.RangeInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt32:
-                    obj.RangeInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64N:
-                    obj.RangeInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeInt64:
-                    obj.RangeInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8N:
-                    obj.RangeUInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt8:
-                    obj.RangeUInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16N:
-                    obj.RangeUInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt16:
-                    obj.RangeUInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32N:
-                    obj.RangeUInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt32:
-                    obj.RangeUInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64N:
-                    obj.RangeUInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RangeUInt64:
-                    obj.RangeUInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.String:
-                    obj.String_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePath:
-                    obj.FilePath_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.FilePathNull:
-                    obj.FilePathNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPath:
-                    obj.DirectoryPath_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DirectoryPathNull:
-                    obj.DirectoryPathNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN:
-                    obj.UDoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UDoubleN_Ranged:
-                    obj.UDoubleN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble:
-                    obj.UDouble_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UDouble_Ranged:
-                    obj.UDouble_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N:
-                    obj.UInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16N_Ranged:
-                    obj.UInt16N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16:
-                    obj.UInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt16_Ranged:
-                    obj.UInt16_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N:
-                    obj.UInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32N_Ranged:
-                    obj.UInt32N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32:
-                    obj.UInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt32_Ranged:
-                    obj.UInt32_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N:
-                    obj.UInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64N_Ranged:
-                    obj.UInt64N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64:
-                    obj.UInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt64_Ranged:
-                    obj.UInt64_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N:
-                    obj.UInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8N_Ranged:
-                    obj.UInt8N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8:
-                    obj.UInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.UInt8_Ranged:
-                    obj.UInt8_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Enum:
-                    obj.Enum_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.EnumNull:
-                    obj.EnumNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCard:
-                    obj.WildCard_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardLoqui:
-                    obj.WildCardLoqui_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.WildCardNull:
-                    obj.WildCardNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref:
-                    obj.Ref_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_NotNull:
-                    obj.Ref_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter:
-                    obj.RefGetter_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_NotNull:
-                    obj.RefGetter_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter:
-                    obj.RefSetter_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_NotNull:
-                    obj.RefSetter_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_FieldIndex.List:
-                    obj.List.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefList:
-                    obj.RefList.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.Dict:
-                    obj.Dict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.RefDict:
-                    obj.RefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.KeyRefDict:
-                    obj.KeyRefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.ValRefDict:
-                    obj.ValRefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_FieldIndex.DictKeyedValue:
-                    obj.DictKeyedValue.HasBeenSet = on;
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -10913,18 +10601,18 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = Loqui.Generation.Accessor.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = Loqui.Generation.Accessor.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = Loqui.Generation.Accessor.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
+            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)

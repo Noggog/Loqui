@@ -834,7 +834,8 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_PrivateCtor_FieldIndex.BoolN:
-                    break;
+                    if (on) break;
+                    throw new ArgumentException("Tried to unset a field which does not have this functionality." + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

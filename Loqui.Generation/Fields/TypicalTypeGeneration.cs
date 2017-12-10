@@ -405,7 +405,8 @@ namespace Loqui.Generation
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
             if (!this.IntegrateField) return;
-            if (!this.Protected && !this.Bare)
+            if (!this.Protected
+                && this.HasBeenSet)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false, property: true)}.HasBeenSet = {onIdentifier};");
             }
@@ -470,7 +471,10 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor}.HasBeenSet) return false;");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor}.HasBeenSet) return false;");
+            }
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)

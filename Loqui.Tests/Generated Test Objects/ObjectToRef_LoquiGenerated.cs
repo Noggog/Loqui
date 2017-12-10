@@ -36,7 +36,7 @@ namespace Loqui.Tests
         #endregion
 
         #region KeyField
-        protected readonly INotifyingItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        protected readonly INotifyingSetItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
         public INotifyingSetItem<Int32> KeyField_Property => _KeyField;
         public Int32 KeyField
         {
@@ -47,7 +47,7 @@ namespace Loqui.Tests
         INotifyingSetItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
         #region SomeField
-        protected readonly INotifyingItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        protected readonly INotifyingSetItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
         public INotifyingSetItem<Boolean> SomeField_Property => _SomeField;
         public Boolean SomeField
         {
@@ -941,12 +941,6 @@ namespace Loqui.Tests.Internals
             ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
             switch (enu)
             {
-                case ObjectToRef_FieldIndex.KeyField:
-                    obj.KeyField_Property.HasBeenSet = on;
-                    break;
-                case ObjectToRef_FieldIndex.SomeField:
-                    obj.SomeField_Property.HasBeenSet = on;
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }

@@ -5923,219 +5923,114 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_ReadOnly_FieldIndex.ByteArray:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.ByteArrayNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.ByteArrayNotNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.ByteArraySingleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.BoolN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Bool:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.CharN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Char:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DateTimeNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DateTime:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DoubleN_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Double:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Double_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.FloatN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.FloatN_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Float:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Float_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int16N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int16N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int16_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int32N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int32N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int32_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int64N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int64N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int64:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int64_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int8N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int8N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Int8_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Unsafe:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UnsafeLoqui:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UnsafeNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P2IntN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P2Int:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P3DoubleN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P3Double:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P3IntN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.P3Int:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.PercentN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Percent:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt8N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt16N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt32N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt64N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeInt64:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt8N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt16N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt32N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt64N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RangeUInt64:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.String:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.FilePath:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.FilePathNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DirectoryPath:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DirectoryPathNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UDoubleN:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UDoubleN_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UDouble:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UDouble_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt16N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt16N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt16:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt16_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt32N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt32N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt32:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt32_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt64N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt64N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt64:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt64_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt8N:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt8N_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt8:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.UInt8_Ranged:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Enum:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.EnumNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.WildCard:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.WildCardLoqui:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.WildCardNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Ref:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Ref_NotNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefGetter:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefGetter_NotNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefSetter:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefSetter_NotNull:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.List:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefList:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.Dict:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.RefDict:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.KeyRefDict:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.ValRefDict:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_ReadOnly_FieldIndex.DictKeyedValue:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
+                    if (on) break;
+                    throw new ArgumentException("Tried to unset a field which does not have this functionality." + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -6823,9 +6718,9 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged == rhs.UInt8_Ranged;
             ret.Enum = item.Enum == rhs.Enum;
             ret.EnumNull = item.EnumNull == rhs.EnumNull;
-            ret.WildCard = object.Equals(item.WildCard, Loqui.Generation.Accessor);
-            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, Loqui.Generation.Accessor);
-            ret.WildCardNull = object.Equals(item.WildCardNull, Loqui.Generation.Accessor);
+            ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
+            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
+            ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
             ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);

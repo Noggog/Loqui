@@ -317,67 +317,67 @@ namespace Loqui.Tests
             _WildCardNull = NotifyingSetItem.Factory<Object>(
                 onSet: (i) => this.OnPropertyChanged(nameof(WildCardNull)),
                 markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
+            _Ref = NotifyingSetItem.Factory<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
                 markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
+            _Ref = NotifyingSetItem.Factory<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
                 markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
+            _Ref_NotNull = NotifyingSetItem.FactoryNoNull<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
+            _Ref_NotNull = NotifyingSetItem.FactoryNoNull<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
-            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingSetItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
-            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingSetItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
                 markAsSet: false);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
                 markAsSet: false);
-            _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_NotNull = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_NotNull = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
-            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
                 markAsSet: false);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
                 markAsSet: false);
-            _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_NotNull = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_NotNull = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingSetItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
-            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingSetItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
@@ -508,7 +508,7 @@ namespace Loqui.Tests
         #endregion
         #region DoubleN_Ranged
         protected readonly INotifyingSetItem<Double?> _DoubleN_Ranged;
-        public INotifyingItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
+        public INotifyingSetItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
         public Double? DoubleN_Ranged
         {
             get => this._DoubleN_Ranged.Item;
@@ -531,7 +531,7 @@ namespace Loqui.Tests
         #endregion
         #region Double_Ranged
         protected readonly INotifyingSetItem<Double> _Double_Ranged;
-        public INotifyingItem<Double> Double_Ranged_Property => _Double_Ranged;
+        public INotifyingSetItem<Double> Double_Ranged_Property => _Double_Ranged;
         public Double Double_Ranged
         {
             get => this._Double_Ranged.Item;
@@ -554,7 +554,7 @@ namespace Loqui.Tests
         #endregion
         #region FloatN_Ranged
         protected readonly INotifyingSetItem<Single?> _FloatN_Ranged;
-        public INotifyingItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
+        public INotifyingSetItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
         public Single? FloatN_Ranged
         {
             get => this._FloatN_Ranged.Item;
@@ -577,7 +577,7 @@ namespace Loqui.Tests
         #endregion
         #region Float_Ranged
         protected readonly INotifyingSetItem<Single> _Float_Ranged;
-        public INotifyingItem<Single> Float_Ranged_Property => _Float_Ranged;
+        public INotifyingSetItem<Single> Float_Ranged_Property => _Float_Ranged;
         public Single Float_Ranged
         {
             get => this._Float_Ranged.Item;
@@ -600,7 +600,7 @@ namespace Loqui.Tests
         #endregion
         #region Int16N_Ranged
         protected readonly INotifyingSetItem<Int16?> _Int16N_Ranged;
-        public INotifyingItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
+        public INotifyingSetItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
         public Int16? Int16N_Ranged
         {
             get => this._Int16N_Ranged.Item;
@@ -623,7 +623,7 @@ namespace Loqui.Tests
         #endregion
         #region Int16_Ranged
         protected readonly INotifyingSetItem<Int16> _Int16_Ranged;
-        public INotifyingItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
+        public INotifyingSetItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
         public Int16 Int16_Ranged
         {
             get => this._Int16_Ranged.Item;
@@ -646,7 +646,7 @@ namespace Loqui.Tests
         #endregion
         #region Int32N_Ranged
         protected readonly INotifyingSetItem<Int32?> _Int32N_Ranged;
-        public INotifyingItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
+        public INotifyingSetItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
         public Int32? Int32N_Ranged
         {
             get => this._Int32N_Ranged.Item;
@@ -669,7 +669,7 @@ namespace Loqui.Tests
         #endregion
         #region Int32_Ranged
         protected readonly INotifyingSetItem<Int32> _Int32_Ranged;
-        public INotifyingItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
+        public INotifyingSetItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
         public Int32 Int32_Ranged
         {
             get => this._Int32_Ranged.Item;
@@ -692,7 +692,7 @@ namespace Loqui.Tests
         #endregion
         #region Int64N_Ranged
         protected readonly INotifyingSetItem<Int64?> _Int64N_Ranged;
-        public INotifyingItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
+        public INotifyingSetItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
         public Int64? Int64N_Ranged
         {
             get => this._Int64N_Ranged.Item;
@@ -715,7 +715,7 @@ namespace Loqui.Tests
         #endregion
         #region Int64_Ranged
         protected readonly INotifyingSetItem<Int64> _Int64_Ranged;
-        public INotifyingItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
+        public INotifyingSetItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
         public Int64 Int64_Ranged
         {
             get => this._Int64_Ranged.Item;
@@ -738,7 +738,7 @@ namespace Loqui.Tests
         #endregion
         #region Int8N_Ranged
         protected readonly INotifyingSetItem<SByte?> _Int8N_Ranged;
-        public INotifyingItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
+        public INotifyingSetItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
         public SByte? Int8N_Ranged
         {
             get => this._Int8N_Ranged.Item;
@@ -761,7 +761,7 @@ namespace Loqui.Tests
         #endregion
         #region Int8_Ranged
         protected readonly INotifyingSetItem<SByte> _Int8_Ranged;
-        public INotifyingItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
+        public INotifyingSetItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
         public SByte Int8_Ranged
         {
             get => this._Int8_Ranged.Item;
@@ -1136,7 +1136,7 @@ namespace Loqui.Tests
         #endregion
         #region UDoubleN_Ranged
         protected readonly INotifyingSetItem<UDouble?> _UDoubleN_Ranged;
-        public INotifyingItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
+        public INotifyingSetItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
         public UDouble? UDoubleN_Ranged
         {
             get => this._UDoubleN_Ranged.Item;
@@ -1159,7 +1159,7 @@ namespace Loqui.Tests
         #endregion
         #region UDouble_Ranged
         protected readonly INotifyingSetItem<UDouble> _UDouble_Ranged;
-        public INotifyingItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
+        public INotifyingSetItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
         public UDouble UDouble_Ranged
         {
             get => this._UDouble_Ranged.Item;
@@ -1182,7 +1182,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt16N_Ranged
         protected readonly INotifyingSetItem<UInt16?> _UInt16N_Ranged;
-        public INotifyingItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
+        public INotifyingSetItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
         public UInt16? UInt16N_Ranged
         {
             get => this._UInt16N_Ranged.Item;
@@ -1205,7 +1205,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt16_Ranged
         protected readonly INotifyingSetItem<UInt16> _UInt16_Ranged;
-        public INotifyingItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
+        public INotifyingSetItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
         public UInt16 UInt16_Ranged
         {
             get => this._UInt16_Ranged.Item;
@@ -1228,7 +1228,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt32N_Ranged
         protected readonly INotifyingSetItem<UInt32?> _UInt32N_Ranged;
-        public INotifyingItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
+        public INotifyingSetItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
         public UInt32? UInt32N_Ranged
         {
             get => this._UInt32N_Ranged.Item;
@@ -1251,7 +1251,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt32_Ranged
         protected readonly INotifyingSetItem<UInt32> _UInt32_Ranged;
-        public INotifyingItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
+        public INotifyingSetItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
         public UInt32 UInt32_Ranged
         {
             get => this._UInt32_Ranged.Item;
@@ -1274,7 +1274,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt64N_Ranged
         protected readonly INotifyingSetItem<UInt64?> _UInt64N_Ranged;
-        public INotifyingItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
+        public INotifyingSetItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
         public UInt64? UInt64N_Ranged
         {
             get => this._UInt64N_Ranged.Item;
@@ -1297,7 +1297,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt64_Ranged
         protected readonly INotifyingSetItem<UInt64> _UInt64_Ranged;
-        public INotifyingItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
+        public INotifyingSetItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
         public UInt64 UInt64_Ranged
         {
             get => this._UInt64_Ranged.Item;
@@ -1320,7 +1320,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt8N_Ranged
         protected readonly INotifyingSetItem<Byte?> _UInt8N_Ranged;
-        public INotifyingItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
+        public INotifyingSetItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
         public Byte? UInt8N_Ranged
         {
             get => this._UInt8N_Ranged.Item;
@@ -1343,7 +1343,7 @@ namespace Loqui.Tests
         #endregion
         #region UInt8_Ranged
         protected readonly INotifyingSetItem<Byte> _UInt8_Ranged;
-        public INotifyingItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
+        public INotifyingSetItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
         public Byte UInt8_Ranged
         {
             get => this._UInt8_Ranged.Item;
@@ -1436,7 +1436,7 @@ namespace Loqui.Tests
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        protected readonly INotifyingSetItem<ObjectToRef> _Ref_Singleton;
         public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_Notifying_HasBeenSet_RPCGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
@@ -1470,7 +1470,7 @@ namespace Loqui.Tests
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_Notifying_HasBeenSet_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
@@ -1504,7 +1504,7 @@ namespace Loqui.Tests
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRef> _RefSetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_Notifying_HasBeenSet_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
@@ -9932,323 +9932,11 @@ namespace Loqui.Tests.Internals
             TestObject_Notifying_HasBeenSet_RPC_FieldIndex enu = (TestObject_Notifying_HasBeenSet_RPC_FieldIndex)index;
             switch (enu)
             {
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.ByteArray:
-                    obj.ByteArray_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.ByteArraySingleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.BoolN:
-                    obj.BoolN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Bool:
-                    obj.Bool_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.CharN:
-                    obj.CharN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Char:
-                    obj.Char_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DateTimeNull:
-                    obj.DateTimeNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DateTime:
-                    obj.DateTime_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DoubleN:
-                    obj.DoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DoubleN_Ranged:
-                    obj.DoubleN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Double:
-                    obj.Double_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Double_Ranged:
-                    obj.Double_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.FloatN:
-                    obj.FloatN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.FloatN_Ranged:
-                    obj.FloatN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Float:
-                    obj.Float_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Float_Ranged:
-                    obj.Float_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int16N:
-                    obj.Int16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int16N_Ranged:
-                    obj.Int16N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int16:
-                    obj.Int16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int16_Ranged:
-                    obj.Int16_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int32N:
-                    obj.Int32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int32N_Ranged:
-                    obj.Int32N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int32:
-                    obj.Int32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int32_Ranged:
-                    obj.Int32_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int64N:
-                    obj.Int64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int64N_Ranged:
-                    obj.Int64N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int64:
-                    obj.Int64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int64_Ranged:
-                    obj.Int64_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int8N:
-                    obj.Int8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int8N_Ranged:
-                    obj.Int8N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int8:
-                    obj.Int8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Int8_Ranged:
-                    obj.Int8_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Unsafe:
-                    obj.Unsafe_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UnsafeLoqui:
-                    obj.UnsafeLoqui_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UnsafeNull:
-                    obj.UnsafeNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P2IntN:
-                    obj.P2IntN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P2Int:
-                    obj.P2Int_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P3DoubleN:
-                    obj.P3DoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P3Double:
-                    obj.P3Double_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P3IntN:
-                    obj.P3IntN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.P3Int:
-                    obj.P3Int_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.PercentN:
-                    obj.PercentN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Percent:
-                    obj.Percent_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt8N:
-                    obj.RangeInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt8:
-                    obj.RangeInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt16N:
-                    obj.RangeInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt16:
-                    obj.RangeInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt32N:
-                    obj.RangeInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt32:
-                    obj.RangeInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt64N:
-                    obj.RangeInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeInt64:
-                    obj.RangeInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt8N:
-                    obj.RangeUInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt8:
-                    obj.RangeUInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt16N:
-                    obj.RangeUInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt16:
-                    obj.RangeUInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt32N:
-                    obj.RangeUInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt32:
-                    obj.RangeUInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt64N:
-                    obj.RangeUInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RangeUInt64:
-                    obj.RangeUInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.String:
-                    obj.String_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.FilePath:
-                    obj.FilePath_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.FilePathNull:
-                    obj.FilePathNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DirectoryPath:
-                    obj.DirectoryPath_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DirectoryPathNull:
-                    obj.DirectoryPathNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UDoubleN:
-                    obj.UDoubleN_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UDoubleN_Ranged:
-                    obj.UDoubleN_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UDouble:
-                    obj.UDouble_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UDouble_Ranged:
-                    obj.UDouble_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt16N:
-                    obj.UInt16N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt16N_Ranged:
-                    obj.UInt16N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt16:
-                    obj.UInt16_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt16_Ranged:
-                    obj.UInt16_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt32N:
-                    obj.UInt32N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt32N_Ranged:
-                    obj.UInt32N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt32:
-                    obj.UInt32_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt32_Ranged:
-                    obj.UInt32_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt64N:
-                    obj.UInt64N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt64N_Ranged:
-                    obj.UInt64N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt64:
-                    obj.UInt64_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt64_Ranged:
-                    obj.UInt64_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt8N:
-                    obj.UInt8N_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt8N_Ranged:
-                    obj.UInt8N_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt8:
-                    obj.UInt8_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.UInt8_Ranged:
-                    obj.UInt8_Ranged_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Enum:
-                    obj.Enum_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.EnumNull:
-                    obj.EnumNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.WildCard:
-                    obj.WildCard_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.WildCardLoqui:
-                    obj.WildCardLoqui_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.WildCardNull:
-                    obj.WildCardNull_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Ref:
-                    obj.Ref_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Ref_NotNull:
-                    obj.Ref_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefGetter:
-                    obj.RefGetter_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefGetter_NotNull:
-                    obj.RefGetter_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefSetter:
-                    obj.RefSetter_Property.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefSetter_NotNull:
-                    obj.RefSetter_NotNull_Property.HasBeenSet = on;
-                    break;
                 case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.List:
-                    obj.List.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefList:
-                    obj.RefList.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.Dict:
-                    obj.Dict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.RefDict:
-                    obj.RefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.KeyRefDict:
-                    obj.KeyRefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.ValRefDict:
-                    obj.ValRefDict.HasBeenSet = on;
-                    break;
-                case TestObject_Notifying_HasBeenSet_RPC_FieldIndex.DictKeyedValue:
-                    obj.DictKeyedValue.HasBeenSet = on;
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -11248,18 +10936,18 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = Loqui.Generation.Accessor.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = Loqui.Generation.Accessor.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = Loqui.Generation.Accessor.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
+            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)

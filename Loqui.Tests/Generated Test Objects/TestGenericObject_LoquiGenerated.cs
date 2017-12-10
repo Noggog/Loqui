@@ -1148,15 +1148,6 @@ namespace Loqui.Tests.Internals
             TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
             switch (enu)
             {
-                case TestGenericObject_FieldIndex.RefBase:
-                    obj.RefBase_Property.HasBeenSet = on;
-                    break;
-                case TestGenericObject_FieldIndex.Ref:
-                    obj.Ref_Property.HasBeenSet = on;
-                    break;
-                case TestGenericObject_FieldIndex.RefList:
-                    obj.RefList.HasBeenSet = on;
-                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1256,9 +1247,9 @@ namespace Loqui.Tests.Internals
             where R : ILoquiObject, ILoquiObjectGetter
         {
             if (rhs == null) return;
-            ret.RefBase = item.RefBase.LoquiEqualsHelper(rhs.RefBase, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefBase = item.RefBase_Property.LoquiEqualsHelper(rhs.RefBase_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             ret.Ref = new MaskItem<bool, object>();
-            ret.Ref.Overall = item.Ref.Equals(rhs.Ref, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
+            ret.Ref.Overall = item.Ref_Property.Equals(rhs.Ref_Property, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));
             if (item.RefList.HasBeenSet == rhs.RefList.HasBeenSet)
             {
                 if (item.RefList.HasBeenSet)

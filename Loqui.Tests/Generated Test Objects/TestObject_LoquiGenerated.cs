@@ -7014,226 +7014,114 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_FieldIndex.ByteArray:
-                    break;
                 case TestObject_FieldIndex.ByteArrayNull:
-                    break;
                 case TestObject_FieldIndex.ByteArrayNotNull:
-                    break;
                 case TestObject_FieldIndex.ByteArraySingleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_FieldIndex.BoolN:
-                    break;
                 case TestObject_FieldIndex.Bool:
-                    break;
                 case TestObject_FieldIndex.CharN:
-                    break;
                 case TestObject_FieldIndex.Char:
-                    break;
                 case TestObject_FieldIndex.DateTimeNull:
-                    break;
                 case TestObject_FieldIndex.DateTime:
-                    break;
                 case TestObject_FieldIndex.DoubleN:
-                    break;
                 case TestObject_FieldIndex.DoubleN_Ranged:
-                    break;
                 case TestObject_FieldIndex.Double:
-                    break;
                 case TestObject_FieldIndex.Double_Ranged:
-                    break;
                 case TestObject_FieldIndex.FloatN:
-                    break;
                 case TestObject_FieldIndex.FloatN_Ranged:
-                    break;
                 case TestObject_FieldIndex.Float:
-                    break;
                 case TestObject_FieldIndex.Float_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int16N:
-                    break;
                 case TestObject_FieldIndex.Int16N_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int16:
-                    break;
                 case TestObject_FieldIndex.Int16_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int32N:
-                    break;
                 case TestObject_FieldIndex.Int32N_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int32:
-                    break;
                 case TestObject_FieldIndex.Int32_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int64N:
-                    break;
                 case TestObject_FieldIndex.Int64N_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int64:
-                    break;
                 case TestObject_FieldIndex.Int64_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int8N:
-                    break;
                 case TestObject_FieldIndex.Int8N_Ranged:
-                    break;
                 case TestObject_FieldIndex.Int8:
-                    break;
                 case TestObject_FieldIndex.Int8_Ranged:
-                    break;
                 case TestObject_FieldIndex.Unsafe:
-                    break;
                 case TestObject_FieldIndex.UnsafeLoqui:
-                    break;
                 case TestObject_FieldIndex.UnsafeNull:
-                    break;
                 case TestObject_FieldIndex.P2IntN:
-                    break;
                 case TestObject_FieldIndex.P2Int:
-                    break;
                 case TestObject_FieldIndex.P3DoubleN:
-                    break;
                 case TestObject_FieldIndex.P3Double:
-                    break;
                 case TestObject_FieldIndex.P3IntN:
-                    break;
                 case TestObject_FieldIndex.P3Int:
-                    break;
                 case TestObject_FieldIndex.PercentN:
-                    break;
                 case TestObject_FieldIndex.Percent:
-                    break;
                 case TestObject_FieldIndex.RangeInt8N:
-                    break;
                 case TestObject_FieldIndex.RangeInt8:
-                    break;
                 case TestObject_FieldIndex.RangeInt16N:
-                    break;
                 case TestObject_FieldIndex.RangeInt16:
-                    break;
                 case TestObject_FieldIndex.RangeInt32N:
-                    break;
                 case TestObject_FieldIndex.RangeInt32:
-                    break;
                 case TestObject_FieldIndex.RangeInt64N:
-                    break;
                 case TestObject_FieldIndex.RangeInt64:
-                    break;
                 case TestObject_FieldIndex.RangeUInt8N:
-                    break;
                 case TestObject_FieldIndex.RangeUInt8:
-                    break;
                 case TestObject_FieldIndex.RangeUInt16N:
-                    break;
                 case TestObject_FieldIndex.RangeUInt16:
-                    break;
                 case TestObject_FieldIndex.RangeUInt32N:
-                    break;
                 case TestObject_FieldIndex.RangeUInt32:
-                    break;
                 case TestObject_FieldIndex.RangeUInt64N:
-                    break;
                 case TestObject_FieldIndex.RangeUInt64:
-                    break;
                 case TestObject_FieldIndex.String:
-                    break;
                 case TestObject_FieldIndex.FilePath:
-                    break;
                 case TestObject_FieldIndex.FilePathNull:
-                    break;
                 case TestObject_FieldIndex.DirectoryPath:
-                    break;
                 case TestObject_FieldIndex.DirectoryPathNull:
-                    break;
                 case TestObject_FieldIndex.UDoubleN:
-                    break;
                 case TestObject_FieldIndex.UDoubleN_Ranged:
-                    break;
                 case TestObject_FieldIndex.UDouble:
-                    break;
                 case TestObject_FieldIndex.UDouble_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt16N:
-                    break;
                 case TestObject_FieldIndex.UInt16N_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt16:
-                    break;
                 case TestObject_FieldIndex.UInt16_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt32N:
-                    break;
                 case TestObject_FieldIndex.UInt32N_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt32:
-                    break;
                 case TestObject_FieldIndex.UInt32_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt64N:
-                    break;
                 case TestObject_FieldIndex.UInt64N_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt64:
-                    break;
                 case TestObject_FieldIndex.UInt64_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt8N:
-                    break;
                 case TestObject_FieldIndex.UInt8N_Ranged:
-                    break;
                 case TestObject_FieldIndex.UInt8:
-                    break;
                 case TestObject_FieldIndex.UInt8_Ranged:
-                    break;
                 case TestObject_FieldIndex.Enum:
-                    break;
                 case TestObject_FieldIndex.EnumNull:
-                    break;
                 case TestObject_FieldIndex.WildCard:
-                    break;
                 case TestObject_FieldIndex.WildCardLoqui:
-                    break;
                 case TestObject_FieldIndex.WildCardNull:
-                    break;
                 case TestObject_FieldIndex.Ref:
-                    break;
                 case TestObject_FieldIndex.Ref_NotNull:
-                    break;
                 case TestObject_FieldIndex.Ref_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_FieldIndex.RefGetter:
-                    break;
                 case TestObject_FieldIndex.RefGetter_NotNull:
-                    break;
                 case TestObject_FieldIndex.RefGetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_FieldIndex.RefSetter:
-                    break;
                 case TestObject_FieldIndex.RefSetter_NotNull:
-                    break;
                 case TestObject_FieldIndex.RefSetter_Singleton:
-                    throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_FieldIndex.List:
-                    obj.List.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.RefList:
-                    obj.RefList.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.Dict:
-                    obj.Dict.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.RefDict:
-                    obj.RefDict.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.KeyRefDict:
-                    obj.KeyRefDict.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.ValRefDict:
-                    obj.ValRefDict.HasBeenSet = on;
-                    break;
                 case TestObject_FieldIndex.DictKeyedValue:
-                    obj.DictKeyedValue.HasBeenSet = on;
-                    break;
+                    if (on) break;
+                    throw new ArgumentException("Tried to unset a field which does not have this functionality." + index);
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -8127,9 +8015,9 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged == rhs.UInt8_Ranged;
             ret.Enum = item.Enum == rhs.Enum;
             ret.EnumNull = item.EnumNull == rhs.EnumNull;
-            ret.WildCard = object.Equals(item.WildCard, Loqui.Generation.Accessor);
-            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, Loqui.Generation.Accessor);
-            ret.WildCardNull = object.Equals(item.WildCardNull, Loqui.Generation.Accessor);
+            ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
+            ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
+            ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
             ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
             ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
             ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);

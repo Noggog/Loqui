@@ -919,6 +919,7 @@ namespace Loqui.Generation
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
         {
+            if (!this.HasBeenSet) return;
             fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
             if (this.TargetObjectGeneration != null)
             {

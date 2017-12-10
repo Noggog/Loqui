@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("_MetadataSummary = NotifyingItem.Factory<ScriptMetaSummary>("))
+            if (str.Contains("public static void SetNthObjectHasBeenSet"))
             {
                 int wer = 23;
                 wer++;

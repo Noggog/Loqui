@@ -317,67 +317,67 @@ namespace Loqui.Tests
             _WildCardNull = NotifyingSetItem.Factory<Object>(
                 onSet: (i) => this.OnPropertyChanged(nameof(WildCardNull)),
                 markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
+            _Ref = NotifyingSetItem.Factory<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
                 markAsSet: false);
-            _Ref = NotifyingItem.Factory<ObjectToRef>(
+            _Ref = NotifyingSetItem.Factory<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref)),
                 markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
+            _Ref_NotNull = NotifyingSetItem.FactoryNoNull<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
-            _Ref_NotNull = NotifyingItem.FactoryNoNull<ObjectToRef>(
+            _Ref_NotNull = NotifyingSetItem.FactoryNoNull<ObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_NotNull)),
                 markAsSet: false);
-            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingSetItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
-            _Ref_Singleton = NotifyingItem.Factory<ObjectToRef>(
+            _Ref_Singleton = NotifyingSetItem.Factory<ObjectToRef>(
                 defaultVal: _Ref_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(Ref_Singleton)),
                 markAsSet: true);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
                 markAsSet: false);
-            _RefGetter = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter)),
                 markAsSet: false);
-            _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_NotNull = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefGetter_NotNull = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_NotNull = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
-            _RefGetter_Singleton = NotifyingItem.Factory<IObjectToRefGetter>(
+            _RefGetter_Singleton = NotifyingSetItem.Factory<IObjectToRefGetter>(
                 defaultVal: _RefGetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefGetter_Singleton)),
                 markAsSet: true);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
                 markAsSet: false);
-            _RefSetter = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter)),
                 markAsSet: false);
-            _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_NotNull = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefSetter_NotNull = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_NotNull = NotifyingSetItem.Factory<IObjectToRef>(
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_NotNull)),
                 noNullFallback: () => new ObjectToRef(),
                 markAsSet: false);
-            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingSetItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
-            _RefSetter_Singleton = NotifyingItem.Factory<IObjectToRef>(
+            _RefSetter_Singleton = NotifyingSetItem.Factory<IObjectToRef>(
                 defaultVal: _RefSetter_Singleton_Object,
                 onSet: (i) => this.OnPropertyChanged(nameof(RefSetter_Singleton)),
                 markAsSet: true);
@@ -1344,7 +1344,7 @@ namespace Loqui.Tests
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        protected readonly INotifyingSetItem<ObjectToRef> _Ref_Singleton;
         public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         ObjectToRef ITestObject_Notifying_HasBeenSet_Derivative_RPCGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
@@ -1376,7 +1376,7 @@ namespace Loqui.Tests
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         IObjectToRefGetter ITestObject_Notifying_HasBeenSet_Derivative_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
@@ -1408,7 +1408,7 @@ namespace Loqui.Tests
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        protected readonly INotifyingSetItem<IObjectToRef> _RefSetter_Singleton;
         public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         IObjectToRef ITestObject_Notifying_HasBeenSet_Derivative_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
@@ -7489,18 +7489,18 @@ namespace Loqui.Tests.Internals
             ret.UInt8_Ranged = item.UInt8_Ranged_Property.Equals(rhs.UInt8_Ranged_Property, (l, r) => l == r);
             ret.Enum = item.Enum_Property.Equals(rhs.Enum_Property, (l, r) => l == r);
             ret.EnumNull = item.EnumNull_Property.Equals(rhs.EnumNull_Property, (l, r) => l == r);
-            ret.WildCard = Loqui.Generation.Accessor.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardLoqui = Loqui.Generation.Accessor.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
-            ret.WildCardNull = Loqui.Generation.Accessor.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
-            ret.Ref = item.Ref.LoquiEqualsHelper(rhs.Ref, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull.LoquiEqualsHelper(rhs.Ref_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton.LoquiEqualsHelper(rhs.Ref_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter.LoquiEqualsHelper(rhs.RefGetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull.LoquiEqualsHelper(rhs.RefGetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton.LoquiEqualsHelper(rhs.RefGetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter.LoquiEqualsHelper(rhs.RefSetter, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull.LoquiEqualsHelper(rhs.RefSetter_NotNull, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton.LoquiEqualsHelper(rhs.RefSetter_Singleton, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.WildCard = item.WildCard_Property.Equals(rhs.WildCard_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardLoqui = item.WildCardLoqui_Property.Equals(rhs.WildCardLoqui_Property, (l, r) => object.Equals(l, r));
+            ret.WildCardNull = item.WildCardNull_Property.Equals(rhs.WildCardNull_Property, (l, r) => object.Equals(l, r));
+            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)

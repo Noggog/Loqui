@@ -872,8 +872,8 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_SubClass_FieldIndex.NewField:
-                    obj.NewField_Property.HasBeenSet = on;
-                    break;
+                    if (on) break;
+                    throw new ArgumentException("Tried to unset a field which does not have this functionality." + index);
                 default:
                     TestObject_NotifyingCommon.SetNthObjectHasBeenSet(index, on, obj);
                     break;
@@ -990,7 +990,6 @@ namespace Loqui.Tests.Internals
             this ITestObject_Notifying_SubClassGetter item,
             TestObject_Notifying_SubClass_Mask<bool?> checkMask)
         {
-            if (checkMask.NewField.HasValue && checkMask.NewField.Value != item.NewField_Property.HasBeenSet) return false;
             return true;
         }
 

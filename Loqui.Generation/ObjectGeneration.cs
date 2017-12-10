@@ -1,15 +1,14 @@
-﻿using Noggog.Notifying;
-using Loqui.Internal;
+﻿using Noggog;
+using Noggog.Notifying;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Noggog;
-using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -1184,8 +1183,20 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
+                    HashSet<int> coveredFields = new HashSet<int>();
+
+                    // Non integrated fields
+                    foreach (var field in this.IterateFieldIndices())
+                    {
+                        if (field.Field.IntegrateField) continue;
+                        coveredFields.Add(field.Index);
+                        fg.AppendLine($"case {field.Field.IndexEnumName}:");
+                        field.Field.GenerateSetNthHasBeenSet(fg, "obj", "on");
+                    }
+
+                    // Derivative fields
                     var derivatives = IterateFieldIndices()
-                        .Where((f) => f.Field.Derivative).ToList();
+                        .Where((f) => f.Field.Derivative && coveredFields.Add(f.Index)).ToList();
                     if (derivatives.Count > 0)
                     {
                         foreach (var item in derivatives)
@@ -1197,23 +1208,53 @@ namespace Loqui.Generation
                             fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
                         }
                     }
-                    foreach (var field in this.IterateFields())
+
+                    // Non Has Been Set
+                    var nonHasBeenSetFields = IterateFieldIndices().
+                        Where((f) =>
+                            !f.Field.HasBeenSet
+                            && coveredFields.Add(f.Index))
+                        .ToList();
+                    if (nonHasBeenSetFields.Count > 0)
                     {
-                        if (field.IntegrateField)
+                        foreach (var field in nonHasBeenSetFields.Select((f) => f.Field))
                         {
                             if (field.Derivative) continue;
                             fg.AppendLine($"case {field.IndexEnumName}:");
                         }
-                        using (new DepthWrapper(fg, doIt: field.IntegrateField))
+                        using (new DepthWrapper(fg))
                         {
-                            if (field.IntegrateField && field.Protected)
-                            {
-                                fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
-                            }
-                            else
-                            {
-                                field.GenerateSetNthHasBeenSet(fg, "obj", "on");
-                            }
+                            fg.AppendLine("if (on) break;");
+                            fg.AppendLine("throw new ArgumentException(\"Tried to unset a field which does not have this functionality.\" + index);");
+                        }
+                    }
+
+                    // Protected
+                    var protectedFields = IterateFieldIndices().
+                        Where((f) =>
+                            f.Field.Protected
+                            && coveredFields.Add(f.Index))
+                        .ToList();
+                    if (protectedFields.Count > 0)
+                    {
+                        foreach (var field in protectedFields.Select((f) => f.Field))
+                        {
+                            if (field.Derivative) continue;
+                            fg.AppendLine($"case {field.IndexEnumName}:");
+                        }
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
+                        }
+                    }
+
+                    // Normal
+                    foreach (var field in this.IterateFieldIndices().Where((f) => coveredFields.Add(f.Index)).Select((f) => f.Field))
+                    {
+                        fg.AppendLine($"case {field.IndexEnumName}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            field.GenerateSetNthHasBeenSet(fg, "obj", "on");
                         }
                     }
 
