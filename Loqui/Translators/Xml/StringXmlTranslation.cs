@@ -1,4 +1,5 @@
 ﻿using Noggog;
+using Noggog.Notifying;
 using Noggog.Xml;
 using System;
 using System.Xml;
@@ -52,6 +53,63 @@ namespace Loqui.Xml
             {
                 errorMask = ex;
             }
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            string item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasItemGetter<string> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasBeenSetItemGetter<string> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            if (!item.HasBeenSet) return;
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                fieldIndex,
+                errorMask);
         }
     }
 }

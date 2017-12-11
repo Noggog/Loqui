@@ -889,7 +889,7 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_SubClass_FieldIndex.NewField:
-                    obj.NewField_Property.Unset(cmds);
+                    obj.NewField = default(Boolean);
                     break;
                 default:
                     TestObject_NotifyingCommon.UnsetNthObject(index, obj);
@@ -1032,17 +1032,12 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_SubClass");
                     }
-                    Exception subMask;
                     BooleanXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.NewField),
-                        item.NewField,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
-                        subMask);
+                        writer: writer,
+                        name: nameof(item.NewField),
+                        item: item.NewField_Property,
+                        fieldIndex: (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
+                        errorMask: errorMask);
                 }
             }
             catch (Exception ex)

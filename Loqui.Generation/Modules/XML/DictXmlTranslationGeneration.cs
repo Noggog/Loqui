@@ -11,9 +11,10 @@ namespace Loqui.Generation
     { 
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
@@ -40,9 +41,17 @@ namespace Loqui.Generation
                     {
                         args.Add($"writer: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
-                        args.Add($"items: {itemAccessor}");
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"maskObj: out {maskAccessor}");
+                        args.Add($"items: {itemAccessor.DirectAccess}");
+                        if (typeGen.HasIndex)
+                        {
+                            args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                            args.Add($"errorMask: {maskAccessor}");
+                        }
+                        else
+                        {
+                            args.Add($"doMasks: {doMaskAccessor}");
+                            args.Add($"errorMask: out {maskAccessor}");
+                        }
                         args.Add((gen) =>
                         {
                             gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, bool dictDoMask, out {keyMask} dictSubMask) =>");
@@ -50,9 +59,10 @@ namespace Loqui.Generation
                             {
                                 keyTransl.GenerateWrite(
                                     fg: gen,
+                                    objGen: objGen,
                                     typeGen: dictType.KeyTypeGen,
                                     writerAccessor: "writer",
-                                    itemAccessor: $"subItem",
+                                    itemAccessor: new Accessor($"subItem"),
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "\"Item\"");
@@ -65,9 +75,10 @@ namespace Loqui.Generation
                             {
                                 valTransl.GenerateWrite(
                                     fg: gen,
+                                    objGen: objGen,
                                     typeGen: dictType.ValueTypeGen,
                                     writerAccessor: "writer",
-                                    itemAccessor: $"subItem",
+                                    itemAccessor: new Accessor($"subItem"),
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "\"Item\"");
@@ -83,9 +94,17 @@ namespace Loqui.Generation
                     {
                         args.Add($"writer: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
-                        args.Add($"items: {itemAccessor}.Values");
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"maskObj: out {maskAccessor}");
+                        args.Add($"items: {itemAccessor.DirectAccess}.Values");
+                        if (typeGen.HasIndex)
+                        {
+                            args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                            args.Add($"errorMask: {maskAccessor}");
+                        }
+                        else
+                        {
+                            args.Add($"doMasks: {doMaskAccessor}");
+                            args.Add($"errorMask: out {maskAccessor}");
+                        }
                         args.Add((gen) =>
                         {
                             gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, bool dictDoMask, out {mask} dictSubMask) =>");
@@ -93,9 +112,10 @@ namespace Loqui.Generation
                             {
                                 valTransl.GenerateWrite(
                                     fg: gen,
+                                    objGen: objGen,
                                     typeGen: dictType.ValueTypeGen,
                                     writerAccessor: "writer",
-                                    itemAccessor: $"subItem",
+                                    itemAccessor: new Accessor($"subItem"),
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",
                                     nameAccessor: "\"Item\"");

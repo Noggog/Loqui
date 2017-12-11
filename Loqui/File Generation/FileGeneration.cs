@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("public static void SetNthObjectHasBeenSet"))
+            if (str.Contains("item.RefSetter_NotNull_Property.SetToWithDefault("))
             {
                 int wer = 23;
                 wer++;

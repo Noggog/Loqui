@@ -149,5 +149,49 @@ namespace Loqui.Xml
         {
             valTransl(item, doMasks, out valmaskItem);
         }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IEnumerable<V> items,
+            int fieldIndex,
+            Func<M> errorMask,
+            XmlSubWriteDelegate<V, Mask> valTransl)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                items,
+                errorMask != null,
+                out var subMask,
+                valTransl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasItem<IEnumerable<V>> item,
+            int fieldIndex,
+            Func<M> errorMask,
+            XmlSubWriteDelegate<V, Mask> valTransl)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask,
+                valTransl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
     }
 }

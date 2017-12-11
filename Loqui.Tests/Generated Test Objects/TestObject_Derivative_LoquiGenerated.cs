@@ -2790,7 +2790,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.Ref = tryGet.Value;
@@ -2807,7 +2807,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.Ref_NotNull = tryGet.Value;
@@ -2847,7 +2847,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.RefGetter = tryGet.Value;
@@ -2864,7 +2864,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.RefGetter_NotNull = tryGet.Value;
@@ -2883,7 +2883,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.RefSetter = tryGet.Value;
@@ -2900,7 +2900,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         if (tryGet.Succeeded)
                         {
                             item.RefSetter_NotNull = tryGet.Value;
@@ -2972,7 +2972,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: listDoMasks,
-                                    mask: out listSubMask);
+                                    errorMask: out listSubMask);
                             }
                             );
                         if (listTryGet.Succeeded)
@@ -3031,7 +3031,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
@@ -3039,7 +3039,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         if (dictTryGet.Succeeded)
@@ -3064,7 +3064,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
@@ -3106,7 +3106,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         if (dictTryGet.Succeeded)
@@ -3131,7 +3131,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         if (dictTryGet.Succeeded)

@@ -40,7 +40,10 @@ namespace Loqui.Generation
                 if (arg.Contains("markAsSet")) continue;
                 yield return arg;
             }
-            yield return $"markAsSet: {(this.Singleton == SingletonLevel.Singleton ? "true" : "false")}";
+            if (this.HasBeenSet)
+            {
+                yield return $"markAsSet: {(this.Singleton == SingletonLevel.Singleton ? "true" : "false")}";
+            }
             if (this.Singleton != SingletonLevel.None)
             {
                 yield return $"noNullFallback: () => {GetNewForNonNullable()}";

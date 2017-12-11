@@ -13,9 +13,10 @@ namespace Loqui.Generation
 
         public abstract void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor);

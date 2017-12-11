@@ -12,22 +12,32 @@ namespace Loqui.Generation
         PrimitiveXmlTranslationGeneration<string> _subGen = new PrimitiveXmlTranslationGeneration<string>();
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
             var eType = typeGen as EnumType;
+
             using (var args = new ArgsWrapper(fg,
                 $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Write"))
             {
-                args.Add(writerAccessor);
-                args.Add(nameAccessor);
-                args.Add($"{itemAccessor}");
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
+                args.Add($"writer: {writerAccessor}");
+                args.Add($"name: {nameAccessor}");
+                args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
+                if (typeGen.HasIndex)
+                {
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
             }
         }
 

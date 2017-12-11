@@ -493,7 +493,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefBase.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -528,7 +528,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
                                     root: r,
                                     doMasks: listDoMasks,
-                                    mask: out listSubMask);
+                                    errorMask: out listSubMask);
                             }
                             );
                         item._RefList.SetIfSucceeded(listTryGet);
@@ -1148,6 +1148,15 @@ namespace Loqui.Tests.Internals
             TestGenericObject_FieldIndex enu = (TestGenericObject_FieldIndex)index;
             switch (enu)
             {
+                case TestGenericObject_FieldIndex.RefBase:
+                    obj.RefBase_Property.HasBeenSet = on;
+                    break;
+                case TestGenericObject_FieldIndex.Ref:
+                    obj.Ref_Property.HasBeenSet = on;
+                    break;
+                case TestGenericObject_FieldIndex.RefList:
+                    obj.RefList.HasBeenSet = on;
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1402,43 +1411,30 @@ namespace Loqui.Tests.Internals
                     }
                     if (item.RefBase_Property.HasBeenSet)
                     {
-                        MaskItem<Exception, RBase_ErrMask> subMask;
                         LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Write(
                             writer: writer,
-                            item: item.RefBase,
+                            item: item.RefBase_Property,
                             name: nameof(item.RefBase),
-                            doMasks: errorMask != null,
-                            mask: out RBase_ErrMask loquiMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, RBase_ErrMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.RefBase,
-                            subMask);
+                            fieldIndex: (int)TestGenericObject_FieldIndex.RefBase,
+                            errorMask: errorMask);
                     }
                     if (item.Ref_Property.HasBeenSet)
                     {
-                        MaskItem<Exception, object> subMask;
                         WildcardXmlTranslation.Instance.Write(
                             writer: writer,
                             name: nameof(item.Ref),
                             item: item.Ref,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeErrMask);
-                        subMask = (MaskItem<Exception, object>)unsafeErrMask;
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.Ref,
-                            subMask);
+                            fieldIndex: (int)TestGenericObject_FieldIndex.Ref,
+                            errorMask: errorMask);
                     }
                     if (item.RefList.HasBeenSet)
                     {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, RBase_ErrMask>>> subMask;
                         ListXmlTranslation<RBase, MaskItem<Exception, RBase_ErrMask>>.Instance.Write(
                             writer: writer,
                             name: nameof(item.RefList),
                             item: item.RefList,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
+                            fieldIndex: (int)TestGenericObject_FieldIndex.RefList,
+                            errorMask: errorMask,
                             transl: (RBase subItem, bool listDoMasks, out MaskItem<Exception, RBase_ErrMask> listSubMask) =>
                             {
                                 LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Write(
@@ -1446,14 +1442,9 @@ namespace Loqui.Tests.Internals
                                     item: subItem,
                                     name: "Item",
                                     doMasks: errorMask != null,
-                                    mask: out RBase_ErrMask loquiMask);
-                                listSubMask = loquiMask == null ? null : new MaskItem<Exception, RBase_ErrMask>(null, loquiMask);
+                                    errorMask: out listSubMask);
                             }
                             );
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.RefList,
-                            subMask);
                     }
                 }
             }

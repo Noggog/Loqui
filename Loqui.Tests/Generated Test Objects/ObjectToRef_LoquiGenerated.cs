@@ -941,6 +941,12 @@ namespace Loqui.Tests.Internals
             ObjectToRef_FieldIndex enu = (ObjectToRef_FieldIndex)index;
             switch (enu)
             {
+                case ObjectToRef_FieldIndex.KeyField:
+                    obj.KeyField_Property.HasBeenSet = on;
+                    break;
+                case ObjectToRef_FieldIndex.SomeField:
+                    obj.SomeField_Property.HasBeenSet = on;
+                    break;
                 default:
                     throw new ArgumentException($"Index is out of range: {index}");
             }
@@ -1114,31 +1120,21 @@ namespace Loqui.Tests.Internals
                     }
                     if (item.KeyField_Property.HasBeenSet)
                     {
-                        Exception subMask;
                         Int32XmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.KeyField),
-                            item.KeyField,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)ObjectToRef_FieldIndex.KeyField,
-                            subMask);
+                            writer: writer,
+                            name: nameof(item.KeyField),
+                            item: item.KeyField_Property,
+                            fieldIndex: (int)ObjectToRef_FieldIndex.KeyField,
+                            errorMask: errorMask);
                     }
                     if (item.SomeField_Property.HasBeenSet)
                     {
-                        Exception subMask;
                         BooleanXmlTranslation.Instance.Write(
-                            writer,
-                            nameof(item.SomeField),
-                            item.SomeField,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)ObjectToRef_FieldIndex.SomeField,
-                            subMask);
+                            writer: writer,
+                            name: nameof(item.SomeField),
+                            item: item.SomeField_Property,
+                            fieldIndex: (int)ObjectToRef_FieldIndex.SomeField,
+                            errorMask: errorMask);
                     }
                 }
             }

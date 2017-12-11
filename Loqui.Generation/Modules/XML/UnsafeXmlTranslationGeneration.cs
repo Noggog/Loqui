@@ -13,9 +13,10 @@ namespace Loqui.Generation
 
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
@@ -25,11 +26,18 @@ namespace Loqui.Generation
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor}");
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"maskObj: out var unsafeErrMask");
+                args.Add($"item: {itemAccessor.DirectAccess}");
+                if (typeGen.HasIndex)
+                {
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
             }
-            fg.AppendLine($"{maskAccessor} = ({ErrMaskString})unsafeErrMask;");
         }
 
         public override void GenerateCopyIn(

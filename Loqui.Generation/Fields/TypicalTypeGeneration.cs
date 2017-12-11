@@ -418,11 +418,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (!this.Protected)
             {
-                if (this.Bare)
-                {
-                    fg.AppendLine($"{identifier}.{this.Name} = default({this.TypeName});");
-                }
-                else
+                if (this.HasBeenSet)
                 {
                     using (var args = new ArgsWrapper(fg,
                         $"{identifier}.{this.GetName(internalUse: false, property: true)}.Unset"))
@@ -432,6 +428,10 @@ namespace Loqui.Generation
                             args.Add(cmdsAccessor);
                         }
                     }
+                }
+                else
+                {
+                    fg.AppendLine($"{identifier}.{this.Name} = default({this.TypeName});");
                 }
             }
             fg.AppendLine("break;");

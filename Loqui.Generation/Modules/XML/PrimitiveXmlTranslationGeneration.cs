@@ -22,9 +22,10 @@ namespace Loqui.Generation
 
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
@@ -32,12 +33,43 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{this.typeName}XmlTranslation.Instance.Write"))
             {
-                args.Add(writerAccessor);
-                args.Add(nameAccessor);
-                args.Add(itemAccessor);
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
+                args.Add($"writer: {writerAccessor}");
+                args.Add($"name: {nameAccessor}");
+                args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
+                if (typeGen.HasIndex)
+                {
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
+                foreach (var arg in AdditionWriteParameters(
+                    fg: fg,
+                    objGen: objGen,
+                    typeGen: typeGen,
+                    writerAccessor: writerAccessor,
+                    itemAccessor: itemAccessor,
+                    doMaskAccessor: doMaskAccessor,
+                    maskAccessor: maskAccessor))
+                {
+                    args.Add(arg);
+                }
             }
+        }
+
+        protected virtual IEnumerable<string> AdditionWriteParameters(
+            FileGeneration fg,
+            ObjectGeneration objGen,
+            TypeGeneration typeGen,
+            string writerAccessor,
+            Accessor itemAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
+        {
+            yield break;
         }
 
         public override void GenerateCopyIn(

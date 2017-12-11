@@ -81,5 +81,62 @@ namespace Loqui.Xml
                 xml.Write(writer, "Item", item, doMasks, out maskObj);
             }
         }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasItem<object> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            object item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasBeenSetItemGetter<object> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            if (!item.HasBeenSet) return;
+            this.Write(
+                writer: writer,
+                name: name,
+                item: item,
+                fieldIndex: fieldIndex,
+                errorMask: errorMask);
+        }
     }
 }

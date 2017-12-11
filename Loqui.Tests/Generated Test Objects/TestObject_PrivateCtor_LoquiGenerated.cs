@@ -991,17 +991,12 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_PrivateCtor");
                     }
-                    Exception subMask;
                     BooleanXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.BoolN),
-                        item.BoolN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_PrivateCtor_FieldIndex.BoolN,
-                        subMask);
+                        writer: writer,
+                        name: nameof(item.BoolN),
+                        item: item.BoolN,
+                        fieldIndex: (int)TestObject_PrivateCtor_FieldIndex.BoolN,
+                        errorMask: errorMask);
                 }
             }
             catch (Exception ex)

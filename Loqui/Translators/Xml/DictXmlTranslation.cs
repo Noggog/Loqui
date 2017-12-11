@@ -224,5 +224,53 @@ namespace Loqui.Xml
                 }
             }
         }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IEnumerable<KeyValuePair<K, V>> items,
+            int fieldIndex,
+            Func<Mask> errorMask,
+            XmlSubWriteDelegate<K, KMask> keyTransl,
+            XmlSubWriteDelegate<V, VMask> valTransl)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                items,
+                errorMask != null,
+                out var subMask,
+                keyTransl,
+                valTransl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IHasItem<IEnumerable<KeyValuePair<K, V>>> item,
+            int fieldIndex,
+            Func<Mask> errorMask,
+            XmlSubWriteDelegate<K, KMask> keyTransl,
+            XmlSubWriteDelegate<V, VMask> valTransl)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask,
+                keyTransl,
+                valTransl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
     }
 }

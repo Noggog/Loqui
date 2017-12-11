@@ -43,18 +43,13 @@ namespace Loqui.Tests
         {
             _ByteArray = NotifyingItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArray)),
-                markAsSet: false,
                 noNullFallback: () => new byte[4]);
-            _ByteArrayNull = NotifyingItem.Factory<Byte[]>(
-                onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNull)),
-                markAsSet: false);
+            _ByteArrayNull = NotifyingItem.Factory<Byte[]>(onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNull)));
             _ByteArrayNotNull = NotifyingItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArrayNotNull)),
-                markAsSet: false,
                 noNullFallback: () => new byte[3]);
             _ByteArraySingleton = NotifyingItem.Factory<Byte[]>(
                 onSet: (i) => this.OnPropertyChanged(nameof(ByteArraySingleton)),
-                markAsSet: true,
                 noNullFallback: () => new byte[3]);
             _BoolN = NotifyingItem.Factory<Boolean?>(onSet: (i) => this.OnPropertyChanged(nameof(BoolN)));
             _Bool = NotifyingItem.Factory<Boolean>(onSet: (i) => this.OnPropertyChanged(nameof(Bool)));
@@ -3217,7 +3212,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._Ref.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3231,7 +3226,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3268,7 +3263,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefGetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3282,7 +3277,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3298,7 +3293,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefSetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3312,7 +3307,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3378,7 +3373,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: listDoMasks,
-                                    mask: out listSubMask);
+                                    errorMask: out listSubMask);
                             }
                             );
                         item._RefList.SetIfSucceeded(listTryGet);
@@ -3431,7 +3426,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
@@ -3439,7 +3434,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._RefDict.SetIfSucceeded(dictTryGet);
@@ -3461,7 +3456,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
@@ -3500,7 +3495,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._ValRefDict.SetIfSucceeded(dictTryGet);
@@ -3522,7 +3517,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._DictKeyedValue.SetIfSucceeded(dictTryGet);
@@ -8354,46 +8349,46 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.Ref_Property.SetToWithDefault(
-                        rhs.Ref_Property,
-                        def?.Ref_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.Ref.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.Ref?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.Ref = rhs.Ref;
+                            break;
+                        case CopyOption.CopyIn:
+                            ObjectToRefCommon.CopyFieldsFrom(
+                                item: item.Ref,
+                                rhs: rhs.Ref,
+                                def: def?.Ref,
+                                doMasks: doMasks,
+                                errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
+                                {
+                                    var baseMask = errorMask();
+                                    if (baseMask.Ref.Specific == null)
+                                    {
+                                        baseMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                    }
+                                    return baseMask.Ref.Specific;
+                                }
+                                ) : null),
+                                copyMask: copyMask?.Ref.Specific,
+                                cmds: cmds);
+                            break;
+                        case CopyOption.MakeCopy:
+                            if (rhs.Ref == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                    ObjectToRefCommon.CopyFieldsFrom(
-                                        item: item.Ref,
-                                        rhs: rhs.Ref,
-                                        def: def?.Ref,
-                                        doMasks: doMasks,
-                                        errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
-                                        {
-                                            var baseMask = errorMask();
-                                            if (baseMask.Ref.Specific == null)
-                                            {
-                                                baseMask.Ref = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
-                                            }
-                                            return baseMask.Ref.Specific;
-                                        }
-                                        ) : null),
-                                        copyMask: copyMask?.Ref.Specific,
-                                        cmds: cmds);
-                                    return r;
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(ObjectToRef);
-                                    return ObjectToRef.Copy(
-                                        r,
-                                        copyMask?.Ref?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref?.Overall}. Cannot execute copy.");
+                                item.Ref = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.Ref = ObjectToRef.Copy(
+                                    rhs.Ref,
+                                    copyMask?.Ref?.Specific,
+                                    def?.Ref);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8405,46 +8400,46 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.Ref_NotNull_Property.SetToWithDefault(
-                        rhs.Ref_NotNull_Property,
-                        def?.Ref_NotNull_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.Ref_NotNull.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.Ref_NotNull?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.Ref_NotNull = rhs.Ref_NotNull;
+                            break;
+                        case CopyOption.CopyIn:
+                            ObjectToRefCommon.CopyFieldsFrom(
+                                item: item.Ref_NotNull,
+                                rhs: rhs.Ref_NotNull,
+                                def: def?.Ref_NotNull,
+                                doMasks: doMasks,
+                                errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
+                                {
+                                    var baseMask = errorMask();
+                                    if (baseMask.Ref_NotNull.Specific == null)
+                                    {
+                                        baseMask.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                    }
+                                    return baseMask.Ref_NotNull.Specific;
+                                }
+                                ) : null),
+                                copyMask: copyMask?.Ref_NotNull.Specific,
+                                cmds: cmds);
+                            break;
+                        case CopyOption.MakeCopy:
+                            if (rhs.Ref_NotNull == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                    ObjectToRefCommon.CopyFieldsFrom(
-                                        item: item.Ref_NotNull,
-                                        rhs: rhs.Ref_NotNull,
-                                        def: def?.Ref_NotNull,
-                                        doMasks: doMasks,
-                                        errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
-                                        {
-                                            var baseMask = errorMask();
-                                            if (baseMask.Ref_NotNull.Specific == null)
-                                            {
-                                                baseMask.Ref_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
-                                            }
-                                            return baseMask.Ref_NotNull.Specific;
-                                        }
-                                        ) : null),
-                                        copyMask: copyMask?.Ref_NotNull.Specific,
-                                        cmds: cmds);
-                                    return r;
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(ObjectToRef);
-                                    return ObjectToRef.Copy(
-                                        r,
-                                        copyMask?.Ref_NotNull?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref_NotNull?.Overall}. Cannot execute copy.");
+                                item.Ref_NotNull = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.Ref_NotNull = ObjectToRef.Copy(
+                                    rhs.Ref_NotNull,
+                                    copyMask?.Ref_NotNull?.Specific,
+                                    def?.Ref_NotNull);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.Ref_NotNull?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8484,28 +8479,28 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.RefGetter_Property.SetToWithDefault(
-                        rhs.RefGetter_Property,
-                        def?.RefGetter_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.RefGetter.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.RefGetter?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.RefGetter = rhs.RefGetter;
+                            break;
+                        case CopyOption.CopyIn:
+                        case CopyOption.MakeCopy:
+                            if (rhs.RefGetter == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(IObjectToRefGetter);
-                                    return ObjectToRef.Copy_ToLoqui(
-                                        r,
-                                        copyMask?.RefGetter?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter?.Overall}. Cannot execute copy.");
+                                item.RefGetter = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.RefGetter = ObjectToRef.Copy_ToLoqui(
+                                    rhs.RefGetter,
+                                    copyMask?.RefGetter?.Specific,
+                                    def?.RefGetter);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8517,28 +8512,28 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.RefGetter_NotNull_Property.SetToWithDefault(
-                        rhs.RefGetter_NotNull_Property,
-                        def?.RefGetter_NotNull_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.RefGetter_NotNull.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.RefGetter_NotNull?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.RefGetter_NotNull = rhs.RefGetter_NotNull;
+                            break;
+                        case CopyOption.CopyIn:
+                        case CopyOption.MakeCopy:
+                            if (rhs.RefGetter_NotNull == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(IObjectToRefGetter);
-                                    return ObjectToRef.Copy_ToLoqui(
-                                        r,
-                                        copyMask?.RefGetter_NotNull?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter_NotNull?.Overall}. Cannot execute copy.");
+                                item.RefGetter_NotNull = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.RefGetter_NotNull = ObjectToRef.Copy_ToLoqui(
+                                    rhs.RefGetter_NotNull,
+                                    copyMask?.RefGetter_NotNull?.Specific,
+                                    def?.RefGetter_NotNull);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefGetter_NotNull?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8550,46 +8545,46 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.RefSetter_Property.SetToWithDefault(
-                        rhs.RefSetter_Property,
-                        def?.RefSetter_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.RefSetter.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.RefSetter?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.RefSetter = rhs.RefSetter;
+                            break;
+                        case CopyOption.CopyIn:
+                            ObjectToRefCommon.CopyFieldsFrom(
+                                item: item.RefSetter,
+                                rhs: rhs.RefSetter,
+                                def: def?.RefSetter,
+                                doMasks: doMasks,
+                                errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
+                                {
+                                    var baseMask = errorMask();
+                                    if (baseMask.RefSetter.Specific == null)
+                                    {
+                                        baseMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                    }
+                                    return baseMask.RefSetter.Specific;
+                                }
+                                ) : null),
+                                copyMask: copyMask?.RefSetter.Specific,
+                                cmds: cmds);
+                            break;
+                        case CopyOption.MakeCopy:
+                            if (rhs.RefSetter == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                    ObjectToRefCommon.CopyFieldsFrom(
-                                        item: item.RefSetter,
-                                        rhs: rhs.RefSetter,
-                                        def: def?.RefSetter,
-                                        doMasks: doMasks,
-                                        errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
-                                        {
-                                            var baseMask = errorMask();
-                                            if (baseMask.RefSetter.Specific == null)
-                                            {
-                                                baseMask.RefSetter = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
-                                            }
-                                            return baseMask.RefSetter.Specific;
-                                        }
-                                        ) : null),
-                                        copyMask: copyMask?.RefSetter.Specific,
-                                        cmds: cmds);
-                                    return r;
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(IObjectToRef);
-                                    return ObjectToRef.Copy(
-                                        r,
-                                        copyMask?.RefSetter?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter?.Overall}. Cannot execute copy.");
+                                item.RefSetter = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.RefSetter = ObjectToRef.Copy(
+                                    rhs.RefSetter,
+                                    copyMask?.RefSetter?.Specific,
+                                    def?.RefSetter);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -8601,46 +8596,46 @@ namespace Loqui.Tests.Internals
             {
                 try
                 {
-                    item.RefSetter_NotNull_Property.SetToWithDefault(
-                        rhs.RefSetter_NotNull_Property,
-                        def?.RefSetter_NotNull_Property,
-                        cmds,
-                        (r, d) =>
-                        {
-                            switch (copyMask?.RefSetter_NotNull.Overall ?? CopyOption.Reference)
+                    switch (copyMask?.RefSetter_NotNull?.Overall ?? CopyOption.Reference)
+                    {
+                        case CopyOption.Reference:
+                            item.RefSetter_NotNull = rhs.RefSetter_NotNull;
+                            break;
+                        case CopyOption.CopyIn:
+                            ObjectToRefCommon.CopyFieldsFrom(
+                                item: item.RefSetter_NotNull,
+                                rhs: rhs.RefSetter_NotNull,
+                                def: def?.RefSetter_NotNull,
+                                doMasks: doMasks,
+                                errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
+                                {
+                                    var baseMask = errorMask();
+                                    if (baseMask.RefSetter_NotNull.Specific == null)
+                                    {
+                                        baseMask.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
+                                    }
+                                    return baseMask.RefSetter_NotNull.Specific;
+                                }
+                                ) : null),
+                                copyMask: copyMask?.RefSetter_NotNull.Specific,
+                                cmds: cmds);
+                            break;
+                        case CopyOption.MakeCopy:
+                            if (rhs.RefSetter_NotNull == null)
                             {
-                                case CopyOption.Reference:
-                                    return r;
-                                case CopyOption.CopyIn:
-                                    ObjectToRefCommon.CopyFieldsFrom(
-                                        item: item.RefSetter_NotNull,
-                                        rhs: rhs.RefSetter_NotNull,
-                                        def: def?.RefSetter_NotNull,
-                                        doMasks: doMasks,
-                                        errorMask: (doMasks ? new Func<ObjectToRef_ErrorMask>(() =>
-                                        {
-                                            var baseMask = errorMask();
-                                            if (baseMask.RefSetter_NotNull.Specific == null)
-                                            {
-                                                baseMask.RefSetter_NotNull = new MaskItem<Exception, ObjectToRef_ErrorMask>(null, new ObjectToRef_ErrorMask());
-                                            }
-                                            return baseMask.RefSetter_NotNull.Specific;
-                                        }
-                                        ) : null),
-                                        copyMask: copyMask?.RefSetter_NotNull.Specific,
-                                        cmds: cmds);
-                                    return r;
-                                case CopyOption.MakeCopy:
-                                    if (r == null) return default(IObjectToRef);
-                                    return ObjectToRef.Copy(
-                                        r,
-                                        copyMask?.RefSetter_NotNull?.Specific,
-                                        def: d);
-                                default:
-                                    throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter_NotNull?.Overall}. Cannot execute copy.");
+                                item.RefSetter_NotNull = null;
                             }
-                        }
-                        );
+                            else
+                            {
+                                item.RefSetter_NotNull = ObjectToRef.Copy(
+                                    rhs.RefSetter_NotNull,
+                                    copyMask?.RefSetter_NotNull?.Specific,
+                                    def?.RefSetter_NotNull);
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException($"Unknown CopyOption {copyMask?.RefSetter_NotNull?.Overall}. Cannot execute copy.");
+                    }
                 }
                 catch (Exception ex)
                 when (doMasks)
@@ -9010,298 +9005,298 @@ namespace Loqui.Tests.Internals
             switch (enu)
             {
                 case TestObject_Notifying_RPC_FieldIndex.ByteArray:
-                    obj.ByteArray_Property.Unset(cmds);
+                    obj.ByteArray = default(Byte[]);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.ByteArrayNull:
-                    obj.ByteArrayNull_Property.Unset(cmds);
+                    obj.ByteArrayNull = default(Byte[]);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.ByteArrayNotNull:
-                    obj.ByteArrayNotNull_Property.Unset(cmds);
+                    obj.ByteArrayNotNull = default(Byte[]);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.ByteArraySingleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_RPC_FieldIndex.BoolN:
-                    obj.BoolN_Property.Unset(cmds);
+                    obj.BoolN = default(Boolean?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Bool:
-                    obj.Bool_Property.Unset(cmds);
+                    obj.Bool = default(Boolean);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.CharN:
-                    obj.CharN_Property.Unset(cmds);
+                    obj.CharN = default(Char?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Char:
-                    obj.Char_Property.Unset(cmds);
+                    obj.Char = default(Char);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DateTimeNull:
-                    obj.DateTimeNull_Property.Unset(cmds);
+                    obj.DateTimeNull = default(DateTime?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DateTime:
-                    obj.DateTime_Property.Unset(cmds);
+                    obj.DateTime = default(DateTime);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN:
-                    obj.DoubleN_Property.Unset(cmds);
+                    obj.DoubleN = default(Double?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged:
-                    obj.DoubleN_Ranged_Property.Unset(cmds);
+                    obj.DoubleN_Ranged = default(Double?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Double:
-                    obj.Double_Property.Unset(cmds);
+                    obj.Double = default(Double);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Double_Ranged:
-                    obj.Double_Ranged_Property.Unset(cmds);
+                    obj.Double_Ranged = default(Double);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN:
-                    obj.FloatN_Property.Unset(cmds);
+                    obj.FloatN = default(Single?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged:
-                    obj.FloatN_Ranged_Property.Unset(cmds);
+                    obj.FloatN_Ranged = default(Single?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Float:
-                    obj.Float_Property.Unset(cmds);
+                    obj.Float = default(Single);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Float_Ranged:
-                    obj.Float_Ranged_Property.Unset(cmds);
+                    obj.Float_Ranged = default(Single);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N:
-                    obj.Int16N_Property.Unset(cmds);
+                    obj.Int16N = default(Int16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged:
-                    obj.Int16N_Ranged_Property.Unset(cmds);
+                    obj.Int16N_Ranged = default(Int16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16:
-                    obj.Int16_Property.Unset(cmds);
+                    obj.Int16 = default(Int16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int16_Ranged:
-                    obj.Int16_Ranged_Property.Unset(cmds);
+                    obj.Int16_Ranged = default(Int16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N:
-                    obj.Int32N_Property.Unset(cmds);
+                    obj.Int32N = default(Int32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged:
-                    obj.Int32N_Ranged_Property.Unset(cmds);
+                    obj.Int32N_Ranged = default(Int32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32:
-                    obj.Int32_Property.Unset(cmds);
+                    obj.Int32 = default(Int32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int32_Ranged:
-                    obj.Int32_Ranged_Property.Unset(cmds);
+                    obj.Int32_Ranged = default(Int32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N:
-                    obj.Int64N_Property.Unset(cmds);
+                    obj.Int64N = default(Int64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged:
-                    obj.Int64N_Ranged_Property.Unset(cmds);
+                    obj.Int64N_Ranged = default(Int64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64:
-                    obj.Int64_Property.Unset(cmds);
+                    obj.Int64 = default(Int64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int64_Ranged:
-                    obj.Int64_Ranged_Property.Unset(cmds);
+                    obj.Int64_Ranged = default(Int64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N:
-                    obj.Int8N_Property.Unset(cmds);
+                    obj.Int8N = default(SByte?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged:
-                    obj.Int8N_Ranged_Property.Unset(cmds);
+                    obj.Int8N_Ranged = default(SByte?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8:
-                    obj.Int8_Property.Unset(cmds);
+                    obj.Int8 = default(SByte);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Int8_Ranged:
-                    obj.Int8_Ranged_Property.Unset(cmds);
+                    obj.Int8_Ranged = default(SByte);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Unsafe:
-                    obj.Unsafe_Property.Unset(cmds);
+                    obj.Unsafe = default(bool);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UnsafeLoqui:
-                    obj.UnsafeLoqui_Property.Unset(cmds);
+                    obj.UnsafeLoqui = default(ObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UnsafeNull:
-                    obj.UnsafeNull_Property.Unset(cmds);
+                    obj.UnsafeNull = default(ObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P2IntN:
-                    obj.P2IntN_Property.Unset(cmds);
+                    obj.P2IntN = default(P2Int?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P2Int:
-                    obj.P2Int_Property.Unset(cmds);
+                    obj.P2Int = default(P2Int);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P3DoubleN:
-                    obj.P3DoubleN_Property.Unset(cmds);
+                    obj.P3DoubleN = default(P3Double?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P3Double:
-                    obj.P3Double_Property.Unset(cmds);
+                    obj.P3Double = default(P3Double);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P3IntN:
-                    obj.P3IntN_Property.Unset(cmds);
+                    obj.P3IntN = default(P3Int?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.P3Int:
-                    obj.P3Int_Property.Unset(cmds);
+                    obj.P3Int = default(P3Int);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.PercentN:
-                    obj.PercentN_Property.Unset(cmds);
+                    obj.PercentN = default(Percent?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Percent:
-                    obj.Percent_Property.Unset(cmds);
+                    obj.Percent = default(Percent);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt8N:
-                    obj.RangeInt8N_Property.Unset(cmds);
+                    obj.RangeInt8N = default(RangeInt8?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt8:
-                    obj.RangeInt8_Property.Unset(cmds);
+                    obj.RangeInt8 = default(RangeInt8);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt16N:
-                    obj.RangeInt16N_Property.Unset(cmds);
+                    obj.RangeInt16N = default(RangeInt16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt16:
-                    obj.RangeInt16_Property.Unset(cmds);
+                    obj.RangeInt16 = default(RangeInt16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt32N:
-                    obj.RangeInt32N_Property.Unset(cmds);
+                    obj.RangeInt32N = default(RangeInt32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt32:
-                    obj.RangeInt32_Property.Unset(cmds);
+                    obj.RangeInt32 = default(RangeInt32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt64N:
-                    obj.RangeInt64N_Property.Unset(cmds);
+                    obj.RangeInt64N = default(RangeInt64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeInt64:
-                    obj.RangeInt64_Property.Unset(cmds);
+                    obj.RangeInt64 = default(RangeInt64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt8N:
-                    obj.RangeUInt8N_Property.Unset(cmds);
+                    obj.RangeUInt8N = default(RangeUInt8?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt8:
-                    obj.RangeUInt8_Property.Unset(cmds);
+                    obj.RangeUInt8 = default(RangeUInt8);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt16N:
-                    obj.RangeUInt16N_Property.Unset(cmds);
+                    obj.RangeUInt16N = default(RangeUInt16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt16:
-                    obj.RangeUInt16_Property.Unset(cmds);
+                    obj.RangeUInt16 = default(RangeUInt16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt32N:
-                    obj.RangeUInt32N_Property.Unset(cmds);
+                    obj.RangeUInt32N = default(RangeUInt32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt32:
-                    obj.RangeUInt32_Property.Unset(cmds);
+                    obj.RangeUInt32 = default(RangeUInt32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt64N:
-                    obj.RangeUInt64N_Property.Unset(cmds);
+                    obj.RangeUInt64N = default(RangeUInt64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RangeUInt64:
-                    obj.RangeUInt64_Property.Unset(cmds);
+                    obj.RangeUInt64 = default(RangeUInt64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.String:
-                    obj.String_Property.Unset(cmds);
+                    obj.String = default(String);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FilePath:
-                    obj.FilePath_Property.Unset(cmds);
+                    obj.FilePath = default(FilePath);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.FilePathNull:
-                    obj.FilePathNull_Property.Unset(cmds);
+                    obj.FilePathNull = default(FilePath?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DirectoryPath:
-                    obj.DirectoryPath_Property.Unset(cmds);
+                    obj.DirectoryPath = default(DirectoryPath);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.DirectoryPathNull:
-                    obj.DirectoryPathNull_Property.Unset(cmds);
+                    obj.DirectoryPathNull = default(DirectoryPath?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN:
-                    obj.UDoubleN_Property.Unset(cmds);
+                    obj.UDoubleN = default(UDouble?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged:
-                    obj.UDoubleN_Ranged_Property.Unset(cmds);
+                    obj.UDoubleN_Ranged = default(UDouble?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble:
-                    obj.UDouble_Property.Unset(cmds);
+                    obj.UDouble = default(UDouble);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged:
-                    obj.UDouble_Ranged_Property.Unset(cmds);
+                    obj.UDouble_Ranged = default(UDouble);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N:
-                    obj.UInt16N_Property.Unset(cmds);
+                    obj.UInt16N = default(UInt16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged:
-                    obj.UInt16N_Ranged_Property.Unset(cmds);
+                    obj.UInt16N_Ranged = default(UInt16?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16:
-                    obj.UInt16_Property.Unset(cmds);
+                    obj.UInt16 = default(UInt16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged:
-                    obj.UInt16_Ranged_Property.Unset(cmds);
+                    obj.UInt16_Ranged = default(UInt16);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N:
-                    obj.UInt32N_Property.Unset(cmds);
+                    obj.UInt32N = default(UInt32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged:
-                    obj.UInt32N_Ranged_Property.Unset(cmds);
+                    obj.UInt32N_Ranged = default(UInt32?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32:
-                    obj.UInt32_Property.Unset(cmds);
+                    obj.UInt32 = default(UInt32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged:
-                    obj.UInt32_Ranged_Property.Unset(cmds);
+                    obj.UInt32_Ranged = default(UInt32);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N:
-                    obj.UInt64N_Property.Unset(cmds);
+                    obj.UInt64N = default(UInt64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged:
-                    obj.UInt64N_Ranged_Property.Unset(cmds);
+                    obj.UInt64N_Ranged = default(UInt64?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64:
-                    obj.UInt64_Property.Unset(cmds);
+                    obj.UInt64 = default(UInt64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged:
-                    obj.UInt64_Ranged_Property.Unset(cmds);
+                    obj.UInt64_Ranged = default(UInt64);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N:
-                    obj.UInt8N_Property.Unset(cmds);
+                    obj.UInt8N = default(Byte?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged:
-                    obj.UInt8N_Ranged_Property.Unset(cmds);
+                    obj.UInt8N_Ranged = default(Byte?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8:
-                    obj.UInt8_Property.Unset(cmds);
+                    obj.UInt8 = default(Byte);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged:
-                    obj.UInt8_Ranged_Property.Unset(cmds);
+                    obj.UInt8_Ranged = default(Byte);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Enum:
-                    obj.Enum_Property.Unset(cmds);
+                    obj.Enum = default(TestEnum);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.EnumNull:
-                    obj.EnumNull_Property.Unset(cmds);
+                    obj.EnumNull = default(TestEnum?);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.WildCard:
-                    obj.WildCard_Property.Unset(cmds);
+                    obj.WildCard = default(Object);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.WildCardLoqui:
-                    obj.WildCardLoqui_Property.Unset(cmds);
+                    obj.WildCardLoqui = default(Object);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.WildCardNull:
-                    obj.WildCardNull_Property.Unset(cmds);
+                    obj.WildCardNull = default(Object);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Ref:
-                    obj.Ref_Property.Unset(cmds);
+                    obj.Ref = default(ObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Ref_NotNull:
-                    obj.Ref_NotNull_Property.Unset(cmds);
+                    obj.Ref_NotNull = default(ObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.Ref_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_RPC_FieldIndex.RefGetter:
-                    obj.RefGetter_Property.Unset(cmds);
+                    obj.RefGetter = default(IObjectToRefGetter);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RefGetter_NotNull:
-                    obj.RefGetter_NotNull_Property.Unset(cmds);
+                    obj.RefGetter_NotNull = default(IObjectToRefGetter);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RefGetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter:
-                    obj.RefSetter_Property.Unset(cmds);
+                    obj.RefSetter = default(IObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter_NotNull:
-                    obj.RefSetter_NotNull_Property.Unset(cmds);
+                    obj.RefSetter_NotNull = default(IObjectToRef);
                     break;
                 case TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton:
                     throw new ArgumentException("Tried to set at a readonly index " + index);
@@ -9892,15 +9887,33 @@ namespace Loqui.Tests.Internals
             ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
             ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
             ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
-            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
+            ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
+            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b);
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
+            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b);
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
+            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b);
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
+            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
+            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b);
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
+            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b);
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
+            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
+            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b);
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)
@@ -9928,7 +9941,9 @@ namespace Loqui.Tests.Internals
                     ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.RefList.Overall);
@@ -9973,8 +9988,12 @@ namespace Loqui.Tests.Internals
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
                         MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                        valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
                     }
                     ), out ret.RefDict.Overall);
@@ -10000,7 +10019,9 @@ namespace Loqui.Tests.Internals
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
                         bool valItemRet = object.Equals(l.Value, r.Value);
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(keyItemRet, valItemRet);
                     }
                     ), out ret.KeyRefDict.Overall);
@@ -10026,7 +10047,9 @@ namespace Loqui.Tests.Internals
                     {
                         bool keyItemRet = object.Equals(l.Key, r.Key);
                         MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
                     }
                     ), out ret.ValRefDict.Overall);
@@ -10051,7 +10074,9 @@ namespace Loqui.Tests.Internals
                     ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.DictKeyedValue.Overall);
@@ -10799,1177 +10824,650 @@ namespace Loqui.Tests.Internals
                     {
                         writer.WriteAttributeString("type", "Loqui.Tests.TestObject_Notifying_RPC");
                     }
-                    Exception subMask;
                     ByteArrayXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.ByteArray),
-                        item.ByteArray,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.ByteArray,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.ByteArray),
+                        item: item.ByteArray_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.ByteArray,
+                        errorMask: errorMask);
                     ByteArrayXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.ByteArrayNull),
-                        item.ByteArrayNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.ByteArrayNull,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.ByteArrayNull),
+                        item: item.ByteArrayNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.ByteArrayNull,
+                        errorMask: errorMask);
                     ByteArrayXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.ByteArrayNotNull),
-                        item.ByteArrayNotNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.ByteArrayNotNull,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.ByteArrayNotNull),
+                        item: item.ByteArrayNotNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.ByteArrayNotNull,
+                        errorMask: errorMask);
                     ByteArrayXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.ByteArraySingleton),
-                        item.ByteArraySingleton,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.ByteArraySingleton,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.ByteArraySingleton),
+                        item: item.ByteArraySingleton_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.ByteArraySingleton,
+                        errorMask: errorMask);
                     BooleanXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.BoolN),
-                        item.BoolN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.BoolN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.BoolN),
+                        item: item.BoolN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.BoolN,
+                        errorMask: errorMask);
                     BooleanXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Bool),
-                        item.Bool,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Bool,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Bool),
+                        item: item.Bool_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Bool,
+                        errorMask: errorMask);
                     CharXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.CharN),
-                        item.CharN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.CharN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.CharN),
+                        item: item.CharN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.CharN,
+                        errorMask: errorMask);
                     CharXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Char),
-                        item.Char,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Char,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Char),
+                        item: item.Char_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Char,
+                        errorMask: errorMask);
                     DateTimeXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DateTimeNull),
-                        item.DateTimeNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DateTimeNull,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DateTimeNull),
+                        item: item.DateTimeNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DateTimeNull,
+                        errorMask: errorMask);
                     DateTimeXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DateTime),
-                        item.DateTime,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DateTime,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DateTime),
+                        item: item.DateTime_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DateTime,
+                        errorMask: errorMask);
                     DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DoubleN),
-                        item.DoubleN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DoubleN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DoubleN),
+                        item: item.DoubleN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DoubleN,
+                        errorMask: errorMask);
                     DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DoubleN_Ranged),
-                        item.DoubleN_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DoubleN_Ranged),
+                        item: item.DoubleN_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DoubleN_Ranged,
+                        errorMask: errorMask);
                     DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Double),
-                        item.Double,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Double,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Double),
+                        item: item.Double_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Double,
+                        errorMask: errorMask);
                     DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Double_Ranged),
-                        item.Double_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Double_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Double_Ranged),
+                        item: item.Double_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Double_Ranged,
+                        errorMask: errorMask);
                     FloatXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.FloatN),
-                        item.FloatN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.FloatN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.FloatN),
+                        item: item.FloatN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.FloatN,
+                        errorMask: errorMask);
                     FloatXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.FloatN_Ranged),
-                        item.FloatN_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.FloatN_Ranged),
+                        item: item.FloatN_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.FloatN_Ranged,
+                        errorMask: errorMask);
                     FloatXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Float),
-                        item.Float,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Float,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Float),
+                        item: item.Float_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Float,
+                        errorMask: errorMask);
                     FloatXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Float_Ranged),
-                        item.Float_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Float_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Float_Ranged),
+                        item: item.Float_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Float_Ranged,
+                        errorMask: errorMask);
                     Int16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int16N),
-                        item.Int16N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int16N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int16N),
+                        item: item.Int16N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int16N,
+                        errorMask: errorMask);
                     Int16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int16N_Ranged),
-                        item.Int16N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int16N_Ranged),
+                        item: item.Int16N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int16N_Ranged,
+                        errorMask: errorMask);
                     Int16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int16),
-                        item.Int16,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int16,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int16),
+                        item: item.Int16_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int16,
+                        errorMask: errorMask);
                     Int16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int16_Ranged),
-                        item.Int16_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int16_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int16_Ranged),
+                        item: item.Int16_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int16_Ranged,
+                        errorMask: errorMask);
                     Int32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int32N),
-                        item.Int32N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int32N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int32N),
+                        item: item.Int32N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int32N,
+                        errorMask: errorMask);
                     Int32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int32N_Ranged),
-                        item.Int32N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int32N_Ranged),
+                        item: item.Int32N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int32N_Ranged,
+                        errorMask: errorMask);
                     Int32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int32),
-                        item.Int32,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int32,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int32),
+                        item: item.Int32_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int32,
+                        errorMask: errorMask);
                     Int32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int32_Ranged),
-                        item.Int32_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int32_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int32_Ranged),
+                        item: item.Int32_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int32_Ranged,
+                        errorMask: errorMask);
                     Int64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int64N),
-                        item.Int64N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int64N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int64N),
+                        item: item.Int64N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int64N,
+                        errorMask: errorMask);
                     Int64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int64N_Ranged),
-                        item.Int64N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int64N_Ranged),
+                        item: item.Int64N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int64N_Ranged,
+                        errorMask: errorMask);
                     Int64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int64),
-                        item.Int64,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int64,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int64),
+                        item: item.Int64_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int64,
+                        errorMask: errorMask);
                     Int64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int64_Ranged),
-                        item.Int64_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int64_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int64_Ranged),
+                        item: item.Int64_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int64_Ranged,
+                        errorMask: errorMask);
                     Int8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int8N),
-                        item.Int8N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int8N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int8N),
+                        item: item.Int8N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int8N,
+                        errorMask: errorMask);
                     Int8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int8N_Ranged),
-                        item.Int8N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int8N_Ranged),
+                        item: item.Int8N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int8N_Ranged,
+                        errorMask: errorMask);
                     Int8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int8),
-                        item.Int8,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int8,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Int8),
+                        item: item.Int8_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int8,
+                        errorMask: errorMask);
                     Int8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Int8_Ranged),
-                        item.Int8_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Int8_Ranged,
-                        subMask);
-                    object subMask;
+                        writer: writer,
+                        name: nameof(item.Int8_Ranged),
+                        item: item.Int8_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Int8_Ranged,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.Unsafe),
                         item: item.Unsafe,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Unsafe,
-                        subMask);
-                    object subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Unsafe,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.UnsafeLoqui),
                         item: item.UnsafeLoqui,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UnsafeLoqui,
-                        subMask);
-                    object subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UnsafeLoqui,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.UnsafeNull),
                         item: item.UnsafeNull,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UnsafeNull,
-                        subMask);
-                    Exception subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UnsafeNull,
+                        errorMask: errorMask);
                     P2IntXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P2IntN),
-                        item.P2IntN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P2IntN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P2IntN),
+                        item: item.P2IntN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P2IntN,
+                        errorMask: errorMask);
                     P2IntXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P2Int),
-                        item.P2Int,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P2Int,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P2Int),
+                        item: item.P2Int_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P2Int,
+                        errorMask: errorMask);
                     P3DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P3DoubleN),
-                        item.P3DoubleN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P3DoubleN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P3DoubleN),
+                        item: item.P3DoubleN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P3DoubleN,
+                        errorMask: errorMask);
                     P3DoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P3Double),
-                        item.P3Double,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P3Double,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P3Double),
+                        item: item.P3Double_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P3Double,
+                        errorMask: errorMask);
                     P3IntXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P3IntN),
-                        item.P3IntN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P3IntN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P3IntN),
+                        item: item.P3IntN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P3IntN,
+                        errorMask: errorMask);
                     P3IntXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.P3Int),
-                        item.P3Int,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.P3Int,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.P3Int),
+                        item: item.P3Int_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.P3Int,
+                        errorMask: errorMask);
                     PercentXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.PercentN),
-                        item.PercentN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.PercentN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.PercentN),
+                        item: item.PercentN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.PercentN,
+                        errorMask: errorMask);
                     PercentXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.Percent),
-                        item.Percent,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Percent,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Percent),
+                        item: item.Percent_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Percent,
+                        errorMask: errorMask);
                     RangeInt8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt8N),
-                        item.RangeInt8N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt8N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt8N),
+                        item: item.RangeInt8N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt8N,
+                        errorMask: errorMask);
                     RangeInt8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt8),
-                        item.RangeInt8,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt8,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt8),
+                        item: item.RangeInt8_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt8,
+                        errorMask: errorMask);
                     RangeInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt16N),
-                        item.RangeInt16N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt16N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt16N),
+                        item: item.RangeInt16N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt16N,
+                        errorMask: errorMask);
                     RangeInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt16),
-                        item.RangeInt16,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt16,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt16),
+                        item: item.RangeInt16_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt16,
+                        errorMask: errorMask);
                     RangeInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt32N),
-                        item.RangeInt32N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt32N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt32N),
+                        item: item.RangeInt32N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt32N,
+                        errorMask: errorMask);
                     RangeInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt32),
-                        item.RangeInt32,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt32,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt32),
+                        item: item.RangeInt32_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt32,
+                        errorMask: errorMask);
                     RangeInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt64N),
-                        item.RangeInt64N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt64N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt64N),
+                        item: item.RangeInt64N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt64N,
+                        errorMask: errorMask);
                     RangeInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeInt64),
-                        item.RangeInt64,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeInt64,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeInt64),
+                        item: item.RangeInt64_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeInt64,
+                        errorMask: errorMask);
                     RangeUInt8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt8N),
-                        item.RangeUInt8N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt8N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt8N),
+                        item: item.RangeUInt8N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt8N,
+                        errorMask: errorMask);
                     RangeUInt8XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt8),
-                        item.RangeUInt8,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt8,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt8),
+                        item: item.RangeUInt8_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt8,
+                        errorMask: errorMask);
                     RangeUInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt16N),
-                        item.RangeUInt16N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt16N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt16N),
+                        item: item.RangeUInt16N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt16N,
+                        errorMask: errorMask);
                     RangeUInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt16),
-                        item.RangeUInt16,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt16,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt16),
+                        item: item.RangeUInt16_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt16,
+                        errorMask: errorMask);
                     RangeUInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt32N),
-                        item.RangeUInt32N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt32N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt32N),
+                        item: item.RangeUInt32N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt32N,
+                        errorMask: errorMask);
                     RangeUInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt32),
-                        item.RangeUInt32,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt32,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt32),
+                        item: item.RangeUInt32_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt32,
+                        errorMask: errorMask);
                     RangeUInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt64N),
-                        item.RangeUInt64N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt64N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt64N),
+                        item: item.RangeUInt64N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt64N,
+                        errorMask: errorMask);
                     RangeUInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.RangeUInt64),
-                        item.RangeUInt64,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt64,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.RangeUInt64),
+                        item: item.RangeUInt64_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RangeUInt64,
+                        errorMask: errorMask);
                     StringXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.String),
-                        item.String,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.String,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.String),
+                        item: item.String_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.String,
+                        errorMask: errorMask);
                     FilePathXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.FilePath),
-                        item.FilePath,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.FilePath,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.FilePath),
+                        item: item.FilePath_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.FilePath,
+                        errorMask: errorMask);
                     FilePathXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.FilePathNull),
-                        item.FilePathNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.FilePathNull,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.FilePathNull),
+                        item: item.FilePathNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.FilePathNull,
+                        errorMask: errorMask);
                     DirectoryPathXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DirectoryPath),
-                        item.DirectoryPath,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DirectoryPath,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DirectoryPath),
+                        item: item.DirectoryPath_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DirectoryPath,
+                        errorMask: errorMask);
                     DirectoryPathXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.DirectoryPathNull),
-                        item.DirectoryPathNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DirectoryPathNull,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.DirectoryPathNull),
+                        item: item.DirectoryPathNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DirectoryPathNull,
+                        errorMask: errorMask);
                     UDoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UDoubleN),
-                        item.UDoubleN,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UDoubleN,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UDoubleN),
+                        item: item.UDoubleN_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UDoubleN,
+                        errorMask: errorMask);
                     UDoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UDoubleN_Ranged),
-                        item.UDoubleN_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UDoubleN_Ranged),
+                        item: item.UDoubleN_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UDoubleN_Ranged,
+                        errorMask: errorMask);
                     UDoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UDouble),
-                        item.UDouble,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UDouble,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UDouble),
+                        item: item.UDouble_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UDouble,
+                        errorMask: errorMask);
                     UDoubleXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UDouble_Ranged),
-                        item.UDouble_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UDouble_Ranged),
+                        item: item.UDouble_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UDouble_Ranged,
+                        errorMask: errorMask);
                     UInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt16N),
-                        item.UInt16N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt16N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt16N),
+                        item: item.UInt16N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt16N,
+                        errorMask: errorMask);
                     UInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt16N_Ranged),
-                        item.UInt16N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt16N_Ranged),
+                        item: item.UInt16N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt16N_Ranged,
+                        errorMask: errorMask);
                     UInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt16),
-                        item.UInt16,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt16,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt16),
+                        item: item.UInt16_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt16,
+                        errorMask: errorMask);
                     UInt16XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt16_Ranged),
-                        item.UInt16_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt16_Ranged),
+                        item: item.UInt16_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt16_Ranged,
+                        errorMask: errorMask);
                     UInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt32N),
-                        item.UInt32N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt32N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt32N),
+                        item: item.UInt32N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt32N,
+                        errorMask: errorMask);
                     UInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt32N_Ranged),
-                        item.UInt32N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt32N_Ranged),
+                        item: item.UInt32N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt32N_Ranged,
+                        errorMask: errorMask);
                     UInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt32),
-                        item.UInt32,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt32,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt32),
+                        item: item.UInt32_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt32,
+                        errorMask: errorMask);
                     UInt32XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt32_Ranged),
-                        item.UInt32_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt32_Ranged),
+                        item: item.UInt32_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt32_Ranged,
+                        errorMask: errorMask);
                     UInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt64N),
-                        item.UInt64N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt64N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt64N),
+                        item: item.UInt64N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt64N,
+                        errorMask: errorMask);
                     UInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt64N_Ranged),
-                        item.UInt64N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt64N_Ranged),
+                        item: item.UInt64N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt64N_Ranged,
+                        errorMask: errorMask);
                     UInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt64),
-                        item.UInt64,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt64,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt64),
+                        item: item.UInt64_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt64,
+                        errorMask: errorMask);
                     UInt64XmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt64_Ranged),
-                        item.UInt64_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt64_Ranged),
+                        item: item.UInt64_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt64_Ranged,
+                        errorMask: errorMask);
                     ByteXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt8N),
-                        item.UInt8N,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt8N,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt8N),
+                        item: item.UInt8N_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt8N,
+                        errorMask: errorMask);
                     ByteXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt8N_Ranged),
-                        item.UInt8N_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt8N_Ranged),
+                        item: item.UInt8N_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt8N_Ranged,
+                        errorMask: errorMask);
                     ByteXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt8),
-                        item.UInt8,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt8,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt8),
+                        item: item.UInt8_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt8,
+                        errorMask: errorMask);
                     ByteXmlTranslation.Instance.Write(
-                        writer,
-                        nameof(item.UInt8_Ranged),
-                        item.UInt8_Ranged,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.UInt8_Ranged),
+                        item: item.UInt8_Ranged_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.UInt8_Ranged,
+                        errorMask: errorMask);
                     EnumXmlTranslation<TestEnum>.Instance.Write(
-                        writer,
-                        nameof(item.Enum),
-                        item.Enum,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Enum,
-                        subMask);
-                    Exception subMask;
+                        writer: writer,
+                        name: nameof(item.Enum),
+                        item: item.Enum_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Enum,
+                        errorMask: errorMask);
                     EnumXmlTranslation<TestEnum>.Instance.Write(
-                        writer,
-                        nameof(item.EnumNull),
-                        item.EnumNull,
-                        doMasks: errorMask != null,
-                        errorMask: out subMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.EnumNull,
-                        subMask);
-                    object subMask;
+                        writer: writer,
+                        name: nameof(item.EnumNull),
+                        item: item.EnumNull_Property,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.EnumNull,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.WildCard),
                         item: item.WildCard,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.WildCard,
-                        subMask);
-                    object subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.WildCard,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.WildCardLoqui),
                         item: item.WildCardLoqui,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.WildCardLoqui,
-                        subMask);
-                    object subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.WildCardLoqui,
+                        errorMask: errorMask);
                     WildcardXmlTranslation.Instance.Write(
                         writer: writer,
                         name: nameof(item.WildCardNull),
                         item: item.WildCardNull,
-                        doMasks: errorMask != null,
-                        maskObj: out var unsafeErrMask);
-                    subMask = (object)unsafeErrMask;
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.WildCardNull,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.WildCardNull,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.Ref,
+                        item: item.Ref_Property,
                         name: nameof(item.Ref),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Ref,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Ref,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.Ref_NotNull,
+                        item: item.Ref_NotNull_Property,
                         name: nameof(item.Ref_NotNull),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Ref_NotNull,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Ref_NotNull,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.Ref_Singleton,
+                        item: item.Ref_Singleton_Property,
                         name: nameof(item.Ref_Singleton),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Ref_Singleton,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Ref_Singleton,
+                        errorMask: errorMask);
                     LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefGetter,
+                        item: item.RefGetter_Property,
                         name: nameof(item.RefGetter),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefGetter,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefGetter,
+                        errorMask: errorMask);
                     LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefGetter_NotNull,
+                        item: item.RefGetter_NotNull_Property,
                         name: nameof(item.RefGetter_NotNull),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefGetter_NotNull,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefGetter_NotNull,
+                        errorMask: errorMask);
                     LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefGetter_Singleton,
+                        item: item.RefGetter_Singleton_Property,
                         name: nameof(item.RefGetter_Singleton),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefGetter_Singleton,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefGetter_Singleton,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefSetter,
+                        item: item.RefSetter_Property,
                         name: nameof(item.RefSetter),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefSetter,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefSetter,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefSetter_NotNull,
+                        item: item.RefSetter_NotNull_Property,
                         name: nameof(item.RefSetter_NotNull),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefSetter_NotNull,
-                        subMask);
-                    MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                    LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefSetter_NotNull,
+                        errorMask: errorMask);
+                    LoquiXmlTranslation<IObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                         writer: writer,
-                        item: item.RefSetter_Singleton,
+                        item: item.RefSetter_Singleton_Property,
                         name: nameof(item.RefSetter_Singleton),
-                        doMasks: errorMask != null,
-                        mask: out ObjectToRef_ErrorMask loquiMask);
-                    subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<Exception>> subMask;
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefSetter_Singleton,
+                        errorMask: errorMask);
                     ListXmlTranslation<Boolean, Exception>.Instance.Write(
                         writer: writer,
                         name: nameof(item.List),
                         item: item.List,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.List,
+                        errorMask: errorMask,
                         transl: (Boolean subItem, bool listDoMasks, out Exception listSubMask) =>
                         {
                             BooleanXmlTranslation.Instance.Write(
-                                writer,
-                                "Item",
-                                subItem,
+                                writer: writer,
+                                name: "Item",
+                                item: subItem,
                                 doMasks: errorMask != null,
                                 errorMask: out listSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.List,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
                     ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
                         writer: writer,
                         name: nameof(item.RefList),
                         item: item.RefList,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefList,
+                        errorMask: errorMask,
                         transl: (ObjectToRef subItem, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: errorMask != null,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            listSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out listSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefList,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
                     DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Write(
                         writer: writer,
                         name: nameof(item.Dict),
                         items: item.Dict,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.Dict,
+                        errorMask: errorMask,
                         keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
                         {
                             StringXmlTranslation.Instance.Write(
-                                writer,
-                                "Item",
-                                subItem,
+                                writer: writer,
+                                name: "Item",
+                                item: subItem,
                                 doMasks: dictDoMask,
                                 errorMask: out dictSubMask);
                         }
@@ -11977,136 +11475,107 @@ namespace Loqui.Tests.Internals
                         valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
                         {
                             BooleanXmlTranslation.Instance.Write(
-                                writer,
-                                "Item",
-                                subItem,
+                                writer: writer,
+                                name: "Item",
+                                item: subItem,
                                 doMasks: dictDoMask,
                                 errorMask: out dictSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.Dict,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
                     DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
                         writer: writer,
                         name: nameof(item.RefDict),
                         items: item.RefDict,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.RefDict,
+                        errorMask: errorMask,
                         keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: dictDoMask,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out dictSubMask);
                         }
                         ,
                         valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: dictDoMask,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out dictSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.RefDict,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
                     DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Write(
                         writer: writer,
                         name: nameof(item.KeyRefDict),
                         items: item.KeyRefDict,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.KeyRefDict,
+                        errorMask: errorMask,
                         keyTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: dictDoMask,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out dictSubMask);
                         }
                         ,
                         valTransl: (Boolean subItem, bool dictDoMask, out Exception dictSubMask) =>
                         {
                             BooleanXmlTranslation.Instance.Write(
-                                writer,
-                                "Item",
-                                subItem,
+                                writer: writer,
+                                name: "Item",
+                                item: subItem,
                                 doMasks: dictDoMask,
                                 errorMask: out dictSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.KeyRefDict,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
                     DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
                         writer: writer,
                         name: nameof(item.ValRefDict),
                         items: item.ValRefDict,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.ValRefDict,
+                        errorMask: errorMask,
                         keyTransl: (String subItem, bool dictDoMask, out Exception dictSubMask) =>
                         {
                             StringXmlTranslation.Instance.Write(
-                                writer,
-                                "Item",
-                                subItem,
+                                writer: writer,
+                                name: "Item",
+                                item: subItem,
                                 doMasks: dictDoMask,
                                 errorMask: out dictSubMask);
                         }
                         ,
                         valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: dictDoMask,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out dictSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.ValRefDict,
-                        subMask);
-                    MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
                     KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Write(
                         writer: writer,
                         name: nameof(item.DictKeyedValue),
                         items: item.DictKeyedValue.Values,
-                        doMasks: errorMask != null,
-                        maskObj: out subMask,
+                        fieldIndex: (int)TestObject_Notifying_RPC_FieldIndex.DictKeyedValue,
+                        errorMask: errorMask,
                         valTransl: (ObjectToRef subItem, bool dictDoMask, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            LoquiXmlTranslation<IObjectToRefGetter, ObjectToRef_ErrorMask>.Instance.Write(
+                            LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Write(
                                 writer: writer,
                                 item: subItem,
                                 name: "Item",
                                 doMasks: dictDoMask,
-                                mask: out ObjectToRef_ErrorMask loquiMask);
-                            dictSubMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
+                                errorMask: out dictSubMask);
                         }
                         );
-                    ErrorMask.HandleErrorMask(
-                        errorMask,
-                        (int)TestObject_Notifying_RPC_FieldIndex.DictKeyedValue,
-                        subMask);
                 }
             }
             catch (Exception ex)

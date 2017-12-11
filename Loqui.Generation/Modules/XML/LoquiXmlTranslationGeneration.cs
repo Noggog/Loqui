@@ -12,9 +12,10 @@ namespace Loqui.Generation
     {
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
@@ -23,15 +24,22 @@ namespace Loqui.Generation
             if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{loquiGen.Getter_InterfaceStr}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Write"))
+                    $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Write"))
                 {
                     args.Add($"writer: {writerAccessor}");
-                    args.Add($"item: {itemAccessor}");
+                    args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
                     args.Add($"name: {nameAccessor}");
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"mask: out {loquiGen.MaskItemString(MaskType.Error)} loquiMask");
+                    if (typeGen.HasIndex)
+                    {
+                        args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                        args.Add($"errorMask: {maskAccessor}");
+                    }
+                    else
+                    {
+                        args.Add($"doMasks: {doMaskAccessor}");
+                        args.Add($"errorMask: out {maskAccessor}");
+                    }
                 }
-                fg.AppendLine($"{maskAccessor} = loquiMask == null ? null : new MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>(null, loquiMask);");
             }
             else
             {
@@ -41,6 +49,7 @@ namespace Loqui.Generation
                 };
                 unsafeXml.GenerateWrite(
                     fg: fg,
+                    objGen: objGen,
                     typeGen: typeGen,
                     writerAccessor: writerAccessor,
                     itemAccessor: itemAccessor,
@@ -147,7 +156,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"root: {nodeAccessor}");
                     args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"mask: out {maskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
                 }
             }
             else

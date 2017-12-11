@@ -417,22 +417,15 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg, doIt: field.Field.HasBeenSet))
                     {
                         var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
-                        fg.AppendLine($"{maskType} subMask;");
                         generator.GenerateWrite(
                             fg: fg,
+                            objGen: obj,
                             typeGen: field.Field,
                             writerAccessor: "writer",
-                            itemAccessor: $"item.{field.Field.Name}",
+                            itemAccessor: new Accessor(field.Field, "item."),
                             doMaskAccessor: "errorMask != null",
-                            maskAccessor: $"subMask",
+                            maskAccessor: $"errorMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
-                        using (var args = new ArgsWrapper(fg,
-                            $"ErrorMask.HandleErrorMask"))
-                        {
-                            args.Add("errorMask");
-                            args.Add($"(int){field.Field.IndexEnumName}");
-                            args.Add("subMask");
-                        }
                     }
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Noggog;
+using Noggog.Notifying;
 using Noggog.Xml;
 using System;
 using System.Xml;
@@ -108,6 +109,100 @@ namespace Loqui.Xml
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception errorMask)
         {
             errorMask = Write_Internal(writer, name, (T?)item, doMasks, nullable: false);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            T? item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasItemGetter<T> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasItemGetter<T?> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasBeenSetItemGetter<T?> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            if (!item.HasBeenSet) return;
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                fieldIndex,
+                errorMask);
+        }
+
+        public void Write<M>(
+            XmlWriter writer,
+            string name,
+            IHasBeenSetItemGetter<T> item,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            if (!item.HasBeenSet) return;
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                fieldIndex,
+                errorMask);
         }
     }
 }

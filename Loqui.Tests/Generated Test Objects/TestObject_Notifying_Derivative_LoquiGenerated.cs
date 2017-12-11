@@ -40,9 +40,7 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly INotifyingItem<Byte[]> _ByteArray = NotifyingItem.Factory<Byte[]>(
-            markAsSet: false,
-            noNullFallback: () => new byte[4]);
+        protected readonly INotifyingItem<Byte[]> _ByteArray = NotifyingItem.Factory<Byte[]>(noNullFallback: () => new byte[4]);
         public INotifyingItemGetter<Byte[]> ByteArray_Property => _ByteArray;
         public Byte[] ByteArray
         {
@@ -52,7 +50,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_DerivativeGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
-        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingItem.Factory<Byte[]>(markAsSet: false);
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNull = NotifyingItem.Factory<Byte[]>();
         public INotifyingItemGetter<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
         public Byte[] ByteArrayNull
         {
@@ -62,9 +60,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_DerivativeGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
-        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingItem.Factory<Byte[]>(
-            markAsSet: false,
-            noNullFallback: () => new byte[3]);
+        protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull = NotifyingItem.Factory<Byte[]>(noNullFallback: () => new byte[3]);
         public INotifyingItemGetter<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
         public Byte[] ByteArrayNotNull
         {
@@ -74,9 +70,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_DerivativeGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
-        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingItem.Factory<Byte[]>(
-            markAsSet: true,
-            noNullFallback: () => new byte[3]);
+        protected readonly INotifyingItem<Byte[]> _ByteArraySingleton = NotifyingItem.Factory<Byte[]>(noNullFallback: () => new byte[3]);
         public INotifyingItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
         public Byte[] ByteArraySingleton
         {
@@ -2973,7 +2967,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._Ref.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -2987,7 +2981,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._Ref_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3024,7 +3018,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefGetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3038,7 +3032,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefGetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3054,7 +3048,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefSetter.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3068,7 +3062,7 @@ namespace Loqui.Tests
                         var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                             root: root,
                             doMasks: errorMask != null,
-                            mask: out subMask);
+                            errorMask: out subMask);
                         item._RefSetter_NotNull.SetIfSucceeded(tryGet);
                         ErrorMask.HandleErrorMask(
                             errorMask,
@@ -3134,7 +3128,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: listDoMasks,
-                                    mask: out listSubMask);
+                                    errorMask: out listSubMask);
                             }
                             );
                         item._RefList.SetIfSucceeded(listTryGet);
@@ -3187,7 +3181,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
@@ -3195,7 +3189,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._RefDict.SetIfSucceeded(dictTryGet);
@@ -3217,7 +3211,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             ,
                             valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
@@ -3256,7 +3250,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._ValRefDict.SetIfSucceeded(dictTryGet);
@@ -3278,7 +3272,7 @@ namespace Loqui.Tests
                                 return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
                                     root: r,
                                     doMasks: dictDoMasks,
-                                    mask: out dictSubMask);
+                                    errorMask: out dictSubMask);
                             }
                             );
                         item._DictKeyedValue.SetIfSucceeded(dictTryGet);
@@ -6290,15 +6284,33 @@ namespace Loqui.Tests.Internals
             ret.WildCard = object.Equals(item.WildCard, rhs.WildCard);
             ret.WildCardLoqui = object.Equals(item.WildCardLoqui, rhs.WildCardLoqui);
             ret.WildCardNull = object.Equals(item.WildCardNull, rhs.WildCardNull);
-            ret.Ref = item.Ref_Property.LoquiEqualsHelper(rhs.Ref_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_NotNull = item.Ref_NotNull_Property.LoquiEqualsHelper(rhs.Ref_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.Ref_Singleton = item.Ref_Singleton_Property.LoquiEqualsHelper(rhs.Ref_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter = item.RefGetter_Property.LoquiEqualsHelper(rhs.RefGetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_NotNull = item.RefGetter_NotNull_Property.LoquiEqualsHelper(rhs.RefGetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefGetter_Singleton = item.RefGetter_Singleton_Property.LoquiEqualsHelper(rhs.RefGetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter = item.RefSetter_Property.LoquiEqualsHelper(rhs.RefSetter_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_NotNull = item.RefSetter_NotNull_Property.LoquiEqualsHelper(rhs.RefSetter_NotNull_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-            ret.RefSetter_Singleton = item.RefSetter_Singleton_Property.LoquiEqualsHelper(rhs.RefSetter_Singleton_Property, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+            ret.Ref = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref, rhs.Ref);
+            ret.Ref.Overall = ret.Ref.Specific.AllEqual((b) => b);
+            ret.Ref_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_NotNull, rhs.Ref_NotNull);
+            ret.Ref_NotNull.Overall = ret.Ref_NotNull.Specific.AllEqual((b) => b);
+            ret.Ref_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.Ref_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.Ref_Singleton, rhs.Ref_Singleton);
+            ret.Ref_Singleton.Overall = ret.Ref_Singleton.Specific.AllEqual((b) => b);
+            ret.RefGetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter, rhs.RefGetter);
+            ret.RefGetter.Overall = ret.RefGetter.Specific.AllEqual((b) => b);
+            ret.RefGetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_NotNull, rhs.RefGetter_NotNull);
+            ret.RefGetter_NotNull.Overall = ret.RefGetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefGetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefGetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefGetter_Singleton, rhs.RefGetter_Singleton);
+            ret.RefGetter_Singleton.Overall = ret.RefGetter_Singleton.Specific.AllEqual((b) => b);
+            ret.RefSetter = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter, rhs.RefSetter);
+            ret.RefSetter.Overall = ret.RefSetter.Specific.AllEqual((b) => b);
+            ret.RefSetter_NotNull = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter_NotNull.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_NotNull, rhs.RefSetter_NotNull);
+            ret.RefSetter_NotNull.Overall = ret.RefSetter_NotNull.Specific.AllEqual((b) => b);
+            ret.RefSetter_Singleton = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+            ret.RefSetter_Singleton.Specific = ObjectToRefCommon.GetEqualsMask(item.RefSetter_Singleton, rhs.RefSetter_Singleton);
+            ret.RefSetter_Singleton.Overall = ret.RefSetter_Singleton.Specific.AllEqual((b) => b);
             if (item.List.HasBeenSet == rhs.List.HasBeenSet)
             {
                 if (item.List.HasBeenSet)
@@ -6326,7 +6338,9 @@ namespace Loqui.Tests.Internals
                     ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.RefList.Overall);
@@ -6371,8 +6385,12 @@ namespace Loqui.Tests.Internals
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
                         MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                        valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
                     }
                     ), out ret.RefDict.Overall);
@@ -6398,7 +6416,9 @@ namespace Loqui.Tests.Internals
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
                         bool valItemRet = object.Equals(l.Value, r.Value);
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                        keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(keyItemRet, valItemRet);
                     }
                     ), out ret.KeyRefDict.Overall);
@@ -6424,7 +6444,9 @@ namespace Loqui.Tests.Internals
                     {
                         bool keyItemRet = object.Equals(l.Key, r.Key);
                         MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                        valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
                         return new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
                     }
                     ), out ret.ValRefDict.Overall);
@@ -6449,7 +6471,9 @@ namespace Loqui.Tests.Internals
                     ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.DictKeyedValue.Overall);

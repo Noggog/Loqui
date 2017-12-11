@@ -13,9 +13,10 @@ namespace Loqui.Generation
 
         public override void GenerateWrite(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
-            string itemAccessor,
+            Accessor itemAccessor,
             string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
@@ -32,9 +33,17 @@ namespace Loqui.Generation
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor}");
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"maskObj: out {maskAccessor}");
+                args.Add($"item: {itemAccessor.DirectAccess}");
+                if (typeGen.HasIndex)
+                {
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
                 args.Add((gen) =>
                 {
                     gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} subItem, bool listDoMasks, out {subMaskStr} listSubMask) =>");
@@ -42,9 +51,10 @@ namespace Loqui.Generation
                     {
                         subTransl.GenerateWrite(
                             fg: gen,
+                            objGen: objGen,
                             typeGen: list.SubTypeGeneration,
                             writerAccessor: "writer",
-                            itemAccessor: $"subItem",
+                            itemAccessor: new Accessor($"subItem"),
                             doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",
                             nameAccessor: "\"Item\"");
@@ -55,7 +65,7 @@ namespace Loqui.Generation
         }
 
         protected virtual void ExtraWriteArgs(
-            string itemAccessor,
+            Accessor itemAccessor,
             TypeGeneration typeGen, 
             ArgsWrapper args)
         {

@@ -22,7 +22,15 @@ namespace Loqui.Generation
             return null;
         }
 
-        public override void GenerateWrite(FileGeneration fg, TypeGeneration typeGen, string writerAccessor, string itemAccessor, string doMaskAccessor, string maskAccessor, string nameAccessor)
+        public override void GenerateWrite(
+            FileGeneration fg,
+            ObjectGeneration objGen,
+            TypeGeneration typeGen,
+            string writerAccessor, 
+            Accessor itemAccessor, 
+            string doMaskAccessor, 
+            string maskAccessor, 
+            string nameAccessor)
         {
         }
     }

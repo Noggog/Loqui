@@ -145,5 +145,49 @@ namespace Loqui.Xml
         }
 
         public abstract void WriteSingleItem<ErrMask>(XmlWriter writer, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj);
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IEnumerable<T> item,
+            int fieldIndex,
+            Func<Mask> errorMask,
+            XmlSubWriteDelegate<T, M> transl)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item,
+                errorMask != null,
+                out var subMask,
+                transl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IHasItem<IEnumerable<T>> item,
+            int fieldIndex,
+            Func<Mask> errorMask,
+            XmlSubWriteDelegate<T, M> transl)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out var subMask,
+                transl);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
     }
 }

@@ -163,7 +163,7 @@ namespace Loqui.Xml
             };
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out MaskItem<Exception, M> mask)
+        public TryGet<T> Parse(XElement root, bool doMasks, out MaskItem<Exception, M> errorMask)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace Loqui.Xml
                         root: root,
                         doMasks: doMasks,
                         errorMask: out var subMask));
-                    mask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
+                    errorMask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
                     return ret;
                 }
                 else
@@ -185,7 +185,7 @@ namespace Loqui.Xml
                     {
                         var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
                         if (!doMasks) throw ex;
-                        mask = new MaskItem<Exception, M>(
+                        errorMask = new MaskItem<Exception, M>(
                             ex,
                             default(M));
                         return TryGet<T>.Failure;
@@ -194,32 +194,103 @@ namespace Loqui.Xml
                         root: root,
                         doMasks: doMasks,
                         maskObj: out var subErrorMaskObj).Bubble((o) => (T)o);
-                    mask = subErrorMaskObj == null ? null : new MaskItem<Exception, M>(null, (M)subErrorMaskObj);
+                    errorMask = subErrorMaskObj == null ? null : new MaskItem<Exception, M>(null, (M)subErrorMaskObj);
                     return tryGet;
                 }
             }
             catch (Exception ex)
             when (doMasks)
             {
-                mask = new MaskItem<Exception, M>(ex, default(M));
+                errorMask = new MaskItem<Exception, M>(ex, default(M));
                 return TryGet<T>.Failure;
             }
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out M mask)
+        public TryGet<T> Parse(XElement root, bool doMasks, out M errorMask)
         {
             var ret = Parse(root, doMasks, out MaskItem<Exception, M> subMask);
             if (subMask?.Overall != null)
             {
                 throw subMask.Overall;
             }
-            mask = subMask?.Specific;
+            errorMask = subMask?.Specific;
             return ret;
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out M mask)
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out M errorMask)
         {
-            WRITE.Value(writer, item, name, doMasks, out mask);
+            WRITE.Value(writer, item, name, doMasks, out errorMask);
+        }
+
+        public void Write(XmlWriter writer, string name, T item, bool doMasks, out MaskItem<Exception, M> errorMask)
+        {
+            try
+            {
+                WRITE.Value(writer, item, name, doMasks, out var subMask);
+                errorMask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
+            }
+            catch (Exception ex)
+            when (doMasks)
+            {
+                errorMask = new MaskItem<Exception, M>(ex, default(M));
+            }
+        }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IHasItemGetter<T> item,
+            int fieldIndex,
+            Func<Mask> errorMask)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item.Item,
+                errorMask != null,
+                out M subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            T item,
+            int fieldIndex,
+            Func<Mask> errorMask)
+            where Mask : IErrorMask
+        {
+            this.Write(
+                writer,
+                name,
+                item,
+                errorMask != null,
+                out M subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+        }
+
+        public void Write<Mask>(
+            XmlWriter writer,
+            string name,
+            IHasBeenSetItemGetter<T> item,
+            int fieldIndex,
+            Func<Mask> errorMask)
+            where Mask : IErrorMask
+        {
+            if (!item.HasBeenSet) return;
+            this.Write(
+                writer: writer,
+                name: name,
+                item: item,
+                fieldIndex: fieldIndex,
+                errorMask: errorMask);
         }
     }
 }
