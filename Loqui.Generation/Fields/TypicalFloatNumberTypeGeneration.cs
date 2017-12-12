@@ -42,12 +42,14 @@ namespace Loqui.Generation
                 throw new ArgumentException($"Min {minFloat} was greater than max {maxFloat}");
             }
 
-            if (!Min.EndsWith("f"))
+            if (!minFloat.Equals(float.MinValue)
+                && !Min.EndsWith("f"))
             {
                 Min += "f";
             }
 
-            if (!Max.EndsWith("f"))
+            if (!maxFloat.Equals(float.MaxValue)
+                && !Max.EndsWith("f"))
             {
                 Max += "f";
             }
