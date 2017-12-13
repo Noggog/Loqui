@@ -197,7 +197,7 @@ namespace Loqui.Generation
                 this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
         }
 
-        public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName)
+        public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName, bool throwException = true)
         {
             if (fieldNode.NodeType == System.Xml.XmlNodeType.Comment)
             {
@@ -206,7 +206,14 @@ namespace Loqui.Generation
 
             if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out var typeGen))
             {
-                throw new ArgumentException($"Unknown field type: {fieldNode.Name.LocalName}");
+                if (throwException)
+                {
+                    throw new ArgumentException($"Unknown field type: {fieldNode.Name.LocalName}");
+                }
+                else
+                {
+                    return TryGet<TypeGeneration>.Failure;
+                }
             }
 
             typeGen.SetObjectGeneration(this);
