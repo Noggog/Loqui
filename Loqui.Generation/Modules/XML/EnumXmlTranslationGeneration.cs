@@ -50,24 +50,23 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
+            var isProperty = itemAccessor.PropertyAccess != null;
+            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
-                $"var tryGet = EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse"))
+                $"{prefix}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
+                suffixLine: $"{(eType.Nullable ? string.Empty : $".Bubble((o) => o.Value)")}{(isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
             {
                 args.Add(nodeAccessor);
                 args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
-            }
-            if (itemAccessor.PropertyAccess != null)
-            {
-                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet{(eType.Nullable ? string.Empty : $".Bubble((o) => o.Value)")});");
-            }
-            else
-            {
-                fg.AppendLine("if (tryGet.Succeeded)");
-                using (new BraceWrapper(fg))
+                if (typeGen.HasIndex)
                 {
-                    fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value{(eType.Nullable ? null : ".Value")};");
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
                 }
             }
         }
@@ -76,13 +75,13 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen, 
             string nodeAccessor,
-            string retAccessor,
+            Accessor retAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
+                $"{retAccessor.DirectAccess}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor);
                 args.Add($"doMasks: {doMaskAccessor}");

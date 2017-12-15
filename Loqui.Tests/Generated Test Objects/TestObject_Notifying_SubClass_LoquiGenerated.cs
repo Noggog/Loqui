@@ -414,18 +414,10 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "NewField":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        item._NewField.SetIfSucceeded(tryGet);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
-                            subMask);
-                    }
+                    item._NewField.SetIfSucceeded(BooleanXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_Notifying_SubClass_FieldIndex.NewField,
+                        errorMask: errorMask));
                     break;
                 default:
                     TestObject_Notifying.Fill_XML_Internal(

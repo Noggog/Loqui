@@ -216,6 +216,20 @@ namespace Loqui.Xml
             errorMask = subMask?.Specific;
             return ret;
         }
+        
+        public TryGet<T> Parse<Mask>(XElement root, int fieldIndex, Func<Mask> errorMask)
+            where Mask : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                doMasks: errorMask != null,
+                errorMask: out MaskItem<Exception, M> subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+            return ret;
+        }
 
         public void Write(XmlWriter writer, string name, T item, bool doMasks, out M errorMask)
         {

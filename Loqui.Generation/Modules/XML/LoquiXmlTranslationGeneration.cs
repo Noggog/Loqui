@@ -80,47 +80,43 @@ namespace Loqui.Generation
                 {
                     if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
                     using (var args = new ArgsWrapper(fg,
-                        $"var tmp = {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
-                    {
-                        args.Add($"root: {nodeAccessor}");
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} createMask");
-                    }
-                    using (var args = new ArgsWrapper(fg,
                         $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyFieldsFrom"))
                     {
                         args.Add($"item: {itemAccessor.DirectAccess}");
-                        args.Add("rhs: tmp");
+                        args.Add((gen) =>
+                        {
+                            using (var subArgs = new FunctionWrapper(gen,
+                                $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
+                            {
+                                subArgs.Add($"root: {nodeAccessor}");
+                                subArgs.Add($"doMasks: {doMaskAccessor}");
+                                subArgs.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} {typeGen.Name}createMask");
+                            }
+                        });
                         args.Add("def: null");
                         args.Add("cmds: null");
                         args.Add("copyMask: null");
                         args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} copyMask");
+                        args.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} {typeGen.Name}copyMask");
                     }
-                    fg.AppendLine($"var loquiMask = {loquiGen.MaskItemString(MaskType.Error)}.Combine(createMask, copyMask);");
-                    fg.AppendLine($"{maskAccessor} = loquiMask == null ? null : new MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>(null, loquiMask);");
+                    using (var args = new ArgsWrapper(fg,
+                        "ErrorMask.HandleErrorMask"))
+                    {
+                        args.Add(maskAccessor);
+                        args.Add($"index: (int){typeGen.IndexEnumName}");
+                        args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>.WrapValue({loquiGen.MaskItemString(MaskType.Error)}.Combine({typeGen.Name}createMask, {typeGen.Name}copyMask))");
+                    }
                 }
                 else
                 {
-                    GenerateCopyInRet(
+                    GenerateCopyInRet_Internal(
                         fg: fg, 
                         typeGen: typeGen, 
                         nodeAccessor: nodeAccessor, 
-                        retAccessor: "var tryGet = ",
+                        itemAccessor: itemAccessor,
+                        ret: false,
                         doMaskAccessor: doMaskAccessor, 
                         maskAccessor: maskAccessor);
-                    if (itemAccessor.PropertyAccess != null)
-                    {
-                        fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet);");
-                    }
-                    else
-                    {
-                        fg.AppendLine("if (tryGet.Succeeded)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value;");
-                        }
-                    }
                 }
             }
             else
@@ -129,34 +125,72 @@ namespace Loqui.Generation
                 {
                     ErrMaskString = $"MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>"
                 };
-                unsafeXml.GenerateCopyIn(
+                var isProperty = itemAccessor.PropertyAccess != null;
+                unsafeXml.GenerateCopyInRet(
                     fg: fg,
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
-                    itemAccessor: itemAccessor,
+                    retAccessor: new Accessor($"var {typeGen.Name}unsafe = "),
                     doMaskAccessor: doMaskAccessor,
-                    maskAccessor: "var unsafeMask");
-                fg.AppendLine($"{maskAccessor} = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);");
+                    maskAccessor: $"var {typeGen.Name}unsafeMask");
+                using (var args = new ArgsWrapper(fg,
+                    "ErrorMask.HandleErrorMask"))
+                {
+                    args.Add(maskAccessor);
+                    args.Add($"index: (int){typeGen.IndexEnumName}");
+                    args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>.WrapValue({typeGen.Name}unsafeMask)");
+                }
+                if (isProperty)
+                {
+                    fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}({typeGen.Name}unsafe.Bubble<{loquiGen.GenericDef.Name}>((o) => ({loquiGen.GenericDef.Name})o));");
+                }
+                else
+                {
+                    fg.AppendLine($"{itemAccessor.DirectAccess} = {typeGen.Name}unsafe;");
+                }
             }
         }
 
-        public override void GenerateCopyInRet(
+        public void GenerateCopyInRet_Internal(
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string retAccessor,
+            Accessor itemAccessor,
+            bool ret,
             string doMaskAccessor,
             string maskAccessor)
         {
+            string prefix, suffix;
+            bool isProperty = itemAccessor?.PropertyAccess != null;
+            if (!ret)
+            {
+                suffix = isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})";
+                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
+            }
+            else
+            {
+                suffix = null;
+                prefix = itemAccessor.DirectAccess;
+            }
+
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{retAccessor}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Parse"))
+                    $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Parse",
+                    suffixLine: suffix))
                 {
                     args.Add($"root: {nodeAccessor}");
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
+                    if (typeGen.HasIndex)
+                    {
+                        args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                        args.Add($"errorMask: {maskAccessor}");
+                    }
+                    else
+                    {
+                        args.Add($"doMasks: {doMaskAccessor}");
+                        args.Add($"errorMask: out {maskAccessor}");
+                    }
                 }
             }
             else
@@ -169,10 +203,28 @@ namespace Loqui.Generation
                     fg: fg,
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
-                    retAccessor: retAccessor,
+                    retAccessor: itemAccessor,
                     doMaskAccessor: doMaskAccessor,
                     maskAccessor: maskAccessor);
             }
+        }
+
+        public override void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string nodeAccessor,
+            Accessor retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
+        {
+            GenerateCopyInRet_Internal(
+                fg: fg,
+                typeGen: typeGen,
+                nodeAccessor: nodeAccessor,
+                itemAccessor: retAccessor,
+                ret: true,
+                doMaskAccessor: doMaskAccessor,
+                maskAccessor: maskAccessor);
         }
 
         public override XElement GenerateForXSD(

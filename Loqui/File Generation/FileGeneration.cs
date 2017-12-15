@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("item.RefSetter_NotNull_Property.SetToWithDefault("))
+            if (str.Contains("erritem._KeyRefDict = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse("))
             {
                 int wer = 23;
                 wer++;

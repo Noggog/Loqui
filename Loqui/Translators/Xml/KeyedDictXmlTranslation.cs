@@ -41,6 +41,25 @@ namespace Loqui.Xml
             return TryGet<IEnumerable<V>>.Succeed(Parse_Internal(valTransl, root, doMasks, out maskObj));
         }
 
+        public TryGet<IEnumerable<V>> Parse<M>(
+            XmlSubParseDelegate<V, Mask> valTransl,
+            XElement root,
+            int fieldIndex,
+            Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                doMasks: errorMask != null,
+                valTransl: valTransl,
+                maskObj: out var ex);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                ex);
+            return ret;
+        }
+
         private IEnumerable<V> Parse_Internal(
             XmlSubParseDelegate<V, Mask> valTranl,
             XElement root,

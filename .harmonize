@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>53cfd49f53be93707f6a2a1259543f6f77900808</Sha>
+         <Sha>abca778c2e1d61aca7b8b5b8ebeb8f019ad9df24</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-10-2017 23:35:43</CommitDate>
-         <Description>IHasItemGetter</Description>
+         <CommitDate>12-14-2017 19:33:47</CommitDate>
+         <Description>TryGetExt.GetOrDefault with implicit conversion</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

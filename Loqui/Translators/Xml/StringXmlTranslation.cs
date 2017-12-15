@@ -35,6 +35,20 @@ namespace Loqui.Xml
             return TryGet<string>.Succeed(null);
         }
 
+        public TryGet<string> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                doMasks: errorMask != null,
+                errorMask: out Exception ex);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                ex);
+            return ret;
+        }
+
         public void Write(XmlWriter writer, string name, string item, bool doMasks, out Exception errorMask)
         {
             try

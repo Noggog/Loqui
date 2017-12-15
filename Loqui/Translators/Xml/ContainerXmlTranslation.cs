@@ -71,6 +71,24 @@ namespace Loqui.Xml
             }
         }
 
+        public TryGet<IEnumerable<T>> Parse<Mask>(
+            XElement root,
+            int fieldIndex,
+            Func<Mask> errorMask,
+            XmlSubParseDelegate<T, M> transl)
+            where Mask : IErrorMask
+        {
+            var ret = this.Parse(
+                root,
+                errorMask != null,
+                out var subMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subMask);
+            return ret;
+        }
+
         public abstract TryGet<T> ParseSingleItem(XElement root, XmlSubParseDelegate<T, M> transl, bool doMasks, out M maskObj);
 
         public void Write(
