@@ -12,20 +12,15 @@ namespace Loqui.Generation
 {
     public class LoquiGenerator
     {
-        private const string CSPROJ_NAMESPACE = "http://schemas.microsoft.com/developer/msbuild/2003";
-        private List<DirectoryInfo> sourceFolders = new List<DirectoryInfo>();
-        private HashSet<FileInfo> sourceFiles = new HashSet<FileInfo>();
         Dictionary<ProtocolKey, ProtocolGeneration> targetData = new Dictionary<ProtocolKey, ProtocolGeneration>();
-        List<FileInfo> projectsToModify = new List<FileInfo>();
-        private List<DirectoryInfo> addedTargetDirs = new List<DirectoryInfo>();
+        private HashSet<DirectoryPath> addedTargetDirs = new HashSet<DirectoryPath>();
         Dictionary<StringCaseAgnostic, Type> typeDict = new Dictionary<StringCaseAgnostic, Type>();
         public string DefaultNamespace;
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<GenerationModule> GenerationModules = new List<GenerationModule>();
-        public DirectoryInfo CommonGenerationFolder;
         public Dictionary<DirectoryPath, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<DirectoryPath, List<ObjectGeneration>>();
         public IEnumerable<ObjectGeneration> ObjectGenerations => this.ObjectGenerationsByDir.Values.SelectMany((v) => v);
-        public HashSet<StringCaseAgnostic> GeneratedFiles = new HashSet<StringCaseAgnostic>();
+        public HashSet<FilePath> GeneratedFiles = new HashSet<FilePath>();
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
@@ -40,14 +35,12 @@ namespace Loqui.Generation
 
         public LoquiGenerator(DirectoryInfo commonGenerationFolder = null, bool typical = true)
         {
-            this.CommonGenerationFolder = commonGenerationFolder;
             if (typical)
             {
                 this.AddTypicalTypeAssociations();
                 this.XmlTranslation = new XmlTranslationModule(this);
                 this.Add(this.XmlTranslation);
                 this.Add(MaskModule);
-                this.AddSearchableFolder(this.CommonGenerationFolder);
             }
         }
 
@@ -159,78 +152,6 @@ namespace Loqui.Generation
             return protoGen;
         }
 
-        public void AddProjectToModify(FileInfo projFile)
-        {
-            this.projectsToModify.Add(projFile);
-        }
-
-        public void AddSearchableFolder(DirectoryInfo dir)
-        {
-            if (dir == null) return;
-            AddSpecificFolders(dir);
-            foreach (var d in dir.GetDirectories())
-            {
-                AddSearchableFolder(d);
-            }
-        }
-
-        public void AddSpecificFolders(params DirectoryInfo[] dirs)
-        {
-            this.sourceFolders.AddRange(dirs);
-        }
-
-        protected void LoadSpecificFolders(IEnumerable<DirectoryInfo> dirs)
-        {
-            foreach (var dir in dirs)
-            {
-                addedTargetDirs.Add(dir);
-                dir.Refresh();
-                LoadSpecificFile(dir.EnumerateFiles().ToArray());
-            }
-        }
-
-        public void AddSpecificFile(params FileInfo[] files)
-        {
-            this.sourceFiles.Add(files);
-        }
-
-        protected void LoadSpecificFile(IEnumerable<FileInfo> files)
-        {
-            foreach (var protocolGen in this.targetData.Values)
-            {
-                protocolGen.LoadInitialObjects(files
-                    .Where((f) => ".XML".EqualsIgnoreCase(f.Extension))
-                    .Select(
-                    (f) =>
-                    {
-                        XDocument doc;
-                        using (var stream = new FileStream(f.FullName, FileMode.Open))
-                        {
-                            doc = XDocument.Load(stream);
-                        }
-                        return new System.Tuple<XDocument, FileInfo>(doc, f);
-                    })
-                    .Where((t) =>
-                    {
-                        var loquiNode = t.Item1.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
-                        if (loquiNode == null) return false;
-                        var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
-                        string protoNamespace;
-                        if (protoNode == null
-                            && !string.IsNullOrWhiteSpace(this.ProtocolDefault.Namespace))
-                        {
-                            protoNamespace = this.ProtocolDefault.Namespace;
-                        }
-                        else
-                        {
-                            protoNamespace = protoNode.GetAttribute("Namespace");
-                        }
-
-                        return protoNamespace == null || protocolGen.Protocol.Namespace.Equals(protoNamespace);
-                    }));
-            }
-        }
-
         public void Add(GenerationModule transl)
         {
             GenerationModules.Add(transl);
@@ -248,8 +169,8 @@ namespace Loqui.Generation
 
         public async Task Generate()
         {
-            this.LoadSpecificFolders(this.sourceFolders);
-            this.LoadSpecificFile(this.sourceFiles);
+            await Task.WhenAll(this.targetData.Values.Select((p) => p.LoadInitialObjects()));
+
 
             await Task.WhenAll(this.GenerationModules.Select((m) => m.Modify(this)));
 
@@ -258,11 +179,6 @@ namespace Loqui.Generation
             await Task.WhenAll(
                 this.targetData.Values
                     .Select((protoGen) => protoGen.Generate()));
-
-            foreach (var file in this.projectsToModify)
-            {
-                ModifyProject(file);
-            }
 
             DeleteOldAutogenerated();
         }
@@ -309,166 +225,15 @@ namespace Loqui.Generation
         {
             foreach (var dir in addedTargetDirs)
             {
-                foreach (var file in dir.GetFiles())
+                foreach (var file in dir.EnumerateFiles())
                 {
                     if (file.Name.Contains(ObjectGeneration.AUTOGENERATED)
                         && !file.Name.EndsWith(".meta")
-                        && !this.GeneratedFiles.Contains(file.FullName))
+                        && !this.GeneratedFiles.Contains(file))
                     {
                         file.Delete();
                     }
                 }
-            }
-        }
-
-        private void ModifyProject(FilePath projFile)
-        {
-            XDocument doc;
-            using (var stream = new FileStream(projFile.Path, FileMode.Open))
-            {
-                doc = XDocument.Load(stream);
-            }
-            bool modified = false;
-            var projNode = doc.Element(XName.Get("Project", CSPROJ_NAMESPACE));
-            List<XElement> includeNodes = projNode.Elements(XName.Get("ItemGroup", CSPROJ_NAMESPACE)).ToList();
-            List<XElement> compileGroupNodes = includeNodes
-                .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("Compile")))
-                .ToList();
-            List<XElement> noneGroupNodes = includeNodes
-                .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("None")))
-                .ToList();
-            var compileNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", CSPROJ_NAMESPACE)))
-                .ToList();
-            var noneNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("None", CSPROJ_NAMESPACE)))
-                .ToList();
-
-            XElement compileIncludeNode;
-            if (compileGroupNodes.Count == 0)
-            {
-                compileIncludeNode = new XElement("ItemGroup", CSPROJ_NAMESPACE);
-                projNode.Add(compileIncludeNode);
-                compileGroupNodes.Add(compileIncludeNode);
-            }
-            else
-            {
-                compileIncludeNode = compileGroupNodes.First();
-            }
-
-            Lazy<XElement> noneIncludeNode = new Lazy<XElement>(() =>
-            {
-                if (noneGroupNodes.Count == 0)
-                {
-                    var ret = new XElement("ItemGroup", CSPROJ_NAMESPACE);
-                    projNode.Add(ret);
-                    noneGroupNodes.Add(ret);
-                    return ret;
-                }
-                else
-                {
-                    return noneGroupNodes.First();
-                }
-            });
-
-            Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
-            generatedItems.Set(this.ObjectGenerationsByDir.SelectMany((kv) => kv.Value).Select((objGen) => objGen.GeneratedFiles).SelectMany((d) => d));
-            HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByDir.SelectMany(kv => kv.Value).Select((objGen) => new FilePath(objGen.SourceXMLFile.FullName)));
-
-            // Find which objects are present
-            foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))
-            {
-                XAttribute includeAttr = subNode.Attribute("Include");
-                if (includeAttr == null) continue;
-                generatedItems.Remove(Path.Combine(projFile.Directory.Path, includeAttr.Value));
-            }
-
-            // Add missing object nodes
-            foreach (var objGens in generatedItems)
-            {
-                if (objGens.Key.Directory.IsSubfolderOf(projFile.Directory)
-                    || objGens.Key.Directory.Equals(projFile.Directory))
-                {
-                    string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Path);
-                    filePath = filePath.TrimStart('\\');
-                    List<XElement> nodes;
-                    XElement includeNode;
-                    string nodeName;
-                    switch (objGens.Value)
-                    {
-                        case ProjItemType.None:
-                            nodes = noneNodes;
-                            includeNode = noneIncludeNode.Value;
-                            nodeName = "None";
-                            break;
-                        case ProjItemType.Compile:
-                            nodes = compileNodes;
-                            includeNode = compileIncludeNode;
-                            nodeName = "Compile";
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    var compileElem = new XElement(XName.Get(nodeName, CSPROJ_NAMESPACE),
-                        new XAttribute("Include", filePath));
-                    nodes.Add(compileElem);
-                    includeNode.Add(compileElem);
-                    modified = true;
-                }
-            }
-
-            // Add dependent files underneath
-            var depName = XName.Get("DependentUpon", CSPROJ_NAMESPACE);
-            foreach (var subMode in includeNodes.SelectMany((n) => n.Elements()))
-            {
-                XAttribute includeAttr = subMode.Attribute("Include");
-                if (includeAttr == null) continue;
-                FilePath file = new FilePath(Path.Combine(projFile.Directory.Path, includeAttr.Value));
-                if (sourceXMLs.Contains(file)) continue;
-                if (!TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
-                if (file.Name.Equals(objGen.SourceXMLFile.Name)) continue;
-                if (subMode.Element(depName) != null) continue;
-
-                var depElem = new XElement(depName)
-                {
-                    Value = objGen.SourceXMLFile.Name
-                };
-                subMode.Add(depElem);
-                modified = true;
-            }
-
-            // Add Protocol Definition
-            HashSet<ProtocolKey> foundProtocols = new HashSet<ProtocolKey>();
-            foreach (var compile in compileNodes)
-            {
-                XAttribute includeAttr = compile.Attribute("Include");
-                if (includeAttr == null) continue;
-                foreach (var proto in this.targetData)
-                {
-                    if (includeAttr.Value.ToLower().Contains(proto.Value.ProtocolDefinitionName.ToLower()))
-                    {
-                        foundProtocols.Add(proto.Key);
-                    }
-                }
-            }
-            foreach (var proto in this.targetData)
-            {
-                if (!foundProtocols.Add(proto.Key)) continue;
-                var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
-                    new XAttribute("Include", proto.Value.ProtocolDefinitionName + ".cs"));
-                compileNodes.Add(compileElem);
-                compileIncludeNode.Add(compileElem);
-                modified = true;
-            }
-
-            if (!modified) return;
-
-            using (XmlTextWriter writer = new XmlTextWriter(
-                new FileStream(projFile.Path, FileMode.Create), Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 2;
-                doc.WriteTo(writer);
             }
         }
 
