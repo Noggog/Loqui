@@ -111,8 +111,8 @@ namespace Loqui.Generation
             await base.Load();
             foreach (var field in this.IterateFields())
             {
-                field.Notifying = false;
-                field.HasBeenSet = false;
+                field.NotifyingProperty.Item = false;
+                field.HasBeenSetProperty.Item = false;
                 field.Protected = true;
             }
         }
