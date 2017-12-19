@@ -84,10 +84,6 @@ namespace Loqui.Generation
         {
         }
 
-        public override async Task Load(XElement node, bool requireName = true)
-        {
-        }
-
         public override string ToString()
         {
             return "Nothing";
