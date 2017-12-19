@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>c0c451c25193b8dc676b8d81ae8887146d6f027d</Sha>
+         <Sha>25bffd2ea5f77f720590ff89d85a267337be39a8</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-17-2017 15:23:30</CommitDate>
-         <Description>DirectoryPath/FilePath API extended</Description>
+         <CommitDate>12-18-2017 20:09:32</CommitDate>
+         <Description>IHasBeenSetExt GetOrDefault and SetIfNotSet convenience functions</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

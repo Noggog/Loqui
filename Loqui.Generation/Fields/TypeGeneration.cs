@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog.Notifying;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -30,8 +31,10 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        public bool Notifying;
-        public bool HasBeenSet;
+        public readonly HasBeenSetItem<bool> NotifyingProperty = new HasBeenSetItem<bool>();
+        public bool Notifying => NotifyingProperty.Item;
+        public readonly HasBeenSetItem<bool> HasBeenSetProperty = new HasBeenSetItem<bool>();
+        public bool HasBeenSet => HasBeenSetProperty.Item;
         public bool Bare => !this.Notifying && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
@@ -43,8 +46,8 @@ namespace Loqui.Generation
         {
             this.ObjectGen = obj;
             this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
-            this.Notifying = this.ObjectGen.NotifyingDefault;
-            this.HasBeenSet = this.ObjectGen.HasBeenSetDefault;
+            this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
+            this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
             this._derivative = this.ObjectGen.DerivativeDefault;
             this.Protected = this.ObjectGen.ProtectedDefault;
         }
@@ -64,8 +67,8 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Protected);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
-            node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.Notifying = i);
-            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSet = i);
+            node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
+            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
             if (requireName && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");
