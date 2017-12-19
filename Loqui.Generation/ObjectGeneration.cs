@@ -443,7 +443,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public enum {this.FieldIndexName}");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in this.IterateFieldIndices())
+                    foreach (var field in this.IterateFieldIndices(includeBaseClass: true))
                     {
                         if (!field.Field.IntegrateField) continue;
                         fg.AppendLine($"{field.Field.Name} = {field.Index},");
@@ -2506,8 +2506,19 @@ namespace Loqui.Generation
 
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFieldIndices(
             bool nonIntegrated = false,
-            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True)
+            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True,
+            bool includeBaseClass = false)
         {
+            if (includeBaseClass && this.HasBaseObject)
+            {
+                foreach (var item in this.BaseClass.IterateFieldIndices(
+                    nonIntegrated: nonIntegrated,
+                    expandSets: expandSets,
+                    includeBaseClass: includeBaseClass))
+                {
+                    yield return item;
+                }
+            }
             int i = this.StartingIndex;
             foreach (var field in this.Fields)
             {
