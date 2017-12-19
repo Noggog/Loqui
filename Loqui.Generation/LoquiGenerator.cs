@@ -20,6 +20,7 @@ namespace Loqui.Generation
         public List<GenerationModule> GenerationModules = new List<GenerationModule>();
         public Dictionary<DirectoryPath, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<DirectoryPath, List<ObjectGeneration>>();
         public IEnumerable<ObjectGeneration> ObjectGenerations => this.ObjectGenerationsByDir.Values.SelectMany((v) => v);
+        public Dictionary<ObjectNamedKey, ObjectGeneration> ObjectGenerationsByObjectNameKey = new Dictionary<ObjectNamedKey, ObjectGeneration>();
         public HashSet<FilePath> GeneratedFiles = new HashSet<FilePath>();
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
