@@ -609,6 +609,9 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestGenericObject_SubClass_FieldIndex
     {
+        RefBase = 0,
+        Ref = 1,
+        RefList = 2,
     }
     #endregion
 
@@ -1230,6 +1233,12 @@ namespace Loqui.Tests.Internals
                     base.SetNthMask(index, obj);
                     break;
             }
+        }
+
+        public override bool IsInError()
+        {
+            if (Overall != null) return true;
+            return false;
         }
         #endregion
 

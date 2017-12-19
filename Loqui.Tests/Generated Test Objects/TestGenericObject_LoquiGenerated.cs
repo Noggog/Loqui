@@ -1718,6 +1718,15 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+
+        public virtual bool IsInError()
+        {
+            if (Overall != null) return true;
+            if (RefBase != null) return true;
+            if (Ref != null) return true;
+            if (RefList != null) return true;
+            return false;
+        }
         #endregion
 
         #region To String
