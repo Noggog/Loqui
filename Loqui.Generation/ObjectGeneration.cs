@@ -2263,6 +2263,14 @@ namespace Loqui.Generation
             }
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
+            foreach (var gen in this.Generics.Values)
+            {
+                if (!gen.Wheres.Any()) continue;
+                if (!ObjectNamedKey.TryFactory(gen.Wheres.First(), out var objGenKey)) continue;
+                if (!this.gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) continue;
+                gen.BaseObjectGeneration = baseObjGen;
+            }
+
             await Task.WhenAll(this.IterateFields().ToList().Select((f) => f.Resolve()));
 
             if (this.HasRaisedPropertyChanged)
@@ -2271,15 +2279,10 @@ namespace Loqui.Generation
                 this.Interfaces.Add(nameof(INotifyPropertyChanged));
             }
 
-            foreach (var gen in this.Generics.Values)
-            {
-                if (!gen.Wheres.Any()) continue;
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(gen.Wheres.First(), out var baseObjGen)) continue;
-                gen.BaseObjectGeneration = baseObjGen;
-            }
-
             if (this.HasBaseObject)
             {
+                AddBaseClassNamespaces(this);
+
                 foreach (var baseGen in this.BaseClass.Generics)
                 {
                     this.Generics.Add(baseGen.Key, baseGen.Value.Copy());
@@ -2314,6 +2317,14 @@ namespace Loqui.Generation
             }
 
             await Task.WhenAll(this.gen.GenerationModules.Select((mod) => mod.Resolve(this)));
+        }
+
+        private void AddBaseClassNamespaces(ObjectGeneration obj)
+        {
+            if (!obj.HasBaseObject) return;
+            this.RequiredNamespaces.Add(obj.BaseClass.Namespace);
+            this.RequiredNamespaces.Add(obj.BaseClass.InternalNamespace);
+            AddBaseClassNamespaces(obj.BaseClass);
         }
 
         public void RegenerateAndStampSourceXML()

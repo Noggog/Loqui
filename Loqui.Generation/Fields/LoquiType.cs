@@ -839,9 +839,10 @@ namespace Loqui.Generation
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
-            if (RefType == LoquiRefType.Direct)
+            if (TargetObjectGeneration != null)
             {
                 yield return TargetObjectGeneration.Namespace;
+                yield return TargetObjectGeneration.InternalNamespace;
             }
         }
 

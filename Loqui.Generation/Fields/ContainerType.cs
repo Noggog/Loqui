@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -66,6 +67,11 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public override IEnumerable<string> GetRequiredNamespaces()
+        {
+            return this.SingleTypeGen.GetRequiredNamespaces();
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)

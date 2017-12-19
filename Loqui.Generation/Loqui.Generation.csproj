@@ -152,6 +152,7 @@
     <Compile Include="FileGeneration\NamespaceWrapper.cs" />
     <Compile Include="NotifyingOption.cs" />
     <Compile Include="ObjectGeneration.cs" />
+    <Compile Include="ObjectNamedKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolGeneration.cs" />
     <Compile Include="Enums\LoquiInterfaceType.cs" />

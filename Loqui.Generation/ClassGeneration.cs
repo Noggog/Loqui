@@ -33,9 +33,9 @@ namespace Loqui.Generation
 
             this.Interfaces.Add($"ILoquiObjectSetter");
 
-            if (!string.IsNullOrWhiteSpace(this.BaseClassStr))
+            if (ObjectNamedKey.TryFactory(this.BaseClassStr, this.ProtoGen.Protocol, out var baseClassObjKey))
             {
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.BaseClassStr, out ObjectGeneration baseObj)
+                if (!this.gen.ObjectGenerationsByObjectNameKey.TryGetValue(baseClassObjKey, out ObjectGeneration baseObj)
                     || !(baseObj is ClassGeneration))
                 {
                     throw new ArgumentException($"Could not resolve base class object: {this.BaseClassStr}");
