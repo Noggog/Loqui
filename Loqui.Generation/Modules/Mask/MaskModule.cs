@@ -310,6 +310,18 @@ namespace Loqui.Generation
                             GenerateStandardDefault(fg, obj, "SetNthMask", "index", false, "obj");
                         }
                     }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool IsInError()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (Overall != null) return true;");
+                        foreach (var item in obj.IterateFields())
+                        {
+                            fg.AppendLine($"if ({item.Name} != null) return true;");
+                        }
+                        fg.AppendLine("return false;");
+                    }
                 }
 
                 using (new RegionWrapper(fg, "To String"))

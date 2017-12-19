@@ -64,5 +64,12 @@ namespace Loqui
             var mask = creator();
             mask.SetNthException(index, ex);
         }
+
+        public bool IsInError()
+        {
+            if (Overall != null) return true;
+            if (Errors.Length > 0) return true;
+            return false;
+        }
     }
 }
