@@ -961,6 +961,27 @@ namespace Loqui.Tests.Internals
             return ret;
         }
 
+        public static TestGenericObject_SubClass_Defined_FieldIndex? ConvertFieldIndex(TestGenericObject_FieldIndex? index)
+        {
+            if (!index.HasValue) return null;
+            return ConvertFieldIndex(index: index.Value);
+        }
+
+        public static TestGenericObject_SubClass_Defined_FieldIndex ConvertFieldIndex(TestGenericObject_FieldIndex index)
+        {
+            switch (index)
+            {
+                case TestGenericObject_FieldIndex.RefBase:
+                    return (TestGenericObject_SubClass_Defined_FieldIndex)((int)index);
+                case TestGenericObject_FieldIndex.Ref:
+                    return (TestGenericObject_SubClass_Defined_FieldIndex)((int)index);
+                case TestGenericObject_FieldIndex.RefList:
+                    return (TestGenericObject_SubClass_Defined_FieldIndex)((int)index);
+                default:
+                    throw new ArgumentException($"Index is out of range: {index.ToStringFast_Enum_Only()}");
+            }
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML<RBase, RBase_ErrMask>(

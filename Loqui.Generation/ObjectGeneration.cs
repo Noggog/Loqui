@@ -615,6 +615,8 @@ namespace Loqui.Generation
 
                     GenerateHasBeenSetMaskGetter(fg);
 
+                    GenerateFieldIndexConverters(fg, this);
+
                     // Fields might add some content
                     foreach (var field in this.IterateFields())
                     {
@@ -732,6 +734,56 @@ namespace Loqui.Generation
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
+        }
+
+        private void GenerateFieldIndexConverters(FileGeneration fg, ObjectGeneration obj)
+        {
+            if (!obj.HasBaseObject) return;
+            var baseObj = obj.BaseClass;
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.FieldIndexName}? ConvertFieldIndex"))
+            {
+                args.Add($"{baseObj.FieldIndexName}? index");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("if (!index.HasValue) return null;");
+                using (var args = new ArgsWrapper(fg,
+                    "return ConvertFieldIndex"))
+                {
+                    args.Add("index: index.Value");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.FieldIndexName} ConvertFieldIndex"))
+            {
+                args.Add($"{baseObj.FieldIndexName} index");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("switch (index)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var (Index, Field) in baseObj.IterateFieldIndices(includeBaseClass: true))
+                    {
+                        fg.AppendLine($"case {baseObj.FieldIndexName}.{Field.Name}:");
+                        using (new DepthWrapper(fg))
+                        {
+                            fg.AppendLine($"return ({this.FieldIndexName})((int)index);");
+                        }
+                    }
+
+                    fg.AppendLine("default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        GenerateIndexOutOfRangeEx(fg, $"index.{nameof(EnumExt.ToStringFast_Enum_Only)}()");
+                    }
+                }
+            }
+            fg.AppendLine();
+            GenerateFieldIndexConverters(fg, baseObj);
         }
 
         protected virtual void GenerateStaticCopy_ToLoqui(FileGeneration fg)
