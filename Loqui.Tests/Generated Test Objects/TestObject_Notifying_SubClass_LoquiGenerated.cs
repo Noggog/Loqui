@@ -593,6 +593,113 @@ namespace Loqui.Tests.Internals
     #region Field Index
     public enum TestObject_Notifying_SubClass_FieldIndex
     {
+        ByteArray = 0,
+        ByteArrayNull = 1,
+        ByteArrayNotNull = 2,
+        ByteArraySingleton = 3,
+        BoolN = 4,
+        Bool = 5,
+        CharN = 6,
+        Char = 7,
+        DateTimeNull = 8,
+        DateTime = 9,
+        DoubleN = 10,
+        DoubleN_Ranged = 11,
+        Double = 12,
+        Double_Ranged = 13,
+        FloatN = 14,
+        FloatN_Ranged = 15,
+        Float = 16,
+        Float_Ranged = 17,
+        Int16N = 18,
+        Int16N_Ranged = 19,
+        Int16 = 20,
+        Int16_Ranged = 21,
+        Int32N = 22,
+        Int32N_Ranged = 23,
+        Int32 = 24,
+        Int32_Ranged = 25,
+        Int64N = 26,
+        Int64N_Ranged = 27,
+        Int64 = 28,
+        Int64_Ranged = 29,
+        Int8N = 30,
+        Int8N_Ranged = 31,
+        Int8 = 32,
+        Int8_Ranged = 33,
+        Unsafe = 34,
+        UnsafeLoqui = 35,
+        UnsafeNull = 36,
+        P2IntN = 37,
+        P2Int = 38,
+        P3DoubleN = 39,
+        P3Double = 40,
+        P3IntN = 41,
+        P3Int = 42,
+        PercentN = 43,
+        Percent = 44,
+        RangeInt8N = 45,
+        RangeInt8 = 46,
+        RangeInt16N = 47,
+        RangeInt16 = 48,
+        RangeInt32N = 49,
+        RangeInt32 = 50,
+        RangeInt64N = 51,
+        RangeInt64 = 52,
+        RangeUInt8N = 53,
+        RangeUInt8 = 54,
+        RangeUInt16N = 55,
+        RangeUInt16 = 56,
+        RangeUInt32N = 57,
+        RangeUInt32 = 58,
+        RangeUInt64N = 59,
+        RangeUInt64 = 60,
+        String = 61,
+        FilePath = 62,
+        FilePathNull = 63,
+        DirectoryPath = 64,
+        DirectoryPathNull = 65,
+        UDoubleN = 66,
+        UDoubleN_Ranged = 67,
+        UDouble = 68,
+        UDouble_Ranged = 69,
+        UInt16N = 70,
+        UInt16N_Ranged = 71,
+        UInt16 = 72,
+        UInt16_Ranged = 73,
+        UInt32N = 74,
+        UInt32N_Ranged = 75,
+        UInt32 = 76,
+        UInt32_Ranged = 77,
+        UInt64N = 78,
+        UInt64N_Ranged = 79,
+        UInt64 = 80,
+        UInt64_Ranged = 81,
+        UInt8N = 82,
+        UInt8N_Ranged = 83,
+        UInt8 = 84,
+        UInt8_Ranged = 85,
+        Enum = 86,
+        EnumNull = 87,
+        WildCard = 88,
+        WildCardLoqui = 89,
+        WildCardNull = 90,
+        Ref = 91,
+        Ref_NotNull = 92,
+        Ref_Singleton = 93,
+        RefGetter = 94,
+        RefGetter_NotNull = 95,
+        RefGetter_Singleton = 96,
+        RefSetter = 97,
+        RefSetter_NotNull = 98,
+        RefSetter_Singleton = 99,
+        List = 100,
+        RefList = 101,
+        Dict = 102,
+        RefDict = 103,
+        KeyRefDict = 104,
+        ValRefDict = 105,
+        DictKeyedValue = 106,
         NewField = 107,
     }
     #endregion
@@ -1000,6 +1107,235 @@ namespace Loqui.Tests.Internals
             return ret;
         }
 
+        public static TestObject_Notifying_SubClass_FieldIndex? ConvertFieldIndex(TestObject_Notifying_FieldIndex? index)
+        {
+            if (!index.HasValue) return null;
+            return ConvertFieldIndex(index: index.Value);
+        }
+
+        public static TestObject_Notifying_SubClass_FieldIndex ConvertFieldIndex(TestObject_Notifying_FieldIndex index)
+        {
+            switch (index)
+            {
+                case TestObject_Notifying_FieldIndex.ByteArray:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.ByteArrayNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.ByteArrayNotNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.ByteArraySingleton:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.BoolN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Bool:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.CharN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Char:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DateTimeNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DateTime:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DoubleN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DoubleN_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Double:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Double_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.FloatN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.FloatN_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Float:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Float_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int16N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int16N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int16:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int16_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int32N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int32N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int32:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int32_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int64N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int64N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int64:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int64_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int8N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int8N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int8:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Int8_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Unsafe:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UnsafeLoqui:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UnsafeNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P2IntN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P2Int:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P3DoubleN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P3Double:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P3IntN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.P3Int:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.PercentN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Percent:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt8N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt8:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt16N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt16:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt32N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt32:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt64N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeInt64:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt8N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt8:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt16N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt16:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt32N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt32:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt64N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RangeUInt64:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.String:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.FilePath:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.FilePathNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DirectoryPath:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DirectoryPathNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UDoubleN:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UDoubleN_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UDouble:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UDouble_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt16N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt16N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt16:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt16_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt32N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt32N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt32:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt32_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt64N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt64N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt64:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt64_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt8N:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt8N_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt8:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.UInt8_Ranged:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Enum:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.EnumNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.WildCard:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.WildCardLoqui:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.WildCardNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Ref:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Ref_NotNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Ref_Singleton:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefGetter:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefGetter_NotNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefGetter_Singleton:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefSetter:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefSetter_NotNull:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefSetter_Singleton:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.List:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefList:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.Dict:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.RefDict:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.KeyRefDict:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.ValRefDict:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                case TestObject_Notifying_FieldIndex.DictKeyedValue:
+                    return (TestObject_Notifying_SubClass_FieldIndex)((int)index);
+                default:
+                    throw new ArgumentException($"Index is out of range: {index.ToStringFast_Enum_Only()}");
+            }
+        }
+
         #region XML Translation
         #region XML Write
         public static void Write_XML(
@@ -1191,6 +1527,13 @@ namespace Loqui.Tests.Internals
                     base.SetNthMask(index, obj);
                     break;
             }
+        }
+
+        public override bool IsInError()
+        {
+            if (Overall != null) return true;
+            if (NewField != null) return true;
+            return false;
         }
         #endregion
 

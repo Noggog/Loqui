@@ -1473,6 +1473,14 @@ namespace Loqui.Tests.Internals
                     throw new ArgumentException($"Index is out of range: {index}");
             }
         }
+
+        public bool IsInError()
+        {
+            if (Overall != null) return true;
+            if (TestGenericObjectSpecified != null) return true;
+            if (TestGenericObjectHalfSpecified != null) return true;
+            return false;
+        }
         #endregion
 
         #region To String
