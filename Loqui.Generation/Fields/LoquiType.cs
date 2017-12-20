@@ -457,7 +457,8 @@ namespace Loqui.Generation
                 this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
 
                 this.RefType = LoquiRefType.Direct;
-                if (!this.ProtoGen.ObjectGenerationsByName.TryGetValue(this.RefName, out _TargetObjectGeneration))
+                if (!ObjectNamedKey.TryFactory(this.RefName, this.ProtoGen.Protocol, out var namedKey)
+                    || !this.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(namedKey, out _TargetObjectGeneration))
                 {
                     throw new ArgumentException("Loqui type cannot be found: " + this.RefName);
                 }
