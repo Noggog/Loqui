@@ -45,7 +45,8 @@ namespace Loqui.Generation
             {
                 var typeGen = await ObjectGen.LoadField(
                     node.Elements().First(),
-                    false);
+                    requireName: false,
+                    setDefaults: false);
                 if (typeGen.Succeeded)
                 {
                     SingleTypeGen = typeGen.Value;

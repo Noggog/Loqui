@@ -13,7 +13,7 @@ namespace Loqui.Generation
         {
             LoadTypeGenerationFromNode(node, requireName);
             SingleTypeGen = new LoquiType();
-            SingleTypeGen.SetObjectGeneration(this.ObjectGen);
+            SingleTypeGen.SetObjectGeneration(this.ObjectGen, setDefaults: false);
             await SingleTypeGen.Load(node, false);
             SingleTypeGen.Name = null;
             singleType = true;

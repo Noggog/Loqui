@@ -96,10 +96,10 @@ namespace Loqui.Generation
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType InterfaceType = LoquiInterfaceType.Direct;
-        private string _generic;
+        protected string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
-        private ObjectGeneration _TargetObjectGeneration;
+        protected ObjectGeneration _TargetObjectGeneration;
         public ObjectGeneration TargetObjectGeneration
         {
             get
@@ -421,21 +421,25 @@ namespace Loqui.Generation
             }
         }
 
+        protected virtual XElement GetRefNode(XElement node)
+        {
+            if (node.Name.LocalName.Equals(Constants.REF_DIRECT)
+                || node.Name.LocalName.Equals(Constants.REF_LIST))
+            {
+                return node;
+            }
+            else
+            {
+                return node.Element(XName.Get(Constants.DIRECT, LoquiGenerator.Namespace));
+            }
+        }
+
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
             this.SingletonType = node.GetAttribute(Constants.SINGLETON, SingletonLevel.None);
 
-            XElement refNode;
-            if (node.Name.LocalName.Equals(Constants.REF_DIRECT)
-                || node.Name.LocalName.Equals(Constants.REF_LIST))
-            {
-                refNode = node;
-            }
-            else
-            {
-                refNode = node.Element(XName.Get(Constants.DIRECT, LoquiGenerator.Namespace));
-            }
+            XElement refNode = GetRefNode(node);
             var genericNode = node.Element(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace));
 
             if (refNode != null
@@ -980,7 +984,7 @@ namespace Loqui.Generation
                 RefName = target.Name,
                 Name = this.Name
             };
-            ret.SetObjectGeneration(this.ObjectGen);
+            ret.SetObjectGeneration(this.ObjectGen, setDefaults: true);
             foreach (var custom in this.CustomData)
             {
                 ret.CustomData[custom.Key] = custom.Value;

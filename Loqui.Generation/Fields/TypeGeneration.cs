@@ -42,9 +42,10 @@ namespace Loqui.Generation
         {
         }
 
-        public void SetObjectGeneration(ObjectGeneration obj)
+        public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
             this.ObjectGen = obj;
+            if (!setDefaults) return;
             this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
             this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);

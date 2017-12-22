@@ -44,7 +44,8 @@ namespace Loqui.Generation
 
             var valType = await ObjectGen.LoadField(
                 keyedValNode.Elements().FirstOrDefault(),
-                false);
+                requireName: false,
+                setDefaults: false);
             if (valType.Succeeded
                 && valType.Value is LoquiType)
             {

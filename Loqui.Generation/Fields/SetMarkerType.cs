@@ -40,7 +40,7 @@ namespace Loqui.Generation
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    var typeGen = await this.ObjectGen.LoadField(fieldNode, true);
+                    var typeGen = await this.ObjectGen.LoadField(fieldNode, requireName: true);
                     if (typeGen.Succeeded)
                     {
                         this.SubFields.Add(typeGen.Value);

@@ -106,7 +106,7 @@ namespace Loqui.Generation
             }
             foreach (var field in batch.Fields)
             {
-                var typeGen = await this.ObjectGen.LoadField(field.Node, true);
+                var typeGen = await this.ObjectGen.LoadField(field.Node, requireName: true);
                 if (typeGen.Succeeded)
                 {
                     this.ObjectGen.Fields.Insert(index++, typeGen.Value);

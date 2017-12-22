@@ -51,7 +51,8 @@ namespace Loqui.Generation
 
             var keyTypeGen = await ObjectGen.LoadField(
                 keyNode.Elements().FirstOrDefault(),
-                false);
+                requireName: false,
+                setDefaults: false);
             if (keyTypeGen.Succeeded)
             {
                 this.KeyTypeGen = keyTypeGen.Value;
@@ -70,7 +71,8 @@ namespace Loqui.Generation
 
             var valueTypeGen = await ObjectGen.LoadField(
                 valNode.Elements().FirstOrDefault(),
-                false);
+                requireName: false,
+                setDefaults: false);
             if (valueTypeGen.Succeeded)
             {
                 this.ValueTypeGen = valueTypeGen.Value;

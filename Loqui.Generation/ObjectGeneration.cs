@@ -180,7 +180,7 @@ namespace Loqui.Generation
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    var typeGen = await LoadField(fieldNode, true);
+                    var typeGen = await LoadField(fieldNode, requireName: true);
                     if (typeGen.Succeeded)
                     {
                         Fields.Add(typeGen.Value);
@@ -197,7 +197,7 @@ namespace Loqui.Generation
                 this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
         }
 
-        public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName, bool throwException = true)
+        public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName, bool throwException = true, bool setDefaults = true)
         {
             if (fieldNode.NodeType == System.Xml.XmlNodeType.Comment)
             {
@@ -216,7 +216,7 @@ namespace Loqui.Generation
                 }
             }
 
-            typeGen.SetObjectGeneration(this);
+            typeGen.SetObjectGeneration(this, setDefaults: setDefaults);
             await typeGen.Load(fieldNode, requireName);
             await LoadField(typeGen, fieldNode, add: false);
             return TryGet<TypeGeneration>.Succeed(typeGen);
@@ -230,7 +230,7 @@ namespace Loqui.Generation
             }
             if (add)
             {
-                typeGen.SetObjectGeneration(this);
+                typeGen.SetObjectGeneration(this, setDefaults: true);
                 this.Fields.Add(typeGen);
             }
             await Task.WhenAll(this.gen.GenerationModules.Select((m) => m.PostFieldLoad(this, typeGen, fieldNode)));

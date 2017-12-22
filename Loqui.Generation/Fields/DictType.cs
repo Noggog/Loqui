@@ -55,7 +55,7 @@ namespace Loqui.Generation
             if (keyedValueNode != null)
             {
                 var dictType = new DictType_KeyedValue();
-                dictType.SetObjectGeneration(this.ObjectGen);
+                dictType.SetObjectGeneration(this.ObjectGen, setDefaults: false);
                 subGenerator = dictType;
                 await subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
@@ -63,7 +63,7 @@ namespace Loqui.Generation
             else
             {
                 var dictType = new DictType_Typical();
-                dictType.SetObjectGeneration(this.ObjectGen);
+                dictType.SetObjectGeneration(this.ObjectGen, setDefaults: false);
                 subGenerator = dictType;
                 await subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
