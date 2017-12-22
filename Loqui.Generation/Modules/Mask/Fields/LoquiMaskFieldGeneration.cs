@@ -81,17 +81,20 @@ namespace Loqui.Generation
             fg.AppendLine($"{accessor}?.ToString(fg);");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
         {
             LoquiType loqui = field as LoquiType;
 
-            fg.AppendLine($"if ({field.Name} != null)");
-            using (new BraceWrapper(fg))
+            if (nullCheck)
             {
-                fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
+                fg.AppendLine($"if ({field.Name} != null)");
+            }
+            using (new BraceWrapper(fg, doIt: nullCheck))
+            {
+                fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
                 if (!IsUnknownGeneric(loqui))
                 {
-                    fg.AppendLine($"if ({field.Name}.Specific != null && !{field.Name}.Specific.AllEqual(eval)) return false;");
+                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && !{accessor.DirectAccess}.Specific.AllEqual(eval)) return false;");
                 }
                 else
                 {

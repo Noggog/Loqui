@@ -119,29 +119,25 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field)
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
         {
             ListType listType = field as ListType;
 
-            fg.AppendLine($"if ({field.Name} != null)");
-            using (new BraceWrapper(fg))
+            if (nullCheck)
             {
-                fg.AppendLine($"if (!eval(this.{field.Name}.Overall)) return false;");
-                fg.AppendLine($"if ({field.Name}.Specific != null)");
+                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+            }
+            using (new BraceWrapper(fg, doIt: nullCheck))
+            {
+                fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
+                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
                     using (new BraceWrapper(fg))
                     {
-                        if (listType.SubTypeGeneration is LoquiType loqui)
-                        {
-                            fg.AppendLine($"if (!eval(item.Overall)) return false;");
-                            fg.AppendLine($"if (!item.Specific?.AllEqual(eval) ?? false) return false;");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"if (!eval(item)) return false;");
-                        }
+                        var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        subMask.GenerateForAllEqual(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false);
                     }
                 }
             }
