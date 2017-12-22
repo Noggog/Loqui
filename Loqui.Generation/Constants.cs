@@ -23,6 +23,7 @@ namespace Loqui.Generation
         public const string RANGE_THROW_EXCEPTION = "rangeThrowException";
         public const string TARGET_TYPE = "TargetType";
         public const string SINGLETON = "nullable";
+        public const string REF = "Ref";
         public const string REF_DIRECT = "RefDirect";
         public const string REF_LIST = "RefList";
         public const string DIRECT = "Direct";
