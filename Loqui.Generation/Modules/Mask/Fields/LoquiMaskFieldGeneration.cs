@@ -154,5 +154,11 @@ namespace Loqui.Generation
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
         {
         }
+
+        public override string GetMaskString(TypeGeneration field, string valueStr)
+        {
+            var loqui = field as LoquiType;
+            return $"MaskItem<{valueStr}, {loqui.TargetObjectGeneration?.GetMaskString(valueStr)}>"?? "object";
+        }
     }
 }

@@ -6,15 +6,8 @@ namespace Loqui.Generation
     {
         public static string GetItemString(ContainerType listType, string valueStr)
         {
-            LoquiType loquiType = listType.SubTypeGeneration as LoquiType;
-            if (loquiType == null)
-            {
-                return valueStr;
-            }
-            else
-            {
-                return $"MaskItem<{valueStr}, {loquiType.GetMaskString(valueStr)}>";
-            }
+            var maskType = listType.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(listType.SubTypeGeneration.GetType());
+            return maskType.GetMaskString(listType.SubTypeGeneration, valueStr);
         }
 
         public static string GetListString(ContainerType listType, string valueStr)
