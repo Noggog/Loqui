@@ -10,7 +10,7 @@ namespace Loqui.Generation
         public const string ErrMaskNickname = "ErrMask";
         public const string CopyMaskNickname = "CopyMask";
         private Dictionary<Type, MaskModuleField> _fieldMapping = new Dictionary<Type, MaskModuleField>();
-        public TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
+        public static readonly TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
 
         public override string RegionString => "Mask";
 
@@ -21,6 +21,12 @@ namespace Loqui.Generation
             _fieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
             _fieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
             _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
+        }
+
+        public void AddTypeAssociation<T>(MaskModuleField gen)
+            where T : TypeGeneration
+        {
+            _fieldMapping[typeof(T)] = gen;
         }
 
         public void GenerateForErrorMaskToStringForField(FileGeneration fg, ObjectGeneration obj, TypeGeneration field)
@@ -481,8 +487,8 @@ namespace Loqui.Generation
                         return kv.Value;
                     }
                 }
-                _fieldMapping[t] = this.TypicalField;
-                return this.TypicalField;
+                _fieldMapping[t] = TypicalField;
+                return TypicalField;
             }
             return fieldGen;
         }
