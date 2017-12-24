@@ -249,26 +249,13 @@ namespace Loqui.Generation
                         {
                             if (generator.ShouldGenerateCopyIn(field))
                             {
-                                using (new BraceWrapper(fg))
-                                {
-                                    var maskSubModule = this.Gen.MaskModule.GetMaskModule(field.GetType());
-                                    var maskType = maskSubModule.GetErrorMaskTypeStr(field);
-                                    fg.AppendLine($"{maskType} subMask;");
-                                    generator.GenerateCopyIn(
-                                        fg: fg,
-                                        typeGen: field,
-                                        nodeAccessor: "root",
-                                        itemAccessor: new Accessor(field, "item.", protectedAccess: true),
-                                        doMaskAccessor: "errorMask != null",
-                                        maskAccessor: $"subMask");
-                                    using (var args = new ArgsWrapper(fg,
-                                        $"ErrorMask.HandleErrorMask"))
-                                    {
-                                        args.Add("errorMask");
-                                        args.Add($"(int){field.IndexEnumName}");
-                                        args.Add("subMask");
-                                    }
-                                }
+                                generator.GenerateCopyIn(
+                                    fg: fg,
+                                    typeGen: field,
+                                    nodeAccessor: "root",
+                                    itemAccessor: new Accessor(field, "item.", protectedAccess: true),
+                                    doMaskAccessor: "errorMask != null",
+                                    maskAccessor: $"errorMask");
                             }
                             fg.AppendLine("break;");
                         }

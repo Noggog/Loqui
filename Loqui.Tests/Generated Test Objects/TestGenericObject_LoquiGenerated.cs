@@ -488,55 +488,35 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "RefBase":
-                    {
-                        MaskItem<Exception, RBase_ErrMask> subMask;
-                        var tryGet = LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        item._RefBase.SetIfSucceeded(tryGet);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.RefBase,
-                            subMask);
-                    }
+                    item._RefBase.SetIfSucceeded(LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestGenericObject_FieldIndex.RefBase,
+                        errorMask: errorMask));
                     break;
                 case "Ref":
-                    {
-                        MaskItem<Exception, object> subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out var unsafeMask);
-                        item._Ref.SetIfSucceeded(tryGet.Bubble<R>(i => (R)i));
-                        subMask = unsafeMask == null ? null : new MaskItem<Exception, object>(null, unsafeMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.Ref,
-                            subMask);
-                    }
+                    var Refunsafe = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        doMasks: errorMask != null,
+                        errorMask: out var RefunsafeMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        index: (int)TestGenericObject_FieldIndex.Ref,
+                        errMaskObj: MaskItem<Exception, object>.WrapValue(RefunsafeMask));
+                    item._Ref.SetIfSucceeded(Refunsafe.Bubble<R>((o) => (R)o));
                     break;
                 case "RefList":
-                    {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, RBase_ErrMask>>> subMask;
-                        var listTryGet = ListXmlTranslation<RBase, MaskItem<Exception, RBase_ErrMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            transl: (XElement r, bool listDoMasks, out MaskItem<Exception, RBase_ErrMask> listSubMask) =>
-                            {
-                                return LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: listDoMasks,
-                                    errorMask: out listSubMask);
-                            }
-                            );
-                        item._RefList.SetIfSucceeded(listTryGet);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericObject_FieldIndex.RefList,
-                            subMask);
-                    }
+                    item._RefList.SetIfSucceeded(ListXmlTranslation<RBase, MaskItem<Exception, RBase_ErrMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestGenericObject_FieldIndex.RefList,
+                        errorMask: errorMask,
+                        transl: (XElement r, bool listDoMasks, out MaskItem<Exception, RBase_ErrMask> listSubMask) =>
+                        {
+                            return LoquiXmlTranslation<RBase, RBase_ErrMask>.Instance.Parse(
+                                root: r,
+                                doMasks: listDoMasks,
+                                errorMask: out listSubMask);
+                        }
+                        ));
                     break;
                 default:
                     break;

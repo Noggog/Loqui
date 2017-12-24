@@ -13,7 +13,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, string retAccessor, string doMaskAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, Accessor retAccessor, string doMaskAccessor, string maskAccessor)
         {
         }
 

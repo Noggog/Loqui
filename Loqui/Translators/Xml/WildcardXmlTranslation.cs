@@ -24,14 +24,14 @@ namespace Loqui.Xml
             return XmlTranslator.Instance.Validate(t);
         }
 
-        public TryGet<Object> Parse(XElement root, bool doMasks, out object maskObj)
+        public TryGet<Object> Parse(XElement root, bool doMasks, out object errorMask)
         {
             if (!root.TryGetAttribute(XmlConstants.TYPE_ATTRIBUTE, out var nameAttr))
             {
                 var ex = new ArgumentException($"Could not get name attribute for XML Translator.");
                 if (doMasks)
                 {
-                    maskObj = ex;
+                    errorMask = ex;
                     return TryGet<Object>.Failure;
                 }
                 else
@@ -46,7 +46,7 @@ namespace Loqui.Xml
                 var ex = new ArgumentException($"Could not get item node.");
                 if (doMasks)
                 {
-                    maskObj = ex;
+                    errorMask = ex;
                     return TryGet<Object>.Failure;
                 }
                 else
@@ -60,7 +60,7 @@ namespace Loqui.Xml
                 var ex = new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator.");
                 if (doMasks)
                 {
-                    maskObj = ex;
+                    errorMask = ex;
                     return TryGet<Object>.Failure;
                 }
                 else
@@ -69,7 +69,21 @@ namespace Loqui.Xml
                 }
             }
             var xml = GetTranslator(t.Item);
-            return xml.Parse(itemNode, doMasks, out maskObj);
+            return xml.Parse(itemNode, doMasks, out errorMask);
+        }
+
+        public TryGet<Object> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                doMasks: errorMask != null,
+                errorMask: out object subErrMask);
+            ErrorMask.HandleErrorMask(
+                errorMask,
+                fieldIndex,
+                subErrMask);
+            return ret;
         }
 
         public void Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)

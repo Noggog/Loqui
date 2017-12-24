@@ -69,6 +69,49 @@ namespace Loqui.Xml
             }
         }
 
+        public TryGet<T?> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                doMasks: errorMask != null,
+                errorMask: out Exception ex);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                ex);
+            return ret;
+        }
+
+        public TryGet<T?> Parse<M>(XElement root, bool nullable, int fieldIndex, Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.Parse(
+                root: root,
+                nullable: nullable,
+                doMasks: errorMask != null,
+                errorMask: out Exception ex);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                ex);
+            return ret;
+        }
+
+        public TryGet<T> ParseNonNull<M>(XElement root, int fieldIndex, Func<M> errorMask)
+            where M : IErrorMask
+        {
+            var ret = this.ParseNonNull(
+                root: root,
+                doMasks: errorMask != null,
+                errorMask: out Exception ex);
+            ErrorMask.HandleException(
+                errorMask,
+                fieldIndex,
+                ex);
+            return ret;
+        }
+
         protected virtual void WriteValue(XmlWriter writer, string name, T? item)
         {
             writer.WriteAttributeString(

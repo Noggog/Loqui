@@ -430,32 +430,16 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "KeyField":
-                    {
-                        Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        item._KeyField.SetIfSucceeded(tryGet);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)ObjectToRef_FieldIndex.KeyField,
-                            subMask);
-                    }
+                    item._KeyField.SetIfSucceeded(Int32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)ObjectToRef_FieldIndex.KeyField,
+                        errorMask: errorMask));
                     break;
                 case "SomeField":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        item._SomeField.SetIfSucceeded(tryGet);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)ObjectToRef_FieldIndex.SomeField,
-                            subMask);
-                    }
+                    item._SomeField.SetIfSucceeded(BooleanXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)ObjectToRef_FieldIndex.SomeField,
+                        errorMask: errorMask));
                     break;
                 default:
                     break;

@@ -1603,1912 +1603,786 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "ByteArray":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArray = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.ByteArray,
-                            subMask);
-                    }
+                    item._ByteArray = ByteArrayXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.ByteArray,
+                        errorMask: errorMask).GetOrDefault(item._ByteArray);
                     break;
                 case "ByteArrayNull":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArrayNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.ByteArrayNull,
-                            subMask);
-                    }
+                    item._ByteArrayNull = ByteArrayXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.ByteArrayNull,
+                        errorMask: errorMask).GetOrDefault(item._ByteArrayNull);
                     break;
                 case "ByteArrayNotNull":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArrayNotNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.ByteArrayNotNull,
-                            subMask);
-                    }
+                    item._ByteArrayNotNull = ByteArrayXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.ByteArrayNotNull,
+                        errorMask: errorMask).GetOrDefault(item._ByteArrayNotNull);
                     break;
                 case "ByteArraySingleton":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteArrayXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._ByteArraySingleton = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.ByteArraySingleton,
-                            subMask);
-                    }
+                    item._ByteArraySingleton = ByteArrayXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.ByteArraySingleton,
+                        errorMask: errorMask).GetOrDefault(item._ByteArraySingleton);
                     break;
                 case "BoolN":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._BoolN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.BoolN,
-                            subMask);
-                    }
+                    item._BoolN = BooleanXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.BoolN,
+                        errorMask: errorMask).GetOrDefault(item._BoolN);
                     break;
                 case "Bool":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Bool = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Bool,
-                            subMask);
-                    }
+                    item._Bool = BooleanXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Bool,
+                        errorMask: errorMask).GetOrDefault(item._Bool);
                     break;
                 case "CharN":
-                    {
-                        Exception subMask;
-                        var tryGet = CharXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._CharN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.CharN,
-                            subMask);
-                    }
+                    item._CharN = CharXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.CharN,
+                        errorMask: errorMask).GetOrDefault(item._CharN);
                     break;
                 case "Char":
-                    {
-                        Exception subMask;
-                        var tryGet = CharXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Char = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Char,
-                            subMask);
-                    }
+                    item._Char = CharXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Char,
+                        errorMask: errorMask).GetOrDefault(item._Char);
                     break;
                 case "DateTimeNull":
-                    {
-                        Exception subMask;
-                        var tryGet = DateTimeXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DateTimeNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DateTimeNull,
-                            subMask);
-                    }
+                    item._DateTimeNull = DateTimeXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DateTimeNull,
+                        errorMask: errorMask).GetOrDefault(item._DateTimeNull);
                     break;
                 case "DateTime":
-                    {
-                        Exception subMask;
-                        var tryGet = DateTimeXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DateTime = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DateTime,
-                            subMask);
-                    }
+                    item._DateTime = DateTimeXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DateTime,
+                        errorMask: errorMask).GetOrDefault(item._DateTime);
                     break;
                 case "DoubleN":
-                    {
-                        Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DoubleN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DoubleN,
-                            subMask);
-                    }
+                    item._DoubleN = DoubleXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DoubleN,
+                        errorMask: errorMask).GetOrDefault(item._DoubleN);
                     break;
                 case "DoubleN_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DoubleN_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DoubleN_Ranged,
-                            subMask);
-                    }
+                    item._DoubleN_Ranged = DoubleXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DoubleN_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._DoubleN_Ranged);
                     break;
                 case "Double":
-                    {
-                        Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Double = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Double,
-                            subMask);
-                    }
+                    item._Double = DoubleXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Double,
+                        errorMask: errorMask).GetOrDefault(item._Double);
                     break;
                 case "Double_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = DoubleXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Double_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Double_Ranged,
-                            subMask);
-                    }
+                    item._Double_Ranged = DoubleXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Double_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Double_Ranged);
                     break;
                 case "FloatN":
-                    {
-                        Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FloatN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.FloatN,
-                            subMask);
-                    }
+                    item._FloatN = FloatXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.FloatN,
+                        errorMask: errorMask).GetOrDefault(item._FloatN);
                     break;
                 case "FloatN_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FloatN_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.FloatN_Ranged,
-                            subMask);
-                    }
+                    item._FloatN_Ranged = FloatXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.FloatN_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._FloatN_Ranged);
                     break;
                 case "Float":
-                    {
-                        Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Float = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Float,
-                            subMask);
-                    }
+                    item._Float = FloatXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Float,
+                        errorMask: errorMask).GetOrDefault(item._Float);
                     break;
                 case "Float_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = FloatXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Float_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Float_Ranged,
-                            subMask);
-                    }
+                    item._Float_Ranged = FloatXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Float_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Float_Ranged);
                     break;
                 case "Int16N":
-                    {
-                        Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int16N,
-                            subMask);
-                    }
+                    item._Int16N = Int16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int16N,
+                        errorMask: errorMask).GetOrDefault(item._Int16N);
                     break;
                 case "Int16N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int16N_Ranged,
-                            subMask);
-                    }
+                    item._Int16N_Ranged = Int16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int16N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int16N_Ranged);
                     break;
                 case "Int16":
-                    {
-                        Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int16,
-                            subMask);
-                    }
+                    item._Int16 = Int16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int16,
+                        errorMask: errorMask).GetOrDefault(item._Int16);
                     break;
                 case "Int16_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int16_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int16_Ranged,
-                            subMask);
-                    }
+                    item._Int16_Ranged = Int16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int16_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int16_Ranged);
                     break;
                 case "Int32N":
-                    {
-                        Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int32N,
-                            subMask);
-                    }
+                    item._Int32N = Int32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int32N,
+                        errorMask: errorMask).GetOrDefault(item._Int32N);
                     break;
                 case "Int32N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int32N_Ranged,
-                            subMask);
-                    }
+                    item._Int32N_Ranged = Int32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int32N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int32N_Ranged);
                     break;
                 case "Int32":
-                    {
-                        Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int32,
-                            subMask);
-                    }
+                    item._Int32 = Int32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int32,
+                        errorMask: errorMask).GetOrDefault(item._Int32);
                     break;
                 case "Int32_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int32_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int32_Ranged,
-                            subMask);
-                    }
+                    item._Int32_Ranged = Int32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int32_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int32_Ranged);
                     break;
                 case "Int64N":
-                    {
-                        Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int64N,
-                            subMask);
-                    }
+                    item._Int64N = Int64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int64N,
+                        errorMask: errorMask).GetOrDefault(item._Int64N);
                     break;
                 case "Int64N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int64N_Ranged,
-                            subMask);
-                    }
+                    item._Int64N_Ranged = Int64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int64N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int64N_Ranged);
                     break;
                 case "Int64":
-                    {
-                        Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int64,
-                            subMask);
-                    }
+                    item._Int64 = Int64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int64,
+                        errorMask: errorMask).GetOrDefault(item._Int64);
                     break;
                 case "Int64_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int64_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int64_Ranged,
-                            subMask);
-                    }
+                    item._Int64_Ranged = Int64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int64_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int64_Ranged);
                     break;
                 case "Int8N":
-                    {
-                        Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int8N,
-                            subMask);
-                    }
+                    item._Int8N = Int8XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int8N,
+                        errorMask: errorMask).GetOrDefault(item._Int8N);
                     break;
                 case "Int8N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int8N_Ranged,
-                            subMask);
-                    }
+                    item._Int8N_Ranged = Int8XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int8N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int8N_Ranged);
                     break;
                 case "Int8":
-                    {
-                        Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int8,
-                            subMask);
-                    }
+                    item._Int8 = Int8XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int8,
+                        errorMask: errorMask).GetOrDefault(item._Int8);
                     break;
                 case "Int8_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = Int8XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Int8_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Int8_Ranged,
-                            subMask);
-                    }
+                    item._Int8_Ranged = Int8XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Int8_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._Int8_Ranged);
                     break;
                 case "Unsafe":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Unsafe = (bool)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Unsafe,
-                            subMask);
-                    }
+                    item._Unsafe = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Unsafe,
+                        errorMask: errorMask).Bubble<bool>(i => (bool)i).GetOrDefault(item._Unsafe);
                     break;
                 case "UnsafeLoqui":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UnsafeLoqui = (ObjectToRef)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UnsafeLoqui,
-                            subMask);
-                    }
+                    item._UnsafeLoqui = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UnsafeLoqui,
+                        errorMask: errorMask).Bubble<ObjectToRef>(i => (ObjectToRef)i).GetOrDefault(item._UnsafeLoqui);
                     break;
                 case "UnsafeNull":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UnsafeNull = (ObjectToRef)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UnsafeNull,
-                            subMask);
-                    }
+                    item._UnsafeNull = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UnsafeNull,
+                        errorMask: errorMask).Bubble<ObjectToRef>(i => (ObjectToRef)i).GetOrDefault(item._UnsafeNull);
                     break;
                 case "P2IntN":
-                    {
-                        Exception subMask;
-                        var tryGet = P2IntXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P2IntN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P2IntN,
-                            subMask);
-                    }
+                    item._P2IntN = P2IntXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P2IntN,
+                        errorMask: errorMask).GetOrDefault(item._P2IntN);
                     break;
                 case "P2Int":
-                    {
-                        Exception subMask;
-                        var tryGet = P2IntXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P2Int = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P2Int,
-                            subMask);
-                    }
+                    item._P2Int = P2IntXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P2Int,
+                        errorMask: errorMask).GetOrDefault(item._P2Int);
                     break;
                 case "P3DoubleN":
-                    {
-                        Exception subMask;
-                        var tryGet = P3DoubleXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3DoubleN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P3DoubleN,
-                            subMask);
-                    }
+                    item._P3DoubleN = P3DoubleXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P3DoubleN,
+                        errorMask: errorMask).GetOrDefault(item._P3DoubleN);
                     break;
                 case "P3Double":
-                    {
-                        Exception subMask;
-                        var tryGet = P3DoubleXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3Double = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P3Double,
-                            subMask);
-                    }
+                    item._P3Double = P3DoubleXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P3Double,
+                        errorMask: errorMask).GetOrDefault(item._P3Double);
                     break;
                 case "P3IntN":
-                    {
-                        Exception subMask;
-                        var tryGet = P3IntXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3IntN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P3IntN,
-                            subMask);
-                    }
+                    item._P3IntN = P3IntXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P3IntN,
+                        errorMask: errorMask).GetOrDefault(item._P3IntN);
                     break;
                 case "P3Int":
-                    {
-                        Exception subMask;
-                        var tryGet = P3IntXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._P3Int = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.P3Int,
-                            subMask);
-                    }
+                    item._P3Int = P3IntXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.P3Int,
+                        errorMask: errorMask).GetOrDefault(item._P3Int);
                     break;
                 case "PercentN":
-                    {
-                        Exception subMask;
-                        var tryGet = PercentXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._PercentN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.PercentN,
-                            subMask);
-                    }
+                    item._PercentN = PercentXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.PercentN,
+                        errorMask: errorMask).GetOrDefault(item._PercentN);
                     break;
                 case "Percent":
-                    {
-                        Exception subMask;
-                        var tryGet = PercentXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Percent = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Percent,
-                            subMask);
-                    }
+                    item._Percent = PercentXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Percent,
+                        errorMask: errorMask).GetOrDefault(item._Percent);
                     break;
                 case "RangeInt8N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt8XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt8N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt8N,
-                            subMask);
-                    }
+                    item._RangeInt8N = RangeInt8XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt8N,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt8N);
                     break;
                 case "RangeInt8":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt8XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt8 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt8,
-                            subMask);
-                    }
+                    item._RangeInt8 = RangeInt8XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt8,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt8);
                     break;
                 case "RangeInt16N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt16N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt16N,
-                            subMask);
-                    }
+                    item._RangeInt16N = RangeInt16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt16N,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt16N);
                     break;
                 case "RangeInt16":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt16 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt16,
-                            subMask);
-                    }
+                    item._RangeInt16 = RangeInt16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt16,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt16);
                     break;
                 case "RangeInt32N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt32N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt32N,
-                            subMask);
-                    }
+                    item._RangeInt32N = RangeInt32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt32N,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt32N);
                     break;
                 case "RangeInt32":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt32 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt32,
-                            subMask);
-                    }
+                    item._RangeInt32 = RangeInt32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt32,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt32);
                     break;
                 case "RangeInt64N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt64N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt64N,
-                            subMask);
-                    }
+                    item._RangeInt64N = RangeInt64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt64N,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt64N);
                     break;
                 case "RangeInt64":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeInt64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeInt64 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeInt64,
-                            subMask);
-                    }
+                    item._RangeInt64 = RangeInt64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeInt64,
+                        errorMask: errorMask).GetOrDefault(item._RangeInt64);
                     break;
                 case "RangeUInt8N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt8XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt8N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt8N,
-                            subMask);
-                    }
+                    item._RangeUInt8N = RangeUInt8XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt8N,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt8N);
                     break;
                 case "RangeUInt8":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt8XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt8 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt8,
-                            subMask);
-                    }
+                    item._RangeUInt8 = RangeUInt8XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt8,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt8);
                     break;
                 case "RangeUInt16N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt16N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt16N,
-                            subMask);
-                    }
+                    item._RangeUInt16N = RangeUInt16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt16N,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt16N);
                     break;
                 case "RangeUInt16":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt16 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt16,
-                            subMask);
-                    }
+                    item._RangeUInt16 = RangeUInt16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt16,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt16);
                     break;
                 case "RangeUInt32N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt32N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt32N,
-                            subMask);
-                    }
+                    item._RangeUInt32N = RangeUInt32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt32N,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt32N);
                     break;
                 case "RangeUInt32":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt32 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt32,
-                            subMask);
-                    }
+                    item._RangeUInt32 = RangeUInt32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt32,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt32);
                     break;
                 case "RangeUInt64N":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt64N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt64N,
-                            subMask);
-                    }
+                    item._RangeUInt64N = RangeUInt64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt64N,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt64N);
                     break;
                 case "RangeUInt64":
-                    {
-                        Exception subMask;
-                        var tryGet = RangeUInt64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RangeUInt64 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RangeUInt64,
-                            subMask);
-                    }
+                    item._RangeUInt64 = RangeUInt64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RangeUInt64,
+                        errorMask: errorMask).GetOrDefault(item._RangeUInt64);
                     break;
                 case "String":
-                    {
-                        Exception subMask;
-                        var tryGet = StringXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._String = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.String,
-                            subMask);
-                    }
+                    item._String = StringXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.String,
+                        errorMask: errorMask).GetOrDefault(item._String);
                     break;
                 case "FilePath":
-                    {
-                        Exception subMask;
-                        var tryGet = FilePathXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FilePath = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.FilePath,
-                            subMask);
-                    }
+                    item._FilePath = FilePathXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.FilePath,
+                        errorMask: errorMask).GetOrDefault(item._FilePath);
                     break;
                 case "FilePathNull":
-                    {
-                        Exception subMask;
-                        var tryGet = FilePathXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._FilePathNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.FilePathNull,
-                            subMask);
-                    }
+                    item._FilePathNull = FilePathXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.FilePathNull,
+                        errorMask: errorMask).GetOrDefault(item._FilePathNull);
                     break;
                 case "DirectoryPath":
-                    {
-                        Exception subMask;
-                        var tryGet = DirectoryPathXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DirectoryPath = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DirectoryPath,
-                            subMask);
-                    }
+                    item._DirectoryPath = DirectoryPathXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DirectoryPath,
+                        errorMask: errorMask).GetOrDefault(item._DirectoryPath);
                     break;
                 case "DirectoryPathNull":
-                    {
-                        Exception subMask;
-                        var tryGet = DirectoryPathXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._DirectoryPathNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DirectoryPathNull,
-                            subMask);
-                    }
+                    item._DirectoryPathNull = DirectoryPathXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DirectoryPathNull,
+                        errorMask: errorMask).GetOrDefault(item._DirectoryPathNull);
                     break;
                 case "UDoubleN":
-                    {
-                        Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDoubleN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UDoubleN,
-                            subMask);
-                    }
+                    item._UDoubleN = UDoubleXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UDoubleN,
+                        errorMask: errorMask).GetOrDefault(item._UDoubleN);
                     break;
                 case "UDoubleN_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDoubleN_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UDoubleN_Ranged,
-                            subMask);
-                    }
+                    item._UDoubleN_Ranged = UDoubleXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UDoubleN_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UDoubleN_Ranged);
                     break;
                 case "UDouble":
-                    {
-                        Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDouble = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UDouble,
-                            subMask);
-                    }
+                    item._UDouble = UDoubleXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UDouble,
+                        errorMask: errorMask).GetOrDefault(item._UDouble);
                     break;
                 case "UDouble_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UDoubleXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UDouble_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UDouble_Ranged,
-                            subMask);
-                    }
+                    item._UDouble_Ranged = UDoubleXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UDouble_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UDouble_Ranged);
                     break;
                 case "UInt16N":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt16N,
-                            subMask);
-                    }
+                    item._UInt16N = UInt16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt16N,
+                        errorMask: errorMask).GetOrDefault(item._UInt16N);
                     break;
                 case "UInt16N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt16N_Ranged,
-                            subMask);
-                    }
+                    item._UInt16N_Ranged = UInt16XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt16N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt16N_Ranged);
                     break;
                 case "UInt16":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt16,
-                            subMask);
-                    }
+                    item._UInt16 = UInt16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt16,
+                        errorMask: errorMask).GetOrDefault(item._UInt16);
                     break;
                 case "UInt16_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt16XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt16_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt16_Ranged,
-                            subMask);
-                    }
+                    item._UInt16_Ranged = UInt16XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt16_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt16_Ranged);
                     break;
                 case "UInt32N":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt32N,
-                            subMask);
-                    }
+                    item._UInt32N = UInt32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt32N,
+                        errorMask: errorMask).GetOrDefault(item._UInt32N);
                     break;
                 case "UInt32N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt32N_Ranged,
-                            subMask);
-                    }
+                    item._UInt32N_Ranged = UInt32XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt32N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt32N_Ranged);
                     break;
                 case "UInt32":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt32,
-                            subMask);
-                    }
+                    item._UInt32 = UInt32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt32,
+                        errorMask: errorMask).GetOrDefault(item._UInt32);
                     break;
                 case "UInt32_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt32XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt32_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt32_Ranged,
-                            subMask);
-                    }
+                    item._UInt32_Ranged = UInt32XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt32_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt32_Ranged);
                     break;
                 case "UInt64N":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt64N,
-                            subMask);
-                    }
+                    item._UInt64N = UInt64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt64N,
+                        errorMask: errorMask).GetOrDefault(item._UInt64N);
                     break;
                 case "UInt64N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt64N_Ranged,
-                            subMask);
-                    }
+                    item._UInt64N_Ranged = UInt64XmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt64N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt64N_Ranged);
                     break;
                 case "UInt64":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt64,
-                            subMask);
-                    }
+                    item._UInt64 = UInt64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt64,
+                        errorMask: errorMask).GetOrDefault(item._UInt64);
                     break;
                 case "UInt64_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = UInt64XmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt64_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt64_Ranged,
-                            subMask);
-                    }
+                    item._UInt64_Ranged = UInt64XmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt64_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt64_Ranged);
                     break;
                 case "UInt8N":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8N = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt8N,
-                            subMask);
-                    }
+                    item._UInt8N = ByteXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt8N,
+                        errorMask: errorMask).GetOrDefault(item._UInt8N);
                     break;
                 case "UInt8N_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8N_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt8N_Ranged,
-                            subMask);
-                    }
+                    item._UInt8N_Ranged = ByteXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt8N_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt8N_Ranged);
                     break;
                 case "UInt8":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8 = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt8,
-                            subMask);
-                    }
+                    item._UInt8 = ByteXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt8,
+                        errorMask: errorMask).GetOrDefault(item._UInt8);
                     break;
                 case "UInt8_Ranged":
-                    {
-                        Exception subMask;
-                        var tryGet = ByteXmlTranslation.Instance.ParseNonNull(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._UInt8_Ranged = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.UInt8_Ranged,
-                            subMask);
-                    }
+                    item._UInt8_Ranged = ByteXmlTranslation.Instance.ParseNonNull(
+                        root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.UInt8_Ranged,
+                        errorMask: errorMask).GetOrDefault(item._UInt8_Ranged);
                     break;
                 case "Enum":
-                    {
-                        Exception subMask;
-                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
-                            root,
-                            nullable: false,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Enum = tryGet.Value.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Enum,
-                            subMask);
-                    }
+                    item._Enum = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                        root,
+                        nullable: false,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Enum,
+                        errorMask: errorMask).Bubble((o) => o.Value).GetOrDefault(item._Enum);
                     break;
                 case "EnumNull":
-                    {
-                        Exception subMask;
-                        var tryGet = EnumXmlTranslation<TestEnum>.Instance.Parse(
-                            root,
-                            nullable: true,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._EnumNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.EnumNull,
-                            subMask);
-                    }
+                    item._EnumNull = EnumXmlTranslation<TestEnum>.Instance.Parse(
+                        root,
+                        nullable: true,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.EnumNull,
+                        errorMask: errorMask).GetOrDefault(item._EnumNull);
                     break;
                 case "WildCard":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCard = (Object)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.WildCard,
-                            subMask);
-                    }
+                    item._WildCard = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.WildCard,
+                        errorMask: errorMask).Bubble<Object>(i => (Object)i).GetOrDefault(item._WildCard);
                     break;
                 case "WildCardLoqui":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCardLoqui = (Object)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.WildCardLoqui,
-                            subMask);
-                    }
+                    item._WildCardLoqui = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.WildCardLoqui,
+                        errorMask: errorMask).Bubble<Object>(i => (Object)i).GetOrDefault(item._WildCardLoqui);
                     break;
                 case "WildCardNull":
-                    {
-                        object subMask;
-                        var tryGet = WildcardXmlTranslation.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._WildCardNull = (Object)tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.WildCardNull,
-                            subMask);
-                    }
+                    item._WildCardNull = WildcardXmlTranslation.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.WildCardNull,
+                        errorMask: errorMask).Bubble<Object>(i => (Object)i).GetOrDefault(item._WildCardNull);
                     break;
                 case "Ref":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Ref = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Ref,
-                            subMask);
-                    }
+                    item._Ref = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Ref,
+                        errorMask: errorMask).GetOrDefault(item._Ref);
                     break;
                 case "Ref_NotNull":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._Ref_NotNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Ref_NotNull,
-                            subMask);
-                    }
+                    item._Ref_NotNull = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Ref_NotNull,
+                        errorMask: errorMask).GetOrDefault(item._Ref_NotNull);
                     break;
                 case "Ref_Singleton":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tmp = ObjectToRef.Create_XML(
+                    ObjectToRefCommon.CopyFieldsFrom(
+                        item: item._Ref_Singleton_Object,
+                        rhs: ObjectToRef.Create_XML(
                             root: root,
                             doMasks: errorMask != null,
-                            errorMask: out ObjectToRef_ErrorMask createMask);
-                        ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._Ref_Singleton_Object,
-                            rhs: tmp,
-                            def: null,
-                            cmds: null,
-                            copyMask: null,
-                            doMasks: errorMask != null,
-                            errorMask: out ObjectToRef_ErrorMask copyMask);
-                        var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Ref_Singleton,
-                            subMask);
-                    }
+                            errorMask: out ObjectToRef_ErrorMask Ref_SingletoncreateMask)
+                        ,
+                        def: null,
+                        cmds: null,
+                        copyMask: null,
+                        doMasks: errorMask != null,
+                        errorMask: out ObjectToRef_ErrorMask Ref_SingletoncopyMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        index: (int)TestObject_RPC_FieldIndex.Ref_Singleton,
+                        errMaskObj: MaskItem<Exception, ObjectToRef_ErrorMask>.WrapValue(ObjectToRef_ErrorMask.Combine(Ref_SingletoncreateMask, Ref_SingletoncopyMask)));
                     break;
                 case "RefGetter":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefGetter = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefGetter,
-                            subMask);
-                    }
+                    item._RefGetter = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefGetter,
+                        errorMask: errorMask).GetOrDefault(item._RefGetter);
                     break;
                 case "RefGetter_NotNull":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefGetter_NotNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefGetter_NotNull,
-                            subMask);
-                    }
+                    item._RefGetter_NotNull = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefGetter_NotNull,
+                        errorMask: errorMask).GetOrDefault(item._RefGetter_NotNull);
                     break;
                 case "RefGetter_Singleton":
                     break;
                 case "RefSetter":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefSetter = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefSetter,
-                            subMask);
-                    }
+                    item._RefSetter = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefSetter,
+                        errorMask: errorMask).GetOrDefault(item._RefSetter);
                     break;
                 case "RefSetter_NotNull":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tryGet = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item._RefSetter_NotNull = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefSetter_NotNull,
-                            subMask);
-                    }
+                    item._RefSetter_NotNull = LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefSetter_NotNull,
+                        errorMask: errorMask).GetOrDefault(item._RefSetter_NotNull);
                     break;
                 case "RefSetter_Singleton":
-                    {
-                        MaskItem<Exception, ObjectToRef_ErrorMask> subMask;
-                        var tmp = ObjectToRef.Create_XML(
+                    ObjectToRefCommon.CopyFieldsFrom(
+                        item: item._RefSetter_Singleton_Object,
+                        rhs: ObjectToRef.Create_XML(
                             root: root,
                             doMasks: errorMask != null,
-                            errorMask: out ObjectToRef_ErrorMask createMask);
-                        ObjectToRefCommon.CopyFieldsFrom(
-                            item: item._RefSetter_Singleton_Object,
-                            rhs: tmp,
-                            def: null,
-                            cmds: null,
-                            copyMask: null,
-                            doMasks: errorMask != null,
-                            errorMask: out ObjectToRef_ErrorMask copyMask);
-                        var loquiMask = ObjectToRef_ErrorMask.Combine(createMask, copyMask);
-                        subMask = loquiMask == null ? null : new MaskItem<Exception, ObjectToRef_ErrorMask>(null, loquiMask);
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefSetter_Singleton,
-                            subMask);
-                    }
+                            errorMask: out ObjectToRef_ErrorMask RefSetter_SingletoncreateMask)
+                        ,
+                        def: null,
+                        cmds: null,
+                        copyMask: null,
+                        doMasks: errorMask != null,
+                        errorMask: out ObjectToRef_ErrorMask RefSetter_SingletoncopyMask);
+                    ErrorMask.HandleErrorMask(
+                        errorMask,
+                        index: (int)TestObject_RPC_FieldIndex.RefSetter_Singleton,
+                        errMaskObj: MaskItem<Exception, ObjectToRef_ErrorMask>.WrapValue(ObjectToRef_ErrorMask.Combine(RefSetter_SingletoncreateMask, RefSetter_SingletoncopyMask)));
                     break;
                 case "List":
-                    {
-                        MaskItem<Exception, IEnumerable<Exception>> subMask;
-                        var listTryGet = ListXmlTranslation<Boolean, Exception>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            transl: (XElement r, bool listDoMasks, out Exception listSubMask) =>
-                            {
-                                return BooleanXmlTranslation.Instance.Parse(
-                                    r,
-                                    nullable: false,
-                                    doMasks: listDoMasks,
-                                    errorMask: out listSubMask).Bubble((o) => o.Value);
-                            }
-                            );
-                        if (listTryGet.Succeeded)
+                    var Listlist = ListXmlTranslation<Boolean, Exception>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.List,
+                        errorMask: errorMask,
+                        transl: (XElement r, bool listDoMasks, out Exception listSubMask) =>
                         {
-                            item._List.SetTo(listTryGet.Value);
+                            return BooleanXmlTranslation.Instance.Parse(
+                                r,
+                                nullable: false,
+                                doMasks: listDoMasks,
+                                errorMask: out listSubMask).Bubble((o) => o.Value);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.List,
-                            subMask);
+                        );
+                    if (Listlist.Succeeded)
+                    {
+                        item._List.SetTo(Listlist.Value);
                     }
                     break;
                 case "RefList":
-                    {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        var listTryGet = ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: listDoMasks,
-                                    errorMask: out listSubMask);
-                            }
-                            );
-                        if (listTryGet.Succeeded)
+                    var RefListlist = ListXmlTranslation<ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefList,
+                        errorMask: errorMask,
+                        transl: (XElement r, bool listDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> listSubMask) =>
                         {
-                            item._RefList.SetTo(listTryGet.Value);
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: listDoMasks,
+                                errorMask: out listSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefList,
-                            subMask);
+                        );
+                    if (RefListlist.Succeeded)
+                    {
+                        item._RefList.SetTo(RefListlist.Value);
                     }
                     break;
                 case "Dict":
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, Exception>>> subMask;
-                        var dictTryGet = DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
-                            {
-                                return StringXmlTranslation.Instance.Parse(
-                                    r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
-                            {
-                                return BooleanXmlTranslation.Instance.Parse(
-                                    r,
-                                    nullable: false,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask).Bubble((o) => o.Value);
-                            }
-                            );
-                        if (dictTryGet.Succeeded)
+                    var Dictdict = DictXmlTranslation<String, Boolean, Exception, Exception>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.Dict,
+                        errorMask: errorMask,
+                        keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
                         {
-                            item._Dict.SetTo(dictTryGet.Value, cmds: null);
+                            return StringXmlTranslation.Instance.Parse(
+                                r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.Dict,
-                            subMask);
+                        ,
+                        valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                        {
+                            return BooleanXmlTranslation.Instance.Parse(
+                                r,
+                                nullable: false,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask).Bubble((o) => o.Value);
+                        }
+                        );
+                    if (Dictdict.Succeeded)
+                    {
+                        item._Dict.SetTo(Dictdict.Value);
                     }
                     break;
                 case "RefDict":
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        var dictTryGet = DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            );
-                        if (dictTryGet.Succeeded)
+                    var RefDictdict = DictXmlTranslation<ObjectToRef, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.RefDict,
+                        errorMask: errorMask,
+                        keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            item._RefDict.SetTo(dictTryGet.Value, cmds: null);
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.RefDict,
-                            subMask);
+                        ,
+                        valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
+                        }
+                        );
+                    if (RefDictdict.Succeeded)
+                    {
+                        item._RefDict.SetTo(RefDictdict.Value);
                     }
                     break;
                 case "KeyRefDict":
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>>> subMask;
-                        var dictTryGet = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
-                            {
-                                return BooleanXmlTranslation.Instance.Parse(
-                                    r,
-                                    nullable: false,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask).Bubble((o) => o.Value);
-                            }
-                            );
-                        if (dictTryGet.Succeeded)
+                    var KeyRefDictdict = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.KeyRefDict,
+                        errorMask: errorMask,
+                        keyTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            item._KeyRefDict.SetTo(dictTryGet.Value, cmds: null);
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.KeyRefDict,
-                            subMask);
+                        ,
+                        valTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
+                        {
+                            return BooleanXmlTranslation.Instance.Parse(
+                                r,
+                                nullable: false,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask).Bubble((o) => o.Value);
+                        }
+                        );
+                    if (KeyRefDictdict.Succeeded)
+                    {
+                        item._KeyRefDict.SetTo(KeyRefDictdict.Value);
                     }
                     break;
                 case "ValRefDict":
-                    {
-                        MaskItem<Exception, IEnumerable<KeyValuePair<Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>>> subMask;
-                        var dictTryGet = DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
-                            {
-                                return StringXmlTranslation.Instance.Parse(
-                                    r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            ,
-                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            );
-                        if (dictTryGet.Succeeded)
+                    var ValRefDictdict = DictXmlTranslation<String, ObjectToRef, Exception, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.ValRefDict,
+                        errorMask: errorMask,
+                        keyTransl: (XElement r, bool dictDoMasks, out Exception dictSubMask) =>
                         {
-                            item._ValRefDict.SetTo(dictTryGet.Value, cmds: null);
+                            return StringXmlTranslation.Instance.Parse(
+                                r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.ValRefDict,
-                            subMask);
+                        ,
+                        valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
+                        {
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
+                        }
+                        );
+                    if (ValRefDictdict.Succeeded)
+                    {
+                        item._ValRefDict.SetTo(ValRefDictdict.Value);
                     }
                     break;
                 case "DictKeyedValue":
-                    {
-                        MaskItem<Exception, IEnumerable<MaskItem<Exception, ObjectToRef_ErrorMask>>> subMask;
-                        var dictTryGet = KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            maskObj: out subMask,
-                            valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
-                            {
-                                return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
-                                    root: r,
-                                    doMasks: dictDoMasks,
-                                    errorMask: out dictSubMask);
-                            }
-                            );
-                        if (dictTryGet.Succeeded)
+                    var DictKeyedValuedict = KeyedDictXmlTranslation<Int32, ObjectToRef, MaskItem<Exception, ObjectToRef_ErrorMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestObject_RPC_FieldIndex.DictKeyedValue,
+                        errorMask: errorMask,
+                        valTransl: (XElement r, bool dictDoMasks, out MaskItem<Exception, ObjectToRef_ErrorMask> dictSubMask) =>
                         {
-                            item._DictKeyedValue.SetTo(dictTryGet.Value, cmds: null);
+                            return LoquiXmlTranslation<ObjectToRef, ObjectToRef_ErrorMask>.Instance.Parse(
+                                root: r,
+                                doMasks: dictDoMasks,
+                                errorMask: out dictSubMask);
                         }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_RPC_FieldIndex.DictKeyedValue,
-                            subMask);
+                        );
+                    if (DictKeyedValuedict.Succeeded)
+                    {
+                        item._DictKeyedValue.SetTo(DictKeyedValuedict.Value);
                     }
                     break;
                 default:

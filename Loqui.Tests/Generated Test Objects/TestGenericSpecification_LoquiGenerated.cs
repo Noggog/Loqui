@@ -447,38 +447,16 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "TestGenericObjectSpecified":
-                    {
-                        MaskItem<Exception, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>> subMask;
-                        var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item.TestGenericObjectSpecified = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
-                            subMask);
-                    }
+                    item.TestGenericObjectSpecified = LoquiXmlTranslation<TestGenericObject<ObjectToRef, ObjectToRef, ObjectToRef>, TestGenericObject_ErrorMask<ObjectToRef_ErrorMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestGenericSpecification_FieldIndex.TestGenericObjectSpecified,
+                        errorMask: errorMask).GetOrDefault(item.TestGenericObjectSpecified);
                     break;
                 case "TestGenericObjectHalfSpecified":
-                    {
-                        MaskItem<Exception, TestGenericObject_ErrorMask<RBase_ErrMask>> subMask;
-                        var tryGet = LoquiXmlTranslation<TestGenericObject<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Parse(
-                            root: root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item.TestGenericObjectHalfSpecified = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
-                            subMask);
-                    }
+                    item.TestGenericObjectHalfSpecified = LoquiXmlTranslation<TestGenericObject<ObjectToRef, RBase, R>, TestGenericObject_ErrorMask<RBase_ErrMask>>.Instance.Parse(
+                        root: root,
+                        fieldIndex: (int)TestGenericSpecification_FieldIndex.TestGenericObjectHalfSpecified,
+                        errorMask: errorMask).GetOrDefault(item.TestGenericObjectHalfSpecified);
                     break;
                 default:
                     break;

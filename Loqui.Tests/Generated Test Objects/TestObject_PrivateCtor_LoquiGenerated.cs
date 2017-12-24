@@ -395,21 +395,10 @@ namespace Loqui.Tests
             switch (name)
             {
                 case "BoolN":
-                    {
-                        Exception subMask;
-                        var tryGet = BooleanXmlTranslation.Instance.Parse(
-                            root,
-                            doMasks: errorMask != null,
-                            errorMask: out subMask);
-                        if (tryGet.Succeeded)
-                        {
-                            item.BoolN = tryGet.Value;
-                        }
-                        ErrorMask.HandleErrorMask(
-                            errorMask,
-                            (int)TestObject_PrivateCtor_FieldIndex.BoolN,
-                            subMask);
-                    }
+                    item.BoolN = BooleanXmlTranslation.Instance.Parse(
+                        root,
+                        fieldIndex: (int)TestObject_PrivateCtor_FieldIndex.BoolN,
+                        errorMask: errorMask).GetOrDefault(item.BoolN);
                     break;
                 default:
                     break;

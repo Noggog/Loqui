@@ -87,23 +87,22 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var pType = typeGen as PrimitiveType;
+            var isProperty = itemAccessor.PropertyAccess != null;
+            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
-                $"var tryGet = {this.TypeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}"))
+                $"{prefix}{this.TypeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}",
+                suffixLine: isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})"))
             {
                 args.Add(nodeAccessor);
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
-            }
-            if (itemAccessor.PropertyAccess != null)
-            {
-                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet);");
-            }
-            else
-            {
-                fg.AppendLine("if (tryGet.Succeeded)");
-                using (new BraceWrapper(fg))
+                if (typeGen.HasIndex)
                 {
-                    fg.AppendLine($"{itemAccessor.DirectAccess} = tryGet.Value;");
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
                 }
             }
         }
@@ -112,12 +111,12 @@ namespace Loqui.Generation
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
-            string retAccessor,
+            Accessor retAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}{this.TypeName}XmlTranslation.Instance.Parse",
+                $"{retAccessor.DirectAccess}{this.TypeName}XmlTranslation.Instance.Parse",
                 (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
             {
                 args.Add(nodeAccessor);

@@ -136,26 +136,22 @@ namespace Loqui.Generation
             string doMaskAccessor,
             string maskAccessor)
         {
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, "var dictTryGet = ", doMaskAccessor, maskAccessor);
-            if (itemAccessor.PropertyAccess != null)
-            {
-                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(INotifyingCollectionExt.SetIfSucceeded)}(dictTryGet);");
-            }
-            else
-            {
-                fg.AppendLine($"if (dictTryGet.Succeeded)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo(dictTryGet.Value, cmds: null);");
-                }
-            }
+            GenerateCopyIn_Internal(
+                fg: fg,
+                typeGen: typeGen,
+                nodeAccessor: nodeAccessor,
+                itemAccessor: itemAccessor,
+                ret: false,
+                doMaskAccessor: doMaskAccessor,
+                maskAccessor: maskAccessor);
         }
 
-        public override void GenerateCopyInRet(
+        private void GenerateCopyIn_Internal(
             FileGeneration fg,
-            TypeGeneration typeGen, 
+            TypeGeneration typeGen,
             string nodeAccessor,
-            string retAccessor,
+            Accessor itemAccessor,
+            bool ret,
             string doMaskAccessor,
             string maskAccessor)
         {
@@ -172,24 +168,46 @@ namespace Loqui.Generation
             }
             var valSubMaskStr = valSubTransl.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
 
+            string prefix, suffix;
+            bool isProperty = itemAccessor?.PropertyAccess != null;
+            if (!ret)
+            {
+                suffix = isProperty ? ")" : null;
+                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"var {typeGen.Name}dict = ";
+            }
+            else
+            {
+                suffix = null;
+                prefix = itemAccessor.DirectAccess;
+            }
+
             string funcStr;
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    funcStr = $"{retAccessor}DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keySubMaskStr}, {valSubMaskStr}>.Instance.Parse";
+                    funcStr = $"{prefix}DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {keySubMaskStr}, {valSubMaskStr}>.Instance.Parse";
                     break;
                 case DictMode.KeyedValue:
-                    funcStr = $"{retAccessor}KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {valSubMaskStr}>.Instance.Parse";
+                    funcStr = $"{prefix}KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {valSubMaskStr}>.Instance.Parse";
                     break;
                 default:
                     throw new NotImplementedException();
             }
 
-            using (var args = new ArgsWrapper(fg, funcStr))
+            using (var args = new ArgsWrapper(fg, funcStr,
+                suffixLine: suffix))
             {
                 args.Add($"root: root");
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"maskObj: out {maskAccessor}");
+                if (typeGen.HasIndex)
+                {
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
                 if (dictType.Mode != DictMode.KeyedValue)
                 {
                     args.Add((gen) =>
@@ -198,7 +216,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(gen))
                         {
                             var xmlGen = XmlMod.GetTypeGeneration(dictType.KeyTypeGen.GetType());
-                            xmlGen.GenerateCopyInRet(gen, dictType.KeyTypeGen, "r", "return ", "dictDoMasks", "dictSubMask");
+                            xmlGen.GenerateCopyInRet(gen, dictType.KeyTypeGen, "r", new Accessor("return "), "dictDoMasks", "dictSubMask");
                         }
                     });
                 }
@@ -208,10 +226,37 @@ namespace Loqui.Generation
                     using (new BraceWrapper(gen))
                     {
                         var xmlGen = XmlMod.GetTypeGeneration(dictType.ValueTypeGen.GetType());
-                        xmlGen.GenerateCopyInRet(gen, dictType.ValueTypeGen, "r", "return ", "dictDoMasks", "dictSubMask");
+                        xmlGen.GenerateCopyInRet(gen, dictType.ValueTypeGen, "r", new Accessor("return "), "dictDoMasks", "dictSubMask");
                     }
                 });
             }
+
+            if (!ret && !isProperty)
+            {
+                fg.AppendLine($"if ({typeGen.Name}dict.Succeeded)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}dict.Value);");
+                }
+            }
+        }
+
+        public override void GenerateCopyInRet(
+            FileGeneration fg,
+            TypeGeneration typeGen, 
+            string nodeAccessor,
+            Accessor retAccessor,
+            string doMaskAccessor,
+            string maskAccessor)
+        {
+            this.GenerateCopyIn_Internal(
+                fg: fg,
+                typeGen: typeGen,
+                nodeAccessor: nodeAccessor,
+                ret: true,
+                doMaskAccessor: doMaskAccessor,
+                itemAccessor: retAccessor,
+                maskAccessor: maskAccessor);
         }
 
         public override XElement GenerateForXSD(

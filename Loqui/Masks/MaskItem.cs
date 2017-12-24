@@ -38,6 +38,12 @@ namespace Loqui
             return HashHelper.GetHashCode(this.Overall)
                 .CombineHashCode(this.Specific);
         }
+
+        public static MaskItem<T, V> WrapValue(V val)
+        {
+            if (val == null) return null;
+            return new MaskItem<T, V>(default(T), val);
+        }
     }
 
     public static class MaskItemExt

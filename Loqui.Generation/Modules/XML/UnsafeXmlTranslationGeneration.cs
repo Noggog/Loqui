@@ -48,17 +48,23 @@ namespace Loqui.Generation
             string doMaskAccessor,
             string maskAccessor)
         {
-            GenerateCopyInRet(fg, typeGen, nodeAccessor, $"var tryGet = ", doMaskAccessor, maskAccessor);
-            if (itemAccessor.PropertyAccess != null)
+            UnsafeType unsafeType = typeGen as UnsafeType;
+            var isProperty = itemAccessor.PropertyAccess != null;
+            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
+            using (var args = new ArgsWrapper(fg,
+                $"{prefix}WildcardXmlTranslation.Instance.Parse",
+                suffixLine: $".Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i){(isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
             {
-                fg.AppendLine($"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(tryGet.Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i));");
-            }
-            else
-            {
-                fg.AppendLine($"if (tryGet.Succeeded)");
-                using (new BraceWrapper(fg))
+                args.Add($"root: {nodeAccessor}");
+                if (typeGen.HasIndex)
                 {
-                    fg.AppendLine($"{itemAccessor.DirectAccess} = ({typeGen.TypeName})tryGet.Value;");
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
+                }
+                else
+                {
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
                 }
             }
         }
@@ -67,17 +73,17 @@ namespace Loqui.Generation
             FileGeneration fg, 
             TypeGeneration typeGen, 
             string nodeAccessor,
-            string retAccessor,
+            Accessor retAccessor,
             string doMaskAccessor,
             string maskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             using (var args = new ArgsWrapper(fg,
-                $"var tryGet = WildcardXmlTranslation.Instance.Parse"))
+                $"{retAccessor.DirectAccess}WildcardXmlTranslation.Instance.Parse"))
             {
                 args.Add($"root: {nodeAccessor}");
                 args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"maskObj: out {maskAccessor}");
+                args.Add($"errorMask: out {maskAccessor}");
             }
         }
 
