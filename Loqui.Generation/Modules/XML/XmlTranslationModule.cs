@@ -251,7 +251,8 @@ namespace Loqui.Generation
                             {
                                 using (new BraceWrapper(fg))
                                 {
-                                    var maskType = this.Gen.MaskModule.GetMaskModule(field.GetType()).GetErrorMaskTypeStr(field);
+                                    var maskSubModule = this.Gen.MaskModule.GetMaskModule(field.GetType());
+                                    var maskType = maskSubModule.GetErrorMaskTypeStr(field);
                                     fg.AppendLine($"{maskType} subMask;");
                                     generator.GenerateCopyIn(
                                         fg: fg,

@@ -9,7 +9,8 @@ namespace Loqui.Generation
 {
     public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
     {
-        private string typeName;
+        private string _typeName;
+        public virtual string TypeName => _typeName;
         private bool? nullable;
         public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
         public bool CanBeNotNullable = true;
@@ -17,7 +18,7 @@ namespace Loqui.Generation
         public PrimitiveXmlTranslationGeneration(string typeName = null, bool? nullable = null)
         {
             this.nullable = nullable;
-            this.typeName = typeName ?? typeof(T).GetName().Replace("?", string.Empty);
+            this._typeName = typeName ?? typeof(T).GetName().Replace("?", string.Empty);
         }
 
         protected virtual string ItemWriteAccess(Accessor itemAccessor)
@@ -36,7 +37,7 @@ namespace Loqui.Generation
             string nameAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{this.typeName}XmlTranslation.Instance.Write"))
+                $"{this.TypeName}XmlTranslation.Instance.Write"))
             {
                 args.Add($"writer: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -87,7 +88,7 @@ namespace Loqui.Generation
         {
             var pType = typeGen as PrimitiveType;
             using (var args = new ArgsWrapper(fg,
-                $"var tryGet = {this.typeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}"))
+                $"var tryGet = {this.TypeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor);
                 args.Add($"doMasks: {doMaskAccessor}");
@@ -116,7 +117,7 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor}{this.typeName}XmlTranslation.Instance.Parse",
+                $"{retAccessor}{this.TypeName}XmlTranslation.Instance.Parse",
                 (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
             {
                 args.Add(nodeAccessor);
@@ -137,14 +138,14 @@ namespace Loqui.Generation
         {
             var elem = new XElement(XmlTranslationModule.XSDNamespace + "element");
             elem.Add(new XAttribute("name", nameOverride ?? typeGen.Name));
-            elem.Add(new XAttribute("type", $"{typeName}Type"));
+            elem.Add(new XAttribute("type", $"{TypeName}Type"));
             choiceElement.Add(elem);
 
-            if (rootElement.Elements().Any((e) => e.Attribute("name")?.Value.Equals($"{typeName}Type") ?? false)) return elem;
+            if (rootElement.Elements().Any((e) => e.Attribute("name")?.Value.Equals($"{TypeName}Type") ?? false)) return elem;
 
             rootElement.Add(
                 new XElement(XmlTranslationModule.XSDNamespace + "complexType",
-                    new XAttribute("name", $"{typeName}Type"),
+                    new XAttribute("name", $"{TypeName}Type"),
                     new XElement(XmlTranslationModule.XSDNamespace + "attribute",
                         new XAttribute("name", "value"),
                         new XAttribute("use", this.Nullable ? "optional" : "required"))));
