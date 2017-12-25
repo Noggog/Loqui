@@ -12,6 +12,7 @@ using Loqui;
 using Noggog;
 using Noggog.Notifying;
 using Loqui.Tests.Internals;
+using Loqui.Tests;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;

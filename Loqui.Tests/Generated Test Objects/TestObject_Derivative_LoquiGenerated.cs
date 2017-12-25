@@ -631,6 +631,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, Boolean> _Dict = new NotifyingDictionary<String, Boolean>();
         public INotifyingDictionary<String, Boolean> Dict { get { return _Dict; } }
         #region Interface Members
+        INotifyingDictionary<String, Boolean> ITestObject_Derivative.Dict => _Dict;
         INotifyingDictionaryGetter<String, Boolean> ITestObject_DerivativeGetter.Dict => _Dict;
         #endregion
 
@@ -639,6 +640,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, ObjectToRef> _RefDict = new NotifyingDictionary<ObjectToRef, ObjectToRef>();
         public INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get { return _RefDict; } }
         #region Interface Members
+        INotifyingDictionary<ObjectToRef, ObjectToRef> ITestObject_Derivative.RefDict => _RefDict;
         INotifyingDictionaryGetter<ObjectToRef, ObjectToRef> ITestObject_DerivativeGetter.RefDict => _RefDict;
         #endregion
 
@@ -647,6 +649,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<ObjectToRef, Boolean> _KeyRefDict = new NotifyingDictionary<ObjectToRef, Boolean>();
         public INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get { return _KeyRefDict; } }
         #region Interface Members
+        INotifyingDictionary<ObjectToRef, Boolean> ITestObject_Derivative.KeyRefDict => _KeyRefDict;
         INotifyingDictionaryGetter<ObjectToRef, Boolean> ITestObject_DerivativeGetter.KeyRefDict => _KeyRefDict;
         #endregion
 
@@ -655,6 +658,7 @@ namespace Loqui.Tests
         private readonly INotifyingDictionary<String, ObjectToRef> _ValRefDict = new NotifyingDictionary<String, ObjectToRef>();
         public INotifyingDictionary<String, ObjectToRef> ValRefDict { get { return _ValRefDict; } }
         #region Interface Members
+        INotifyingDictionary<String, ObjectToRef> ITestObject_Derivative.ValRefDict => _ValRefDict;
         INotifyingDictionaryGetter<String, ObjectToRef> ITestObject_DerivativeGetter.ValRefDict => _ValRefDict;
         #endregion
 
@@ -663,6 +667,7 @@ namespace Loqui.Tests
         private readonly INotifyingKeyedCollection<Int32, ObjectToRef> _DictKeyedValue = new NotifyingKeyedCollection<Int32, ObjectToRef>((item) => item.KeyField);
         public INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue => _DictKeyedValue;
         #region Interface Members
+        INotifyingKeyedCollection<Int32, ObjectToRef> ITestObject_Derivative.DictKeyedValue => _DictKeyedValue;
         INotifyingKeyedCollectionGetter<Int32, ObjectToRef> ITestObject_DerivativeGetter.DictKeyedValue => _DictKeyedValue;
         #endregion
 
@@ -2260,6 +2265,11 @@ namespace Loqui.Tests
     #region Interface
     public interface ITestObject_Derivative : ITestObject_DerivativeGetter, ILoquiClass<ITestObject_Derivative, ITestObject_DerivativeGetter>, ILoquiClass<TestObject_Derivative, ITestObject_DerivativeGetter>
     {
+        new INotifyingDictionary<String, Boolean> Dict { get; }
+        new INotifyingDictionary<ObjectToRef, ObjectToRef> RefDict { get; }
+        new INotifyingDictionary<ObjectToRef, Boolean> KeyRefDict { get; }
+        new INotifyingDictionary<String, ObjectToRef> ValRefDict { get; }
+        new INotifyingKeyedCollection<Int32, ObjectToRef> DictKeyedValue { get; }
     }
 
     public interface ITestObject_DerivativeGetter : ILoquiObject
@@ -6307,89 +6317,89 @@ namespace Loqui.Tests.Internals
             if (Ref != null)
             {
                 if (!eval(this.Ref.Overall)) return false;
-                if (Ref.Specific != null && !Ref.Specific.AllEqual(eval)) return false;
+                if (this.Ref.Specific != null && !this.Ref.Specific.AllEqual(eval)) return false;
             }
             if (Ref_NotNull != null)
             {
                 if (!eval(this.Ref_NotNull.Overall)) return false;
-                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.Ref_NotNull.Specific != null && !this.Ref_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (Ref_Singleton != null)
             {
                 if (!eval(this.Ref_Singleton.Overall)) return false;
-                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.Ref_Singleton.Specific != null && !this.Ref_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter != null)
             {
                 if (!eval(this.RefGetter.Overall)) return false;
-                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter.Specific != null && !this.RefGetter.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_NotNull != null)
             {
                 if (!eval(this.RefGetter_NotNull.Overall)) return false;
-                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter_NotNull.Specific != null && !this.RefGetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_Singleton != null)
             {
                 if (!eval(this.RefGetter_Singleton.Overall)) return false;
-                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter_Singleton.Specific != null && !this.RefGetter_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter != null)
             {
                 if (!eval(this.RefSetter.Overall)) return false;
-                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter.Specific != null && !this.RefSetter.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_NotNull != null)
             {
                 if (!eval(this.RefSetter_NotNull.Overall)) return false;
-                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter_NotNull.Specific != null && !this.RefSetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_Singleton != null)
             {
                 if (!eval(this.RefSetter_Singleton.Overall)) return false;
-                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter_Singleton.Specific != null && !this.RefSetter_Singleton.Specific.AllEqual(eval)) return false;
             }
-            if (List != null)
+            if (this.List != null)
             {
                 if (!eval(this.List.Overall)) return false;
-                if (List.Specific != null)
+                if (this.List.Specific != null)
                 {
-                    foreach (var item in List.Specific)
+                    foreach (var item in this.List.Specific)
                     {
                         if (!eval(item)) return false;
                     }
                 }
             }
-            if (RefList != null)
+            if (this.RefList != null)
             {
                 if (!eval(this.RefList.Overall)) return false;
-                if (RefList.Specific != null)
+                if (this.RefList.Specific != null)
                 {
-                    foreach (var item in RefList.Specific)
+                    foreach (var item in this.RefList.Specific)
                     {
                         if (!eval(item.Overall)) return false;
-                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
+                        if (item.Specific != null && !item.Specific.AllEqual(eval)) return false;
                     }
                 }
             }
-            if (Dict != null)
+            if (this.Dict != null)
             {
                 if (!eval(this.Dict.Overall)) return false;
-                if (Dict.Specific != null)
+                if (this.Dict.Specific != null)
                 {
-                    foreach (var item in Dict.Specific)
+                    foreach (var item in this.Dict.Specific)
                     {
                         if (!eval(item.Key)) return false;
                         if (!eval(item.Value)) return false;
                     }
                 }
             }
-            if (RefDict != null)
+            if (this.RefDict != null)
             {
                 if (!eval(this.RefDict.Overall)) return false;
-                if (RefDict.Specific != null)
+                if (this.RefDict.Specific != null)
                 {
-                    foreach (var item in RefDict.Specific)
+                    foreach (var item in this.RefDict.Specific)
                     {
                         if (item.Key != null)
                         {
@@ -6404,12 +6414,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (KeyRefDict != null)
+            if (this.KeyRefDict != null)
             {
                 if (!eval(this.KeyRefDict.Overall)) return false;
-                if (KeyRefDict.Specific != null)
+                if (this.KeyRefDict.Specific != null)
                 {
-                    foreach (var item in KeyRefDict.Specific)
+                    foreach (var item in this.KeyRefDict.Specific)
                     {
                         if (item.Key != null)
                         {
@@ -6420,12 +6430,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (ValRefDict != null)
+            if (this.ValRefDict != null)
             {
                 if (!eval(this.ValRefDict.Overall)) return false;
-                if (ValRefDict.Specific != null)
+                if (this.ValRefDict.Specific != null)
                 {
-                    foreach (var item in ValRefDict.Specific)
+                    foreach (var item in this.ValRefDict.Specific)
                     {
                         if (!eval(item.Key)) return false;
                         if (item.Value != null)
@@ -6436,12 +6446,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (DictKeyedValue != null)
+            if (this.DictKeyedValue != null)
             {
                 if (!eval(this.DictKeyedValue.Overall)) return false;
-                if (DictKeyedValue.Specific != null)
+                if (this.DictKeyedValue.Specific != null)
                 {
-                    foreach (var item in DictKeyedValue.Specific)
+                    foreach (var item in this.DictKeyedValue.Specific)
                     {
                         if (!eval(item.Overall)) return false;
                         if (!item.Specific?.AllEqual(eval) ?? false) return false;

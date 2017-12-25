@@ -12,6 +12,7 @@ using Loqui;
 using Noggog;
 using Noggog.Notifying;
 using Loqui.Tests.Internals;
+using Loqui.Tests;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -1247,7 +1248,9 @@ namespace Loqui.Tests.Internals
                     ret.RefList.Specific = item.RefList.SelectAgainst<RBase, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.RefList.Overall);
@@ -1497,22 +1500,22 @@ namespace Loqui.Tests.Internals
             if (RefBase != null)
             {
                 if (!eval(this.RefBase.Overall)) return false;
-                if (RefBase.Specific != null && !RefBase.Specific.AllEqual(eval)) return false;
+                if (this.RefBase.Specific != null && !this.RefBase.Specific.AllEqual(eval)) return false;
             }
             if (Ref != null)
             {
                 if (!eval(this.Ref.Overall)) return false;
                 throw new NotImplementedException();
             }
-            if (RefList != null)
+            if (this.RefList != null)
             {
                 if (!eval(this.RefList.Overall)) return false;
-                if (RefList.Specific != null)
+                if (this.RefList.Specific != null)
                 {
-                    foreach (var item in RefList.Specific)
+                    foreach (var item in this.RefList.Specific)
                     {
                         if (!eval(item.Overall)) return false;
-                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
+                        if (item.Specific != null && !item.Specific.AllEqual(eval)) return false;
                     }
                 }
             }
@@ -1771,7 +1774,7 @@ namespace Loqui.Tests.Internals
         {
             var ret = new TestGenericObject_ErrorMask<RBase_ErrMask>();
             ret.RefBase = new MaskItem<Exception, RBase_ErrMask>(this.RefBase.Overall.Combine(rhs.RefBase.Overall), ((IErrorMask<RBase_ErrMask>)this.RefBase.Specific).Combine(rhs.RefBase.Specific));
-            ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), Loqui.Internal.CombineHelper.Combine(this.Ref.Specific, rhs.Ref.Specific));
+            ret.Ref = new MaskItem<Exception, object>(this.Ref.Overall.Combine(rhs.Ref.Overall), Loqui.Internal.LoquiHelper.Combine(this.Ref.Specific, rhs.Ref.Specific));
             ret.RefList = new MaskItem<Exception, IEnumerable<MaskItem<Exception, RBase_ErrMask>>>(this.RefList.Overall.Combine(rhs.RefList.Overall), new List<MaskItem<Exception, RBase_ErrMask>>(this.RefList.Specific.And(rhs.RefList.Specific)));
             return ret;
         }

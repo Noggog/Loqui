@@ -46,10 +46,10 @@
     <Compile Include="Enums\GetterCopyOption.cs" />
     <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyOption.cs" />
-    <Compile Include="Extensions\CombineHelper.cs" />
     <Compile Include="Extensions\EnumerableExt.cs" />
     <Compile Include="Extensions\ExceptionExt.cs" />
     <Compile Include="Extensions\IHasBeenSetExt.cs" />
+    <Compile Include="Extensions\LoquiHelper.cs" />
     <Compile Include="File Generation\BraceWrapper.cs" />
     <Compile Include="File Generation\CommaWrapper.cs" />
     <Compile Include="File Generation\DepthWrapper.cs" />

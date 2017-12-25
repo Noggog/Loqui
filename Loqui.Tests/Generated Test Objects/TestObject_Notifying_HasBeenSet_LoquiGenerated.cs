@@ -10107,7 +10107,9 @@ namespace Loqui.Tests.Internals
                     ret.RefList.Specific = item.RefList.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.RefList, ((l, r) =>
                     {
                         MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
+                        itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                        itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                        itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
                         return itemRet;
                     }
                     ), out ret.RefList.Overall);
@@ -10124,129 +10126,59 @@ namespace Loqui.Tests.Internals
                 ret.RefList = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
                 ret.RefList.Overall = false;
             }
-            if (item.Dict.HasBeenSet == rhs.Dict.HasBeenSet)
+            ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
+            ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool, bool>>(rhs.Dict, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
+            ret.Dict.Overall = ret.Dict.Overall && ret.Dict.Specific.All((b) => b.Key && b.Value);
+            ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+            ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.RefDict, ((l, r) =>
             {
-                if (item.Dict.HasBeenSet)
-                {
-                    ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
-                    ret.Dict.Specific = item.Dict.SelectAgainst<KeyValuePair<String, Boolean>, KeyValuePair<bool, bool>>(rhs.Dict, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out ret.Dict.Overall);
-                    ret.Dict.Overall = ret.Dict.Overall && ret.Dict.Specific.All((b) => b.Key && b.Value);
-                }
-                else
-                {
-                    ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
-                    ret.Dict.Overall = true;
-                }
+                MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
+                MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
+                keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
             }
-            else
+            ), out ret.RefDict.Overall);
+            ret.RefDict.Overall = ret.RefDict.Overall && ret.RefDict.Specific.All((b) => b.Key.Overall && b.Value.Overall );
+            ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
+            ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>(rhs.KeyRefDict, ((l, r) =>
             {
-                ret.Dict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>();
-                ret.Dict.Overall = false;
+                MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
+                bool valItemRet = object.Equals(l.Value, r.Value);
+                keyItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                keyItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Key, r.Key);
+                keyItemRet.Overall = keyItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(keyItemRet, valItemRet);
             }
-            if (item.RefDict.HasBeenSet == rhs.RefDict.HasBeenSet)
+            ), out ret.KeyRefDict.Overall);
+            ret.KeyRefDict.Overall = ret.KeyRefDict.Overall && ret.KeyRefDict.Specific.All((b) => b.Key.Overall && b.Value);
+            ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
+            ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.ValRefDict, ((l, r) =>
             {
-                if (item.RefDict.HasBeenSet)
-                {
-                    ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                    ret.RefDict.Specific = item.RefDict.SelectAgainst<KeyValuePair<ObjectToRef, ObjectToRef>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.RefDict, ((l, r) =>
-                    {
-                        MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
-                        MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
-                    }
-                    ), out ret.RefDict.Overall);
-                    ret.RefDict.Overall = ret.RefDict.Overall && ret.RefDict.Specific.All((b) => b.Key.Overall && b.Value.Overall );
-                }
-                else
-                {
-                    ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                    ret.RefDict.Overall = true;
-                }
+                bool keyItemRet = object.Equals(l.Key, r.Key);
+                MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
+                valItemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                valItemRet.Specific = ObjectToRefCommon.GetEqualsMask(l.Value, r.Value);
+                valItemRet.Overall = valItemRet.Specific.AllEqual((b) => b);
+                return new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
             }
-            else
+            ), out ret.ValRefDict.Overall);
+            ret.ValRefDict.Overall = ret.ValRefDict.Overall && ret.ValRefDict.Specific.All((b) => b.Key && b.Value.Overall);
+            ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
+            ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
             {
-                ret.RefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                ret.RefDict.Overall = false;
+                MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
+                itemRet = new MaskItem<bool, ObjectToRef_Mask<bool>>();
+                itemRet.Specific = ObjectToRefCommon.GetEqualsMask(l, r);
+                itemRet.Overall = itemRet.Specific.AllEqual((b) => b);
+                return itemRet;
             }
-            if (item.KeyRefDict.HasBeenSet == rhs.KeyRefDict.HasBeenSet)
-            {
-                if (item.KeyRefDict.HasBeenSet)
-                {
-                    ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
-                    ret.KeyRefDict.Specific = item.KeyRefDict.SelectAgainst<KeyValuePair<ObjectToRef, Boolean>, KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>(rhs.KeyRefDict, ((l, r) =>
-                    {
-                        MaskItem<bool, ObjectToRef_Mask<bool>> keyItemRet;
-                        bool valItemRet = object.Equals(l.Value, r.Value);
-                        keyItemRet = l.Key.LoquiEqualsHelper(r.Key, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        return new KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>(keyItemRet, valItemRet);
-                    }
-                    ), out ret.KeyRefDict.Overall);
-                    ret.KeyRefDict.Overall = ret.KeyRefDict.Overall && ret.KeyRefDict.Specific.All((b) => b.Key.Overall && b.Value);
-                }
-                else
-                {
-                    ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
-                    ret.KeyRefDict.Overall = true;
-                }
-            }
-            else
-            {
-                ret.KeyRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<MaskItem<bool, ObjectToRef_Mask<bool>>, bool>>>();
-                ret.KeyRefDict.Overall = false;
-            }
-            if (item.ValRefDict.HasBeenSet == rhs.ValRefDict.HasBeenSet)
-            {
-                if (item.ValRefDict.HasBeenSet)
-                {
-                    ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                    ret.ValRefDict.Specific = item.ValRefDict.SelectAgainst<KeyValuePair<String, ObjectToRef>, KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>(rhs.ValRefDict, ((l, r) =>
-                    {
-                        bool keyItemRet = object.Equals(l.Key, r.Key);
-                        MaskItem<bool, ObjectToRef_Mask<bool>> valItemRet;
-                        valItemRet = l.Value.LoquiEqualsHelper(r.Value, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        return new KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>(keyItemRet, valItemRet);
-                    }
-                    ), out ret.ValRefDict.Overall);
-                    ret.ValRefDict.Overall = ret.ValRefDict.Overall && ret.ValRefDict.Specific.All((b) => b.Key && b.Value.Overall);
-                }
-                else
-                {
-                    ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                    ret.ValRefDict.Overall = true;
-                }
-            }
-            else
-            {
-                ret.ValRefDict = new MaskItem<bool, IEnumerable<KeyValuePair<bool, MaskItem<bool, ObjectToRef_Mask<bool>>>>>();
-                ret.ValRefDict.Overall = false;
-            }
-            if (item.DictKeyedValue.HasBeenSet == rhs.DictKeyedValue.HasBeenSet)
-            {
-                if (item.DictKeyedValue.HasBeenSet)
-                {
-                    ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
-                    ret.DictKeyedValue.Specific = item.DictKeyedValue.Values.SelectAgainst<ObjectToRef, MaskItem<bool, ObjectToRef_Mask<bool>>>(rhs.DictKeyedValue.Values, ((l, r) =>
-                    {
-                        MaskItem<bool, ObjectToRef_Mask<bool>> itemRet;
-                        itemRet = l.LoquiEqualsHelper(r, (loqLhs, loqRhs) => ObjectToRefCommon.GetEqualsMask(loqLhs, loqRhs));
-                        return itemRet;
-                    }
-                    ), out ret.DictKeyedValue.Overall);
-                    ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall && ret.DictKeyedValue.Specific.All((b) => b.Overall);
-                }
-                else
-                {
-                    ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
-                    ret.DictKeyedValue.Overall = true;
-                }
-            }
-            else
-            {
-                ret.DictKeyedValue = new MaskItem<bool, IEnumerable<MaskItem<bool, ObjectToRef_Mask<bool>>>>();
-                ret.DictKeyedValue.Overall = false;
-            }
+            ), out ret.DictKeyedValue.Overall);
+            ret.DictKeyedValue.Overall = ret.DictKeyedValue.Overall && ret.DictKeyedValue.Specific.All((b) => b.Overall);
         }
 
         public static string ToString(
@@ -12738,89 +12670,89 @@ namespace Loqui.Tests.Internals
             if (Ref != null)
             {
                 if (!eval(this.Ref.Overall)) return false;
-                if (Ref.Specific != null && !Ref.Specific.AllEqual(eval)) return false;
+                if (this.Ref.Specific != null && !this.Ref.Specific.AllEqual(eval)) return false;
             }
             if (Ref_NotNull != null)
             {
                 if (!eval(this.Ref_NotNull.Overall)) return false;
-                if (Ref_NotNull.Specific != null && !Ref_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.Ref_NotNull.Specific != null && !this.Ref_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (Ref_Singleton != null)
             {
                 if (!eval(this.Ref_Singleton.Overall)) return false;
-                if (Ref_Singleton.Specific != null && !Ref_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.Ref_Singleton.Specific != null && !this.Ref_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter != null)
             {
                 if (!eval(this.RefGetter.Overall)) return false;
-                if (RefGetter.Specific != null && !RefGetter.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter.Specific != null && !this.RefGetter.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_NotNull != null)
             {
                 if (!eval(this.RefGetter_NotNull.Overall)) return false;
-                if (RefGetter_NotNull.Specific != null && !RefGetter_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter_NotNull.Specific != null && !this.RefGetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefGetter_Singleton != null)
             {
                 if (!eval(this.RefGetter_Singleton.Overall)) return false;
-                if (RefGetter_Singleton.Specific != null && !RefGetter_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.RefGetter_Singleton.Specific != null && !this.RefGetter_Singleton.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter != null)
             {
                 if (!eval(this.RefSetter.Overall)) return false;
-                if (RefSetter.Specific != null && !RefSetter.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter.Specific != null && !this.RefSetter.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_NotNull != null)
             {
                 if (!eval(this.RefSetter_NotNull.Overall)) return false;
-                if (RefSetter_NotNull.Specific != null && !RefSetter_NotNull.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter_NotNull.Specific != null && !this.RefSetter_NotNull.Specific.AllEqual(eval)) return false;
             }
             if (RefSetter_Singleton != null)
             {
                 if (!eval(this.RefSetter_Singleton.Overall)) return false;
-                if (RefSetter_Singleton.Specific != null && !RefSetter_Singleton.Specific.AllEqual(eval)) return false;
+                if (this.RefSetter_Singleton.Specific != null && !this.RefSetter_Singleton.Specific.AllEqual(eval)) return false;
             }
-            if (List != null)
+            if (this.List != null)
             {
                 if (!eval(this.List.Overall)) return false;
-                if (List.Specific != null)
+                if (this.List.Specific != null)
                 {
-                    foreach (var item in List.Specific)
+                    foreach (var item in this.List.Specific)
                     {
                         if (!eval(item)) return false;
                     }
                 }
             }
-            if (RefList != null)
+            if (this.RefList != null)
             {
                 if (!eval(this.RefList.Overall)) return false;
-                if (RefList.Specific != null)
+                if (this.RefList.Specific != null)
                 {
-                    foreach (var item in RefList.Specific)
+                    foreach (var item in this.RefList.Specific)
                     {
                         if (!eval(item.Overall)) return false;
-                        if (!item.Specific?.AllEqual(eval) ?? false) return false;
+                        if (item.Specific != null && !item.Specific.AllEqual(eval)) return false;
                     }
                 }
             }
-            if (Dict != null)
+            if (this.Dict != null)
             {
                 if (!eval(this.Dict.Overall)) return false;
-                if (Dict.Specific != null)
+                if (this.Dict.Specific != null)
                 {
-                    foreach (var item in Dict.Specific)
+                    foreach (var item in this.Dict.Specific)
                     {
                         if (!eval(item.Key)) return false;
                         if (!eval(item.Value)) return false;
                     }
                 }
             }
-            if (RefDict != null)
+            if (this.RefDict != null)
             {
                 if (!eval(this.RefDict.Overall)) return false;
-                if (RefDict.Specific != null)
+                if (this.RefDict.Specific != null)
                 {
-                    foreach (var item in RefDict.Specific)
+                    foreach (var item in this.RefDict.Specific)
                     {
                         if (item.Key != null)
                         {
@@ -12835,12 +12767,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (KeyRefDict != null)
+            if (this.KeyRefDict != null)
             {
                 if (!eval(this.KeyRefDict.Overall)) return false;
-                if (KeyRefDict.Specific != null)
+                if (this.KeyRefDict.Specific != null)
                 {
-                    foreach (var item in KeyRefDict.Specific)
+                    foreach (var item in this.KeyRefDict.Specific)
                     {
                         if (item.Key != null)
                         {
@@ -12851,12 +12783,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (ValRefDict != null)
+            if (this.ValRefDict != null)
             {
                 if (!eval(this.ValRefDict.Overall)) return false;
-                if (ValRefDict.Specific != null)
+                if (this.ValRefDict.Specific != null)
                 {
-                    foreach (var item in ValRefDict.Specific)
+                    foreach (var item in this.ValRefDict.Specific)
                     {
                         if (!eval(item.Key)) return false;
                         if (item.Value != null)
@@ -12867,12 +12799,12 @@ namespace Loqui.Tests.Internals
                     }
                 }
             }
-            if (DictKeyedValue != null)
+            if (this.DictKeyedValue != null)
             {
                 if (!eval(this.DictKeyedValue.Overall)) return false;
-                if (DictKeyedValue.Specific != null)
+                if (this.DictKeyedValue.Specific != null)
                 {
-                    foreach (var item in DictKeyedValue.Specific)
+                    foreach (var item in this.DictKeyedValue.Specific)
                     {
                         if (!eval(item.Overall)) return false;
                         if (!item.Specific?.AllEqual(eval) ?? false) return false;

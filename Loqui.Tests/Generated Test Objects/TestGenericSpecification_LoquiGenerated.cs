@@ -1316,12 +1316,12 @@ namespace Loqui.Tests.Internals
             if (TestGenericObjectSpecified != null)
             {
                 if (!eval(this.TestGenericObjectSpecified.Overall)) return false;
-                if (TestGenericObjectSpecified.Specific != null && !TestGenericObjectSpecified.Specific.AllEqual(eval)) return false;
+                if (this.TestGenericObjectSpecified.Specific != null && !this.TestGenericObjectSpecified.Specific.AllEqual(eval)) return false;
             }
             if (TestGenericObjectHalfSpecified != null)
             {
                 if (!eval(this.TestGenericObjectHalfSpecified.Overall)) return false;
-                if (TestGenericObjectHalfSpecified.Specific != null && !TestGenericObjectHalfSpecified.Specific.AllEqual(eval)) return false;
+                if (this.TestGenericObjectHalfSpecified.Specific != null && !this.TestGenericObjectHalfSpecified.Specific.AllEqual(eval)) return false;
             }
             return true;
         }
