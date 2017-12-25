@@ -2318,7 +2318,7 @@ namespace Loqui.Generation
             foreach (var gen in this.Generics.Values)
             {
                 if (!gen.Wheres.Any()) continue;
-                if (!ObjectNamedKey.TryFactory(gen.Wheres.First(), out var objGenKey)) continue;
+                if (!ObjectNamedKey.TryFactory(gen.Wheres.First(), this.ProtoGen.Protocol, out var objGenKey)) continue;
                 if (!this.gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) continue;
                 gen.BaseObjectGeneration = baseObjGen;
             }

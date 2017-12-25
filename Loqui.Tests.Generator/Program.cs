@@ -12,25 +12,25 @@ namespace Loqui.Tests.Generator
     {
         static void Main(string[] args)
         {
-            LoquiGenerator gen = new LoquiGenerator(
-                new DirectoryInfo("../../../Loqui.Tests"))
+            LoquiGenerator gen = new LoquiGenerator()
             {
-                DefaultNamespace = "Loqui.Tests",
                 RaisePropertyChangedDefault = false,
-                ProtocolDefault = new ProtocolKey("LoquiTests")
             };
             gen.XmlTranslation.ShouldGenerateXSD = false;
 
-            // Add Projects
-            gen.AddProjectToModify(
-                new FileInfo(Path.Combine(gen.CommonGenerationFolder.FullName, "Loqui.Tests.csproj")));
-
-            gen.AddProtocol(
+            var proto = gen.AddProtocol(
                 new ProtocolGeneration(
                     gen,
-                    gen.ProtocolDefault));
+                    new ProtocolKey("LoquiTests"),
+                    new DirectoryInfo("../../../Loqui.Tests"))
+                {
+                    DefaultNamespace = "Loqui.Tests",
+                });
+            proto.AddProjectToModify(
+                new FileInfo(Path.Combine(proto.GenerationFolder.FullName, "Loqui.Tests.csproj")));
 
             gen.Generate().Wait();
         }
     }
 }
+
