@@ -136,7 +136,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.CombineHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.LoquiHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
             }
         }
 

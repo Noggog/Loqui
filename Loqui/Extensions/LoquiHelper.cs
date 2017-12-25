@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Loqui.Internal
 {
-    public static class CombineHelper
+    public static class LoquiHelper
     {
         public static object Combine(object lhs, object rhs)
         {
