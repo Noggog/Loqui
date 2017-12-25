@@ -452,62 +452,69 @@ namespace Loqui.Generation
                 throw new ArgumentException("Cannot both be generic and have specific object specified.");
             }
 
+            var genericName = genericNode?.Value;
+
+            if (!ParseRefNode(refNode))
+            {
+                if (!string.IsNullOrWhiteSpace(genericName))
+                {
+                    this.RefType = LoquiRefType.Generic;
+                    this._generic = genericName;
+                    this.GenericDef = this.ObjectGen.Generics[this._generic];
+                    this.GenericDef.Add(nameof(ILoquiObjectGetter));
+                    if (this.SingletonType == SingletonLevel.Singleton)
+                    {
+                        throw new ArgumentException("Cannot be a generic and singleton.");
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Ref type needs a target.");
+                }
+            }
+
+            this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
+        }
+
+        public bool ParseRefNode(XElement refNode)
+        {
             if (this.RefName == null)
             {
                 this.RefName = refNode?.GetAttribute(Constants.REF_NAME);
             }
-            var genericName = genericNode?.Value;
+            if (string.IsNullOrWhiteSpace(this.RefName)) return false;
 
-            if (!string.IsNullOrWhiteSpace(this.RefName))
-            {
-                this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
+            this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
 
-                this.RefType = LoquiRefType.Direct;
-                if (!ObjectNamedKey.TryFactory(this.RefName, this.ProtoGen.Protocol, out var namedKey)
-                    || !this.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(namedKey, out _TargetObjectGeneration))
-                {
-                    throw new ArgumentException("Loqui type cannot be found: " + this.RefName);
-                }
-
-                this.GenericSpecification = new GenericSpecification();
-                foreach (var specNode in refNode.Elements(XName.Get(Constants.GENERIC_SPECIFICATION, LoquiGenerator.Namespace)))
-                {
-                    this.GenericSpecification.Specifications.Add(
-                        specNode.Attribute(Constants.TYPE_TO_SPECIFY).Value,
-                        specNode.Attribute(Constants.DEFINITION).Value);
-                }
-                foreach (var mapNode in refNode.Elements(XName.Get(Constants.GENERIC_MAPPING, LoquiGenerator.Namespace)))
-                {
-                    this.GenericSpecification.Mappings.Add(
-                        mapNode.Attribute(Constants.TYPE_ON_REF).Value,
-                        mapNode.Attribute(Constants.TYPE_ON_OBJECT).Value);
-                }
-                foreach (var generic in this.TargetObjectGeneration.Generics)
-                {
-                    if (this.GenericSpecification.Specifications.ContainsKey(generic.Key)) continue;
-                    if (this.GenericSpecification.Mappings.ContainsKey(generic.Key)) continue;
-                    this.GenericSpecification.Mappings.Add(
-                        generic.Key,
-                        generic.Key);
-                }
-            }
-            else if (!string.IsNullOrWhiteSpace(genericName))
+            this.RefType = LoquiRefType.Direct;
+            if (!ObjectNamedKey.TryFactory(this.RefName, this.ProtoGen.Protocol, out var namedKey)
+                || !this.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(namedKey, out _TargetObjectGeneration))
             {
-                this.RefType = LoquiRefType.Generic;
-                this._generic = genericName;
-                this.GenericDef = this.ObjectGen.Generics[this._generic];
-                this.GenericDef.Add(nameof(ILoquiObjectGetter));
-                if (this.SingletonType == SingletonLevel.Singleton)
-                {
-                    throw new ArgumentException("Cannot be a generic and singleton.");
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Ref type needs a target.");
+                throw new ArgumentException("Loqui type cannot be found: " + this.RefName);
             }
 
-            this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
+            this.GenericSpecification = new GenericSpecification();
+            foreach (var specNode in refNode.Elements(XName.Get(Constants.GENERIC_SPECIFICATION, LoquiGenerator.Namespace)))
+            {
+                this.GenericSpecification.Specifications.Add(
+                    specNode.Attribute(Constants.TYPE_TO_SPECIFY).Value,
+                    specNode.Attribute(Constants.DEFINITION).Value);
+            }
+            foreach (var mapNode in refNode.Elements(XName.Get(Constants.GENERIC_MAPPING, LoquiGenerator.Namespace)))
+            {
+                this.GenericSpecification.Mappings.Add(
+                    mapNode.Attribute(Constants.TYPE_ON_REF).Value,
+                    mapNode.Attribute(Constants.TYPE_ON_OBJECT).Value);
+            }
+            foreach (var generic in this.TargetObjectGeneration.Generics)
+            {
+                if (this.GenericSpecification.Specifications.ContainsKey(generic.Key)) continue;
+                if (this.GenericSpecification.Mappings.ContainsKey(generic.Key)) continue;
+                this.GenericSpecification.Mappings.Add(
+                    generic.Key,
+                    generic.Key);
+            }
+            return true;
         }
 
         public override void GenerateForCopy(
