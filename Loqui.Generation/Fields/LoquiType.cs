@@ -150,10 +150,12 @@ namespace Loqui.Generation
             }
         }
 
-        public string GetMaskString(string str)
+        public virtual string GetMaskString(string str)
         {
             return this.TargetObjectGeneration?.GetMaskString(str) ?? "object";
         }
+
+        public override string EqualsMaskAccessor(string accessor) => $"{accessor}.Overall";
 
         public string MaskItemString(MaskType type)
         {

@@ -174,6 +174,8 @@ namespace Loqui.Generation
             }
         }
 
+        public virtual string EqualsMaskAccessor(string accessor) => accessor;
+
         public virtual string GetName(bool internalUse, bool property)
         {
             if (internalUse)
