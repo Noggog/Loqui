@@ -47,6 +47,7 @@ namespace Loqui.Generation
                     baseClass.DerivativeClasses.Add(this);
                 }
             }
+            this.WiredBaseClassTCS.SetResult(true);
 
             await base.Load();
         }

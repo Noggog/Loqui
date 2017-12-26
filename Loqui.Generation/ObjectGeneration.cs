@@ -104,6 +104,8 @@ namespace Loqui.Generation
             return ret;
         }
         public TaskCompletionSource<bool> LoadingCompleteTask = new TaskCompletionSource<bool>();
+        protected TaskCompletionSource<bool> WiredBaseClassTCS = new TaskCompletionSource<bool>();
+        public Task WiredBaseClassTask => WiredBaseClassTCS.Task;
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {
@@ -192,6 +194,18 @@ namespace Loqui.Generation
             {
                 interf.Modify(this);
             }
+
+            List<ObjectGeneration> directlyInheritingObjs = new List<ObjectGeneration>();
+            await Task.WhenAll(
+                this.ProtoGen.Gen.ObjectGenerations.Select(
+                    async (obj) =>
+                    {
+                        await obj.WiredBaseClassTask;
+                        if (!obj.HasBaseObject) return;
+                        if (!object.ReferenceEquals(obj.BaseClass, this)) return;
+                        directlyInheritingObjs.Add(obj);
+                    }));
+            this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
             await Task.WhenAll(
                 this.gen.GenerationModules.Select((m) => m.PostLoad(this)));
@@ -2306,15 +2320,6 @@ namespace Loqui.Generation
 
         public virtual async Task Resolve()
         {
-            List<ObjectGeneration> directlyInheritingObjs = new List<ObjectGeneration>();
-            foreach (var obj in this.ProtoGen.Gen.ObjectGenerations)
-            {
-                if (!obj.HasBaseObject) continue;
-                if (!object.ReferenceEquals(obj.BaseClass, this)) continue;
-                directlyInheritingObjs.Add(obj);
-            }
-            this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
-
             foreach (var gen in this.Generics.Values)
             {
                 if (!gen.Wheres.Any()) continue;
