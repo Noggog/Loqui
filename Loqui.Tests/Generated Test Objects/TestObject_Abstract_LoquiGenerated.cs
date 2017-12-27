@@ -1900,6 +1900,59 @@ namespace Loqui.Tests
 
         #endregion
 
+        public TestObject_Abstract Copy(
+            TestObject_Abstract_CopyMask copyMask = null,
+            ITestObject_AbstractGetter def = null)
+        {
+            return TestObject_Abstract.Copy(
+                this,
+                copyMask: copyMask,
+                def: def);
+        }
+
+        public static TestObject_Abstract Copy(
+            ITestObject_Abstract item,
+            TestObject_Abstract_CopyMask copyMask = null,
+            ITestObject_AbstractGetter def = null)
+        {
+            TestObject_Abstract ret = (TestObject_Abstract)Activator.CreateInstance(item.GetType());
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
+        public static CopyType CopyGeneric<CopyType>(
+            CopyType item,
+            TestObject_Abstract_CopyMask copyMask = null,
+            ITestObject_AbstractGetter def = null)
+            where CopyType : class, ITestObject_Abstract
+        {
+            CopyType ret = (CopyType)Activator.CreateInstance(item.GetType());
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                doMasks: false,
+                errorMask: null,
+                cmds: null,
+                def: def);
+            return ret;
+        }
+
+        public static TestObject_Abstract Copy_ToLoqui(
+            ITestObject_AbstractGetter item,
+            TestObject_Abstract_CopyMask copyMask = null,
+            ITestObject_AbstractGetter def = null)
+        {
+            TestObject_Abstract ret = (TestObject_Abstract)Activator.CreateInstance(item.GetType());
+            ret.CopyFieldsFrom(
+                item,
+                copyMask: copyMask,
+                def: def);
+            return ret;
+        }
+
         void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
         protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
         {

@@ -591,7 +591,15 @@ namespace Loqui.Tests
             ITestGenericObjectGetter<T, RBase, R> def = null)
             where RBase_CopyMask : ObjectToRef_CopyMask, new()
         {
-            var ret = new TestGenericObject<T, RBase, R>();
+            TestGenericObject<T, RBase, R> ret;
+            if (item.GetType().Equals(typeof(TestGenericObject<T, RBase, R>)))
+            {
+                ret = new TestGenericObject<T, RBase, R>() as TestGenericObject<T, RBase, R>;
+            }
+            else
+            {
+                ret = (TestGenericObject<T, RBase, R>)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

@@ -527,7 +527,15 @@ namespace Loqui.Tests
             where S_CopyMask : ObjectToRef_CopyMask, new()
             where RBase_CopyMask : ObjectToRef_CopyMask, new()
         {
-            var ret = new TestGenericObject_SubClass<S, T, RBase, R>();
+            TestGenericObject_SubClass<S, T, RBase, R> ret;
+            if (item.GetType().Equals(typeof(TestGenericObject_SubClass<S, T, RBase, R>)))
+            {
+                ret = new TestGenericObject_SubClass<S, T, RBase, R>() as TestGenericObject_SubClass<S, T, RBase, R>;
+            }
+            else
+            {
+                ret = (TestGenericObject_SubClass<S, T, RBase, R>)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

@@ -2093,7 +2093,15 @@ namespace Loqui.Tests
             TestObject_CopyMask copyMask = null,
             ITestObjectGetter def = null)
         {
-            var ret = new TestObject();
+            TestObject ret;
+            if (item.GetType().Equals(typeof(TestObject)))
+            {
+                ret = new TestObject() as TestObject;
+            }
+            else
+            {
+                ret = (TestObject)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

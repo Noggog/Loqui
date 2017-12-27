@@ -468,7 +468,15 @@ namespace Loqui.Tests
             TestObject_PrivateCtor_CopyMask copyMask = null,
             ITestObject_PrivateCtorGetter def = null)
         {
-            var ret = new TestObject_PrivateCtor();
+            TestObject_PrivateCtor ret;
+            if (item.GetType().Equals(typeof(TestObject_PrivateCtor)))
+            {
+                ret = new TestObject_PrivateCtor() as TestObject_PrivateCtor;
+            }
+            else
+            {
+                ret = (TestObject_PrivateCtor)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

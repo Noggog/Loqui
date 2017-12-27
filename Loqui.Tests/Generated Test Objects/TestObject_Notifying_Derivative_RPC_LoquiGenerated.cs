@@ -2655,7 +2655,15 @@ namespace Loqui.Tests
             TestObject_Notifying_Derivative_RPC_CopyMask copyMask = null,
             ITestObject_Notifying_Derivative_RPCGetter def = null)
         {
-            var ret = new TestObject_Notifying_Derivative_RPC();
+            TestObject_Notifying_Derivative_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_Derivative_RPC)))
+            {
+                ret = new TestObject_Notifying_Derivative_RPC() as TestObject_Notifying_Derivative_RPC;
+            }
+            else
+            {
+                ret = (TestObject_Notifying_Derivative_RPC)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

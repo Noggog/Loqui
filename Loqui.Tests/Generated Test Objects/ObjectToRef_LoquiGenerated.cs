@@ -509,7 +509,15 @@ namespace Loqui.Tests
             ObjectToRef_CopyMask copyMask = null,
             IObjectToRefGetter def = null)
         {
-            var ret = new ObjectToRef();
+            ObjectToRef ret;
+            if (item.GetType().Equals(typeof(ObjectToRef)))
+            {
+                ret = new ObjectToRef() as ObjectToRef;
+            }
+            else
+            {
+                ret = (ObjectToRef)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

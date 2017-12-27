@@ -3689,7 +3689,15 @@ namespace Loqui.Tests
             TestObject_HasBeenSet_ReadOnly_RPC_CopyMask copyMask = null,
             ITestObject_HasBeenSet_ReadOnly_RPCGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet_ReadOnly_RPC();
+            TestObject_HasBeenSet_ReadOnly_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_ReadOnly_RPC)))
+            {
+                ret = new TestObject_HasBeenSet_ReadOnly_RPC() as TestObject_HasBeenSet_ReadOnly_RPC;
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet_ReadOnly_RPC)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

@@ -1977,8 +1977,6 @@ namespace Loqui.Generation
 
         public virtual void GenerateCopy(FileGeneration fg)
         {
-            if (this.Abstract) return;
-
             using (var args = new FunctionWrapper(fg,
                 $"public {this.ObjectName} Copy{this.Mask_GenericClause(MaskType.Copy)}",
                 wheres: this.GenericTypes_CopyMaskWheres))
@@ -2008,16 +2006,23 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.ObjectName} ret;");
-                fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
-                using (new BraceWrapper(fg))
+                if (this.Abstract)
                 {
-                    fg.AppendLine($"ret = new {this.ObjectName}();");
+                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
                 }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
+                else
                 {
-                    fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                    fg.AppendLine($"{this.ObjectName} ret;");
+                    fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = new {this.ObjectName}();");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                    }
                 }
                 using (var args = new ArgsWrapper(fg,
                     "ret.CopyFieldsFrom"))
@@ -2044,16 +2049,23 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"CopyType ret;");
-                fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
-                using (new BraceWrapper(fg))
+                if (this.Abstract)
                 {
-                    fg.AppendLine($"ret = new {this.ObjectName}() as CopyType;");
+                    fg.AppendLine($"CopyType ret = (CopyType)Activator.CreateInstance(item.GetType());");
                 }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
+                else
                 {
-                    fg.AppendLine($"ret = (CopyType)Activator.CreateInstance(item.GetType());");
+                    fg.AppendLine($"CopyType ret;");
+                    fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = new {this.ObjectName}() as CopyType;");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = (CopyType)Activator.CreateInstance(item.GetType());");
+                    }
                 }
                 using (var args = new ArgsWrapper(fg,
                     $"ret.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
@@ -2079,7 +2091,24 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"var ret = new {this.ObjectName}();");
+                if (this.Abstract)
+                {
+                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                }
+                else
+                {
+                    fg.AppendLine($"{this.ObjectName} ret;");
+                    fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = new {this.ObjectName}() as {this.ObjectName};");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                    }
+                }
                 using (var args = new ArgsWrapper(fg,
                     "ret.CopyFieldsFrom"))
                 {

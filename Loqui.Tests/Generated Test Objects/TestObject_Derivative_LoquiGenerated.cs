@@ -2091,7 +2091,15 @@ namespace Loqui.Tests
             TestObject_Derivative_CopyMask copyMask = null,
             ITestObject_DerivativeGetter def = null)
         {
-            var ret = new TestObject_Derivative();
+            TestObject_Derivative ret;
+            if (item.GetType().Equals(typeof(TestObject_Derivative)))
+            {
+                ret = new TestObject_Derivative() as TestObject_Derivative;
+            }
+            else
+            {
+                ret = (TestObject_Derivative)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

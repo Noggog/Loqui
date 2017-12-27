@@ -3380,7 +3380,15 @@ namespace Loqui.Tests
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet();
+            TestObject_HasBeenSet ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet)))
+            {
+                ret = new TestObject_HasBeenSet() as TestObject_HasBeenSet;
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

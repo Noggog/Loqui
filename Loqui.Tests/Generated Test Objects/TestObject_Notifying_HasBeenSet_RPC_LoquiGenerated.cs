@@ -3713,7 +3713,15 @@ namespace Loqui.Tests
             TestObject_Notifying_HasBeenSet_RPC_CopyMask copyMask = null,
             ITestObject_Notifying_HasBeenSet_RPCGetter def = null)
         {
-            var ret = new TestObject_Notifying_HasBeenSet_RPC();
+            TestObject_Notifying_HasBeenSet_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_HasBeenSet_RPC)))
+            {
+                ret = new TestObject_Notifying_HasBeenSet_RPC() as TestObject_Notifying_HasBeenSet_RPC;
+            }
+            else
+            {
+                ret = (TestObject_Notifying_HasBeenSet_RPC)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

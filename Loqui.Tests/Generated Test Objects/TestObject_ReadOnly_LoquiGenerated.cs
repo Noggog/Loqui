@@ -2086,7 +2086,15 @@ namespace Loqui.Tests
             TestObject_ReadOnly_CopyMask copyMask = null,
             ITestObject_ReadOnlyGetter def = null)
         {
-            var ret = new TestObject_ReadOnly();
+            TestObject_ReadOnly ret;
+            if (item.GetType().Equals(typeof(TestObject_ReadOnly)))
+            {
+                ret = new TestObject_ReadOnly() as TestObject_ReadOnly;
+            }
+            else
+            {
+                ret = (TestObject_ReadOnly)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

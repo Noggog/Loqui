@@ -3694,7 +3694,15 @@ namespace Loqui.Tests
             TestObject_HasBeenSet_Derivative_RPC_CopyMask copyMask = null,
             ITestObject_HasBeenSet_Derivative_RPCGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet_Derivative_RPC();
+            TestObject_HasBeenSet_Derivative_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_Derivative_RPC)))
+            {
+                ret = new TestObject_HasBeenSet_Derivative_RPC() as TestObject_HasBeenSet_Derivative_RPC;
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet_Derivative_RPC)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

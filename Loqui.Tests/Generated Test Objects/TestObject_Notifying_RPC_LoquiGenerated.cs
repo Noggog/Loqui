@@ -2753,7 +2753,15 @@ namespace Loqui.Tests
             TestObject_Notifying_RPC_CopyMask copyMask = null,
             ITestObject_Notifying_RPCGetter def = null)
         {
-            var ret = new TestObject_Notifying_RPC();
+            TestObject_Notifying_RPC ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_RPC)))
+            {
+                ret = new TestObject_Notifying_RPC() as TestObject_Notifying_RPC;
+            }
+            else
+            {
+                ret = (TestObject_Notifying_RPC)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

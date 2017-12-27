@@ -3363,7 +3363,15 @@ namespace Loqui.Tests
             TestObject_HasBeenSet_Derivative_CopyMask copyMask = null,
             ITestObject_HasBeenSet_DerivativeGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet_Derivative();
+            TestObject_HasBeenSet_Derivative ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_Derivative)))
+            {
+                ret = new TestObject_HasBeenSet_Derivative() as TestObject_HasBeenSet_Derivative;
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet_Derivative)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

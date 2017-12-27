@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("erritem._KeyRefDict = DictXmlTranslation<ObjectToRef, Boolean, MaskItem<Exception, ObjectToRef_ErrorMask>, Exception>.Instance.Parse("))
+            if (str.Contains("var ret = new TestObject_Abstract();"))
             {
                 int wer = 23;
                 wer++;

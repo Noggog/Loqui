@@ -2513,7 +2513,15 @@ namespace Loqui.Tests
             TestObject_Notifying_Derivative_CopyMask copyMask = null,
             ITestObject_Notifying_DerivativeGetter def = null)
         {
-            var ret = new TestObject_Notifying_Derivative();
+            TestObject_Notifying_Derivative ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying_Derivative)))
+            {
+                ret = new TestObject_Notifying_Derivative() as TestObject_Notifying_Derivative;
+            }
+            else
+            {
+                ret = (TestObject_Notifying_Derivative)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

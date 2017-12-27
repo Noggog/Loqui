@@ -2611,7 +2611,15 @@ namespace Loqui.Tests
             TestObject_Notifying_CopyMask copyMask = null,
             ITestObject_NotifyingGetter def = null)
         {
-            var ret = new TestObject_Notifying();
+            TestObject_Notifying ret;
+            if (item.GetType().Equals(typeof(TestObject_Notifying)))
+            {
+                ret = new TestObject_Notifying() as TestObject_Notifying;
+            }
+            else
+            {
+                ret = (TestObject_Notifying)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

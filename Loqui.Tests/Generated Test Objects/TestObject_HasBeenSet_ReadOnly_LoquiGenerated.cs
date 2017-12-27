@@ -3358,7 +3358,15 @@ namespace Loqui.Tests
             TestObject_HasBeenSet_ReadOnly_CopyMask copyMask = null,
             ITestObject_HasBeenSet_ReadOnlyGetter def = null)
         {
-            var ret = new TestObject_HasBeenSet_ReadOnly();
+            TestObject_HasBeenSet_ReadOnly ret;
+            if (item.GetType().Equals(typeof(TestObject_HasBeenSet_ReadOnly)))
+            {
+                ret = new TestObject_HasBeenSet_ReadOnly() as TestObject_HasBeenSet_ReadOnly;
+            }
+            else
+            {
+                ret = (TestObject_HasBeenSet_ReadOnly)Activator.CreateInstance(item.GetType());
+            }
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
