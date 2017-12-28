@@ -74,5 +74,12 @@ namespace Loqui
                 }
             }
         }
+
+        public static MaskItem<Exception, R> Bubble<T, R>(this MaskItem<Exception, T> item)
+            where T : R
+        {
+            if (item == null) return null;
+            return new MaskItem<Exception, R>(item.Overall, item.Specific);
+        }
     }
 }
