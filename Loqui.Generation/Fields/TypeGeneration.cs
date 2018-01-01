@@ -31,9 +31,9 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        public readonly HasBeenSetItem<bool> NotifyingProperty = new HasBeenSetItem<bool>();
+        public readonly NotifyingSetItem<bool> NotifyingProperty = new NotifyingSetItem<bool>();
         public bool Notifying => NotifyingProperty.Item;
-        public readonly HasBeenSetItem<bool> HasBeenSetProperty = new HasBeenSetItem<bool>();
+        public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
         public bool HasBeenSet => HasBeenSetProperty.Item;
         public bool Bare => !this.Notifying && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();

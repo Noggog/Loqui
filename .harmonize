@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e8069e5eef986d76942b9552013fa997ddcca089</Sha>
+         <Sha>4390748364cfcfdfb426cac4ec1ba5c566cfef11</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-27-2017 01:00:58</CommitDate>
-         <Description>TryGet.Bubble without converter if natural inheritence</Description>
+         <CommitDate>01-01-2018 13:54:29</CommitDate>
+         <Description>NotifyingItemExt.Forward now can forward to IHasItems</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
