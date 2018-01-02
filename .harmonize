@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>4390748364cfcfdfb426cac4ec1ba5c566cfef11</Sha>
+         <Sha>f728488f78728e190ed919d1d79983bc9c952152</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-01-2018 13:54:29</CommitDate>
-         <Description>NotifyingItemExt.Forward now can forward to IHasItems</Description>
+         <CommitDate>01-02-2018 08:15:37</CommitDate>
+         <Description>Renamed NotifyingItem.Set cmd param to cmds</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

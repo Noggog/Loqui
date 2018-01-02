@@ -253,7 +253,7 @@ namespace Loqui.Generation
         public override void GenerateForInterface(FileGeneration fg)
         {
             if (this.Protected || !this.IntegrateField) return;
-            fg.AppendLine($"new {TypeName} {this.Name} {{ get; {(Protected ? string.Empty : "set; ")}}}");
+            fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
             if (this.Notifying)
             {
                 if (this.HasBeenSet)
