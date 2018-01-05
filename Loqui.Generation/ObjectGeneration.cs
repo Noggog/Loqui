@@ -460,7 +460,7 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFieldIndices(includeBaseClass: true))
                     {
                         if (!field.Field.IntegrateField) continue;
-                        fg.AppendLine($"{field.Field.Name} = {field.Index},");
+                        fg.AppendLine($"{field.Field.Name} = {field.PublicIndex},");
                     }
                 }
             }
@@ -780,7 +780,7 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (index)");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var (Index, Field) in baseObj.IterateFieldIndices(includeBaseClass: true))
+                    foreach (var (PublicIndex, InternalIndex, Field) in baseObj.IterateFieldIndices(includeBaseClass: true))
                     {
                         fg.AppendLine($"case {baseObj.FieldIndexName}.{Field.Name}:");
                         using (new DepthWrapper(fg))
@@ -1262,14 +1262,14 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFieldIndices())
                     {
                         if (field.Field.IntegrateField) continue;
-                        coveredFields.Add(field.Index);
+                        coveredFields.Add(field.PublicIndex);
                         fg.AppendLine($"case {field.Field.IndexEnumName}:");
                         field.Field.GenerateSetNthHasBeenSet(fg, "obj", "on");
                     }
 
                     // Derivative fields
                     var derivatives = IterateFieldIndices()
-                        .Where((f) => f.Field.Derivative && coveredFields.Add(f.Index)).ToList();
+                        .Where((f) => f.Field.Derivative && coveredFields.Add(f.PublicIndex)).ToList();
                     if (derivatives.Count > 0)
                     {
                         foreach (var item in derivatives)
@@ -1286,7 +1286,7 @@ namespace Loqui.Generation
                     var nonHasBeenSetFields = IterateFieldIndices().
                         Where((f) =>
                             !f.Field.HasBeenSet
-                            && coveredFields.Add(f.Index))
+                            && coveredFields.Add(f.PublicIndex))
                         .ToList();
                     if (nonHasBeenSetFields.Count > 0)
                     {
@@ -1306,7 +1306,7 @@ namespace Loqui.Generation
                     var protectedFields = IterateFieldIndices().
                         Where((f) =>
                             f.Field.Protected
-                            && coveredFields.Add(f.Index))
+                            && coveredFields.Add(f.PublicIndex))
                         .ToList();
                     if (protectedFields.Count > 0)
                     {
@@ -1322,7 +1322,7 @@ namespace Loqui.Generation
                     }
 
                     // Normal
-                    foreach (var field in this.IterateFieldIndices().Where((f) => coveredFields.Add(f.Index)).Select((f) => f.Field))
+                    foreach (var field in this.IterateFieldIndices().Where((f) => coveredFields.Add(f.PublicIndex)).Select((f) => f.Field))
                     {
                         fg.AppendLine($"case {field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
@@ -2601,7 +2601,7 @@ namespace Loqui.Generation
                 expandSets: expandSets).Select((f) => f.Field);
         }
 
-        public IEnumerable<(int Index, TypeGeneration Field)> IterateFieldIndices(
+        public IEnumerable<(int PublicIndex, int InternalIndex, TypeGeneration Field)> IterateFieldIndices(
             bool nonIntegrated = false,
             SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True,
             bool includeBaseClass = false)
@@ -2617,8 +2617,9 @@ namespace Loqui.Generation
                 }
             }
             int i = this.StartingIndex;
-            foreach (var field in this.Fields)
+            for (int j = 0; j < this.Fields.Count; j++)
             {
+                var field = this.Fields[j];
                 if (!field.IntegrateField)
                 {
                     if (field is SetMarkerType set)
@@ -2628,7 +2629,7 @@ namespace Loqui.Generation
                             case SetMarkerType.ExpandSets.False:
                                 continue;
                             case SetMarkerType.ExpandSets.FalseAndInclude:
-                                yield return (-1, field);
+                                yield return (-1, j, field);
                                 continue;
                             case SetMarkerType.ExpandSets.True:
                             case SetMarkerType.ExpandSets.TrueAndInclude:
@@ -2636,7 +2637,7 @@ namespace Loqui.Generation
                                     nonIntegrated: nonIntegrated,
                                     expandSets: expandSets))
                                 {
-                                    yield return (subField.Index + i, subField.Field);
+                                    yield return (subField.Index + i, j, subField.Field);
                                 }
                                 i += set.SubFields.Count;
                                 break;
@@ -2645,17 +2646,17 @@ namespace Loqui.Generation
                         }
                         if (expandSets == SetMarkerType.ExpandSets.TrueAndInclude)
                         {
-                            yield return (-1, field);
+                            yield return (-1, j, field);
                         }
                     }
                     else if (nonIntegrated)
                     {
-                        yield return (-1, field);
+                        yield return (-1, j, field);
                     }
                 }
                 else
                 {
-                    yield return (i++, field);
+                    yield return (i++, j, field);
                 }
             }
         }
