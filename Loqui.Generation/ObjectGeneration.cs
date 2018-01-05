@@ -2008,7 +2008,7 @@ namespace Loqui.Generation
             {
                 if (this.Abstract)
                 {
-                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
                 }
                 else
                 {
@@ -2021,7 +2021,7 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                        fg.AppendLine($"ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
                     }
                 }
                 using (var args = new ArgsWrapper(fg,
@@ -2051,7 +2051,7 @@ namespace Loqui.Generation
             {
                 if (this.Abstract)
                 {
-                    fg.AppendLine($"CopyType ret = (CopyType)Activator.CreateInstance(item.GetType());");
+                    fg.AppendLine($"CopyType ret = (CopyType)System.Activator.CreateInstance(item.GetType());");
                 }
                 else
                 {
@@ -2064,7 +2064,7 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"ret = (CopyType)Activator.CreateInstance(item.GetType());");
+                        fg.AppendLine($"ret = (CopyType)System.Activator.CreateInstance(item.GetType());");
                     }
                 }
                 using (var args = new ArgsWrapper(fg,
@@ -2093,7 +2093,7 @@ namespace Loqui.Generation
             {
                 if (this.Abstract)
                 {
-                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
                 }
                 else
                 {
@@ -2106,7 +2106,7 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"ret = ({this.ObjectName})Activator.CreateInstance(item.GetType());");
+                        fg.AppendLine($"ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
                     }
                 }
                 using (var args = new ArgsWrapper(fg,
