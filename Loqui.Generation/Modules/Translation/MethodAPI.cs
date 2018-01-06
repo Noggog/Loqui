@@ -7,41 +7,44 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class MethodAPI : IEnumerable<string>
+    public class MethodAPI
     {
-        public string[] API { get; private set; }
+        public string[] MajorAPI { get; private set; }
+        public CustomMethodAPI[] CustomAPI { get; private set; }
         public string[] OptionalAPI { get; private set; }
 
         public MethodAPI(
-            string[] api,
+            string[] majorAPI,
+            CustomMethodAPI[] customAPI,
             string[] optionalAPI)
         {
-            this.API = api;
-            this.OptionalAPI = optionalAPI;
+            this.MajorAPI = majorAPI ?? new string[] { };
+            this.CustomAPI = customAPI ?? new CustomMethodAPI[] { };
+            this.OptionalAPI = optionalAPI ?? new string[] { };
         }
 
         public MethodAPI(
             params string[] api)
         {
-            this.API = api;
+            this.MajorAPI = api;
+            this.CustomAPI = new CustomMethodAPI[] { };
             this.OptionalAPI = new string[] { };
         }
-
-        public IEnumerator<string> GetEnumerator()
+        
+        public IEnumerable<(string API, bool Public)> IterateAPI()
         {
-            foreach (var item in this.API)
+            foreach (var item in this.MajorAPI)
             {
-                yield return item;
+                yield return (item, true);
+            }
+            foreach (var item in this.CustomAPI)
+            {
+                yield return (item.API, item.Public);
             }
             foreach (var item in this.OptionalAPI)
             {
-                yield return item;
+                yield return (item, true);
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
     }
 }

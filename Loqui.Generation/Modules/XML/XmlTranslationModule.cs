@@ -91,13 +91,15 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
-                    api: new string[] { "XmlWriter writer" },
+                    majorAPI: new string[] { "XmlWriter writer" },
+                    customAPI: null,
                     optionalAPI: new string[] { "string name = null" }),
                 readerAPI: new MethodAPI("XElement root"));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        api: new string[] { "string path" },
+                        majorAPI: new string[] { "string path" },
+                        customAPI: null,
                         optionalAPI: new string[] { "string name = null" }),
                     readerAPI: new MethodAPI("string path"))
                 {
@@ -109,7 +111,8 @@ namespace Loqui.Generation
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        api: new string[] { "Stream stream" },
+                        majorAPI: new string[] { "Stream stream" },
+                        customAPI: null,
                         optionalAPI: new string[] { "string name = null" }),
                     readerAPI: new MethodAPI("Stream stream"))
                 {

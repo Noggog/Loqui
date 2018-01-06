@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,17 @@ namespace Loqui.Generation
     public class TranslationModuleAPI
     {
         public MethodAPI WriterAPI { get; private set; }
-        private string[] WriterMemberNames => WriterAPI.Select((r) => r.Split(' ')[1]).ToArray();
+        private string[] WriterMemberNames => WriterAPI.IterateAPI().Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
         public string[] WriterPassArgs => WrapAccessors(WriterMemberNames, WriterMemberNames).ToArray();
+        public string[] WriterInternalMemberNames => WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => GetParameterName(r.API)).ToArray();
+        public string[] WriterInternalFallbackArgs => WrapAccessors(WriterInternalMemberNames, WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
+        public string[] WriterInternalPassArgs => WrapAccessors(WriterInternalMemberNames, WriterInternalMemberNames).ToArray();
         public MethodAPI ReaderAPI { get; private set; }
-        private string[] ReaderMemberNames => ReaderAPI.Select((r) => r.Split(' ')[1]).ToArray();
+        private string[] ReaderMemberNames => ReaderAPI.IterateAPI().Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
         public string[] ReaderPassArgs => WrapAccessors(ReaderMemberNames, ReaderMemberNames).ToArray();
+        public string[] ReaderInternalMemberNames => ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => GetParameterName(r.API)).ToArray();
+        public string[] ReaderInternalFallbackArgs => WrapAccessors(ReaderInternalMemberNames, ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
+        public string[] ReaderInternalPassArgs => WrapAccessors(ReaderInternalMemberNames, ReaderInternalMemberNames).ToArray();
         public TranslationFunnel Funnel;
 
         public TranslationModuleAPI(MethodAPI api)
@@ -29,6 +37,13 @@ namespace Loqui.Generation
         {
             this.WriterAPI = writerAPI;
             this.ReaderAPI = readerAPI;
+        }
+
+        private string GetParameterName(string api)
+        {
+            var root = CSharpSyntaxTree.ParseText(api).GetRoot();
+            var ident = root.DescendantNodes().OfType<VariableDeclaratorSyntax>().First();
+            return ident.Identifier.Text;
         }
 
         private IEnumerable<string> WrapAccessors(
