@@ -112,7 +112,7 @@ namespace Loqui.Xml
             return ret;
         }
 
-        protected virtual void WriteValue(XmlWriter writer, string name, T? item)
+        protected virtual void WriteValue(XmlWriter writer, T? item)
         {
             writer.WriteAttributeString(
                 XmlConstants.VALUE_ATTRIBUTE,
@@ -136,7 +136,7 @@ namespace Loqui.Xml
             {
                 using (new ElementWrapper(writer, name))
                 {
-                    WriteValue(writer, name, item);
+                    WriteValue(writer, item);
                 }
                 errorMask = null;
             }

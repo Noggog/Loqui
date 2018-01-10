@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui", "Loqui\Loqui.csproj", "{91F19C1E-ADF8-4B84-9452-04C2CD8F46D4}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests.Generator", "Loqui.Tests.Generator\Loqui.Tests.Generator.csproj", "{1404938E-1D20-4A4A-B753-07AFBD5BB329}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests", "Loqui.Tests\Loqui.Tests.csproj", "{EFE5029A-F561-4108-8547-4BE22DA99596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Presentation", "Loqui.Presentation\Loqui.Presentation.csproj", "{B5F2E08D-4A16-4B38-82E6-AD3BB2BBFB29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Generation.Presentation", "Loqui.Generation.Presentation\Loqui.Generation.Presentation.csproj", "{70DC5884-5522-4552-82B5-56C95065155E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,11 +45,22 @@ Global
 		{EFE5029A-F561-4108-8547-4BE22DA99596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFE5029A-F561-4108-8547-4BE22DA99596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFE5029A-F561-4108-8547-4BE22DA99596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F2E08D-4A16-4B38-82E6-AD3BB2BBFB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5F2E08D-4A16-4B38-82E6-AD3BB2BBFB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5F2E08D-4A16-4B38-82E6-AD3BB2BBFB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F2E08D-4A16-4B38-82E6-AD3BB2BBFB29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70DC5884-5522-4552-82B5-56C95065155E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70DC5884-5522-4552-82B5-56C95065155E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70DC5884-5522-4552-82B5-56C95065155E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70DC5884-5522-4552-82B5-56C95065155E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C56B9607-41CF-4F59-9EEF-F79D57309EDA} = {FD3B4153-A327-4A82-A311-1F8E4006C12F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAA22CE1-509E-444D-BC63-1C3D2E5CD694}
 	EndGlobalSection
 EndGlobal

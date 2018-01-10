@@ -33,4 +33,3 @@ namespace Loqui.Tests.Generator
         }
     }
 }
-

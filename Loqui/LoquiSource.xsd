@@ -191,6 +191,7 @@
       <xs:element name="DirectoryPathNull" type="String" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
+      <xs:element name="Color" type="Field" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -288,6 +289,7 @@
       <xs:element name="DirectoryPathNull" type="NString" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
+      <xs:element name="Color" type="NField" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
