@@ -37,6 +37,7 @@ namespace Loqui.Generation
         public bool HasBeenSet => HasBeenSetProperty.Item;
         public bool Bare => !this.Notifying && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
+        public XElement Node;
 
         public TypeGeneration()
         {
@@ -55,6 +56,7 @@ namespace Loqui.Generation
 
         public virtual async Task Load(XElement node, bool requireName = true)
         {
+            this.Node = node;
             LoadTypeGenerationFromNode(node, requireName);
         }
 
