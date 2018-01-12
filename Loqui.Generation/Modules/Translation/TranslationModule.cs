@@ -16,6 +16,7 @@ namespace Loqui.Generation
         public IEnumerable<TranslationModuleAPI> AllAPI => MainAPI.And(MinorAPIs);
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
+        public bool ExportWithIGetter = true;
 
         public TranslationModule(LoquiGenerator gen)
         {
@@ -438,7 +439,7 @@ namespace Loqui.Generation
                 {
                     args.Add(item);
                 }
-                if (obj.ExportWithIGetter)
+                if (obj.ExportWithIGetter && this.ExportWithIGetter)
                 {
                     args.Add($"{obj.Getter_InterfaceStr} item");
                 }
@@ -486,7 +487,7 @@ namespace Loqui.Generation
                 {
                     args.Add(item);
                 }
-                if (obj.ExportWithIGetter)
+                if (obj.ExportWithIGetter && this.ExportWithIGetter)
                 {
                     args.Add($"{obj.Getter_InterfaceStr} item");
                 }
