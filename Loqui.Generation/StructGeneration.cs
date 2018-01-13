@@ -20,7 +20,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override void GenerateCtor(FileGeneration fg)
+        protected override async Task GenerateCtor(FileGeneration fg)
         {
             if (this.GeneratePublicBasicCtor)
             {
@@ -54,6 +54,10 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFields())
                     {
                         fg.AppendLine($"this.{field.Name} = {field.Name};");
+                    }
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        await mod.GenerateInClass(this, fg);
                     }
                     fg.AppendLine("CustomCtor();");
                 }

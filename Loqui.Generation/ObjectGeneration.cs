@@ -363,7 +363,7 @@ namespace Loqui.Generation
 
                     GenerateRaisePropertyChanged(fg);
 
-                    GenerateCtor(fg);
+                    await GenerateCtor(fg);
 
                     await GenerateStaticCtor(fg);
                     // Generate fields
@@ -1016,7 +1016,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected abstract void GenerateCtor(FileGeneration fg);
+        protected abstract Task GenerateCtor(FileGeneration fg);
 
         protected async Task GenerateStaticCtor(FileGeneration fg)
         {

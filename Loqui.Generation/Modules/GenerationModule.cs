@@ -56,6 +56,10 @@ namespace Loqui.Generation
         {
         }
 
+        public virtual async Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
         public virtual async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
         }

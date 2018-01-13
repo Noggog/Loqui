@@ -84,7 +84,7 @@ namespace Loqui.Generation
             fg.AppendLine("return Equals(rhs);");
         }
 
-        protected override void GenerateCtor(FileGeneration fg)
+        protected override async Task GenerateCtor(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Ctor"))
             {
@@ -94,6 +94,10 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFields())
                     {
                         field.GenerateForCtor(fg);
+                    }
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        await mod.GenerateInClass(this, fg);
                     }
                     fg.AppendLine("CustomCtor();");
                 }
