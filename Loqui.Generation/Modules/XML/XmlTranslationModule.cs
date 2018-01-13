@@ -132,14 +132,14 @@ namespace Loqui.Generation
             }
         }
 
-        public override IEnumerable<string> RequiredUsingStatements()
+        public override IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
             yield return "System.Xml";
             yield return "System.Xml.Linq";
             yield return "System.IO";
             yield return "Noggog.Xml";
             yield return "Loqui.Xml";
-            foreach (var item in base.RequiredUsingStatements())
+            foreach (var item in base.RequiredUsingStatements(obj))
             {
                 yield return item;
             }
@@ -285,7 +285,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public override async Task Generate(ObjectGeneration obj)
+        public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
             GenerateXSD(obj);
         }

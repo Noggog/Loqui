@@ -122,6 +122,7 @@
     <Compile Include="Fields\WildcardType.cs" />
     <Compile Include="FileGeneration\FunctionWrapper.cs" />
     <Compile Include="FileGeneration\IfWrapper.cs" />
+    <Compile Include="GenerationModuleCollection.cs" />
     <Compile Include="GenericDefinition.cs" />
     <Compile Include="GenericSpecification.cs" />
     <Compile Include="Interfaces\GenerationInterface.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="Modules\Xml\LoquiXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\PrimitiveXmlTranslationGeneration.cs" />
     <Compile Include="Modules\Xml\XmlTranslationGeneration.cs" />
-    <Compile Include="Modules\GenerationModule.cs" />
+    <Compile Include="GenerationModule.cs" />
     <Compile Include="Modules\Mask\Fields\ContainerMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\Fields\DictMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\Fields\LoquiMaskFieldGeneration.cs" />

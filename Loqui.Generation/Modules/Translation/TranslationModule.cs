@@ -74,7 +74,7 @@ namespace Loqui.Generation
             yield break;
         }
 
-        public override IEnumerable<string> RequiredUsingStatements()
+        public override IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
             yield return "System.Diagnostics";
         }
@@ -87,11 +87,11 @@ namespace Loqui.Generation
         {
         }
 
-        public override async Task Generate(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
         }
 
-        public override async Task Generate(ObjectGeneration obj)
+        public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
         }
 

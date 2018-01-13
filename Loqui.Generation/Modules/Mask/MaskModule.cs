@@ -75,7 +75,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task Generate(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
             foreach (var item in _fieldMapping.Values)
             {
@@ -436,7 +436,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override IEnumerable<string> RequiredUsingStatements()
+        public override IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
             yield break;
         }
@@ -493,7 +493,7 @@ namespace Loqui.Generation
             return fieldGen;
         }
 
-        public override async Task Generate(ObjectGeneration obj)
+        public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
         }
     }

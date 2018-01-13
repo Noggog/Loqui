@@ -19,6 +19,7 @@ namespace Loqui.Generation
 
         public void Dispose()
         {
+            if (string.IsNullOrWhiteSpace(name)) return;
             if (index == fg.Strings.Count) return;
             fg.Strings.Insert(index - 1, fg.DepthStr + $"#region {name}");
             fg.AppendLine("#endregion");

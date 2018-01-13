@@ -57,7 +57,7 @@ namespace Loqui.Generation
                     }
                     foreach (var mod in this.gen.GenerationModules)
                     {
-                        await mod.GenerateInClass(this, fg);
+                        await mod.GenerateInCtor(this, fg);
                     }
                     fg.AppendLine("CustomCtor();");
                 }

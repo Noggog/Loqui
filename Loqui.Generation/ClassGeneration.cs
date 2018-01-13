@@ -47,7 +47,7 @@ namespace Loqui.Generation
                     baseClass.DerivativeClasses.Add(this);
                 }
             }
-            this.WiredBaseClassTCS.SetResult(true);
+            this.WiredBaseClassTCS.Complete();
 
             await base.Load();
         }
@@ -97,7 +97,7 @@ namespace Loqui.Generation
                     }
                     foreach (var mod in this.gen.GenerationModules)
                     {
-                        await mod.GenerateInClass(this, fg);
+                        await mod.GenerateInCtor(this, fg);
                     }
                     fg.AppendLine("CustomCtor();");
                 }

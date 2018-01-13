@@ -17,7 +17,7 @@ namespace Loqui.Generation
         Dictionary<StringCaseAgnostic, Type> typeDict = new Dictionary<StringCaseAgnostic, Type>();
         public string DefaultNamespace;
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
-        public List<GenerationModule> GenerationModules = new List<GenerationModule>();
+        public List<IGenerationModule> GenerationModules = new List<IGenerationModule>();
         public Dictionary<DirectoryPath, List<ObjectGeneration>> ObjectGenerationsByDir = new Dictionary<DirectoryPath, List<ObjectGeneration>>();
         public IEnumerable<ObjectGeneration> ObjectGenerations => this.ObjectGenerationsByDir.Values.SelectMany((v) => v);
         public Dictionary<ObjectNamedKey, ObjectGeneration> ObjectGenerationsByObjectNameKey = new Dictionary<ObjectNamedKey, ObjectGeneration>();

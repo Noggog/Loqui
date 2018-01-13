@@ -103,8 +103,8 @@ namespace Loqui.Generation
                 objs.Select(async (o) => await o.InheritingObjects()))).SelectMany((i) => i));
             return ret;
         }
-        public TaskCompletionSource<bool> LoadingCompleteTask = new TaskCompletionSource<bool>();
-        protected TaskCompletionSource<bool> WiredBaseClassTCS = new TaskCompletionSource<bool>();
+        public TaskCompletionSource LoadingCompleteTask = new TaskCompletionSource();
+        protected TaskCompletionSource WiredBaseClassTCS = new TaskCompletionSource();
         public Task WiredBaseClassTask => WiredBaseClassTCS.Task;
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
@@ -1778,7 +1778,7 @@ namespace Loqui.Generation
         private void AddNamespaces(FileGeneration fg)
         {
             RequiredNamespaces.Add(
-                this.gen.GenerationModules.SelectMany((tr) => tr.RequiredUsingStatements())
+                this.gen.GenerationModules.SelectMany((tr) => tr.RequiredUsingStatements(this))
                 .Union(this.GenerationInterfaces.SelectMany((i) => i.RequiredUsingStatements())));
             foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
             {
@@ -2301,13 +2301,13 @@ namespace Loqui.Generation
                 {
                     using (new RegionWrapper(fg, translGen.RegionString))
                     {
-                        await translGen.Generate(this, fg);
+                        await translGen.GenerateInVoid(this, fg);
                     }
                     fg.AppendLine();
                 }
 
                 await Task.WhenAll(this.gen.GenerationModules
-                    .Select((g) => g.Generate(this)));
+                    .Select((g) => g.MiscellaneousGenerationActions(this)));
             }
         }
 
