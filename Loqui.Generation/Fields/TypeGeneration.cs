@@ -38,6 +38,7 @@ namespace Loqui.Generation
         public bool Bare => !this.Notifying && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
+        public virtual bool Namable => true;
 
         public TypeGeneration()
         {
@@ -72,7 +73,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
             node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
-            if (requireName && Name == null)
+            if (requireName && Namable && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");
             }

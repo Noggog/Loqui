@@ -19,6 +19,8 @@ namespace Loqui.Generation
 
         public override bool IsEnumerable => false;
 
+        public override bool Namable => false;
+
         public override string GenerateACopy(string rhsAccessor)
         {
             return null;
