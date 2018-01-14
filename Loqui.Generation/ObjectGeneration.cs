@@ -2680,5 +2680,12 @@ namespace Loqui.Generation
         {
             return this.Name;
         }
+
+        public void MarkFailure(Exception ex)
+        {
+            this._directlyInheritingObjectsTcs.TrySetException(ex);
+            this.LoadingCompleteTask.TrySetException(ex);
+            this.WiredBaseClassTCS.TrySetException(ex);
+        }
     }
 }
