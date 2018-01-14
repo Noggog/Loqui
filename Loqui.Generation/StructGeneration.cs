@@ -117,7 +117,7 @@ namespace Loqui.Generation
             {
                 field.NotifyingProperty.Item = false;
                 field.HasBeenSetProperty.Item = false;
-                field.Protected = true;
+                field.ReadOnly = true;
             }
         }
 

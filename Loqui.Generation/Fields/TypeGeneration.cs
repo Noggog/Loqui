@@ -25,7 +25,7 @@ namespace Loqui.Generation
         public virtual bool Derivative => this._derivative;
         public virtual bool IntegrateField { get; set; } = true;
         public bool RaisePropertyChanged;
-        public bool Protected;
+        public bool ReadOnly;
         private bool _copy;
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
@@ -52,7 +52,7 @@ namespace Loqui.Generation
             this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
             this._derivative = this.ObjectGen.DerivativeDefault;
-            this.Protected = this.ObjectGen.ProtectedDefault;
+            this.ReadOnly = this.ObjectGen.ReadOnlyDefault;
         }
 
         public virtual async Task Load(XElement node, bool requireName = true)
@@ -67,8 +67,8 @@ namespace Loqui.Generation
             Name = node.GetAttribute<string>(Constants.NAME);
             node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
             node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
-            this.Protected = node.GetAttribute<bool>(Constants.PROTECTED, this.ObjectGen.ProtectedDefault || Derivative);
-            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Protected);
+            this.ReadOnly = node.GetAttribute<bool>(Constants.PROTECTED, this.ObjectGen.ReadOnlyDefault || Derivative);
+            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
             node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
@@ -83,7 +83,7 @@ namespace Loqui.Generation
 
         public void FinalizeField()
         {
-            if (this._derivative && !Protected)
+            if (this._derivative && !ReadOnly)
             {
                 throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
             }

@@ -28,11 +28,11 @@ namespace Loqui.Generation
                         }
                     }
                     fg.AppendLine(");");
-                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(Protected ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
-                    if (!this.Protected)
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(ReadOnly ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
+                    if (!this.ReadOnly)
                     {
-                        fg.AppendLine($"INotifyingSetItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                        fg.AppendLine($"INotifyingSetItem{(ReadOnly ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
@@ -58,11 +58,11 @@ namespace Loqui.Generation
                             }
                         }
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(Protected ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
-                    if (!this.Protected)
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(ReadOnly ? "protected " : string.Empty)}set => _{this.Name}.Item = value; }}");
+                    if (!this.ReadOnly)
                     {
-                        fg.AppendLine($"INotifyingItem{(Protected ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                        fg.AppendLine($"INotifyingItem{(ReadOnly ? "Getter" : string.Empty)}<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
@@ -79,8 +79,8 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                    if (this.Protected)
+                    fg.AppendLine($"public {(ReadOnly ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    if (this.ReadOnly)
                     {
                         fg.AppendLine($"public {this.TypeName} {this.Name} => this._{ this.Name};");
                     }
@@ -103,7 +103,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name};");
-                        fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
+                        fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
                     }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                 }

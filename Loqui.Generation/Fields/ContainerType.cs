@@ -82,7 +82,7 @@ namespace Loqui.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false)}.HasBeenSet = {onIdentifier};");
             }
@@ -91,7 +91,7 @@ namespace Loqui.Generation
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }

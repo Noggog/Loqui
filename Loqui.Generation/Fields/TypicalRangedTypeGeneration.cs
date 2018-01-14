@@ -49,14 +49,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -72,14 +72,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -105,7 +105,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{ this.Name}.Item;");
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
@@ -124,7 +124,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => _{this.Name};");
-                        fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set");
+                        fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"this._{ this.Name} = value{InRangeCheckerString};");

@@ -72,14 +72,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -95,14 +95,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -128,7 +128,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name}.Item;");
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
@@ -149,12 +149,12 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name};");
-                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
                         }
                     }
                     else
                     {
-                        fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                        fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
                     }
                 }
             }
@@ -252,24 +252,24 @@ namespace Loqui.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (this.Protected || !this.IntegrateField) return;
+            if (this.ReadOnly || !this.IntegrateField) return;
             fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
             if (this.Notifying)
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"new INotifyingSetItem{(this.Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                    fg.AppendLine($"new INotifyingSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
                 }
                 else
                 {
-                    fg.AppendLine($"new INotifyingItem{(this.Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                    fg.AppendLine($"new INotifyingItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
                 }
             }
             else
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"new IHasBeenSetItem{(this.Protected ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                    fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
                 }
             }
             fg.AppendLine();
@@ -371,7 +371,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
-            if (this.Protected || !this.IntegrateField) return;
+            if (this.ReadOnly || !this.IntegrateField) return;
             if (this.Notifying)
             {
                 if (this.HasBeenSet)
@@ -405,7 +405,7 @@ namespace Loqui.Generation
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
             if (!this.IntegrateField) return;
-            if (!this.Protected
+            if (!this.ReadOnly
                 && this.HasBeenSet)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false, property: true)}.HasBeenSet = {onIdentifier};");
@@ -416,7 +416,7 @@ namespace Loqui.Generation
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
         {
             if (!this.IntegrateField) return;
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
                 if (this.HasBeenSet)
                 {

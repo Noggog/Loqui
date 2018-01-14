@@ -240,10 +240,10 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
-                    fg.AppendLine($"public INotifyingSetItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"public INotifyingSetItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.Protected ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
-                    if (!this.Protected && this.SingletonType != SingletonLevel.Singleton)
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
+                    if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -281,10 +281,10 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
-                    fg.AppendLine($"public INotifyingItem{((Protected || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"public INotifyingItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.Protected ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
-                    if (!this.Protected && this.SingletonType != SingletonLevel.Singleton)
+                    fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
+                    if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -314,10 +314,10 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => this.{this.ProtectedName};");
                         if (this.SingletonType != SingletonLevel.Singleton)
                         {
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
                         }
                     }
-                    if (this.Protected)
+                    if (this.ReadOnly)
                     {
                         fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName}> {this.Property} => this.{this.ProtectedProperty};");
                     }
@@ -340,12 +340,12 @@ namespace Loqui.Generation
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine($"get => _{this.Name};");
-                                    fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                                    fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
                                 }
                             }
                             else
                             {
-                                fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.Protected ? "protected " : string.Empty)}set; }}");
+                                fg.AppendLine($"public {this.TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
                             }
                             break;
                         case SingletonLevel.NotNull:
@@ -354,7 +354,7 @@ namespace Loqui.Generation
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.ObjectTypeName}();");
+                                fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.ObjectTypeName}();");
                             }
                             break;
                         case SingletonLevel.Singleton:
@@ -473,7 +473,7 @@ namespace Loqui.Generation
                 }
             }
 
-            this.Protected = this.Protected || this.SingletonType == SingletonLevel.Singleton;
+            this.ReadOnly = this.ReadOnly || this.SingletonType == SingletonLevel.Singleton;
         }
 
         public bool ParseRefNode(XElement refNode)

@@ -87,7 +87,7 @@ namespace Loqui.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(internalUse: false)}.HasBeenSet = {onIdentifier};");
             }
@@ -96,7 +96,7 @@ namespace Loqui.Generation
 
         public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
                 fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
             }
@@ -123,9 +123,9 @@ namespace Loqui.Generation
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                if (!this.Protected)
+                if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingKeyedCollection{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"INotifyingKeyedCollection{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
@@ -133,9 +133,9 @@ namespace Loqui.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
-                fg.AppendLine($"new INotifyingKeyedCollection{(this.Protected ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"new INotifyingKeyedCollection{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
             }
         }
 

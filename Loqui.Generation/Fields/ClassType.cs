@@ -20,7 +20,7 @@ namespace Loqui.Generation
         {
             await base.Load(node, requireName);
             this.Singleton = node.GetAttribute<SingletonLevel>(Constants.SINGLETON, this.Singleton);
-            this.Protected = this.Protected || this.Singleton == SingletonLevel.Singleton;
+            this.ReadOnly = this.ReadOnly || this.Singleton == SingletonLevel.Singleton;
         }
 
         protected override string GenerateDefaultValue()
@@ -65,14 +65,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -88,14 +88,14 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public {(Protected ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
-                    if (!this.Protected)
+                    if (!this.ReadOnly)
                     {
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
@@ -121,7 +121,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{ this.Name}.Item;");
-                            fg.AppendLine($"{(Protected ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
@@ -142,11 +142,11 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => {this.ProtectedName};");
                         if (this.Singleton == SingletonLevel.None)
                         {
-                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
+                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
                         }
                         else
                         {
-                            fg.AppendLine($"{(this.Protected ? "protected " : string.Empty)}set");
+                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"this.{this.ProtectedName} = value;");

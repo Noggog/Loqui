@@ -28,7 +28,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
             }
-            fg.AppendLine($"public INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"public INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
@@ -37,9 +37,9 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 // Get nth
-                if (!this.Protected)
+                if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"INotifyingListGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
@@ -47,9 +47,9 @@ namespace Loqui.Generation
 
         public override void GenerateForInterface(FileGeneration fg)
         {
-            if (!this.Protected)
+            if (!this.ReadOnly)
             {
-                fg.AppendLine($"new INotifyingList{(this.Protected ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
+                fg.AppendLine($"new INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
             }
         }
 

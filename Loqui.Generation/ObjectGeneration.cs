@@ -28,7 +28,7 @@ namespace Loqui.Generation
         public abstract bool NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public LoquiInterfaceType InterfaceTypeDefault;
-        public bool ProtectedDefault;
+        public bool ReadOnlyDefault;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
@@ -114,7 +114,7 @@ namespace Loqui.Generation
             this.TargetDir = sourceFile.Directory;
             this.SourceXMLFile = sourceFile;
             this.InterfaceTypeDefault = this.ProtoGen.InterfaceTypeDefault;
-            this.ProtectedDefault = this.ProtoGen.ProtectedDefault;
+            this.ReadOnlyDefault = this.ProtoGen.ProtectedDefault;
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
             this.RaisePropertyChangedDefault = this.ProtoGen.RaisePropertyChangedDefault;
             this.Disabled = DisabledLevel.Enabled;
@@ -138,7 +138,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<ushort>(Constants.VERSION, (i) => Version = i);
             Node.TransferAttribute<bool>(Constants.IGETTER_EXPORT, (i) => this.ExportWithIGetter = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE_DEFAULT, (i) => this.InterfaceTypeDefault = i);
-            Node.TransferAttribute<bool>(Constants.PROTECTED_DEFAULT, (i) => this.ProtectedDefault = i);
+            Node.TransferAttribute<bool>(Constants.PROTECTED_DEFAULT, (i) => this.ReadOnlyDefault = i);
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => this.DerivativeDefault = i);
             Node.TransferAttribute<bool>(Constants.RAISEPROPERTYCHANGED_DEFAULT, (i) => this.RaisePropertyChangedDefault = i);
             Node.TransferAttribute<DisabledLevel>(Constants.DISABLE, (i) => this.Disabled = i);
@@ -1303,7 +1303,7 @@ namespace Loqui.Generation
                     // Protected
                     var protectedFields = IterateFieldIndices().
                         Where((f) =>
-                            f.Field.Protected
+                            f.Field.ReadOnly
                             && coveredFields.Add(f.PublicIndex))
                         .ToList();
                     if (protectedFields.Count > 0)
@@ -1374,7 +1374,7 @@ namespace Loqui.Generation
                         }
                         using (new DepthWrapper(fg, doIt: field.IntegrateField))
                         {
-                            if (field.IntegrateField && field.Protected)
+                            if (field.IntegrateField && field.ReadOnly)
                             {
                                 fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
                             }
@@ -2157,7 +2157,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in this.IterateFields())
                     {
-                        if (field.Protected) continue;
+                        if (field.ReadOnly) continue;
                         field.GenerateClear(fg, "item", "cmds");
                     }
                 }
@@ -2247,8 +2247,8 @@ namespace Loqui.Generation
                 fg.AppendLine("switch (enu)");
                 using (new BraceWrapper(fg))
                 {
-                    var trues = IterateFieldIndices().Where((i) => i.Field.Protected);
-                    var falses = IterateFieldIndices().Where((i) => !i.Field.Protected);
+                    var trues = IterateFieldIndices().Where((i) => i.Field.ReadOnly);
+                    var falses = IterateFieldIndices().Where((i) => !i.Field.ReadOnly);
                     if (trues.Any())
                     {
                         foreach (var item in trues)
