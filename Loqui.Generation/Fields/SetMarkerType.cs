@@ -27,9 +27,11 @@ namespace Loqui.Generation
             bool nonIntegrated = false,
             ExpandSets expandSets = ExpandSets.True)
         {
-            for (int i = 0; i < this.SubFields.Count; i++)
+            int i = 0;
+            foreach (var field in this.SubFields)
             {
-                yield return (i, this.SubFields[i]);
+                if (!field.IntegrateField && !nonIntegrated) continue;
+                yield return (i++, field);
             }
         }
 

@@ -1263,8 +1263,6 @@ namespace Loqui.Generation
                     {
                         if (field.Field.IntegrateField) continue;
                         coveredFields.Add(field.PublicIndex);
-                        fg.AppendLine($"case {field.Field.IndexEnumName}:");
-                        field.Field.GenerateSetNthHasBeenSet(fg, "obj", "on");
                     }
 
                     // Derivative fields
@@ -2633,13 +2631,15 @@ namespace Loqui.Generation
                                 continue;
                             case SetMarkerType.ExpandSets.True:
                             case SetMarkerType.ExpandSets.TrueAndInclude:
+                                int k = 0;
                                 foreach (var subField in set.IterateFields(
                                     nonIntegrated: nonIntegrated,
                                     expandSets: expandSets))
                                 {
                                     yield return (subField.Index + i, j, subField.Field);
+                                    k++;
                                 }
-                                i += set.SubFields.Count;
+                                i += k;
                                 break;
                             default:
                                 throw new NotImplementedException();
