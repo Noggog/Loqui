@@ -65,6 +65,22 @@ namespace Loqui
             mask.SetNthException(index, ex);
         }
 
+        public static void WrapForOverallException<M>(
+            Func<M> errorMask,
+            Action a)
+            where M : IErrorMask
+        {
+            try
+            {
+                a();
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask().Overall = ex;
+            }
+        }
+
         public bool IsInError()
         {
             if (Overall != null) return true;
