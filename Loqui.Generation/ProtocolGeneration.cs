@@ -426,5 +426,10 @@ namespace Loqui.Generation
                 doc.WriteTo(writer);
             }
         }
+
+        public override string ToString()
+        {
+            return $"ProtocolGeneration ({this.Protocol.Namespace})";
+        }
     }
 }

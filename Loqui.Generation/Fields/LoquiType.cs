@@ -963,7 +963,14 @@ namespace Loqui.Generation
             {
                 if (this.GenericSpecification.Specifications.TryGetValue(gen.Key, out var spec))
                 {
-                    ret.Add(spec);
+                    if (ObjectNamedKey.TryFactory(spec, out var namedKey))
+                    {
+                        ret.Add(namedKey.Name);
+                    }
+                    else
+                    {
+                        ret.Add(spec);
+                    }
                 }
                 else if (this.GenericSpecification.Mappings.TryGetValue(gen.Key, out var mapping))
                 {

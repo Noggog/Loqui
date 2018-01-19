@@ -2483,7 +2483,13 @@ namespace Loqui.Generation
             }
             else
             {
-                var targetObj = this.ProtoGen.ObjectGenerationsByName[specification.Value];
+                var nameKey = ObjectNamedKey.Factory(specification.Value, this.ProtoGen.Protocol);
+                if (!this.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(
+                   nameKey,
+                   out var targetObj))
+                {
+                    throw new ArgumentException($"{nameKey} can not be located.");
+                }
                 return targetObj.Mask(maskType);
             }
         }

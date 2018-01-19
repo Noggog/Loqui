@@ -35,7 +35,7 @@ namespace Loqui.Generation
 
         public override string ToString()
         {
-            return $"ObjectNamedKey ({this.ProtocolKey.Namespace}.{this.Name})";
+            return $"{this.ProtocolKey.Namespace}.{this.Name}";
         }
 
         public static bool TryFactory(string str, ProtocolKey fallbackProtoKey, out ObjectNamedKey objKey)
@@ -81,6 +81,24 @@ namespace Loqui.Generation
             }
             objKey = default(ObjectNamedKey);
             return false;
+        }
+
+        public static ObjectNamedKey Factory(string str)
+        {
+            if (!TryFactory(str, out var namedKey))
+            {
+                throw new ArgumentException($"{str} cannot be converted to a name key.");
+            }
+            return namedKey;
+        }
+
+        public static ObjectNamedKey Factory(string str, ProtocolKey fallbackProtoKey)
+        {
+            if (!TryFactory(str, fallbackProtoKey, out var namedKey))
+            {
+                throw new ArgumentException($"{str} cannot be converted to a name key.");
+            }
+            return namedKey;
         }
     }
 }
