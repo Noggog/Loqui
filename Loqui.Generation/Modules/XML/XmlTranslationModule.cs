@@ -290,11 +290,14 @@ namespace Loqui.Generation
             GenerateXSD(obj);
         }
 
+        public string ObjectXSDName(ObjectGeneration obj) => $"{obj.Name}.xsd";
+        public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}/{ObjectXSDName(obj)}";
+
         public void GenerateXSD(ObjectGeneration obj)
         {
             if (!ShouldGenerateXSD) return;
 
-            var itemNamespace = $"{obj.ProtoGen.Protocol.Namespace}/{obj.Name}.xsd";
+            var itemNamespace = ObjectNamespace(obj);
 
             XElement root = new XElement(XSDNamespace + "schema",
                 new XAttribute("id", obj.Name),
@@ -323,6 +326,7 @@ namespace Loqui.Generation
                     throw new ArgumentException("Unsupported type generator: " + field.GetType());
                 }
                 var elem = xmlGen.GenerateForXSD(
+                    obj,
                     root,
                     choiceElement,
                     field,

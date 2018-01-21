@@ -38,6 +38,7 @@ namespace Loqui.Generation
             string maskAccessor);
 
         public abstract XElement GenerateForXSD(
+            ObjectGeneration objGen,
             XElement rootElement,
             XElement choiceElement,
             TypeGeneration typeGen,

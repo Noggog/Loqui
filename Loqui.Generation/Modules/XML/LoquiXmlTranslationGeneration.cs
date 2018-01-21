@@ -1,6 +1,8 @@
 ﻿using Loqui.Xml;
+using Noggog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -228,11 +230,28 @@ namespace Loqui.Generation
         }
 
         public override XElement GenerateForXSD(
+            ObjectGeneration objGen,
             XElement rootElement,
             XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride = null)
         {
+            LoquiType loqui = typeGen as LoquiType;
+            var targetObject = loqui.TargetObjectGeneration;
+            rootElement.Add(
+                new XAttribute(XNamespace.Xmlns + $"{targetObject.Name.ToLower()}", this.XmlMod.ObjectNamespace(targetObject)));
+            FilePath xsdPath = new FilePath(Path.Combine(targetObject.TargetDir.FullName, this.XmlMod.ObjectXSDName(targetObject)));
+            var relativePath = xsdPath.GetRelativePathTo(objGen.TargetDir);
+            var importElem = new XElement(
+                XmlTranslationModule.XSDNamespace + "import",
+                new XAttribute("namespace", this.XmlMod.ObjectNamespace(targetObject)),
+                new XAttribute("schemaLocation", relativePath));
+            rootElement.AddFirst(importElem);
+            choiceElement.Add(
+                new XElement(
+                    XmlTranslationModule.XSDNamespace + "element",
+                    new XAttribute("name", loqui.TargetObjectGeneration.Name),
+                    new XAttribute("type", $"{targetObject.Name.ToLower()}:{loqui.TargetObjectGeneration.Name}Type")));
             return null;
         }
     }

@@ -180,6 +180,7 @@ namespace Loqui.Generation
         }
 
         public override XElement GenerateForXSD(
+            ObjectGeneration objGen,
             XElement rootElement,
             XElement choiceElement,
             TypeGeneration typeGen,
@@ -201,10 +202,11 @@ namespace Loqui.Generation
             var list = typeGen as ListType;
             var xmlGen = XmlMod.GetTypeGeneration(list.SubTypeGeneration.GetType());
             var subElem = xmlGen.GenerateForXSD(
-                 rootElement,
-                 subChoice,
-                 list.SubTypeGeneration,
-                 nameOverride: "Item");
+                objGen,
+                rootElement,
+                subChoice,
+                list.SubTypeGeneration,
+                nameOverride: "Item");
             return elem;
         }
     }

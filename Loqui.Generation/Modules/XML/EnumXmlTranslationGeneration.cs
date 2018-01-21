@@ -90,12 +90,13 @@ namespace Loqui.Generation
         }
 
         public override XElement GenerateForXSD(
+            ObjectGeneration obj,
             XElement rootElement, 
             XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride = null)
         {
-            return _subGen.GenerateForXSD(rootElement, choiceElement, typeGen, nameOverride);
+            return _subGen.GenerateForXSD(obj, rootElement, choiceElement, typeGen, nameOverride);
         }
     }
 }

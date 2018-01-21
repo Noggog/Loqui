@@ -17,7 +17,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override XElement GenerateForXSD(XElement rootElement, XElement choiceElement, TypeGeneration typeGen, string nameOverride)
+        public override XElement GenerateForXSD(ObjectGeneration obj, XElement rootElement, XElement choiceElement, TypeGeneration typeGen, string nameOverride)
         {
             return null;
         }
