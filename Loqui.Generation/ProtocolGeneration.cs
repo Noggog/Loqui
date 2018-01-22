@@ -415,7 +415,7 @@ namespace Loqui.Generation
             if (!found)
             {
                 var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
-                    new XAttribute("Include", this.ProtocolDefinitionName + ".cs"));
+                    new XAttribute("Include", $"{DefFileLocation.FullName}/{this.ProtocolDefinitionName}.cs"));
                 compileNodes.Add(compileElem);
                 compileIncludeNode.Add(compileElem);
                 modified = true;
