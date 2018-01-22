@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -136,20 +137,34 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nameOverride = null)
         {
+            var common = this.XmlMod.CommonXSDLocation(obj.ProtoGen);
+            var relativePath = common.GetRelativePathTo(this.XmlMod.ObjectXSDLocation(obj));
+            var includeElem = new XElement(
+                XmlTranslationModule.XSDNamespace + "include",
+                new XAttribute("schemaLocation", relativePath));
+            if (!rootElement.Elements().Any((e) => e.ContentEqual(includeElem)))
+            {
+                rootElement.AddFirst(includeElem);
+            }
+
             var elem = new XElement(XmlTranslationModule.XSDNamespace + "element");
             elem.Add(new XAttribute("name", nameOverride ?? typeGen.Name));
-            elem.Add(new XAttribute("type", $"{TypeName}Type"));
+            elem.Add(new XAttribute("type", $"ValueType"));
             choiceElement.Add(elem);
+            return elem;
+        }
 
-            if (rootElement.Elements().Any((e) => e.Attribute("name")?.Value.Equals($"{TypeName}Type") ?? false)) return elem;
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
+            var nodeName = this.Nullable ? "NullableValueType" : "ValueType";
+            if (rootElement.Elements().Any((e) => e.Attribute("name")?.Value.Equals(nodeName) ?? false)) return;
 
             rootElement.Add(
                 new XElement(XmlTranslationModule.XSDNamespace + "complexType",
-                    new XAttribute("name", $"{TypeName}Type"),
+                    new XAttribute("name", nodeName),
                     new XElement(XmlTranslationModule.XSDNamespace + "attribute",
                         new XAttribute("name", "value"),
                         new XAttribute("use", this.Nullable ? "optional" : "required"))));
-            return elem;
         }
     }
 }

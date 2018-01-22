@@ -2303,10 +2303,10 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
                 }
-
-                await Task.WhenAll(this.gen.GenerationModules
-                    .Select((g) => g.MiscellaneousGenerationActions(this)));
             }
+
+            await Task.WhenAll(this.gen.GenerationModules
+                .Select((g) => g.MiscellaneousGenerationActions(this)));
         }
 
         private void GenerateLoquiInterfaces(FileGeneration fg)

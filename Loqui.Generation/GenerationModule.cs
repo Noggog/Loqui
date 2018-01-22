@@ -25,6 +25,7 @@ namespace Loqui.Generation
         Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg);
         Task MiscellaneousGenerationActions(ObjectGeneration obj);
         Task Resolve(ObjectGeneration obj);
+        Task FinalizeGeneration(ProtocolGeneration proto);
     }
 
     public abstract class GenerationModule : IGenerationModule
@@ -115,6 +116,11 @@ namespace Loqui.Generation
         public virtual Task Resolve(ObjectGeneration obj)
         {
             return SubModules.Resolve(obj);
+        }
+
+        public virtual Task FinalizeGeneration(ProtocolGeneration proto)
+        {
+            return SubModules.FinalizeGeneration(proto);
         }
     }
 }

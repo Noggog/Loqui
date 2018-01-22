@@ -66,7 +66,7 @@ namespace Loqui.Generation
 
         protected virtual void ExtraWriteArgs(
             Accessor itemAccessor,
-            TypeGeneration typeGen, 
+            TypeGeneration typeGen,
             ArgsWrapper args)
         {
         }
@@ -121,7 +121,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
             }
-            
+
             string prefix, suffix;
             bool isProperty = itemAccessor?.PropertyAccess != null;
             if (!ret)
@@ -174,7 +174,7 @@ namespace Loqui.Generation
         }
 
         protected virtual void ExtraCopyInArgs(
-            TypeGeneration typeGen, 
+            TypeGeneration typeGen,
             ArgsWrapper args)
         {
         }
@@ -208,6 +208,10 @@ namespace Loqui.Generation
                 list.SubTypeGeneration,
                 nameOverride: "Item");
             return elem;
+        }
+
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
         }
     }
 }

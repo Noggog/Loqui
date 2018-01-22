@@ -17,6 +17,11 @@ namespace Loqui.Generation
         public override string Namespace => "Loqui.Generation";
         public readonly static XNamespace XSDNamespace = "http://www.w3.org/2001/XMLSchema";
         public bool ShouldGenerateXSD = true;
+        public FilePath ObjectXSDLocation(ObjectGeneration obj) => new FilePath(Path.Combine(obj.TargetDir.FullName, this.ObjectXSDName(obj)));
+        public string ObjectXSDName(ObjectGeneration obj) => $"{obj.Name}.xsd";
+        public FilePath CommonXSDLocation(ProtocolGeneration proto) => new FilePath(Path.Combine(proto.GenerationFolder.FullName, "Common.xsd"));
+        public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}";
+        public string ObjectType(ObjectGeneration obj) => $"{obj.Name}Type";
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)
@@ -287,13 +292,10 @@ namespace Loqui.Generation
 
         public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
-            GenerateXSD(obj);
+            GenerateXSDForObj(obj);
         }
 
-        public string ObjectXSDName(ObjectGeneration obj) => $"{obj.Name}.xsd";
-        public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}/{ObjectXSDName(obj)}";
-
-        public void GenerateXSD(ObjectGeneration obj)
+        public void GenerateXSDForObj(ObjectGeneration obj)
         {
             if (!ShouldGenerateXSD) return;
 
@@ -304,20 +306,42 @@ namespace Loqui.Generation
                 new XAttribute("targetNamespace", itemNamespace),
                 new XAttribute("elementFormDefault", "qualified"),
                 new XAttribute("xmlns", itemNamespace),
-                new XAttribute(XNamespace.Xmlns + "mstns", itemNamespace),
                 new XAttribute(XNamespace.Xmlns + "xs", XSDNamespace.NamespaceName));
+
+            if (obj.HasBaseObject)
+            {
+                FilePath xsdPath = this.ObjectXSDLocation(obj.BaseClass);
+                var relativePath = xsdPath.GetRelativePathTo(obj.TargetDir);
+                root.Add(
+                    new XElement(
+                        XmlTranslationModule.XSDNamespace + "include",
+                        new XAttribute("schemaLocation", relativePath)));
+            }
 
             root.Add(
                 new XElement(XSDNamespace + "element",
                     new XAttribute("name", obj.Name),
-                    new XAttribute("type", $"{obj.Name}Type")));
+                    new XAttribute("type", ObjectType(obj))));
 
             var typeElement = new XElement(XSDNamespace + "complexType",
                 new XAttribute("name", $"{obj.Name}Type"));
             var choiceElement = new XElement(XSDNamespace + "choice",
                 new XAttribute("minOccurs", 0),
                 new XAttribute("maxOccurs", "unbounded"));
-            typeElement.Add(choiceElement);
+            if (obj.HasBaseObject)
+            {
+                typeElement.Add(
+                    new XElement(
+                        XSDNamespace + "complexContent",
+                        new XElement(
+                            XSDNamespace + "extension",
+                            new XAttribute("base", this.ObjectType(obj.BaseClass)),
+                            choiceElement)));
+            }
+            else
+            {
+                typeElement.Add(choiceElement);
+            }
             root.Add(typeElement);
             foreach (var field in obj.IterateFields())
             {
@@ -336,9 +360,49 @@ namespace Loqui.Generation
             }
 
             var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
-            var outputFile = new FileInfo(outputPath);
             obj.GeneratedFiles[Path.GetFullPath(outputPath)] = ProjItemType.None;
             using (var writer = new XmlTextWriter(outputPath, Encoding.ASCII))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 3;
+                XDocument doc = new XDocument(root);
+                doc.WriteTo(writer);
+            }
+        }
+
+        public override async Task FinalizeGeneration(ProtocolGeneration proto)
+        {
+            GenerateCommonXSDForProto(proto);
+            await base.FinalizeGeneration(proto);
+        }
+
+        public void GenerateCommonXSDForProto(ProtocolGeneration protoGen)
+        {
+            if (!this.ShouldGenerateXSD) return;
+            var nameSpace = protoGen.Protocol.Namespace;
+            XElement root = new XElement(XSDNamespace + "schema",
+                new XAttribute("targetNamespace", nameSpace),
+                new XAttribute("elementFormDefault", "qualified"),
+                new XAttribute("xmlns", nameSpace),
+                new XAttribute(XNamespace.Xmlns + "xs", XSDNamespace.NamespaceName));
+
+            foreach (var obj in protoGen.ObjectGenerationsByID.Values)
+            {
+                foreach (var field in obj.IterateFields())
+                {
+                    if (!this.TryGetTypeGeneration(field.GetType(), out var xmlGen))
+                    {
+                        throw new ArgumentException("Unsupported type generator: " + field.GetType());
+                    }
+                    xmlGen.GenerateForCommonXSD(
+                        root,
+                        field);
+                }
+            }
+
+            var outputPath = this.CommonXSDLocation(protoGen);
+            protoGen.GeneratedFiles[outputPath.Path] = ProjItemType.None;
+            using (var writer = new XmlTextWriter(outputPath.Path, Encoding.ASCII))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;

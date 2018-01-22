@@ -96,5 +96,9 @@ namespace Loqui.Generation
         {
             return null;
         }
+
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
+        }
     }
 }

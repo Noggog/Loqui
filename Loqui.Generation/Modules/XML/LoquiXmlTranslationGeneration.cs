@@ -238,21 +238,43 @@ namespace Loqui.Generation
         {
             LoquiType loqui = typeGen as LoquiType;
             var targetObject = loqui.TargetObjectGeneration;
-            rootElement.Add(
-                new XAttribute(XNamespace.Xmlns + $"{targetObject.Name.ToLower()}", this.XmlMod.ObjectNamespace(targetObject)));
-            FilePath xsdPath = new FilePath(Path.Combine(targetObject.TargetDir.FullName, this.XmlMod.ObjectXSDName(targetObject)));
+            var targetNamespace = this.XmlMod.ObjectNamespace(targetObject);
+            var diffNamespace = !targetNamespace.Equals(this.XmlMod.ObjectNamespace(objGen));
+            if (diffNamespace)
+            {
+                rootElement.Add(
+                    new XAttribute(XNamespace.Xmlns + $"{targetObject.Name.ToLower()}", this.XmlMod.ObjectNamespace(targetObject)));
+            }
+            FilePath xsdPath = this.XmlMod.ObjectXSDLocation(targetObject);
             var relativePath = xsdPath.GetRelativePathTo(objGen.TargetDir);
             var importElem = new XElement(
-                XmlTranslationModule.XSDNamespace + "import",
-                new XAttribute("namespace", this.XmlMod.ObjectNamespace(targetObject)),
+                XmlTranslationModule.XSDNamespace + "include",
                 new XAttribute("schemaLocation", relativePath));
+            if (diffNamespace
+                && !rootElement.Elements().Any((e) => e.ContentEqual(importElem)))
+            {
+                importElem.Add(new XAttribute("namespace", this.XmlMod.ObjectNamespace(targetObject)));
+            }
             rootElement.AddFirst(importElem);
-            choiceElement.Add(
-                new XElement(
-                    XmlTranslationModule.XSDNamespace + "element",
-                    new XAttribute("name", loqui.TargetObjectGeneration.Name),
-                    new XAttribute("type", $"{targetObject.Name.ToLower()}:{loqui.TargetObjectGeneration.Name}Type")));
+            var elem = new XElement(
+                XmlTranslationModule.XSDNamespace + "element",
+                new XAttribute("name", loqui.TargetObjectGeneration.Name));
+            if (diffNamespace)
+            {
+                elem.Add(
+                    new XAttribute("type", $"{targetObject.Name.ToLower()}:{loqui.TargetObjectGeneration.Name}Type"));
+            }
+            else
+            {
+                elem.Add(
+                    new XAttribute("type", $"{loqui.TargetObjectGeneration.Name}Type"));
+            }
+            choiceElement.Add(elem);
             return null;
+        }
+
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
         }
     }
 }

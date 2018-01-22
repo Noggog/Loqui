@@ -33,5 +33,9 @@ namespace Loqui.Generation
             string nameAccessor)
         {
         }
+
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
+        }
     }
 }

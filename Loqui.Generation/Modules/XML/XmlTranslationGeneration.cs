@@ -43,5 +43,9 @@ namespace Loqui.Generation
             XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride);
+
+        public abstract void GenerateForCommonXSD(
+            XElement rootElement,
+            TypeGeneration typeGen);
     }
 }

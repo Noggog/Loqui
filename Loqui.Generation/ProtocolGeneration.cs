@@ -31,6 +31,7 @@ namespace Loqui.Generation
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
         List<FileInfo> projectsToModify = new List<FileInfo>();
+        public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
 
         public ProtocolGeneration(
             LoquiGenerator gen,
@@ -175,6 +176,9 @@ namespace Loqui.Generation
                 }));
 
             GenerateDefFile();
+
+            await Task.WhenAll(this.Gen.GenerationModules.Select(
+                (mod) => mod.FinalizeGeneration(this)));
 
             foreach (var file in this.projectsToModify)
             {
@@ -331,6 +335,7 @@ namespace Loqui.Generation
 
             Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
             generatedItems.Set(this.ObjectGenerationsByID.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
+            generatedItems.Set(GeneratedFiles);
             HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.FullName)));
 
             // Find which objects are present

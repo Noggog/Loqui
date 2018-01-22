@@ -98,5 +98,10 @@ namespace Loqui.Generation
         {
             return _subGen.GenerateForXSD(obj, rootElement, choiceElement, typeGen, nameOverride);
         }
+
+        public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
+        {
+            _subGen.GenerateForCommonXSD(rootElement, typeGen);
+        }
     }
 }

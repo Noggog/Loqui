@@ -172,5 +172,12 @@ namespace Loqui.Generation
                 this.subModules.Select(
                     (subGen) => subGen.Resolve(obj)));
         }
+
+        public Task FinalizeGeneration(ProtocolGeneration proto)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    (subGen) => subGen.FinalizeGeneration(proto)));
+        }
     }
 }
