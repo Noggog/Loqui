@@ -30,7 +30,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChangedDefault = true;
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
-        List<FileInfo> projectsToModify = new List<FileInfo>();
+        List<FilePath> projectsToModify = new List<FilePath>();
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
 
         public ProtocolGeneration(
@@ -414,8 +414,10 @@ namespace Loqui.Generation
             }
             if (!found)
             {
+                var defFile = new FilePath($"{DefFileLocation.FullName}/{this.ProtocolDefinitionName}.cs");
+                var relativePath = defFile.GetRelativePathTo(projFile);
                 var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
-                    new XAttribute("Include", $"{DefFileLocation.FullName}/{this.ProtocolDefinitionName}.cs"));
+                    new XAttribute("Include", relativePath));
                 compileNodes.Add(compileElem);
                 compileIncludeNode.Add(compileElem);
                 modified = true;
