@@ -57,6 +57,11 @@ namespace Loqui.Tests
         #region RefList
         private readonly INotifyingList<RBase> _RefList = new NotifyingList<RBase>();
         public INotifyingList<RBase> RefList => _RefList;
+        public IEnumerable<RBase> RefListEnumerable
+        {
+            get => _RefList;
+            set => _RefList.SetTo(value);
+        }
         #region Interface Members
         INotifyingList<RBase> ITestGenericObject<T, RBase, R>.RefList => _RefList;
         INotifyingListGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefList => _RefList;
@@ -550,7 +555,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject<T, RBase, R>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject<T, RBase, R>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -573,7 +578,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom<T, RBase, R, ObjectToRef_ErrorMask, RBase_CopyMask>(
                 item,
@@ -598,7 +603,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject<T, RBase, R>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject<T, RBase, R>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,

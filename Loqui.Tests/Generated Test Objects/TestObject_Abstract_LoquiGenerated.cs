@@ -614,6 +614,11 @@ namespace Loqui.Tests
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
+        public IEnumerable<Boolean> ListEnumerable
+        {
+            get => _List;
+            set => _List.SetTo(value);
+        }
         #region Interface Members
         INotifyingList<Boolean> ITestObject_Abstract.List => _List;
         INotifyingListGetter<Boolean> ITestObject_AbstractGetter.List => _List;
@@ -623,6 +628,11 @@ namespace Loqui.Tests
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
+        public IEnumerable<ObjectToRef> RefListEnumerable
+        {
+            get => _RefList;
+            set => _RefList.SetTo(value);
+        }
         #region Interface Members
         INotifyingList<ObjectToRef> ITestObject_Abstract.RefList => _RefList;
         INotifyingListGetter<ObjectToRef> ITestObject_AbstractGetter.RefList => _RefList;
@@ -1915,7 +1925,7 @@ namespace Loqui.Tests
             TestObject_Abstract_CopyMask copyMask = null,
             ITestObject_AbstractGetter def = null)
         {
-            TestObject_Abstract ret = (TestObject_Abstract)Activator.CreateInstance(item.GetType());
+            TestObject_Abstract ret = (TestObject_Abstract)System.Activator.CreateInstance(item.GetType());
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -1929,7 +1939,7 @@ namespace Loqui.Tests
             ITestObject_AbstractGetter def = null)
             where CopyType : class, ITestObject_Abstract
         {
-            CopyType ret = (CopyType)Activator.CreateInstance(item.GetType());
+            CopyType ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,
@@ -1945,7 +1955,7 @@ namespace Loqui.Tests
             TestObject_Abstract_CopyMask copyMask = null,
             ITestObject_AbstractGetter def = null)
         {
-            TestObject_Abstract ret = (TestObject_Abstract)Activator.CreateInstance(item.GetType());
+            TestObject_Abstract ret = (TestObject_Abstract)System.Activator.CreateInstance(item.GetType());
             ret.CopyFieldsFrom(
                 item,
                 copyMask: copyMask,

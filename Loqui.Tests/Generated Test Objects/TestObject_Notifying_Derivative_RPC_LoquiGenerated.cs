@@ -1206,6 +1206,7 @@ namespace Loqui.Tests
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
+        public IEnumerable<Boolean> ListEnumerable => _List;
         #region Interface Members
         INotifyingListGetter<Boolean> ITestObject_Notifying_Derivative_RPCGetter.List => _List;
         #endregion
@@ -1214,6 +1215,7 @@ namespace Loqui.Tests
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
+        public IEnumerable<ObjectToRef> RefListEnumerable => _RefList;
         #region Interface Members
         INotifyingListGetter<ObjectToRef> ITestObject_Notifying_Derivative_RPCGetter.RefList => _RefList;
         #endregion
@@ -2616,7 +2618,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_Derivative_RPC)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_Derivative_RPC)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -2638,7 +2640,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -2662,7 +2664,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_Derivative_RPC)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_Derivative_RPC)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,

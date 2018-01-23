@@ -1180,6 +1180,11 @@ namespace Loqui.Tests
         #region List
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
+        public IEnumerable<Boolean> ListEnumerable
+        {
+            get => _List;
+            set => _List.SetTo(value);
+        }
         #region Interface Members
         INotifyingList<Boolean> ITestObject_HasBeenSet.List => _List;
         INotifyingListGetter<Boolean> ITestObject_HasBeenSetGetter.List => _List;
@@ -1189,6 +1194,11 @@ namespace Loqui.Tests
         #region RefList
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
+        public IEnumerable<ObjectToRef> RefListEnumerable
+        {
+            get => _RefList;
+            set => _RefList.SetTo(value);
+        }
         #region Interface Members
         INotifyingList<ObjectToRef> ITestObject_HasBeenSet.RefList => _RefList;
         INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSetGetter.RefList => _RefList;
@@ -3341,7 +3351,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_HasBeenSet)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -3363,7 +3373,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -3387,7 +3397,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_HasBeenSet)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,

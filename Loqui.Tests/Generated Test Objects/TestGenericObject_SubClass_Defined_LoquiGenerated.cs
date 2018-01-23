@@ -451,7 +451,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject_SubClass_Defined<RBase>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject_SubClass_Defined<RBase>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -474,7 +474,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom<RBase, ObjectToRef_ErrorMask, RBase_CopyMask>(
                 item,
@@ -499,7 +499,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject_SubClass_Defined<RBase>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject_SubClass_Defined<RBase>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,

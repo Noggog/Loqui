@@ -29,6 +29,19 @@ namespace Loqui.Generation
                 fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
             }
             fg.AppendLine($"public INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
+            if (this.ReadOnly)
+            {
+                fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable => _{this.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"get => _{this.Name};");
+                    fg.AppendLine($"set => _{this.Name}.SetTo(value);");
+                }
+            }
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 

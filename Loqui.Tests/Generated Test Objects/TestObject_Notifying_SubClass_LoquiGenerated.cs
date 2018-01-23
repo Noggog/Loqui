@@ -454,7 +454,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_SubClass)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_SubClass)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -476,7 +476,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -500,7 +500,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_SubClass)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_SubClass)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
