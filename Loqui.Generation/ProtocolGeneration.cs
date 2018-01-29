@@ -159,7 +159,7 @@ namespace Loqui.Generation
                         }
                         catch (Exception ex)
                         {
-                            obj.MarkFailure(ex);
+                            MarkFailure(ex);
                             throw;
                         }
                     }));
@@ -183,6 +183,14 @@ namespace Loqui.Generation
             foreach (var file in this.projectsToModify)
             {
                 ModifyProject(file);
+            }
+        }
+
+        private void MarkFailure(Exception ex)
+        {
+            foreach (var obj in this.ObjectGenerationsByID.Values)
+            {
+                obj.MarkFailure(ex);
             }
         }
 
