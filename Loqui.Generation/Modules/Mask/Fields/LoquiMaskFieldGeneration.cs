@@ -48,7 +48,7 @@ namespace Loqui.Generation
                 if (loqui.SingletonType == SingletonLevel.Singleton)
                 {
                     if (loqui.InterfaceType == LoquiInterfaceType.IGetter) return;
-                    fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Copy)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Copy)}> {field.Name};");
                 }
                 else
                 {

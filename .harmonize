@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3da107347deeacc69caaf0c6aba79fb36407d864</Sha>
+         <Sha>ab1cc6284e67ca20a33fa4271cee62da7e276186</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-28-2018 19:33:36</CommitDate>
-         <Description>SortedListExt.TryGetEncapsulatedValues</Description>
+         <CommitDate>01-29-2018 18:24:53</CommitDate>
+         <Description>EnumerableExt.And now naturally handles a null rhs</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

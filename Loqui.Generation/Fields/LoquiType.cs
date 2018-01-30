@@ -92,7 +92,7 @@ namespace Loqui.Generation
                 }
             }
         }
-        public string GenericTypes => _GenericTypes();
+        public string GenericTypes => GetGenericTypes(MaskType.Normal);
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType InterfaceType = LoquiInterfaceType.Direct;
@@ -349,7 +349,7 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.NotNull:
-                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.TypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
@@ -358,7 +358,7 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.Singleton:
-                            fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                            fg.AppendLine($"private {this.TypeName} {this.SingletonObjectName} = new {this.TypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
                         default:
@@ -719,7 +719,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom"))
+                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Error, MaskType.Copy)}"))
                 {
                     args.Add($"item: item.{this.Name}");
                     args.Add($"rhs: rhs.{this.Name}");
@@ -833,7 +833,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom(rhs: {rhsAccessorPrefix}, cmds: {cmdsAccessor});");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
                     fg.AppendLine("break;");
                 }
             }
@@ -954,7 +954,7 @@ namespace Loqui.Generation
             }
         }
 
-        private string _GenericTypes()
+        public IEnumerable<string> GetGenericTypesEnumerable(params MaskType[] additionalMasks)
         {
             if (this.GenericSpecification == null) return null;
             if (this.TargetObjectGeneration.Generics.Count == 0) return null;
@@ -963,9 +963,28 @@ namespace Loqui.Generation
             {
                 if (this.GenericSpecification.Specifications.TryGetValue(gen.Key, out var spec))
                 {
-                    if (ObjectNamedKey.TryFactory(spec, out var namedKey))
+                    if (ObjectNamedKey.TryFactory(spec, out var namedKey)
+                        && this.ObjectGen.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(
+                            namedKey, 
+                            out var targetObjGen))
                     {
-                        ret.Add(namedKey.Name);
+                        foreach (var mType in additionalMasks)
+                        {
+                            switch (mType)
+                            {
+                                case MaskType.Normal:
+                                    ret.Add(targetObjGen.Name);
+                                    break;
+                                case MaskType.Error:
+                                    ret.Add(targetObjGen.Mask(MaskType.Error));
+                                    break;
+                                case MaskType.Copy:
+                                    ret.Add(targetObjGen.Mask(MaskType.Copy));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                     else
                     {
@@ -981,7 +1000,14 @@ namespace Loqui.Generation
                     throw new ArgumentException("Generic specifications were missing some needing mappings.");
                 }
             }
-            return $"<{string.Join(", ", ret)}>";
+            return ret;
+        }
+
+        public string GetGenericTypes(params MaskType[] additionalMasks)
+        {
+            var e = GetGenericTypesEnumerable(additionalMasks);
+            if (e == null) return null;
+            return $"<{string.Join(", ", e)}>";
         }
 
         public LoquiType Spawn(ObjectGeneration target)
@@ -1006,6 +1032,25 @@ namespace Loqui.Generation
                 ret.CustomData[custom.Key] = custom.Value;
             }
             return ret;
+        }
+
+        public string Mask(MaskType type)
+        {
+            if (this.TargetObjectGeneration != null)
+            {
+                if (this.GenericSpecification != null)
+                {
+                    return this.TargetObjectGeneration.Mask_Specified(type, this.GenericSpecification);
+                }
+                else
+                {
+                    return this.TargetObjectGeneration.Mask(type);
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public override bool IsNullable()
