@@ -47,7 +47,7 @@ namespace Loqui.Tests
 
         protected override bool GetNthObjectHasBeenSet(ushort index) => TestGenericObject_SubClassCommon.GetNthObjectHasBeenSet<S, T, RBase, R>(index, this);
 
-        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestGenericObject_SubClassCommon.UnsetNthObject<S, T, RBase, R>(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => TestGenericObject_SubClassCommon.UnsetNthObject<S, T, RBase, R>(index, this, cmds);
 
         #endregion
 
@@ -203,7 +203,7 @@ namespace Loqui.Tests
         #region XML Copy In
         public override void CopyIn_XML(
             XElement root,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestGenericObject_SubClass<S, T, RBase, R>, TestGenericObject_SubClass_ErrorMask<ObjectToRef_ErrorMask, ObjectToRef_ErrorMask>>.Instance.CopyIn(
                 root: root,
@@ -217,7 +217,7 @@ namespace Loqui.Tests
         public virtual void CopyIn_XML<S_ErrMask, RBase_ErrMask>(
             XElement root,
             out TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask> errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S_ErrMask : ObjectToRef_ErrorMask, IErrorMask<S_ErrMask>, new()
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
@@ -232,7 +232,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -243,7 +243,7 @@ namespace Loqui.Tests
         public void CopyIn_XML<S_ErrMask, RBase_ErrMask>(
             string path,
             out TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask> errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S_ErrMask : ObjectToRef_ErrorMask, IErrorMask<S_ErrMask>, new()
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
@@ -256,7 +256,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -267,7 +267,7 @@ namespace Loqui.Tests
         public void CopyIn_XML<S_ErrMask, RBase_ErrMask>(
             Stream stream,
             out TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask> errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S_ErrMask : ObjectToRef_ErrorMask, IErrorMask<S_ErrMask>, new()
             where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
         {
@@ -281,7 +281,7 @@ namespace Loqui.Tests
         public override void CopyIn_XML<RBase_ErrMask>(
             XElement root,
             out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             this.CopyIn_XML(
                 root: root,
@@ -484,7 +484,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject_SubClass<S, T, RBase, R>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject_SubClass<S, T, RBase, R>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -508,7 +508,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom<S, T, RBase, R, ObjectToRef_ErrorMask, ObjectToRef_ErrorMask, S_CopyMask, RBase_CopyMask>(
                 item,
@@ -534,7 +534,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestGenericObject_SubClass<S, T, RBase, R>)Activator.CreateInstance(item.GetType());
+                ret = (TestGenericObject_SubClass<S, T, RBase, R>)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -543,7 +543,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)
         {
             TestGenericObject_SubClass_FieldIndex enu = (TestGenericObject_SubClass_FieldIndex)index;
             switch (enu)
@@ -554,7 +554,7 @@ namespace Loqui.Tests
             }
         }
 
-        public override void Clear(NotifyingUnsetParameters? cmds = null)
+        public override void Clear(NotifyingUnsetParameters cmds = null)
         {
             CallClearPartial_Internal(cmds);
             TestGenericObject_SubClassCommon.Clear(this, cmds);
@@ -791,7 +791,7 @@ namespace Loqui.Tests.Internals
             ITestGenericObject_SubClassGetter<S, T, RBase, R> rhs,
             TestGenericObject_SubClass_CopyMask<S_CopyMask, RBase_CopyMask> copyMask = null,
             ITestGenericObject_SubClassGetter<S, T, RBase, R> def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -815,7 +815,7 @@ namespace Loqui.Tests.Internals
             out TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask> errorMask,
             TestGenericObject_SubClass_CopyMask<S_CopyMask, RBase_CopyMask> copyMask = null,
             ITestGenericObject_SubClassGetter<S, T, RBase, R> def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -842,7 +842,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             out TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask> errorMask,
             TestGenericObject_SubClass_CopyMask<S_CopyMask, RBase_CopyMask> copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -879,7 +879,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             Func<TestGenericObject_SubClass_ErrorMask<S_ErrMask, RBase_ErrMask>> errorMask,
             TestGenericObject_SubClass_CopyMask<S_CopyMask, RBase_CopyMask> copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -905,7 +905,7 @@ namespace Loqui.Tests.Internals
             ushort index,
             bool on,
             ITestGenericObject_SubClass<S, T, RBase, R> obj,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -923,7 +923,7 @@ namespace Loqui.Tests.Internals
         public static void UnsetNthObject<S, T, RBase, R>(
             ushort index,
             ITestGenericObject_SubClass<S, T, RBase, R> obj,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
@@ -972,7 +972,7 @@ namespace Loqui.Tests.Internals
 
         public static void Clear<S, T, RBase, R>(
             ITestGenericObject_SubClass<S, T, RBase, R> item,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
             where S : ObjectToRef
             where T : ILoquiObject
             where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter

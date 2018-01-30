@@ -54,7 +54,7 @@ namespace Loqui.Tests
 
         protected override bool GetNthObjectHasBeenSet(ushort index) => TestObject_Notifying_SubClassCommon.GetNthObjectHasBeenSet(index, this);
 
-        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
+        protected override void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => TestObject_Notifying_SubClassCommon.UnsetNthObject(index, this, cmds);
 
         #endregion
 
@@ -202,7 +202,7 @@ namespace Loqui.Tests
         #region XML Copy In
         public override void CopyIn_XML(
             XElement root,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -216,7 +216,7 @@ namespace Loqui.Tests
         public virtual void CopyIn_XML(
             XElement root,
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_Notifying_SubClass, TestObject_Notifying_SubClass_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -229,7 +229,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -240,7 +240,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             string path,
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -251,7 +251,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -262,7 +262,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             Stream stream,
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -274,7 +274,7 @@ namespace Loqui.Tests
         public override void CopyIn_XML(
             XElement root,
             out TestObject_Notifying_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             this.CopyIn_XML(
                 root: root,
@@ -454,7 +454,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_SubClass)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_SubClass)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -476,7 +476,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -500,7 +500,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_Notifying_SubClass)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_Notifying_SubClass)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -509,7 +509,7 @@ namespace Loqui.Tests
             return ret;
         }
 
-        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        protected override void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)
@@ -525,7 +525,7 @@ namespace Loqui.Tests
             }
         }
 
-        public override void Clear(NotifyingUnsetParameters? cmds = null)
+        public override void Clear(NotifyingUnsetParameters cmds = null)
         {
             CallClearPartial_Internal(cmds);
             TestObject_Notifying_SubClassCommon.Clear(this, cmds);
@@ -876,7 +876,7 @@ namespace Loqui.Tests.Internals
             ITestObject_Notifying_SubClassGetter rhs,
             TestObject_Notifying_SubClass_CopyMask copyMask = null,
             ITestObject_Notifying_SubClassGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
                 item: item,
@@ -894,7 +894,7 @@ namespace Loqui.Tests.Internals
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask = null,
             ITestObject_Notifying_SubClassGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Notifying_SubClassCommon.CopyFieldsFrom(
                 item: item,
@@ -913,7 +913,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             out TestObject_Notifying_SubClass_ErrorMask errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Notifying_SubClass_ErrorMask retErrorMask = null;
             Func<TestObject_Notifying_SubClass_ErrorMask> maskGetter = () =>
@@ -942,7 +942,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             Func<TestObject_Notifying_SubClass_ErrorMask> errorMask,
             TestObject_Notifying_SubClass_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_NotifyingCommon.CopyFieldsFrom(
                 item,
@@ -974,7 +974,7 @@ namespace Loqui.Tests.Internals
             ushort index,
             bool on,
             ITestObject_Notifying_SubClass obj,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)
@@ -991,7 +991,7 @@ namespace Loqui.Tests.Internals
         public static void UnsetNthObject(
             ushort index,
             ITestObject_Notifying_SubClass obj,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
             TestObject_Notifying_SubClass_FieldIndex enu = (TestObject_Notifying_SubClass_FieldIndex)index;
             switch (enu)
@@ -1035,7 +1035,7 @@ namespace Loqui.Tests.Internals
 
         public static void Clear(
             ITestObject_Notifying_SubClass item,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
             item.NewField = default(Boolean);
         }

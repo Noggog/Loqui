@@ -1249,8 +1249,8 @@ namespace Loqui.Tests
         protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_HasBeenSetCommon.GetNthObjectHasBeenSet(index, this);
         bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_HasBeenSetCommon.UnsetNthObject(index, this, cmds);
-        void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => TestObject_HasBeenSetCommon.UnsetNthObject(index, this, cmds);
+        void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
 
@@ -2358,7 +2358,7 @@ namespace Loqui.Tests
         #region XML Copy In
         public void CopyIn_XML(
             XElement root,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -2372,7 +2372,7 @@ namespace Loqui.Tests
         public virtual void CopyIn_XML(
             XElement root,
             out TestObject_HasBeenSet_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_HasBeenSet, TestObject_HasBeenSet_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -2385,7 +2385,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -2396,7 +2396,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             string path,
             out TestObject_HasBeenSet_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -2407,7 +2407,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -2418,7 +2418,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             Stream stream,
             out TestObject_HasBeenSet_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -3341,7 +3341,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_HasBeenSet)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -3363,7 +3363,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (CopyType)Activator.CreateInstance(item.GetType());
+                ret = (CopyType)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -3387,7 +3387,7 @@ namespace Loqui.Tests
             }
             else
             {
-                ret = (TestObject_HasBeenSet)Activator.CreateInstance(item.GetType());
+                ret = (TestObject_HasBeenSet)System.Activator.CreateInstance(item.GetType());
             }
             ret.CopyFieldsFrom(
                 item,
@@ -3396,8 +3396,8 @@ namespace Loqui.Tests
             return ret;
         }
 
-        void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
-        protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);
+        protected void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)
         {
             TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
             switch (enu)
@@ -3749,14 +3749,14 @@ namespace Loqui.Tests
             }
         }
 
-        partial void ClearPartial(NotifyingUnsetParameters? cmds);
+        partial void ClearPartial(NotifyingUnsetParameters cmds);
 
-        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters cmds)
         {
             ClearPartial(cmds);
         }
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        public void Clear(NotifyingUnsetParameters cmds = null)
         {
             CallClearPartial_Internal(cmds);
             TestObject_HasBeenSetCommon.Clear(this, cmds);
@@ -6422,7 +6422,7 @@ namespace Loqui.Tests.Internals
             ITestObject_HasBeenSetGetter rhs,
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_HasBeenSetCommon.CopyFieldsFrom(
                 item: item,
@@ -6440,7 +6440,7 @@ namespace Loqui.Tests.Internals
             out TestObject_HasBeenSet_ErrorMask errorMask,
             TestObject_HasBeenSet_CopyMask copyMask = null,
             ITestObject_HasBeenSetGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_HasBeenSetCommon.CopyFieldsFrom(
                 item: item,
@@ -6459,7 +6459,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             out TestObject_HasBeenSet_ErrorMask errorMask,
             TestObject_HasBeenSet_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_HasBeenSet_ErrorMask retErrorMask = null;
             Func<TestObject_HasBeenSet_ErrorMask> maskGetter = () =>
@@ -6488,7 +6488,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             Func<TestObject_HasBeenSet_ErrorMask> errorMask,
             TestObject_HasBeenSet_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
             if (copyMask?.ByteArray ?? true)
             {
@@ -8090,10 +8090,10 @@ namespace Loqui.Tests.Internals
                 try
                 {
                     item.RefList.SetToWithDefault(
-                        rhs.RefList,
-                        def?.RefList,
-                        cmds,
-                        (r, d) =>
+                        rhs: rhs.RefList,
+                        def: def?.RefList,
+                        cmds: cmds,
+                        converter: (r, d) =>
                         {
                             switch (copyMask?.RefList.Overall ?? CopyOption.Reference)
                             {
@@ -8276,7 +8276,7 @@ namespace Loqui.Tests.Internals
             ushort index,
             bool on,
             ITestObject_HasBeenSet obj,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
             switch (enu)
@@ -8603,7 +8603,7 @@ namespace Loqui.Tests.Internals
         public static void UnsetNthObject(
             ushort index,
             ITestObject_HasBeenSet obj,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
             TestObject_HasBeenSet_FieldIndex enu = (TestObject_HasBeenSet_FieldIndex)index;
             switch (enu)
@@ -9384,7 +9384,7 @@ namespace Loqui.Tests.Internals
 
         public static void Clear(
             ITestObject_HasBeenSet item,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
             item.ByteArray_Property.Unset();
             item.ByteArrayNull_Property.Unset();
