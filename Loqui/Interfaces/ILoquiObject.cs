@@ -22,8 +22,8 @@ namespace Loqui
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
-        void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds);
-        void SetNthObject(ushort index, object o, NotifyingFireParameters? cmds);
+        void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds);
+        void SetNthObject(ushort index, object o, NotifyingFireParameters cmds);
     }
 
     public interface ILoquiClass<L, G>
@@ -116,7 +116,7 @@ namespace Loqui
             ILoquiObjectGetter rhs,
             ILoquiObjectGetter def,
             bool skipProtected,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             for (ushort i = 0; i < obj.Registration.FieldCount; i++)
             {
@@ -145,7 +145,7 @@ namespace Loqui
             IEnumerable<KeyValuePair<ushort, object>> fields,
             ILoquiObjectGetter def,
             bool skipProtected,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             if (fields == null || !fields.Any()) return;
             HashSet<ushort> readFields = new HashSet<ushort>();
@@ -177,7 +177,7 @@ namespace Loqui
             ILoquiObjectGetter def,
             Func<IErrorMask> errorMaskGetter,
             bool skipProtected,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             if (!fields.Any()) return;
             try

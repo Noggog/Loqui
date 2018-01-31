@@ -124,7 +124,7 @@ namespace Loqui.Generation
                             args.Add(API);
                         }
                     }
-                    args.Add("NotifyingFireParameters? cmds = null");
+                    args.Add("NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -145,7 +145,7 @@ namespace Loqui.Generation
                     {
                         args.Add(item);
                     }
-                    args.Add("NotifyingFireParameters? cmds = null");
+                    args.Add("NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -165,7 +165,7 @@ namespace Loqui.Generation
                                 args.Add(API);
                             }
                         }
-                        args.Add("NotifyingFireParameters? cmds = null");
+                        args.Add("NotifyingFireParameters cmds = null");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -198,7 +198,7 @@ namespace Loqui.Generation
                         {
                             args.Add(item);
                         }
-                        args.Add("NotifyingFireParameters? cmds = null");
+                        args.Add("NotifyingFireParameters cmds = null");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -234,7 +234,7 @@ namespace Loqui.Generation
                         {
                             args.Add(item);
                         }
-                        args.Add($"NotifyingFireParameters? cmds = null");
+                        args.Add($"NotifyingFireParameters cmds = null");
                     }
                     using (new BraceWrapper(fg))
                     {

@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("var ret = new TestObject_Abstract();"))
+            if (str.Contains("item.RefList.SetToWithDefault("))
             {
                 int wer = 23;
                 wer++;

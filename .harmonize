@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>ab1cc6284e67ca20a33fa4271cee62da7e276186</Sha>
+         <Sha>e60e0c96ed79b6a1ccda88a5776be8f04b3bed95</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-29-2018 18:24:53</CommitDate>
-         <Description>EnumerableExt.And now naturally handles a null rhs</Description>
+         <CommitDate>01-30-2018 21:55:08</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/Dev'</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

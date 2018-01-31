@@ -108,12 +108,12 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
                 {
-                    args.Add($"rhs.{this.Name}");
-                    args.Add($"def?.{this.Name}");
-                    args.Add($"cmds");
+                    args.Add($"rhs: rhs.{this.Name}");
+                    args.Add($"def: def?.{this.Name}");
+                    args.Add($"cmds: cmds");
                     args.Add((gen) =>
                     {
-                        gen.AppendLine("(r, d) =>");
+                        gen.AppendLine("converter: (r, d) =>");
                         using (new BraceWrapper(gen))
                         {
 

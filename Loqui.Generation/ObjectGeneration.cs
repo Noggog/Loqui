@@ -817,7 +817,7 @@ namespace Loqui.Generation
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                     args.Add($"{this.Getter_InterfaceStr} def = null");
-                    args.Add($"NotifyingFireParameters? cmds = null");
+                    args.Add($"NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -844,7 +844,7 @@ namespace Loqui.Generation
                     args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                     args.Add($"{this.Getter_InterfaceStr} def = null");
-                    args.Add($"NotifyingFireParameters? cmds = null");
+                    args.Add($"NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -872,7 +872,7 @@ namespace Loqui.Generation
                     args.Add($"bool doMasks");
                     args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
-                    args.Add($"NotifyingFireParameters? cmds");
+                    args.Add($"NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -912,7 +912,7 @@ namespace Loqui.Generation
                     args.Add($"bool doMasks");
                     args.Add($"Func<{this.Mask(MaskType.Error)}> errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
-                    args.Add($"NotifyingFireParameters? cmds");
+                    args.Add($"NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -1071,10 +1071,10 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
+                fg.AppendLine($"protected{this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);");
+                    fg.AppendLine($"void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);");
                 }
                 fg.AppendLine();
             }
@@ -1193,9 +1193,9 @@ namespace Loqui.Generation
         {
             if (this.IsTopClass)
             {
-                fg.AppendLine("void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);");
+                fg.AppendLine("void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);");
             }
-            fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)");
+            fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
@@ -1248,7 +1248,7 @@ namespace Loqui.Generation
                 args.Add($"ushort index");
                 args.Add($"bool on");
                 args.Add($"{this.InterfaceStr} obj");
-                args.Add($"{nameof(NotifyingFireParameters)}? cmds = null");
+                args.Add($"{nameof(NotifyingFireParameters)} cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1343,7 +1343,7 @@ namespace Loqui.Generation
             {
                 args.Add("ushort index");
                 args.Add($"{this.InterfaceStr} obj");
-                args.Add($"{nameof(NotifyingUnsetParameters)}? cmds = null");
+                args.Add($"{nameof(NotifyingUnsetParameters)} cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -2125,10 +2125,10 @@ namespace Loqui.Generation
             {
                 if (!HasBaseObject)
                 {
-                    fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters? cmds);");
+                    fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters cmds);");
                     fg.AppendLine();
 
-                    fg.AppendLine("protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)");
+                    fg.AppendLine("protected void CallClearPartial_Internal(NotifyingUnsetParameters cmds)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"ClearPartial(cmds);");
@@ -2136,7 +2136,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"public{this.FunctionOverride()}void Clear(NotifyingUnsetParameters? cmds = null)");
+                fg.AppendLine($"public{this.FunctionOverride()}void Clear(NotifyingUnsetParameters cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("CallClearPartial_Internal(cmds);");
@@ -2151,7 +2151,7 @@ namespace Loqui.Generation
                     GenerateWhereClauses().ToArray()))
                 {
                     args.Add($"{this.InterfaceStr} item");
-                    args.Add($"NotifyingUnsetParameters? cmds = null");
+                    args.Add($"NotifyingUnsetParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {

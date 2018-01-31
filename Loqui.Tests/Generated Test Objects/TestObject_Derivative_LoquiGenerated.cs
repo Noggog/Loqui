@@ -683,8 +683,8 @@ namespace Loqui.Tests
         protected bool GetNthObjectHasBeenSet(ushort index) => TestObject_DerivativeCommon.GetNthObjectHasBeenSet(index, this);
         bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);
 
-        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => TestObject_DerivativeCommon.UnsetNthObject(index, this, cmds);
-        void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters? cmds) => this.UnsetNthObject(index, cmds);
+        protected void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => TestObject_DerivativeCommon.UnsetNthObject(index, this, cmds);
+        void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);
 
         #endregion
 
@@ -1043,7 +1043,7 @@ namespace Loqui.Tests
         #region XML Copy In
         public void CopyIn_XML(
             XElement root,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_Derivative, TestObject_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -1057,7 +1057,7 @@ namespace Loqui.Tests
         public virtual void CopyIn_XML(
             XElement root,
             out TestObject_Derivative_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             LoquiXmlTranslation<TestObject_Derivative, TestObject_Derivative_ErrorMask>.Instance.CopyIn(
                 root: root,
@@ -1070,7 +1070,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             string path,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -1081,7 +1081,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             string path,
             out TestObject_Derivative_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(path).Root;
             this.CopyIn_XML(
@@ -1092,7 +1092,7 @@ namespace Loqui.Tests
 
         public void CopyIn_XML(
             Stream stream,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -1103,7 +1103,7 @@ namespace Loqui.Tests
         public void CopyIn_XML(
             Stream stream,
             out TestObject_Derivative_ErrorMask errorMask,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             var root = XDocument.Load(stream).Root;
             this.CopyIn_XML(
@@ -2109,8 +2109,8 @@ namespace Loqui.Tests
             return ret;
         }
 
-        void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds) => this.SetNthObject(index, obj, cmds);
-        protected void SetNthObject(ushort index, object obj, NotifyingFireParameters? cmds = null)
+        void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);
+        protected void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
             switch (enu)
@@ -2228,14 +2228,14 @@ namespace Loqui.Tests
             }
         }
 
-        partial void ClearPartial(NotifyingUnsetParameters? cmds);
+        partial void ClearPartial(NotifyingUnsetParameters cmds);
 
-        protected void CallClearPartial_Internal(NotifyingUnsetParameters? cmds)
+        protected void CallClearPartial_Internal(NotifyingUnsetParameters cmds)
         {
             ClearPartial(cmds);
         }
 
-        public void Clear(NotifyingUnsetParameters? cmds = null)
+        public void Clear(NotifyingUnsetParameters cmds = null)
         {
             CallClearPartial_Internal(cmds);
             TestObject_DerivativeCommon.Clear(this, cmds);
@@ -4158,7 +4158,7 @@ namespace Loqui.Tests.Internals
             ITestObject_DerivativeGetter rhs,
             TestObject_Derivative_CopyMask copyMask = null,
             ITestObject_DerivativeGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_DerivativeCommon.CopyFieldsFrom(
                 item: item,
@@ -4176,7 +4176,7 @@ namespace Loqui.Tests.Internals
             out TestObject_Derivative_ErrorMask errorMask,
             TestObject_Derivative_CopyMask copyMask = null,
             ITestObject_DerivativeGetter def = null,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_DerivativeCommon.CopyFieldsFrom(
                 item: item,
@@ -4195,7 +4195,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             out TestObject_Derivative_ErrorMask errorMask,
             TestObject_Derivative_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Derivative_ErrorMask retErrorMask = null;
             Func<TestObject_Derivative_ErrorMask> maskGetter = () =>
@@ -4224,7 +4224,7 @@ namespace Loqui.Tests.Internals
             bool doMasks,
             Func<TestObject_Derivative_ErrorMask> errorMask,
             TestObject_Derivative_CopyMask copyMask,
-            NotifyingFireParameters? cmds)
+            NotifyingFireParameters cmds = null)
         {
         }
 
@@ -4234,7 +4234,7 @@ namespace Loqui.Tests.Internals
             ushort index,
             bool on,
             ITestObject_Derivative obj,
-            NotifyingFireParameters? cmds = null)
+            NotifyingFireParameters cmds = null)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
             switch (enu)
@@ -4355,7 +4355,7 @@ namespace Loqui.Tests.Internals
         public static void UnsetNthObject(
             ushort index,
             ITestObject_Derivative obj,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
             TestObject_Derivative_FieldIndex enu = (TestObject_Derivative_FieldIndex)index;
             switch (enu)
@@ -4821,7 +4821,7 @@ namespace Loqui.Tests.Internals
 
         public static void Clear(
             ITestObject_Derivative item,
-            NotifyingUnsetParameters? cmds = null)
+            NotifyingUnsetParameters cmds = null)
         {
         }
 

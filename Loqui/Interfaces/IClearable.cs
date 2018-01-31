@@ -6,7 +6,7 @@ namespace Loqui
 {
     public interface IClearable
     {
-        void Clear(NotifyingUnsetParameters? cmds);
+        void Clear(NotifyingUnsetParameters cmds);
     }
 }
 
