@@ -297,7 +297,7 @@ namespace Loqui.Generation
                 {
                     if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
+                        fg.AppendLine($"private {this.TypeName} {this.SingletonObjectName} = new {this.TypeName}();");
                     }
                     if (this.RaisePropertyChanged
                         || this.SingletonType == SingletonLevel.Singleton)
