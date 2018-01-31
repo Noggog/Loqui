@@ -705,6 +705,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="copy" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to copy the field in the generated copy function.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="notifying" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
