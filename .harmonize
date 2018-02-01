@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e60e0c96ed79b6a1ccda88a5776be8f04b3bed95</Sha>
+         <Sha>6f7dedd5e52114e39cd8141a65f903b63d1c9110</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-30-2018 21:55:08</CommitDate>
-         <Description>Merge remote-tracking branch 'origin/Dev'</Description>
+         <CommitDate>01-31-2018 19:47:08</CommitDate>
+         <Description>Added missing NotifyingCollection.Subscribe_Enumerable_Single convenience function</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
