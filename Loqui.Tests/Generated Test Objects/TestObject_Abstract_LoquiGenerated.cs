@@ -2249,7 +2249,7 @@ namespace Loqui.Tests
                     this.Ref_NotNull = (ObjectToRef)obj;
                     break;
                 case TestObject_Abstract_FieldIndex.Ref_Singleton:
-                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
+                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj);
                     break;
                 case TestObject_Abstract_FieldIndex.RefGetter:
                     this.RefGetter = (IObjectToRefGetter)obj;
@@ -2266,7 +2266,7 @@ namespace Loqui.Tests
                     this.RefSetter_NotNull = (IObjectToRef)obj;
                     break;
                 case TestObject_Abstract_FieldIndex.RefSetter_Singleton:
-                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
+                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj);
                     break;
                 case TestObject_Abstract_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
@@ -2618,7 +2618,7 @@ namespace Loqui.Tests
                     obj.Ref_NotNull = (ObjectToRef)pair.Value;
                     break;
                 case TestObject_Abstract_FieldIndex.Ref_Singleton:
-                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
+                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value);
                     break;
                 case TestObject_Abstract_FieldIndex.RefGetter:
                     obj.RefGetter = (IObjectToRefGetter)pair.Value;
@@ -2627,7 +2627,7 @@ namespace Loqui.Tests
                     obj.RefGetter_NotNull = (IObjectToRefGetter)pair.Value;
                     break;
                 case TestObject_Abstract_FieldIndex.RefGetter_Singleton:
-                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
+                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value);
                     break;
                 case TestObject_Abstract_FieldIndex.RefSetter:
                     obj.RefSetter = (IObjectToRef)pair.Value;
@@ -2636,7 +2636,7 @@ namespace Loqui.Tests
                     obj.RefSetter_NotNull = (IObjectToRef)pair.Value;
                     break;
                 case TestObject_Abstract_FieldIndex.RefSetter_Singleton:
-                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
+                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value);
                     break;
                 case TestObject_Abstract_FieldIndex.List:
                     obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);

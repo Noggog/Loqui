@@ -18,7 +18,7 @@ namespace Loqui.Generation
                         switch (this.InterfaceType)
                         {
                             case LoquiInterfaceType.Direct:
-                                return $"{this._TargetObjectGeneration.Name}{this.GenericTypes}";
+                                return DirectTypeName;
                             case LoquiInterfaceType.IGetter:
                                 return $"{this.Getter_InterfaceStr}{this.GenericTypes}";
                             case LoquiInterfaceType.ISetter:
@@ -33,6 +33,9 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public string DirectTypeName => $"{this._TargetObjectGeneration.Name}{this.GenericTypes}";
+
         public override string ProtectedName
         {
             get
@@ -47,6 +50,7 @@ namespace Loqui.Generation
                 }
             }
         }
+
         public string ObjectTypeName
         {
             get
@@ -62,6 +66,7 @@ namespace Loqui.Generation
                 }
             }
         }
+
         public string Getter_InterfaceStr
         {
             get
@@ -77,6 +82,7 @@ namespace Loqui.Generation
                 }
             }
         }
+
         public string InterfaceStr
         {
             get
@@ -297,7 +303,7 @@ namespace Loqui.Generation
                 {
                     if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"private {this.TypeName} {this.SingletonObjectName} = new {this.TypeName}();");
+                        fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
                     }
                     if (this.RaisePropertyChanged
                         || this.SingletonType == SingletonLevel.Singleton)
@@ -349,16 +355,16 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.NotNull:
-                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.TypeName}();");
+                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.DirectTypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.ObjectTypeName}();");
+                                fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => _{this.Name} = value ?? new {this.DirectTypeName}();");
                             }
                             break;
                         case SingletonLevel.Singleton:
-                            fg.AppendLine($"private {this.TypeName} {this.SingletonObjectName} = new {this.TypeName}();");
+                            fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
                         default:
@@ -719,7 +725,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Error, MaskType.Copy)}"))
+                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom"))
                 {
                     args.Add($"item: item.{this.Name}");
                     args.Add($"rhs: rhs.{this.Name}");
@@ -963,7 +969,7 @@ namespace Loqui.Generation
             {
                 if (this.GenericSpecification.Specifications.TryGetValue(gen.Key, out var spec))
                 {
-                    if (ObjectNamedKey.TryFactory(spec, out var namedKey)
+                    if (ObjectNamedKey.TryFactory(spec, this.ObjectGen.ProtoGen.Protocol, out var namedKey)
                         && this.ObjectGen.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(
                             namedKey, 
                             out var targetObjGen))

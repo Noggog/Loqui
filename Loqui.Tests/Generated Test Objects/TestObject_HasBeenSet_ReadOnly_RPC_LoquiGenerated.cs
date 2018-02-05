@@ -3993,7 +3993,7 @@ namespace Loqui.Tests
                     this._Ref_NotNull.Set((ObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
-                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj, cmds: cmds);
+                    this._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     this._RefGetter.Set((IObjectToRefGetter)obj);
@@ -4010,7 +4010,7 @@ namespace Loqui.Tests
                     this._RefSetter_NotNull.Set((IObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
-                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj, cmds: cmds);
+                    this._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)obj);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     this._List.SetTo((IEnumerable<Boolean>)obj, cmds);
@@ -4372,7 +4372,7 @@ namespace Loqui.Tests
                     obj._Ref_NotNull.Set((ObjectToRef)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.Ref_Singleton:
-                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value, cmds: null);
+                    obj._Ref_Singleton_Object.CopyFieldsFrom(rhs: (ObjectToRef)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter:
                     obj._RefGetter.Set((IObjectToRefGetter)pair.Value);
@@ -4381,7 +4381,7 @@ namespace Loqui.Tests
                     obj._RefGetter_NotNull.Set((IObjectToRefGetter)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefGetter_Singleton:
-                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value, cmds: null);
+                    obj._RefGetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRefGetter)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter:
                     obj._RefSetter.Set((IObjectToRef)pair.Value);
@@ -4390,7 +4390,7 @@ namespace Loqui.Tests
                     obj._RefSetter_NotNull.Set((IObjectToRef)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.RefSetter_Singleton:
-                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value, cmds: null);
+                    obj._RefSetter_Singleton_Object.CopyFieldsFrom(rhs: (IObjectToRef)pair.Value);
                     break;
                 case TestObject_HasBeenSet_ReadOnly_RPC_FieldIndex.List:
                     obj._List.SetTo((IEnumerable<Boolean>)pair.Value, null);

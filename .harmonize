@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e60e0c96ed79b6a1ccda88a5776be8f04b3bed95</Sha>
+         <Sha>7b7f749c462776488ecfc57f3cf31c8de58768e1</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-30-2018 21:55:08</CommitDate>
-         <Description>Merge remote-tracking branch 'origin/Dev'</Description>
+         <CommitDate>02-04-2018 19:21:18</CommitDate>
+         <Description>SortedListExt.TryCreate</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
