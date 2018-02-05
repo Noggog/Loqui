@@ -7,7 +7,6 @@ namespace Loqui.Generation
 {
     public class DictType_KeyedValue : TypeGeneration, IDictType
     {
-        protected XElement node;
         public LoquiType ValueTypeGen;
         TypeGeneration IDictType.ValueTypeGen => this.ValueTypeGen;
         public TypeGeneration KeyTypeGen;
@@ -31,11 +30,6 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.node = node;
-        }
-
-        public override async Task Resolve()
-        {
             var keyedValNode = node.Element(XName.Get(Constants.KEYED_VALUE, LoquiGenerator.Namespace));
             if (keyedValNode == null)
             {
@@ -63,6 +57,7 @@ namespace Loqui.Generation
             }
 
             this.KeyAccessorString = keyAccessorAttr.Value;
+            await this.ValueTypeGen.TargetObjectGeneration.LoadingCompleteTask.Task;
             this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
             if (this.KeyTypeGen == null)
             {
