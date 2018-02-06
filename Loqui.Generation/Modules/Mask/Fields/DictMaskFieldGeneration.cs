@@ -85,8 +85,6 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 DictType dictType = field as DictType;
-                LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
-                LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
 
                 if (topLevel)
                 {

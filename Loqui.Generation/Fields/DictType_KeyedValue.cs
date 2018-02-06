@@ -57,11 +57,26 @@ namespace Loqui.Generation
             }
 
             this.KeyAccessorString = keyAccessorAttr.Value;
-            await this.ValueTypeGen.TargetObjectGeneration.LoadingCompleteTask.Task;
-            this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
-            if (this.KeyTypeGen == null)
+            if (this.ValueTypeGen.GenericDef == null)
             {
-                throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
+                await this.ValueTypeGen.TargetObjectGeneration.LoadingCompleteTask.Task;
+                this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
+                if (this.KeyTypeGen == null)
+                {
+                    throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
+                }
+            }
+            else
+            {
+                if (!keyedValNode.TryGetAttribute<string>(Constants.KEY_TYPE, out var keyTypeName))
+                {
+                    throw new ArgumentException("Cannot have a generic keyed reference without manually specifying keyType");
+                }
+                if (!this.ObjectGen.ProtoGen.Gen.TryGetTypeGeneration(keyTypeName, out var keyTypeGen))
+                {
+                    throw new ArgumentException($"Generic keyed type specification did not link to a known field type: {keyTypeName}");
+                }
+                this.KeyTypeGen = keyTypeGen;
             }
             await base.Resolve();
 
@@ -148,6 +163,7 @@ namespace Loqui.Generation
             string cmdsAccessor,
             bool protectedMembers)
         {
+            var loqui = this.ValueTypeGen as LoquiType;
             using (var args = new ArgsWrapper(fg,
                 $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
             {
@@ -170,7 +186,9 @@ namespace Loqui.Generation
                             gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
                             using (new DepthWrapper(gen))
                             {
-                                gen.AppendLine($"return r.Copy(copyMask?.{this.Name}.Specific, d);");
+                                loqui.GenerateTypicalMakeCopy(
+                                    gen,
+                                    copyMaskAccessor: copyMaskAccessor);
                             }
                             gen.AppendLine($"default:");
                             using (new DepthWrapper(gen))

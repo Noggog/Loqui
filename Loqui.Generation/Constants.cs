@@ -32,6 +32,7 @@ namespace Loqui.Generation
         public const string INTERFACE_TYPE = "interfaceType";
         public const string KEYED_VALUE = "KeyedValue";
         public const string KEY_ACCESSOR = "keyAccessor";
+        public const string KEY_TYPE = "keyType";
         public const string GENERIC_SPECIFICATION = "GenericSpecification";
         public const string GENERIC_MAPPING = "GenericMapping";
         public const string TYPE_TO_SPECIFY = "TypeToSpecify";

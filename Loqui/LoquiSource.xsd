@@ -668,6 +668,7 @@
       <xs:element name="Ref" type="Ref" />
     </xs:sequence>
     <xs:attribute name="keyAccessor" use="required" />
+    <xs:attribute name="keyType" type="xs:string" />
   </xs:complexType>
 
   <xs:complexType name="Field" >

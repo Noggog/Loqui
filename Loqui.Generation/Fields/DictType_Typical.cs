@@ -12,6 +12,7 @@ namespace Loqui.Generation
         protected bool ValueIsLoqui;
         public TypeGeneration KeyTypeGen;
         TypeGeneration IDictType.KeyTypeGen => this.KeyTypeGen;
+        public string KeyTypeName => KeyTypeGen.TypeName;
         protected bool KeyIsLoqui;
         public DictMode Mode => DictMode.KeyValue;
         public bool BothAreLoqui => KeyIsLoqui && ValueIsLoqui;

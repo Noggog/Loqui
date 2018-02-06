@@ -156,11 +156,20 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var dictType = typeGen as IDictType;
-            if (!XmlMod.TryGetTypeGeneration(dictType.KeyTypeGen.GetType(), out var keySubTransl))
+            XmlTranslationGeneration keySubTransl;
+            TypeGeneration keyTypeGen = dictType.KeyTypeGen;
+            if (keyTypeGen == null)
             {
-                throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
+                if (!this.XmlMod.Gen.TryGetTypeGeneration(dictType.KeyTypeGen.TypeName, out keyTypeGen))
+                {
+                    throw new ArgumentException($"Could not find dictionary key type for {dictType.KeyTypeGen.TypeName}");
+                }
             }
-            var keySubMaskStr = keySubTransl.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen);
+            if (!XmlMod.TryGetTypeGeneration(keyTypeGen.GetType(), out keySubTransl))
+            {
+                throw new ArgumentException("Unsupported type generator: " + keyTypeGen);
+            }
+            var keySubMaskStr = keySubTransl.MaskModule.GetMaskModule(keyTypeGen.GetType()).GetErrorMaskTypeStr(keyTypeGen);
 
             if (!XmlMod.TryGetTypeGeneration(dictType.ValueTypeGen.GetType(), out var valSubTransl))
             {
@@ -212,11 +221,11 @@ namespace Loqui.Generation
                 {
                     args.Add((gen) =>
                     {
-                        gen.AppendLine($"keyTransl: (XElement r, bool dictDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(dictType.KeyTypeGen.GetType()).GetErrorMaskTypeStr(dictType.KeyTypeGen)} dictSubMask) =>");
+                        gen.AppendLine($"keyTransl: (XElement r, bool dictDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(keyTypeGen.GetType()).GetErrorMaskTypeStr(keyTypeGen)} dictSubMask) =>");
                         using (new BraceWrapper(gen))
                         {
-                            var xmlGen = XmlMod.GetTypeGeneration(dictType.KeyTypeGen.GetType());
-                            xmlGen.GenerateCopyInRet(gen, dictType.KeyTypeGen, "r", new Accessor("return "), "dictDoMasks", "dictSubMask");
+                            var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
+                            xmlGen.GenerateCopyInRet(gen, keyTypeGen, "r", new Accessor("return "), "dictDoMasks", "dictSubMask");
                         }
                     });
                 }

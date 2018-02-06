@@ -9082,7 +9082,11 @@ namespace Loqui.Tests.Internals
                                 case CopyOption.Reference:
                                     return r;
                                 case CopyOption.MakeCopy:
-                                    return r.Copy(copyMask?.DictKeyedValue.Specific, d);
+                                    if (r == null) return default(ObjectToRef);
+                                    return ObjectToRef.Copy(
+                                        r,
+                                        copyMask?.DictKeyedValue?.Specific,
+                                        def: d);
                                 default:
                                     throw new NotImplementedException($"Unknown CopyOption {copyMask?.DictKeyedValue.Overall}. Cannot execute copy.");
                             }
