@@ -1063,5 +1063,31 @@ namespace Loqui.Generation
         {
             return this.SingletonType == SingletonLevel.None;
         }
+
+        public bool TryGetSpecificationAsObject(string genName, out ObjectGeneration obj)
+        {
+            var specifications = this.GenericSpecification?.Specifications;
+            if (specifications == null)
+            {
+                obj = null;
+                return false;
+            }
+
+            if (!specifications.TryGetValue(genName, out var specVal))
+            {
+                obj = null;
+                return false;
+            }
+
+            if (!ObjectNamedKey.TryFactory(specVal, out var objKey))
+            {
+                obj = null;
+                return false;
+            }
+
+            return this.ObjectGen.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(
+                objKey,
+                out obj);
+        }
     }
 }
