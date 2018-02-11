@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("IObjectToRefGetter _RefGetter_Singleton_Object = new ObjectToRef();"))
+            if (str.Contains("INotifyingSetItem<Byte[]> INPC.FaceGenGeometrySymmetric_Property => this.FaceGenGeometrySymmetric_Property;"))
             {
                 int wer = 23;
                 wer++;

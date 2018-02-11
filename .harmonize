@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>7b7f749c462776488ecfc57f3cf31c8de58768e1</Sha>
+         <Sha>d6d7b3465d92e0b29e36bdd43f8f5225f7368ac2</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-04-2018 19:21:18</CommitDate>
-         <Description>SortedListExt.TryCreate</Description>
+         <CommitDate>02-11-2018 15:52:26</CommitDate>
+         <Description>NotifyingItem hide in debugger work</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

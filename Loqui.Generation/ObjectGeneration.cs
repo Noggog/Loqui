@@ -995,6 +995,7 @@ namespace Loqui.Generation
         #region Generation Snippets
         protected void GenerateRegistrationRouting(FileGeneration fg)
         {
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine($"public{NewOverride}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine();

@@ -73,6 +73,7 @@ namespace Loqui.Generation
                         GenerateNotifyingCtor(fg);
                     }
                     fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -81,8 +82,10 @@ namespace Loqui.Generation
                     }
                     if (!this.ReadOnly)
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
                 else
@@ -96,6 +99,7 @@ namespace Loqui.Generation
                         GenerateNotifyingCtor(fg);
                     }
                     fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -104,8 +108,10 @@ namespace Loqui.Generation
                     }
                     if (!this.ReadOnly)
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
             }
@@ -124,6 +130,7 @@ namespace Loqui.Generation
                             GenerateNotifyingCtor(fg);
                         }
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
@@ -213,6 +220,7 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             string item;
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             if (this.Notifying)
             {
                 if (this.HasBeenSet)

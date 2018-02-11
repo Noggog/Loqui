@@ -22,10 +22,12 @@ namespace Loqui.Generation
         {
             if (MaxValue.HasValue)
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingListBounded<{ItemTypeName}>(max: {MaxValue});");
             }
             else
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
             }
             fg.AppendLine($"public INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
@@ -35,6 +37,7 @@ namespace Loqui.Generation
             }
             else
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable");
                 using (new BraceWrapper(fg))
                 {
@@ -52,8 +55,10 @@ namespace Loqui.Generation
                 // Get nth
                 if (!this.ReadOnly)
                 {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"INotifyingListGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }

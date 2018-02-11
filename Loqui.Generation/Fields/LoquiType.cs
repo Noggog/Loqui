@@ -219,9 +219,11 @@ namespace Loqui.Generation
                     switch (this.SingletonType)
                     {
                         case SingletonLevel.None:
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItem<{TypeName}>();");
                             break;
                         case SingletonLevel.NotNull:
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItemConvertWrapper<{TypeName}>(");
                             using (new DepthWrapper(fg))
                             {
@@ -240,19 +242,25 @@ namespace Loqui.Generation
                             fg.AppendLine(");");
                             break;
                         case SingletonLevel.Singleton:
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
                             fg.AppendLine(GetNotifyingProperty() + ";");
                             break;
                         default:
                             throw new NotImplementedException();
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public INotifyingSetItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
                     if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
                 else
@@ -287,7 +295,9 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public INotifyingItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
                     if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
@@ -314,6 +324,7 @@ namespace Loqui.Generation
                     {
                         GenerateNotifyingCtor(fg);
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -331,7 +342,9 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
                 }
                 else
@@ -341,6 +354,7 @@ namespace Loqui.Generation
                         case SingletonLevel.None:
                             if (this.RaisePropertyChanged)
                             {
+                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                 fg.AppendLine($"private {TypeName} _{this.Name};");
                                 fg.AppendLine($"public {TypeName} {this.Name}");
                                 using (new BraceWrapper(fg))
@@ -355,6 +369,7 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.NotNull:
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.DirectTypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name}");
                             using (new BraceWrapper(fg))
@@ -364,6 +379,7 @@ namespace Loqui.Generation
                             }
                             break;
                         case SingletonLevel.Singleton:
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
                             fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
