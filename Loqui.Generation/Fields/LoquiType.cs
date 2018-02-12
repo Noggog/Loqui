@@ -454,8 +454,10 @@ namespace Loqui.Generation
             }
             else
             {
-                return node.Element(XName.Get(Constants.DIRECT, LoquiGenerator.Namespace));
+                var ret = node.Element(XName.Get(Constants.DIRECT, LoquiGenerator.Namespace));
+                if (ret != null) return ret;
             }
+            return node;
         }
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -466,8 +468,12 @@ namespace Loqui.Generation
             XElement refNode = GetRefNode(node);
             var genericNode = node.Element(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace));
 
-            if (refNode != null
-                && !string.IsNullOrWhiteSpace(refNode.Value)
+            if (this.RefName == null)
+            {
+                this.RefName = refNode?.GetAttribute(Constants.REF_NAME);
+            }
+
+            if (this.RefName != null
                 && genericNode != null
                 && !string.IsNullOrWhiteSpace(genericNode.Value))
             {
@@ -500,10 +506,6 @@ namespace Loqui.Generation
 
         public bool ParseRefNode(XElement refNode)
         {
-            if (this.RefName == null)
-            {
-                this.RefName = refNode?.GetAttribute(Constants.REF_NAME);
-            }
             if (string.IsNullOrWhiteSpace(this.RefName)) return false;
 
             this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);

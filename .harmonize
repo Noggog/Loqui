@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>d6d7b3465d92e0b29e36bdd43f8f5225f7368ac2</Sha>
+         <Sha>42c96be002292fef5e5e54c744744c8bee34bf3c</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-11-2018 15:52:26</CommitDate>
-         <Description>NotifyingItem hide in debugger work</Description>
+         <CommitDate>02-12-2018 16:44:01</CommitDate>
+         <Description>Subscribe wiring refactoring to make better use of internal callback and avoid unnecessary casts</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
