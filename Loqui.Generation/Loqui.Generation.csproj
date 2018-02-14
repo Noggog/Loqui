@@ -65,6 +65,8 @@
     <Compile Include="Fields\TypicalTypeGeneration\FilePathType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\DirectoryPathType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2FloatNullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2FloatType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\TypicalRangedIntType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />

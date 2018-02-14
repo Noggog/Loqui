@@ -140,6 +140,8 @@
       <xs:element name="Int64Null" type="RangedInt64" />
       <xs:element name="P2Int" type="String" />
       <xs:element name="P2IntNull" type="String" />
+      <xs:element name="P2Float" type="String" />
+      <xs:element name="P2FloatNull" type="String" />
       <xs:element name="P3Int" type="String" />
       <xs:element name="P3IntNull" type="String" />
       <xs:element name="P3Double" type="String" />
@@ -233,6 +235,8 @@
       <xs:element name="P2IntNull" type="NString" />
       <xs:element name="P3Int" type="NString" />
       <xs:element name="P3IntNull" type="NString" />
+      <xs:element name="P2Float" type="NString" />
+      <xs:element name="P2FloatNull" type="NString" />
       <xs:element name="P3Double" type="NString" />
       <xs:element name="P3DoubleNull" type="NString" />
       <xs:element name="P4Double" type="NString" />
