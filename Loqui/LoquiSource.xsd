@@ -191,7 +191,7 @@
       <xs:element name="DirectoryPathNull" type="String" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
-      <xs:element name="Color" type="Field" />
+      <xs:element name="Color" type="Color" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -289,7 +289,7 @@
       <xs:element name="DirectoryPathNull" type="NString" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
-      <xs:element name="Color" type="NField" />
+      <xs:element name="Color" type="NColor" />
       <xs:element name="UnsafeObject" type="Object" >
         <xs:annotation>
           <xs:documentation>
@@ -793,6 +793,21 @@
   <xs:complexType name="NString" >
     <xs:complexContent>
       <xs:extension base="String">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Color" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NColor" >
+    <xs:complexContent>
+      <xs:extension base="Color">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
