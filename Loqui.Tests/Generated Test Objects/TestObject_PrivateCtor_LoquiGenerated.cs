@@ -24,6 +24,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject_PrivateCtor : ITestObject_PrivateCtor, ILoquiObjectSetter, IEquatable<TestObject_PrivateCtor>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_PrivateCtor_Registration.Instance;
         public static TestObject_PrivateCtor_Registration Registration => TestObject_PrivateCtor_Registration.Instance;
 

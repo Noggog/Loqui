@@ -26,6 +26,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject_Derivative_RPC : ITestObject_Derivative_RPC, ILoquiObjectSetter, INotifyPropertyChanged, IEquatable<TestObject_Derivative_RPC>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_Derivative_RPC_Registration.Instance;
         public static TestObject_Derivative_RPC_Registration Registration => TestObject_Derivative_RPC_Registration.Instance;
 
@@ -912,6 +913,7 @@ namespace Loqui.Tests
         Object ITestObject_Derivative_RPCGetter.WildCardNull => this.WildCardNull;
         #endregion
         #region Ref
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref;
         public ObjectToRef Ref
         {
@@ -920,6 +922,7 @@ namespace Loqui.Tests
         }
         #endregion
         #region Ref_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref_NotNull = new ObjectToRef();
         public ObjectToRef Ref_NotNull
         {
@@ -928,10 +931,12 @@ namespace Loqui.Tests
         }
         #endregion
         #region Ref_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
         public ObjectToRef Ref_Singleton => _Ref_Singleton_Object;
         #endregion
         #region RefGetter
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRefGetter _RefGetter;
         public IObjectToRefGetter RefGetter
         {
@@ -940,6 +945,7 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefGetter_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRefGetter _RefGetter_NotNull = new ObjectToRef();
         public IObjectToRefGetter RefGetter_NotNull
         {
@@ -948,10 +954,12 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefGetter_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
         public IObjectToRefGetter RefGetter_Singleton => _RefGetter_Singleton_Object;
         #endregion
         #region RefSetter
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRef _RefSetter;
         public IObjectToRef RefSetter
         {
@@ -960,6 +968,7 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefSetter_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRef _RefSetter_NotNull = new ObjectToRef();
         public IObjectToRef RefSetter_NotNull
         {
@@ -968,23 +977,28 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefSetter_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
         public IObjectToRef RefSetter_Singleton => _RefSetter_Singleton_Object;
         #endregion
         #region List
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingListGetter<Boolean> List => _List;
         public IEnumerable<Boolean> ListEnumerable => _List;
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<Boolean> ITestObject_Derivative_RPCGetter.List => _List;
         #endregion
 
         #endregion
         #region RefList
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingListGetter<ObjectToRef> RefList => _RefList;
         public IEnumerable<ObjectToRef> RefListEnumerable => _RefList;
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<ObjectToRef> ITestObject_Derivative_RPCGetter.RefList => _RefList;
         #endregion
 

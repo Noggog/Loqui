@@ -26,6 +26,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject_Notifying_RPC : ITestObject_Notifying_RPC, ILoquiObjectSetter, INotifyPropertyChanged, IEquatable<TestObject_Notifying_RPC>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_RPC_Registration.Instance;
         public static TestObject_Notifying_RPC_Registration Registration => TestObject_Notifying_RPC_Registration.Instance;
 
@@ -184,121 +185,153 @@ namespace Loqui.Tests
         #region ByteArray
         protected readonly INotifyingItem<Byte[]> _ByteArray;
         public INotifyingItem<Byte[]> ByteArray_Property => _ByteArray;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArray
         {
             get => this._ByteArray.Item;
             set => this._ByteArray.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Byte[]> ITestObject_Notifying_RPC.ByteArray_Property => this.ByteArray_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_RPCGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
         protected readonly INotifyingItem<Byte[]> _ByteArrayNull;
         public INotifyingItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArrayNull
         {
             get => this._ByteArrayNull.Item;
             set => this._ByteArrayNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Byte[]> ITestObject_Notifying_RPC.ByteArrayNull_Property => this.ByteArrayNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_RPCGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
         protected readonly INotifyingItem<Byte[]> _ByteArrayNotNull;
         public INotifyingItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArrayNotNull
         {
             get => this._ByteArrayNotNull.Item;
             set => this._ByteArrayNotNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Byte[]> ITestObject_Notifying_RPC.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_RPCGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
         protected readonly INotifyingItem<Byte[]> _ByteArraySingleton;
         public INotifyingItemGetter<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArraySingleton
         {
             get => this._ByteArraySingleton.Item;
             protected set => this._ByteArraySingleton.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_RPCGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
         protected readonly INotifyingItem<Boolean?> _BoolN;
         public INotifyingItem<Boolean?> BoolN_Property => _BoolN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean? BoolN
         {
             get => this._BoolN.Item;
             set => this._BoolN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Boolean?> ITestObject_Notifying_RPC.BoolN_Property => this.BoolN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Boolean?> ITestObject_Notifying_RPCGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
         protected readonly INotifyingItem<Boolean> _Bool;
         public INotifyingItem<Boolean> Bool_Property => _Bool;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean Bool
         {
             get => this._Bool.Item;
             set => this._Bool.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Boolean> ITestObject_Notifying_RPC.Bool_Property => this.Bool_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Boolean> ITestObject_Notifying_RPCGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
         protected readonly INotifyingItem<Char?> _CharN;
         public INotifyingItem<Char?> CharN_Property => _CharN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char? CharN
         {
             get => this._CharN.Item;
             set => this._CharN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Char?> ITestObject_Notifying_RPC.CharN_Property => this.CharN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Char?> ITestObject_Notifying_RPCGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
         protected readonly INotifyingItem<Char> _Char;
         public INotifyingItem<Char> Char_Property => _Char;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char Char
         {
             get => this._Char.Item;
             set => this._Char.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Char> ITestObject_Notifying_RPC.Char_Property => this.Char_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Char> ITestObject_Notifying_RPCGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
         protected readonly INotifyingItem<DateTime?> _DateTimeNull;
         public INotifyingItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime? DateTimeNull
         {
             get => this._DateTimeNull.Item;
             set => this._DateTimeNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<DateTime?> ITestObject_Notifying_RPC.DateTimeNull_Property => this.DateTimeNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<DateTime?> ITestObject_Notifying_RPCGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
         protected readonly INotifyingItem<DateTime> _DateTime;
         public INotifyingItem<DateTime> DateTime_Property => _DateTime;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime DateTime
         {
             get => this._DateTime.Item;
             set => this._DateTime.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<DateTime> ITestObject_Notifying_RPC.DateTime_Property => this.DateTime_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<DateTime> ITestObject_Notifying_RPCGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
         protected readonly INotifyingItem<Double?> _DoubleN;
         public INotifyingItem<Double?> DoubleN_Property => _DoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double? DoubleN
         {
             get => this._DoubleN.Item;
             set => this._DoubleN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Double?> ITestObject_Notifying_RPC.DoubleN_Property => this.DoubleN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Double?> ITestObject_Notifying_RPCGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region DoubleN_Ranged
@@ -316,12 +349,15 @@ namespace Loqui.Tests
         #region Double
         protected readonly INotifyingItem<Double> _Double;
         public INotifyingItem<Double> Double_Property => _Double;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double Double
         {
             get => this._Double.Item;
             set => this._Double.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Double> ITestObject_Notifying_RPC.Double_Property => this.Double_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Double> ITestObject_Notifying_RPCGetter.Double_Property => this.Double_Property;
         #endregion
         #region Double_Ranged
@@ -339,12 +375,15 @@ namespace Loqui.Tests
         #region FloatN
         protected readonly INotifyingItem<Single?> _FloatN;
         public INotifyingItem<Single?> FloatN_Property => _FloatN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single? FloatN
         {
             get => this._FloatN.Item;
             set => this._FloatN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Single?> ITestObject_Notifying_RPC.FloatN_Property => this.FloatN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Single?> ITestObject_Notifying_RPCGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region FloatN_Ranged
@@ -362,12 +401,15 @@ namespace Loqui.Tests
         #region Float
         protected readonly INotifyingItem<Single> _Float;
         public INotifyingItem<Single> Float_Property => _Float;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single Float
         {
             get => this._Float.Item;
             set => this._Float.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Single> ITestObject_Notifying_RPC.Float_Property => this.Float_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Single> ITestObject_Notifying_RPCGetter.Float_Property => this.Float_Property;
         #endregion
         #region Float_Ranged
@@ -385,12 +427,15 @@ namespace Loqui.Tests
         #region Int16N
         protected readonly INotifyingItem<Int16?> _Int16N;
         public INotifyingItem<Int16?> Int16N_Property => _Int16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16? Int16N
         {
             get => this._Int16N.Item;
             set => this._Int16N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int16?> ITestObject_Notifying_RPC.Int16N_Property => this.Int16N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int16?> ITestObject_Notifying_RPCGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16N_Ranged
@@ -408,12 +453,15 @@ namespace Loqui.Tests
         #region Int16
         protected readonly INotifyingItem<Int16> _Int16;
         public INotifyingItem<Int16> Int16_Property => _Int16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16 Int16
         {
             get => this._Int16.Item;
             set => this._Int16.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int16> ITestObject_Notifying_RPC.Int16_Property => this.Int16_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int16> ITestObject_Notifying_RPCGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int16_Ranged
@@ -431,12 +479,15 @@ namespace Loqui.Tests
         #region Int32N
         protected readonly INotifyingItem<Int32?> _Int32N;
         public INotifyingItem<Int32?> Int32N_Property => _Int32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32? Int32N
         {
             get => this._Int32N.Item;
             set => this._Int32N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int32?> ITestObject_Notifying_RPC.Int32N_Property => this.Int32N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int32?> ITestObject_Notifying_RPCGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32N_Ranged
@@ -454,12 +505,15 @@ namespace Loqui.Tests
         #region Int32
         protected readonly INotifyingItem<Int32> _Int32;
         public INotifyingItem<Int32> Int32_Property => _Int32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32 Int32
         {
             get => this._Int32.Item;
             set => this._Int32.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int32> ITestObject_Notifying_RPC.Int32_Property => this.Int32_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int32> ITestObject_Notifying_RPCGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int32_Ranged
@@ -477,12 +531,15 @@ namespace Loqui.Tests
         #region Int64N
         protected readonly INotifyingItem<Int64?> _Int64N;
         public INotifyingItem<Int64?> Int64N_Property => _Int64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64? Int64N
         {
             get => this._Int64N.Item;
             set => this._Int64N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int64?> ITestObject_Notifying_RPC.Int64N_Property => this.Int64N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int64?> ITestObject_Notifying_RPCGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64N_Ranged
@@ -500,12 +557,15 @@ namespace Loqui.Tests
         #region Int64
         protected readonly INotifyingItem<Int64> _Int64;
         public INotifyingItem<Int64> Int64_Property => _Int64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64 Int64
         {
             get => this._Int64.Item;
             set => this._Int64.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Int64> ITestObject_Notifying_RPC.Int64_Property => this.Int64_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Int64> ITestObject_Notifying_RPCGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int64_Ranged
@@ -523,12 +583,15 @@ namespace Loqui.Tests
         #region Int8N
         protected readonly INotifyingItem<SByte?> _Int8N;
         public INotifyingItem<SByte?> Int8N_Property => _Int8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte? Int8N
         {
             get => this._Int8N.Item;
             set => this._Int8N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<SByte?> ITestObject_Notifying_RPC.Int8N_Property => this.Int8N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<SByte?> ITestObject_Notifying_RPCGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8N_Ranged
@@ -546,12 +609,15 @@ namespace Loqui.Tests
         #region Int8
         protected readonly INotifyingItem<SByte> _Int8;
         public INotifyingItem<SByte> Int8_Property => _Int8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte Int8
         {
             get => this._Int8.Item;
             set => this._Int8.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<SByte> ITestObject_Notifying_RPC.Int8_Property => this.Int8_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<SByte> ITestObject_Notifying_RPCGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Int8_Ranged
@@ -569,364 +635,463 @@ namespace Loqui.Tests
         #region Unsafe
         protected readonly INotifyingItem<bool> _Unsafe;
         public INotifyingItem<bool> Unsafe_Property => _Unsafe;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Unsafe
         {
             get => this._Unsafe.Item;
             set => this._Unsafe.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<bool> ITestObject_Notifying_RPC.Unsafe_Property => this.Unsafe_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<bool> ITestObject_Notifying_RPCGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
         protected readonly INotifyingItem<ObjectToRef> _UnsafeLoqui;
         public INotifyingItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeLoqui
         {
             get => this._UnsafeLoqui.Item;
             set => this._UnsafeLoqui.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<ObjectToRef> ITestObject_Notifying_RPC.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_RPCGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
         protected readonly INotifyingItem<ObjectToRef> _UnsafeNull;
         public INotifyingItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeNull
         {
             get => this._UnsafeNull.Item;
             set => this._UnsafeNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<ObjectToRef> ITestObject_Notifying_RPC.UnsafeNull_Property => this.UnsafeNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_RPCGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
         protected readonly INotifyingItem<P2Int?> _P2IntN;
         public INotifyingItem<P2Int?> P2IntN_Property => _P2IntN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int? P2IntN
         {
             get => this._P2IntN.Item;
             set => this._P2IntN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P2Int?> ITestObject_Notifying_RPC.P2IntN_Property => this.P2IntN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P2Int?> ITestObject_Notifying_RPCGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
         protected readonly INotifyingItem<P2Int> _P2Int;
         public INotifyingItem<P2Int> P2Int_Property => _P2Int;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int P2Int
         {
             get => this._P2Int.Item;
             set => this._P2Int.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P2Int> ITestObject_Notifying_RPC.P2Int_Property => this.P2Int_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P2Int> ITestObject_Notifying_RPCGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
         protected readonly INotifyingItem<P3Double?> _P3DoubleN;
         public INotifyingItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double? P3DoubleN
         {
             get => this._P3DoubleN.Item;
             set => this._P3DoubleN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P3Double?> ITestObject_Notifying_RPC.P3DoubleN_Property => this.P3DoubleN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P3Double?> ITestObject_Notifying_RPCGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
         protected readonly INotifyingItem<P3Double> _P3Double;
         public INotifyingItem<P3Double> P3Double_Property => _P3Double;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double P3Double
         {
             get => this._P3Double.Item;
             set => this._P3Double.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P3Double> ITestObject_Notifying_RPC.P3Double_Property => this.P3Double_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P3Double> ITestObject_Notifying_RPCGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
         protected readonly INotifyingItem<P3Int?> _P3IntN;
         public INotifyingItem<P3Int?> P3IntN_Property => _P3IntN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int? P3IntN
         {
             get => this._P3IntN.Item;
             set => this._P3IntN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P3Int?> ITestObject_Notifying_RPC.P3IntN_Property => this.P3IntN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P3Int?> ITestObject_Notifying_RPCGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
         protected readonly INotifyingItem<P3Int> _P3Int;
         public INotifyingItem<P3Int> P3Int_Property => _P3Int;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int P3Int
         {
             get => this._P3Int.Item;
             set => this._P3Int.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<P3Int> ITestObject_Notifying_RPC.P3Int_Property => this.P3Int_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<P3Int> ITestObject_Notifying_RPCGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
         protected readonly INotifyingItem<Percent?> _PercentN;
         public INotifyingItem<Percent?> PercentN_Property => _PercentN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent? PercentN
         {
             get => this._PercentN.Item;
             set => this._PercentN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Percent?> ITestObject_Notifying_RPC.PercentN_Property => this.PercentN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Percent?> ITestObject_Notifying_RPCGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
         protected readonly INotifyingItem<Percent> _Percent;
         public INotifyingItem<Percent> Percent_Property => _Percent;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent Percent
         {
             get => this._Percent.Item;
             set => this._Percent.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Percent> ITestObject_Notifying_RPC.Percent_Property => this.Percent_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Percent> ITestObject_Notifying_RPCGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
         protected readonly INotifyingItem<RangeInt8?> _RangeInt8N;
         public INotifyingItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8? RangeInt8N
         {
             get => this._RangeInt8N.Item;
             set => this._RangeInt8N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt8?> ITestObject_Notifying_RPC.RangeInt8N_Property => this.RangeInt8N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt8?> ITestObject_Notifying_RPCGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
         protected readonly INotifyingItem<RangeInt8> _RangeInt8;
         public INotifyingItem<RangeInt8> RangeInt8_Property => _RangeInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8 RangeInt8
         {
             get => this._RangeInt8.Item;
             set => this._RangeInt8.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt8> ITestObject_Notifying_RPC.RangeInt8_Property => this.RangeInt8_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt8> ITestObject_Notifying_RPCGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
         protected readonly INotifyingItem<RangeInt16?> _RangeInt16N;
         public INotifyingItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16? RangeInt16N
         {
             get => this._RangeInt16N.Item;
             set => this._RangeInt16N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt16?> ITestObject_Notifying_RPC.RangeInt16N_Property => this.RangeInt16N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt16?> ITestObject_Notifying_RPCGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
         protected readonly INotifyingItem<RangeInt16> _RangeInt16;
         public INotifyingItem<RangeInt16> RangeInt16_Property => _RangeInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16 RangeInt16
         {
             get => this._RangeInt16.Item;
             set => this._RangeInt16.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt16> ITestObject_Notifying_RPC.RangeInt16_Property => this.RangeInt16_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt16> ITestObject_Notifying_RPCGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
         protected readonly INotifyingItem<RangeInt32?> _RangeInt32N;
         public INotifyingItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32? RangeInt32N
         {
             get => this._RangeInt32N.Item;
             set => this._RangeInt32N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt32?> ITestObject_Notifying_RPC.RangeInt32N_Property => this.RangeInt32N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt32?> ITestObject_Notifying_RPCGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
         protected readonly INotifyingItem<RangeInt32> _RangeInt32;
         public INotifyingItem<RangeInt32> RangeInt32_Property => _RangeInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32 RangeInt32
         {
             get => this._RangeInt32.Item;
             set => this._RangeInt32.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt32> ITestObject_Notifying_RPC.RangeInt32_Property => this.RangeInt32_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt32> ITestObject_Notifying_RPCGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
         protected readonly INotifyingItem<RangeInt64?> _RangeInt64N;
         public INotifyingItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64? RangeInt64N
         {
             get => this._RangeInt64N.Item;
             set => this._RangeInt64N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt64?> ITestObject_Notifying_RPC.RangeInt64N_Property => this.RangeInt64N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt64?> ITestObject_Notifying_RPCGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
         protected readonly INotifyingItem<RangeInt64> _RangeInt64;
         public INotifyingItem<RangeInt64> RangeInt64_Property => _RangeInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64 RangeInt64
         {
             get => this._RangeInt64.Item;
             set => this._RangeInt64.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeInt64> ITestObject_Notifying_RPC.RangeInt64_Property => this.RangeInt64_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeInt64> ITestObject_Notifying_RPCGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
         protected readonly INotifyingItem<RangeUInt8?> _RangeUInt8N;
         public INotifyingItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8? RangeUInt8N
         {
             get => this._RangeUInt8N.Item;
             set => this._RangeUInt8N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt8?> ITestObject_Notifying_RPC.RangeUInt8N_Property => this.RangeUInt8N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt8?> ITestObject_Notifying_RPCGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
         protected readonly INotifyingItem<RangeUInt8> _RangeUInt8;
         public INotifyingItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8 RangeUInt8
         {
             get => this._RangeUInt8.Item;
             set => this._RangeUInt8.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt8> ITestObject_Notifying_RPC.RangeUInt8_Property => this.RangeUInt8_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt8> ITestObject_Notifying_RPCGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
         protected readonly INotifyingItem<RangeUInt16?> _RangeUInt16N;
         public INotifyingItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16? RangeUInt16N
         {
             get => this._RangeUInt16N.Item;
             set => this._RangeUInt16N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt16?> ITestObject_Notifying_RPC.RangeUInt16N_Property => this.RangeUInt16N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt16?> ITestObject_Notifying_RPCGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
         protected readonly INotifyingItem<RangeUInt16> _RangeUInt16;
         public INotifyingItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16 RangeUInt16
         {
             get => this._RangeUInt16.Item;
             set => this._RangeUInt16.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt16> ITestObject_Notifying_RPC.RangeUInt16_Property => this.RangeUInt16_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt16> ITestObject_Notifying_RPCGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
         protected readonly INotifyingItem<RangeUInt32?> _RangeUInt32N;
         public INotifyingItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32? RangeUInt32N
         {
             get => this._RangeUInt32N.Item;
             set => this._RangeUInt32N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt32?> ITestObject_Notifying_RPC.RangeUInt32N_Property => this.RangeUInt32N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt32?> ITestObject_Notifying_RPCGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
         protected readonly INotifyingItem<RangeUInt32> _RangeUInt32;
         public INotifyingItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32 RangeUInt32
         {
             get => this._RangeUInt32.Item;
             set => this._RangeUInt32.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt32> ITestObject_Notifying_RPC.RangeUInt32_Property => this.RangeUInt32_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt32> ITestObject_Notifying_RPCGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
         protected readonly INotifyingItem<RangeUInt64?> _RangeUInt64N;
         public INotifyingItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64? RangeUInt64N
         {
             get => this._RangeUInt64N.Item;
             set => this._RangeUInt64N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt64?> ITestObject_Notifying_RPC.RangeUInt64N_Property => this.RangeUInt64N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt64?> ITestObject_Notifying_RPCGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
         protected readonly INotifyingItem<RangeUInt64> _RangeUInt64;
         public INotifyingItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64 RangeUInt64
         {
             get => this._RangeUInt64.Item;
             set => this._RangeUInt64.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<RangeUInt64> ITestObject_Notifying_RPC.RangeUInt64_Property => this.RangeUInt64_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<RangeUInt64> ITestObject_Notifying_RPCGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
         protected readonly INotifyingItem<String> _String;
         public INotifyingItem<String> String_Property => _String;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public String String
         {
             get => this._String.Item;
             set => this._String.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<String> ITestObject_Notifying_RPC.String_Property => this.String_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<String> ITestObject_Notifying_RPCGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
         protected readonly INotifyingItem<FilePath> _FilePath;
         public INotifyingItem<FilePath> FilePath_Property => _FilePath;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath FilePath
         {
             get => this._FilePath.Item;
             set => this._FilePath.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<FilePath> ITestObject_Notifying_RPC.FilePath_Property => this.FilePath_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<FilePath> ITestObject_Notifying_RPCGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
         protected readonly INotifyingItem<FilePath?> _FilePathNull;
         public INotifyingItem<FilePath?> FilePathNull_Property => _FilePathNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath? FilePathNull
         {
             get => this._FilePathNull.Item;
             set => this._FilePathNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<FilePath?> ITestObject_Notifying_RPC.FilePathNull_Property => this.FilePathNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<FilePath?> ITestObject_Notifying_RPCGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
         protected readonly INotifyingItem<DirectoryPath> _DirectoryPath;
         public INotifyingItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath DirectoryPath
         {
             get => this._DirectoryPath.Item;
             set => this._DirectoryPath.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<DirectoryPath> ITestObject_Notifying_RPC.DirectoryPath_Property => this.DirectoryPath_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<DirectoryPath> ITestObject_Notifying_RPCGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
         protected readonly INotifyingItem<DirectoryPath?> _DirectoryPathNull;
         public INotifyingItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath? DirectoryPathNull
         {
             get => this._DirectoryPathNull.Item;
             set => this._DirectoryPathNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<DirectoryPath?> ITestObject_Notifying_RPC.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<DirectoryPath?> ITestObject_Notifying_RPCGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
         protected readonly INotifyingItem<UDouble?> _UDoubleN;
         public INotifyingItem<UDouble?> UDoubleN_Property => _UDoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble? UDoubleN
         {
             get => this._UDoubleN.Item;
             set => this._UDoubleN.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UDouble?> ITestObject_Notifying_RPC.UDoubleN_Property => this.UDoubleN_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UDouble?> ITestObject_Notifying_RPCGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDoubleN_Ranged
@@ -944,12 +1109,15 @@ namespace Loqui.Tests
         #region UDouble
         protected readonly INotifyingItem<UDouble> _UDouble;
         public INotifyingItem<UDouble> UDouble_Property => _UDouble;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble UDouble
         {
             get => this._UDouble.Item;
             set => this._UDouble.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UDouble> ITestObject_Notifying_RPC.UDouble_Property => this.UDouble_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UDouble> ITestObject_Notifying_RPCGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UDouble_Ranged
@@ -967,12 +1135,15 @@ namespace Loqui.Tests
         #region UInt16N
         protected readonly INotifyingItem<UInt16?> _UInt16N;
         public INotifyingItem<UInt16?> UInt16N_Property => _UInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16? UInt16N
         {
             get => this._UInt16N.Item;
             set => this._UInt16N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt16?> ITestObject_Notifying_RPC.UInt16N_Property => this.UInt16N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt16?> ITestObject_Notifying_RPCGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16N_Ranged
@@ -990,12 +1161,15 @@ namespace Loqui.Tests
         #region UInt16
         protected readonly INotifyingItem<UInt16> _UInt16;
         public INotifyingItem<UInt16> UInt16_Property => _UInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16 UInt16
         {
             get => this._UInt16.Item;
             set => this._UInt16.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt16> ITestObject_Notifying_RPC.UInt16_Property => this.UInt16_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt16> ITestObject_Notifying_RPCGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt16_Ranged
@@ -1013,12 +1187,15 @@ namespace Loqui.Tests
         #region UInt32N
         protected readonly INotifyingItem<UInt32?> _UInt32N;
         public INotifyingItem<UInt32?> UInt32N_Property => _UInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32? UInt32N
         {
             get => this._UInt32N.Item;
             set => this._UInt32N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt32?> ITestObject_Notifying_RPC.UInt32N_Property => this.UInt32N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt32?> ITestObject_Notifying_RPCGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32N_Ranged
@@ -1036,12 +1213,15 @@ namespace Loqui.Tests
         #region UInt32
         protected readonly INotifyingItem<UInt32> _UInt32;
         public INotifyingItem<UInt32> UInt32_Property => _UInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32 UInt32
         {
             get => this._UInt32.Item;
             set => this._UInt32.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt32> ITestObject_Notifying_RPC.UInt32_Property => this.UInt32_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt32> ITestObject_Notifying_RPCGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt32_Ranged
@@ -1059,12 +1239,15 @@ namespace Loqui.Tests
         #region UInt64N
         protected readonly INotifyingItem<UInt64?> _UInt64N;
         public INotifyingItem<UInt64?> UInt64N_Property => _UInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64? UInt64N
         {
             get => this._UInt64N.Item;
             set => this._UInt64N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt64?> ITestObject_Notifying_RPC.UInt64N_Property => this.UInt64N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt64?> ITestObject_Notifying_RPCGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64N_Ranged
@@ -1082,12 +1265,15 @@ namespace Loqui.Tests
         #region UInt64
         protected readonly INotifyingItem<UInt64> _UInt64;
         public INotifyingItem<UInt64> UInt64_Property => _UInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64 UInt64
         {
             get => this._UInt64.Item;
             set => this._UInt64.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<UInt64> ITestObject_Notifying_RPC.UInt64_Property => this.UInt64_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<UInt64> ITestObject_Notifying_RPCGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt64_Ranged
@@ -1105,12 +1291,15 @@ namespace Loqui.Tests
         #region UInt8N
         protected readonly INotifyingItem<Byte?> _UInt8N;
         public INotifyingItem<Byte?> UInt8N_Property => _UInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte? UInt8N
         {
             get => this._UInt8N.Item;
             set => this._UInt8N.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Byte?> ITestObject_Notifying_RPC.UInt8N_Property => this.UInt8N_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte?> ITestObject_Notifying_RPCGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8N_Ranged
@@ -1128,12 +1317,15 @@ namespace Loqui.Tests
         #region UInt8
         protected readonly INotifyingItem<Byte> _UInt8;
         public INotifyingItem<Byte> UInt8_Property => _UInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte UInt8
         {
             get => this._UInt8.Item;
             set => this._UInt8.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Byte> ITestObject_Notifying_RPC.UInt8_Property => this.UInt8_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Byte> ITestObject_Notifying_RPCGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region UInt8_Ranged
@@ -1151,23 +1343,29 @@ namespace Loqui.Tests
         #region Enum
         protected readonly INotifyingItem<TestEnum> _Enum;
         public INotifyingItem<TestEnum> Enum_Property => _Enum;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum Enum
         {
             get => this._Enum.Item;
             set => this._Enum.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<TestEnum> ITestObject_Notifying_RPC.Enum_Property => this.Enum_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<TestEnum> ITestObject_Notifying_RPCGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
         protected readonly INotifyingItem<TestEnum?> _EnumNull;
         public INotifyingItem<TestEnum?> EnumNull_Property => _EnumNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum? EnumNull
         {
             get => this._EnumNull.Item;
             set => this._EnumNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<TestEnum?> ITestObject_Notifying_RPC.EnumNull_Property => this.EnumNull_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<TestEnum?> ITestObject_Notifying_RPCGetter.EnumNull_Property => this.EnumNull_Property;
         #endregion
         #region WildCard
@@ -1199,7 +1397,9 @@ namespace Loqui.Tests
         #endregion
         #region Ref
         private readonly INotifyingItem<ObjectToRef> _Ref = new NotifyingItem<ObjectToRef>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<ObjectToRef> Ref_Property => this._Ref;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_Notifying_RPCGetter.Ref => this.Ref;
         public ObjectToRef Ref { get => _Ref.Item; set => _Ref.Item = value; }
         INotifyingItem<ObjectToRef> ITestObject_Notifying_RPC.Ref_Property => this.Ref_Property;
@@ -1217,7 +1417,9 @@ namespace Loqui.Tests
                 return TryGet<ObjectToRef>.Succeed(change.New);
             }
         );
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<ObjectToRef> Ref_NotNull_Property => this._Ref_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_Notifying_RPCGetter.Ref_NotNull => this.Ref_NotNull;
         public ObjectToRef Ref_NotNull { get => _Ref_NotNull.Item; set => _Ref_NotNull.Item = value; }
         INotifyingItem<ObjectToRef> ITestObject_Notifying_RPC.Ref_NotNull_Property => this.Ref_NotNull_Property;
@@ -1226,14 +1428,18 @@ namespace Loqui.Tests
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
         protected readonly INotifyingItem<ObjectToRef> _Ref_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_Notifying_RPCGetter.Ref_Singleton => this.Ref_Singleton;
         public ObjectToRef Ref_Singleton { get => _Ref_Singleton.Item; }
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_RPCGetter.Ref_Singleton_Property => this.Ref_Singleton_Property;
         #endregion
         #region RefGetter
         private readonly INotifyingItem<IObjectToRefGetter> _RefGetter = new NotifyingItem<IObjectToRefGetter>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<IObjectToRefGetter> RefGetter_Property => this._RefGetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_Notifying_RPCGetter.RefGetter => this.RefGetter;
         public IObjectToRefGetter RefGetter { get => _RefGetter.Item; set => _RefGetter.Item = value; }
         INotifyingItem<IObjectToRefGetter> ITestObject_Notifying_RPC.RefGetter_Property => this.RefGetter_Property;
@@ -1251,7 +1457,9 @@ namespace Loqui.Tests
                 return TryGet<IObjectToRefGetter>.Succeed(change.New);
             }
         );
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<IObjectToRefGetter> RefGetter_NotNull_Property => this._RefGetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_Notifying_RPCGetter.RefGetter_NotNull => this.RefGetter_NotNull;
         public IObjectToRefGetter RefGetter_NotNull { get => _RefGetter_NotNull.Item; set => _RefGetter_NotNull.Item = value; }
         INotifyingItem<IObjectToRefGetter> ITestObject_Notifying_RPC.RefGetter_NotNull_Property => this.RefGetter_NotNull_Property;
@@ -1260,14 +1468,18 @@ namespace Loqui.Tests
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
         protected readonly INotifyingItem<IObjectToRefGetter> _RefGetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_Notifying_RPCGetter.RefGetter_Singleton => this.RefGetter_Singleton;
         public IObjectToRefGetter RefGetter_Singleton { get => _RefGetter_Singleton.Item; }
         INotifyingItemGetter<IObjectToRefGetter> ITestObject_Notifying_RPCGetter.RefGetter_Singleton_Property => this.RefGetter_Singleton_Property;
         #endregion
         #region RefSetter
         private readonly INotifyingItem<IObjectToRef> _RefSetter = new NotifyingItem<IObjectToRef>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<IObjectToRef> RefSetter_Property => this._RefSetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_Notifying_RPCGetter.RefSetter => this.RefSetter;
         public IObjectToRef RefSetter { get => _RefSetter.Item; set => _RefSetter.Item = value; }
         INotifyingItem<IObjectToRef> ITestObject_Notifying_RPC.RefSetter_Property => this.RefSetter_Property;
@@ -1285,7 +1497,9 @@ namespace Loqui.Tests
                 return TryGet<IObjectToRef>.Succeed(change.New);
             }
         );
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItem<IObjectToRef> RefSetter_NotNull_Property => this._RefSetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_Notifying_RPCGetter.RefSetter_NotNull => this.RefSetter_NotNull;
         public IObjectToRef RefSetter_NotNull { get => _RefSetter_NotNull.Item; set => _RefSetter_NotNull.Item = value; }
         INotifyingItem<IObjectToRef> ITestObject_Notifying_RPC.RefSetter_NotNull_Property => this.RefSetter_NotNull_Property;
@@ -1294,35 +1508,45 @@ namespace Loqui.Tests
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
         protected readonly INotifyingItem<IObjectToRef> _RefSetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_Notifying_RPCGetter.RefSetter_Singleton => this.RefSetter_Singleton;
         public IObjectToRef RefSetter_Singleton { get => _RefSetter_Singleton.Item; }
         INotifyingItemGetter<IObjectToRef> ITestObject_Notifying_RPCGetter.RefSetter_Singleton_Property => this.RefSetter_Singleton_Property;
         #endregion
         #region List
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<Boolean> ListEnumerable
         {
             get => _List;
             set => _List.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<Boolean> ITestObject_Notifying_RPC.List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<Boolean> ITestObject_Notifying_RPCGetter.List => _List;
         #endregion
 
         #endregion
         #region RefList
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<ObjectToRef> RefListEnumerable
         {
             get => _RefList;
             set => _RefList.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<ObjectToRef> ITestObject_Notifying_RPC.RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<ObjectToRef> ITestObject_Notifying_RPCGetter.RefList => _RefList;
         #endregion
 

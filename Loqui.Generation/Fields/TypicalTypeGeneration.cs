@@ -220,7 +220,6 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             string item;
-            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             if (this.Notifying)
             {
                 if (this.HasBeenSet)

@@ -26,6 +26,7 @@ namespace Loqui.Tests
     public partial class TestGenericObject_SubClass_Defined<RBase> : TestGenericObject<long, RBase, ObjectToRef>, ITestGenericObject_SubClass_Defined<RBase>, ILoquiObjectSetter, IEquatable<TestGenericObject_SubClass_Defined<RBase>>
         where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestGenericObject_SubClass_Defined_Registration.Instance;
         public new static TestGenericObject_SubClass_Defined_Registration Registration => TestGenericObject_SubClass_Defined_Registration.Instance;
 

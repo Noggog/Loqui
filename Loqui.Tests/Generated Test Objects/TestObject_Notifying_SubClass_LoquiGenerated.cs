@@ -25,6 +25,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject_Notifying_SubClass : TestObject_Notifying, ITestObject_Notifying_SubClass, ILoquiObjectSetter, IEquatable<TestObject_Notifying_SubClass>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_Notifying_SubClass_Registration.Instance;
         public new static TestObject_Notifying_SubClass_Registration Registration => TestObject_Notifying_SubClass_Registration.Instance;
 
@@ -39,12 +40,15 @@ namespace Loqui.Tests
         #region NewField
         protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>();
         public INotifyingItem<Boolean> NewField_Property => _NewField;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean NewField
         {
             get => this._NewField.Item;
             set => this._NewField.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItem<Boolean> ITestObject_Notifying_SubClass.NewField_Property => this.NewField_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingItemGetter<Boolean> ITestObject_Notifying_SubClassGetter.NewField_Property => this.NewField_Property;
         #endregion
 

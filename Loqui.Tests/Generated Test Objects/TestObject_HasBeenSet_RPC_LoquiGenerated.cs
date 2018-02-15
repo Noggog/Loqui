@@ -26,6 +26,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject_HasBeenSet_RPC : ITestObject_HasBeenSet_RPC, ILoquiObjectSetter, INotifyPropertyChanged, IEquatable<TestObject_HasBeenSet_RPC>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_HasBeenSet_RPC_Registration.Instance;
         public static TestObject_HasBeenSet_RPC_Registration Registration => TestObject_HasBeenSet_RPC_Registration.Instance;
 
@@ -389,50 +390,63 @@ namespace Loqui.Tests
         #region ByteArray
         protected readonly IHasBeenSetItem<Byte[]> _ByteArray;
         public IHasBeenSetItem<Byte[]> ByteArray_Property => _ByteArray;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArray
         {
             get => this._ByteArray.Item;
             set => this._ByteArray.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Byte[] ITestObject_HasBeenSet_RPCGetter.ByteArray => this.ByteArray;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_RPCGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
         protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNull;
         public IHasBeenSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArrayNull
         {
             get => this._ByteArrayNull.Item;
             set => this._ByteArrayNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Byte[] ITestObject_HasBeenSet_RPCGetter.ByteArrayNull => this.ByteArrayNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_RPCGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
         protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNotNull;
         public IHasBeenSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArrayNotNull
         {
             get => this._ByteArrayNotNull.Item;
             set => this._ByteArrayNotNull.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Byte[] ITestObject_HasBeenSet_RPCGetter.ByteArrayNotNull => this.ByteArrayNotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_RPCGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
         protected readonly IHasBeenSetItem<Byte[]> _ByteArraySingleton;
         public IHasBeenSetItem<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArraySingleton
         {
             get => this._ByteArraySingleton.Item;
             protected set => this._ByteArraySingleton.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Byte[] ITestObject_HasBeenSet_RPCGetter.ByteArraySingleton => this.ByteArraySingleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSet_RPCGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
         protected readonly IHasBeenSetItem<Boolean?> _BoolN;
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean? BoolN
         {
             get => this._BoolN.Item;
@@ -444,6 +458,7 @@ namespace Loqui.Tests
         #region Bool
         protected readonly IHasBeenSetItem<Boolean> _Bool;
         public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean Bool
         {
             get => this._Bool.Item;
@@ -455,6 +470,7 @@ namespace Loqui.Tests
         #region CharN
         protected readonly IHasBeenSetItem<Char?> _CharN;
         public IHasBeenSetItem<Char?> CharN_Property => _CharN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char? CharN
         {
             get => this._CharN.Item;
@@ -466,6 +482,7 @@ namespace Loqui.Tests
         #region Char
         protected readonly IHasBeenSetItem<Char> _Char;
         public IHasBeenSetItem<Char> Char_Property => _Char;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char Char
         {
             get => this._Char.Item;
@@ -477,6 +494,7 @@ namespace Loqui.Tests
         #region DateTimeNull
         protected readonly IHasBeenSetItem<DateTime?> _DateTimeNull;
         public IHasBeenSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime? DateTimeNull
         {
             get => this._DateTimeNull.Item;
@@ -488,6 +506,7 @@ namespace Loqui.Tests
         #region DateTime
         protected readonly IHasBeenSetItem<DateTime> _DateTime;
         public IHasBeenSetItem<DateTime> DateTime_Property => _DateTime;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime DateTime
         {
             get => this._DateTime.Item;
@@ -499,6 +518,7 @@ namespace Loqui.Tests
         #region DoubleN
         protected readonly IHasBeenSetItem<Double?> _DoubleN;
         public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double? DoubleN
         {
             get => this._DoubleN.Item;
@@ -522,6 +542,7 @@ namespace Loqui.Tests
         #region Double
         protected readonly IHasBeenSetItem<Double> _Double;
         public IHasBeenSetItem<Double> Double_Property => _Double;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double Double
         {
             get => this._Double.Item;
@@ -545,6 +566,7 @@ namespace Loqui.Tests
         #region FloatN
         protected readonly IHasBeenSetItem<Single?> _FloatN;
         public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single? FloatN
         {
             get => this._FloatN.Item;
@@ -568,6 +590,7 @@ namespace Loqui.Tests
         #region Float
         protected readonly IHasBeenSetItem<Single> _Float;
         public IHasBeenSetItem<Single> Float_Property => _Float;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single Float
         {
             get => this._Float.Item;
@@ -591,6 +614,7 @@ namespace Loqui.Tests
         #region Int16N
         protected readonly IHasBeenSetItem<Int16?> _Int16N;
         public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16? Int16N
         {
             get => this._Int16N.Item;
@@ -614,6 +638,7 @@ namespace Loqui.Tests
         #region Int16
         protected readonly IHasBeenSetItem<Int16> _Int16;
         public IHasBeenSetItem<Int16> Int16_Property => _Int16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16 Int16
         {
             get => this._Int16.Item;
@@ -637,6 +662,7 @@ namespace Loqui.Tests
         #region Int32N
         protected readonly IHasBeenSetItem<Int32?> _Int32N;
         public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32? Int32N
         {
             get => this._Int32N.Item;
@@ -660,6 +686,7 @@ namespace Loqui.Tests
         #region Int32
         protected readonly IHasBeenSetItem<Int32> _Int32;
         public IHasBeenSetItem<Int32> Int32_Property => _Int32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32 Int32
         {
             get => this._Int32.Item;
@@ -683,6 +710,7 @@ namespace Loqui.Tests
         #region Int64N
         protected readonly IHasBeenSetItem<Int64?> _Int64N;
         public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64? Int64N
         {
             get => this._Int64N.Item;
@@ -706,6 +734,7 @@ namespace Loqui.Tests
         #region Int64
         protected readonly IHasBeenSetItem<Int64> _Int64;
         public IHasBeenSetItem<Int64> Int64_Property => _Int64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64 Int64
         {
             get => this._Int64.Item;
@@ -729,6 +758,7 @@ namespace Loqui.Tests
         #region Int8N
         protected readonly IHasBeenSetItem<SByte?> _Int8N;
         public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte? Int8N
         {
             get => this._Int8N.Item;
@@ -752,6 +782,7 @@ namespace Loqui.Tests
         #region Int8
         protected readonly IHasBeenSetItem<SByte> _Int8;
         public IHasBeenSetItem<SByte> Int8_Property => _Int8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte Int8
         {
             get => this._Int8.Item;
@@ -775,6 +806,7 @@ namespace Loqui.Tests
         #region Unsafe
         protected readonly IHasBeenSetItem<bool> _Unsafe;
         public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Unsafe
         {
             get => this._Unsafe.Item;
@@ -786,6 +818,7 @@ namespace Loqui.Tests
         #region UnsafeLoqui
         protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeLoqui;
         public IHasBeenSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeLoqui
         {
             get => this._UnsafeLoqui.Item;
@@ -797,6 +830,7 @@ namespace Loqui.Tests
         #region UnsafeNull
         protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeNull;
         public IHasBeenSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeNull
         {
             get => this._UnsafeNull.Item;
@@ -808,6 +842,7 @@ namespace Loqui.Tests
         #region P2IntN
         protected readonly IHasBeenSetItem<P2Int?> _P2IntN;
         public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int? P2IntN
         {
             get => this._P2IntN.Item;
@@ -819,6 +854,7 @@ namespace Loqui.Tests
         #region P2Int
         protected readonly IHasBeenSetItem<P2Int> _P2Int;
         public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int P2Int
         {
             get => this._P2Int.Item;
@@ -830,6 +866,7 @@ namespace Loqui.Tests
         #region P3DoubleN
         protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN;
         public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double? P3DoubleN
         {
             get => this._P3DoubleN.Item;
@@ -841,6 +878,7 @@ namespace Loqui.Tests
         #region P3Double
         protected readonly IHasBeenSetItem<P3Double> _P3Double;
         public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double P3Double
         {
             get => this._P3Double.Item;
@@ -852,6 +890,7 @@ namespace Loqui.Tests
         #region P3IntN
         protected readonly IHasBeenSetItem<P3Int?> _P3IntN;
         public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int? P3IntN
         {
             get => this._P3IntN.Item;
@@ -863,6 +902,7 @@ namespace Loqui.Tests
         #region P3Int
         protected readonly IHasBeenSetItem<P3Int> _P3Int;
         public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int P3Int
         {
             get => this._P3Int.Item;
@@ -874,6 +914,7 @@ namespace Loqui.Tests
         #region PercentN
         protected readonly IHasBeenSetItem<Percent?> _PercentN;
         public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent? PercentN
         {
             get => this._PercentN.Item;
@@ -885,6 +926,7 @@ namespace Loqui.Tests
         #region Percent
         protected readonly IHasBeenSetItem<Percent> _Percent;
         public IHasBeenSetItem<Percent> Percent_Property => _Percent;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent Percent
         {
             get => this._Percent.Item;
@@ -896,6 +938,7 @@ namespace Loqui.Tests
         #region RangeInt8N
         protected readonly IHasBeenSetItem<RangeInt8?> _RangeInt8N;
         public IHasBeenSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8? RangeInt8N
         {
             get => this._RangeInt8N.Item;
@@ -907,6 +950,7 @@ namespace Loqui.Tests
         #region RangeInt8
         protected readonly IHasBeenSetItem<RangeInt8> _RangeInt8;
         public IHasBeenSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8 RangeInt8
         {
             get => this._RangeInt8.Item;
@@ -918,6 +962,7 @@ namespace Loqui.Tests
         #region RangeInt16N
         protected readonly IHasBeenSetItem<RangeInt16?> _RangeInt16N;
         public IHasBeenSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16? RangeInt16N
         {
             get => this._RangeInt16N.Item;
@@ -929,6 +974,7 @@ namespace Loqui.Tests
         #region RangeInt16
         protected readonly IHasBeenSetItem<RangeInt16> _RangeInt16;
         public IHasBeenSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16 RangeInt16
         {
             get => this._RangeInt16.Item;
@@ -940,6 +986,7 @@ namespace Loqui.Tests
         #region RangeInt32N
         protected readonly IHasBeenSetItem<RangeInt32?> _RangeInt32N;
         public IHasBeenSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32? RangeInt32N
         {
             get => this._RangeInt32N.Item;
@@ -951,6 +998,7 @@ namespace Loqui.Tests
         #region RangeInt32
         protected readonly IHasBeenSetItem<RangeInt32> _RangeInt32;
         public IHasBeenSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32 RangeInt32
         {
             get => this._RangeInt32.Item;
@@ -962,6 +1010,7 @@ namespace Loqui.Tests
         #region RangeInt64N
         protected readonly IHasBeenSetItem<RangeInt64?> _RangeInt64N;
         public IHasBeenSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64? RangeInt64N
         {
             get => this._RangeInt64N.Item;
@@ -973,6 +1022,7 @@ namespace Loqui.Tests
         #region RangeInt64
         protected readonly IHasBeenSetItem<RangeInt64> _RangeInt64;
         public IHasBeenSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64 RangeInt64
         {
             get => this._RangeInt64.Item;
@@ -984,6 +1034,7 @@ namespace Loqui.Tests
         #region RangeUInt8N
         protected readonly IHasBeenSetItem<RangeUInt8?> _RangeUInt8N;
         public IHasBeenSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8? RangeUInt8N
         {
             get => this._RangeUInt8N.Item;
@@ -995,6 +1046,7 @@ namespace Loqui.Tests
         #region RangeUInt8
         protected readonly IHasBeenSetItem<RangeUInt8> _RangeUInt8;
         public IHasBeenSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8 RangeUInt8
         {
             get => this._RangeUInt8.Item;
@@ -1006,6 +1058,7 @@ namespace Loqui.Tests
         #region RangeUInt16N
         protected readonly IHasBeenSetItem<RangeUInt16?> _RangeUInt16N;
         public IHasBeenSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16? RangeUInt16N
         {
             get => this._RangeUInt16N.Item;
@@ -1017,6 +1070,7 @@ namespace Loqui.Tests
         #region RangeUInt16
         protected readonly IHasBeenSetItem<RangeUInt16> _RangeUInt16;
         public IHasBeenSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16 RangeUInt16
         {
             get => this._RangeUInt16.Item;
@@ -1028,6 +1082,7 @@ namespace Loqui.Tests
         #region RangeUInt32N
         protected readonly IHasBeenSetItem<RangeUInt32?> _RangeUInt32N;
         public IHasBeenSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32? RangeUInt32N
         {
             get => this._RangeUInt32N.Item;
@@ -1039,6 +1094,7 @@ namespace Loqui.Tests
         #region RangeUInt32
         protected readonly IHasBeenSetItem<RangeUInt32> _RangeUInt32;
         public IHasBeenSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32 RangeUInt32
         {
             get => this._RangeUInt32.Item;
@@ -1050,6 +1106,7 @@ namespace Loqui.Tests
         #region RangeUInt64N
         protected readonly IHasBeenSetItem<RangeUInt64?> _RangeUInt64N;
         public IHasBeenSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64? RangeUInt64N
         {
             get => this._RangeUInt64N.Item;
@@ -1061,6 +1118,7 @@ namespace Loqui.Tests
         #region RangeUInt64
         protected readonly IHasBeenSetItem<RangeUInt64> _RangeUInt64;
         public IHasBeenSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64 RangeUInt64
         {
             get => this._RangeUInt64.Item;
@@ -1072,6 +1130,7 @@ namespace Loqui.Tests
         #region String
         protected readonly IHasBeenSetItem<String> _String;
         public IHasBeenSetItem<String> String_Property => _String;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public String String
         {
             get => this._String.Item;
@@ -1083,6 +1142,7 @@ namespace Loqui.Tests
         #region FilePath
         protected readonly IHasBeenSetItem<FilePath> _FilePath;
         public IHasBeenSetItem<FilePath> FilePath_Property => _FilePath;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath FilePath
         {
             get => this._FilePath.Item;
@@ -1094,6 +1154,7 @@ namespace Loqui.Tests
         #region FilePathNull
         protected readonly IHasBeenSetItem<FilePath?> _FilePathNull;
         public IHasBeenSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath? FilePathNull
         {
             get => this._FilePathNull.Item;
@@ -1105,6 +1166,7 @@ namespace Loqui.Tests
         #region DirectoryPath
         protected readonly IHasBeenSetItem<DirectoryPath> _DirectoryPath;
         public IHasBeenSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath DirectoryPath
         {
             get => this._DirectoryPath.Item;
@@ -1116,6 +1178,7 @@ namespace Loqui.Tests
         #region DirectoryPathNull
         protected readonly IHasBeenSetItem<DirectoryPath?> _DirectoryPathNull;
         public IHasBeenSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath? DirectoryPathNull
         {
             get => this._DirectoryPathNull.Item;
@@ -1127,6 +1190,7 @@ namespace Loqui.Tests
         #region UDoubleN
         protected readonly IHasBeenSetItem<UDouble?> _UDoubleN;
         public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble? UDoubleN
         {
             get => this._UDoubleN.Item;
@@ -1150,6 +1214,7 @@ namespace Loqui.Tests
         #region UDouble
         protected readonly IHasBeenSetItem<UDouble> _UDouble;
         public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble UDouble
         {
             get => this._UDouble.Item;
@@ -1173,6 +1238,7 @@ namespace Loqui.Tests
         #region UInt16N
         protected readonly IHasBeenSetItem<UInt16?> _UInt16N;
         public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16? UInt16N
         {
             get => this._UInt16N.Item;
@@ -1196,6 +1262,7 @@ namespace Loqui.Tests
         #region UInt16
         protected readonly IHasBeenSetItem<UInt16> _UInt16;
         public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16 UInt16
         {
             get => this._UInt16.Item;
@@ -1219,6 +1286,7 @@ namespace Loqui.Tests
         #region UInt32N
         protected readonly IHasBeenSetItem<UInt32?> _UInt32N;
         public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32? UInt32N
         {
             get => this._UInt32N.Item;
@@ -1242,6 +1310,7 @@ namespace Loqui.Tests
         #region UInt32
         protected readonly IHasBeenSetItem<UInt32> _UInt32;
         public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32 UInt32
         {
             get => this._UInt32.Item;
@@ -1265,6 +1334,7 @@ namespace Loqui.Tests
         #region UInt64N
         protected readonly IHasBeenSetItem<UInt64?> _UInt64N;
         public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64? UInt64N
         {
             get => this._UInt64N.Item;
@@ -1288,6 +1358,7 @@ namespace Loqui.Tests
         #region UInt64
         protected readonly IHasBeenSetItem<UInt64> _UInt64;
         public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64 UInt64
         {
             get => this._UInt64.Item;
@@ -1311,6 +1382,7 @@ namespace Loqui.Tests
         #region UInt8N
         protected readonly IHasBeenSetItem<Byte?> _UInt8N;
         public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte? UInt8N
         {
             get => this._UInt8N.Item;
@@ -1334,6 +1406,7 @@ namespace Loqui.Tests
         #region UInt8
         protected readonly IHasBeenSetItem<Byte> _UInt8;
         public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte UInt8
         {
             get => this._UInt8.Item;
@@ -1357,6 +1430,7 @@ namespace Loqui.Tests
         #region Enum
         protected readonly IHasBeenSetItem<TestEnum> _Enum;
         public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum Enum
         {
             get => this._Enum.Item;
@@ -1368,6 +1442,7 @@ namespace Loqui.Tests
         #region EnumNull
         protected readonly IHasBeenSetItem<TestEnum?> _EnumNull;
         public IHasBeenSetItem<TestEnum?> EnumNull_Property => _EnumNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum? EnumNull
         {
             get => this._EnumNull.Item;
@@ -1411,127 +1486,162 @@ namespace Loqui.Tests
         #endregion
         #region Ref
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref
         {
             get => this._Ref.Item;
             set => this._Ref.Item = value;
         }
         public IHasBeenSetItem<ObjectToRef> Ref_Property => _Ref;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref => this._Ref.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.Ref_Property => this._Ref;
         #endregion
         #region Ref_NotNull
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_NotNull
         {
             get => this._Ref_NotNull.Item;
             set => this._Ref_NotNull.Item = value;
         }
         public IHasBeenSetItem<ObjectToRef> Ref_NotNull_Property => _Ref_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref_NotNull => this._Ref_NotNull.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.Ref_NotNull_Property => this._Ref_NotNull;
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_Singleton
         {
             get => this._Ref_Singleton_Object;
         }
         public IHasBeenSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ObjectToRef ITestObject_HasBeenSet_RPCGetter.Ref_Singleton => this._Ref_Singleton_Object;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
         #region RefGetter
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter
         {
             get => this._RefGetter.Item;
             set => this._RefGetter.Item = value;
         }
         public IHasBeenSetItem<IObjectToRefGetter> RefGetter_Property => _RefGetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter => this._RefGetter.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_RPCGetter.RefGetter_Property => this._RefGetter;
         #endregion
         #region RefGetter_NotNull
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter_NotNull
         {
             get => this._RefGetter_NotNull.Item;
             set => this._RefGetter_NotNull.Item = value;
         }
         public IHasBeenSetItem<IObjectToRefGetter> RefGetter_NotNull_Property => _RefGetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter_NotNull => this._RefGetter_NotNull.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_RPCGetter.RefGetter_NotNull_Property => this._RefGetter_NotNull;
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter_Singleton
         {
             get => this._RefGetter_Singleton_Object;
         }
         public IHasBeenSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRefGetter ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton => this._RefGetter_Singleton_Object;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
         #region RefSetter
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter
         {
             get => this._RefSetter.Item;
             set => this._RefSetter.Item = value;
         }
         public IHasBeenSetItem<IObjectToRef> RefSetter_Property => _RefSetter;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter => this._RefSetter.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefSetter_Property => this._RefSetter;
         #endregion
         #region RefSetter_NotNull
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter_NotNull
         {
             get => this._RefSetter_NotNull.Item;
             set => this._RefSetter_NotNull.Item = value;
         }
         public IHasBeenSetItem<IObjectToRef> RefSetter_NotNull_Property => _RefSetter_NotNull;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter_NotNull => this._RefSetter_NotNull.Item;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefSetter_NotNull_Property => this._RefSetter_NotNull;
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
         protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter_Singleton
         {
             get => this._RefSetter_Singleton_Object;
         }
         public IHasBeenSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IObjectToRef ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton => this._RefSetter_Singleton_Object;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefSetter_Singleton_Property => this._RefSetter_Singleton;
         #endregion
         #region List
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<Boolean> ListEnumerable
         {
             get => _List;
             set => _List.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<Boolean> ITestObject_HasBeenSet_RPC.List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<Boolean> ITestObject_HasBeenSet_RPCGetter.List => _List;
         #endregion
 
         #endregion
         #region RefList
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<ObjectToRef> RefListEnumerable
         {
             get => _RefList;
             set => _RefList.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<ObjectToRef> ITestObject_HasBeenSet_RPC.RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<ObjectToRef> ITestObject_HasBeenSet_RPCGetter.RefList => _RefList;
         #endregion
 

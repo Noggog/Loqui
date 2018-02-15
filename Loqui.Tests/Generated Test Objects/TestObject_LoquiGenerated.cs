@@ -25,6 +25,7 @@ namespace Loqui.Tests
     #region Class
     public partial class TestObject : ITestObject, ILoquiObjectSetter, IEquatable<TestObject>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestObject_Registration.Instance;
         public static TestObject_Registration Registration => TestObject_Registration.Instance;
 
@@ -570,6 +571,7 @@ namespace Loqui.Tests
         public ObjectToRef Ref { get; set; }
         #endregion
         #region Ref_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref_NotNull = new ObjectToRef();
         public ObjectToRef Ref_NotNull
         {
@@ -578,6 +580,7 @@ namespace Loqui.Tests
         }
         #endregion
         #region Ref_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
         public ObjectToRef Ref_Singleton => _Ref_Singleton_Object;
         #endregion
@@ -585,6 +588,7 @@ namespace Loqui.Tests
         public IObjectToRefGetter RefGetter { get; set; }
         #endregion
         #region RefGetter_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRefGetter _RefGetter_NotNull = new ObjectToRef();
         public IObjectToRefGetter RefGetter_NotNull
         {
@@ -593,6 +597,7 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefGetter_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
         public IObjectToRefGetter RefGetter_Singleton => _RefGetter_Singleton_Object;
         #endregion
@@ -600,6 +605,7 @@ namespace Loqui.Tests
         public IObjectToRef RefSetter { get; set; }
         #endregion
         #region RefSetter_NotNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private IObjectToRef _RefSetter_NotNull = new ObjectToRef();
         public IObjectToRef RefSetter_NotNull
         {
@@ -608,33 +614,42 @@ namespace Loqui.Tests
         }
         #endregion
         #region RefSetter_Singleton
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
         public IObjectToRef RefSetter_Singleton => _RefSetter_Singleton_Object;
         #endregion
         #region List
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<Boolean> _List = new NotifyingList<Boolean>();
         public INotifyingList<Boolean> List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<Boolean> ListEnumerable
         {
             get => _List;
             set => _List.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<Boolean> ITestObject.List => _List;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<Boolean> ITestObjectGetter.List => _List;
         #endregion
 
         #endregion
         #region RefList
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<ObjectToRef> _RefList = new NotifyingList<ObjectToRef>();
         public INotifyingList<ObjectToRef> RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<ObjectToRef> RefListEnumerable
         {
             get => _RefList;
             set => _RefList.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<ObjectToRef> ITestObject.RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<ObjectToRef> ITestObjectGetter.RefList => _RefList;
         #endregion
 

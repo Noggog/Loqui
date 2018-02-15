@@ -27,6 +27,7 @@ namespace Loqui.Tests
         where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         where R : ILoquiObject, ILoquiObjectGetter
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestGenericObject_Registration.Instance;
         public static TestGenericObject_Registration Registration => TestGenericObject_Registration.Instance;
 
@@ -39,31 +40,47 @@ namespace Loqui.Tests
         #endregion
 
         #region RefBase
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingSetItem<RBase> _RefBase = new NotifyingSetItem<RBase>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItem<RBase> RefBase_Property => this._RefBase;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         RBase ITestGenericObjectGetter<T, RBase, R>.RefBase => this.RefBase;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RBase RefBase { get => _RefBase.Item; set => _RefBase.Item = value; }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItem<RBase> ITestGenericObject<T, RBase, R>.RefBase_Property => this.RefBase_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItemGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefBase_Property => this.RefBase_Property;
         #endregion
         #region Ref
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingSetItem<R> _Ref = new NotifyingSetItem<R>();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItem<R> Ref_Property => this._Ref;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         R ITestGenericObjectGetter<T, RBase, R>.Ref => this.Ref;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public R Ref { get => _Ref.Item; set => _Ref.Item = value; }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItem<R> ITestGenericObject<T, RBase, R>.Ref_Property => this.Ref_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItemGetter<R> ITestGenericObjectGetter<T, RBase, R>.Ref_Property => this.Ref_Property;
         #endregion
         #region RefList
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingList<RBase> _RefList = new NotifyingList<RBase>();
         public INotifyingList<RBase> RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IEnumerable<RBase> RefListEnumerable
         {
             get => _RefList;
             set => _RefList.SetTo(value);
         }
         #region Interface Members
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingList<RBase> ITestGenericObject<T, RBase, R>.RefList => _RefList;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingListGetter<RBase> ITestGenericObjectGetter<T, RBase, R>.RefList => _RefList;
         #endregion
 

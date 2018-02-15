@@ -24,6 +24,7 @@ namespace Loqui.Tests
     #region Class
     public partial class ObjectToRef : IObjectToRef, ILoquiObjectSetter, IEquatable<ObjectToRef>
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => ObjectToRef_Registration.Instance;
         public static ObjectToRef_Registration Registration => ObjectToRef_Registration.Instance;
 
@@ -38,23 +39,29 @@ namespace Loqui.Tests
         #region KeyField
         protected readonly INotifyingSetItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
         public INotifyingSetItem<Int32> KeyField_Property => _KeyField;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32 KeyField
         {
             get => this._KeyField.Item;
             set => this._KeyField.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItem<Int32> IObjectToRef.KeyField_Property => this.KeyField_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItemGetter<Int32> IObjectToRefGetter.KeyField_Property => this.KeyField_Property;
         #endregion
         #region SomeField
         protected readonly INotifyingSetItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
         public INotifyingSetItem<Boolean> SomeField_Property => _SomeField;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean SomeField
         {
             get => this._SomeField.Item;
             set => this._SomeField.Set(value);
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItem<Boolean> IObjectToRef.SomeField_Property => this.SomeField_Property;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         INotifyingSetItemGetter<Boolean> IObjectToRefGetter.SomeField_Property => this.SomeField_Property;
         #endregion
 

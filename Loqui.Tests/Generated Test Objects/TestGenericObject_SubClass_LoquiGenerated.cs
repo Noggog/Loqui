@@ -29,6 +29,7 @@ namespace Loqui.Tests
         where RBase : ObjectToRef, ILoquiObject, ILoquiObjectGetter
         where R : ILoquiObject, ILoquiObjectGetter
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ILoquiRegistration ILoquiObject.Registration => TestGenericObject_SubClass_Registration.Instance;
         public new static TestGenericObject_SubClass_Registration Registration => TestGenericObject_SubClass_Registration.Instance;
 
